@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<!-- the most powerful way -->
+	<bean id="yamlConstructor" class="examples.CustomConstructor" scope="prototype" />
+	<bean id="yamlLoader" class="org.yaml.snakeyaml.Loader" scope="prototype">
+		<constructor-arg ref="yamlConstructor" />
+	</bean>
+	<bean id="yamlRepresenter" class="org.yaml.snakeyaml.representer.Representer" scope="prototype" />
+	<bean id="yamlOptions" class="org.yaml.snakeyaml.DumperOptions" scope="prototype">
+		<property name="indent" value="2" />
+	</bean>
+	<bean id="yamlDumper" class="org.yaml.snakeyaml.Dumper" scope="prototype">
+		<constructor-arg ref="yamlRepresenter" />
+		<constructor-arg ref="yamlOptions" />
+	</bean>
+	<bean id="snakeYaml" class="org.yaml.snakeyaml.Yaml" scope="prototype">
+		<constructor-arg ref="yamlLoader" />
+		<constructor-arg ref="yamlDumper" />
+	</bean>
+
+	<!-- for a single JavaBean -->
+    <bean id="beanConstructor" class="org.yaml.snakeyaml.constructor.Constructor" scope="prototype">
+        <constructor-arg value="org.yaml.snakeyaml.Invoice" />
+    </bean>
+    <bean id="beanLoader" class="org.yaml.snakeyaml.Loader" scope="prototype">
+        <constructor-arg ref="beanConstructor" />
+    </bean>
+    <bean id="javabeanYaml" class="org.yaml.snakeyaml.Yaml" scope="prototype">
+        <constructor-arg ref="beanLoader" />
+    </bean>
+
+	<!-- the simplest way -->
+	<bean id="standardYaml" class="org.yaml.snakeyaml.Yaml" scope="prototype" />
+</beans>

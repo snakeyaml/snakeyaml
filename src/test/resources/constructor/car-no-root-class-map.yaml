@@ -1,0 +1,15 @@
+plate: 00-FF-Q2
+wheels:
+  ? {brand: Pirelli, id: 1}
+  : 2008-01-16
+  ? {brand: Dunkel, id: 2}
+  : 2002-12-24
+  ? {brand: Pirelli, id: 3}
+  : 2008-01-16
+  ? {brand: Pirelli, id: 4}
+  : 2008-01-16
+  ? {brand: Pirelli, id: 5}
+  : 2008-01-16
+windows:
+  front: 0
+  back: 1

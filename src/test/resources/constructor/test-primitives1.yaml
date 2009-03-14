@@ -1,0 +1,23 @@
+# TestBean1
+byteClass: 1
+bytePrimitive: -3
+shortClass: +0
+shortPrimitive: -015 # octal
+integer: 5
+intPrimitive: 17
+text: the text
+id: 13
+longClass: 11111111111
+longPrimitive: 9999999999
+booleanClass: True
+booleanPrimitive: on
+charClass: 2
+charPrimitive: '#'
+bigInteger: 1234567890123456789012345678901234567890
+floatClass: 2
+floatPrimitive: 3.1416
+doubleClass: 4.0
+doublePrimitive: +1.12e4
+date: 2008-01-09
+publicField: public
+
