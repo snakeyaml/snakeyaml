@@ -104,27 +104,27 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 
 == History ==
 '''1.1 (2009-03-14)'''
- * test coverage reached 98%
+ * Test coverage reached 98%
  * byte[] is used for type `binary`
  * Better Spring support: the root `JavaBean` class can be specified as a String
  * Performance: fix a bug with expanding Regular Expressions (thanks to Christophe Desguez)
  * Fix ticket #4: java.sql.Date was not handled properly (thanks to Christophe Desguez)
  * Introduce `Enums` in `DumperOptions`
- * minor refactoring and bug fixes
- * add [/snakeyaml/wiki/Documentation#Threading Threads] and 
+ * Minor refactoring and bug fixes
+ * Add [/snakeyaml/wiki/Documentation#Threading Threads] and 
  [/snakeyaml/wiki/Documentation#Spring Spring] sections to the wiki documentation
  
 '''1.0.1 (2009-02-18)'''
- * proper `Enum` [http://trac-hg.assembla.com/snakeyaml/wiki/Documentation#Enum support] (thanks to James Nissel)
- * minor performance improvement
- * fix minor issues in `DumperOptions`
+ * Proper `Enum` [http://trac-hg.assembla.com/snakeyaml/wiki/Documentation#Enum support] (thanks to James Nissel)
+ * Minor performance improvement
+ * Fix minor issues in `DumperOptions`
  
 '''1.0 (2009-02-06)'''
  * Use `LinkedHashMap` to respect the order where it is required (`ScannerImpl`.java and Emitter.java)
  * The mailing list is renamed to `snakeyaml-core` to avoid a name conflict in `Google` `AppEngine`
  
 '''1.0rc2 (2009-01-22)'''
- * add [http://trac-hg.assembla.com/snakeyaml/wiki/Documentation#JavaBeans JavaBeans section] to the wiki
+ * Add [http://trac-hg.assembla.com/snakeyaml/wiki/Documentation#JavaBeans JavaBeans section] to the wiki
  * Provide possibility to define/eliminate the root tag for `JavaBeans`
  * Arrays as `JavaBens` properties are properly supported
  * Do not emit redundant tags for `JavaBeans`
@@ -133,7 +133,7 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 '''1.0rc1 (2009-01-16)'''
  * Implement [http://trac-hg.assembla.com/snakeyaml/wiki/Documentation#Typesafecollections type safe List and Map] 
  as a property of a custom Java class
- * remove Java 6 dependencies
+ * Remove Java 6 dependencies
  
 '''0.91 (2009-01-14)'''
  * Support [http://trac-hg.assembla.com/snakeyaml/wiki/Documentation#Shortcuts shortcut tags] for custom classes
@@ -146,17 +146,17 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
    
 '''0.8 (2009-01-07)'''
  * Add possibility to use java.io.Reader as input
- * import changes from [http://pyyaml.org/wiki/PyYAML#History PyYAML 3.07/3.08]
+ * Import changes from [http://pyyaml.org/wiki/PyYAML#History PyYAML 3.07/3.08]
  * Use global tags (with !!) to load/dump Java custom classes
  * Fix parsing Long.MIN_VALUE
- * when constructing integers try to create the first in the following order: 
+ * When constructing integers try to create the first in the following order: 
    Integer -> Long -> `BigInteger`
 
 '''0.7 (2008-12-20)'''
- * improve test coverage
+ * Improve test coverage
 
 '''0.6 (2008-12-17)'''
- * add more examples to the documentation
+ * Add more examples to the documentation
  * Public interface is using Iterator instead of Iterable
  * Sort names when `JavaBeans` are represented
  * defaultFlowStyle for Dumper is configurable in `DumperOptions`

@@ -15,12 +15,12 @@ and bug fixes.
 
 Changes
 =======
- * test coverage reached 98%
- * Better Spring support: the root JavaBean class to parse can be specified as a String
+ * Test coverage reached 98%
+ * Better Spring support: the root JavaBean class can be specified as a String
  * Performance: fix a bug with expanding Regular Expressions
  * Fix ticket #4: java.sql.Date was not handled properly
  * Introduce Enums in DumperOptions
- * minor bug fixes 
+ * Minor bug fixes 
 
 Resources
 =========
