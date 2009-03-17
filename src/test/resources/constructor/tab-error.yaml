@@ -1,0 +1,24 @@
+%YAML 1.1
+---
+gds_procedure: FCS
+mnemos:
+- name: FINT01
+  GDS:
+	  ID_DOMAIN: INTEGER
+	  table: TTF006_FIN_TRANS
+	  column: ID_FIN_TRANS
+  GUI:
+	  label: Payment ID
+	  tooltip: Payment ID in EPASYS
+	  domainID: 
+	  columnHeader: ID
+- name: FINT02
+  GDS:
+	  ID_DOMAIN: CHAR0020
+	  table: TTF006_FIN_TRANS
+	  column: FCS_INPUT_ID
+  GUI:
+	  label: Input ID
+	  tooltip: Input ID
+	  domainID: 
+	  columnHeader: 

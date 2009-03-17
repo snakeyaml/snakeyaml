@@ -4,7 +4,12 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	    <release version="1.1" date="2009-03-14" description="improve performance and test coverage">
+	    <release version="1.1" date="in Mercurial" description="development">
+            <action dev="py4fun" type="fix">
+                Represent TAB as '\t' instead of '(9' in the error message (2009-03-17)
+            </action>
+        </release>
+        <release version="1.1" date="2009-03-14" description="improve performance and test coverage">
             <action dev="py4fun" type="add">
                 Introduce JavaBeanParser (2009-03-14)
             </action>

@@ -3,11 +3,14 @@
  */
 package org.yaml.snakeyaml.scanner;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.reader.Reader;
 import org.yaml.snakeyaml.tokens.BlockEndToken;
@@ -43,5 +46,19 @@ public class ScannerImplTest extends TestCase {
         }
         assertFalse("Must contain no more tokens: " + scanner.getToken(), scanner
                 .checkToken(new ArrayList()));
+    }
+
+    public void testWrongTab() throws IOException {
+        String data = Util.getLocalResource("constructor/tab-error.yaml");
+        Yaml yaml = new Yaml();
+        try {
+            yaml.load(data);
+            fail("TAB cannot start a token.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertFalse("Error message shall mention TAB and not '(9'.", e.getMessage().contains(
+                    "(9"));
+            assertTrue(e.getMessage().contains("'\\t'"));
+        }
     }
 }

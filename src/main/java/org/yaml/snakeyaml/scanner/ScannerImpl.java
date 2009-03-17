@@ -354,8 +354,16 @@ public final class ScannerImpl implements Scanner {
             return;
         }
         // No? It's an error. Let's produce a nice error message.
+        String chRepresentation = String.valueOf(ch);
+        for (Character s : ESCAPE_REPLACEMENTS.keySet()) {
+            String v = ESCAPE_REPLACEMENTS.get(s);
+            if (v.equals(chRepresentation)) {
+                chRepresentation = "\\" + s;// ' ' -> '\t'
+                break;
+            }
+        }
         throw new ScannerException("while scanning for the next token", null, "found character "
-                + ch + "(" + ((int) ch) + " that cannot start any token", reader.getMark());
+                + ch + "'" + chRepresentation + "' that cannot start any token", reader.getMark());
     }
 
     // Simple keys treatment.
