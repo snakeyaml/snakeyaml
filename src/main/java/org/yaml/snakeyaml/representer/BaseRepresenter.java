@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.yaml.snakeyaml.DumperOptions.DefaultFlowStyle;
+import org.yaml.snakeyaml.DumperOptions.DefaultScalarStyle;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
@@ -35,11 +37,6 @@ public abstract class BaseRepresenter {
     private final Set<Object> objectKeeper = new HashSet<Object>();
     protected Integer aliasKey;// internal memory address
     protected String rootTag = null;
-
-    public BaseRepresenter(Character default_style, Boolean default_flow_style) {
-        this.defaultStyle = default_style;
-        this.defaultFlowStyle = default_flow_style;
-    }
 
     public void represent(Serializer serializer, Object data) throws IOException {
         Node node = representData(data);
@@ -158,4 +155,12 @@ public abstract class BaseRepresenter {
     }
 
     protected abstract boolean ignoreAliases(Object data);
+
+    public void setDefaultStyle(DefaultScalarStyle defaultStyle) {
+        this.defaultStyle = defaultStyle.getChar();
+    }
+
+    public void setDefaultFlowStyle(DefaultFlowStyle defaultFlowStyle) {
+        this.defaultFlowStyle = defaultFlowStyle.getStyleBoolean();
+    }
 }

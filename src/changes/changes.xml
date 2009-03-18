@@ -6,6 +6,9 @@
 	<body>
 	    <release version="1.1" date="in Mercurial" description="development">
             <action dev="py4fun" type="fix">
+                Respect DumperOptions with a custom Representer (2009-03-18)
+            </action>
+            <action dev="py4fun" type="fix">
                 Represent TAB as '\t' instead of '(9' in the error message (2009-03-17)
             </action>
         </release>

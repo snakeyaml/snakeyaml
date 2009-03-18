@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.representer.Representer;
 
 public class DumperOptionsTest extends TestCase {
 
@@ -257,5 +258,22 @@ public class DumperOptionsTest extends TestCase {
         //
         DumperOptions.LineBreak lb = DumperOptions.LineBreak.LINUX;
         assertEquals("Line break: LINUX", lb.toString());
+    }
+
+    public void testWithRepresenter() {
+        Representer representer = new Representer();
+        DumperOptions options = new DumperOptions();
+        options.setIndent(4);
+        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        Dumper dumper = new Dumper(representer, options);
+        Yaml yaml = new Yaml(dumper);
+        List<Integer> list = new LinkedList<Integer>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        map.put("a", "b");
+        map.put("c", list);
+        assertEquals("a: b\nc:\n- 1\n- 2\n- 3\n", yaml.dump(map));
     }
 }

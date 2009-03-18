@@ -22,12 +22,13 @@ public class Dumper {
 
     public Dumper(Representer representer, DumperOptions options) {
         this.representer = representer;
+        representer.setDefaultFlowStyle(options.getDefaultFlowStyle());
+        representer.setDefaultStyle(options.getDefaultStyle());
         this.options = options;
     }
 
     public Dumper(DumperOptions options) {
-        this(new Representer(options.getDefaultStyle().getChar(), options.getDefaultFlowStyle()
-                .getStyleBoolean()), options);
+        this(new Representer(), options);
     }
 
     public void dump(Iterator<? extends Object> iter, Writer output, Resolver resolver) {

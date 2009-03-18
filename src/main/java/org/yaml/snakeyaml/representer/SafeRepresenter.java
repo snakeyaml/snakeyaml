@@ -22,8 +22,7 @@ import org.yaml.snakeyaml.util.Base64Coder;
  */
 class SafeRepresenter extends BaseRepresenter {
 
-    public SafeRepresenter(Character default_style, Boolean default_flow_style) {
-        super(default_style, default_flow_style);
+    public SafeRepresenter() {
         this.nullRepresenter = new RepresentNull();
         this.representers.put(String.class, new RepresentString());
         this.representers.put(Boolean.class, new RepresentBoolean());

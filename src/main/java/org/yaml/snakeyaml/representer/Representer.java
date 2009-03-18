@@ -31,15 +31,10 @@ public class Representer extends SafeRepresenter {
     private Map<Class<? extends Object>, String> classTags;
     private Map<Class<? extends Object>, TypeDescription> classDefinitions;
 
-    public Representer(Character default_style, Boolean default_flow_style) {
-        super(default_style, default_flow_style);
+    public Representer() {
         classTags = new HashMap<Class<? extends Object>, String>();
         classDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
         this.representers.put(null, new RepresentJavaBean());
-    }
-
-    public Representer() {
-        this(null, null);
     }
 
     /**
