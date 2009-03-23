@@ -4,7 +4,7 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	    <release version="1.1" date="in Mercurial" description="development">
+	    <release version="1.1.1-SNAPSHOT" date="in Mercurial" description="development">
             <action dev="py4fun" type="fix">
                 Respect DumperOptions with a custom Representer (2009-03-18)
             </action>
