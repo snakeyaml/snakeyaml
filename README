@@ -103,6 +103,11 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 
 
 == History ==
+
+'''1.1.1 (in Mercurial)'''
+ * Respect `DumperOptions` with a custom Representer
+ * Represent TAB as '\t' instead of '(9' in an error message
+ 
 '''1.1 (2009-03-14)'''
  * Test coverage reached 98%
  * byte[] is used for type `binary`
