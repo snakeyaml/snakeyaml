@@ -105,6 +105,7 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 == History ==
 
 '''1.1.1 (in Mercurial)'''
+ * Add possibility to parse all scalars as Strings
  * Respect `DumperOptions` with a custom Representer
  * Represent TAB as '\t' instead of '(9' in an error message
  
