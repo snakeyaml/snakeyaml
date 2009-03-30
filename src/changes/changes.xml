@@ -6,6 +6,9 @@
 	<body>
 	    <release version="1.1.1-SNAPSHOT" date="in Mercurial" description="development">
             <action dev="py4fun" type="fix">
+                Merge changeset 347 from PyYAML (2009-03-30)
+            </action>
+            <action dev="py4fun" type="fix">
                 Respect DumperOptions with a custom Representer (2009-03-18)
             </action>
             <action dev="py4fun" type="fix">

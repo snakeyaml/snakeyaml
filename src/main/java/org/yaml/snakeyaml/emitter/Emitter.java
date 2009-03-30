@@ -1290,6 +1290,7 @@ public final class Emitter {
             } else {
                 if (ch == 0 || " \n\0085\u2028\u2029".indexOf(ch) != -1) {
                     String data = text.substring(start, end);
+                    this.column += data.length();
                     stream.write(data);
                     if (ch == 0) {
                         writeLineBreak(null);
