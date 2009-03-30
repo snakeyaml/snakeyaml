@@ -6,9 +6,9 @@
 	<body>
 	    <release version="1.1.1-SNAPSHOT" date="in Mercurial" description="development">
             <action dev="py4fun" type="add">
-                Add possibility to parse all scalars as Strings (2009-03-26)
+                Add possibility to parse all scalars as Strings (2009-03-30)
             </action>
-            <action dev="py4fun" type="fix">
+            <action dev="py4fun" type="update">
                 Merge changeset 347 from PyYAML (2009-03-30)
             </action>
             <action dev="py4fun" type="fix">

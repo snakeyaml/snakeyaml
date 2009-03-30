@@ -295,7 +295,8 @@ When the scalar node type is not explicitly defined, SnakeYAML tries to detect
 2009-03-30 -> Date
 }}}
 '''New in the development version:'''
-It is possible to drop "implicit typing" and parse all scalars as Strings:
+It is [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/resolver/ResolverTest.java possible] 
+to drop "implicit typing" and parse all scalars as Strings:
 {{{
 version: 1.00
 }}}

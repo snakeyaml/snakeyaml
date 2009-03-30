@@ -139,6 +139,9 @@ public class ResolverTest extends TestCase {
         }
     }
 
+    /**
+     * Parse scalars as Strings
+     */
     @SuppressWarnings("unchecked")
     public void testStringResolver() {
         Yaml yaml = new Yaml(new Loader(), new Dumper(new DumperOptions()), new Resolver(false));
