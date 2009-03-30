@@ -9,6 +9,9 @@
                 Add possibility to parse all scalars as Strings (2009-03-26)
             </action>
             <action dev="py4fun" type="fix">
+                Merge changeset 347 from PyYAML (2009-03-30)
+            </action>
+            <action dev="py4fun" type="fix">
                 Respect DumperOptions with a custom Representer (2009-03-18)
             </action>
             <action dev="py4fun" type="fix">
