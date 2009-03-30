@@ -138,4 +138,13 @@ public class ResolverTest extends TestCase {
             }
         }
     }
+
+    @SuppressWarnings("unchecked")
+    public void testStringResolver() {
+        Yaml yaml = new Yaml(new Loader(), new Dumper(new DumperOptions()), new Resolver(false));
+        List<Object> output = (List<Object>) yaml.load("[ '1.00', 1.00, !!float '1.00' ]");
+        assertEquals("1.00", output.get(0));
+        assertEquals("1.00", output.get(1));
+        assertEquals(1.0, output.get(2));
+    }
 }

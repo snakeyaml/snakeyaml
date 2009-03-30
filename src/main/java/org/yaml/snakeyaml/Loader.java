@@ -24,7 +24,6 @@ public class Loader {
     public Loader(BaseConstructor constructor) {
         super();
         this.constructor = constructor;
-        this.resolver = new Resolver();
     }
 
     public Loader() {

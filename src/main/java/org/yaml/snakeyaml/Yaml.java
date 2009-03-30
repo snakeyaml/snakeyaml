@@ -46,11 +46,26 @@ public class Yaml {
      *            - Dumper to emit outgoing objects
      */
     public Yaml(Loader loader, Dumper dumper) {
+        this(loader, dumper, new Resolver());
+    }
+
+    /**
+     * Create Yaml instance. It is safe to create a few instances and use them
+     * in different Threads.
+     * 
+     * @param loader
+     *            - Loader to parse incoming documents
+     * @param dumper
+     *            - Dumper to emit outgoing objects
+     * @param resolver
+     *            - Resolver to detect implicit type
+     */
+    public Yaml(Loader loader, Dumper dumper, Resolver resolver) {
         this.loader = loader;
         loader.setAttached();
         this.dumper = dumper;
         dumper.setAttached();
-        this.resolver = new Resolver();
+        this.resolver = resolver;
         this.loader.setResolver(resolver);
         this.name = "Yaml:" + System.identityHashCode(this);
     }

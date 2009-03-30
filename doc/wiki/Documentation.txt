@@ -286,6 +286,21 @@ SnakeYAML is using Reflection API to find out the class for all the properties (
 Unfortunately because of erasure it is not possible to identify classes for type safe collections at runtime. The
 class information between <> is only available at compile time.
 
+==== Implicit types ====
+When the scalar node type is not explicitly defined, SnakeYAML tries to detect 
+[http://www.yaml.org/type/ the type] applying regular expessions to the content of the scalar node.
+{{{
+1.0 -> Float
+42 -> Integer
+2009-03-30 -> Date
+}}}
+'''New in the development version:'''
+It is possible to drop "implicit typing" and parse all scalars as Strings:
+{{{
+version: 1.00
+}}}
+
+
 === Type safe collections ===
 
 In order to parse a collection which contains custom Java classes Yaml has to be provided with additional information.
@@ -855,7 +870,7 @@ public void testImplicitResolver() throws IOException {
 {treasure: 10d20}
 }}}
 
-== Enum ==
+=== Enum ===
 SnakeYAML treats `Enum`s in a special way. (an example can be found 
 [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/EnumTest.java here])
 
@@ -903,7 +918,7 @@ public void testLoadEnumBean() {
 }
 }}}
 
-== Threading ==
+=== Threading ===
 
 Threads must have separate Yaml instances. Instances are cheap both in terms of time to create
 and memory to occupy. Only the very first instance is heavy because of static initializers for 
@@ -912,7 +927,7 @@ constants and regular expressions.
 Because Loader and Dumper are stateful they cannot be shared between
 different Yaml instances.
 
-== Spring ==
+=== Spring ===
 
 Example of [http://trac-hg.assembla.com/snakeyaml/browser/src/test/resources/examples/spring.xml Spring definition]:
 (note: the scope is always 'prototype')
