@@ -295,12 +295,18 @@ When the scalar node type is not explicitly defined, SnakeYAML tries to detect
 2009-03-30 -> Date
 }}}
 '''New in the development version:'''
-It is [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/resolver/ResolverTest.java possible] 
-to drop "implicit typing" and parse all scalars as Strings:
+It is possible to drop "implicit typing" and parse all scalars as Strings:
 {{{
 version: 1.00
 }}}
-
+An example can be found [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/resolver/ResolverTest.java here].
+{{{
+Yaml yaml = new Yaml(new Loader(), new Dumper(new DumperOptions()), new Resolver(false));
+List<Object> output = (List<Object>) yaml.load("[ '1.00', 1.00, !!float '1.00' ]");
+assertEquals("1.00", output.get(0));
+assertEquals("1.00", output.get(1));
+assertEquals(1.0, output.get(2));
+}}}
 
 === Type safe collections ===
 
