@@ -225,9 +225,6 @@ You may review open bugs through
 You may discuss SnakeYAML at
 [http://groups.google.com/group/snakeyaml-core the mailing list].
 
-== TODO ==
- * proper `enum` support 
- 
 == Known bugs ==
  * Recursive objects are not fully supported. Dumping works but loading does not.
 
