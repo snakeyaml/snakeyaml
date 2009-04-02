@@ -412,7 +412,7 @@ MyCar car = (MyCar) yaml.load(<see above>);
 
 === Dumping YAML ===
 
-The '''`Yaml.dump(Object data)`''' function accepts a Java object and produces a YAML document.
+The '''`Yaml.dump(Object data)`''' method accepts a Java object and produces a YAML document.
 (the source is [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/DumpExampleTest.java here])
 {{{
 public void testDump() {
