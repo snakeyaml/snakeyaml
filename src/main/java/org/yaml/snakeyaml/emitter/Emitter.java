@@ -126,7 +126,7 @@ public final class Emitter {
 
     // Scalar analysis and style.
     private ScalarAnalysis analysis;
-    private char style = 0;
+    private Character style;
 
     public Emitter(Writer stream, DumperOptions opts) {
         // The stream should have the methods `write` and possibly `flush`.
@@ -183,7 +183,7 @@ public final class Emitter {
 
         // Scalar analysis and style.
         this.analysis = null;
-        this.style = (char) 0;
+        this.style = null;
     }
 
     public void emit(Event event) throws IOException {
@@ -692,10 +692,10 @@ public final class Emitter {
         if (event instanceof ScalarEvent) {
             ScalarEvent ev = (ScalarEvent) event;
             tag = ev.getTag();
-            if (style == 0) {
+            if (style == null) {
                 style = chooseScalarStyle();
             }
-            if (((!canonical || tag == null) && ((style == 0 && ev.getImplicit()[0]) || (style != 0 && ev
+            if (((!canonical || tag == null) && ((style == null && ev.getImplicit()[0]) || (style != null && ev
                     .getImplicit()[1])))) {
                 preparedTag = null;
                 return;
@@ -724,7 +724,7 @@ public final class Emitter {
         preparedTag = null;
     }
 
-    private char chooseScalarStyle() {
+    private Character chooseScalarStyle() {
         ScalarEvent ev = (ScalarEvent) event;
         if (analysis == null) {
             analysis = analyzeScalar(ev.getValue());
@@ -735,7 +735,7 @@ public final class Emitter {
         if (ev.getStyle() == null && ev.getImplicit()[0]) {
             if (!(simpleKeyContext && (analysis.empty || analysis.multiline))
                     && ((flowLevel != 0 && analysis.allowFlowPlain) || (flowLevel == 0 && analysis.allowBlockPlain))) {
-                return 0;
+                return null;
             }
         }
         if (ev.getStyle() != null && (ev.getStyle() == '|' || ev.getStyle() == '>')) {
@@ -756,23 +756,30 @@ public final class Emitter {
         if (analysis == null) {
             analysis = analyzeScalar(ev.getValue());
         }
-        if (style == 0) {
+        if (style == null) {
             style = chooseScalarStyle();
         }
         boolean split = !simpleKeyContext;
-        if (style == '"') {
-            writeDoubleQuoted(analysis.scalar, split);
-        } else if (style == '\'') {
-            writeSingleQuoted(analysis.scalar, split);
-        } else if (style == '>') {
-            writeFolded(analysis.scalar);
-        } else if (style == '|') {
-            writeLiteral(analysis.scalar);
-        } else {
+        if (style == null) {
             writePlain(analysis.scalar, split);
+        } else {
+            switch (style) {
+            case '"':
+                writeDoubleQuoted(analysis.scalar, split);
+                break;
+            case '\'':
+                writeSingleQuoted(analysis.scalar, split);
+                break;
+            case '>':
+                writeFolded(analysis.scalar);
+                break;
+            case '|':
+                writeLiteral(analysis.scalar);
+                break;
+            }
         }
         analysis = null;
-        style = 0;
+        style = null;
     }
 
     // Analyzers.
