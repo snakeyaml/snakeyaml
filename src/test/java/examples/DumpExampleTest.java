@@ -101,7 +101,7 @@ public class DumpExampleTest extends TestCase {
             data.add(i);
         }
         DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(data);
         System.out.println(output);
@@ -116,7 +116,7 @@ public class DumpExampleTest extends TestCase {
             data.add(i);
         }
         DumperOptions options = new DumperOptions();
-        options.setDefaultStyle(DumperOptions.DefaultScalarStyle.DOUBLE_QUOTED);
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(data);
         System.out.println(output);

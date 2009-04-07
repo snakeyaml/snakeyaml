@@ -20,24 +20,24 @@ public class DumperOptionsTest extends TestCase {
         // string which looks like integer
         assertEquals("'123'\n", yaml.dump("123"));
         //
-        options.setDefaultStyle(DumperOptions.DefaultScalarStyle.DOUBLE_QUOTED);
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         yaml = new Yaml(options);
         assertEquals("\"123\"\n", yaml.dump("123"));
         //
-        options.setDefaultStyle(DumperOptions.DefaultScalarStyle.SINGLE_QUOTED);
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.SINGLE_QUOTED);
         yaml = new Yaml(options);
         assertEquals("'123'\n", yaml.dump("123"));
         //
-        options.setDefaultStyle(DumperOptions.DefaultScalarStyle.PLAIN);
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.PLAIN);
         yaml = new Yaml(options);
         assertEquals("'123'\n", yaml.dump("123"));
         assertEquals("abc\n", yaml.dump("abc"));
         // null check
         try {
-            options.setDefaultStyle(null);
+            options.setDefaultScalarStyle(null);
             fail("Null must not be accepted.");
         } catch (NullPointerException e) {
-            assertEquals("Use DefaultScalarStyle enum.", e.getMessage());
+            assertEquals("Use ScalarStyle enum.", e.getMessage());
         }
     }
 
@@ -51,12 +51,12 @@ public class DumperOptionsTest extends TestCase {
         //
         DumperOptions options = new DumperOptions();
         options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.FLOW);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
         yaml = new Yaml(options);
         assertEquals("[1, 2, 3]\n", yaml.dump(list));
         //
         options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         yaml = new Yaml(options);
         assertEquals("- 1\n- 2\n- 3\n", yaml.dump(list));
         // null check
@@ -64,7 +64,7 @@ public class DumperOptionsTest extends TestCase {
             options.setDefaultFlowStyle(null);
             fail("Null must not be accepted.");
         } catch (NullPointerException e) {
-            assertEquals("Use DefaultFlowStyle enum.", e.getMessage());
+            assertEquals("Use FlowStyle enum.", e.getMessage());
         }
     }
 
@@ -81,12 +81,12 @@ public class DumperOptionsTest extends TestCase {
         //
         DumperOptions options = new DumperOptions();
         options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.FLOW);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
         yaml = new Yaml(options);
         assertEquals("{a: b, c: [1, 2, 3]}\n", yaml.dump(map));
         //
         options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         yaml = new Yaml(options);
         assertEquals("a: b\nc:\n- 1\n- 2\n- 3\n", yaml.dump(map));
     }
@@ -250,10 +250,10 @@ public class DumperOptionsTest extends TestCase {
     }
 
     public void testToString() {
-        DumperOptions.DefaultScalarStyle scalarStyle = DumperOptions.DefaultScalarStyle.LITERAL;
+        DumperOptions.ScalarStyle scalarStyle = DumperOptions.ScalarStyle.LITERAL;
         assertEquals("Scalar style: '|'", scalarStyle.toString());
         //
-        DumperOptions.DefaultFlowStyle flowStyle = DumperOptions.DefaultFlowStyle.BLOCK;
+        DumperOptions.FlowStyle flowStyle = DumperOptions.FlowStyle.BLOCK;
         assertEquals("Flow style: 'false'", flowStyle.toString());
         //
         DumperOptions.LineBreak lb = DumperOptions.LineBreak.LINUX;
@@ -264,7 +264,7 @@ public class DumperOptionsTest extends TestCase {
         Representer representer = new Representer();
         DumperOptions options = new DumperOptions();
         options.setIndent(4);
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Dumper dumper = new Dumper(representer, options);
         Yaml yaml = new Yaml(dumper);
         List<Integer> list = new LinkedList<Integer>();

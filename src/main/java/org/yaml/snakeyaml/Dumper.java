@@ -23,7 +23,7 @@ public class Dumper {
     public Dumper(Representer representer, DumperOptions options) {
         this.representer = representer;
         representer.setDefaultFlowStyle(options.getDefaultFlowStyle());
-        representer.setDefaultStyle(options.getDefaultStyle());
+        representer.setDefaultScalarStyle(options.getDefaultScalarStyle());
         this.options = options;
     }
 

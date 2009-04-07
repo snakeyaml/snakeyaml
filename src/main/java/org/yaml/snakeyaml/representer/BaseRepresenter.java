@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.yaml.snakeyaml.DumperOptions.DefaultFlowStyle;
-import org.yaml.snakeyaml.DumperOptions.DefaultScalarStyle;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
@@ -156,11 +156,11 @@ public abstract class BaseRepresenter {
 
     protected abstract boolean ignoreAliases(Object data);
 
-    public void setDefaultStyle(DefaultScalarStyle defaultStyle) {
+    public void setDefaultScalarStyle(ScalarStyle defaultStyle) {
         this.defaultStyle = defaultStyle.getChar();
     }
 
-    public void setDefaultFlowStyle(DefaultFlowStyle defaultFlowStyle) {
+    public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {
         this.defaultFlowStyle = defaultFlowStyle.getStyleBoolean();
     }
 }

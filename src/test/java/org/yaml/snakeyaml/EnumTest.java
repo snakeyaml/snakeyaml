@@ -24,7 +24,7 @@ public class EnumTest extends TestCase {
 
     public void testDumpEnumArray() {
         DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(Suit.values());
         assertEquals(
@@ -34,7 +34,7 @@ public class EnumTest extends TestCase {
 
     public void testDumpEnumList() {
         DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         List<Suit> list = Arrays.asList(Suit.values());
         String output = yaml.dump(list);
@@ -45,7 +45,7 @@ public class EnumTest extends TestCase {
 
     public void testDumpEnumListNoAnchor() {
         DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         List<Suit> list = new ArrayList<Suit>(3);
         list.add(Suit.CLUBS);
@@ -59,7 +59,7 @@ public class EnumTest extends TestCase {
 
     public void testDumpEnumMap() {
         DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         Map<String, Suit> map = new LinkedHashMap<String, Suit>();
         map.put("c", Suit.CLUBS);
@@ -72,7 +72,7 @@ public class EnumTest extends TestCase {
 
     public void testDumpEnumMap2() {
         DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         Map<Suit, Integer> map = new EnumMap<Suit, Integer>(Suit.class);
         map.put(Suit.CLUBS, 0);
@@ -85,7 +85,7 @@ public class EnumTest extends TestCase {
 
     public void testDumpEnumBean() {
         DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         EnumBean bean = new EnumBean();
         bean.setId(17);

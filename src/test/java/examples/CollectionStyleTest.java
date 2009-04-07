@@ -19,7 +19,7 @@ public class CollectionStyleTest extends TestCase {
 
     public void testNestedStyle2() {
         DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.DefaultFlowStyle.BLOCK);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         String document = "  a: 1\n  b:\n    c: 3\n    d: 4\n";
         System.out.println(yaml.dump(yaml.load(document)));

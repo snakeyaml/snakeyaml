@@ -12,13 +12,13 @@ import org.yaml.snakeyaml.error.YAMLException;
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public class DumperOptions {
-    public enum DefaultScalarStyle {
+    public enum ScalarStyle {
         DOUBLE_QUOTED(new Character('"')), SINGLE_QUOTED(new Character('\'')), LITERAL(
                 new Character('|')), FOLDED(new Character('>')), PLAIN(null);
         private Character styleChar;
 
-        private DefaultScalarStyle(Character defaultStyle) {
-            this.styleChar = defaultStyle;
+        private ScalarStyle(Character style) {
+            this.styleChar = style;
         }
 
         public Character getChar() {
@@ -31,13 +31,13 @@ public class DumperOptions {
         }
     }
 
-    public enum DefaultFlowStyle {
+    public enum FlowStyle {
         FLOW(Boolean.TRUE), BLOCK(Boolean.FALSE), AUTO(null);
 
         private Boolean styleBoolean;
 
-        private DefaultFlowStyle(Boolean defaultFlowStyle) {
-            styleBoolean = defaultFlowStyle;
+        private FlowStyle(Boolean flowStyle) {
+            styleBoolean = flowStyle;
         }
 
         public Boolean getStyleBoolean() {
@@ -88,8 +88,8 @@ public class DumperOptions {
         }
     }
 
-    private DefaultScalarStyle defaultStyle = DefaultScalarStyle.PLAIN;
-    private DefaultFlowStyle defaultFlowStyle = DefaultFlowStyle.AUTO;
+    private ScalarStyle defaultStyle = ScalarStyle.PLAIN;
+    private FlowStyle defaultFlowStyle = FlowStyle.AUTO;
     private boolean canonical = false;
     private boolean allowUnicode = true;
     private int indent = 2;
@@ -117,7 +117,7 @@ public class DumperOptions {
         this.allowUnicode = allowUnicode;
     }
 
-    public DefaultScalarStyle getDefaultStyle() {
+    public ScalarStyle getDefaultScalarStyle() {
         return defaultStyle;
     }
 
@@ -127,9 +127,9 @@ public class DumperOptions {
      * 
      * @param defaultStyle
      */
-    public void setDefaultStyle(DefaultScalarStyle defaultStyle) {
+    public void setDefaultScalarStyle(ScalarStyle defaultStyle) {
         if (defaultStyle == null) {
-            throw new NullPointerException("Use DefaultScalarStyle enum.");
+            throw new NullPointerException("Use ScalarStyle enum.");
         }
         this.defaultStyle = defaultStyle;
     }
@@ -185,14 +185,14 @@ public class DumperOptions {
         return lineBreak;
     }
 
-    public void setDefaultFlowStyle(DefaultFlowStyle defaultFlowStyle) {
+    public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {
         if (defaultFlowStyle == null) {
-            throw new NullPointerException("Use DefaultFlowStyle enum.");
+            throw new NullPointerException("Use FlowStyle enum.");
         }
         this.defaultFlowStyle = defaultFlowStyle;
     }
 
-    public DefaultFlowStyle getDefaultFlowStyle() {
+    public FlowStyle getDefaultFlowStyle() {
         return defaultFlowStyle;
     }
 
