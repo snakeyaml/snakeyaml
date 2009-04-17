@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -199,6 +200,78 @@ public class Yaml {
      */
     public Iterable<Object> loadAll(InputStream yaml) {
         return loadAll(new UnicodeReader(yaml));
+    }
+
+    /**
+     * Parse the first YAML document in a stream and produce the corresponding
+     * representation tree.
+     * 
+     * @param io
+     *            - reader with a YAML document
+     * @return parsed root Node for the specified YAML document
+     */
+    public Node compose(String yaml) {
+        return loader.compose(new StringReader(yaml));
+    }
+
+    /**
+     * Parse the first YAML document in a stream and produce the corresponding
+     * representation tree.
+     * 
+     * @param io
+     *            - reader with a YAML document
+     * @return parsed root Node for the specified YAML document
+     */
+    public Node compose(java.io.Reader io) {
+        return loader.compose(io);
+    }
+
+    /**
+     * Parse the first YAML document in a stream and produce the corresponding
+     * representation tree.
+     * 
+     * @param io
+     *            - stream with a YAML document
+     * @return parsed root Node for the specified YAML document
+     */
+    public Node compose(InputStream io) {
+        return loader.compose(new UnicodeReader(io));
+    }
+
+    /**
+     * Parse all YAML documents in a stream and produce corresponding
+     * representation trees.
+     * 
+     * @param io
+     *            - stream of YAML documents
+     * @return parsed root Nodes for all the specified YAML documents
+     */
+    public Iterable<Node> composeAll(InputStream io) {
+        return loader.composeAll(new UnicodeReader(io));
+    }
+
+    /**
+     * Parse all YAML documents in a stream and produce corresponding
+     * representation trees.
+     * 
+     * @param io
+     *            - stream of YAML documents
+     * @return parsed root Nodes for all the specified YAML documents
+     */
+    public Iterable<Node> composeAll(java.io.Reader io) {
+        return loader.composeAll(io);
+    }
+
+    /**
+     * Parse all YAML documents in a stream and produce corresponding
+     * representation trees.
+     * 
+     * @param yaml
+     *            - YAML documents
+     * @return parsed root Nodes for all the specified YAML documents
+     */
+    public Iterable<Node> composeAll(String yaml) {
+        return loader.composeAll(new StringReader(yaml));
     }
 
     /**

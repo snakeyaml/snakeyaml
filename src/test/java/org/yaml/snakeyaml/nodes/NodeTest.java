@@ -5,6 +5,8 @@ package org.yaml.snakeyaml.nodes;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.error.Mark;
+
 public class NodeTest extends TestCase {
 
     public void testNode() {
@@ -25,4 +27,13 @@ public class NodeTest extends TestCase {
             assertEquals("tag in a Node is required.", e.getMessage());
         }
     }
+
+    public void testGetEndMark() {
+        Mark mark1 = new Mark("name", 5, 2, 12, "afd asd asd", 7);
+        Mark mark2 = new Mark("name", 6, 3, 13, "afd asd asd", 8);
+        Node node = new ScalarNode("!foo", "bla-bla", mark1, mark2, '"');
+        assertEquals(mark1, node.getStartMark());
+        assertEquals(mark2, node.getEndMark());
+    }
+
 }

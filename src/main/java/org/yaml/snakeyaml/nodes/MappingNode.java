@@ -60,10 +60,10 @@ public class MappingNode extends CollectionNode {
         for (Node[] node : getValue()) {
             buf.append("{ key=");
             buf.append(node[0]);
-            buf.append("; value=");
+            buf.append("; value=Node<");
             // to avoid overflow in case of recursive structures
             buf.append(System.identityHashCode(node[1]));
-            buf.append(" }");
+            buf.append("> }");
         }
         values = buf.toString();
         return "<" + this.getClass().getName() + " (tag=" + getTag() + ", values=" + values + ")>";

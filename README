@@ -105,6 +105,7 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 == History ==
 
 '''1.2 (in Mercurial)'''
+ * Add 'compose' methods which return Nodes
  * Refactor: rename enums in DumperOptions to make the names consistent
  * Add possibility to parse all scalars as Strings
  * Respect `DumperOptions` with a custom Representer

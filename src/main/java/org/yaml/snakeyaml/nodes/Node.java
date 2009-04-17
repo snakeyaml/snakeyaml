@@ -34,6 +34,10 @@ public abstract class Node {
         return this.value;
     }
 
+    public Mark getEndMark(){
+    	return endMark;
+    }
+
     public String toString() {
         return "<" + this.getClass().getName() + " (tag=" + getTag() + ", value=" + getValue()
                 + ")>";

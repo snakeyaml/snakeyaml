@@ -24,4 +24,14 @@ public class MarkedYAMLExceptionTest extends TestCase {
         assertTrue(exception.toString().contains("\"search\""));
     }
 
+    public void testGetters() {
+        Mark mark = new Mark("search", 0, 0, 0, "*The first line.\nThe last line.", 0);
+        MarkedYAMLException exception = new MarkedYAMLException("See http://www.google.com", mark,
+                "Error2 happened", mark);
+        assertEquals("See http://www.google.com", exception.getContext());
+        assertEquals(mark, exception.getContextMark());
+        assertEquals("Error2 happened", exception.getProblem());
+        assertEquals(mark, exception.getProblemMark());
+    }
+
 }

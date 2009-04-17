@@ -58,4 +58,20 @@ public class MarkedYAMLException extends YAMLException {
         }
         return lines.toString();
     }
+    
+    public String getContext() {
+		return context;
+	}
+
+	public Mark getContextMark() {
+		return contextMark;
+	}
+
+	public String getProblem() {
+		return problem;
+	}
+
+	public Mark getProblemMark() {
+		return problemMark;
+	}    
 }
