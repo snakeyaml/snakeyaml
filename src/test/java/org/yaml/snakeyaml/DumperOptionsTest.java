@@ -168,6 +168,21 @@ public class DumperOptionsTest extends TestCase {
         }
     }
 
+    public void testLineBreakForPlatform() {
+        DumperOptions.LineBreak lineBreak = DumperOptions.LineBreak.getPlatformLineBreak();
+        assertEquals("Line break must match platform's default.", System
+                .getProperty("line.separator"), lineBreak.getString());
+        //
+        Yaml yaml = new Yaml();
+        List<Integer> list = new LinkedList<Integer>();
+        list.add(1);
+        list.add(2);
+        DumperOptions options = new DumperOptions();
+        options.setLineBreak(DumperOptions.LineBreak.getPlatformLineBreak());
+        yaml = new Yaml(options);
+        assertEquals("[1, 2]", yaml.dump(list).trim());
+    }
+
     public void testExplicitStart() {
         Yaml yaml = new Yaml();
         List<Integer> list = new LinkedList<Integer>();

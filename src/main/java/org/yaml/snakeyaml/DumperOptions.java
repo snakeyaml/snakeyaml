@@ -67,6 +67,16 @@ public class DumperOptions {
         public String toString() {
             return "Line break: " + name();
         }
+
+        public static LineBreak getPlatformLineBreak() {
+            String platformLineBreak = System.getProperty("line.separator");
+            for (LineBreak lb : values()) {
+                if (lb.lineBreak.equals(platformLineBreak)) {
+                    return lb;
+                }
+            }
+            return LineBreak.UNIX;
+        }
     }
 
     public enum Version {
