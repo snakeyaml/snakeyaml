@@ -5,10 +5,10 @@
 	</properties>
 	<body>
 	    <release version="1.2-SNAPSHOT" date="in Mercurial" description="development">
-            <action dev="py4fun" type="add">
+            <action dev="py4fun" type="add" due-to="Bob Jalex" issue="5">
                 Introduce LineBreak.getPlatformLineBreak (2009-04-18)
             </action>
-            <action dev="py4fun" type="update">
+            <action dev="py4fun" type="update" due-to="Bob Jalex" issue="5">
                 Rename LineBreak.LINUX to LineBreak.UNIX (2009-04-18)
             </action>
             <action dev="py4fun" type="add">
@@ -80,8 +80,8 @@
             <action dev="py4fun" type="add">
                 Use Ragel instead of Regular Expressions for implicit types. (2009-03-02)
             </action>
-            <action dev="py4fun" type="fix">
-                Fix ticket #4: java.sql.Date not handled. Thanks to Christophe Desguez (2009-02-28)
+            <action dev="py4fun" type="fix" due-to="Christophe Desguez" issue="4">
+                Fix ticket #4: java.sql.Date not handled. (2009-02-28)
             </action>
              <action dev="py4fun" type="add">
                 Introduce DumperOptions.DefaultFlowStyle enum (2009-02-24)
@@ -107,7 +107,7 @@
             <action dev="py4fun" type="fix">
                 Enum is emitted as a scalar node (2009-02-17)
             </action>
-            <action dev="py4fun" type="fix">
+            <action dev="py4fun" type="fix" due-to="James Nissel">
                 Enum is parsed as a scalar node or as a JavaBean property (2009-02-17)
             </action>
             <action dev="py4fun" type="update">

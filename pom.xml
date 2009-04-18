@@ -104,6 +104,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-changes-plugin</artifactId>
+				<configuration>
+					<issueLinkTemplate>http://trac-hg.assembla.com/snakeyaml/ticket/%ISSUE%</issueLinkTemplate>
+				</configuration>
 				<reportSets>
 					<reportSet>
 						<reports>
