@@ -256,8 +256,8 @@ public class DumperOptionsTest extends TestCase {
         DumperOptions.FlowStyle flowStyle = DumperOptions.FlowStyle.BLOCK;
         assertEquals("Flow style: 'false'", flowStyle.toString());
         //
-        DumperOptions.LineBreak lb = DumperOptions.LineBreak.LINUX;
-        assertEquals("Line break: LINUX", lb.toString());
+        DumperOptions.LineBreak lb = DumperOptions.LineBreak.UNIX;
+        assertEquals("Line break: UNIX", lb.toString());
     }
 
     public void testWithRepresenter() {

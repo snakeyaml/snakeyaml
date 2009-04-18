@@ -51,7 +51,7 @@ public class DumperOptions {
     }
 
     public enum LineBreak {
-        WIN("\r\n"), MAC("\r"), LINUX("\n");
+        WIN("\r\n"), MAC("\r"), UNIX("\n");
 
         private String lineBreak;
 
@@ -94,7 +94,7 @@ public class DumperOptions {
     private boolean allowUnicode = true;
     private int indent = 2;
     private int bestWidth = 80;
-    private LineBreak lineBreak = LineBreak.LINUX;
+    private LineBreak lineBreak = LineBreak.UNIX;
     private boolean explicitStart = false;
     private boolean explicitEnd = false;
     private String explicitRoot = null;
