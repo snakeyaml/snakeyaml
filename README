@@ -106,6 +106,7 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 
 '''1.2 (in Mercurial)'''
  * Add 'compose' methods which return Nodes
+ * Rename LineBreak.LINUX to LineBreak.UNIX
  * Refactor: rename enums in DumperOptions to make the names consistent
  * Add possibility to parse all scalars as Strings
  * Respect `DumperOptions` with a custom Representer
