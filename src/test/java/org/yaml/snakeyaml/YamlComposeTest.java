@@ -3,7 +3,6 @@
  */
 package org.yaml.snakeyaml;
 
-import java.io.ByteArrayInputStream;
 import java.io.StringReader;
 
 import junit.framework.TestCase;
@@ -14,18 +13,11 @@ import org.yaml.snakeyaml.nodes.NodeId;
 
 public class YamlComposeTest extends TestCase {
 
-    public void testComposeFromString() {
-        Yaml yaml = new Yaml();
-        MappingNode node = (MappingNode) yaml.compose("abc: 56");
-        assertEquals("abc", node.getValue().get(0)[0].getValue());
-        assertEquals("56", node.getValue().get(0)[1].getValue());
-    }
-
-    public void testComposeFromString2() {
+    public void testComposeManyDocuments() {
         try {
             Yaml yaml = new Yaml();
-            yaml.compose("abc: 56\n---\n123\n---\n456");
-            fail("YAML contans more then one ducument.");
+            yaml.compose(new StringReader("abc: 56\n---\n123\n---\n456"));
+            fail("YAML contans more then one document.");
         } catch (Exception e) {
             assertEquals("expected a single document in the stream; but found another document", e
                     .getMessage());
@@ -37,27 +29,6 @@ public class YamlComposeTest extends TestCase {
         MappingNode node = (MappingNode) yaml.compose(new StringReader("abc: 56"));
         assertEquals("abc", node.getValue().get(0)[0].getValue());
         assertEquals("56", node.getValue().get(0)[1].getValue());
-    }
-
-    public void testComposeFromInputStream() {
-        Yaml yaml = new Yaml();
-        MappingNode node = (MappingNode) yaml
-                .compose(new ByteArrayInputStream("abc: 56".getBytes()));
-        assertEquals("abc", node.getValue().get(0)[0].getValue());
-        assertEquals("56", node.getValue().get(0)[1].getValue());
-    }
-
-    public void testComposeAllFromString() {
-        Yaml yaml = new Yaml();
-        boolean first = true;
-        for (Node node : yaml.composeAll("abc: 56\n---\n123\n---\n456")) {
-            if (first) {
-                assertEquals(NodeId.mapping, node.getNodeId());
-            } else {
-                assertEquals(NodeId.scalar, node.getNodeId());
-            }
-            first = false;
-        }
     }
 
     public void testComposeAllFromReader() {
@@ -73,17 +44,10 @@ public class YamlComposeTest extends TestCase {
         }
     }
 
-    public void testComposeAllFromInputStream() {
+    public void testComposeAllOneDocument() {
         Yaml yaml = new Yaml();
-        boolean first = true;
-        for (Node node : yaml.composeAll(new ByteArrayInputStream("abc: 56\n---\n123\n---\n456"
-                .getBytes()))) {
-            if (first) {
-                assertEquals(NodeId.mapping, node.getNodeId());
-            } else {
-                assertEquals(NodeId.scalar, node.getNodeId());
-            }
-            first = false;
+        for (Node node : yaml.composeAll(new StringReader("6"))) {
+            assertEquals(NodeId.scalar, node.getNodeId());
         }
     }
 }

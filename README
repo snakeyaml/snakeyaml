@@ -105,6 +105,7 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 == History ==
 
 '''1.2 (in Mercurial)'''
+ * add [http://trac-hg.assembla.com/snakeyaml/wiki/Documentation#LowLevelAPI info for low-level API]
  * Add 'Yaml.parse()' method which return Events to support low level YAML processing
  * Add 'Yaml.compose()' methods which return Nodes
  * Rename `LineBreak`.LINUX to `LineBreak`.UNIX

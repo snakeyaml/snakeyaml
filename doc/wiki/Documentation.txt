@@ -980,6 +980,20 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 </beans>
 }}}
 
+=== Low Level API ===
+'''New in the development version:'''
+
+It is possible to [http://yaml.org/spec/1.1/#id860341 parse] or [http://yaml.org/spec/1.1/#id860452 compose] 
+the incoming stream of characters. Examples can be found 
+[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/YamlParseTest.java here]
+for parsing
+or [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/YamlComposeTest.java here]
+for composing.
+
+The input must be specified as java.io.Reader. Use 
+[http://trac-hg.assembla.com/snakeyaml/browser/src/main/java/org/yaml/snakeyaml/reader/UnicodeReader.java UnicodeReader.java] 
+if the input is `java.io.InputStream` (for proper BOM support).
+
 == Deviation from PyYAML ==
 
  * SnakeYAML does not emit '...' (end of document) for simple documents
