@@ -105,8 +105,8 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 == History ==
 
 '''1.2 (in Mercurial)'''
- * Add 'parse()' method which return Events to support low level YAML processing
- * Add 'compose' methods which return Nodes
+ * Add 'Yaml.parse()' method which return Events to support low level YAML processing
+ * Add 'Yaml.compose()' methods which return Nodes
  * Rename `LineBreak`.LINUX to `LineBreak`.UNIX
  * Refactor: rename enums in `DumperOptions` to make the names consistent
  * Add possibility to parse all scalars as Strings
