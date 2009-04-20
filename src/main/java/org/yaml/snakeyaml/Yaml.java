@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.resolver.Resolver;
@@ -307,5 +308,16 @@ public class Yaml {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Parse a YAML stream and produce parsing events.
+     * 
+     * @param yaml
+     *            - YAML document(s)
+     * @return parsed events
+     */
+    public Iterable<Event> parse(java.io.Reader yaml) {
+        return loader.parse(yaml);
     }
 }

@@ -9,7 +9,9 @@ import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.Reader;
 import org.yaml.snakeyaml.resolver.Resolver;
@@ -135,6 +137,43 @@ public class Loader {
             attached = true;
         } else {
             throw new YAMLException("Loader cannot be shared.");
+        }
+    }
+
+    /**
+     * Parse a YAML stream and produce parsing events.
+     * 
+     * @param yaml
+     *            - YAML document(s)
+     * @return parsed events
+     */
+    public Iterable<Event> parse(java.io.Reader yaml) {
+        final Parser parser = new ParserImpl(new Reader(yaml));
+        Iterator<Event> result = new Iterator<Event>() {
+            public boolean hasNext() {
+                return parser.peekEvent() != null;
+            }
+
+            public Event next() {
+                return parser.getEvent();
+            }
+
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
+        return new EventIterable(result);
+    }
+
+    private class EventIterable implements Iterable<Event> {
+        private Iterator<Event> iterator;
+
+        public EventIterable(Iterator<Event> iterator) {
+            this.iterator = iterator;
+        }
+
+        public Iterator<Event> iterator() {
+            return iterator;
         }
     }
 }
