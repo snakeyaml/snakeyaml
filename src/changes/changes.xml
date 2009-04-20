@@ -17,10 +17,10 @@
             <action dev="py4fun" type="add">
                 Add 'Yaml.compose()' methods which return Nodes to support YEdit (2009-04-17)
             </action>
-            <action dev="py4fun" type="add">
+            <action dev="py4fun" type="update">
                 Refactor: rename enums in DumperOptions to make the names consistent (2009-04-07)
             </action>
-            <action dev="py4fun" type="add">
+            <action dev="py4fun" type="update">
                 Refactor: use Character instead of char primitive for style in Emitter (2009-04-07)
             </action>
             <action dev="py4fun" type="add">
