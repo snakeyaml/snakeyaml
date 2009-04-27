@@ -1,9 +1,9 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.1: improve performance and test coverage
+Subject: [ANN] SnakeYAML-1.2: expose low-level API
 
 =============================
- Announcing SnakeYAML-1.1
+ Announcing SnakeYAML-1.2
 =============================
 
 A new release of SnakeYAML is now available:
@@ -15,12 +15,10 @@ and bug fixes.
 
 Changes
 =======
- * Test coverage reached 98%
- * Better Spring support: the root JavaBean class can be specified as a String
- * Performance: fix a bug with expanding Regular Expressions
- * Fix ticket #4: java.sql.Date was not handled properly
- * Introduce Enums in DumperOptions
- * Minor bug fixes 
+ * expose low-level API
+ * Refactor: rename enums in DumperOptions to make the names consistent
+ * Add possibility to parse all scalars as Strings
+ * minor bug fixes
 
 Resources
 =========
@@ -28,7 +26,7 @@ Resources
 SnakeYAML homepage: http://trac-hg.assembla.com/snakeyaml/
 SnakeYAML documentation: http://trac-hg.assembla.com/snakeyaml/wiki/Documentation
 
-JAR package: http://snakeyamlrepo.appspot.com/repository/SnakeYAML/SnakeYAML/1.1/SnakeYAML-1.1.jar
+JAR package: http://snakeyamlrepo.appspot.com/repository/SnakeYAML/SnakeYAML/1.2/SnakeYAML-1.2.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://hg.assembla.com/snakeyaml

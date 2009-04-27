@@ -294,7 +294,6 @@ When the scalar node type is not explicitly defined, SnakeYAML tries to detect
 42 -> Integer
 2009-03-30 -> Date
 }}}
-'''New in the development version:'''
 It is possible to drop "implicit typing" and parse all scalars as Strings:
 {{{
 version: 1.00
@@ -981,7 +980,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 }}}
 
 === Low Level API ===
-'''New in the development version:'''
 
 It is possible to [http://yaml.org/spec/1.1/#id860341 parse] or [http://yaml.org/spec/1.1/#id860452 compose] 
 the incoming stream of characters. Examples can be found 

@@ -30,23 +30,23 @@ SnakeYAML requires Java 5 or higher.
 
 == Download and Installation ==
 
-The current stable release of SnakeYAML: '''1.1'''.
+The current stable release of SnakeYAML: '''1.2'''.
 
 Download links:
 
  * '''source''': http://www.assembla.com/spaces/snakeyaml/trac_mercurial_tool
- * '''JAR package''': http://snakeyamlrepo.appspot.com/repository/SnakeYAML/SnakeYAML/1.1/SnakeYAML-1.1.jar
+ * '''JAR package''': http://snakeyamlrepo.appspot.com/repository/SnakeYAML/SnakeYAML/1.2/SnakeYAML-1.2.jar
  * '''ZIP archive''': http://www.assembla.com/spaces/snakeyaml/documents/ahRjS-eoSr3QBDeJe5aVNr/download/SnakeYAML-all-1.1.zip
  * '''Repository''': http://snakeyamlrepo.appspot.com/
  
-Browse 1.1 reports:
+Browse 1.2 reports:
 
- * '''Maven generated report''': http://snakeyamlrepo.appspot.com/releases/1.1/site/index.html
- * '''Project's report''': http://snakeyamlrepo.appspot.com/releases/1.1/site/project-reports.html
- * '''Javadocs''': http://snakeyamlrepo.appspot.com/releases/1.1/site/apidocs/index.html
- * '''Changes report''': http://snakeyamlrepo.appspot.com/releases/1.1/site/changes-report.html
- * '''Maven generated report''': http://snakeyamlrepo.appspot.com/releases/1.1/site/index.html
- * '''Test coverage report''': http://snakeyamlrepo.appspot.com/releases/1.1/site/cobertura/index.html
+ * '''Maven generated report''': http://snakeyamlrepo.appspot.com/releases/1.2/site/index.html
+ * '''Project's report''': http://snakeyamlrepo.appspot.com/releases/1.2/site/project-reports.html
+ * '''Javadocs''': http://snakeyamlrepo.appspot.com/releases/1.2/site/apidocs/index.html
+ * '''Changes report''': http://snakeyamlrepo.appspot.com/releases/1.2/site/changes-report.html
+ * '''Maven generated report''': http://snakeyamlrepo.appspot.com/releases/1.2/site/index.html
+ * '''Test coverage report''': http://snakeyamlrepo.appspot.com/releases/1.2/site/cobertura/index.html
 
 Maven 2 configuration:
 
@@ -70,7 +70,7 @@ Dependency definition (in pom.xml)
   <dependency>
     <groupId>SnakeYAML</groupId>
     <artifactId>SnakeYAML</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
   </dependency>
   ...
 </dependencies>
@@ -104,7 +104,7 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 
 == History ==
 
-'''1.2 (in Mercurial)'''
+'''1.2 (2009-04-27)'''
  * add [http://trac-hg.assembla.com/snakeyaml/wiki/Documentation#LowLevelAPI info for low-level API]
  * Add 'Yaml.parse()' method which return Events to support low level YAML processing
  * Add 'Yaml.compose()' methods which return Nodes

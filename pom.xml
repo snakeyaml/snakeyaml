@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SnakeYAML</groupId>
 	<artifactId>SnakeYAML</artifactId>
-	<version>1.1</version>
+	<version>1.2</version>
 	<packaging>jar</packaging>
 	<name>SnakeYAML</name>
 	<description>YAML 1.1 parser and emitter for Java</description>
