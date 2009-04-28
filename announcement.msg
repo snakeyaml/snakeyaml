@@ -10,8 +10,7 @@ A new release of SnakeYAML is now available:
 
     http://trac-hg.assembla.com/snakeyaml/
 
-This release delivers a significant performance improvements as well as minor changes
-and bug fixes.
+This release delivers minor improvements and minor bug fixes.
 
 Changes
 =======
