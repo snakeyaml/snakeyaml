@@ -177,8 +177,9 @@ public class Constructor extends SafeConstructor {
         Class<? extends Object> type = node.getType();
         Object result;
         if (type.isPrimitive() || type == String.class || Number.class.isAssignableFrom(type)
-                || type == Boolean.class || type == Date.class || type == Character.class
-                || type == BigInteger.class || Enum.class.isAssignableFrom(type)) {
+                || type == Boolean.class || Date.class.isAssignableFrom(type)
+                || type == Character.class || type == BigInteger.class
+                || Enum.class.isAssignableFrom(type)) {
             if (type == String.class) {
                 Construct stringContructor = yamlConstructors.get("tag:yaml.org,2002:str");
                 result = stringContructor.construct((ScalarNode) node);
@@ -193,9 +194,19 @@ public class Constructor extends SafeConstructor {
                             + ch.length());
                 }
                 result = new Character(ch.charAt(0));
-            } else if (type == Date.class) {
+            } else if (Date.class.isAssignableFrom(type)) {
                 Construct dateContructor = yamlConstructors.get("tag:yaml.org,2002:timestamp");
-                result = dateContructor.construct((ScalarNode) node);
+                Date date = (Date) dateContructor.construct((ScalarNode) node);
+                if (type == Date.class) {
+                    result = date;
+                } else {
+                    try {
+                        java.lang.reflect.Constructor<?> constr = type.getConstructor(long.class);
+                        result = constr.newInstance(date.getTime());
+                    } catch (Exception e) {
+                        result = date;
+                    }
+                }
             } else if (type == Float.class || type == Double.class || type == Float.TYPE
                     || type == Double.TYPE) {
                 Construct doubleContructor = yamlConstructors.get("tag:yaml.org,2002:float");

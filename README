@@ -104,6 +104,9 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 
 == History ==
 
+'''(in Mecrurial)'''
+ * Fix [http://trac-hg.assembla.com/snakeyaml/ticket/40 ticket #40]: java.sql.Timestamp was not handled properly (thanks to Magne)
+ 
 '''1.2 (2009-04-27)'''
  * add [http://trac-hg.assembla.com/snakeyaml/wiki/Documentation#LowLevelAPI info for low-level API]
  * Add 'Yaml.parse()' method which return Events to support low level YAML processing
