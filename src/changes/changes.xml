@@ -1,10 +1,15 @@
-<document>
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
 	<properties>
 		<title>YAML 1.1 parser and emitter</title>
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
 		<release version="1.2-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="update">
+                Validate changes.xml file (2009-05-25)
+            </action>
             <action dev="py4fun" type="fix" due-to="Magne" issue="40">
                 Fix: getting an error when javabean contains java.sql.Timestamp fields (2009-05-25)
             </action>
