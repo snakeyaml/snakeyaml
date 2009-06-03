@@ -152,7 +152,7 @@ public class Constructor extends SafeConstructor {
 
     @Override
     protected Object callConstructor(Node node) {
-        if (Object.class.equals(node.getType())) {
+        if (Object.class.equals(node.getType()) || "tag:yaml.org,2002:null".equals(node.getTag())) {
             return super.callConstructor(node);
         }
         Object result;

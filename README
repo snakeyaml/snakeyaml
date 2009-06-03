@@ -105,6 +105,7 @@ For more details, please check [wiki:Documentation SnakeYAML Documentation].
 == History ==
 
 '''(in Mecrurial)'''
+ * Fix: null as a `JavaBean` property was not handled properly (thanks to Magne)
  * Fix [http://trac-hg.assembla.com/snakeyaml/ticket/40 ticket #40]: java.sql.Timestamp was not handled properly (thanks to Magne)
  
 '''1.2 (2009-04-27)'''

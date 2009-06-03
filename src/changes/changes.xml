@@ -6,7 +6,10 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-		<release version="1.2-SNAPSHOT" date="in Mercurial" description="development">
+        <release version="1.2-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="fix" due-to="Magne">
+                Fix: null as a JavaBean property was not handled properly (2009-06-04)
+            </action>
             <action dev="py4fun" type="update">
                 Validate changes.xml file (2009-05-25)
             </action>
@@ -14,7 +17,7 @@
                 Fix: getting an error when javabean contains java.sql.Timestamp fields (2009-05-25)
             </action>
         </release>
-	    <release version="1.2" date="2009-04-27" description="expose low-level API">
+            <release version="1.2" date="2009-04-27" description="expose low-level API">
             <action dev="py4fun" type="add">
                 Add 'Yaml.parse()' method which return Events to support low level YAML processing (2009-04-20)
             </action>
@@ -109,11 +112,11 @@
                 Refactor: use Enum instead of String as NodeId (2009-02-19)
             </action>
         </release>
-	    <release version="1.0.1" date="2009-02-18" description="implement Enum support">
-	    	<action dev="py4fun" type="fix">
+            <release version="1.0.1" date="2009-02-18" description="implement Enum support">
+                <action dev="py4fun" type="fix">
                 Do not emit anchors for Enum (2009-02-18)
             </action>
-			<action dev="py4fun" type="fix">
+                        <action dev="py4fun" type="fix">
                 Enum as a JavaBean property (when the Enum class is implicitly defined) does
                 not need tags for both loading and dumping (2009-02-17)
             </action>
@@ -225,7 +228,7 @@
             </action>
         </release>
         <release version="0.9" date="2008-01-12" description="Add possibility to define a root class for Loader">
-	    	<action dev="py4fun" type="add">
+                <action dev="py4fun" type="add">
                 Finish 2.27 example from the specification (2009-01-12)
             </action>
             <action dev="py4fun" type="add">
@@ -274,7 +277,7 @@
             </action>
         </release>
         <release version="0.7" date="2008-12-20" description="Improve test coverage">
-	    	<action dev="py4fun" type="update">
+                <action dev="py4fun" type="update">
                 Improve test coverage for constructor package (2008-12-20)
             </action>
             <action dev="py4fun" type="remove">
@@ -316,7 +319,7 @@
                 defaultFlowStyle for Dumper is configurable in DumperOptions (2008-12-12)
             </action>
         </release>
-	    <release version="0.5" date="2008-12-12" description="Import PyYAML 3.06">
+            <release version="0.5" date="2008-12-12" description="Import PyYAML 3.06">
             <action dev="py4fun" type="add">
                 Add possibility to define an implicit resolver. {359:63190d5bcd10} (2008-12-11)
             </action>
@@ -395,7 +398,7 @@
                 Rewrite Parser from scratch. (2008-11-17)
             </action>
         </release>
-		<release version="0.4" date="2008-11-11" description="Fix issues in Scanner">
+                <release version="0.4" date="2008-11-11" description="Fix issues in Scanner">
             <action dev="py4fun" type="update">
                 Move constants from Yaml interface to appropriate classes (2008-11-10)
             </action>
@@ -466,7 +469,7 @@
                 Respect sign for float.
                 Fix issue: https://jvyaml.dev.java.net/issues/show_bug.cgi?id=13 (2008-10-28)
             </action>
-			<action dev="py4fun" type="add">
+                        <action dev="py4fun" type="add">
                 Binary data is represented as ByteBuffer (2008-10-27)
             </action>
             <action dev="py4fun" type="fix">
@@ -489,12 +492,12 @@
             <action dev="py4fun" type="update">
                 Mavenize project. Apply standard Maven folder structure (2008-10-20)
             </action>
-		</release>
-		<release version="0.2.1" date="2008-10-20" description="Import JvYaml from CVS">
-			<action dev="py4fun" type="add">
-				Import project from https://jvyaml.dev.java.net/ (2008-10-20)
-			</action>
-		</release>
-	</body>
+                </release>
+                <release version="0.2.1" date="2008-10-20" description="Import JvYaml from CVS">
+                        <action dev="py4fun" type="add">
+                                Import project from https://jvyaml.dev.java.net/ (2008-10-20)
+                        </action>
+                </release>
+        </body>
 </document>
 

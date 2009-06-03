@@ -673,7 +673,8 @@ The example for the above `JavaBean` can be found
 [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/constructor/ImplicitTagsTest.java here]
 
 If it is nessesary to massage/skip the root global tag for the `JavaBean` it 
-can be specified via `DumperOptions`.setExplicitRoot(String tag).
+can be specified via `DumperOptions`.setExplicitRoot(String tag). ([http://yaml.org/type/map.html tag:yaml.org,2002:map] can be used to eliminate
+the class name of the `JavaBean`)
 
 There is a utility to parse `JavaBeans` - [http://trac-hg.assembla.com/snakeyaml/browser/src/main/java/org/yaml/snakeyaml/JavaBeanParser.java JavaBeanParser].
 All the methods of this utility are stateless and can be called from different Threads. The utility eliminates

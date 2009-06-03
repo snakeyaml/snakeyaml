@@ -96,13 +96,8 @@ public class BeanConstructorTest extends TestCase {
                     "Invalid node Character: 'id'; length: 2"));
         }
         document = "charClass: #";
-        try {
-            yaml.load(document);
-            fail("Only one char must be allowed.");
-        } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains(
-                    "Invalid node Character: ''; length: 0"));
-        }
+        TestBean1 bean = (TestBean1) yaml.load(document);
+        assertNull("Null must be accepted.", bean.getCharClass());
         document = "charClass: ''";
         try {
             yaml.load(document);
@@ -112,14 +107,11 @@ public class BeanConstructorTest extends TestCase {
                     "Invalid node Character: ''; length: 0"));
         }
         document = "charClass:\n";
-        try {
-            yaml.load(document);
-            fail("Only one char must be allowed.");
-        } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains(
-                    "Invalid node Character: ''; length: 0"));
-        }
-
+        bean = (TestBean1) yaml.load(document);
+        assertNull("Null must be accepted.", bean.getCharClass());
+        document = "charClass: 1\n";
+        bean = (TestBean1) yaml.load(document);
+        assertEquals(new Character('1'), bean.getCharClass());
     }
 
     public void testNoEmptyConstructor() throws IOException {

@@ -212,8 +212,8 @@ public class DumperOptions {
 
     /**
      * @param expRoot
-     *            - tag to be used for the root node or <code>null</code> to get
-     *            the default
+     *            - tag to be used for the root node. (JavaBeans may use
+     *            "tag:yaml.org,2002:map")
      */
     public void setExplicitRoot(String expRoot) {
         if (expRoot == null) {
