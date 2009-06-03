@@ -6,7 +6,7 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-        <release version="1.2-SNAPSHOT" date="in Mercurial" description="development">
+        <release version="1.3-SNAPSHOT" date="in Mercurial" description="development">
             <action dev="py4fun" type="fix" due-to="Magne">
                 Fix: null as a JavaBean property was not handled properly (2009-06-04)
             </action>
