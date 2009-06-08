@@ -1,16 +1,14 @@
+<wiki:toc max_depth="3" />
+
 = SnakeYAML Documentation =
 
-''This documentation is very brief and incomplete. Feel free to fix or improve it.''
-
-
-[[PageOutline]]
-
+_This documentation is very brief and incomplete. Feel free to fix or improve it._
 
 == Installation ==
 
 Download the source package and put it to the classpath. 
 
-Note that there are some subtle (but not really significant) differences between [http://pyyaml.org/wiki/PyYAML Python] and [http://trac-hg.assembla.com/snakeyaml/wiki SnakeYaml] parsers
+Note that there are some subtle (but not really significant) differences between [http://pyyaml.org/wiki/PyYAML Python] and [http://code.google.com/p/snakeyaml/ SnakeYaml] parsers
 and emitters.
 
 == Frequently Asked Questions ==
@@ -56,7 +54,7 @@ b:
   d: 4
 }}}
 
-You can find an example [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/CollectionStyleTest.java here]
+You can find an example [http://code.google.com/p/snakeyaml/source/browse/src/test/java/examples/CollectionStyleTest.java here]
 
 === Binary Data ===
 `byte[]` is represented as binary. Also when a `String` contains at least one non-printable character the 
@@ -64,7 +62,7 @@ You can find an example [http://trac-hg.assembla.com/snakeyaml/browser/src/test/
 
 Binary scalar is parsed as `byte[]`.
 
-An example can found [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/types/BinaryTagTest.java here].
+An example can found [http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/types/BinaryTagTest.java here].
 
 == Tutorial ==
 
@@ -87,7 +85,7 @@ System.out.println(list);
 
 ['Hesperiidae', 'Papilionidae', 'Apatelodidae', 'Epiplemidae']
 }}}
-You can find an example [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/LoadExampleTest.java here]
+You can find an example [http://code.google.com/p/snakeyaml/source/browse/src/test/java/examples/LoadExampleTest.java here]
 
 '''`Yaml.load()`''' accepts a String or
 an `InputStream` object. '''`Yaml.load(InputStream stream)`''' detects the encoding
@@ -166,7 +164,7 @@ public void testLoadManyDocuments() throws FileNotFoundException {
 }, {file=MoreClass.py, line=58, code=foo = bar}]}
 }}}
 
-SnakeYAML allows you [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/AnyObjectExampleTest.java to construct] a Java object of any type.
+SnakeYAML allows you [http://code.google.com/p/snakeyaml/source/browse/src/test/java/examples/AnyObjectExampleTest.java to construct] a Java object of any type.
 
 {{{
 none: [~, null]
@@ -190,7 +188,7 @@ public void testLoad() throws IOException {
 list=[LITE, RES_ACID, SUS_DEXT], dict={hp=13, sp=5}}
 }}}
 
-Even instances of custom Java classes [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/constructor/ConstructorTest.java can be constructed].
+Even instances of custom Java classes [http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/constructor/ConstructorTest.java can be constructed].
 {{{
 /**
  * create JavaBean
@@ -236,7 +234,7 @@ public void testGetConstructorFromScalar() {
 }}}
 
 Note if you want to limit objects to standard Java objects like List or Long you need 
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/SafeConstructorExampleTest.java to use SafeConstructor].
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/examples/SafeConstructorExampleTest.java to use SafeConstructor].
 {{{
 Loader loader = new Loader(new SafeConstructor());
 Yaml yaml = new Yaml(loader);
@@ -277,7 +275,7 @@ comments:
     Billsmer @ 338-4338.
 }}}
 into Invoice, Person, Address, Product instances the top level class in the object hierarchy
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/Example2_27Test.java must be provided]:
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/Example2_27Test.java must be provided]:
 {{{
 Loader loader = new Loader(new Constructor(Invoice.class));
 Yaml yaml = new Yaml(loader);
@@ -298,7 +296,7 @@ It is possible to drop "implicit typing" and parse all scalars as Strings:
 {{{
 version: 1.00
 }}}
-An example can be found [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/resolver/ResolverTest.java here].
+An example can be found [http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/resolver/ResolverTest.java here].
 {{{
 Yaml yaml = new Yaml(new Loader(), new Dumper(new DumperOptions()), new Resolver(false));
 List<Object> output = (List<Object>) yaml.load("[ '1.00', 1.00, !!float '1.00' ]");
@@ -310,7 +308,7 @@ assertEquals(1.0, output.get(2));
 === Type safe collections ===
 
 In order to parse a collection which contains custom Java classes Yaml has to be provided with additional information.
-[http://trac-hg.assembla.com/snakeyaml/browser/src/main/java/org/yaml/snakeyaml/TypeDescription.java TypeDescription] 
+[http://code.google.com/p/snakeyaml/source/browse/src/main/java/org/yaml/snakeyaml/TypeDescription.java TypeDescription] 
 serves the goal to collect more information and use it while loading/dumping.
 
 Let's say we have this document:
@@ -357,7 +355,7 @@ Loader loader = new Loader(constructor);
 Yaml yaml = new Yaml(loader);
 }}}
 The full example can be found 
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/constructor/TypeSafeCollectionsTest.java here]
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/constructor/TypeSafeCollectionsTest.java here]
 (testTypeSafeList()).
 
 A similar approach works for Maps. Please note that both keys and values of the Map can be of any type:
@@ -398,7 +396,7 @@ public class MyCar {
     }
 }
 }}}
-The [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/constructor/TypeSafeCollectionsTest.java code]:
+The [http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/constructor/TypeSafeCollectionsTest.java code]:
 {{{
 Constructor constructor = new Constructor(MyCar.class);
 TypeDescription carDescription = new TypeDescription(MyCar.class);
@@ -412,7 +410,7 @@ MyCar car = (MyCar) yaml.load(<see above>);
 === Dumping YAML ===
 
 The '''`Yaml.dump(Object data)`''' method accepts a Java object and produces a YAML document.
-(the source is [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/DumpExampleTest.java here])
+(the source is [http://code.google.com/p/snakeyaml/source/browse/src/test/java/examples/DumpExampleTest.java here])
 {{{
 public void testDump() {
     Map<String, Object> data = new HashMap<String, Object>();
@@ -670,13 +668,13 @@ Note that the 'part' property still has a global tag but the 'wheel' property do
 (because the wheel's runtime class is the same as it is defined in the `CarWithWheel` class).
 
 The example for the above `JavaBean` can be found 
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/constructor/ImplicitTagsTest.java here]
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/constructor/ImplicitTagsTest.java here]
 
 If it is nessesary to massage/skip the root global tag for the `JavaBean` it 
 can be specified via `DumperOptions`.setExplicitRoot(String tag). ([http://yaml.org/type/map.html tag:yaml.org,2002:map] can be used to eliminate
 the class name of the `JavaBean`)
 
-There is a utility to parse `JavaBeans` - [http://trac-hg.assembla.com/snakeyaml/browser/src/main/java/org/yaml/snakeyaml/JavaBeanParser.java JavaBeanParser].
+There is a utility to parse `JavaBeans` - [http://code.google.com/p/snakeyaml/source/browse/src/main/java/org/yaml/snakeyaml/JavaBeanParser.java JavaBeanParser].
 All the methods of this utility are stateless and can be called from different Threads. The utility eliminates
 the need to cast returned instances to the specified class.
 
@@ -694,7 +692,7 @@ wheels:
 - !!org.yaml.snakeyaml.constructor.Wheel {id: 5}
 }}}
 To eliminate long names while dumping Yaml 
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/constructor/ClassTagsTest.java should be configured] 
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/constructor/ClassTagsTest.java should be configured] 
 to use shortcuts:
 {{{
 Representer representer = new Representer();
@@ -726,10 +724,10 @@ Yaml yaml = new Yaml(loader);
 === Constructors, representers, resolvers ===
 
 You may define your own application-specific tags. (the example's source is 
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/DiceExampleTest.java here])
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/examples/DiceExampleTest.java here])
 
 For instance, you may want to add a constructor
-and a representer for the following [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/Dice.java Dice] class:
+and a representer for the following [http://code.google.com/p/snakeyaml/source/browse/src/test/java/examples/Dice.java Dice] class:
 {{{
 public class Dice {
     private Integer a;
@@ -879,7 +877,7 @@ public void testImplicitResolver() throws IOException {
 
 === Enum ===
 SnakeYAML treats `Enum`s in a special way. (an example can be found 
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/EnumTest.java here])
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/EnumTest.java here])
 
 Normally an `Enum` requires an explicit global tag:
 {{{
@@ -936,7 +934,7 @@ different Yaml instances.
 
 === Spring ===
 
-Example of [http://trac-hg.assembla.com/snakeyaml/browser/src/test/resources/examples/spring.xml Spring definition]:
+Example of [http://code.google.com/p/snakeyaml/source/browse/src/test/resources/examples/spring.xml Spring definition]:
 (note: the scope is always 'prototype')
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
@@ -984,13 +982,13 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 It is possible to [http://yaml.org/spec/1.1/#id860341 parse] or [http://yaml.org/spec/1.1/#id860452 compose] 
 the incoming stream of characters. Examples can be found 
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/YamlParseTest.java here]
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/YamlParseTest.java here]
 for parsing
-or [http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/YamlComposeTest.java here]
+or [http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/YamlComposeTest.java here]
 for composing.
 
 The input must be specified as java.io.Reader. Use 
-[http://trac-hg.assembla.com/snakeyaml/browser/src/main/java/org/yaml/snakeyaml/reader/UnicodeReader.java UnicodeReader.java] 
+[http://code.google.com/p/snakeyaml/source/browse/src/main/java/org/yaml/snakeyaml/reader/UnicodeReader.java UnicodeReader.java] 
 if the input is `java.io.InputStream` (for proper BOM support).
 
 == Deviation from PyYAML ==
@@ -1331,7 +1329,7 @@ to Java objects.
 || `!!map`                         || `Map`                             ||
 
 An example of loading and dumping [http://yaml.org/spec/1.1/#id858961 Global tags] can be found  
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/org/yaml/snakeyaml/Example2_24Test.java here].
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/org/yaml/snakeyaml/Example2_24Test.java here].
 
 == Collections ==
 
@@ -1340,8 +1338,8 @@ Default implementations of collections are:
  * ''Map'': `LinkedHashMap` (the order is implicitly defined)
 
 It is possible to define other default implementations. An example can be found 
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/CustomListExampleTest.java here] for List and
-[http://trac-hg.assembla.com/snakeyaml/browser/src/test/java/examples/CustomMapExampleTest.java here] for Map
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/examples/CustomListExampleTest.java here] for List and
+[http://code.google.com/p/snakeyaml/source/browse/src/test/java/examples/CustomMapExampleTest.java here] for Map
 
 == Deviations from the specification ==
 
