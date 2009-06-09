@@ -1,51 +1,35 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.2: expose low-level API
+Subject: [ANN] SnakeYAML: migration to Google Code
 
-=============================
- Announcing SnakeYAML-1.2
-=============================
+===============================
+ Announcing SnakeYAML migration
+===============================
 
-A new release of SnakeYAML is now available:
+SnakeYAML project has migrated to Google Code:
 
-    http://trac-hg.assembla.com/snakeyaml/
+   http://code.google.com/p/snakeyaml/
 
-This release delivers minor improvements and minor bug fixes.
 
-Changes
-=======
- * expose low-level API
- * Refactor: rename enums in DumperOptions to make the names consistent
- * Add possibility to parse all scalars as Strings
- * minor bug fixes
+May I ask to update the link to the project on the YAML page ?
+(http://www.yaml.org/)
 
-Resources
-=========
 
-SnakeYAML homepage: http://trac-hg.assembla.com/snakeyaml/
-SnakeYAML documentation: http://trac-hg.assembla.com/snakeyaml/wiki/Documentation
 
-JAR package: http://snakeyamlrepo.appspot.com/repository/SnakeYAML/SnakeYAML/1.2/SnakeYAML-1.2.jar
-Reports: http://snakeyamlrepo.appspot.com/
-
-SnakeYAML Mercurial repository: http://hg.assembla.com/snakeyaml
-Submit a bug report: http://trac-hg.assembla.com/snakeyaml/newticket
-
-YAML homepage: http://yaml.org/
-YAML-core mailing list: http://lists.sourceforge.net/lists/listinfo/yaml-core
-
+Thanks to Google for providing Mercurial support. Now Google is used
+to host the whole project infrastructure:
+- project home
+- source
+- wiki (documentation)
+- download
+(via AppEngine)
+- generated project reports
+- Maven 2 repository
+- InstantYAML (http://instantyaml.appspot.com/) application
 
 About SnakeYAML
-============
-
-YAML is a data serialization format designed for human readability and
-interaction with scripting languages.  SnakeYAML is a YAML parser and
-emitter for Java.
-
-SnakeYAML features a complete YAML 1.1 parser.
-SnakeYAML is applicable for a broad range of tasks from complex
-configuration files to object serialization and persistence.
-
+===============
+SnakeYAML features a complete YAML 1.1 parser for Java
 
 Copyright
 =========
