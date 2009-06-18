@@ -7,6 +7,9 @@
 	</properties>
 	<body>
         <release version="1.3-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="update">
+                Refactor: run PMD and apply some of the recommendations (2009-06-18)
+            </action>
             <action dev="py4fun" type="add" issue="1">
                 Create an issue for Recursive objects to be remembered (2009-06-08)
             </action>

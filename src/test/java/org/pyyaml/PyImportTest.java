@@ -26,14 +26,12 @@ public abstract class PyImportTest extends TestCase {
 
     protected Object load(String data) {
         Yaml yaml = new Yaml();
-        Object obj = yaml.load(data);
-        return obj;
+        return yaml.load(data);
     }
 
     protected Object load(Loader loader, String data) {
         Yaml yaml = new Yaml(loader);
-        Object obj = yaml.load(data);
-        return obj;
+        return yaml.load(data);
     }
 
     protected Iterable<Object> loadAll(InputStream data) {
@@ -69,8 +67,7 @@ public abstract class PyImportTest extends TestCase {
         File file = new File("src/test/resources/pyyaml");
         assertTrue("Folder not found: " + file.getAbsolutePath(), file.exists());
         assertTrue(file.isDirectory());
-        File[] files = file.listFiles(new PyFilenameFilter(extention, onlyIfCanonicalPresent));
-        return files;
+        return file.listFiles(new PyFilenameFilter(extention, onlyIfCanonicalPresent));
     }
 
     protected File getFileByName(String name) {

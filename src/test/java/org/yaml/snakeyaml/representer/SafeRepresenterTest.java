@@ -26,7 +26,7 @@ public class SafeRepresenterTest extends TestCase {
     }
 
     public void testFloat() {
-        assertEquals("1.0E12", new Double("1e12").toString());
+        assertEquals("1.0E12", String.valueOf(new Double("1e12")));
     }
 
     public void testNumber() {

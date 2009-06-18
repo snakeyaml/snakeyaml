@@ -77,8 +77,7 @@ public class CanonicalScanner implements Scanner {
             scan();
         }
         if (!tokens.isEmpty()) {
-            Token first = this.tokens.get(0);
-            return first;
+            return this.tokens.get(0);
         }
         return null;
     }
@@ -87,8 +86,7 @@ public class CanonicalScanner implements Scanner {
         if (!scanned) {
             scan();
         }
-        Token token = this.tokens.poll();
-        return token;
+        return this.tokens.poll();
     }
 
     public Token getToken(Class<? extends Token> choice) {

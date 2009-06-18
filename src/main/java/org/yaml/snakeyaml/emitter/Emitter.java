@@ -104,7 +104,7 @@ public final class Emitter {
     // - is it a whitespace?
     // - is it an indention character
     // (indentation space, '-', '?', or ':')?
-    private int line;
+    // private int line; this variable is not used
     private int column;
     private boolean whitespace;
     private boolean indention;
@@ -153,7 +153,6 @@ public final class Emitter {
         // - is it a whitespace?
         // - is it an indention character
         // (indentation space, '-', '?', or ':')?
-        line = 0;
         column = 0;
         whitespace = true;
         indention = true;
@@ -829,13 +828,13 @@ public final class Emitter {
         if (tag == null || "".equals(tag)) {
             throw new EmitterException("tag must not be empty");
         }
-        if (tag.equals("!")) {
+        if ("!".equals(tag)) {
             return tag;
         }
         String handle = null;
         String suffix = tag;
         for (String prefix : tagPrefixes.keySet()) {
-            if (tag.startsWith(prefix) && (prefix.equals("!") || prefix.length() < tag.length())) {
+            if (tag.startsWith(prefix) && ("!".equals(prefix) || prefix.length() < tag.length())) {
                 handle = tagPrefixes.get(prefix);
                 suffix = tag.substring(prefix.length());
             }
@@ -1091,7 +1090,6 @@ public final class Emitter {
         }
         this.whitespace = true;
         this.indention = true;
-        this.line++;
         this.column = 0;
         stream.write(data);
     }

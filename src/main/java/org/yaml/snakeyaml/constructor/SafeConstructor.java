@@ -137,7 +137,7 @@ public class SafeConstructor extends BaseConstructor {
                 value = value.substring(1);
             }
             int base = 10;
-            if (value.equals("0")) {
+            if ("0".equals(value)) {
                 return new Integer(0);
             } else if (value.startsWith("0b")) {
                 value = value.substring(2);
@@ -195,9 +195,9 @@ public class SafeConstructor extends BaseConstructor {
                 value = value.substring(1);
             }
             String valLower = value.toLowerCase();
-            if (valLower.equals(".inf")) {
+            if (".inf".equals(valLower)) {
                 return new Double(sign == -1 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
-            } else if (valLower.equals(".nan")) {
+            } else if (".nan".equals(valLower)) {
                 return new Double(Double.NaN);
             } else if (value.indexOf(':') != -1) {
                 String[] digits = value.split(":");
@@ -375,8 +375,7 @@ public class SafeConstructor extends BaseConstructor {
 
     private class ConstuctYamlStr implements Construct {
         public Object construct(Node node) {
-            String value = (String) constructScalar((ScalarNode) node);
-            return value;
+            return (String) constructScalar((ScalarNode) node);
         }
     }
 

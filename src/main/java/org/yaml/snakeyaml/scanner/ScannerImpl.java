@@ -872,11 +872,7 @@ public final class ScannerImpl implements Scanner {
     private boolean checkDirective() {
         // DIRECTIVE: ^ '%' ...
         // The '%' indicator is already checked.
-        if (reader.getColumn() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return reader.getColumn() == 0;
     }
 
     private static final String SPACES = "\0 \t\r\n\u0085\u2028\u2029";
@@ -1003,10 +999,10 @@ public final class ScannerImpl implements Scanner {
         reader.forward();
         String name = scanDirectiveName(startMark);
         List<?> value = null;
-        if (name.equals("YAML")) {
+        if ("YAML".equals(name)) {
             value = scanYamlDirectiveValue(startMark);
             endMark = reader.getMark();
-        } else if (name.equals("TAG")) {
+        } else if ("TAG".equals(name)) {
             value = scanTagDirectiveValue(startMark);
             endMark = reader.getMark();
         } else {
@@ -1294,7 +1290,7 @@ public final class ScannerImpl implements Scanner {
                 // Unfortunately, folding rules are ambiguous.
                 //
                 // This is the folding according to the specification:
-                if (folded && lineBreak.equals("\n") && leadingNonSpace
+                if (folded && "\n".equals(lineBreak) && leadingNonSpace
                         && " \t".indexOf(reader.peek()) == -1) {
                     if (breaks.length() == 0) {
                         chunks.append(" ");
@@ -1521,7 +1517,7 @@ public final class ScannerImpl implements Scanner {
         } else if (FULL_LINEBR.indexOf(ch) != -1) {
             String lineBreak = scanLineBreak();
             String breaks = scanFlowScalarBreaks(startMark);
-            if (!lineBreak.equals("\n")) {
+            if (!"\n".equals(lineBreak)) {
                 chunks.append(lineBreak);
             } else if (breaks.length() == 0) {
                 chunks.append(" ");
@@ -1540,7 +1536,7 @@ public final class ScannerImpl implements Scanner {
             // Instead of checking indentation, we check for document
             // separators.
             String prefix = reader.prefix(3);
-            if ((prefix.equals("---") || prefix.equals("..."))
+            if (("---".equals(prefix) || "...".equals(prefix))
                     && NULL_BL_T_LINEBR.indexOf(reader.peek(3)) != -1) {
                 throw new ScannerException("while scanning a quoted scalar", startMark,
                         "found unexpected document separator", reader.getMark());
@@ -1649,7 +1645,7 @@ public final class ScannerImpl implements Scanner {
                     }
                 }
             }
-            if (!lineBreak.equals("\n")) {
+            if (!"\n".equals(lineBreak)) {
                 chunks.append(lineBreak);
             } else if (breaks == null || breaks.toString().equals("")) {
                 chunks.append(" ");

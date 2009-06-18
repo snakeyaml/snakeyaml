@@ -102,12 +102,10 @@ public class Composer {
         NodeEvent event = (NodeEvent) parser.peekEvent();
         String anchor = null;
         anchor = event.getAnchor();
-        if (anchor != null) {
-            if (anchors.containsKey(anchor)) {
-                throw new ComposerException("found duplicate anchor " + anchor
-                        + "; first occurence", this.anchors.get(anchor).getStartMark(),
-                        "second occurence", event.getStartMark());
-            }
+        if (anchor != null && anchors.containsKey(anchor)) {
+            throw new ComposerException("found duplicate anchor " + anchor + "; first occurence",
+                    this.anchors.get(anchor).getStartMark(), "second occurence", event
+                            .getStartMark());
         }
         // resolver.descendResolver(parent, index);
         Node node = null;
