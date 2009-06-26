@@ -16,10 +16,8 @@ public class AnyObjectExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testLoad() throws IOException {
         String doc = Util.getLocalResource("examples/any-object-example.yaml");
-        System.out.println(doc);
         Yaml yaml = new Yaml();
         Map<String, Object> object = (Map<String, Object>) yaml.load(doc);
-        System.out.println(object);
         assertEquals(6, object.size());
         assertEquals("[null, null]", object.get("none").toString());
         List list1 = (List) object.get("none");

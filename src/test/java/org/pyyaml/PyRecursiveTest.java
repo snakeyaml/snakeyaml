@@ -39,7 +39,6 @@ public class PyRecursiveTest extends TestCase {
         Yaml yaml = new Yaml();
         try {
             String output1 = yaml.dump(value);
-            System.out.println(output1);
             List value2 = (List) yaml.load(output1);
             assertEquals(value, value2);
         } catch (ConstructorException e) {

@@ -20,9 +20,7 @@ public class LoadExampleTest extends TestCase {
     public void testLoad() {
         Yaml yaml = new Yaml();
         String document = "\n- Hesperiidae\n- Papilionidae\n- Apatelodidae\n- Epiplemidae";
-        System.out.println(document);
         List<String> list = (List<String>) yaml.load(document);
-        System.out.println(list);
         assertEquals("[Hesperiidae, Papilionidae, Apatelodidae, Epiplemidae]", list.toString());
     }
 
@@ -51,7 +49,8 @@ public class LoadExampleTest extends TestCase {
         Yaml yaml = new Yaml();
         int counter = 0;
         for (Object data : yaml.loadAll(input)) {
-            System.out.println(data);
+            assertNotNull(data);
+            assertTrue(data.toString().length() > 1);
             counter++;
         }
         assertEquals(3, counter);

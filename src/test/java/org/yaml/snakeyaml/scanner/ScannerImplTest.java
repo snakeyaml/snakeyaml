@@ -29,7 +29,6 @@ public class ScannerImplTest extends TestCase {
         String data = "string: abcd";
         Reader reader = new Reader(data);
         Scanner scanner = new ScannerImpl(reader);
-
         Mark dummy = new Mark("dummy", 0, 0, 0, "", 0);
         LinkedList<Token> etalonTokens = new LinkedList<Token>();
         etalonTokens.add(new StreamStartToken(dummy, dummy));
@@ -42,7 +41,6 @@ public class ScannerImplTest extends TestCase {
         etalonTokens.add(new StreamEndToken(dummy, dummy));
         while (scanner.checkToken(new ArrayList())) {
             assertEquals(etalonTokens.removeFirst(), scanner.getToken());
-            // System.out.println(scanner.getToken());
         }
         assertFalse("Must contain no more tokens: " + scanner.getToken(), scanner
                 .checkToken(new ArrayList()));
@@ -55,7 +53,6 @@ public class ScannerImplTest extends TestCase {
             yaml.load(data);
             fail("TAB cannot start a token.");
         } catch (Exception e) {
-            e.printStackTrace();
             assertFalse("Error message shall mention TAB and not '(9'.", e.getMessage().contains(
                     "(9"));
             assertTrue(e.getMessage().contains("'\\t'"));

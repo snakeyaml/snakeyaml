@@ -19,7 +19,6 @@ public class ComposerImplTest extends TestCase {
         Node node = compose(data);
         assertNotNull(node);
         assertTrue(node instanceof MappingNode);
-        // System.out.println(node);
         String data2 = "---\namerican:\n- Boston Red Sox";
         Node node2 = compose(data2);
         assertNotNull(node2);

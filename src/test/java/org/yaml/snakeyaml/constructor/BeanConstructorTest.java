@@ -20,7 +20,6 @@ public class BeanConstructorTest extends TestCase {
         Loader loader = new Loader(new Constructor(TestBean1.class));
         Yaml yaml = new Yaml(loader);
         String document = Util.getLocalResource("constructor/test-primitives1.yaml");
-        System.out.println(document);
         TestBean1 result = (TestBean1) yaml.load(document);
         assertNotNull(result);
         assertEquals(new Byte((byte) 1), result.getByteClass());
@@ -50,7 +49,6 @@ public class BeanConstructorTest extends TestCase {
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yamlToDump = new Yaml(options);
         String output = yamlToDump.dump(result);
-        System.out.println(output);
         TestBean1 result2 = (TestBean1) yaml.load(output);
         assertNotNull(result2);
         TestBean1 result3 = (TestBean1) new Yaml().load(output);

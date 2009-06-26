@@ -80,7 +80,6 @@ public class PyStructureTest extends PyImportTest {
                 File canonical = new File(canonicalName);
                 List<Event> events2 = canonicalParse(new FileInputStream(canonical));
                 assertFalse(events2.isEmpty());
-                System.out.println("try:" + file);
                 compareEvents(events1, events2, false);
             } catch (Exception e) {
                 System.out.println("Failed File: " + file);

@@ -47,7 +47,6 @@ public class ParserImplTest extends TestCase {
                 fail("unexpected event: " + event);
             }
             assertEquals(etalonEvents.removeFirst(), event);
-            // System.out.println(event);
         }
         assertFalse("Must contain no more events: " + parser.getEvent(), parser
                 .checkEvent(new ArrayList<Class<? extends Event>>()));
@@ -80,7 +79,6 @@ public class ParserImplTest extends TestCase {
                 fail("unexpected event: " + event);
             }
             assertEquals(etalonEvents.removeFirst(), event);
-            // System.out.println(event);
         }
         assertFalse("Must contain no more events: " + parser.getEvent(), parser
                 .checkEvent(new ArrayList<Class<? extends Event>>()));

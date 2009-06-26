@@ -22,7 +22,6 @@ public class DumpExampleTest extends TestCase {
         data.put("traits", new String[] { "ONE_HAND", "ONE_EYE" });
         Yaml yaml = new Yaml();
         String output = yaml.dump(data);
-        System.out.println(output);
         assertTrue(output.contains("name: Silenthand Olleander"));
         assertTrue(output.contains("race: Human"));
         assertTrue(output.contains("traits: [ONE_HAND, ONE_EYE]"));
@@ -36,7 +35,6 @@ public class DumpExampleTest extends TestCase {
         Yaml yaml = new Yaml();
         StringWriter writer = new StringWriter();
         yaml.dump(data, writer);
-        System.out.println(writer.toString());
         assertTrue(writer.toString().contains("name: Silenthand Olleander"));
         assertTrue(writer.toString().contains("race: Human"));
         assertTrue(writer.toString().contains("traits: [ONE_HAND, ONE_EYE]"));
@@ -50,15 +48,16 @@ public class DumpExampleTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setExplicitStart(true);
         Yaml yaml = new Yaml(options);
-        System.out.println(yaml.dump(docs));
-        System.out.println(yaml.dumpAll(docs.iterator()));
+        String result = yaml.dumpAll(docs.iterator());
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertTrue(result.contains("--- 2"));
     }
 
     public void testDumpCustomJavaClass() {
         Hero hero = new Hero("Galain Ysseleg", -3, 2);
         Yaml yaml = new Yaml();
         String output = yaml.dump(hero);
-        System.out.println(output);
         assertEquals("!!examples.Hero {hp: -3, name: Galain Ysseleg, sp: 2}\n", output);
     }
 
@@ -69,7 +68,6 @@ public class DumpExampleTest extends TestCase {
         }
         Yaml yaml = new Yaml();
         String output = yaml.dump(data);
-        System.out.println(output);
         assertTrue(output.contains("[0, 1, 2, 3, 4, 5, 6, 7, 8"));
         //
         DumperOptions options = new DumperOptions();
@@ -77,7 +75,7 @@ public class DumpExampleTest extends TestCase {
         options.setIndent(4);
         yaml = new Yaml(options);
         output = yaml.dump(data);
-        System.out.println(output);
+        assertTrue(output.contains("1, 2"));
     }
 
     public void testDumperOptionsCanonical() {
@@ -89,7 +87,6 @@ public class DumpExampleTest extends TestCase {
         options.setCanonical(true);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(data);
-        System.out.println(output);
         assertTrue(output.contains("---"));
         assertTrue(output.contains("!!seq ["));
         assertTrue(output.contains("!!int \"3\","));
@@ -104,7 +101,6 @@ public class DumpExampleTest extends TestCase {
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(data);
-        System.out.println(output);
         assertTrue(output.contains("- 0\n"));
         assertTrue(output.contains("- 1\n"));
         assertTrue(output.contains("- 4\n"));
@@ -119,7 +115,6 @@ public class DumpExampleTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(data);
-        System.out.println(output);
         assertTrue(output.contains("- !!int \"0\""));
         assertTrue(output.contains("- !!int \"1\""));
         assertTrue(output.contains("- !!int \"4\""));

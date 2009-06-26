@@ -77,6 +77,6 @@ public class TypeSafeCollectionsTest extends TestCase {
         Dumper dumper = new Dumper(representer, new DumperOptions());
         Yaml yaml = new Yaml(dumper);
         String output = yaml.dump(c);
-        System.out.println(output);
+        assertTrue(output.startsWith("!!org.yaml.snakeyaml.constructor.MyCar"));
     }
 }

@@ -19,7 +19,6 @@ public class SafeConstructorExampleTest extends TestCase {
         Loader loader = new Loader(new SafeConstructor());
         Yaml yaml = new Yaml(loader);
         List<Object> list = (List<Object>) yaml.load(doc);
-        System.out.println(list);
         assertEquals(3, list.size());
         assertEquals(new Integer(5), list.get(0));
         assertEquals("Person", list.get(1));

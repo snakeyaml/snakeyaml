@@ -125,8 +125,7 @@ public class PyEmitterTest extends PyImportTest {
                 }
                 //
                 for (Boolean flowStyle : new Boolean[] { Boolean.FALSE, Boolean.TRUE }) {
-                    for (DumperOptions.ScalarStyle style : DumperOptions.ScalarStyle
-                            .values()) {
+                    for (DumperOptions.ScalarStyle style : DumperOptions.ScalarStyle.values()) {
                         List<Event> styledEvents = new LinkedList<Event>();
                         for (Event event : events) {
                             if (event instanceof ScalarEvent) {
@@ -263,7 +262,6 @@ public class PyEmitterTest extends PyImportTest {
                         } else {
                             if ((e1.getTag() == null || e2.getTag() == null)
                                     || e1.getTag().equals(e2.getTag())) {
-
                             } else {
                                 System.out.println("tag1: " + e1.getTag());
                                 System.out.println("tag2: " + e2.getTag());
@@ -280,5 +278,4 @@ public class PyEmitterTest extends PyImportTest {
             }
         }
     }
-
 }

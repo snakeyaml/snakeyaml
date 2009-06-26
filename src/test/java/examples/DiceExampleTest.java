@@ -26,7 +26,6 @@ public class DiceExampleTest extends TestCase {
         Dice dice = new Dice(3, 6);
         Yaml yaml = new Yaml();
         String output = yaml.dump(dice);
-        System.out.println(output);
         assertEquals("!!examples.Dice {a: 3, b: 6}\n", output);
     }
 
@@ -36,7 +35,6 @@ public class DiceExampleTest extends TestCase {
         data.put("gold", dice);
         Yaml yaml = new Yaml(new Dumper(new DiceRepresenter(), new DumperOptions()));
         String output = yaml.dump(data);
-        System.out.println(output);
         assertEquals("{gold: !dice '3d6'}\n", output);
     }
 
@@ -87,7 +85,6 @@ public class DiceExampleTest extends TestCase {
         Map<String, Dice> treasure = (Map<String, Dice>) new HashMap<String, Dice>();
         treasure.put("treasure", new Dice(10, 20));
         String output = yaml.dump(treasure);
-        System.out.println(output);
         assertEquals("{treasure: 10d20}\n", output);
         // load
         Object data = yaml.load("{damage: 5d10}");

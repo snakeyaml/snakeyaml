@@ -12,7 +12,6 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
     public void testNotNull() throws Exception {
         String dumpStr = dumpJavaBeanWithNullValues(false);
-        // System.out.println(dumpStr);
         Yaml yaml = new Yaml();
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNotNull(parsed.getString());
@@ -39,7 +38,6 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
     public void testNull() throws Exception {
         String dumpStr = dumpJavaBeanWithNullValues(true);
-        // System.out.println(dumpStr);
         Yaml yaml = new Yaml();
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNull(parsed.getString());
@@ -66,7 +64,6 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         javaBeanWithNullValues.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         String dumpStr = yaml.dump(javaBeanWithNullValues);
-        // System.out.println(dumpStr);
         yaml = new Yaml();
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
@@ -94,7 +91,6 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         String dumpStr = yaml.dump(javaBeanWithNullValues);
         assertFalse("No explicit root tag must be used.", dumpStr
                 .contains("JavaBeanWithNullValues"));
-        // System.out.println(dumpStr);
         yaml = new Yaml();
         JavaBeanWithNullValues parsed = JavaBeanParser.load(dumpStr, JavaBeanWithNullValues.class);
         assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());

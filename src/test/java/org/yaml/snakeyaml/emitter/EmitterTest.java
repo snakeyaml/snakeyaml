@@ -36,7 +36,6 @@ public class EmitterTest extends TestCase {
         map.put("bbb", "\nbla-bla\n");
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
-        System.out.println(output);
         String etalon = "\"aaa\": |-\n  0123456789 0123456789 0123456789 0123456789\n\"bbb\": |2\n\n  bla-bla\n";
         assertEquals(etalon, output);
     }

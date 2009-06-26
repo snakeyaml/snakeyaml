@@ -91,13 +91,6 @@ public class PyTokensTest extends PyImportTest {
                         tokens1.add(replacement);
                     }
                 }
-                // System.out.println("File name: \n" +
-                // tokensFiles[i].getName());
-                // Iterator iter = tokens2.iterator();
-                // for (String string : tokens1) {
-                // String str2 = (String) iter.next();
-                // System.out.println(string + "=" + str2);
-                // }
                 assertEquals(tokenFileData, tokens1.size(), tokens2.size());
                 assertEquals(tokens1, tokens2);
             } catch (RuntimeException e) {
