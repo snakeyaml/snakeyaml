@@ -50,7 +50,6 @@ public class DumpExampleTest extends TestCase {
         Yaml yaml = new Yaml(options);
         String result = yaml.dumpAll(docs.iterator());
         assertNotNull(result);
-        assertFalse(result.isEmpty());
         assertTrue(result.contains("--- 2"));
     }
 
