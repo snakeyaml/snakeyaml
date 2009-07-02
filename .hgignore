@@ -4,3 +4,4 @@ syntax: regexp
 ^bin$
 ^\.settings$
 ^\.project$
+^\.classpath$
