@@ -16,7 +16,7 @@ import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -108,7 +108,7 @@ public class ResolverTest extends TestCase {
             this.yamlConstructors.put("tag:yaml.org,2002:Phone", new ConstuctPhone());
         }
 
-        private class ConstuctPhone implements Construct {
+        private class ConstuctPhone extends AbstractConstruct {
             public Object construct(Node node) {
                 String val = (String) constructScalar((ScalarNode) node);
                 return new Phone(val);

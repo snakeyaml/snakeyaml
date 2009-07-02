@@ -46,14 +46,14 @@ public class ParallelTest extends TestCase {
             System.out.println("Started: " + id);
             Loader loader = new Loader(new Constructor(Invoice.class));
             Yaml yaml = new Yaml(loader);
-            long time1 = System.currentTimeMillis();
+            long time1 = System.nanoTime();
             int cycles = 200;
             for (int i = 0; i < cycles; i++) {
                 Invoice invoice = (Invoice) yaml.load(doc);
                 assertNotNull(invoice);
             }
-            long time2 = System.currentTimeMillis();
-            float duration = (time2 - time1) / (float) cycles;
+            long time2 = System.nanoTime();
+            float duration = ((time2 - time1) / 1000000) / (float) cycles;
             System.out.println("Duration of " + id + " was " + duration + " ms/load.");
             progress++;
         }

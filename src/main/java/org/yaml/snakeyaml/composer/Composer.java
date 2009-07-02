@@ -4,9 +4,11 @@
 package org.yaml.snakeyaml.composer;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.Event;
@@ -35,10 +37,13 @@ public class Composer {
     private final Resolver resolver;
     private final Map<String, Node> anchors;
 
+    private final Set<Node> recursiveNodes;
+    
     public Composer(Parser parser, Resolver resolver) {
         this.parser = parser;
         this.resolver = resolver;
         this.anchors = new HashMap<String, Node>();
+        this.recursiveNodes = new HashSet<Node>();
     }
 
     public boolean checkNode() {
@@ -86,10 +91,13 @@ public class Composer {
         // Drop the DOCUMENT-END event.
         parser.getEvent();
         this.anchors.clear();
+//        recursiveNodes = new HashSet<Node>();
+        recursiveNodes.clear();
         return node;
     }
 
     private Node composeNode(Node parent, Object index) {
+        recursiveNodes.add(parent);
         if (parser.checkEvent(AliasEvent.class)) {
             AliasEvent event = (AliasEvent) parser.getEvent();
             String anchor = event.getAnchor();
@@ -97,7 +105,11 @@ public class Composer {
                 throw new ComposerException(null, null, "found undefined alias " + anchor, event
                         .getStartMark());
             }
-            return (Node) anchors.get(anchor);
+            Node result = (Node) anchors.get(anchor);
+            if(recursiveNodes.remove(result)) {
+                result.setTwoStepsConstruction(true);
+            }
+            return result;
         }
         NodeEvent event = (NodeEvent) parser.peekEvent();
         String anchor = null;
@@ -117,6 +129,7 @@ public class Composer {
             node = composeMappingNode(anchor);
         }
         // resolver.ascendResolver();
+        recursiveNodes.remove(parent);
         return node;
     }
 

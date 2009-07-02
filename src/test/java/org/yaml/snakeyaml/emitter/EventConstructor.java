@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
@@ -30,7 +30,7 @@ public class EventConstructor extends Constructor {
         this.yamlConstructors.put(null, new ConstructEvent());
     }
 
-    private class ConstructEvent implements Construct {
+    private class ConstructEvent extends AbstractConstruct {
 
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {

@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -22,6 +23,7 @@ import org.yaml.snakeyaml.introspector.MethodProperty;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 
@@ -90,7 +92,7 @@ public class Constructor extends SafeConstructor {
         return typeDefinitions.put(definition.getType(), definition);
     }
 
-    private class ConstuctYamlObject implements Construct {
+    private class ConstuctYamlObject extends AbstractConstruct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             Object result = null;
@@ -111,7 +113,11 @@ public class Constructor extends SafeConstructor {
                 case mapping:
                     MappingNode mnode = (MappingNode) node;
                     mnode.setType(cl);
-                    result = constructMappingNode(mnode);
+                    if (node.isTwodStepsConstruction()) {
+                        result = createMappingNode(mnode, cl);
+                    } else {
+                        result = constructMappingNode(mnode);
+                    }
                     break;
                 case sequence:
                     SequenceNode seqNode = (SequenceNode) node;
@@ -148,6 +154,16 @@ public class Constructor extends SafeConstructor {
             }
             return result;
         }
+
+        @Override
+        public void construct2ndStep(Node node, Object object) {
+            assert node.isTwodStepsConstruction();
+
+            if (node.getNodeId() == NodeId.mapping) {
+                constructMappingNode2ndStep((MappingNode) node, object, node.getType());
+            }
+        }
+
     }
 
     @Override
@@ -167,11 +183,44 @@ public class Constructor extends SafeConstructor {
             if (Map.class.isAssignableFrom(node.getType())) {
                 result = super.constructMapping((MappingNode) node);
             } else {
-                result = constructMappingNode((MappingNode) node);
+                if (node.isTwodStepsConstruction()) {
+                    result = createMappingNode((MappingNode) node, node.getType());
+                } else {
+                    result = constructMappingNode((MappingNode) node);
+                }
             }
         }
         return result;
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void callPostCreate(Node node, Object object) {
+        assert node.isTwodStepsConstruction();
+
+        if (Object.class.equals(node.getType()) || "tag:yaml.org,2002:null".equals(node.getTag())) {
+            super.callPostCreate(node, object);
+
+        } else {
+
+            switch (node.getNodeId()) {
+            case scalar:
+                // result = constructScalarNode((ScalarNode) node);
+                break;
+            case sequence:
+                 constructSequenceStep2((SequenceNode) node, (List<Object>) object);
+                break;
+            default:// mapping
+                if (Map.class.isAssignableFrom(node.getType())) {
+                    constructMapping2ndStep((MappingNode)node, (Map<Object, Object>) object);
+                } else if(Set.class.isAssignableFrom(node.getType())) {
+                    constructSet2ndStep((MappingNode) node, (Set<Object>) object);
+                } else {
+                    constructMappingNode2ndStep((MappingNode) node, object, node.getType());
+                }
+            }
+        }
+    };
 
     private Object constructScalarNode(ScalarNode node) {
         Class<? extends Object> type = node.getType();
@@ -256,6 +305,16 @@ public class Constructor extends SafeConstructor {
         return result;
     }
 
+    private Object createMappingNode(MappingNode mnode, Class<?> beanType) {
+        try {
+            return beanType.newInstance();
+        } catch (InstantiationException e) {
+            throw new YAMLException(e);
+        } catch (IllegalAccessException e) {
+            throw new YAMLException(e);
+        }
+    }
+
     /**
      * Construct JavaBean. If type safe collections are used please look at
      * <code>TypeDescription</code>.
@@ -268,14 +327,11 @@ public class Constructor extends SafeConstructor {
     @SuppressWarnings("unchecked")
     private Object constructMappingNode(MappingNode node) {
         Class<? extends Object> beanType = node.getType();
-        Object object;
-        try {
-            object = beanType.newInstance();
-        } catch (InstantiationException e) {
-            throw new YAMLException(e);
-        } catch (IllegalAccessException e) {
-            throw new YAMLException(e);
-        }
+        return constructMappingNode2ndStep(node, createMappingNode(node, beanType), beanType);
+    }
+
+    private Object constructMappingNode2ndStep(MappingNode node, Object object,
+            Class<? extends Object> beanType) {
         List<Node[]> nodeValue = (List<Node[]>) node.getValue();
         for (Node[] tuple : nodeValue) {
             ScalarNode keyNode;
