@@ -1,0 +1,25 @@
+&id001 !!org.yaml.snakeyaml.recursive.Human
+bankAccountOwner:
+  bankAccountOwner:
+    bankAccountOwner: *id001
+    birthPlace: null
+    birthday: null
+    children: []
+    father: null
+    mother: null
+    name: Man 3
+    parner: null
+  birthPlace: null
+  birthday: null
+  children: []
+  father: null
+  mother: null
+  name: Man 2
+  parner: null
+birthPlace: null
+birthday: null
+children: []
+father: null
+mother: null
+name: Man 1
+parner: null

@@ -6,7 +6,11 @@ package org.yaml.snakeyaml.recursive;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -90,5 +94,50 @@ public class HumanTest extends TestCase {
         assertEquals("Mother", father2.getParner().getName());
         assertEquals("Father", father2.getBankAccountOwner().getName());
         assertSame(father2, father2.getBankAccountOwner());
+    }
+
+    public void testBeanRing() throws IOException {
+        Human man1 = new Human();
+        man1.setName("Man 1");
+        Human man2 = new Human();
+        man2.setName("Man 2");
+        Human man3 = new Human();
+        man3.setName("Man 3");
+        man1.setBankAccountOwner(man2);
+        man2.setBankAccountOwner(man3);
+        man3.setBankAccountOwner(man1);
+        //
+        Yaml yaml = new Yaml();
+        String output = yaml.dump(man1);
+        System.out.println(output);
+        String etalon = Util.getLocalResource("recursive/beanring-3.yaml");
+        assertEquals(etalon, output);
+        //
+        Human loadedMan1 = (Human) yaml.load(output);
+        assertNotNull(loadedMan1);
+        assertEquals("Man 1", loadedMan1.getName());
+        Human loadedMan2 = loadedMan1.getBankAccountOwner();
+        Human loadedMan3 = loadedMan2.getBankAccountOwner();
+        assertSame(loadedMan1, loadedMan3.getBankAccountOwner());
+    }
+
+    public void testCollectionRing() throws IOException {
+        Set<Object> set = new HashSet<Object>();
+        List<Object> list = new ArrayList<Object>();
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        set.add(list);
+        list.add(map);
+        map.put("1", set);
+        //
+        try {
+            Yaml yaml = new Yaml();
+            String output = yaml.dump(set);
+            // String etalon = Util.getLocalResource("recursive/???.yaml");
+            // assertEquals(etalon, output);
+            //
+            // Set<Object> loadedSet = (Set<Object>) yaml.load(output);
+        } catch (StackOverflowError e) {
+            fail("Cannot dump recursive collections.");
+        }
     }
 }
