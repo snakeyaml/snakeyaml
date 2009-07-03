@@ -7,6 +7,13 @@
 	</properties>
 	<body>
         <release version="1.3-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="add">
+                Add a test to check the proper report for IOException (2009-07-03)
+            </action>
+            <action dev="py4fun" type="fix" issue="3" due-to="infinity0x">
+                Fix: represent proper tags for JavaBeans when they are not the root of the YAML 
+                document but a member of a collection (2009-07-03)
+            </action>
             <action dev="py4fun" type="update">
                 Refactor: run PMD and apply some of the recommendations (2009-06-18)
             </action>
