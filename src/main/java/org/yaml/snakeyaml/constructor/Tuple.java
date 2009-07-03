@@ -9,7 +9,9 @@ public class Tuple<T, K> {
     private final K _2;
 
     public Tuple(T _1, K _2) {
-        assert _1 != null && _2 != null;
+        if (_1 == null || _2 == null) {
+            throw new NullPointerException("Tuple does not accept NULL.");
+        }
         this._1 = _1;
         this._2 = _2;
     }

@@ -197,8 +197,9 @@ public class Constructor extends SafeConstructor {
     @SuppressWarnings("unchecked")
     @Override
     protected void callPostCreate(Node node, Object object) {
-        assert node.isTwoStepsConstruction();
-
+        if (!node.isTwoStepsConstruction()) {
+            throw new YAMLException("Inexpected recursive structure. Node: " + node);
+        }
         if (Object.class.equals(node.getType()) || "tag:yaml.org,2002:null".equals(node.getTag())) {
             super.callPostCreate(node, object);
         } else {
