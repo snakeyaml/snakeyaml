@@ -36,7 +36,6 @@ public class Composer {
     private final Parser parser;
     private final Resolver resolver;
     private final Map<String, Node> anchors;
-
     private final Set<Node> recursiveNodes;
     
     public Composer(Parser parser, Resolver resolver) {
@@ -91,7 +90,6 @@ public class Composer {
         // Drop the DOCUMENT-END event.
         parser.getEvent();
         this.anchors.clear();
-//        recursiveNodes = new HashSet<Node>();
         recursiveNodes.clear();
         return node;
     }

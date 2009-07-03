@@ -71,12 +71,10 @@ public abstract class BaseConstructor {
 
     private Object constructDocument(Node node) {
         Object data = constructObject(node);
-
         while (!toBeConstructedAt2ndStep.isEmpty()) {
             Tuple<Node, Object> toBeProcessed = toBeConstructedAt2ndStep.pop();
             callPostCreate(toBeProcessed._1(), toBeProcessed._2());
         }
-
         if (!maps2fill.isEmpty()) {
             for (Tuple<Map<Object, Object>, Tuple<Object, Object>> entry : maps2fill) {
                 Tuple<Object, Object> key_value = entry._2();
@@ -84,20 +82,12 @@ public abstract class BaseConstructor {
             }
             maps2fill.clear();
         }
-
         if (!sets2fill.isEmpty()) {
             for (Tuple<Set<Object>, Object> value : sets2fill) {
                 value._1().add(value._2());
             }
             sets2fill.clear();
         }
-
-        // constructedObjects = new HashMap<Node, Object>();
-        // recursiveObjects = new HashSet<Node>();
-        // toBeConstructedAt2ndStep = new Stack<Tuple<Node,Object>>();
-        // maps2fill = new
-        // LinkedList<Tuple<Map<Object,Object>,Tuple<Object,Object>>>();
-        // sets2fill = new LinkedList<Tuple<Set<Object>,Object>>();
         constructedObjects.clear();
         recursiveObjects.clear();
         toBeConstructedAt2ndStep.clear();
@@ -121,13 +111,14 @@ public abstract class BaseConstructor {
 
     protected Object callConstructor(Node node) {
         Object data = getConstructor(node).construct(node);
-        if (node.isTwodStepsConstruction()) {
+        if (node.isTwoStepsConstruction()) {
             toBeConstructedAt2ndStep.push(new Tuple<Node, Object>(node, data));
         }
         return data;
     }
 
     protected void callPostCreate(Node node, Object object) {
+        // TODO add example
         getConstructor(node).construct2ndStep(node, object);
     }
 
@@ -150,9 +141,6 @@ public abstract class BaseConstructor {
     protected List<? extends Object> constructSequence(SequenceNode node) {
         List<Object> result = createDefaultList(node.getValue().size());
         constructSequenceStep2(node, result);
-        // for (Node child : nodeValue) {
-        // result.add(constructObject(child));
-        // }
         return result;
     }
 
@@ -189,7 +177,7 @@ public abstract class BaseConstructor {
                 }
             }
             Object value = constructObject(valueNode);
-            if (keyNode.isTwodStepsConstruction()) {
+            if (keyNode.isTwoStepsConstruction()) {
                 /*
                  * if keyObject is created it 2 steps we should postpone putting
                  * it in map because it may have different hash after
@@ -217,7 +205,7 @@ public abstract class BaseConstructor {
                             "found unacceptable key " + key, tuple[0].getStartMark());
                 }
             }
-            if (keyNode.isTwodStepsConstruction()) {
+            if (keyNode.isTwoStepsConstruction()) {
                 /*
                  * if keyObject is created it 2 steps we should postpone putting
                  * it into the set because it may have different hash after
@@ -244,7 +232,7 @@ public abstract class BaseConstructor {
     // }
 
     protected void pushToConstruction2ndStep(Node node, Object object) {
-        toBeConstructedAt2ndStep.push(new Tuple<Node, Object>(node, object));
+        // TODO do we need this method ?
+        // toBeConstructedAt2ndStep.push(new Tuple<Node, Object>(node, object));
     }
-
 }

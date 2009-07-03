@@ -30,7 +30,6 @@ public class PyRecursiveTest extends TestCase {
             assertSame(tmpInstance.getBar(), value2);
             assertSame(tmpInstance, value2.get(tmpInstance));
         }
-        // assertEquals(value,value2);
     }
 
     @SuppressWarnings("unchecked")
@@ -43,6 +42,8 @@ public class PyRecursiveTest extends TestCase {
         Yaml yaml = new Yaml();
         String output1 = yaml.dump(value);
         List value2 = (List) yaml.load(output1);
+        assertEquals(3, value2.size());
+        assertEquals(value.size(), value2.size());
         assertSame(value2, value2.get(0));
         // we expect self-reference as 1st element of the list
         // let's remove self-reference and check other "simple" members of the
@@ -65,8 +66,8 @@ public class PyRecursiveTest extends TestCase {
             assertSame(tmpInstance.getBar(), tmpInstance.getFoo());
             assertSame(tmpInstance.getBar(), value2);
         }
-        // assertEquals(value, value2);
     }
 
-    // TODO write same more complex tests for recursions. maybe recursion in Arrays, bean properties...
+    // TODO write same more complex tests for recursions. maybe recursion in
+    // Arrays, bean properties...
 }

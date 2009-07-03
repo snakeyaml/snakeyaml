@@ -107,11 +107,12 @@ public class SafeConstructor extends BaseConstructor {
         super.constructMapping2ndStep(node, mapping);
     }
 
-    @Override protected void constructSet2ndStep(MappingNode node, java.util.Set<Object> set) {
+    @Override
+    protected void constructSet2ndStep(MappingNode node, java.util.Set<Object> set) {
         flattenMapping(node);
         super.constructSet2ndStep(node, set);
-    };
-    
+    }
+
     private class ConstuctYamlNull extends AbstractConstruct {
         public Object construct(Node node) {
             constructScalar((ScalarNode) node);
@@ -378,20 +379,22 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     private class ConstuctYamlSet extends AbstractConstruct {
-        
         public Object construct(Node node) {
-            if(node.isTwodStepsConstruction()) {
+            if (node.isTwoStepsConstruction()) {
                 return createDefaultMap().keySet();
             } else {
                 return constructMapping((MappingNode) node).keySet();
             }
         }
-        
+
         @SuppressWarnings("unchecked")
         @Override
         public void construct2ndStep(Node node, Object object) {
-            assert node.isTwodStepsConstruction();
-            constructSet2ndStep((MappingNode)node, (Set<Object>) object);
+            if (node.isTwoStepsConstruction()) {
+                constructSet2ndStep((MappingNode) node, (Set<Object>) object);
+            } else {
+                throw new YAMLException("Unexpected recursive set structure. Node: " + node);
+            }
         }
     }
 
@@ -404,25 +407,29 @@ public class SafeConstructor extends BaseConstructor {
     private class ConstuctYamlSeq extends AbstractConstruct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
-            if(node.isTwodStepsConstruction()) {
+            if (node.isTwoStepsConstruction()) {
                 List<Node> nodeValue = (List<Node>) node.getValue();
-                return createDefaultList(nodeValue.size()); 
+                return createDefaultList(nodeValue.size());
             } else {
+                // TODO is it ever called ???
                 return constructSequence((SequenceNode) node);
             }
         }
-        
+
         @SuppressWarnings("unchecked")
         @Override
         public void construct2ndStep(Node node, Object data) {
-            assert node.isTwodStepsConstruction();
-            constructSequenceStep2((SequenceNode) node, (List<Object>) data);
+            if (node.isTwoStepsConstruction()) {
+                constructSequenceStep2((SequenceNode) node, (List<Object>) data);
+            } else {
+                throw new YAMLException("Unexpected recursive sequence structure. Node: " + node);
+            }
         }
     }
 
     private class ConstuctYamlMap extends AbstractConstruct {
         public Object construct(Node node) {
-            if(node.isTwodStepsConstruction()) {
+            if (node.isTwoStepsConstruction()) {
                 return createDefaultMap();
             } else {
                 return constructMapping((MappingNode) node);
@@ -432,10 +439,12 @@ public class SafeConstructor extends BaseConstructor {
         @SuppressWarnings("unchecked")
         @Override
         public void construct2ndStep(Node node, Object object) {
-            assert node.isTwodStepsConstruction();
-            constructMapping2ndStep((MappingNode)node, (Map<Object, Object>) object);
+            if (node.isTwoStepsConstruction()) {
+                constructMapping2ndStep((MappingNode) node, (Map<Object, Object>) object);
+            } else {
+                throw new YAMLException("Unexpected recursive mapping structure. Node: " + node);
+            }
         }
-       
     }
 
     private class ConstuctUndefined extends AbstractConstruct {
@@ -445,5 +454,4 @@ public class SafeConstructor extends BaseConstructor {
                             .getStartMark());
         }
     }
-
 }

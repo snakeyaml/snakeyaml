@@ -36,8 +36,8 @@ public abstract class Node {
         return this.value;
     }
 
-    public Mark getEndMark(){
-    	return endMark;
+    public Mark getEndMark() {
+        return endMark;
     }
 
     public String toString() {
@@ -79,12 +79,12 @@ public abstract class Node {
     public void setType(Class<? extends Object> type) {
         this.type = type;
     }
-    
+
     public void setTwoStepsConstruction(boolean twoStepsConstruction) {
         this.twoStepsConstruction = twoStepsConstruction;
     }
-    
-    public boolean isTwodStepsConstruction() {
+
+    public boolean isTwoStepsConstruction() {
         return twoStepsConstruction;
     }
 }

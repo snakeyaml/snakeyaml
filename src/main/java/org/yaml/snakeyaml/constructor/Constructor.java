@@ -113,7 +113,7 @@ public class Constructor extends SafeConstructor {
                 case mapping:
                     MappingNode mnode = (MappingNode) node;
                     mnode.setType(cl);
-                    if (node.isTwodStepsConstruction()) {
+                    if (node.isTwoStepsConstruction()) {
                         result = createMappingNode(mnode, cl);
                     } else {
                         result = constructMappingNode(mnode);
@@ -157,13 +157,14 @@ public class Constructor extends SafeConstructor {
 
         @Override
         public void construct2ndStep(Node node, Object object) {
-            assert node.isTwodStepsConstruction();
-
+            if (!node.isTwoStepsConstruction()) {
+                throw new YAMLException("Unexpected recursive structure for Node: " + node);
+            }
             if (node.getNodeId() == NodeId.mapping) {
                 constructMappingNode2ndStep((MappingNode) node, object, node.getType());
             }
+            throw new YAMLException("???? for Node: " + node);
         }
-
     }
 
     @Override
@@ -183,7 +184,7 @@ public class Constructor extends SafeConstructor {
             if (Map.class.isAssignableFrom(node.getType())) {
                 result = super.constructMapping((MappingNode) node);
             } else {
-                if (node.isTwodStepsConstruction()) {
+                if (node.isTwoStepsConstruction()) {
                     result = createMappingNode((MappingNode) node, node.getType());
                 } else {
                     result = constructMappingNode((MappingNode) node);
@@ -196,31 +197,28 @@ public class Constructor extends SafeConstructor {
     @SuppressWarnings("unchecked")
     @Override
     protected void callPostCreate(Node node, Object object) {
-        assert node.isTwodStepsConstruction();
+        assert node.isTwoStepsConstruction();
 
         if (Object.class.equals(node.getType()) || "tag:yaml.org,2002:null".equals(node.getTag())) {
             super.callPostCreate(node, object);
-
         } else {
-
             switch (node.getNodeId()) {
             case scalar:
-                // result = constructScalarNode((ScalarNode) node);
-                break;
+                throw new YAMLException("Scalars cannot be recursive. Node: " + node);
             case sequence:
-                 constructSequenceStep2((SequenceNode) node, (List<Object>) object);
+                constructSequenceStep2((SequenceNode) node, (List<Object>) object);
                 break;
             default:// mapping
                 if (Map.class.isAssignableFrom(node.getType())) {
-                    constructMapping2ndStep((MappingNode)node, (Map<Object, Object>) object);
-                } else if(Set.class.isAssignableFrom(node.getType())) {
+                    constructMapping2ndStep((MappingNode) node, (Map<Object, Object>) object);
+                } else if (Set.class.isAssignableFrom(node.getType())) {
                     constructSet2ndStep((MappingNode) node, (Set<Object>) object);
                 } else {
                     constructMappingNode2ndStep((MappingNode) node, object, node.getType());
                 }
             }
         }
-    };
+    }
 
     private Object constructScalarNode(ScalarNode node) {
         Class<? extends Object> type = node.getType();
@@ -307,6 +305,8 @@ public class Constructor extends SafeConstructor {
 
     private Object createMappingNode(MappingNode mnode, Class<?> beanType) {
         try {
+            // TODO why only empty constructor
+            // TODO why do we need mnode
             return beanType.newInstance();
         } catch (InstantiationException e) {
             throw new YAMLException(e);
@@ -324,12 +324,12 @@ public class Constructor extends SafeConstructor {
      *            <code>String</code>s) and values are objects to be created
      * @return constructed JavaBean
      */
-    @SuppressWarnings("unchecked")
     private Object constructMappingNode(MappingNode node) {
         Class<? extends Object> beanType = node.getType();
         return constructMappingNode2ndStep(node, createMappingNode(node, beanType), beanType);
     }
 
+    @SuppressWarnings("unchecked")
     private Object constructMappingNode2ndStep(MappingNode node, Object object,
             Class<? extends Object> beanType) {
         List<Node[]> nodeValue = (List<Node[]>) node.getValue();
