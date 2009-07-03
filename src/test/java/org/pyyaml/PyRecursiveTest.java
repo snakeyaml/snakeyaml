@@ -67,7 +67,4 @@ public class PyRecursiveTest extends TestCase {
             assertSame(tmpInstance.getBar(), value2);
         }
     }
-
-    // TODO write same more complex tests for recursions. maybe recursion in
-    // Arrays, bean properties...
 }

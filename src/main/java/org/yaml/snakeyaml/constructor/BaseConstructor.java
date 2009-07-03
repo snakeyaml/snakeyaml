@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.yaml.snakeyaml.composer.Composer;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -232,7 +233,8 @@ public abstract class BaseConstructor {
     // }
 
     protected void pushToConstruction2ndStep(Node node, Object object) {
-        // TODO do we need this method ?
-        // toBeConstructedAt2ndStep.push(new Tuple<Node, Object>(node, object));
+        toBeConstructedAt2ndStep.push(new Tuple<Node, Object>(node, object));
+        // TODO do we need this method ? (it is never called)
+        throw new YAMLException("??? !!! ???");
     }
 }
