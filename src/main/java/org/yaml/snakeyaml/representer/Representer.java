@@ -25,11 +25,12 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Represent JavaBeans
  */
 public class Representer extends SafeRepresenter {
     private Map<Class<? extends Object>, String> classTags;
     private Map<Class<? extends Object>, TypeDescription> classDefinitions;
+    private String rootTag = null;
 
     public Representer() {
         classTags = new HashMap<Class<? extends Object>, String>();
@@ -64,12 +65,12 @@ public class Representer extends SafeRepresenter {
             } catch (IntrospectionException e) {
                 throw new YAMLException(e);
             }
-            Node node = representMapping(properties, data);
+            Node node = representJavaBean(properties, data);
             return node;
         }
     }
 
-    private Node representMapping(Set<Property> properties, Object javaBean) {
+    private Node representJavaBean(Set<Property> properties, Object javaBean) {
         List<Node[]> value = new LinkedList<Node[]>();
         String tag;
         String customTag = classTags.get(javaBean.getClass());
@@ -82,7 +83,7 @@ public class Representer extends SafeRepresenter {
         } else {
             tag = customTag;
         }
-        if (rootTag == null) {
+        if (rootTag == null && isRoot) {
             rootTag = tag;
         }
         // flow style will be chosen by BaseRepresenter

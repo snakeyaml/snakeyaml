@@ -20,6 +20,11 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.serializer.Serializer;
 
+/**
+ * Represent basic YAML structures: scalar, sequence, mapping
+ * 
+ * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ */
 public abstract class BaseRepresenter {
     @SuppressWarnings("unchecked")
     protected final Map<Class, Represent> representers = new HashMap<Class, Represent>();
@@ -36,7 +41,12 @@ public abstract class BaseRepresenter {
     protected final Map<Integer, Node> representedObjects = new HashMap<Integer, Node>();
     private final Set<Object> objectKeeper = new HashSet<Object>();
     protected Integer aliasKey;// internal memory address
-    protected String rootTag = null;
+    /*
+     * because when representing JavaBeans the root tag has a special meaning we
+     * have to let the <code>Representer</code> to know whether the Node to
+     * represent it root
+     */
+    protected boolean isRoot = true;
 
     public void represent(Serializer serializer, Object data) throws IOException {
         Node node = representData(data);
@@ -97,6 +107,7 @@ public abstract class BaseRepresenter {
         }
         Node node = new ScalarNode(tag, value, null, null, style);
         representedObjects.put(aliasKey, node);
+        isRoot = false;
         return node;
     }
 
@@ -108,6 +119,7 @@ public abstract class BaseRepresenter {
         List<Node> value = new LinkedList<Node>();
         SequenceNode node = new SequenceNode(tag, value, flowStyle);
         representedObjects.put(aliasKey, node);
+        isRoot = false;
         boolean bestStyle = true;
         for (Object item : sequence) {
             Node nodeItem = representData(item);
@@ -131,6 +143,7 @@ public abstract class BaseRepresenter {
         List<Node[]> value = new LinkedList<Node[]>();
         MappingNode node = new MappingNode(tag, value, flowStyle);
         representedObjects.put(aliasKey, node);
+        isRoot = false;
         boolean bestStyle = true;
         for (Object itemKey : mapping.keySet()) {
             Object itemValue = mapping.get(itemKey);
