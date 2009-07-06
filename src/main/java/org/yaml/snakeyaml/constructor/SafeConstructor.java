@@ -279,20 +279,19 @@ public class SafeConstructor extends BaseConstructor {
                 cal.set(Calendar.MINUTE, Integer.parseInt(min_s));
                 cal.set(Calendar.SECOND, Integer.parseInt(sec_s));
                 cal.set(Calendar.MILLISECOND, usec);
-                if (timezoneh_s != null || timezonem_s != null) {
+                if (timezoneh_s != null) {
                     int zone = 0;
                     int sign = +1;
-                    if (timezoneh_s != null) {
-                        if (timezoneh_s.startsWith("-")) {
-                            sign = -1;
-                        }
-                        zone += Integer.parseInt(timezoneh_s.substring(1)) * 3600000;
+                    if (timezoneh_s.startsWith("-")) {
+                        sign = -1;
                     }
+                    zone += Integer.parseInt(timezoneh_s.substring(1)) * 3600000;
                     if (timezonem_s != null) {
                         zone += Integer.parseInt(timezonem_s) * 60000;
                     }
                     cal.set(Calendar.ZONE_OFFSET, sign * zone);
                 } else {
+                    // no time zone provided
                     cal.setTimeZone(TimeZone.getTimeZone("UTC"));
                 }
                 return cal.getTime();
