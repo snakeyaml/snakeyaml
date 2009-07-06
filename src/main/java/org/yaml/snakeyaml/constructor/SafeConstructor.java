@@ -24,6 +24,8 @@ import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.util.Base64Coder;
 
 /**
+ * Construct standard Java classes
+ * 
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public class SafeConstructor extends BaseConstructor {

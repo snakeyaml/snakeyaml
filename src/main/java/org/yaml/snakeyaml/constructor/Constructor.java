@@ -23,7 +23,6 @@ import org.yaml.snakeyaml.introspector.MethodProperty;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 
@@ -114,7 +113,7 @@ public class Constructor extends SafeConstructor {
                     MappingNode mnode = (MappingNode) node;
                     mnode.setType(cl);
                     if (node.isTwoStepsConstruction()) {
-                        result = createMappingNode(mnode, cl);
+                        result = createMappingNode(cl);
                     } else {
                         result = constructMappingNode(mnode);
                     }
@@ -155,16 +154,6 @@ public class Constructor extends SafeConstructor {
             return result;
         }
 
-        @Override
-        public void construct2ndStep(Node node, Object object) {
-            if (!node.isTwoStepsConstruction()) {
-                throw new YAMLException("Unexpected recursive structure for Node: " + node);
-            }
-            if (node.getNodeId() == NodeId.mapping) {
-                constructMappingNode2ndStep((MappingNode) node, object, node.getType());
-            }
-            throw new YAMLException("???? for Node: " + node);
-        }
     }
 
     @Override
@@ -185,7 +174,7 @@ public class Constructor extends SafeConstructor {
                 result = super.constructMapping((MappingNode) node);
             } else {
                 if (node.isTwoStepsConstruction()) {
-                    result = createMappingNode(node, node.getType());
+                    result = createMappingNode(node.getType());
                 } else {
                     result = constructMappingNode((MappingNode) node);
                 }
@@ -304,13 +293,14 @@ public class Constructor extends SafeConstructor {
         return result;
     }
 
-    private Object createMappingNode(Node mnode, Class<?> beanType) {
+    private Object createMappingNode(Class<?> beanType) {
         try {
-            // TODO why only empty constructor.
             /**
-             * Using only default constructor. Everything else will be initialized on 2nd step.
-             * If we do here some partial initialization, how do we then track what need to be done on 2nd step?
-             * I think it is better to get only object here (to have it as reference for recursion) and do all other thing on 2nd step.
+             * Using only default constructor. Everything else will be
+             * initialized on 2nd step. If we do here some partial
+             * initialization, how do we then track what need to be done on 2nd
+             * step? I think it is better to get only object here (to have it as
+             * reference for recursion) and do all other thing on 2nd step.
              */
             return beanType.newInstance();
         } catch (InstantiationException e) {
@@ -331,7 +321,7 @@ public class Constructor extends SafeConstructor {
      */
     private Object constructMappingNode(MappingNode node) {
         Class<? extends Object> beanType = node.getType();
-        return constructMappingNode2ndStep(node, createMappingNode(node, beanType), beanType);
+        return constructMappingNode2ndStep(node, createMappingNode(beanType), beanType);
     }
 
     @SuppressWarnings("unchecked")
