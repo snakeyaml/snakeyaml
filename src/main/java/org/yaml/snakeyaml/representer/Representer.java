@@ -127,10 +127,10 @@ public class Representer extends SafeRepresenter {
                     && !property.getReadMethod().getName().equals("getClass")) {
                 properties.add(new MethodProperty(property));
             }
+        // add public fields
         for (Field field : type.getFields()) {
             int modifiers = field.getModifiers();
-            if (!Modifier.isPublic(modifiers) || Modifier.isStatic(modifiers)
-                    || Modifier.isTransient(modifiers))
+            if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers))
                 continue;
             properties.add(new FieldProperty(field));
         }
