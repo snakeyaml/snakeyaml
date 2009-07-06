@@ -4,6 +4,7 @@
 package org.yaml.snakeyaml.tokens;
 
 import org.yaml.snakeyaml.error.Mark;
+import org.yaml.snakeyaml.error.YAMLException;
 
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
@@ -13,8 +14,9 @@ public abstract class Token {
     private final Mark endMark;
 
     public Token(Mark startMark, Mark endMark) {
-        assert startMark != null;
-        assert endMark != null;
+        if (startMark == null || endMark == null) {
+            throw new YAMLException("Token requires marks.");
+        }
         this.startMark = startMark;
         this.endMark = endMark;
     }
