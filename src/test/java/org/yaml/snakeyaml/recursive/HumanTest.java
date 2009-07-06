@@ -14,8 +14,11 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.Loader;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class HumanTest extends TestCase {
 
@@ -82,7 +85,13 @@ public class HumanTest extends TestCase {
         father.setChildren(children);
         mother.setChildren(children);
         //
-        Yaml yaml = new Yaml();
+        
+        Constructor constructor = new Constructor();
+        TypeDescription humanDescription = new TypeDescription(Human.class);
+        humanDescription.putListPropertyType("children", Human.class);
+        constructor.addTypeDescription(humanDescription);
+        
+        Yaml yaml = new Yaml(new Loader(constructor));
         String output = yaml.dump(father);
         System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children-2.yaml");

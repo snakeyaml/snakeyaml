@@ -105,17 +105,16 @@ public abstract class BaseConstructor {
         }
         recursiveObjects.add(node);
         Object data = callConstructor(node);
+        if (node.isTwoStepsConstruction()) {
+            toBeConstructedAt2ndStep.push(new Tuple<Node, Object>(node, data));
+        }
         constructedObjects.put(node, data);
         recursiveObjects.remove(node);
         return data;
     }
 
     protected Object callConstructor(Node node) {
-        Object data = getConstructor(node).construct(node);
-        if (node.isTwoStepsConstruction()) {
-            toBeConstructedAt2ndStep.push(new Tuple<Node, Object>(node, data));
-        }
-        return data;
+        return getConstructor(node).construct(node);
     }
 
     protected void callPostCreate(Node node, Object object) {

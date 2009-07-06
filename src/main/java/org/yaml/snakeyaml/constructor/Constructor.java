@@ -185,7 +185,7 @@ public class Constructor extends SafeConstructor {
                 result = super.constructMapping((MappingNode) node);
             } else {
                 if (node.isTwoStepsConstruction()) {
-                    result = createMappingNode((MappingNode) node, node.getType());
+                    result = createMappingNode(node, node.getType());
                 } else {
                     result = constructMappingNode((MappingNode) node);
                 }
@@ -304,10 +304,14 @@ public class Constructor extends SafeConstructor {
         return result;
     }
 
-    private Object createMappingNode(MappingNode mnode, Class<?> beanType) {
+    private Object createMappingNode(Node mnode, Class<?> beanType) {
         try {
-            // TODO why only empty constructor
-            // TODO why do we need mnode
+            // TODO why only empty constructor.
+            /**
+             * Using only default constructor. Everything else will be initialized on 2nd step.
+             * If we do here some partial initialization, how do we then track what need to be done on 2nd step?
+             * I think it is better to get only object here (to have it as reference for recursion) and do all other thing on 2nd step.
+             */
             return beanType.newInstance();
         } catch (InstantiationException e) {
             throw new YAMLException(e);
