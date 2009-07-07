@@ -291,9 +291,6 @@ public class Constructor extends SafeConstructor {
             boolean isArray = false;
             try {
                 Property property = getProperty(beanType, key);
-                if (property == null)
-                    throw new YAMLException("Unable to find property '" + key + "' on class: "
-                            + beanType.getName());
                 valueNode.setType(property.getType());
                 TypeDescription memberDescription = typeDefinitions.get(beanType);
                 if (memberDescription != null) {
@@ -341,19 +338,24 @@ public class Constructor extends SafeConstructor {
             throws IntrospectionException {
         for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors()) {
             if (property.getName().equals(name)) {
-                if (property.getReadMethod() != null && property.getWriteMethod() != null)
+                if (property.getWriteMethod() != null) {
                     return new MethodProperty(property);
-                break;
+                } else {
+                    throw new YAMLException("Property '" + name + "' on JavaBean: "
+                            + type.getName() + " does not have the write method");
+                }
             }
         }
         for (Field field : type.getFields()) {
             int modifiers = field.getModifiers();
-            if (!Modifier.isPublic(modifiers) || Modifier.isStatic(modifiers)
-                    || Modifier.isTransient(modifiers))
+            if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers)) {
                 continue;
-            if (field.getName().equals(name))
+            }
+            if (field.getName().equals(name)) {
                 return new FieldProperty(field);
+            }
         }
-        return null;
+        throw new YAMLException("Unable to find property '" + name + "' on class: "
+                + type.getName());
     }
 }
