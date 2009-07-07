@@ -9,6 +9,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
@@ -208,13 +209,16 @@ public class Constructor extends SafeConstructor {
                     }
                 }
             } else if (type == Float.class || type == Double.class || type == Float.TYPE
-                    || type == Double.TYPE) {
+                    || type == Double.TYPE || type == BigDecimal.class) {
                 Construct doubleContructor = yamlConstructors.get("tag:yaml.org,2002:float");
                 result = doubleContructor.construct(node);
                 if (type == Float.class || type == Float.TYPE) {
                     result = new Float((Double) result);
+                } else if (type == BigDecimal.class) {
+                    result = new BigDecimal(((Double) result).doubleValue());
                 }
-            } else if (Number.class.isAssignableFrom(type) || type == Byte.TYPE
+            } else if (type == Byte.class || type == Short.class || type == Integer.class
+                    || type == Long.class || type == BigInteger.class || type == Byte.TYPE
                     || type == Short.TYPE || type == Integer.TYPE || type == Long.TYPE) {
                 Construct intContructor = yamlConstructors.get("tag:yaml.org,2002:int");
                 result = intContructor.construct(node);
