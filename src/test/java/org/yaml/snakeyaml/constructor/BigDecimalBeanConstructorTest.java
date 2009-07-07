@@ -32,4 +32,17 @@ public class BigDecimalBeanConstructorTest extends TestCase {
         assertTrue(1.5 - bean.getAmount() < 0.0000001);
         assertTrue((new BigDecimal("3.1416")).add(bean.getNumber().negate()).doubleValue() < 0.0000001);
     }
+
+    public void testConstructorAtomic() throws IOException {
+        String className = "!!" + this.getClass().getPackage().getName()
+                + ".AtomicJavaBean {amount: 1.5, atomic: 0}";
+        Yaml yaml = new Yaml();
+        try {
+            yaml.load(className);
+            fail("AtomicLong is not supported.");
+        } catch (Exception e) {
+            assertTrue(e.getMessage(), e.getMessage().contains(
+                    "Unsupported class: class java.util.concurrent.atomic.AtomicLong"));
+        }
+    }
 }

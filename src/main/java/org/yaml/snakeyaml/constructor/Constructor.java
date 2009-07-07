@@ -205,7 +205,7 @@ public class Constructor extends SafeConstructor {
                         java.lang.reflect.Constructor<?> constr = type.getConstructor(long.class);
                         result = constr.newInstance(date.getTime());
                     } catch (Exception e) {
-                        result = date;
+                        throw new YAMLException("Cannot construct: '" + type + "'");
                     }
                 }
             } else if (type == Float.class || type == Double.class || type == Float.TYPE
@@ -230,10 +230,9 @@ public class Constructor extends SafeConstructor {
                     result = new Integer(result.toString());
                 } else if (type == Long.class || type == Long.TYPE) {
                     result = new Long(result.toString());
-                } else if (type == BigInteger.class) {
-                    result = new BigInteger(result.toString());
                 } else {
-                    throw new YAMLException("Unsupported Number class: " + type);
+                    // only BigInteger left
+                    result = new BigInteger(result.toString());
                 }
             } else if (Enum.class.isAssignableFrom(type)) {
                 String tag = "tag:yaml.org,2002:" + type.getName();
