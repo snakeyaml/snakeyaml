@@ -209,12 +209,8 @@ public class SafeConstructor extends BaseConstructor {
                 }
                 return new Double(sign * val);
             } else {
-                try {
-                    Double d = Double.valueOf(value);
-                    return new Double(d.doubleValue() * sign);
-                } catch (NumberFormatException e) {
-                    throw new YAMLException("Invalid number: '" + value + "'; in node " + node);
-                }
+                Double d = Double.valueOf(value);
+                return new Double(d.doubleValue() * sign);
             }
         }
     }
@@ -249,7 +245,7 @@ public class SafeConstructor extends BaseConstructor {
             } else {
                 match = TIMESTAMP_REGEXP.matcher((String) node.getValue());
                 if (!match.matches()) {
-                    throw new YAMLException("Expected timestamp: " + node);
+                    throw new YAMLException("Unexpected timestamp: " + node.getValue());
                 }
                 String year_s = match.group(1);
                 String month_s = match.group(2);
