@@ -19,7 +19,6 @@ public class MockDateBeanConstructorTest extends TestCase {
             yaml.load(className);
             fail("MockDate cannot be constructed.");
         } catch (Exception e) {
-            e.printStackTrace();
             assertTrue(e.getMessage(), e.getMessage().contains("MockDate"));
         }
     }
