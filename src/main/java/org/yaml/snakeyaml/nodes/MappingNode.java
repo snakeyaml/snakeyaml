@@ -32,6 +32,7 @@ public class MappingNode extends CollectionNode {
 
     @SuppressWarnings("unchecked")
     @Override
+    // TODO should we return Tuple instead of array ?
     public List<Node[]> getValue() {
         List<Node[]> mapping = (List<Node[]>) super.getValue();
         for (Node[] nodes : mapping) {
