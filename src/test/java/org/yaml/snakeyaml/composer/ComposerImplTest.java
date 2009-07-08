@@ -3,34 +3,60 @@
  */
 package org.yaml.snakeyaml.composer;
 
+import java.io.StringReader;
+
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.parser.Parser;
-import org.yaml.snakeyaml.parser.ParserImpl;
-import org.yaml.snakeyaml.reader.Reader;
-import org.yaml.snakeyaml.resolver.Resolver;
+import org.yaml.snakeyaml.nodes.NodeId;
 
 public class ComposerImplTest extends TestCase {
 
     public void testGetNode() {
         String data = "american:\n  - Boston Red Sox";
-        Node node = compose(data);
+        Yaml yaml = new Yaml();
+        Node node = yaml.compose(new StringReader(data));
         assertNotNull(node);
         assertTrue(node instanceof MappingNode);
         String data2 = "---\namerican:\n- Boston Red Sox";
-        Node node2 = compose(data2);
+        Node node2 = yaml.compose(new StringReader(data2));
         assertNotNull(node2);
         assertFalse(node.equals(node2));
     }
 
-    private Node compose(String data) {
-        Reader reader = new Reader(data);
-        Parser parser = new ParserImpl(reader);
-        Resolver resolver = new Resolver();
-        Composer composer = new Composer(parser, resolver);
-        Node node = composer.getSingleNode();
-        return node;
+    public void testComposeBean() {
+        String data = "!!org.yaml.snakeyaml.composer.ComposerImplTest$BeanToCompose {name: Bill, age: 18}";
+        Yaml yaml = new Yaml();
+        Node node = yaml.compose(new StringReader(data));
+        assertNotNull(node);
+        assertTrue(node instanceof MappingNode);
+        assertEquals(
+                "tag:yaml.org,2002:org.yaml.snakeyaml.composer.ComposerImplTest$BeanToCompose",
+                node.getTag());
+        assertEquals(NodeId.mapping, node.getNodeId());
+        assertEquals(Object.class, node.getType());
+    }
+
+    public static class BeanToCompose {
+        private String name;
+        private int age;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
     }
 }
