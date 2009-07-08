@@ -150,4 +150,18 @@ public class ResolverTest extends TestCase {
         assertEquals("1.00", output.get(1));
         assertEquals(1.0, output.get(2));
     }
+
+    /**
+     * test resolver with no default implicit resolvers and 'null' as the
+     * argument for yaml.addImplicitResolver()
+     */
+    public void testAddImplicitResolver3() {
+        Yaml yaml = new Yaml(new Loader(), new Dumper(new DumperOptions()), new Resolver(false));
+        Pattern regexp = Pattern.compile("\\d+");
+        yaml.addImplicitResolver("tag:yaml.org,2002:int", regexp, null);
+        String output = yaml.dump(123);
+        assertEquals("123\n", output);
+        Integer integer = (Integer) yaml.load("1234");
+        assertEquals(new Integer(1234), integer);
+    }
 }
