@@ -1,35 +1,51 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML: migration to Google Code
+Subject: [ANN] SnakeYAML-1.3: ???
 
-===============================
- Announcing SnakeYAML migration
-===============================
+=============================
+ Announcing SnakeYAML-1.3
+=============================
 
-SnakeYAML project has migrated to Google Code:
+A new release of SnakeYAML is now available:
 
-   http://code.google.com/p/snakeyaml/
+    http://code.google.com/p/snakeyaml/
 
+This release delivers ??? as well as minor changes
+and bug fixes.
 
-May I ask to update the link to the project on the YAML page ?
-(http://www.yaml.org/)
+Changes
+=======
+ * ???
+ * further improve test coverage
+ * minor bug fixes when constructing JavaBeans
 
+Resources
+=========
 
+SnakeYAML homepage: http://code.google.com/p/snakeyaml/
+SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
 
-Thanks to Google for providing Mercurial support. Now Google is used
-to host the whole project infrastructure:
-- project home
-- source
-- wiki (documentation)
-- download
-(via AppEngine)
-- generated project reports
-- Maven 2 repository
-- InstantYAML (http://instantyaml.appspot.com/) application
+JAR package: http://snakeyamlrepo.appspot.com/repository/SnakeYAML/SnakeYAML/1.3/SnakeYAML-1.3.jar
+Reports: http://snakeyamlrepo.appspot.com/
+
+SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/
+Submit a bug report: http://code.google.com/p/snakeyaml/issues/entry
+
+YAML homepage: http://yaml.org/
+YAML-core mailing list: http://lists.sourceforge.net/lists/listinfo/yaml-core
+
 
 About SnakeYAML
-===============
-SnakeYAML features a complete YAML 1.1 parser for Java
+============
+
+YAML is a data serialization format designed for human readability and
+interaction with scripting languages.  SnakeYAML is a YAML parser and
+emitter for Java 5.
+
+SnakeYAML features a complete YAML 1.1 parser.
+SnakeYAML is applicable for a broad range of tasks from complex
+configuration files to object serialization and persistence.
+
 
 Copyright
 =========
