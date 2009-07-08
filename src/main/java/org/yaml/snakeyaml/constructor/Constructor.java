@@ -9,6 +9,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
@@ -153,7 +154,6 @@ public class Constructor extends SafeConstructor {
             }
             return result;
         }
-
     }
 
     @Override
@@ -241,17 +241,20 @@ public class Constructor extends SafeConstructor {
                         java.lang.reflect.Constructor<?> constr = type.getConstructor(long.class);
                         result = constr.newInstance(date.getTime());
                     } catch (Exception e) {
-                        result = date;
+                        throw new YAMLException("Cannot construct: '" + type + "'");
                     }
                 }
             } else if (type == Float.class || type == Double.class || type == Float.TYPE
-                    || type == Double.TYPE) {
+                    || type == Double.TYPE || type == BigDecimal.class) {
                 Construct doubleContructor = yamlConstructors.get("tag:yaml.org,2002:float");
                 result = doubleContructor.construct(node);
                 if (type == Float.class || type == Float.TYPE) {
                     result = new Float((Double) result);
+                } else if (type == BigDecimal.class) {
+                    result = new BigDecimal(((Double) result).doubleValue());
                 }
-            } else if (Number.class.isAssignableFrom(type) || type == Byte.TYPE
+            } else if (type == Byte.class || type == Short.class || type == Integer.class
+                    || type == Long.class || type == BigInteger.class || type == Byte.TYPE
                     || type == Short.TYPE || type == Integer.TYPE || type == Long.TYPE) {
                 Construct intContructor = yamlConstructors.get("tag:yaml.org,2002:int");
                 result = intContructor.construct(node);
@@ -263,10 +266,9 @@ public class Constructor extends SafeConstructor {
                     result = new Integer(result.toString());
                 } else if (type == Long.class || type == Long.TYPE) {
                     result = new Long(result.toString());
-                } else if (type == BigInteger.class) {
-                    result = new BigInteger(result.toString());
                 } else {
-                    throw new YAMLException("Unsupported Number class: " + type);
+                    // only BigInteger left
+                    result = new BigInteger(result.toString());
                 }
             } else if (Enum.class.isAssignableFrom(type)) {
                 String tag = "tag:yaml.org,2002:" + type.getName();
@@ -342,9 +344,6 @@ public class Constructor extends SafeConstructor {
             boolean isArray = false;
             try {
                 Property property = getProperty(beanType, key);
-                if (property == null)
-                    throw new YAMLException("Unable to find property '" + key + "' on class: "
-                            + beanType.getName());
                 valueNode.setType(property.getType());
                 TypeDescription memberDescription = typeDefinitions.get(beanType);
                 if (memberDescription != null) {
@@ -388,23 +387,28 @@ public class Constructor extends SafeConstructor {
         return (T[]) Array.newInstance(type.getComponentType(), 0);
     }
 
-    protected Property getProperty(Class<? extends Object> type, String name)
+    private Property getProperty(Class<? extends Object> type, String name)
             throws IntrospectionException {
         for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors()) {
             if (property.getName().equals(name)) {
-                if (property.getReadMethod() != null && property.getWriteMethod() != null)
+                if (property.getWriteMethod() != null) {
                     return new MethodProperty(property);
-                break;
+                } else {
+                    throw new YAMLException("Property '" + name + "' on JavaBean: "
+                            + type.getName() + " does not have the write method");
+                }
             }
         }
         for (Field field : type.getFields()) {
             int modifiers = field.getModifiers();
-            if (!Modifier.isPublic(modifiers) || Modifier.isStatic(modifiers)
-                    || Modifier.isTransient(modifiers))
+            if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers)) {
                 continue;
-            if (field.getName().equals(name))
+            }
+            if (field.getName().equals(name)) {
                 return new FieldProperty(field);
         }
-        return null;
+        }
+        throw new YAMLException("Unable to find property '" + name + "' on class: "
+                + type.getName());
     }
 }
