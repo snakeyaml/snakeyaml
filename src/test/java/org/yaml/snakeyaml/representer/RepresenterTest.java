@@ -128,4 +128,29 @@ public class RepresenterTest extends TestCase {
             assertTrue(true);
         }
     }
+
+    public void testRepresenterEmptyBean() {
+        EmptyBean bean = new EmptyBean();
+        Yaml yaml = new Yaml();
+        try {
+            yaml.dump(bean);
+            fail("EmptyBean has empty representation.");
+        } catch (Exception e) {
+            assertEquals(
+                    "No JavaBean properties found in org.yaml.snakeyaml.representer.RepresenterTest$EmptyBean",
+                    e.getMessage());
+        }
+    }
+
+    public static class EmptyBean {
+        private int number;
+
+        public void process() {
+            number += 1;
+        }
+
+        public int obtain() {
+            return number;
+        }
+    }
 }

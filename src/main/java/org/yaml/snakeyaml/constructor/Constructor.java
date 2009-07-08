@@ -337,7 +337,7 @@ public class Constructor extends SafeConstructor {
         return (T[]) Array.newInstance(type.getComponentType(), 0);
     }
 
-    protected Property getProperty(Class<? extends Object> type, String name)
+    private Property getProperty(Class<? extends Object> type, String name)
             throws IntrospectionException {
         for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors()) {
             if (property.getName().equals(name)) {
