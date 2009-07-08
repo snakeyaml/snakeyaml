@@ -22,5 +22,4 @@ public class Parent1 {
     public void setChild(Child1 child) {
         this.child = child;
     }
-
 }

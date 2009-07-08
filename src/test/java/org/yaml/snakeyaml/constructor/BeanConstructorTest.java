@@ -215,4 +215,52 @@ public class BeanConstructorTest extends TestCase {
         Child1 child = parent.getChild();
         assertEquals(new Integer(25), child.getCode());
     }
+
+    public void testScalarContructorException() throws IOException {
+        Loader loader = new Loader(new Constructor(ExceptionParent.class));
+        Yaml yaml = new Yaml(loader);
+        String document = "id: 123\nchild: 25";
+        try {
+            yaml.load(document);
+            fail("ExceptionParent should not be created.");
+        } catch (Exception e) {
+            assertEquals(
+                    "org.yaml.snakeyaml.error.YAMLException: java.lang.reflect.InvocationTargetException",
+                    e.getMessage());
+        }
+    }
+
+    static public class ExceptionParent {
+        private String id;
+        private ExceptionChild child;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public ExceptionChild getChild() {
+            return child;
+        }
+
+        public void setChild(ExceptionChild child) {
+            this.child = child;
+        }
+
+    }
+
+    public static class ExceptionChild {
+        private Integer code;
+
+        public ExceptionChild(Integer code) {
+            throw new RuntimeException("ExceptionChild cannot be created.");
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+    }
 }
