@@ -183,6 +183,41 @@ public class DumperOptionsTest extends TestCase {
         assertEquals("[1, 2]", yaml.dump(list).trim());
     }
 
+    public void testLineBreakForPlatformUnix() {
+        System.setProperty("line.separator", "\n");
+        assertEquals("\n", System.getProperty("line.separator"));
+        DumperOptions.LineBreak lineBreak = DumperOptions.LineBreak.getPlatformLineBreak();
+        assertEquals("Line break must match platform's default.", System
+                .getProperty("line.separator"), lineBreak.getString());
+        assertEquals("Unknown Line break must match UNIX line break.", "\n", lineBreak.getString());
+    }
+
+    public void testLineBreakForPlatformMac() {
+        System.setProperty("line.separator", "\r");
+        assertEquals("\r", System.getProperty("line.separator"));
+        DumperOptions.LineBreak lineBreak = DumperOptions.LineBreak.getPlatformLineBreak();
+        assertEquals("Line break must match platform's default.", System
+                .getProperty("line.separator"), lineBreak.getString());
+        assertEquals("Unknown Line break must match UNIX line break.", "\r", lineBreak.getString());
+    }
+
+    public void testLineBreakForPlatformWin() {
+        System.setProperty("line.separator", "\r\n");
+        assertEquals("\r\n", System.getProperty("line.separator"));
+        DumperOptions.LineBreak lineBreak = DumperOptions.LineBreak.getPlatformLineBreak();
+        assertEquals("Line break must match platform's default.", System
+                .getProperty("line.separator"), lineBreak.getString());
+        assertEquals("Unknown Line break must match UNIX line break.", "\r\n", lineBreak
+                .getString());
+    }
+
+    public void testLineBreakForPlatformUnknown() {
+        System.setProperty("line.separator", "\n\r");
+        assertEquals("\n\r", System.getProperty("line.separator"));
+        DumperOptions.LineBreak lineBreak = DumperOptions.LineBreak.getPlatformLineBreak();
+        assertEquals("Unknown Line break must match UNIX line break.", "\n", lineBreak.getString());
+    }
+
     public void testExplicitStart() {
         Yaml yaml = new Yaml();
         List<Integer> list = new LinkedList<Integer>();
@@ -219,6 +254,8 @@ public class DumperOptionsTest extends TestCase {
         options.setVersion(DumperOptions.Version.V1_0);
         yaml = new Yaml(options);
         assertEquals("%YAML 1.0\n--- [1, 2, 3]\n", yaml.dump(list));
+        //
+        assertEquals("Version: 1.1", DumperOptions.Version.V1_1.toString());
     }
 
     public void testTags() {

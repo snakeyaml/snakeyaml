@@ -6,6 +6,7 @@ package org.yaml.snakeyaml.tokens;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.error.Mark;
+import org.yaml.snakeyaml.error.YAMLException;
 
 public class TagTokenTest extends TestCase {
 
@@ -13,6 +14,22 @@ public class TagTokenTest extends TestCase {
         Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
         TagToken token = new TagToken(new String[] { "!foo", "!bar" }, mark, mark);
         assertEquals("value=[!foo, !bar]", token.getArguments());
+    }
+
+    public void testNoMarks() {
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
+        try {
+            new TagToken(new String[] { "!foo", "!bar" }, null, mark);
+            fail("Token without start mark should not be accepted.");
+        } catch (YAMLException e) {
+            assertEquals("Token requires marks.", e.getMessage());
+        }
+        try {
+            new TagToken(new String[] { "!foo", "!bar" }, mark, null);
+            fail("Token without end mark should not be accepted.");
+        } catch (YAMLException e) {
+            assertEquals("Token requires marks.", e.getMessage());
+        }
     }
 
     public void testNoTag() {

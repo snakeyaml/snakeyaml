@@ -91,7 +91,7 @@ public class Representer extends SafeRepresenter {
         representedObjects.put(aliasKey, node);
         boolean bestStyle = true;
         for (Property property : properties) {
-            Node nodeKey = representData(property.getName());
+            ScalarNode nodeKey = (ScalarNode) representData(property.getName());
             Object memberValue = property.get(javaBean);
             Node nodeValue = representData(memberValue);
             if (nodeValue instanceof MappingNode) {
@@ -104,7 +104,7 @@ public class Representer extends SafeRepresenter {
             } else if (memberValue != null && Enum.class.isAssignableFrom(memberValue.getClass())) {
                 nodeValue.setTag("tag:yaml.org,2002:str");
             }
-            if (!((nodeKey instanceof ScalarNode && ((ScalarNode) nodeKey).getStyle() == null))) {
+            if (nodeKey.getStyle() != null) {
                 bestStyle = false;
             }
             if (!((nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null))) {
@@ -127,12 +127,15 @@ public class Representer extends SafeRepresenter {
                     && !property.getReadMethod().getName().equals("getClass")) {
                 properties.add(new MethodProperty(property));
             }
+        // add public fields
         for (Field field : type.getFields()) {
             int modifiers = field.getModifiers();
-            if (!Modifier.isPublic(modifiers) || Modifier.isStatic(modifiers)
-                    || Modifier.isTransient(modifiers))
+            if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers))
                 continue;
             properties.add(new FieldProperty(field));
+        }
+        if (properties.isEmpty()) {
+            throw new YAMLException("No JavaBean properties found in " + type.getName());
         }
         return properties;
     }

@@ -82,6 +82,17 @@ public class ConstructorTest extends TestCase {
                 construct("--- !!org.yaml.snakeyaml.constructor.TestBean\nname: Ola Bini\nage: 24\nborn: 1982-05-03\n"));
     }
 
+    public void testWrongName() {
+        try {
+            construct("--- !!org.yaml.snakeyaml.constructor.TestBean\nwrongName: No one\nage: 24\nborn: 1982-05-03\n");
+            fail("IntrospectionException expected.");
+        } catch (Exception e) {
+            assertEquals(
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.constructor.TestBean; exception=org.yaml.snakeyaml.error.YAMLException: Unable to find property 'wrongName' on class: org.yaml.snakeyaml.constructor.TestBean",
+                    e.getMessage());
+        }
+    }
+
     private Object construct(String data) {
         Yaml yaml = new Yaml();
         return yaml.load(data);

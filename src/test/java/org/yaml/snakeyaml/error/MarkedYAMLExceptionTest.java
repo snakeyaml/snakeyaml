@@ -24,6 +24,19 @@ public class MarkedYAMLExceptionTest extends TestCase {
         assertTrue(exception.toString().contains("\"search\""));
     }
 
+    public void testToString3() {
+        MarkedYAMLException exception = new MarkedYAMLException("See http://www.google.com", null,
+                null, null, "Note1");
+        assertTrue(exception.toString().contains("Note1"));
+    }
+
+    public void testToString4() {
+        Mark mark = new Mark("search", 0, 0, 0, "*The first line.\nThe last line.", 0);
+        MarkedYAMLException exception = new MarkedYAMLException("See http://www.google.com", mark,
+                null, null, null);
+        assertTrue(exception.toString().contains("first line"));
+    }
+
     public void testGetters() {
         Mark mark = new Mark("search", 0, 0, 0, "*The first line.\nThe last line.", 0);
         MarkedYAMLException exception = new MarkedYAMLException("See http://www.google.com", mark,
@@ -33,5 +46,4 @@ public class MarkedYAMLExceptionTest extends TestCase {
         assertEquals("Error2 happened", exception.getProblem());
         assertEquals(mark, exception.getProblemMark());
     }
-
 }
