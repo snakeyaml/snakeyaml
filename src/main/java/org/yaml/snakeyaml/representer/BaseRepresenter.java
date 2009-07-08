@@ -43,8 +43,8 @@ public abstract class BaseRepresenter {
     protected Integer aliasKey;// internal memory address
     /*
      * because when representing JavaBeans the root tag has a special meaning we
-     * have to let the <code>Representer</code> to know whether the Node to
-     * represent it root
+     * have to let the <code>Representer</code> know whether the Node to
+     * represent is root
      */
     protected boolean isRoot = true;
 
