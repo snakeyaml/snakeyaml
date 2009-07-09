@@ -218,8 +218,8 @@ public class SafeConstructor extends BaseConstructor {
                 }
                 return new Double(sign * val);
             } else {
-                    Double d = Double.valueOf(value);
-                    return new Double(d.doubleValue() * sign);
+                Double d = Double.valueOf(value);
+                return new Double(d.doubleValue() * sign);
             }
         }
     }
@@ -287,10 +287,10 @@ public class SafeConstructor extends BaseConstructor {
                 if (timezoneh_s != null) {
                     int zone = 0;
                     int sign = +1;
-                        if (timezoneh_s.startsWith("-")) {
-                            sign = -1;
-                        }
-                        zone += Integer.parseInt(timezoneh_s.substring(1)) * 3600000;
+                    if (timezoneh_s.startsWith("-")) {
+                        sign = -1;
+                    }
+                    zone += Integer.parseInt(timezoneh_s.substring(1)) * 3600000;
                     if (timezonem_s != null) {
                         zone += Integer.parseInt(timezonem_s) * 60000;
                     }
@@ -370,7 +370,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private class ConstructYamlSet extends AbstractConstruct {
+    private class ConstructYamlSet implements Construct {
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
                 return createDefaultSet();
@@ -380,7 +380,6 @@ public class SafeConstructor extends BaseConstructor {
         }
 
         @SuppressWarnings("unchecked")
-        @Override
         public void construct2ndStep(Node node, Object object) {
             if (node.isTwoStepsConstruction()) {
                 constructSet2ndStep((MappingNode) node, (Set<Object>) object);
@@ -396,7 +395,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private class ConstructYamlSeq extends AbstractConstruct {
+    private class ConstructYamlSeq implements Construct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
@@ -407,7 +406,6 @@ public class SafeConstructor extends BaseConstructor {
         }
 
         @SuppressWarnings("unchecked")
-        @Override
         public void construct2ndStep(Node node, Object data) {
             if (node.isTwoStepsConstruction()) {
                 constructSequenceStep2((SequenceNode) node, (List<Object>) data);
@@ -417,7 +415,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private class ConstructYamlMap extends AbstractConstruct {
+    private class ConstructYamlMap implements Construct {
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
                 return createDefaultMap();
@@ -427,7 +425,6 @@ public class SafeConstructor extends BaseConstructor {
         }
 
         @SuppressWarnings("unchecked")
-        @Override
         public void construct2ndStep(Node node, Object object) {
             if (node.isTwoStepsConstruction()) {
                 constructMapping2ndStep((MappingNode) node, (Map<Object, Object>) object);
