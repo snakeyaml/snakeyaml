@@ -42,7 +42,7 @@ public class Constructor extends SafeConstructor {
         if (theRoot == null) {
             throw new NullPointerException("Root type must be provided.");
         }
-        this.yamlConstructors.put(null, new ConstuctYamlObject());
+        this.yamlConstructors.put(null, new ConstructYamlObject());
         rootType = theRoot;
         typeTags = new HashMap<String, Class<? extends Object>>();
         typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
@@ -92,7 +92,7 @@ public class Constructor extends SafeConstructor {
         return typeDefinitions.put(definition.getType(), definition);
     }
 
-    private class ConstuctYamlObject extends AbstractConstruct {
+    private class ConstructYamlObject extends AbstractConstruct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             Object result = null;

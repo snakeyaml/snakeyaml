@@ -70,10 +70,10 @@ public class RepresentTest extends TestCase {
     class MyConstructor extends Constructor {
 
         public MyConstructor() {
-            this.yamlConstructors.put("tag:yaml.org,2002:Dice", new ConstuctDice());
+            this.yamlConstructors.put("tag:yaml.org,2002:Dice", new ConstructDice());
         }
 
-        private class ConstuctDice extends AbstractConstruct {
+        private class ConstructDice extends AbstractConstruct {
             public Object construct(Node node) {
                 String val = (String) constructScalar((ScalarNode) node);
                 return new CustomBean(val.substring(0, 1), Integer.parseInt(val.substring(2)));

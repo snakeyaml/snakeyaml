@@ -105,10 +105,10 @@ public class ResolverTest extends TestCase {
 
     class MyConstructor extends Constructor {
         public MyConstructor() {
-            this.yamlConstructors.put("tag:yaml.org,2002:Phone", new ConstuctPhone());
+            this.yamlConstructors.put("tag:yaml.org,2002:Phone", new ConstructPhone());
         }
 
-        private class ConstuctPhone extends AbstractConstruct {
+        private class ConstructPhone extends AbstractConstruct {
             public Object construct(Node node) {
                 String val = (String) constructScalar((ScalarNode) node);
                 return new Phone(val);
