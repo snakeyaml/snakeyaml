@@ -10,12 +10,12 @@ A new release of SnakeYAML is now available:
 
     http://code.google.com/p/snakeyaml/
 
-This release delivers ??? as well as minor changes
-and bug fixes.
+This release delivers ??? as well as minor changes and bug fixes.
 
 Changes
 =======
  * ???
+ * recursive objects are fully supported
  * further improve test coverage
  * minor bug fixes when constructing JavaBeans
 
