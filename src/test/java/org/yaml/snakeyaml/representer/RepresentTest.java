@@ -68,7 +68,6 @@ public class RepresentTest extends TestCase {
     }
 
     class MyConstructor extends Constructor {
-
         public MyConstructor() {
             this.yamlConstructors.put("tag:yaml.org,2002:Dice", new ConstructDice());
         }

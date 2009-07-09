@@ -118,7 +118,6 @@ public abstract class BaseConstructor {
     }
 
     protected void callPostCreate(Node node, Object object) {
-        // TODO add example
         getConstructor(node).construct2ndStep(node, object);
     }
 
