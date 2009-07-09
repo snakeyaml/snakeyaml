@@ -222,22 +222,22 @@ public class Constructor extends SafeConstructor {
                 || type == Character.class || type == BigInteger.class
                 || Enum.class.isAssignableFrom(type)) {
             if (type == String.class) {
-                Construct stringContructor = yamlConstructors.get("tag:yaml.org,2002:str");
-                result = stringContructor.construct((ScalarNode) node);
+                Construct stringConstructor = yamlConstructors.get("tag:yaml.org,2002:str");
+                result = stringConstructor.construct((ScalarNode) node);
             } else if (type == Boolean.class || type == Boolean.TYPE) {
-                Construct boolContructor = yamlConstructors.get("tag:yaml.org,2002:bool");
-                result = boolContructor.construct((ScalarNode) node);
+                Construct boolConstructor = yamlConstructors.get("tag:yaml.org,2002:bool");
+                result = boolConstructor.construct((ScalarNode) node);
             } else if (type == Character.class || type == Character.TYPE) {
-                Construct charContructor = yamlConstructors.get("tag:yaml.org,2002:str");
-                String ch = (String) charContructor.construct((ScalarNode) node);
+                Construct charConstructor = yamlConstructors.get("tag:yaml.org,2002:str");
+                String ch = (String) charConstructor.construct((ScalarNode) node);
                 if (ch.length() != 1) {
                     throw new YAMLException("Invalid node Character: '" + ch + "'; length: "
                             + ch.length());
                 }
                 result = new Character(ch.charAt(0));
             } else if (Date.class.isAssignableFrom(type)) {
-                Construct dateContructor = yamlConstructors.get("tag:yaml.org,2002:timestamp");
-                Date date = (Date) dateContructor.construct((ScalarNode) node);
+                Construct dateConstructor = yamlConstructors.get("tag:yaml.org,2002:timestamp");
+                Date date = (Date) dateConstructor.construct((ScalarNode) node);
                 if (type == Date.class) {
                     result = date;
                 } else {
@@ -250,8 +250,8 @@ public class Constructor extends SafeConstructor {
                 }
             } else if (type == Float.class || type == Double.class || type == Float.TYPE
                     || type == Double.TYPE || type == BigDecimal.class) {
-                Construct doubleContructor = yamlConstructors.get("tag:yaml.org,2002:float");
-                result = doubleContructor.construct(node);
+                Construct doubleConstructor = yamlConstructors.get("tag:yaml.org,2002:float");
+                result = doubleConstructor.construct(node);
                 if (type == Float.class || type == Float.TYPE) {
                     result = new Float((Double) result);
                 } else if (type == BigDecimal.class) {
@@ -260,8 +260,8 @@ public class Constructor extends SafeConstructor {
             } else if (type == Byte.class || type == Short.class || type == Integer.class
                     || type == Long.class || type == BigInteger.class || type == Byte.TYPE
                     || type == Short.TYPE || type == Integer.TYPE || type == Long.TYPE) {
-                Construct intContructor = yamlConstructors.get("tag:yaml.org,2002:int");
-                result = intContructor.construct(node);
+                Construct intConstructor = yamlConstructors.get("tag:yaml.org,2002:int");
+                result = intConstructor.construct(node);
                 if (type == Byte.class || type == Byte.TYPE) {
                     result = new Byte(result.toString());
                 } else if (type == Short.class || type == Short.TYPE) {
