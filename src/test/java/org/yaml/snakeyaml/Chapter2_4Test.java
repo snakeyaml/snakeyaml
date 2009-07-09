@@ -15,7 +15,7 @@ import java.util.TimeZone;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -121,7 +121,7 @@ public class Chapter2_4Test extends TestCase {
             this.yamlConstructors.put("!something", new ConstructSomething());
         }
 
-        private class ConstructSomething implements Construct {
+        private class ConstructSomething extends AbstractConstruct {
             public Object construct(Node node) {
                 // convert to upper case
                 String val = (String) constructScalar((ScalarNode) node);

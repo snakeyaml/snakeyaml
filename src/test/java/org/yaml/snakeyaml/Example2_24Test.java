@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
@@ -33,7 +33,7 @@ public class Example2_24Test extends TestCase {
             this.yamlConstructors.put("tag:clarkevans.com,2002:label", new ConstructLabel());
         }
 
-        private class ConstructShape implements Construct {
+        private class ConstructShape extends AbstractConstruct {
             @SuppressWarnings("unchecked")
             public Object construct(Node node) {
                 SequenceNode snode = (SequenceNode) node;
@@ -43,7 +43,7 @@ public class Example2_24Test extends TestCase {
             }
         }
 
-        private class ConstructCircle implements Construct {
+        private class ConstructCircle extends AbstractConstruct {
             @SuppressWarnings("unchecked")
             public Object construct(Node node) {
                 MappingNode mnode = (MappingNode) node;
@@ -54,7 +54,7 @@ public class Example2_24Test extends TestCase {
             }
         }
 
-        private class ConstructLine implements Construct {
+        private class ConstructLine extends AbstractConstruct {
             @SuppressWarnings("unchecked")
             public Object construct(Node node) {
                 MappingNode mnode = (MappingNode) node;
@@ -64,7 +64,7 @@ public class Example2_24Test extends TestCase {
             }
         }
 
-        private class ConstructLabel implements Construct {
+        private class ConstructLabel extends AbstractConstruct {
             @SuppressWarnings("unchecked")
             public Object construct(Node node) {
                 MappingNode mnode = (MappingNode) node;

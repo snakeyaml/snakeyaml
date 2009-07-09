@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -41,7 +42,7 @@ public class Constructor extends SafeConstructor {
         if (theRoot == null) {
             throw new NullPointerException("Root type must be provided.");
         }
-        this.yamlConstructors.put(null, new ConstuctYamlObject());
+        this.yamlConstructors.put(null, new ConstructYamlObject());
         rootType = theRoot;
         typeTags = new HashMap<String, Class<? extends Object>>();
         typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
@@ -91,28 +92,21 @@ public class Constructor extends SafeConstructor {
         return typeDefinitions.put(definition.getType(), definition);
     }
 
-    private class ConstuctYamlObject implements Construct {
+    private class ConstructYamlObject extends AbstractConstruct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             Object result = null;
-            Class<? extends Object> customTag = typeTags.get(node.getTag());
             try {
-                Class cl;
-                if (customTag == null) {
-                    if (node.getTag().length() < "tag:yaml.org,2002:".length()) {
-                        throw new YAMLException("Unknown tag: " + node.getTag());
-                    }
-                    String name = node.getTag().substring("tag:yaml.org,2002:".length());
-                    cl = Class.forName(name);
-                } else {
-                    cl = customTag;
-                }
+                Class cl = getClassForNode(node);
                 java.lang.reflect.Constructor javaConstructor;
                 switch (node.getNodeId()) {
                 case mapping:
-                    MappingNode mnode = (MappingNode) node;
-                    mnode.setType(cl);
-                    result = constructMappingNode(mnode);
+                    node.setType(cl);
+                    if (node.isTwoStepsConstruction()) {
+                        result = createMappingNode(node);
+                    } else {
+                        result = constructMappingNode((MappingNode) node);
+                    }
                     break;
                 case sequence:
                     SequenceNode seqNode = (SequenceNode) node;
@@ -162,16 +156,62 @@ public class Constructor extends SafeConstructor {
             result = constructScalarNode((ScalarNode) node);
             break;
         case sequence:
-            result = constructSequence((SequenceNode) node);
+            SequenceNode snode = (SequenceNode) node;
+            if (node.isTwoStepsConstruction()) {
+                result = createDefaultList(snode.getValue().size());
+            } else {
+                result = constructSequence(snode);
+            }
             break;
         default:// mapping
             if (Map.class.isAssignableFrom(node.getType())) {
-                result = super.constructMapping((MappingNode) node);
+                if (node.isTwoStepsConstruction()) {
+                    result = createDefaultMap();
+                } else {
+                    result = constructMapping((MappingNode) node);
+                }
+            } else if (Set.class.isAssignableFrom(node.getType())) {
+                if (node.isTwoStepsConstruction()) {
+                    result = createDefaultSet();
+                } else {
+                    result = constructSet((MappingNode) node);
+                }
             } else {
-                result = constructMappingNode((MappingNode) node);
+                if (node.isTwoStepsConstruction()) {
+                    result = createMappingNode(node);
+                } else {
+                    result = constructMappingNode((MappingNode) node);
+                }
             }
         }
         return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void callPostCreate(Node node, Object object) {
+        if (!node.isTwoStepsConstruction()) {
+            throw new YAMLException("Inexpected recursive structure. Node: " + node);
+        }
+        if (Object.class.equals(node.getType()) || "tag:yaml.org,2002:null".equals(node.getTag())) {
+            super.callPostCreate(node, object);
+        } else {
+            switch (node.getNodeId()) {
+            case scalar:
+                throw new YAMLException("Scalars cannot be recursive. Node: " + node);
+            case sequence:
+                constructSequenceStep2((SequenceNode) node, (List<Object>) object);
+                break;
+            default:// mapping
+                if (Map.class.isAssignableFrom(node.getType())) {
+                    constructMapping2ndStep((MappingNode) node, (Map<Object, Object>) object);
+                } else if (Set.class.isAssignableFrom(node.getType())) {
+                    constructSet2ndStep((MappingNode) node, (Set<Object>) object);
+                } else {
+                    constructMappingNode2ndStep((MappingNode) node, object);
+                }
+            }
+        }
     }
 
     private Object constructScalarNode(ScalarNode node) {
@@ -182,22 +222,22 @@ public class Constructor extends SafeConstructor {
                 || type == Character.class || type == BigInteger.class
                 || Enum.class.isAssignableFrom(type)) {
             if (type == String.class) {
-                Construct stringContructor = yamlConstructors.get("tag:yaml.org,2002:str");
-                result = stringContructor.construct((ScalarNode) node);
+                Construct stringConstructor = yamlConstructors.get("tag:yaml.org,2002:str");
+                result = stringConstructor.construct((ScalarNode) node);
             } else if (type == Boolean.class || type == Boolean.TYPE) {
-                Construct boolContructor = yamlConstructors.get("tag:yaml.org,2002:bool");
-                result = boolContructor.construct((ScalarNode) node);
+                Construct boolConstructor = yamlConstructors.get("tag:yaml.org,2002:bool");
+                result = boolConstructor.construct((ScalarNode) node);
             } else if (type == Character.class || type == Character.TYPE) {
-                Construct charContructor = yamlConstructors.get("tag:yaml.org,2002:str");
-                String ch = (String) charContructor.construct((ScalarNode) node);
+                Construct charConstructor = yamlConstructors.get("tag:yaml.org,2002:str");
+                String ch = (String) charConstructor.construct((ScalarNode) node);
                 if (ch.length() != 1) {
                     throw new YAMLException("Invalid node Character: '" + ch + "'; length: "
                             + ch.length());
                 }
                 result = new Character(ch.charAt(0));
             } else if (Date.class.isAssignableFrom(type)) {
-                Construct dateContructor = yamlConstructors.get("tag:yaml.org,2002:timestamp");
-                Date date = (Date) dateContructor.construct((ScalarNode) node);
+                Construct dateConstructor = yamlConstructors.get("tag:yaml.org,2002:timestamp");
+                Date date = (Date) dateConstructor.construct((ScalarNode) node);
                 if (type == Date.class) {
                     result = date;
                 } else {
@@ -210,8 +250,8 @@ public class Constructor extends SafeConstructor {
                 }
             } else if (type == Float.class || type == Double.class || type == Float.TYPE
                     || type == Double.TYPE || type == BigDecimal.class) {
-                Construct doubleContructor = yamlConstructors.get("tag:yaml.org,2002:float");
-                result = doubleContructor.construct(node);
+                Construct doubleConstructor = yamlConstructors.get("tag:yaml.org,2002:float");
+                result = doubleConstructor.construct(node);
                 if (type == Float.class || type == Float.TYPE) {
                     result = new Float((Double) result);
                 } else if (type == BigDecimal.class) {
@@ -220,8 +260,8 @@ public class Constructor extends SafeConstructor {
             } else if (type == Byte.class || type == Short.class || type == Integer.class
                     || type == Long.class || type == BigInteger.class || type == Byte.TYPE
                     || type == Short.TYPE || type == Integer.TYPE || type == Long.TYPE) {
-                Construct intContructor = yamlConstructors.get("tag:yaml.org,2002:int");
-                result = intContructor.construct(node);
+                Construct intConstructor = yamlConstructors.get("tag:yaml.org,2002:int");
+                result = intConstructor.construct(node);
                 if (type == Byte.class || type == Byte.TYPE) {
                     result = new Byte(result.toString());
                 } else if (type == Short.class || type == Short.TYPE) {
@@ -259,6 +299,29 @@ public class Constructor extends SafeConstructor {
         return result;
     }
 
+    private Object createMappingNode(Node node) {
+        try {
+            Class<? extends Object> type = node.getType();
+            if (Modifier.isAbstract(type.getModifiers())) {
+                node.setType(getClassForNode(node));
+            }
+            /**
+             * Using only default constructor. Everything else will be
+             * initialized on 2nd step. If we do here some partial
+             * initialization, how do we then track what need to be done on 2nd
+             * step? I think it is better to get only object here (to have it as
+             * reference for recursion) and do all other thing on 2nd step.
+             */
+            return node.getType().newInstance();
+        } catch (InstantiationException e) {
+            throw new YAMLException(e);
+        } catch (IllegalAccessException e) {
+            throw new YAMLException(e);
+        } catch (ClassNotFoundException e) {
+            throw new YAMLException(e);
+        }
+    }
+
     /**
      * Construct JavaBean. If type safe collections are used please look at
      * <code>TypeDescription</code>.
@@ -268,17 +331,13 @@ public class Constructor extends SafeConstructor {
      *            <code>String</code>s) and values are objects to be created
      * @return constructed JavaBean
      */
-    @SuppressWarnings("unchecked")
     private Object constructMappingNode(MappingNode node) {
+        return constructMappingNode2ndStep(node, createMappingNode(node));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Object constructMappingNode2ndStep(MappingNode node, Object object) {
         Class<? extends Object> beanType = node.getType();
-        Object object;
-        try {
-            object = beanType.newInstance();
-        } catch (InstantiationException e) {
-            throw new YAMLException(e);
-        } catch (IllegalAccessException e) {
-            throw new YAMLException(e);
-        }
         List<Node[]> nodeValue = (List<Node[]>) node.getValue();
         for (Node[] tuple : nodeValue) {
             ScalarNode keyNode;
@@ -361,4 +420,20 @@ public class Constructor extends SafeConstructor {
         throw new YAMLException("Unable to find property '" + name + "' on class: "
                 + type.getName());
     }
+
+    protected Class<?> getClassForNode(Node node) throws ClassNotFoundException {
+        Class<? extends Object> customTag = typeTags.get(node.getTag());
+        if (customTag == null) {
+            if (node.getTag().length() < "tag:yaml.org,2002:".length()) {
+                throw new YAMLException("Unknown tag: " + node.getTag());
+            }
+            String name = node.getTag().substring("tag:yaml.org,2002:".length());
+            Class<?> cl = Class.forName(name);
+            typeTags.put(node.getTag(), cl);
+            return cl;
+        } else {
+            return customTag;
+        }
+    }
+
 }

@@ -1,0 +1,25 @@
+&id001 !!org.yaml.snakeyaml.recursive.Human
+bankAccountOwner:
+  bankAccountOwner:
+    bankAccountOwner: *id001
+    birthPlace: null
+    birthday: null
+    children: !!java.util.LinkedHashSet {}
+    father: null
+    mother: null
+    name: Man 3
+    partner: null
+  birthPlace: null
+  birthday: null
+  children: !!java.util.LinkedHashSet {}
+  father: null
+  mother: null
+  name: Man 2
+  partner: null
+birthPlace: null
+birthday: null
+children: !!java.util.LinkedHashSet {}
+father: null
+mother: null
+name: Man 1
+partner: null

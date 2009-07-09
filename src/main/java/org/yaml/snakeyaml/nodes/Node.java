@@ -14,6 +14,7 @@ public abstract class Node {
     private Mark startMark;
     protected Mark endMark;
     private Class<? extends Object> type;
+    private boolean twoStepsConstruction;
 
     public Node(String tag, Object value, Mark startMark, Mark endMark) {
         setTag(tag);
@@ -24,6 +25,7 @@ public abstract class Node {
         this.startMark = startMark;
         this.endMark = endMark;
         this.type = Object.class;
+        this.twoStepsConstruction = false;
     }
 
     public String getTag() {
@@ -34,8 +36,8 @@ public abstract class Node {
         return this.value;
     }
 
-    public Mark getEndMark(){
-    	return endMark;
+    public Mark getEndMark() {
+        return endMark;
     }
 
     public String toString() {
@@ -76,5 +78,13 @@ public abstract class Node {
 
     public void setType(Class<? extends Object> type) {
         this.type = type;
+    }
+
+    public void setTwoStepsConstruction(boolean twoStepsConstruction) {
+        this.twoStepsConstruction = twoStepsConstruction;
+    }
+
+    public boolean isTwoStepsConstruction() {
+        return twoStepsConstruction;
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
-import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.CollectionStartEvent;
@@ -248,7 +248,7 @@ public class PyStructureTest extends PyImportTest {
             this.yamlConstructors.put(null, new ConstructUndefined());
         }
 
-        private class ConstructUndefined implements Construct {
+        private class ConstructUndefined extends AbstractConstruct {
             public Object construct(Node node) {
                 return constructScalar((ScalarNode) node);
             }

@@ -16,7 +16,7 @@ import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -105,10 +105,10 @@ public class ResolverTest extends TestCase {
 
     class MyConstructor extends Constructor {
         public MyConstructor() {
-            this.yamlConstructors.put("tag:yaml.org,2002:Phone", new ConstuctPhone());
+            this.yamlConstructors.put("tag:yaml.org,2002:Phone", new ConstructPhone());
         }
 
-        private class ConstuctPhone implements Construct {
+        private class ConstructPhone extends AbstractConstruct {
             public Object construct(Node node) {
                 String val = (String) constructScalar((ScalarNode) node);
                 return new Phone(val);
@@ -149,19 +149,5 @@ public class ResolverTest extends TestCase {
         assertEquals("1.00", output.get(0));
         assertEquals("1.00", output.get(1));
         assertEquals(1.0, output.get(2));
-    }
-
-    /**
-     * test resolver with no default implicit resolvers and 'null' as the
-     * argument for yaml.addImplicitResolver()
-     */
-    public void testAddImplicitResolver3() {
-        Yaml yaml = new Yaml(new Loader(), new Dumper(new DumperOptions()), new Resolver(false));
-        Pattern regexp = Pattern.compile("\\d+");
-        yaml.addImplicitResolver("tag:yaml.org,2002:int", regexp, null);
-        String output = yaml.dump(123);
-        assertEquals("123\n", output);
-        Integer integer = (Integer) yaml.load("1234");
-        assertEquals(new Integer(1234), integer);
     }
 }

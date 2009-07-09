@@ -9,7 +9,7 @@ import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -70,10 +70,10 @@ public class RepresentTest extends TestCase {
     class MyConstructor extends Constructor {
 
         public MyConstructor() {
-            this.yamlConstructors.put("tag:yaml.org,2002:Dice", new ConstuctDice());
+            this.yamlConstructors.put("tag:yaml.org,2002:Dice", new ConstructDice());
         }
 
-        private class ConstuctDice implements Construct {
+        private class ConstructDice extends AbstractConstruct {
             public Object construct(Node node) {
                 String val = (String) constructScalar((ScalarNode) node);
                 return new CustomBean(val.substring(0, 1), Integer.parseInt(val.substring(2)));
