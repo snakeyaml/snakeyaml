@@ -18,18 +18,18 @@ bankAccountOwner: &id001 !!org.yaml.snakeyaml.recursive.generics.Human2
         father: null
         mother: null
         name: Mother
-        parner: *id001
+        partner: *id001
       name: Daughter
-      parner: null
+      partner: null
     : daughter
   father: null
   mother: null
   name: Father
-  parner: *id004
+  partner: *id004
 birthPlace: Munich
 birthday: 1979-10-28T23:06:40Z
 children: {}
 father: *id001
 mother: *id004
 name: Son
-parner: null
+partner: null

@@ -6,7 +6,7 @@ children: !!java.util.LinkedHashSet {}
 father: null
 mother: null
 name: Father
-parner:
+partner:
   bankAccountOwner: *id001
   birthPlace: Saint-Petersburg
   birthday: 1973-03-03T09:46:40Z
@@ -14,4 +14,4 @@ parner:
   father: null
   mother: null
   name: Mother
-  parner: *id001
+  partner: *id001

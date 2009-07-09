@@ -11,7 +11,7 @@ public abstract class AbstractHuman<T, K extends AbstractHuman<T, ?>> {
     private String birthPlace;
     private K father;
     private K mother;
-    private K parner;
+    private K partner;
     private K bankAccountOwner;
     protected T children;
 
@@ -63,12 +63,12 @@ public abstract class AbstractHuman<T, K extends AbstractHuman<T, ?>> {
         this.children = children;
     }
 
-    public K getParner() {
-        return parner;
+    public K getPartner() {
+        return partner;
     }
 
-    public void setParner(K parner) {
-        this.parner = parner;
+    public void setPartner(K partner) {
+        this.partner = partner;
     }
 
     public K getBankAccountOwner() {

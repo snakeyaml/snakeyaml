@@ -10,7 +10,7 @@ public class Human3 extends AbstractHuman {
 
     private Human3 father;
     private Human3 mother;
-    private Human3 parner;
+    private Human3 partner;
     private Human3 bankAccountOwner;
     protected List<Human3> children;
     
@@ -34,12 +34,12 @@ public class Human3 extends AbstractHuman {
         this.mother = mother;
     }
 
-    public Human3 getParner() {
-        return parner;
+    public Human3 getPartner() {
+        return partner;
     }
 
-    public void setParner(Human3 parner) {
-        this.parner = parner;
+    public void setPartner(Human3 partner) {
+        this.partner = partner;
     }
 
     public Human3 getBankAccountOwner() {

@@ -10,7 +10,7 @@ public class Human2 extends AbstractHuman {
 
     private Human2 father;
     private Human2 mother;
-    private Human2 parner;
+    private Human2 partner;
     private Human2 bankAccountOwner;
     protected Map<Human2, String> children;
     
@@ -34,12 +34,12 @@ public class Human2 extends AbstractHuman {
         this.mother = mother;
     }
 
-    public Human2 getParner() {
-        return parner;
+    public Human2 getPartner() {
+        return partner;
     }
 
-    public void setParner(Human2 parner) {
-        this.parner = parner;
+    public void setPartner(Human2 partner) {
+        this.partner = partner;
     }
 
     public Human2 getBankAccountOwner() {

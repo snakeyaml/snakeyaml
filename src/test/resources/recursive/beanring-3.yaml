@@ -8,18 +8,18 @@ bankAccountOwner:
     father: null
     mother: null
     name: Man 3
-    parner: null
+    partner: null
   birthPlace: null
   birthday: null
   children: !!java.util.LinkedHashSet {}
   father: null
   mother: null
   name: Man 2
-  parner: null
+  partner: null
 birthPlace: null
 birthday: null
 children: !!java.util.LinkedHashSet {}
 father: null
 mother: null
 name: Man 1
-parner: null
+partner: null

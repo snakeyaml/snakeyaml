@@ -34,8 +34,8 @@ public class HumanGenericsTest extends TestCase {
         mother.setName("Mother");
         mother.setBirthday(new Date(100000000000L));
         mother.setBirthPlace("Saint-Petersburg");
-        father.setParner(mother);
-        mother.setParner(father);
+        father.setPartner(mother);
+        mother.setPartner(father);
         mother.setBankAccountOwner(father);
         Yaml yaml = new Yaml();
         String output = yaml.dump(father);
@@ -45,7 +45,7 @@ public class HumanGenericsTest extends TestCase {
         Human father2 = (Human) yaml.load(output);
         assertNotNull(father2);
         assertEquals("Father", father2.getName());
-        assertEquals("Mother", father2.getParner().getName());
+        assertEquals("Mother", father2.getPartner().getName());
         assertEquals("Father", father2.getBankAccountOwner().getName());
         assertSame(father2, father2.getBankAccountOwner());
     }
@@ -61,8 +61,8 @@ public class HumanGenericsTest extends TestCase {
         mother.setName("Mother");
         mother.setBirthday(new Date(100000000000L));
         mother.setBirthPlace("Saint-Petersburg");
-        father.setParner(mother);
-        mother.setParner(father);
+        father.setPartner(mother);
+        mother.setPartner(father);
         mother.setBankAccountOwner(father);
         //
         Human son = new Human();
@@ -107,12 +107,12 @@ public class HumanGenericsTest extends TestCase {
         assertEquals("Father", father2.getName());
         assertEquals("Mother", son2.getMother().getName());
         assertSame(father2, father2.getBankAccountOwner());
-        assertSame(father2.getParner(), son2.getMother());
-        assertSame(father2, son2.getMother().getParner());
+        assertSame(father2.getPartner(), son2.getMother());
+        assertSame(father2, son2.getMother().getPartner());
 
         Set<Human> children2 = father2.getChildren();
         assertEquals(2, children2.size());
-        assertSame(father2.getParner().getChildren(), children2);
+        assertSame(father2.getPartner().getChildren(), children2);
 
         for (Object child : children2) {
             assertSame(Human.class, child.getClass()); // check if type
@@ -131,8 +131,8 @@ public class HumanGenericsTest extends TestCase {
         mother.setName("Mother");
         mother.setBirthday(new Date(100000000000L));
         mother.setBirthPlace("Saint-Petersburg");
-        father.setParner(mother);
-        mother.setParner(father);
+        father.setPartner(mother);
+        mother.setPartner(father);
         mother.setBankAccountOwner(father);
         //
         Human2 son = new Human2();
@@ -177,12 +177,12 @@ public class HumanGenericsTest extends TestCase {
         assertEquals("Father", father2.getName());
         assertEquals("Mother", son2.getMother().getName());
         assertSame(father2, father2.getBankAccountOwner());
-        assertSame(father2.getParner(), son2.getMother());
-        assertSame(father2, son2.getMother().getParner());
+        assertSame(father2.getPartner(), son2.getMother());
+        assertSame(father2, son2.getMother().getPartner());
 
         Map<Human2, String> children2 = father2.getChildren();
         assertEquals(2, children2.size());
-        assertSame(father2.getParner().getChildren(), children2);
+        assertSame(father2.getPartner().getChildren(), children2);
 
     }
 
@@ -197,8 +197,8 @@ public class HumanGenericsTest extends TestCase {
         mother.setName("Mother");
         mother.setBirthday(new Date(100000000000L));
         mother.setBirthPlace("Saint-Petersburg");
-        father.setParner(mother);
-        mother.setParner(father);
+        father.setPartner(mother);
+        mother.setPartner(father);
         mother.setBankAccountOwner(father);
         //
         Human3 son = new Human3();
@@ -243,12 +243,12 @@ public class HumanGenericsTest extends TestCase {
         assertEquals("Father", father2.getName());
         assertEquals("Mother", son2.getMother().getName());
         assertSame(father2, father2.getBankAccountOwner());
-        assertSame(father2.getParner(), son2.getMother());
-        assertSame(father2, son2.getMother().getParner());
+        assertSame(father2.getPartner(), son2.getMother());
+        assertSame(father2, son2.getMother().getPartner());
 
         List<Human3> children2 = father2.getChildren();
         assertEquals(2, children2.size());
-        assertSame(father2.getParner().getChildren(), children2);
+        assertSame(father2.getPartner().getChildren(), children2);
 
         for (Object child : children2) {
             assertSame(Human3.class, child.getClass()); // check if type
@@ -281,10 +281,10 @@ public class HumanGenericsTest extends TestCase {
         assertEquals("Father", father2.getName());
         assertEquals("Mother", firstChild.getMother().getName());
         assertSame(father2, father2.getBankAccountOwner());
-        assertSame(father2.getParner(), firstChild.getMother());
-        assertSame(father2, firstChild.getMother().getParner());
+        assertSame(father2.getPartner(), firstChild.getMother());
+        assertSame(father2, firstChild.getMother().getPartner());
 
-        assertSame(father2.getParner().getChildren(), children2);
+        assertSame(father2.getPartner().getChildren(), children2);
 
         for (Object child : children2) {
             assertSame(Human.class, child.getClass()); // check if type
@@ -317,10 +317,10 @@ public class HumanGenericsTest extends TestCase {
         assertEquals("Father", father2.getName());
         assertEquals("Mother", firstChild.getMother().getName());
         assertSame(father2, father2.getBankAccountOwner());
-        assertSame(father2.getParner(), firstChild.getMother());
-        assertSame(father2, firstChild.getMother().getParner());
+        assertSame(father2.getPartner(), firstChild.getMother());
+        assertSame(father2, firstChild.getMother().getPartner());
 
-        assertSame(father2.getParner().getChildren(), children2);
+        assertSame(father2.getPartner().getChildren(), children2);
     }
 
     /*
@@ -339,8 +339,8 @@ public class HumanGenericsTest extends TestCase {
         mother.setName("Mother");
         mother.setBirthday(new Date(100000000000L));
         mother.setBirthPlace("Saint-Petersburg");
-        father.setParner(mother);
-        mother.setParner(father);
+        father.setPartner(mother);
+        mother.setPartner(father);
         mother.setBankAccountOwner(father);
         //
         Human3 son = new Human3();
@@ -386,10 +386,10 @@ public class HumanGenericsTest extends TestCase {
         assertEquals("Father", father2.getName());
         assertEquals("Mother", son2.getMother().getName());
         assertSame(father2, father2.getBankAccountOwner());
-        assertSame(father2.getParner(), son2.getMother());
-        assertSame(father2, son2.getMother().getParner());
+        assertSame(father2.getPartner(), son2.getMother());
+        assertSame(father2, son2.getMother().getPartner());
 
-        assertSame(father2.getParner().getChildren(), children2);
+        assertSame(father2.getPartner().getChildren(), children2);
 
         for (Object child : children2) {
             assertSame(Human3.class, child.getClass()); // check if type

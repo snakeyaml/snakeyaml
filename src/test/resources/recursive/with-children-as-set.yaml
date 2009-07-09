@@ -8,7 +8,7 @@
     father: null
     mother: null
     name: Father
-    parner: &id003 !!org.yaml.snakeyaml.recursive.Human
+    partner: &id003 !!org.yaml.snakeyaml.recursive.Human
       bankAccountOwner: *id001
       birthPlace: Saint-Petersburg
       birthday: 1973-03-03T09:46:40Z
@@ -16,14 +16,14 @@
       father: null
       mother: null
       name: Mother
-      parner: *id001
+      partner: *id001
   birthPlace: Munich
   birthday: 1979-10-28T23:06:40Z
   children: !!java.util.LinkedHashSet {}
   father: *id001
   mother: *id003
   name: Son
-  parner: null
+  partner: null
 : null
 ? !!org.yaml.snakeyaml.recursive.Human
   bankAccountOwner: *id001
@@ -33,5 +33,5 @@
   father: *id001
   mother: *id003
   name: Daughter
-  parner: null
+  partner: null
 : null
