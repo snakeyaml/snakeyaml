@@ -99,11 +99,6 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    protected Map<Object, Object> constructMapping(MappingNode node) {
-        flattenMapping(node);
-        return super.constructMapping(node);
-    }
-
     protected void constructMapping2ndStep(MappingNode node, Map<Object, Object> mapping) {
         flattenMapping(node);
         super.constructMapping2ndStep(node, mapping);
@@ -378,9 +373,9 @@ public class SafeConstructor extends BaseConstructor {
     private class ConstuctYamlSet extends AbstractConstruct {
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
-                return createDefaultMap().keySet();
+                return createDefaultSet();
             } else {
-                return constructMapping((MappingNode) node).keySet();
+                return constructSet((MappingNode) node);
             }
         }
 
@@ -405,10 +400,8 @@ public class SafeConstructor extends BaseConstructor {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
-                List<Node> nodeValue = (List<Node>) node.getValue();
-                return createDefaultList(nodeValue.size());
+                return createDefaultList(((List<Node>) node.getValue()).size());
             } else {
-                // TODO is it ever called ???
                 return constructSequence((SequenceNode) node);
             }
         }

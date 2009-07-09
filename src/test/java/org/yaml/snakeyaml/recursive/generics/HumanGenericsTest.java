@@ -1,7 +1,7 @@
 /*
  * See LICENSE file in distribution for copyright and licensing information.
  */
-package org.yaml.snakeyaml.recursive;
+package org.yaml.snakeyaml.recursive.generics;
 
 import java.io.IOException;
 import java.util.Date;
@@ -22,7 +22,7 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-public class HumanTest extends TestCase {
+public class HumanGenericsTest extends TestCase {
 
     public void testNoChildren() throws IOException {
         Human father = new Human();
@@ -39,7 +39,7 @@ public class HumanTest extends TestCase {
         mother.setBankAccountOwner(father);
         Yaml yaml = new Yaml();
         String output = yaml.dump(father);
-        String etalon = Util.getLocalResource("recursive/no-children-1.yaml");
+        String etalon = Util.getLocalResource("recursive/generics/no-children-1.yaml");
         assertEquals(etalon, output);
         //
         Human father2 = (Human) yaml.load(output);
@@ -96,7 +96,7 @@ public class HumanTest extends TestCase {
         Yaml yaml = new Yaml(new Loader(constructor));
         String output = yaml.dump(son);
         // System.out.println(output);
-        String etalon = Util.getLocalResource("recursive/with-children.yaml");
+        String etalon = Util.getLocalResource("recursive/generics/with-children.yaml");
         assertEquals(etalon, output);
         //
         Human son2 = (Human) yaml.load(output);
@@ -166,7 +166,7 @@ public class HumanTest extends TestCase {
         Yaml yaml = new Yaml(new Loader(constructor));
         String output = yaml.dump(son);
         // System.out.println(output);
-        String etalon = Util.getLocalResource("recursive/with-children-2.yaml");
+        String etalon = Util.getLocalResource("recursive/generics/with-children-2.yaml");
         assertEquals(etalon, output);
         //
         Human2 son2 = (Human2) yaml.load(output);
@@ -232,7 +232,7 @@ public class HumanTest extends TestCase {
         Yaml yaml = new Yaml(new Loader(constructor));
         String output = yaml.dump(son);
         // System.out.println(output);
-        String etalon = Util.getLocalResource("recursive/with-children-3.yaml");
+        String etalon = Util.getLocalResource("recursive/generics/with-children-3.yaml");
         assertEquals(etalon, output);
         //
         Human3 son2 = (Human3) yaml.load(output);
@@ -263,7 +263,7 @@ public class HumanTest extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testChildrenSetAsRoot() throws IOException {
-        String etalon = Util.getLocalResource("recursive/with-children-as-set.yaml");
+        String etalon = Util.getLocalResource("recursive/generics/with-children-as-set.yaml");
 
         Constructor constructor = new Constructor();
         TypeDescription humanDescription = new TypeDescription(Human.class);
@@ -298,7 +298,7 @@ public class HumanTest extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testChildrenMapAsRoot() throws IOException {
-        String etalon = Util.getLocalResource("recursive/with-children-as-map.yaml");
+        String etalon = Util.getLocalResource("recursive/generics/with-children-as-map.yaml");
 
         Constructor constructor = new Constructor();
         TypeDescription Human2Description = new TypeDescription(Human2.class);
@@ -374,7 +374,7 @@ public class HumanTest extends TestCase {
         Yaml yaml = new Yaml(new Loader(constructor));
         String output = yaml.dump(father.getChildren());
         // System.out.println(output);
-        String etalon = Util.getLocalResource("recursive/with-children-as-list.yaml");
+        String etalon = Util.getLocalResource("recursive/generics/with-children-as-list.yaml");
         assertEquals(etalon, output);
         //
         List<Human3> children2 = (List<Human3>) yaml.load(output);
@@ -412,7 +412,7 @@ public class HumanTest extends TestCase {
         Yaml yaml = new Yaml();
         String output = yaml.dump(man1);
         // System.out.println(output);
-        String etalon = Util.getLocalResource("recursive/beanring-3.yaml");
+        String etalon = Util.getLocalResource("recursive/generics/beanring-3.yaml");
         assertEquals(etalon, output);
         //
         Human loadedMan1 = (Human) yaml.load(output);
@@ -423,24 +423,4 @@ public class HumanTest extends TestCase {
         assertSame(loadedMan1, loadedMan3.getBankAccountOwner());
     }
 
-    // TODO Java's hashcode leaves much to be desired
-    public void qtestCollectionRing() throws IOException {
-        // Set<Object> set = new HashSet<Object>();
-        // List<Object> list = new ArrayList<Object>();
-        // Map<Object, Object> map = new HashMap<Object, Object>();
-        // set.add(list);
-        // list.add(map);
-        // map.put("1", set);
-        // //
-        // try {
-        // Yaml yaml = new Yaml();
-        // String output = yaml.dump(set);
-        // // String etalon = Util.getLocalResource("recursive/???.yaml");
-        // // assertEquals(etalon, output);
-        // //
-        // // Set<Object> loadedSet = (Set<Object>) yaml.load(output);
-        // } catch (StackOverflowError e) {
-        // fail("Cannot dump recursive collections.");
-        // }
-    }
 }

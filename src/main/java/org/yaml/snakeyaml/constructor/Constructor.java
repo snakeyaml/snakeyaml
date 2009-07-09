@@ -96,27 +96,16 @@ public class Constructor extends SafeConstructor {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             Object result = null;
-            Class<? extends Object> customTag = typeTags.get(node.getTag());
             try {
-                Class cl;
-                if (customTag == null) {
-                    if (node.getTag().length() < "tag:yaml.org,2002:".length()) {
-                        throw new YAMLException("Unknown tag: " + node.getTag());
-                    }
-                    String name = node.getTag().substring("tag:yaml.org,2002:".length());
-                    cl = Class.forName(name);
-                } else {
-                    cl = customTag;
-                }
+                Class cl = getClassForNode(node);
                 java.lang.reflect.Constructor javaConstructor;
                 switch (node.getNodeId()) {
                 case mapping:
-                    MappingNode mnode = (MappingNode) node;
-                    mnode.setType(cl);
+                    node.setType(cl);
                     if (node.isTwoStepsConstruction()) {
-                        result = createMappingNode(cl);
+                        result = createMappingNode(node);
                     } else {
-                        result = constructMappingNode(mnode);
+                        result = constructMappingNode((MappingNode) node);
                     }
                     break;
                 case sequence:
@@ -167,14 +156,29 @@ public class Constructor extends SafeConstructor {
             result = constructScalarNode((ScalarNode) node);
             break;
         case sequence:
-            result = constructSequence((SequenceNode) node);
+            SequenceNode snode = (SequenceNode) node;
+            if (node.isTwoStepsConstruction()) {
+                result = createDefaultList(snode.getValue().size());
+            } else {
+                result = constructSequence(snode);
+            }
             break;
         default:// mapping
             if (Map.class.isAssignableFrom(node.getType())) {
-                result = super.constructMapping((MappingNode) node);
+                if (node.isTwoStepsConstruction()) {
+                    result = createDefaultMap();
+                } else {
+                    result = constructMapping((MappingNode) node);
+                }
+            } else if (Set.class.isAssignableFrom(node.getType())) {
+                if (node.isTwoStepsConstruction()) {
+                    result = createDefaultSet();
+                } else {
+                    result = constructSet((MappingNode) node);
+                }
             } else {
                 if (node.isTwoStepsConstruction()) {
-                    result = createMappingNode(node.getType());
+                    result = createMappingNode(node);
                 } else {
                     result = constructMappingNode((MappingNode) node);
                 }
@@ -204,7 +208,7 @@ public class Constructor extends SafeConstructor {
                 } else if (Set.class.isAssignableFrom(node.getType())) {
                     constructSet2ndStep((MappingNode) node, (Set<Object>) object);
                 } else {
-                    constructMappingNode2ndStep((MappingNode) node, object, node.getType());
+                    constructMappingNode2ndStep((MappingNode) node, object);
                 }
             }
         }
@@ -295,8 +299,12 @@ public class Constructor extends SafeConstructor {
         return result;
     }
 
-    private Object createMappingNode(Class<?> beanType) {
+    private Object createMappingNode(Node node) {
         try {
+            Class<? extends Object> type = node.getType();
+            if (Modifier.isAbstract(type.getModifiers())) {
+                node.setType(getClassForNode(node));
+            }
             /**
              * Using only default constructor. Everything else will be
              * initialized on 2nd step. If we do here some partial
@@ -304,10 +312,12 @@ public class Constructor extends SafeConstructor {
              * step? I think it is better to get only object here (to have it as
              * reference for recursion) and do all other thing on 2nd step.
              */
-            return beanType.newInstance();
+            return node.getType().newInstance();
         } catch (InstantiationException e) {
             throw new YAMLException(e);
         } catch (IllegalAccessException e) {
+            throw new YAMLException(e);
+        } catch (ClassNotFoundException e) {
             throw new YAMLException(e);
         }
     }
@@ -322,13 +332,12 @@ public class Constructor extends SafeConstructor {
      * @return constructed JavaBean
      */
     private Object constructMappingNode(MappingNode node) {
-        Class<? extends Object> beanType = node.getType();
-        return constructMappingNode2ndStep(node, createMappingNode(beanType), beanType);
+        return constructMappingNode2ndStep(node, createMappingNode(node));
     }
 
     @SuppressWarnings("unchecked")
-    private Object constructMappingNode2ndStep(MappingNode node, Object object,
-            Class<? extends Object> beanType) {
+    private Object constructMappingNode2ndStep(MappingNode node, Object object) {
+        Class<? extends Object> beanType = node.getType();
         List<Node[]> nodeValue = (List<Node[]>) node.getValue();
         for (Node[] tuple : nodeValue) {
             ScalarNode keyNode;
@@ -406,9 +415,25 @@ public class Constructor extends SafeConstructor {
             }
             if (field.getName().equals(name)) {
                 return new FieldProperty(field);
-        }
+            }
         }
         throw new YAMLException("Unable to find property '" + name + "' on class: "
                 + type.getName());
     }
+
+    protected Class<?> getClassForNode(Node node) throws ClassNotFoundException {
+        Class<? extends Object> customTag = typeTags.get(node.getTag());
+        if (customTag == null) {
+            if (node.getTag().length() < "tag:yaml.org,2002:".length()) {
+                throw new YAMLException("Unknown tag: " + node.getTag());
+            }
+            String name = node.getTag().substring("tag:yaml.org,2002:".length());
+            Class<?> cl = Class.forName(name);
+            typeTags.put(node.getTag(), cl);
+            return cl;
+        } else {
+            return customTag;
+        }
+    }
+
 }

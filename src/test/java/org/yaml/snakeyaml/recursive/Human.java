@@ -3,44 +3,21 @@
  */
 package org.yaml.snakeyaml.recursive;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-public class Human {
-    private String name;
-    private Date birthday;
-    private String birthPlace;
+public class Human extends AbstractHuman {
+    
     private Human father;
     private Human mother;
     private Human parner;
     private Human bankAccountOwner;
-    private List<Human> children;
-
+    protected Set<Human> children;
+    
     public Human() {
-        children = new LinkedList<Human>();
+        children = new LinkedHashSet<Human>();
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getBirthPlace() {
-        return birthPlace;
-    }
-
+    
     public Human getFather() {
         return father;
     }
@@ -55,18 +32,6 @@ public class Human {
 
     public void setMother(Human mother) {
         this.mother = mother;
-    }
-
-    public void setBirthPlace(String birthPlace) {
-        this.birthPlace = birthPlace;
-    }
-
-    public List<Human> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Human> children) {
-        this.children = children;
     }
 
     public Human getParner() {
@@ -84,4 +49,13 @@ public class Human {
     public void setBankAccountOwner(Human bankAccountOwner) {
         this.bankAccountOwner = bankAccountOwner;
     }
+
+    public Set<Human> getChildren() {
+        return children;
+    }
+
+    public void setChildren(Set<Human> children) {
+        this.children = children;
+    }
+
 }

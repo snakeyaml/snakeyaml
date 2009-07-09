@@ -1,6 +1,6 @@
-&id001 !!org.yaml.snakeyaml.recursive.Human
-bankAccountOwner:
-  bankAccountOwner:
+&id001 !!org.yaml.snakeyaml.recursive.generics.Human
+bankAccountOwner: !!org.yaml.snakeyaml.recursive.generics.Human
+  bankAccountOwner: !!org.yaml.snakeyaml.recursive.generics.Human
     bankAccountOwner: *id001
     birthPlace: null
     birthday: null

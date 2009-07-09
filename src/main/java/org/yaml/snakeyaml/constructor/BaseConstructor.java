@@ -6,6 +6,7 @@ package org.yaml.snakeyaml.constructor;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -152,6 +153,17 @@ public abstract class BaseConstructor {
     protected Map<Object, Object> createDefaultMap() {
         // respect order from YAML document
         return new LinkedHashMap<Object, Object>();
+    }
+
+    protected Set<Object> createDefaultSet() {
+        // respect order from YAML document
+        return new LinkedHashSet<Object>();
+    }
+
+    protected Set<Object> constructSet(MappingNode node) {
+        Set<Object> set = createDefaultSet();
+        constructSet2ndStep(node, set);
+        return set;
     }
 
     protected Map<Object, Object> constructMapping(MappingNode node) {
