@@ -10,6 +10,7 @@ people who have submitted patches, reported bugs, helped
 answer newbie questions, and generally made SnakeYAML that much better:
 
 Kirill Simonov <xi@resolvent.net> - writing the original Python code.
+Alexander Maslov - implementing recursive objects
 Ola Bini <ola@ologix.com>
 kirkz at sourceforge
 tailwaggers at sourceforge
