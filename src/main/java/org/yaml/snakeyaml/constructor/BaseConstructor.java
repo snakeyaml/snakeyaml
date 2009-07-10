@@ -183,7 +183,7 @@ public abstract class BaseConstructor {
                 } catch (Exception e) {
                     throw new ConstructorException("while constructing a mapping", node
                             .getStartMark(), "found unacceptable key " + key, tuple[0]
-                            .getStartMark());
+                            .getStartMark(), e);
                 }
             }
             Object value = constructObject(valueNode);
@@ -212,7 +212,7 @@ public abstract class BaseConstructor {
                     key.hashCode();// check circular dependencies
                 } catch (Exception e) {
                     throw new ConstructorException("while constructing a Set", node.getStartMark(),
-                            "found unacceptable key " + key, tuple[0].getStartMark());
+                            "found unacceptable key " + key, tuple[0].getStartMark(), e);
                 }
             }
             if (keyNode.isTwoStepsConstruction()) {

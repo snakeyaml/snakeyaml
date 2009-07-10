@@ -1,6 +1,6 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.3: ???
+Subject: [ANN] SnakeYAML-1.3: support for recursive objects
 
 =============================
  Announcing SnakeYAML-1.3
@@ -10,7 +10,7 @@ A new release of SnakeYAML is now available:
 
     http://code.google.com/p/snakeyaml/
 
-This release delivers ??? as well as minor changes and bug fixes.
+This release delivers complete support for recursive objects as well as minor changes and bug fixes.
 
 Changes
 =======

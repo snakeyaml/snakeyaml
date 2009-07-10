@@ -19,7 +19,9 @@ public class MockDateBeanConstructorTest extends TestCase {
             yaml.load(className);
             fail("MockDate cannot be constructed.");
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains("MockDate"));
+            assertEquals(
+                    "org.yaml.snakeyaml.error.YAMLException: Cannot construct: 'class org.yaml.snakeyaml.constructor.MockDateBeanConstructorTest$MockDate'",
+                    e.getCause().getMessage());
         }
     }
 

@@ -32,6 +32,9 @@ public class RepresentFieldTest extends TestCase {
             assertEquals(
                     "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.representer.WrongJavaBean; exception=org.yaml.snakeyaml.error.YAMLException: Unable to find property 'packageField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
                     e.getMessage());
+            assertEquals(
+                    "org.yaml.snakeyaml.error.YAMLException: Unable to find property 'packageField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
+                    e.getCause().getMessage());
         }
     }
 
@@ -45,6 +48,9 @@ public class RepresentFieldTest extends TestCase {
             assertEquals(
                     "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.representer.WrongJavaBean; exception=org.yaml.snakeyaml.error.YAMLException: Unable to find property 'staticField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
                     e.getMessage());
+            assertEquals(
+                    "org.yaml.snakeyaml.error.YAMLException: Unable to find property 'staticField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
+                    e.getCause().getMessage());
         }
     }
 }

@@ -139,7 +139,7 @@ public class Constructor extends SafeConstructor {
                 }
             } catch (Exception e) {
                 throw new ConstructorException(null, null, "Can't construct a java object for "
-                        + node.getTag() + "; exception=" + e.getMessage(), node.getStartMark());
+                        + node.getTag() + "; exception=" + e.getMessage(), node.getStartMark(), e);
             }
             return result;
         }

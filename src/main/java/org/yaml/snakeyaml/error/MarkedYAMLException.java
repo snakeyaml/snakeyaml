@@ -17,7 +17,12 @@ public class MarkedYAMLException extends YAMLException {
 
     protected MarkedYAMLException(String context, Mark contextMark, String problem,
             Mark problemMark, String note) {
-        super(context + "; " + problem);
+        this(context, contextMark, problem, problemMark, note, null);
+    }
+
+    protected MarkedYAMLException(String context, Mark contextMark, String problem,
+            Mark problemMark, String note, Throwable cause) {
+        super(context + "; " + problem, cause);
         this.context = context;
         this.contextMark = contextMark;
         this.problem = problem;
@@ -26,7 +31,12 @@ public class MarkedYAMLException extends YAMLException {
     }
 
     protected MarkedYAMLException(String context, Mark contextMark, String problem, Mark problemMark) {
-        this(context, contextMark, problem, problemMark, null);
+        this(context, contextMark, problem, problemMark, null, null);
+    }
+
+    protected MarkedYAMLException(String context, Mark contextMark, String problem,
+            Mark problemMark, Throwable cause) {
+        this(context, contextMark, problem, problemMark, null, cause);
     }
 
     @Override
@@ -58,20 +68,20 @@ public class MarkedYAMLException extends YAMLException {
         }
         return lines.toString();
     }
-    
+
     public String getContext() {
-		return context;
-	}
+        return context;
+    }
 
-	public Mark getContextMark() {
-		return contextMark;
-	}
+    public Mark getContextMark() {
+        return contextMark;
+    }
 
-	public String getProblem() {
-		return problem;
-	}
+    public String getProblem() {
+        return problem;
+    }
 
-	public Mark getProblemMark() {
-		return problemMark;
-	}    
+    public Mark getProblemMark() {
+        return problemMark;
+    }
 }

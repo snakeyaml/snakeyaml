@@ -7,6 +7,9 @@
 	</properties>
 	<body>
         <release version="1.3-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="fix" issue="5" due-to="infinity0x">
+                Fix: set the "cause" field for MarkedYAMLException (2009-07-10)
+            </action>
             <action dev="py4fun" type="fix" issue="1" due-to="alexander.maslov">
                 Fix: Recursive objects are now fully supported (2009-07-09)
             </action>

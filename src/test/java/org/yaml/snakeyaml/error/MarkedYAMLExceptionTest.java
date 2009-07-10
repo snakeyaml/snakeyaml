@@ -33,7 +33,7 @@ public class MarkedYAMLExceptionTest extends TestCase {
     public void testToString4() {
         Mark mark = new Mark("search", 0, 0, 0, "*The first line.\nThe last line.", 0);
         MarkedYAMLException exception = new MarkedYAMLException("See http://www.google.com", mark,
-                null, null, null);
+                null, null, null, null);
         assertTrue(exception.toString().contains("first line"));
     }
 

@@ -15,5 +15,4 @@ public class ComposerException extends MarkedYAMLException {
     protected ComposerException(String context, Mark contextMark, String problem, Mark problemMark) {
         super(context, contextMark, problem, problemMark);
     }
-
 }
