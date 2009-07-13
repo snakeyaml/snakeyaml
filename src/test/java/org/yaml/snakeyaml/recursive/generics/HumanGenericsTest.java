@@ -3,6 +3,7 @@
  */
 package org.yaml.snakeyaml.recursive.generics;
 
+import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,33 +24,12 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.generics.GenericJvmDetector;
 
 public class HumanGenericsTest extends TestCase {
-    private boolean skip;
 
-    @Override
-    protected void setUp() throws Exception {
-        // non all JVM implementations can properly recognize property classes
-        String javaVendor = System.getProperty("java.vm.name");
-        if (javaVendor.contains("OpenJDK")) {
-            skip = false;
-        } else {
-            skip = true;
-        }
-        /*
-         * Properties props = System.getProperties(); Map<String, String> map =
-         * new TreeMap<String, String>(); for (Object iterable_element :
-         * props.keySet()) { map.put(iterable_element.toString(),
-         * props.getProperty(iterable_element.toString())); }
-         * 
-         * for (Object iterable_element : map.keySet()) {
-         * System.out.println("Key=" + iterable_element + " - " +
-         * props.getProperty(iterable_element.toString())); }
-         */
-    }
-
-    public void testNoChildren() throws IOException {
-        if (skip) {
+    public void testNoChildren() throws IOException, IntrospectionException {
+        if (!GenericJvmDetector.isProperJvm()) {
             return;
         }
         HumanGen father = new HumanGen();
@@ -79,9 +59,11 @@ public class HumanGenericsTest extends TestCase {
 
     /**
      * the YAML document should contain no global tags
+     * 
+     * @throws IntrospectionException
      */
-    public void testNoChildren2() throws IOException {
-        if (skip) {
+    public void testNoChildren2() throws IOException, IntrospectionException {
+        if (!GenericJvmDetector.isProperJvm()) {
             return;
         }
         HumanGen father = new HumanGen();
@@ -111,8 +93,8 @@ public class HumanGenericsTest extends TestCase {
         assertSame(father2, father2.getBankAccountOwner());
     }
 
-    public void testChildren() throws IOException {
-        if (skip) {
+    public void testChildren() throws IOException, IntrospectionException {
+        if (!GenericJvmDetector.isProperJvm()) {
             return;
         }
         HumanGen father = new HumanGen();
@@ -184,8 +166,8 @@ public class HumanGenericsTest extends TestCase {
         }
     }
 
-    public void testChildren2() throws IOException {
-        if (skip) {
+    public void testChildren2() throws IOException, IntrospectionException {
+        if (!GenericJvmDetector.isProperJvm()) {
             return;
         }
         HumanGen2 father = new HumanGen2();
@@ -253,8 +235,8 @@ public class HumanGenericsTest extends TestCase {
 
     }
 
-    public void testChildren3() throws IOException {
-        if (skip) {
+    public void testChildren3() throws IOException, IntrospectionException {
+        if (!GenericJvmDetector.isProperJvm()) {
             return;
         }
         HumanGen3 father = new HumanGen3();
@@ -332,8 +314,8 @@ public class HumanGenericsTest extends TestCase {
      * of children
      */
     @SuppressWarnings("unchecked")
-    public void testChildrenSetAsRoot() throws IOException {
-        if (skip) {
+    public void testChildrenSetAsRoot() throws IOException, IntrospectionException {
+        if (!GenericJvmDetector.isProperJvm()) {
             return;
         }
         String etalon = Util.getLocalResource("recursive/generics/with-children-as-set.yaml");
@@ -370,8 +352,8 @@ public class HumanGenericsTest extends TestCase {
      * of children
      */
     @SuppressWarnings("unchecked")
-    public void testChildrenMapAsRoot() throws IOException {
-        if (skip) {
+    public void testChildrenMapAsRoot() throws IOException, IntrospectionException {
+        if (!GenericJvmDetector.isProperJvm()) {
             return;
         }
         String etalon = Util.getLocalResource("recursive/generics/with-children-as-map.yaml");
@@ -404,8 +386,8 @@ public class HumanGenericsTest extends TestCase {
      * of children
      */
     @SuppressWarnings("unchecked")
-    public void testChildrenListRoot() throws IOException {
-        if (skip) {
+    public void testChildrenListRoot() throws IOException, IntrospectionException {
+        if (!GenericJvmDetector.isProperJvm()) {
             return;
         }
         HumanGen3 father = new HumanGen3();
@@ -477,8 +459,8 @@ public class HumanGenericsTest extends TestCase {
         }
     }
 
-    public void testBeanRing() throws IOException {
-        if (skip) {
+    public void testBeanRing() throws IOException, IntrospectionException {
+        if (!GenericJvmDetector.isProperJvm()) {
             return;
         }
         HumanGen man1 = new HumanGen();

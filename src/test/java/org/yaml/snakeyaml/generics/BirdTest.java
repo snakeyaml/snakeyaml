@@ -1,5 +1,7 @@
 package org.yaml.snakeyaml.generics;
 
+import java.beans.IntrospectionException;
+
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
@@ -7,34 +9,8 @@ import org.yaml.snakeyaml.JavaBeanParser;
 import org.yaml.snakeyaml.Yaml;
 
 public class BirdTest extends TestCase {
-    private boolean correctJVM;
 
-    @Override
-    protected void setUp() throws Exception {
-        // non all JVM implementations can properly recognize property classes
-        String javaVendor = System.getProperty("java.vm.name");
-        if (javaVendor.contains("OpenJDK")) {
-            correctJVM = true;
-            System.out.println("JDK: " + javaVendor);
-        } else {
-            correctJVM = false;
-            System.out
-                    .println("JDK requires global tags for JavaBean properties with Java Generics: "
-                            + javaVendor);
-        }
-        /*
-         * Properties props = System.getProperties(); Map<String, String> map =
-         * new TreeMap<String, String>(); for (Object iterable_element :
-         * props.keySet()) { map.put(iterable_element.toString(),
-         * props.getProperty(iterable_element.toString())); }
-         * 
-         * for (Object iterable_element : map.keySet()) {
-         * System.out.println("Key=" + iterable_element + " - " +
-         * props.getProperty(iterable_element.toString())); }
-         */
-    }
-
-    public void testHome() {
+    public void testHome() throws IntrospectionException {
         Bird bird = new Bird();
         bird.setName("Eagle");
         Nest home = new Nest();
@@ -46,17 +22,22 @@ public class BirdTest extends TestCase {
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(bird);
         Bird parsed;
-        if (correctJVM) {
+        String javaVendor = System.getProperty("java.vm.name");
+        if (GenericJvmDetector.isProperJvm()) {
             // no global tags
+            System.out.println("java.vm.name: " + javaVendor);
             assertEquals("no global tags must be emitted.", "home: {height: 3}\nname: Eagle\n",
                     output);
-             parsed = JavaBeanParser.load(output, Bird.class);
-           
+            parsed = JavaBeanParser.load(output, Bird.class);
+
         } else {
             // with global tags
+            System.out
+                    .println("JDK requires global tags for JavaBean properties with Java Generics. java.vm.name: "
+                            + javaVendor);
             assertEquals("global tags are inevitable here.",
                     "home: !!org.yaml.snakeyaml.generics.Nest {height: 3}\nname: Eagle\n", output);
-             parsed = JavaBeanParser.load(output, Bird.class);
+            parsed = JavaBeanParser.load(output, Bird.class);
         }
         assertEquals(bird.getName(), parsed.getName());
         assertEquals(bird.getHome().getHeight(), parsed.getHome().getHeight());
