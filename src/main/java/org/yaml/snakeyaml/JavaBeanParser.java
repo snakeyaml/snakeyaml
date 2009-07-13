@@ -22,10 +22,13 @@ public class JavaBeanParser {
     }
 
     /**
+     * Parse the first YAML document in a stream and produce the corresponding
+     * JavaBean.
+     * 
      * @param yaml
-     *            - YAML document
+     *            YAML document
      * @param javabean
-     *            - JavaBean class to be parsed
+     *            JavaBean class to be parsed
      * @return parsed JavaBean
      */
     @SuppressWarnings("unchecked")
@@ -39,9 +42,9 @@ public class JavaBeanParser {
      * JavaBean.
      * 
      * @param io
-     *            - data to load from (BOM is respected and removed)
+     *            data to load from (BOM is respected and removed)
      * @param javabean
-     *            - JavaBean class to be parsed
+     *            JavaBean class to be parsed
      * @return parsed JavaBean
      */
     @SuppressWarnings("unchecked")
@@ -55,9 +58,9 @@ public class JavaBeanParser {
      * Java object.
      * 
      * @param io
-     *            - data to load from (BOM must not be present)
+     *            data to load from (BOM must not be present)
      * @param javabean
-     *            - JavaBean class to be parsed
+     *            JavaBean class to be parsed
      * @return parsed JavaBean
      */
     @SuppressWarnings("unchecked")

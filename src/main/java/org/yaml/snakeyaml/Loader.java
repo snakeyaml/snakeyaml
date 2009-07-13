@@ -63,7 +63,7 @@ public class Loader {
      * representation tree.
      * 
      * @param yaml
-     *            - YAML document
+     *            YAML document
      * @return parsed root Node for the specified YAML document
      */
     public Node compose(java.io.Reader yaml) {
@@ -77,7 +77,7 @@ public class Loader {
      * representation trees.
      * 
      * @param yaml
-     *            - stream of YAML documents
+     *            stream of YAML documents
      * @return parsed root Nodes for all the specified YAML documents
      */
     public Iterable<Node> composeAll(java.io.Reader yaml) {
@@ -144,7 +144,7 @@ public class Loader {
      * Parse a YAML stream and produce parsing events.
      * 
      * @param yaml
-     *            - YAML document(s)
+     *            YAML document(s)
      * @return parsed events
      */
     public Iterable<Event> parse(java.io.Reader yaml) {

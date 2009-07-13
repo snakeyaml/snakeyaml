@@ -16,7 +16,7 @@ public interface Represent {
      * Create a Node
      * 
      * @param data
-     *            - the instance to represent
+     *            the instance to represent
      * @return Node to dump
      */
     public Node representData(Object data);

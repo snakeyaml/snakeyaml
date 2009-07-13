@@ -53,7 +53,7 @@ public class Constructor extends SafeConstructor {
      * or for a definition from a Spring ApplicationContext.
      * 
      * @param theRoot
-     *            - fully qualified class name of the root JavaBean
+     *            fully qualified class name of the root JavaBean
      * @throws ClassNotFoundException
      */
     public Constructor(String theRoot) throws ClassNotFoundException {
@@ -327,7 +327,7 @@ public class Constructor extends SafeConstructor {
      * <code>TypeDescription</code>.
      * 
      * @param node
-     *            - node where the keys are property names (they can only be
+     *            node where the keys are property names (they can only be
      *            <code>String</code>s) and values are objects to be created
      * @return constructed JavaBean
      */
