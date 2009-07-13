@@ -1,6 +1,6 @@
 &id002 !!set
-? !!org.yaml.snakeyaml.recursive.generics.Human
-  bankAccountOwner: &id001 !!org.yaml.snakeyaml.recursive.generics.Human
+? !!org.yaml.snakeyaml.recursive.generics.HumanGen
+  bankAccountOwner: &id001 !!org.yaml.snakeyaml.recursive.generics.HumanGen
     bankAccountOwner: *id001
     birthPlace: Leningrad
     birthday: 1970-01-12T13:46:40Z
@@ -8,7 +8,7 @@
     father: null
     mother: null
     name: Father
-    partner: &id003 !!org.yaml.snakeyaml.recursive.generics.Human
+    partner: &id003 !!org.yaml.snakeyaml.recursive.generics.HumanGen
       bankAccountOwner: *id001
       birthPlace: Saint-Petersburg
       birthday: 1973-03-03T09:46:40Z
@@ -25,7 +25,7 @@
   name: Son
   partner: null
 : null
-? !!org.yaml.snakeyaml.recursive.generics.Human
+? !!org.yaml.snakeyaml.recursive.generics.HumanGen
   bankAccountOwner: *id001
   birthPlace: New York
   birthday: 1983-04-24T02:40:00Z

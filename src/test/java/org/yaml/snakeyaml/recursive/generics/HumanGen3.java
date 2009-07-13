@@ -6,9 +6,9 @@ package org.yaml.snakeyaml.recursive.generics;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Human3 extends AbstractHuman<List<Human3>, Human3>{
+public class HumanGen3 extends AbstractHumanGen<List<HumanGen3>, HumanGen3>{
 
-    public Human3() {
-        children = new LinkedList<Human3>();
+    public HumanGen3() {
+        children = new LinkedList<HumanGen3>();
     }
 }

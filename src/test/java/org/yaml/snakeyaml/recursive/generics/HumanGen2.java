@@ -6,9 +6,9 @@ package org.yaml.snakeyaml.recursive.generics;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Human2 extends AbstractHuman<Map<Human2, String>, Human2>{
+public class HumanGen2 extends AbstractHumanGen<Map<HumanGen2, String>, HumanGen2>{
 
-    public Human2() {
-        children = new HashMap<Human2, String>();
+    public HumanGen2() {
+        children = new HashMap<HumanGen2, String>();
     }
 }
