@@ -16,6 +16,8 @@ import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.JavaBeanParser;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -64,6 +66,41 @@ public class HumanGenericsTest extends TestCase {
         assertEquals(etalon, output);
         //
         HumanGen father2 = (HumanGen) yaml.load(output);
+        assertNotNull(father2);
+        assertEquals("Father", father2.getName());
+        assertEquals("Mother", father2.getPartner().getName());
+        assertEquals("Father", father2.getBankAccountOwner().getName());
+        assertSame(father2, father2.getBankAccountOwner());
+    }
+
+    /**
+     * the YAML document should contain no global tags
+     */
+    public void testNoChildren2() throws IOException {
+        if (skip) {
+            return;
+        }
+        HumanGen father = new HumanGen();
+        father.setName("Father");
+        father.setBirthday(new Date(1000000000));
+        father.setBirthPlace("Leningrad");
+        father.setBankAccountOwner(father);
+        HumanGen mother = new HumanGen();
+        mother.setName("Mother");
+        mother.setBirthday(new Date(100000000000L));
+        mother.setBirthPlace("Saint-Petersburg");
+        father.setPartner(mother);
+        mother.setPartner(father);
+        mother.setBankAccountOwner(father);
+        DumperOptions options = new DumperOptions();
+        options.setExplicitRoot("tag:yaml.org,2002:map");
+        Yaml yaml = new Yaml(options);
+        String output = yaml.dump(father);
+        // TODO the YAML document should contain no global tags
+        String etalon = Util.getLocalResource("recursive/generics/no-children-2.yaml");
+        assertEquals(etalon, output);
+        //
+        HumanGen father2 = (HumanGen) JavaBeanParser.load(etalon, HumanGen.class);
         assertNotNull(father2);
         assertEquals("Father", father2.getName());
         assertEquals("Mother", father2.getPartner().getName());
