@@ -25,13 +25,17 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class HumanGenericsTest extends TestCase {
-    private boolean skip = false;
+    private boolean skip;
 
     @Override
     protected void setUp() throws Exception {
-        // non Sun implementations may fail
+        // non all JVM implementations can properly recognize property classes
         String javaVendor = System.getProperty("java.vm.name");
-        skip = !javaVendor.contains("HotSpot");
+        if (javaVendor.contains("OpenJDK")) {
+            skip = false;
+        } else {
+            skip = true;
+        }
         /*
          * Properties props = System.getProperties(); Map<String, String> map =
          * new TreeMap<String, String>(); for (Object iterable_element :
@@ -96,7 +100,6 @@ public class HumanGenericsTest extends TestCase {
         options.setExplicitRoot("tag:yaml.org,2002:map");
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(father);
-        // TODO the YAML document should contain no global tags
         String etalon = Util.getLocalResource("recursive/generics/no-children-2.yaml");
         assertEquals(etalon, output);
         //

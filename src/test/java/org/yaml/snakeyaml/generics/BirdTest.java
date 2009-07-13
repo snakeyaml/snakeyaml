@@ -7,6 +7,32 @@ import org.yaml.snakeyaml.JavaBeanParser;
 import org.yaml.snakeyaml.Yaml;
 
 public class BirdTest extends TestCase {
+    private boolean correctJVM;
+
+    @Override
+    protected void setUp() throws Exception {
+        // non all JVM implementations can properly recognize property classes
+        String javaVendor = System.getProperty("java.vm.name");
+        if (javaVendor.contains("OpenJDK")) {
+            correctJVM = true;
+            System.out.println("JDK: " + javaVendor);
+        } else {
+            correctJVM = false;
+            System.out
+                    .println("JDK requires global tags for JavaBean properties with Java Generics: "
+                            + javaVendor);
+        }
+        /*
+         * Properties props = System.getProperties(); Map<String, String> map =
+         * new TreeMap<String, String>(); for (Object iterable_element :
+         * props.keySet()) { map.put(iterable_element.toString(),
+         * props.getProperty(iterable_element.toString())); }
+         * 
+         * for (Object iterable_element : map.keySet()) {
+         * System.out.println("Key=" + iterable_element + " - " +
+         * props.getProperty(iterable_element.toString())); }
+         */
+    }
 
     public void testHome() {
         Bird bird = new Bird();
@@ -19,19 +45,20 @@ public class BirdTest extends TestCase {
         options.setExplicitRoot("tag:yaml.org,2002:map");
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(bird);
-        System.out.println(output);
-        // no global tags must be emitted.
-        assertEquals("home: !!org.yaml.snakeyaml.generics.Nest {height: 3}\nname: Eagle\n", output);
-
-        Bird parsed = JavaBeanParser.load(
-                "home: !!org.yaml.snakeyaml.generics.Nest {height: 3}\nname: Eagle", Bird.class);
+        Bird parsed;
+        if (correctJVM) {
+            // no global tags
+            assertEquals("no global tags must be emitted.", "home: {height: 3}\nname: Eagle\n",
+                    output);
+             parsed = JavaBeanParser.load(output, Bird.class);
+           
+        } else {
+            // with global tags
+            assertEquals("global tags are inevitable here.",
+                    "home: !!org.yaml.snakeyaml.generics.Nest {height: 3}\nname: Eagle\n", output);
+             parsed = JavaBeanParser.load(output, Bird.class);
+        }
         assertEquals(bird.getName(), parsed.getName());
         assertEquals(bird.getHome().getHeight(), parsed.getHome().getHeight());
-        // the following line fails. The problem is that even though the runtime
-        // is aware that the class of 'home' is Nest it sets 'Object.class'
-        // as the class for the 'home' property (see
-        // PropertyDescriptor.getPropertyType()).
-        // The implementation of Java Generics leaves much to be desired.
-        // JavaBeanParser.load("home: {height: 3}\nname: Eagle", Bird.class);
     }
 }

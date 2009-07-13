@@ -6,7 +6,7 @@ children: !!java.util.LinkedHashSet {}
 father: null
 mother: null
 name: Father
-partner: !!org.yaml.snakeyaml.recursive.generics.HumanGen
+partner:
   bankAccountOwner: *id001
   birthPlace: Saint-Petersburg
   birthday: 1973-03-03T09:46:40Z
