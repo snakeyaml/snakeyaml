@@ -103,9 +103,9 @@ public class Constructor extends SafeConstructor {
                 case mapping:
                     node.setType(cl);
                     if (node.isTwoStepsConstruction()) {
-                        result = createMappingNode(node);
+                        result = createJavaBeanNode(node);
                     } else {
-                        result = constructMappingNode((MappingNode) node);
+                        result = constructJavaBeanNode((MappingNode) node);
                     }
                     break;
                 case sequence:
@@ -153,7 +153,7 @@ public class Constructor extends SafeConstructor {
         Object result;
         switch (node.getNodeId()) {
         case scalar:
-            result = constructScalarNode((ScalarNode) node);
+            result = constructJavaBeanScalarNode((ScalarNode) node);
             break;
         case sequence:
             SequenceNode snode = (SequenceNode) node;
@@ -178,9 +178,9 @@ public class Constructor extends SafeConstructor {
                 }
             } else {
                 if (node.isTwoStepsConstruction()) {
-                    result = createMappingNode(node);
+                    result = createJavaBeanNode(node);
                 } else {
-                    result = constructMappingNode((MappingNode) node);
+                    result = constructJavaBeanNode((MappingNode) node);
                 }
             }
         }
@@ -208,13 +208,13 @@ public class Constructor extends SafeConstructor {
                 } else if (Set.class.isAssignableFrom(node.getType())) {
                     constructSet2ndStep((MappingNode) node, (Set<Object>) object);
                 } else {
-                    constructMappingNode2ndStep((MappingNode) node, object);
+                    constructJavaBeanNode2ndStep((MappingNode) node, object);
                 }
             }
         }
     }
 
-    private Object constructScalarNode(ScalarNode node) {
+    private Object constructJavaBeanScalarNode(ScalarNode node) {
         Class<? extends Object> type = node.getType();
         Object result;
         if (type.isPrimitive() || type == String.class || Number.class.isAssignableFrom(type)
@@ -299,7 +299,7 @@ public class Constructor extends SafeConstructor {
         return result;
     }
 
-    private Object createMappingNode(Node node) {
+    private Object createJavaBeanNode(Node node) {
         try {
             Class<? extends Object> type = node.getType();
             if (Modifier.isAbstract(type.getModifiers())) {
@@ -331,12 +331,12 @@ public class Constructor extends SafeConstructor {
      *            <code>String</code>s) and values are objects to be created
      * @return constructed JavaBean
      */
-    private Object constructMappingNode(MappingNode node) {
-        return constructMappingNode2ndStep(node, createMappingNode(node));
+    private Object constructJavaBeanNode(MappingNode node) {
+        return constructJavaBeanNode2ndStep(node, createJavaBeanNode(node));
     }
 
     @SuppressWarnings("unchecked")
-    private Object constructMappingNode2ndStep(MappingNode node, Object object) {
+    private Object constructJavaBeanNode2ndStep(MappingNode node, Object object) {
         Class<? extends Object> beanType = node.getType();
         List<Node[]> nodeValue = (List<Node[]>) node.getValue();
         for (Node[] tuple : nodeValue) {
