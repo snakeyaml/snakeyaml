@@ -7,12 +7,12 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
-public class GenericJvmDetector {
+public class JvmDetector {
     /**
      * Check whether the proper class Nest for Bird's property 'home' is
-     * recognised.
+     * recognized.
      */
-    public static boolean isProperJvm() throws IntrospectionException {
+    public static boolean isProperIntrospection() throws IntrospectionException {
         for (PropertyDescriptor property : Introspector.getBeanInfo(Bird.class)
                 .getPropertyDescriptors()) {
             if (property.getName().equals("home")) {

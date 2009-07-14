@@ -23,7 +23,7 @@ public class BirdTest extends TestCase {
         String output = yaml.dump(bird);
         Bird parsed;
         String javaVendor = System.getProperty("java.vm.name");
-        if (GenericJvmDetector.isProperJvm()) {
+        if (JvmDetector.isProperIntrospection()) {
             // no global tags
             System.out.println("java.vm.name: " + javaVendor);
             assertEquals("no global tags must be emitted.", "home: {height: 3}\nname: Eagle\n",
