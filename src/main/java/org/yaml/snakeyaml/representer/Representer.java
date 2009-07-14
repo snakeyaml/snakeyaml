@@ -88,7 +88,7 @@ public class Representer extends SafeRepresenter {
         }
         // flow style will be chosen by BaseRepresenter
         MappingNode node = new MappingNode(tag, value, null);
-        representedObjects.put(aliasKey, node);
+        representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
         for (Property property : properties) {
             ScalarNode nodeKey = (ScalarNode) representData(property.getName());

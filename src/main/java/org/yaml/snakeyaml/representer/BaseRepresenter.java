@@ -6,6 +6,7 @@ package org.yaml.snakeyaml.representer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +39,9 @@ public abstract class BaseRepresenter {
     protected final Map<Class, Represent> multiRepresenters = new HashMap<Class, Represent>();
     private Character defaultStyle;
     protected Boolean defaultFlowStyle;
-    protected final Map<Integer, Node> representedObjects = new HashMap<Integer, Node>();
+    protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>();
     private final Set<Object> objectKeeper = new HashSet<Object>();
-    protected Integer aliasKey;// internal memory address
+    protected Object objectToRepresent;
     /*
      * because when representing JavaBeans the root tag has a special meaning we
      * have to let the <code>Representer</code> know whether the Node to
@@ -57,11 +58,11 @@ public abstract class BaseRepresenter {
 
     @SuppressWarnings("unchecked")
     protected Node representData(Object data) {
-        aliasKey = System.identityHashCode(data);// take memory address
+        objectToRepresent = data;
         if (!ignoreAliases(data)) {
             // check for identity
-            if (representedObjects.containsKey(aliasKey)) {
-                Node node = representedObjects.get(aliasKey);
+            if (representedObjects.containsKey(objectToRepresent)) {
+                Node node = representedObjects.get(objectToRepresent);
                 return node;
             }
         }
@@ -106,7 +107,7 @@ public abstract class BaseRepresenter {
             style = this.defaultStyle;
         }
         Node node = new ScalarNode(tag, value, null, null, style);
-        representedObjects.put(aliasKey, node);
+        representedObjects.put(objectToRepresent, node);
         isRoot = false;
         return node;
     }
@@ -118,7 +119,7 @@ public abstract class BaseRepresenter {
     protected Node representSequence(String tag, List<? extends Object> sequence, Boolean flowStyle) {
         List<Node> value = new LinkedList<Node>();
         SequenceNode node = new SequenceNode(tag, value, flowStyle);
-        representedObjects.put(aliasKey, node);
+        representedObjects.put(objectToRepresent, node);
         isRoot = false;
         boolean bestStyle = true;
         for (Object item : sequence) {
@@ -142,7 +143,7 @@ public abstract class BaseRepresenter {
             Boolean flowStyle) {
         List<Node[]> value = new LinkedList<Node[]>();
         MappingNode node = new MappingNode(tag, value, flowStyle);
-        representedObjects.put(aliasKey, node);
+        representedObjects.put(objectToRepresent, node);
         isRoot = false;
         boolean bestStyle = true;
         for (Object itemKey : mapping.keySet()) {
