@@ -35,6 +35,10 @@
 			<name>Andrey Somov</name>
 			<email>py4fun@gmail.com</email>
 		</developer>
+		<developer>
+			<id>alexander.maslov</id>
+			<name>Alexander Maslov</name>
+		</developer>
 	</developers>
 	<dependencies>
 		<dependency>
