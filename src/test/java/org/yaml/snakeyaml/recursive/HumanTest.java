@@ -115,8 +115,8 @@ public class HumanTest extends TestCase {
         assertSame(father2.getPartner().getChildren(), children2);
 
         for (Object child : children2) {
-            assertSame(Human.class, child.getClass()); // check if type
-                                                       // descriptor was correct
+            // check if type descriptor was correct
+            assertSame(Human.class, child.getClass());
         }
     }
 
@@ -251,9 +251,8 @@ public class HumanTest extends TestCase {
         assertSame(father2.getPartner().getChildren(), children2);
 
         for (Object child : children2) {
-            assertSame(Human3.class, child.getClass()); // check if type
-                                                        // descriptor was
-                                                        // correct
+            // check if type descriptor was correct
+            assertSame(Human3.class, child.getClass());
         }
     }
 
@@ -287,8 +286,8 @@ public class HumanTest extends TestCase {
         assertSame(father2.getPartner().getChildren(), children2);
 
         for (Object child : children2) {
-            assertSame(Human.class, child.getClass()); // check if type
-                                                       // descriptor was correct
+            // check if type descriptor was correct
+            assertSame(Human.class, child.getClass());
         }
     }
 
@@ -392,9 +391,8 @@ public class HumanTest extends TestCase {
         assertSame(father2.getPartner().getChildren(), children2);
 
         for (Object child : children2) {
-            assertSame(Human3.class, child.getClass()); // check if type
-                                                        // descriptor was
-                                                        // correct
+            // check if type descriptor was correct
+            assertSame(Human3.class, child.getClass());
         }
     }
 
@@ -423,7 +421,6 @@ public class HumanTest extends TestCase {
         assertSame(loadedMan1, loadedMan3.getBankAccountOwner());
     }
 
-    // TODO Java's hashcode leaves much to be desired
     public void qtestCollectionRing() throws IOException {
         // Set<Object> set = new HashSet<Object>();
         // List<Object> list = new ArrayList<Object>();
