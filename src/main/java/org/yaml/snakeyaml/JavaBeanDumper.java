@@ -12,7 +12,7 @@ import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
- * Convenience utility to serialise JavaBeans.
+ * Convenience utility to serialize JavaBeans.
  */
 public class JavaBeanDumper {
     private boolean useGlobalTag;
@@ -37,10 +37,10 @@ public class JavaBeanDumper {
     }
 
     /**
-     * Serialise JavaBean
+     * Serialize JavaBean
      * 
      * @param data
-     *            JavaBean instance to serialise
+     *            JavaBean instance to serialize
      * @param output
      *            destination
      */
@@ -57,11 +57,11 @@ public class JavaBeanDumper {
     }
 
     /**
-     * Serialise JavaBean
+     * Serialize JavaBean
      * 
      * @param data
-     *            JavaBean instance to serialise
-     * @return serialised YAML document
+     *            JavaBean instance to serialize
+     * @return serialized YAML document
      */
     public String dump(Object data) {
         StringWriter buffer = new StringWriter();
