@@ -9,6 +9,12 @@ import java.util.Date;
 import junit.framework.TestCase;
 
 public class JavaBeanWithNullValuesTest extends TestCase {
+    private JavaBeanLoader<JavaBeanWithNullValues> loader;
+
+    @Override
+    protected void setUp() throws Exception {
+        loader = new JavaBeanLoader<JavaBeanWithNullValues>(JavaBeanWithNullValues.class);
+    }
 
     public void testNotNull() throws Exception {
         String dumpStr = dumpJavaBeanWithNullValues(false);
@@ -24,7 +30,8 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         assertNotNull(parsed.getSqlDate());
         assertNotNull(parsed.getTimestamp());
         //
-        parsed = JavaBeanParser.load(dumpStr, JavaBeanWithNullValues.class);
+
+        parsed = loader.load(dumpStr);
         assertNotNull(parsed.getString());
         assertNotNull(parsed.getBoolean1());
         assertNotNull(parsed.getDate());
@@ -42,7 +49,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNull(parsed.getString());
         //
-        parsed = JavaBeanParser.load(dumpStr, JavaBeanWithNullValues.class);
+        parsed = loader.load(dumpStr);
         assertNull(parsed.getString());
     }
 
@@ -92,7 +99,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         assertFalse("No explicit root tag must be used.", dumpStr
                 .contains("JavaBeanWithNullValues"));
         yaml = new Yaml();
-        JavaBeanWithNullValues parsed = JavaBeanParser.load(dumpStr, JavaBeanWithNullValues.class);
+        JavaBeanWithNullValues parsed = loader.load(dumpStr);
         assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
         assertNull(" expect null, got " + parsed.getString(), parsed.getString());
         assertEquals(1d, parsed.getDouble1());
@@ -122,4 +129,5 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         javaBeanWithNullValues.setTimestamp(new Timestamp(System.currentTimeMillis()));
         return yaml.dump(javaBeanWithNullValues);
     }
+
 }

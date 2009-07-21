@@ -5,7 +5,7 @@ import java.beans.IntrospectionException;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.JavaBeanParser;
+import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Yaml;
 
 public class BirdTest extends TestCase {
@@ -23,12 +23,13 @@ public class BirdTest extends TestCase {
         String output = yaml.dump(bird);
         Bird parsed;
         String javaVendor = System.getProperty("java.vm.name");
+        JavaBeanLoader<Bird> loader = new JavaBeanLoader<Bird>(Bird.class);
         if (JvmDetector.isProperIntrospection()) {
             // no global tags
             System.out.println("java.vm.name: " + javaVendor);
             assertEquals("no global tags must be emitted.", "home: {height: 3}\nname: Eagle\n",
                     output);
-            parsed = JavaBeanParser.load(output, Bird.class);
+            parsed = loader.load(output);
 
         } else {
             // with global tags
@@ -37,7 +38,7 @@ public class BirdTest extends TestCase {
                             + javaVendor);
             assertEquals("global tags are inevitable here.",
                     "home: !!org.yaml.snakeyaml.generics.Nest {height: 3}\nname: Eagle\n", output);
-            parsed = JavaBeanParser.load(output, Bird.class);
+            parsed = loader.load(output);
         }
         assertEquals(bird.getName(), parsed.getName());
         assertEquals(bird.getHome().getHeight(), parsed.getHome().getHeight());

@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.JavaBeanParser;
+import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -85,7 +85,8 @@ public class HumanGenericsTest extends TestCase {
         String etalon = Util.getLocalResource("recursive/generics/no-children-2.yaml");
         assertEquals(etalon, output);
         //
-        HumanGen father2 = (HumanGen) JavaBeanParser.load(etalon, HumanGen.class);
+        JavaBeanLoader<HumanGen> loader = new JavaBeanLoader<HumanGen>(HumanGen.class);
+        HumanGen father2 = (HumanGen) loader.load(etalon);
         assertNotNull(father2);
         assertEquals("Father", father2.getName());
         assertEquals("Mother", father2.getPartner().getName());
