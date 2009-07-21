@@ -41,7 +41,6 @@ public abstract class BaseConstructor {
         maps2fill = new LinkedList<Tuple<Map<Object, Object>, Tuple<Object, Object>>>();
         sets2fill = new LinkedList<Tuple<Set<Object>, Object>>();
         rootType = Object.class;
-        // TODO clear collections
     }
 
     public void setComposer(Composer composer) {
