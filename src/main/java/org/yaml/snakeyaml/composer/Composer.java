@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.nodes.CollectionNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.parser.Parser;
@@ -37,7 +38,7 @@ public class Composer {
     private final Resolver resolver;
     private final Map<String, Node> anchors;
     private final Set<Node> recursiveNodes;
-    
+
     public Composer(Parser parser, Resolver resolver) {
         this.parser = parser;
         this.resolver = resolver;
@@ -104,7 +105,7 @@ public class Composer {
                         .getStartMark());
             }
             Node result = (Node) anchors.get(anchor);
-            if(recursiveNodes.remove(result)) {
+            if (recursiveNodes.remove(result)) {
                 result.setTwoStepsConstruction(true);
             }
             return result;
@@ -173,15 +174,15 @@ public class Composer {
         if (tag == null || tag.equals("!")) {
             tag = resolver.resolve(NodeId.mapping, null, startEvent.getImplicit());
         }
-        MappingNode node = new MappingNode(tag, new LinkedList<Node[]>(),
-                startEvent.getStartMark(), null, startEvent.getFlowStyle());
+        MappingNode node = new MappingNode(tag, new LinkedList<NodeTuple>(), startEvent
+                .getStartMark(), null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
         while (!parser.checkEvent(MappingEndEvent.class)) {
             Node itemKey = composeNode(node, null);
             Node itemValue = composeNode(node, itemKey);
-            node.getValue().add(new Node[] { itemKey, itemValue });// 
+            node.getValue().add(new NodeTuple(itemKey, itemValue)); 
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());

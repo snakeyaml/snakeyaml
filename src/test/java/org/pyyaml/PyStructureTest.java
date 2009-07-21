@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.ScalarEvent;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.parser.ParserImpl;
@@ -130,11 +131,11 @@ public class PyStructureTest extends PyImportTest {
                 MappingNode seq2 = (MappingNode) node2;
                 assertEquals(seq1.getTag(), seq2.getTag());
                 assertEquals(seq1.getValue().size(), seq2.getValue().size());
-                Iterator<Node[]> iter2 = seq2.getValue().iterator();
-                for (Node[] child1 : seq1.getValue()) {
-                    Node[] child2 = iter2.next();
-                    compareNodes(child1[0], child2[0]);// keys
-                    compareNodes(child1[1], child2[1]);// values
+                Iterator<NodeTuple> iter2 = seq2.getValue().iterator();
+                for (NodeTuple child1 : seq1.getValue()) {
+                    NodeTuple child2 = iter2.next();
+                    compareNodes(child1.getKeyNode(), child2.getKeyNode());
+                    compareNodes(child1.getValueNode(), child2.getValueNode());
                 }
             }
         }

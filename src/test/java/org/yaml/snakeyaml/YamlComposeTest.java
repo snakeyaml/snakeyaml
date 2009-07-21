@@ -27,8 +27,8 @@ public class YamlComposeTest extends TestCase {
     public void testComposeFromReader() {
         Yaml yaml = new Yaml();
         MappingNode node = (MappingNode) yaml.compose(new StringReader("abc: 56"));
-        assertEquals("abc", node.getValue().get(0)[0].getValue());
-        assertEquals("56", node.getValue().get(0)[1].getValue());
+        assertEquals("abc", node.getValue().get(0).getKeyNode().getValue());
+        assertEquals("56", node.getValue().get(0).getValueNode().getValue());
     }
 
     public void testComposeAllFromReader() {

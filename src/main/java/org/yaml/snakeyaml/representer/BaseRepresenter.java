@@ -17,6 +17,7 @@ import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.serializer.Serializer;
@@ -140,7 +141,7 @@ public abstract class BaseRepresenter {
 
     protected Node representMapping(String tag, Map<? extends Object, Object> mapping,
             Boolean flowStyle) {
-        List<Node[]> value = new LinkedList<Node[]>();
+        List<NodeTuple> value = new LinkedList<NodeTuple>();
         MappingNode node = new MappingNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         isRoot = false;
@@ -155,7 +156,7 @@ public abstract class BaseRepresenter {
             if (!((nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null))) {
                 bestStyle = false;
             }
-            value.add(new Node[] { nodeKey, nodeValue });
+            value.add(new NodeTuple(nodeKey, nodeValue));
         }
         if (flowStyle == null) {
             if (defaultFlowStyle != null) {

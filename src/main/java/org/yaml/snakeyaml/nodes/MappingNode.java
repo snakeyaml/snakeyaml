@@ -14,14 +14,14 @@ public class MappingNode extends CollectionNode {
     private Class<? extends Object> keyType;
     private Class<? extends Object> valueType;
 
-    public MappingNode(String tag, List<Node[]> value, Mark startMark, Mark endMark,
+    public MappingNode(String tag, List<NodeTuple> value, Mark startMark, Mark endMark,
             Boolean flowStyle) {
         super(tag, value, startMark, endMark, flowStyle);
         keyType = Object.class;
         valueType = Object.class;
     }
 
-    public MappingNode(String tag, List<Node[]> value, Boolean flowStyle) {
+    public MappingNode(String tag, List<NodeTuple> value, Boolean flowStyle) {
         super(tag, value, null, null, flowStyle);
     }
 
@@ -32,17 +32,16 @@ public class MappingNode extends CollectionNode {
 
     @SuppressWarnings("unchecked")
     @Override
-    // TODO should we return Tuple instead of array ?
-    public List<Node[]> getValue() {
-        List<Node[]> mapping = (List<Node[]>) super.getValue();
-        for (Node[] nodes : mapping) {
-            nodes[0].setType(keyType);
-            nodes[1].setType(valueType);
+    public List<NodeTuple> getValue() {
+        List<NodeTuple> mapping = (List<NodeTuple>) super.getValue();
+        for (NodeTuple nodes : mapping) {
+            nodes.getKeyNode().setType(keyType);
+            nodes.getValueNode().setType(valueType);
         }
         return mapping;
     }
 
-    public void setValue(List<Node[]> merge) {
+    public void setValue(List<NodeTuple> merge) {
         value = merge;
     }
 
@@ -58,12 +57,12 @@ public class MappingNode extends CollectionNode {
     public String toString() {
         String values;
         StringBuffer buf = new StringBuffer();
-        for (Node[] node : getValue()) {
+        for (NodeTuple node : getValue()) {
             buf.append("{ key=");
-            buf.append(node[0]);
+            buf.append(node.getKeyNode());
             buf.append("; value=Node<");
             // to avoid overflow in case of recursive structures
-            buf.append(System.identityHashCode(node[1]));
+            buf.append(System.identityHashCode(node.getValueNode()));
             buf.append("> }");
         }
         values = buf.toString();

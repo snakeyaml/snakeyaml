@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.util.Base64Coder;
@@ -47,12 +48,12 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     private void flattenMapping(MappingNode node) {
-        List<Node[]> merge = new LinkedList<Node[]>();
+        List<NodeTuple> merge = new LinkedList<NodeTuple>();
         int index = 0;
-        List<Node[]> nodeValue = (List<Node[]>) node.getValue();
+        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
         while (index < nodeValue.size()) {
-            Node keyNode = nodeValue.get(index)[0];
-            Node valueNode = nodeValue.get(index)[1];
+            Node keyNode = nodeValue.get(index).getKeyNode();
+            Node valueNode = nodeValue.get(index).getValueNode();
             if (keyNode.getTag().equals("tag:yaml.org,2002:merge")) {
                 nodeValue.remove(index);
                 switch (valueNode.getNodeId()) {
@@ -62,7 +63,7 @@ public class SafeConstructor extends BaseConstructor {
                     merge.addAll(mn.getValue());
                     break;
                 case sequence:
-                    List<List<Node[]>> submerge = new LinkedList<List<Node[]>>();
+                    List<List<NodeTuple>> submerge = new LinkedList<List<NodeTuple>>();
                     SequenceNode sn = (SequenceNode) valueNode;
                     List<Node> vals = sn.getValue();
                     for (Node subnode : vals) {
@@ -76,7 +77,7 @@ public class SafeConstructor extends BaseConstructor {
                         submerge.add(mnode.getValue());
                     }
                     Collections.reverse(submerge);
-                    for (List<Node[]> value : submerge) {
+                    for (List<NodeTuple> value : submerge) {
                         merge.addAll(value);
                     }
                     break;
@@ -327,8 +328,8 @@ public class SafeConstructor extends BaseConstructor {
                             .getStartMark(), "expected a single mapping item, but found "
                             + mnode.getValue().size() + " items", mnode.getStartMark());
                 }
-                Node keyNode = mnode.getValue().get(0)[0];
-                Node valueNode = mnode.getValue().get(0)[1];
+                Node keyNode = mnode.getValue().get(0).getKeyNode();
+                Node valueNode = mnode.getValue().get(0).getValueNode();
                 Object key = constructObject(keyNode);
                 Object value = constructObject(valueNode);
                 omap.put(key, value);
@@ -360,8 +361,8 @@ public class SafeConstructor extends BaseConstructor {
                             "expected a single mapping item, but found " + mnode.getValue().size()
                                     + " items", mnode.getStartMark());
                 }
-                Node keyNode = mnode.getValue().get(0)[0];
-                Node valueNode = mnode.getValue().get(0)[1];
+                Node keyNode = mnode.getValue().get(0).getKeyNode();
+                Node valueNode = mnode.getValue().get(0).getValueNode();
                 Object key = constructObject(keyNode);
                 Object value = constructObject(valueNode);
                 pairs.add(new Object[] { key, value });

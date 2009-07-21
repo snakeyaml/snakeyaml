@@ -24,8 +24,10 @@ import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.nodes.CollectionNode;
+import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -118,10 +120,11 @@ public final class Serializer {
                 }
                 break;
             case mapping:
-                List<Object[]> map = (List<Object[]>) node.getValue();
-                for (Object[] object : map) {
-                    Node key = (Node) object[0];
-                    Node value = (Node) object[1];
+                MappingNode mnode = (MappingNode) node;
+                List<NodeTuple> map = mnode.getValue();
+                for (NodeTuple object : map) {
+                    Node key = object.getKeyNode();
+                    Node value = object.getValueNode();
                     anchorNode(key);
                     anchorNode(value);
                 }
@@ -177,12 +180,13 @@ public final class Serializer {
                 boolean implicitM = (node.getTag().equals(implicitTag));
                 this.emitter.emit(new MappingStartEvent(tAlias, node.getTag(), implicitM, null,
                         null, ((CollectionNode) node).getFlowStyle()));
-                List<Object[]> map = (List<Object[]>) node.getValue();
-                for (Object[] row : map) {
-                    Node key = (Node) row[0];
-                    Node value = (Node) row[1];
-                    serializeNode(key, node, null);
-                    serializeNode(value, node, key);
+                MappingNode mnode = (MappingNode) node;
+                List<NodeTuple> map = mnode.getValue();
+                for (NodeTuple row : map) {
+                    Node key = row.getKeyNode();
+                    Node value = row.getValueNode();
+                    serializeNode(key, mnode, null);
+                    serializeNode(value, mnode, key);
                 }
                 this.emitter.emit(new MappingEndEvent(null, null));
             }

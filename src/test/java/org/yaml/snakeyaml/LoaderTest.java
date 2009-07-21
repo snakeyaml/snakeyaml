@@ -9,6 +9,7 @@ import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -19,14 +20,14 @@ public class LoaderTest extends TestCase {
         loader.setResolver(new Resolver());
         String yaml = "abc: 3";
         MappingNode node = (MappingNode) loader.compose(new StringReader(yaml));
-        List<Node[]> nodes = node.getValue();
+        List<NodeTuple> nodes = node.getValue();
         assertEquals(1, nodes.size());
-        Node[] pairs = nodes.get(0);
-        ScalarNode key = (ScalarNode) pairs[0];
+        NodeTuple pairs = nodes.get(0);
+        ScalarNode key = (ScalarNode) pairs.getKeyNode();
         assertEquals("tag:yaml.org,2002:str", key.getTag());
         assertEquals("abc", key.getValue());
         //
-        ScalarNode value = (ScalarNode) pairs[1];
+        ScalarNode value = (ScalarNode) pairs.getValueNode();
         assertEquals("tag:yaml.org,2002:int", value.getTag());
         assertEquals("3", value.getValue());
         //

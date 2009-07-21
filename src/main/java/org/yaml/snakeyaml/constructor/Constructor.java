@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.introspector.MethodProperty;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 
@@ -338,15 +339,16 @@ public class Constructor extends SafeConstructor {
     @SuppressWarnings("unchecked")
     private Object constructJavaBeanNode2ndStep(MappingNode node, Object object) {
         Class<? extends Object> beanType = node.getType();
-        List<Node[]> nodeValue = (List<Node[]>) node.getValue();
-        for (Node[] tuple : nodeValue) {
+        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+        for (NodeTuple tuple : nodeValue) {
             ScalarNode keyNode;
-            if (tuple[0] instanceof ScalarNode) {
-                keyNode = (ScalarNode) tuple[0];// key must be scalar
+            if (tuple.getKeyNode() instanceof ScalarNode) {
+                // key must be scalar
+                keyNode = (ScalarNode) tuple.getKeyNode();
             } else {
-                throw new YAMLException("Keys must be scalars but found: " + tuple[0]);
+                throw new YAMLException("Keys must be scalars but found: " + tuple.getKeyNode());
             }
-            Node valueNode = tuple[1];
+            Node valueNode = tuple.getValueNode();
             // keys can only be Strings
             keyNode.setType(String.class);
             String key = (String) constructObject(keyNode);

@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.introspector.MethodProperty;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 /**
@@ -71,7 +72,7 @@ public class Representer extends SafeRepresenter {
     }
 
     private Node representJavaBean(Set<Property> properties, Object javaBean) {
-        List<Node[]> value = new LinkedList<Node[]>();
+        List<NodeTuple> value = new LinkedList<NodeTuple>();
         String tag;
         String customTag = classTags.get(javaBean.getClass());
         if (customTag == null) {
@@ -110,7 +111,7 @@ public class Representer extends SafeRepresenter {
             if (!((nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null))) {
                 bestStyle = false;
             }
-            value.add(new Node[] { nodeKey, nodeValue });
+            value.add(new NodeTuple(nodeKey, nodeValue));
         }
         if (defaultFlowStyle != null) {
             node.setFlowStyle(defaultFlowStyle);

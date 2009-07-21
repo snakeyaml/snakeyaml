@@ -16,6 +16,7 @@ import java.util.Stack;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 
@@ -172,17 +173,17 @@ public abstract class BaseConstructor {
     }
 
     protected void constructMapping2ndStep(MappingNode node, Map<Object, Object> mapping) {
-        List<Node[]> nodeValue = (List<Node[]>) node.getValue();
-        for (Node[] tuple : nodeValue) {
-            Node keyNode = tuple[0];
-            Node valueNode = tuple[1];
+        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+        for (NodeTuple tuple : nodeValue) {
+            Node keyNode = tuple.getKeyNode();
+            Node valueNode = tuple.getValueNode();
             Object key = constructObject(keyNode);
             if (key != null) {
                 try {
                     key.hashCode();// check circular dependencies
                 } catch (Exception e) {
                     throw new ConstructorException("while constructing a mapping", node
-                            .getStartMark(), "found unacceptable key " + key, tuple[0]
+                            .getStartMark(), "found unacceptable key " + key, tuple.getKeyNode()
                             .getStartMark(), e);
                 }
             }
@@ -203,16 +204,16 @@ public abstract class BaseConstructor {
     }
 
     protected void constructSet2ndStep(MappingNode node, Set<Object> set) {
-        List<Node[]> nodeValue = (List<Node[]>) node.getValue();
-        for (Node[] tuple : nodeValue) {
-            Node keyNode = tuple[0];
+        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+        for (NodeTuple tuple : nodeValue) {
+            Node keyNode = tuple.getKeyNode();
             Object key = constructObject(keyNode);
             if (key != null) {
                 try {
                     key.hashCode();// check circular dependencies
                 } catch (Exception e) {
                     throw new ConstructorException("while constructing a Set", node.getStartMark(),
-                            "found unacceptable key " + key, tuple[0].getStartMark(), e);
+                            "found unacceptable key " + key, tuple.getKeyNode().getStartMark(), e);
                 }
             }
             if (keyNode.isTwoStepsConstruction()) {
