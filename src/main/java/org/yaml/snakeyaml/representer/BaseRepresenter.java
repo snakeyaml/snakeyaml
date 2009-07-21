@@ -52,8 +52,7 @@ public abstract class BaseRepresenter {
     public void represent(Serializer serializer, Object data) throws IOException {
         Node node = representData(data);
         serializer.serialize(node);
-        representedObjects.clear();
-        objectKeeper.clear();
+        reset();
     }
 
     @SuppressWarnings("unchecked")
@@ -176,5 +175,15 @@ public abstract class BaseRepresenter {
 
     public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {
         this.defaultFlowStyle = defaultFlowStyle.getStyleBoolean();
+    }
+
+    /**
+     * reset the internal state to prepare for another object to represent
+     */
+    protected void reset() {
+        isRoot = true;
+        representedObjects.clear();
+        objectKeeper.clear();
+        objectToRepresent = null;
     }
 }

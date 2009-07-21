@@ -139,4 +139,10 @@ public class Representer extends SafeRepresenter {
         }
         return properties;
     }
+
+    @Override
+    protected void reset() {
+        super.reset();
+        rootTag = null;
+    }
 }
