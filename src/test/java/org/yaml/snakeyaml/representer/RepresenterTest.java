@@ -122,10 +122,10 @@ public class RepresenterTest extends TestCase {
     public void testRepresenterAddNull() {
         Representer representer = new Representer();
         try {
-            representer.addTypeDescription(null);
-            fail("Representer must be provided.");
+            representer.addClassTag(EmptyBean.class, null);
+            fail("Tag must be provided.");
         } catch (Exception e) {
-            assertTrue(true);
+            assertEquals("Tag must be provided.", e.getMessage());
         }
     }
 

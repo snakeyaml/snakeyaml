@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="remove">
+                Remove unused TypeDescription in Representer (2009-07-21)
+            </action>
             <action dev="py4fun" type="update">
                 Use NodeTuple instead of Node[] for mappings (2009-07-21)
             </action>

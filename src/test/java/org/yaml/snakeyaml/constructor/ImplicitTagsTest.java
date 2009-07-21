@@ -92,7 +92,7 @@ public class ImplicitTagsTest extends TestCase {
         assertTrue(carYaml1.startsWith("!!org.yaml.snakeyaml.constructor.Car"));
         //
         Representer representer = new Representer();
-        representer.addTypeDescription(new TypeDescription(Car.class, "!car"));
+        representer.addClassTag(Car.class, "!car");
         Dumper dumper = new Dumper(representer, new DumperOptions());
         yaml = new Yaml(dumper);
         String carYaml2 = yaml.dump(car);

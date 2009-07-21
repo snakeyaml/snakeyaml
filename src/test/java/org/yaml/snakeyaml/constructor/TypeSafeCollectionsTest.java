@@ -73,7 +73,7 @@ public class TypeSafeCollectionsTest extends TestCase {
         c.setPlate("00-FF-Q2");
         c.setWheels(wheels);
         Representer representer = new Representer();
-        representer.addTypeDescription(new TypeDescription(MyWheel.class, "tag:yaml.org,2002:map"));
+        representer.addClassTag(MyWheel.class, "tag:yaml.org,2002:map");
         Dumper dumper = new Dumper(representer, new DumperOptions());
         Yaml yaml = new Yaml(dumper);
         String output = yaml.dump(c);

@@ -44,8 +44,8 @@ public class ClassTagsTest extends TestCase {
         }
         car.setWheels(wheels);
         Representer representer = new Representer();
-        representer.addTypeDescription(new TypeDescription(Car.class, "!car"));
-        representer.addTypeDescription(new TypeDescription(Wheel.class, "tag:yaml.org,2002:map"));
+        representer.addClassTag(Car.class, "!car");
+        representer.addClassTag(Wheel.class, "tag:yaml.org,2002:map");
         Dumper dumper = new Dumper(representer, new DumperOptions());
         Yaml yaml = new Yaml(dumper);
         String output = yaml.dump(car);

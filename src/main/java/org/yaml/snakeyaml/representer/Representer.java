@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.FieldProperty;
 import org.yaml.snakeyaml.introspector.MethodProperty;
@@ -30,32 +29,28 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
  */
 public class Representer extends SafeRepresenter {
     private Map<Class<? extends Object>, String> classTags;
-    private Map<Class<? extends Object>, TypeDescription> classDefinitions;
     private String rootTag = null;
 
     public Representer() {
         classTags = new HashMap<Class<? extends Object>, String>();
-        classDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
         this.representers.put(null, new RepresentJavaBean());
     }
 
     /**
-     * Make YAML aware how to represent a custom Class. If there is no root
-     * Class assigned in constructor then the 'root' property of this definition
-     * is respected.
+     * Define a tag for the <code>Class</code> to serialize
      * 
-     * @param definition
-     *            to be added to the Constructor
-     * @return the previous value associated with <tt>definition</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>definition</tt>.
+     * @param clazz
+     *            <code>Class</code> which tag is changed
+     * @param tag
+     *            new tag to be used for every instance of the specified
+     *            <code>Class</code>
+     * @return the previous tag associated with the <code>Class</code>
      */
-    public TypeDescription addTypeDescription(TypeDescription definition) {
-        if (definition == null) {
-            throw new NullPointerException("ClassDescription is required.");
+    public String addClassTag(Class<? extends Object> clazz, String tag) {
+        if (tag == null || tag.length() == 0) {
+            throw new YAMLException("Tag must be provided.");
         }
-        String tag = definition.getTag();
-        classTags.put(definition.getType(), tag);
-        return classDefinitions.put(definition.getType(), definition);
+        return classTags.put(clazz, tag);
     }
 
     private class RepresentJavaBean implements Represent {
