@@ -84,9 +84,9 @@ public class Yaml {
      * @return YAML String
      */
     public String dump(Object data) {
-        List<Object> lst = new ArrayList<Object>(1);
-        lst.add(data);
-        return dumpAll(lst.iterator());
+        List<Object> list = new ArrayList<Object>(1);
+        list.add(data);
+        return dumpAll(list.iterator());
     }
 
     /**
@@ -111,9 +111,9 @@ public class Yaml {
      *            stream to write to
      */
     public void dump(Object data, Writer output) {
-        List<Object> lst = new ArrayList<Object>(1);
-        lst.add(data);
-        dumpAll(lst.iterator(), output);
+        List<Object> list = new ArrayList<Object>(1);
+        list.add(data);
+        dumpAll(list.iterator(), output);
     }
 
     /**
