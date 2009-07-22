@@ -19,7 +19,7 @@
       partner: *id001
   birthPlace: Munich
   birthday: 1979-10-28T23:06:40Z
-  children: !!java.util.LinkedHashSet {}
+  children: !!set {}
   father: *id001
   mother: *id003
   name: Son
@@ -29,7 +29,7 @@
   bankAccountOwner: *id001
   birthPlace: New York
   birthday: 1983-04-24T02:40:00Z
-  children: !!java.util.LinkedHashSet {}
+  children: !!set {}
   father: *id001
   mother: *id003
   name: Daughter

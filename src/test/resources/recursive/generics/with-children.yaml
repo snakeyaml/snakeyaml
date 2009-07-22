@@ -3,12 +3,13 @@ bankAccountOwner: &id001
   bankAccountOwner: *id001
   birthPlace: Leningrad
   birthday: 1970-01-12T13:46:40Z
-  children: &id003 !!java.util.LinkedHashSet
+  children: &id003 !!set
     *id002: null
-    ? bankAccountOwner: *id001
+    ? !!org.yaml.snakeyaml.recursive.generics.HumanGen
+      bankAccountOwner: *id001
       birthPlace: New York
       birthday: 1983-04-24T02:40:00Z
-      children: !!java.util.LinkedHashSet {}
+      children: !!set {}
       father: *id001
       mother: &id004
         bankAccountOwner: *id001
@@ -28,7 +29,7 @@ bankAccountOwner: &id001
   partner: *id004
 birthPlace: Munich
 birthday: 1979-10-28T23:06:40Z
-children: !!java.util.LinkedHashSet {}
+children: !!set {}
 father: *id001
 mother: *id004
 name: Son

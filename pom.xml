@@ -70,9 +70,6 @@
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
-					<excludes>
-						<exclude>**/HumanGenericsTest.java</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
