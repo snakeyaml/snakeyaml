@@ -5,9 +5,9 @@ package org.yaml.snakeyaml.constructor;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
@@ -62,7 +62,7 @@ public class TypeSafeCollectionsTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testWithGlobalTag() throws IOException {
-        Map<MyWheel, Date> wheels = new HashMap<MyWheel, Date>();
+        Map<MyWheel, Date> wheels = new TreeMap<MyWheel, Date>();
         long time = 1248212168084L;
         for (int i = 1; i < 6; i++) {
             MyWheel mw = new MyWheel();

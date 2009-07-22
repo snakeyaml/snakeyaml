@@ -3,7 +3,7 @@
  */
 package org.yaml.snakeyaml.constructor;
 
-public class MyWheel {
+public class MyWheel implements Comparable<MyWheel> {
     private int id;
     private String brand;
 
@@ -45,5 +45,9 @@ public class MyWheel {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public int compareTo(MyWheel arg0) {
+        return new Integer(id).compareTo(new Integer(arg0.id));
     }
 }
