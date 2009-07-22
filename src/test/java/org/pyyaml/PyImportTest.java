@@ -50,13 +50,9 @@ public abstract class PyImportTest extends TestCase {
     }
 
     protected String getResource(String theName) {
-        try {
-            String content;
-            content = Util.getLocalResource(PATH + File.separator + theName);
-            return content;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String content;
+        content = Util.getLocalResource(PATH + File.separator + theName);
+        return content;
     }
 
     protected File[] getStreamsByExtension(String extention) {

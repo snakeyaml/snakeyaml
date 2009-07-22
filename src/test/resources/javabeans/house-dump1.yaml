@@ -1,0 +1,14 @@
+frontDoor:
+  height: 5
+  id: qaz1
+  keytype: qwerty123
+number: 1
+reminders:
+  today: do nothig
+  tomorrow: go shoping
+rooms:
+- !!org.yaml.snakeyaml.javabeans.Room
+  name: Hall
+- !!org.yaml.snakeyaml.javabeans.Room
+  name: Kitchen
+street: Wall Street

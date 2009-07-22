@@ -1,0 +1,12 @@
+frontDoor:
+  height: 5
+  id: qaz1
+  keytype: qwerty123
+number: 1
+reminders:
+  today: do nothig
+  tomorrow: go shoping
+rooms:
+- name: Hall
+- name: Kitchen
+street: Wall Street

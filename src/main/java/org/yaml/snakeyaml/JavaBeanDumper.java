@@ -6,9 +6,12 @@ package org.yaml.snakeyaml;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
@@ -17,6 +20,7 @@ import org.yaml.snakeyaml.resolver.Resolver;
 public class JavaBeanDumper {
     private boolean useGlobalTag;
     private FlowStyle flowStyle;
+    private Set<Class<? extends Object>> classTags;
 
     /**
      * Create Dumper for JavaBeans
@@ -27,6 +31,7 @@ public class JavaBeanDumper {
     public JavaBeanDumper(boolean useGlobalTag) {
         this.useGlobalTag = useGlobalTag;
         this.flowStyle = FlowStyle.BLOCK;
+        classTags = new HashSet<Class<? extends Object>>();
     }
 
     /**
@@ -50,7 +55,11 @@ public class JavaBeanDumper {
             options.setExplicitRoot("tag:yaml.org,2002:map");
         }
         options.setDefaultFlowStyle(flowStyle);
-        Dumper dumper = new Dumper(options);
+        Representer representer = new Representer();
+        for (Class<? extends Object> clazz : classTags) {
+            representer.addClassTag(clazz, "tag:yaml.org,2002:map");
+        }
+        Dumper dumper = new Dumper(representer, options);
         List<Object> list = new ArrayList<Object>(1);
         list.add(data);
         dumper.dump(list.iterator(), output, new Resolver());
@@ -85,4 +94,13 @@ public class JavaBeanDumper {
         this.flowStyle = flowStyle;
     }
 
+    /**
+     * Skip global tag with the specified class in a type-safe collection
+     * 
+     * @param clazz
+     *            JavaBean <code>Class</code> to represent as Map
+     */
+    public void setMapTagForBean(Class<? extends Object> clazz) {
+        classTags.add(clazz);
+    }
 }
