@@ -43,17 +43,13 @@ public abstract class BaseRepresenter {
     protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>();
     private final Set<Object> objectKeeper = new HashSet<Object>();
     protected Object objectToRepresent;
-    /*
-     * because when representing JavaBeans the root tag has a special meaning we
-     * have to let the <code>Representer</code> know whether the Node to
-     * represent is root
-     */
-    protected boolean isRoot = true;
 
     public void represent(Serializer serializer, Object data) throws IOException {
         Node node = representData(data);
         serializer.serialize(node);
-        reset();
+        representedObjects.clear();
+        objectKeeper.clear();
+        objectToRepresent = null;
     }
 
     @SuppressWarnings("unchecked")
@@ -108,7 +104,6 @@ public abstract class BaseRepresenter {
         }
         Node node = new ScalarNode(tag, value, null, null, style);
         representedObjects.put(objectToRepresent, node);
-        isRoot = false;
         return node;
     }
 
@@ -120,7 +115,6 @@ public abstract class BaseRepresenter {
         List<Node> value = new LinkedList<Node>();
         SequenceNode node = new SequenceNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
-        isRoot = false;
         boolean bestStyle = true;
         for (Object item : sequence) {
             Node nodeItem = representData(item);
@@ -144,7 +138,6 @@ public abstract class BaseRepresenter {
         List<NodeTuple> value = new LinkedList<NodeTuple>();
         MappingNode node = new MappingNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
-        isRoot = false;
         boolean bestStyle = true;
         for (Object itemKey : mapping.keySet()) {
             Object itemValue = mapping.get(itemKey);
@@ -176,15 +169,5 @@ public abstract class BaseRepresenter {
 
     public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {
         this.defaultFlowStyle = defaultFlowStyle.getStyleBoolean();
-    }
-
-    /**
-     * reset the internal state to prepare for another object to represent
-     */
-    protected void reset() {
-        isRoot = true;
-        representedObjects.clear();
-        objectKeeper.clear();
-        objectToRepresent = null;
     }
 }

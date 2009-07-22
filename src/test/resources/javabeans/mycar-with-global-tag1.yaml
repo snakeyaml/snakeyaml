@@ -1,0 +1,14 @@
+!!org.yaml.snakeyaml.constructor.MyCar
+plate: 00-FF-Q2
+wheels:
+  ? {brand: Pirelli1, id: 1}
+  : 2009-07-21T21:36:08.085Z
+  ? {brand: Pirelli2, id: 2}
+  : 2009-07-21T21:36:08.086Z
+  ? {brand: Pirelli3, id: 3}
+  : 2009-07-21T21:36:08.087Z
+  ? {brand: Pirelli4, id: 4}
+  : 2009-07-21T21:36:08.088Z
+  ? {brand: Pirelli5, id: 5}
+  : 2009-07-21T21:36:08.089Z
+windows: null

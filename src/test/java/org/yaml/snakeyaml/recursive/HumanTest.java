@@ -16,6 +16,8 @@ import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.JavaBeanDumper;
+import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -87,19 +89,16 @@ public class HumanTest extends TestCase {
         father.setChildren(children);
         mother.setChildren(children);
         //
-
-        Constructor constructor = new Constructor();
-        TypeDescription humanDescription = new TypeDescription(Human.class);
-        humanDescription.putMapPropertyType("children", Human.class, Object.class);
-        constructor.addTypeDescription(humanDescription);
-
-        Yaml yaml = new Yaml(new Loader(constructor));
-        String output = yaml.dump(son);
+        JavaBeanDumper beanDumper = new JavaBeanDumper();
+        String output = beanDumper.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children.yaml");
         assertEquals(etalon, output);
+        TypeDescription humanDescription = new TypeDescription(Human.class);
+        humanDescription.putMapPropertyType("children", Human.class, Object.class);
+        JavaBeanLoader<Human> beanLoader = new JavaBeanLoader<Human>(humanDescription);
         //
-        Human son2 = (Human) yaml.load(output);
+        Human son2 = beanLoader.load(output);
         assertNotNull(son2);
         assertEquals("Son", son.getName());
 

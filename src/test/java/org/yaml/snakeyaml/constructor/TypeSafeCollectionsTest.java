@@ -13,6 +13,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -59,15 +60,15 @@ public class TypeSafeCollectionsTest extends TestCase {
         }
     }
 
-    public void test1() throws IOException {
+    @SuppressWarnings("unchecked")
+    public void testWithGlobalTag() throws IOException {
         Map<MyWheel, Date> wheels = new HashMap<MyWheel, Date>();
+        long time = 1248212168084L;
         for (int i = 1; i < 6; i++) {
             MyWheel mw = new MyWheel();
             mw.setId(i);
-            if (i == 2) {
-                mw.setBrand("Michel");
-            }
-            wheels.put(mw, new Date());
+            mw.setBrand(mw.getBrand() + String.valueOf(i));
+            wheels.put(mw, new Date(time + i));
         }
         MyCar c = new MyCar();
         c.setPlate("00-FF-Q2");
@@ -77,6 +78,23 @@ public class TypeSafeCollectionsTest extends TestCase {
         Dumper dumper = new Dumper(representer, new DumperOptions());
         Yaml yaml = new Yaml(dumper);
         String output = yaml.dump(c);
-        assertTrue(output.startsWith("!!org.yaml.snakeyaml.constructor.MyCar"));
+        assertEquals(Util.getLocalResource("javabeans/mycar-with-global-tag1.yaml"), output);
+        // load
+        JavaBeanLoader<MyCar> beanLoader = new JavaBeanLoader<MyCar>(MyCar.class);
+        MyCar car = beanLoader.load(output);
+        assertNotNull(car);
+        assertEquals("00-FF-Q2", car.getPlate());
+        assertEquals(5, car.getWheels().size());
+        for (Date d : car.getWheels().values()) {
+            // give a day for any timezone
+            assertTrue(d.before(new Date(time + 1000 * 60 * 60 * 24)));
+            assertTrue(d.after(new Date(time)));
+        }
+        // due to erasure MyCar gets maps instead of MyWheels
+        Object wheel = car.getWheels().keySet().iterator().next();
+        assertTrue(wheel instanceof Map);
+        Map<String, Object> map = (Map<String, Object>) wheel;
+        assertEquals(new Integer(1), (Integer) map.get("id"));
+        assertEquals("Pirelli1", map.get("brand"));
     }
 }

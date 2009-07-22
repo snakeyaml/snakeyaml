@@ -3,21 +3,21 @@
  */
 package org.yaml.snakeyaml.recursive;
 
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Human extends AbstractHuman {
-    
+
     private Human father;
     private Human mother;
     private Human partner;
     private Human bankAccountOwner;
     protected Set<Human> children;
-    
+
     public Human() {
-        children = new LinkedHashSet<Human>();
+        children = new HashSet<Human>();
     }
-    
+
     public Human getFather() {
         return father;
     }

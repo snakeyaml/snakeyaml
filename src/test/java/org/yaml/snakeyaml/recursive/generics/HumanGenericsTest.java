@@ -17,6 +17,7 @@ import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Loader;
@@ -25,6 +26,7 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.generics.JvmDetector;
+import org.yaml.snakeyaml.representer.Representer;
 
 public class HumanGenericsTest extends TestCase {
 
@@ -207,19 +209,20 @@ public class HumanGenericsTest extends TestCase {
         father.setChildren(children);
         mother.setChildren(children);
         //
-
-        Constructor constructor = new Constructor();
-        TypeDescription humanDescription = new TypeDescription(HumanGen2.class);
-        humanDescription.putMapPropertyType("children", HumanGen2.class, String.class);
-        constructor.addTypeDescription(humanDescription);
-
-        Yaml yaml = new Yaml(new Loader(constructor));
+        Representer representer = new Representer();
+        representer.addClassTag(HumanGen2.class, "tag:yaml.org,2002:map");
+        Dumper dumper = new Dumper(representer, new DumperOptions());
+        Yaml yaml = new Yaml(dumper);
         String output = yaml.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/generics/with-children-2.yaml");
         assertEquals(etalon, output);
+        // load
+        TypeDescription humanDescription = new TypeDescription(HumanGen2.class);
+        humanDescription.putMapPropertyType("children", HumanGen2.class, String.class);
+        JavaBeanLoader<HumanGen2> beanLoader = new JavaBeanLoader<HumanGen2>(humanDescription);
         //
-        HumanGen2 son2 = (HumanGen2) yaml.load(output);
+        HumanGen2 son2 = beanLoader.load(output);
         assertNotNull(son2);
         assertEquals("Son", son.getName());
 

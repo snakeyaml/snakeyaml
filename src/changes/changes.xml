@@ -8,6 +8,10 @@
 	<body>
 	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="development">
             <action dev="py4fun" type="remove">
+                Refactor: redesign tag management for JavaBeans in Representer. 
+                Drop dynamic root tag concept (2009-07-22)
+            </action>
+            <action dev="py4fun" type="remove">
                 Remove unused TypeDescription in Representer (2009-07-21)
             </action>
             <action dev="py4fun" type="update">

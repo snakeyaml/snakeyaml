@@ -29,7 +29,6 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
  */
 public class Representer extends SafeRepresenter {
     private Map<Class<? extends Object>, String> classTags;
-    private String rootTag = null;
 
     public Representer() {
         classTags = new HashMap<Class<? extends Object>, String>();
@@ -47,8 +46,8 @@ public class Representer extends SafeRepresenter {
      * @return the previous tag associated with the <code>Class</code>
      */
     public String addClassTag(Class<? extends Object> clazz, String tag) {
-        if (tag == null || tag.length() == 0) {
-            throw new YAMLException("Tag must be provided.");
+        if (tag == null) {
+            throw new NullPointerException("Tag must be provided.");
         }
         return classTags.put(clazz, tag);
     }
@@ -66,22 +65,25 @@ public class Representer extends SafeRepresenter {
         }
     }
 
+    /**
+     * Tag logic:<br/>
+     * - explicit root tag is set in serializer <br/>
+     * - if there is a predefined class tag it is used<br/>
+     * - a global tag with class name is always used as tag. The JavaBean parent
+     * of the specified JavaBean may set another tag (tag:yaml.org,2002:map)
+     * when the property class is the same as runtime class
+     * 
+     * @param properties
+     *            JavaBean getters
+     * @param javaBean
+     *            instance for Node
+     * @return Node to get serialized
+     */
     private Node representJavaBean(Set<Property> properties, Object javaBean) {
         List<NodeTuple> value = new LinkedList<NodeTuple>();
         String tag;
         String customTag = classTags.get(javaBean.getClass());
-        if (customTag == null) {
-            if (rootTag == null) {
-                tag = "tag:yaml.org,2002:" + javaBean.getClass().getName();
-            } else {
-                tag = "tag:yaml.org,2002:map";
-            }
-        } else {
-            tag = customTag;
-        }
-        if (rootTag == null && isRoot) {
-            rootTag = tag;
-        }
+        tag = customTag != null ? customTag : "tag:yaml.org,2002:" + javaBean.getClass().getName();
         // flow style will be chosen by BaseRepresenter
         MappingNode node = new MappingNode(tag, value, null);
         representedObjects.put(objectToRepresent, node);
@@ -91,10 +93,18 @@ public class Representer extends SafeRepresenter {
             Object memberValue = property.get(javaBean);
             Node nodeValue = representData(memberValue);
             if (nodeValue instanceof MappingNode) {
+                // the node is a map, set or JavaBean
                 if (!Map.class.isAssignableFrom(memberValue.getClass())) {
-                    if (property.getType() != memberValue.getClass()) {
-                        String memberTag = "tag:yaml.org,2002:" + memberValue.getClass().getName();
-                        nodeValue.setTag(memberTag);
+                    // the node is set or JavaBean
+                    if (property.getType() == memberValue.getClass()) {
+                        // we do not need global tag because the property
+                        // Class is the same as the runtime class
+                        if (node != nodeValue) {
+                            String memberTag = "tag:yaml.org,2002:map";
+                            nodeValue.setTag(memberTag);
+                        } else {
+                            // recursive node, keep the tag
+                        }
                     }
                 }
             } else if (memberValue != null && Enum.class.isAssignableFrom(memberValue.getClass())) {
@@ -108,6 +118,8 @@ public class Representer extends SafeRepresenter {
             }
             value.add(new NodeTuple(nodeKey, nodeValue));
         }
+        // recursive JavaBeans might change the tag for the parent JavaBean
+        node.setTag(tag);
         if (defaultFlowStyle != null) {
             node.setFlowStyle(defaultFlowStyle);
         } else {
@@ -136,9 +148,4 @@ public class Representer extends SafeRepresenter {
         return properties;
     }
 
-    @Override
-    protected void reset() {
-        super.reset();
-        rootTag = null;
-    }
 }

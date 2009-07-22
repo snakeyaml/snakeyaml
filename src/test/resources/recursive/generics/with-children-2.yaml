@@ -1,4 +1,4 @@
-&id002 !!org.yaml.snakeyaml.recursive.generics.HumanGen2
+&id002
 bankAccountOwner: &id001
   bankAccountOwner: *id001
   birthPlace: Leningrad
