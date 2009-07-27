@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="add">
+                Generate sources and Javadoc (2009-07-27)
+            </action>
             <action dev="py4fun" type="update">
                 Node does not have the value. It is delegated to the non-abstract classes (2009-07-27)
             </action>
