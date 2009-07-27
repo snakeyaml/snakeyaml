@@ -13,4 +13,13 @@ public class SequenceNodeTest extends TestCase {
         SequenceNode node = new SequenceNode("!foo", new ArrayList<Node>(), null, null, true);
         assertEquals(NodeId.sequence, node.getNodeId());
     }
+
+    public void testNullValue() {
+        try {
+            new SequenceNode("!foo", null, null, null, true);
+            fail("Value is required.");
+        } catch (Exception e) {
+            assertEquals("value in a Node is required.", e.getMessage());
+        }
+    }
 }

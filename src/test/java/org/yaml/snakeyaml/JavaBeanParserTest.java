@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 
 public class JavaBeanParserTest extends TestCase {
 
+    @SuppressWarnings("deprecation")
     public void testLoadString() {
         Bean bean = new Bean();
         bean.setId(3);
@@ -26,6 +27,7 @@ public class JavaBeanParserTest extends TestCase {
         assertFalse(parsed2.isValid());
     }
 
+    @SuppressWarnings("deprecation")
     public void testLoadInputStream() {
         String yaml = "!!org.yaml.snakeyaml.JavaBeanParserTest$Bean {id: 3, name: Test me.}\n";
         InputStream input = new ByteArrayInputStream(yaml.getBytes());
@@ -34,6 +36,7 @@ public class JavaBeanParserTest extends TestCase {
         assertEquals("Test me.", parsed.getName());
     }
 
+    @SuppressWarnings("deprecation")
     public void testLoadReader() {
         String yaml = "!!org.yaml.snakeyaml.JavaBeanParserTest$Bean {id: 3, name: Test me.}\n";
         java.io.Reader input = new StringReader(yaml);

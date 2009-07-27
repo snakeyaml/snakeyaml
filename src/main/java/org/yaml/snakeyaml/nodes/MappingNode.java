@@ -13,16 +13,21 @@ import org.yaml.snakeyaml.error.Mark;
 public class MappingNode extends CollectionNode {
     private Class<? extends Object> keyType;
     private Class<? extends Object> valueType;
+    private List<NodeTuple> value;
 
     public MappingNode(String tag, List<NodeTuple> value, Mark startMark, Mark endMark,
             Boolean flowStyle) {
-        super(tag, value, startMark, endMark, flowStyle);
+        super(tag, startMark, endMark, flowStyle);
+        if (value == null) {
+            throw new NullPointerException("value in a Node is required.");
+        }
+        this.value = value;
         keyType = Object.class;
         valueType = Object.class;
     }
 
     public MappingNode(String tag, List<NodeTuple> value, Boolean flowStyle) {
-        super(tag, value, null, null, flowStyle);
+        this(tag, value, null, null, flowStyle);
     }
 
     @Override
@@ -30,15 +35,12 @@ public class MappingNode extends CollectionNode {
         return NodeId.mapping;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
     public List<NodeTuple> getValue() {
-        List<NodeTuple> mapping = (List<NodeTuple>) super.getValue();
-        for (NodeTuple nodes : mapping) {
+        for (NodeTuple nodes : value) {
             nodes.getKeyNode().setType(keyType);
             nodes.getValueNode().setType(valueType);
         }
-        return mapping;
+        return value;
     }
 
     public void setValue(List<NodeTuple> merge) {

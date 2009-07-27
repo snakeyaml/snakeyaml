@@ -6,7 +6,6 @@ package org.yaml.snakeyaml.composer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +19,6 @@ import org.yaml.snakeyaml.events.SequenceEndEvent;
 import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
-import org.yaml.snakeyaml.nodes.CollectionNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -146,21 +144,20 @@ public class Composer {
         return node;
     }
 
-    @SuppressWarnings("unchecked")
     private Node composeSequenceNode(String anchor) {
         SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
         if (tag == null || tag.equals("!")) {
             tag = resolver.resolve(NodeId.sequence, null, startEvent.getImplicit());
         }
-        CollectionNode node = new SequenceNode(tag, new LinkedList<Node>(), startEvent
-                .getStartMark(), null, startEvent.getFlowStyle());
+        SequenceNode node = new SequenceNode(tag, new LinkedList<Node>(),
+                startEvent.getStartMark(), null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
         int index = 0;
         while (!parser.checkEvent(SequenceEndEvent.class)) {
-            ((List<Object>) node.getValue()).add(composeNode(node, new Integer(index)));
+            (node.getValue()).add(composeNode(node, new Integer(index)));
             index++;
         }
         Event endEvent = parser.getEvent();
@@ -182,7 +179,7 @@ public class Composer {
         while (!parser.checkEvent(MappingEndEvent.class)) {
             Node itemKey = composeNode(node, null);
             Node itemValue = composeNode(node, itemKey);
-            node.getValue().add(new NodeTuple(itemKey, itemValue)); 
+            node.getValue().add(new NodeTuple(itemKey, itemValue));
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());

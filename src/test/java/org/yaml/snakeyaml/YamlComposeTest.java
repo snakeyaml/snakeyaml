@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.ScalarNode;
 
 public class YamlComposeTest extends TestCase {
 
@@ -27,8 +28,10 @@ public class YamlComposeTest extends TestCase {
     public void testComposeFromReader() {
         Yaml yaml = new Yaml();
         MappingNode node = (MappingNode) yaml.compose(new StringReader("abc: 56"));
-        assertEquals("abc", node.getValue().get(0).getKeyNode().getValue());
-        assertEquals("56", node.getValue().get(0).getValueNode().getValue());
+        ScalarNode node1 = (ScalarNode) node.getValue().get(0).getKeyNode();
+        assertEquals("abc", node1.getValue());
+        ScalarNode node2 = (ScalarNode) node.getValue().get(0).getValueNode();
+        assertEquals("56", node2.getValue());
     }
 
     public void testComposeAllFromReader() {

@@ -4,7 +4,6 @@
 package org.yaml.snakeyaml;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -34,8 +33,6 @@ public class YamlDocument {
             presentation = output.toString(charset.name());
             source = Util.getLocalResource(ROOT + sourceName);
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         // try to read generated presentation to prove that the presentation

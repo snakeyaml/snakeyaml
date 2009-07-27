@@ -10,18 +10,13 @@ import org.yaml.snakeyaml.error.Mark;
  */
 public abstract class Node {
     private String tag;
-    protected Object value;
     private Mark startMark;
     protected Mark endMark;
     private Class<? extends Object> type;
     private boolean twoStepsConstruction;
 
-    public Node(String tag, Object value, Mark startMark, Mark endMark) {
+    public Node(String tag, Mark startMark, Mark endMark) {
         setTag(tag);
-        if (value == null) {
-            throw new NullPointerException("value in a Node is required.");
-        }
-        this.value = value;
         this.startMark = startMark;
         this.endMark = endMark;
         this.type = Object.class;
@@ -32,17 +27,8 @@ public abstract class Node {
         return this.tag;
     }
 
-    public Object getValue() {
-        return this.value;
-    }
-
     public Mark getEndMark() {
         return endMark;
-    }
-
-    public String toString() {
-        return "<" + this.getClass().getName() + " (tag=" + getTag() + ", value=" + getValue()
-                + ")>";
     }
 
     /**
@@ -86,5 +72,10 @@ public abstract class Node {
 
     public boolean isTwoStepsConstruction() {
         return twoStepsConstruction;
+    }
+
+    @Override
+    public final int hashCode() {
+        return super.hashCode();
     }
 }

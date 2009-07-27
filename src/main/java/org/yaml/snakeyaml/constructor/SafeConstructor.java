@@ -240,7 +240,9 @@ public class SafeConstructor extends BaseConstructor {
 
     private class ConstructYamlTimestamp extends AbstractConstruct {
         public Object construct(Node node) {
-            Matcher match = YMD_REGEXP.matcher((String) node.getValue());
+            ScalarNode scalar = (ScalarNode) node;
+            String nodeValue = scalar.getValue();
+            Matcher match = YMD_REGEXP.matcher(nodeValue);
             if (match.matches()) {
                 String year_s = match.group(1);
                 String month_s = match.group(2);
@@ -253,9 +255,9 @@ public class SafeConstructor extends BaseConstructor {
                 cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day_s));
                 return cal.getTime();
             } else {
-                match = TIMESTAMP_REGEXP.matcher((String) node.getValue());
+                match = TIMESTAMP_REGEXP.matcher(nodeValue);
                 if (!match.matches()) {
-                    throw new YAMLException("Unexpected timestamp: " + node.getValue());
+                    throw new YAMLException("Unexpected timestamp: " + nodeValue);
                 }
                 String year_s = match.group(1);
                 String month_s = match.group(2);
@@ -397,12 +399,12 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     private class ConstructYamlSeq implements Construct {
-        @SuppressWarnings("unchecked")
         public Object construct(Node node) {
+            SequenceNode seqNode = (SequenceNode) node;
             if (node.isTwoStepsConstruction()) {
-                return createDefaultList(((List<Node>) node.getValue()).size());
+                return createDefaultList((seqNode.getValue()).size());
             } else {
-                return constructSequence((SequenceNode) node);
+                return constructSequence(seqNode);
             }
         }
 

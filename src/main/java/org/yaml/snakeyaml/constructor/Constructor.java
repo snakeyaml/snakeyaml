@@ -126,7 +126,7 @@ public class Constructor extends SafeConstructor {
                     ScalarNode scaNode = (ScalarNode) node;
                     Object value = constructScalar(scaNode);
                     if (Enum.class.isAssignableFrom(cl)) {
-                        String enumValueName = (String) node.getValue();
+                        String enumValueName = scaNode.getValue();
                         try {
                             result = Enum.valueOf(cl, enumValueName);
                         } catch (Exception ex) {

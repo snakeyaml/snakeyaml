@@ -29,6 +29,7 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
@@ -102,7 +103,6 @@ public final class Serializer {
         this.lastAnchorId = 0;
     }
 
-    @SuppressWarnings("unchecked")
     private void anchorNode(Node node) {
         if (this.anchors.containsKey(node)) {
             String anchor = this.anchors.get(node);
@@ -114,7 +114,8 @@ public final class Serializer {
             this.anchors.put(node, null);
             switch (node.getNodeId()) {
             case sequence:
-                List<Node> list = (List<Node>) node.getValue();
+                SequenceNode seqNode = (SequenceNode) node;
+                List<Node> list = seqNode.getValue();
                 for (Node item : list) {
                     anchorNode(item);
                 }
@@ -141,7 +142,6 @@ public final class Serializer {
         return "id" + anchorId;
     }
 
-    @SuppressWarnings("unchecked")
     private void serializeNode(Node node, Node parent, Object index) throws IOException {
         String tAlias = this.anchors.get(node);
         if (this.serializedNodes.contains(node)) {
@@ -151,24 +151,26 @@ public final class Serializer {
             // this.resolver.descendResolver(parent, index);
             switch (node.getNodeId()) {
             case scalar:
-                String detectedTag = this.resolver.resolve(NodeId.scalar, (String) node.getValue(),
+                ScalarNode scalarNode = (ScalarNode) node;
+                String detectedTag = this.resolver.resolve(NodeId.scalar, scalarNode.getValue(),
                         true);
-                String defaultTag = this.resolver.resolve(NodeId.scalar, (String) node.getValue(),
+                String defaultTag = this.resolver.resolve(NodeId.scalar, scalarNode.getValue(),
                         false);
                 boolean[] implicit = new boolean[] { false, false };
                 implicit[0] = node.getTag().equals(detectedTag);
                 implicit[1] = node.getTag().equals(defaultTag);
-                ScalarEvent event = new ScalarEvent(tAlias, node.getTag(), implicit, (String) node
-                        .getValue(), null, null, ((ScalarNode) node).getStyle());
+                ScalarEvent event = new ScalarEvent(tAlias, node.getTag(), implicit, scalarNode
+                        .getValue(), null, null, scalarNode.getStyle());
                 this.emitter.emit(event);
                 break;
             case sequence:
+                SequenceNode seqNode = (SequenceNode) node;
                 boolean implicitS = (node.getTag().equals(this.resolver.resolve(NodeId.sequence,
                         null, true)));
                 this.emitter.emit(new SequenceStartEvent(tAlias, node.getTag(), implicitS, null,
-                        null, ((CollectionNode) node).getFlowStyle()));
+                        null, seqNode.getFlowStyle()));
                 int indexCounter = 0;
-                List<Node> list = (List<Node>) node.getValue();
+                List<Node> list = seqNode.getValue();
                 for (Node item : list) {
                     serializeNode(item, node, new Integer(indexCounter));
                     indexCounter++;

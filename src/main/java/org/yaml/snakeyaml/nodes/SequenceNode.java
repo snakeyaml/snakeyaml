@@ -12,10 +12,15 @@ import org.yaml.snakeyaml.error.Mark;
  */
 public class SequenceNode extends CollectionNode {
     private Class<? extends Object> listType;
+    private List<Node> value;
 
     public SequenceNode(String tag, List<Node> value, Mark startMark, Mark endMark,
             Boolean flowStyle) {
-        super(tag, value, startMark, endMark, flowStyle);
+        super(tag, startMark, endMark, flowStyle);
+        if (value == null) {
+            throw new NullPointerException("value in a Node is required.");
+        }
+        this.value = value;
         listType = Object.class;
     }
 
@@ -28,9 +33,7 @@ public class SequenceNode extends CollectionNode {
         return NodeId.sequence;
     }
 
-    @SuppressWarnings("unchecked")
     public List<Node> getValue() {
-        List<Node> value = (List<Node>) super.getValue();
         for (Node node : value) {
             node.setType(listType);
         }
@@ -39,5 +42,10 @@ public class SequenceNode extends CollectionNode {
 
     public void setListType(Class<? extends Object> listType) {
         this.listType = listType;
+    }
+
+    public String toString() {
+        return "<" + this.getClass().getName() + " (tag=" + getTag() + ", value=" + getValue()
+                + ")>";
     }
 }
