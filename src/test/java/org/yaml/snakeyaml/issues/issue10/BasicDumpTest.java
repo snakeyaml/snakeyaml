@@ -45,7 +45,6 @@ public class BasicDumpTest extends TestCase {
         baseJDBC.setParent(base);
 
         ArrayList<DataSource> dataSources = new ArrayList<DataSource>();
-        // trying expected order first
         dataSources.add(base);
         dataSources.add(baseJDBC);
 
@@ -59,13 +58,15 @@ public class BasicDumpTest extends TestCase {
         assertEquals(etalon.trim(), output.trim());
     }
 
+    /**
+     * different order does not require the global tag
+     */
     public void testTag3() {
         DataSource base = new DataSource();
         JDBCDataSource baseJDBC = new JDBCDataSource();
         baseJDBC.setParent(base);
 
         ArrayList<DataSource> dataSources = new ArrayList<DataSource>();
-        // trying expected order first
         dataSources.add(baseJDBC);
         dataSources.add(base);
 

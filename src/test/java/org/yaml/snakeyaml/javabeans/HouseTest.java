@@ -34,7 +34,6 @@ public class HouseTest extends TestCase {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         beanDumper.setMapTagForBean(Room.class);
         String yaml = beanDumper.dump(house);
-        System.out.println(yaml);
         String etalon = Util.getLocalResource("javabeans/house-dump3.yaml");
         assertEquals(etalon, yaml);
         // load
