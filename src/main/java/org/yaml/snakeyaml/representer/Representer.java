@@ -91,20 +91,22 @@ public class Representer extends SafeRepresenter {
         for (Property property : properties) {
             ScalarNode nodeKey = (ScalarNode) representData(property.getName());
             Object memberValue = property.get(javaBean);
+            boolean hasAlias = false;
+            if (this.representedObjects.containsKey(memberValue)) {
+                // the first occurrence of the node must keep the tag
+                hasAlias = true;
+            }
             Node nodeValue = representData(memberValue);
-            if (nodeValue instanceof MappingNode) {
+            // if possible try to avoid a global tag with a class name
+            if (nodeValue instanceof MappingNode && !hasAlias) {
                 // the node is a map, set or JavaBean
                 if (!Map.class.isAssignableFrom(memberValue.getClass())) {
                     // the node is set or JavaBean
                     if (property.getType() == memberValue.getClass()) {
                         // we do not need global tag because the property
                         // Class is the same as the runtime class
-                        if (node != nodeValue) {
-                            String memberTag = "tag:yaml.org,2002:map";
-                            nodeValue.setTag(memberTag);
-                        } else {
-                            // recursive node, keep the tag
-                        }
+                        String memberTag = "tag:yaml.org,2002:map";
+                        nodeValue.setTag(memberTag);
                     }
                 }
             } else if (memberValue != null && Enum.class.isAssignableFrom(memberValue.getClass())) {

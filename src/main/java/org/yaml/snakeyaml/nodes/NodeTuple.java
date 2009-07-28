@@ -9,6 +9,9 @@ public class NodeTuple {
     private final Node valueNode;
 
     public NodeTuple(Node keyNode, Node valueNode) {
+        if (keyNode == null || valueNode == null) {
+            throw new NullPointerException("Nodes must be provided.");
+        }
         this.keyNode = keyNode;
         this.valueNode = valueNode;
     }
@@ -19,5 +22,11 @@ public class NodeTuple {
 
     public Node getValueNode() {
         return valueNode;
+    }
+
+    @Override
+    public String toString() {
+        return "<NodeTuple keyNode=" + keyNode.toString() + "; valueNode=" + valueNode.toString()
+                + ">";
     }
 }

@@ -1,0 +1,9 @@
+dataSources:
+- &id001 !!org.yaml.snakeyaml.issues.issue10.DataSource
+  name: null
+- !!org.yaml.snakeyaml.issues.issue10.JDBCDataSource
+  name: null
+  parent: *id001
+  password: null
+  url: null
+  username: null
