@@ -120,8 +120,6 @@ public class Representer extends SafeRepresenter {
             }
             value.add(new NodeTuple(nodeKey, nodeValue));
         }
-        // recursive JavaBeans might change the tag for the parent JavaBean
-        node.setTag(tag);
         if (defaultFlowStyle != null) {
             node.setFlowStyle(defaultFlowStyle);
         } else {
