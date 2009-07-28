@@ -9,6 +9,7 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
+import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -78,5 +79,11 @@ public class BasicDumpTest extends TestCase {
 
         String etalon = Util.getLocalResource("javabeans/issue10-3.yaml");
         assertEquals(etalon.trim(), output.trim());
+        // load
+        JavaBeanLoader<DataSources> beanLoader = new JavaBeanLoader<DataSources>(DataSources.class);
+        DataSources bean = beanLoader.load(output);
+        Iterator<DataSource> iter = bean.getDataSources().iterator();
+        assertTrue(iter.next() instanceof JDBCDataSource);
+        assertFalse("Must be DataSource.", iter.next() instanceof JDBCDataSource);
     }
 }
