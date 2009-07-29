@@ -1,3 +1,6 @@
+/**
+ * See LICENSE file in distribution for copyright and licensing information.
+ */
 package org.yaml.snakeyaml.nodes;
 
 public final class Tags {

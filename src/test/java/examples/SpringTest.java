@@ -1,3 +1,6 @@
+/**
+ * See LICENSE file in distribution for copyright and licensing information.
+ */
 package examples;
 
 import junit.framework.TestCase;
