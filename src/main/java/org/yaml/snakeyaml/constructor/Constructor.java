@@ -104,9 +104,9 @@ public class Constructor extends SafeConstructor {
                 case mapping:
                     node.setType(cl);
                     if (node.isTwoStepsConstruction()) {
-                        result = createJavaBeanNode(node);
+                        result = createEmptyJavaBean(node);
                     } else {
-                        result = constructJavaBeanNode((MappingNode) node);
+                        result = constructJavaBean((MappingNode) node);
                     }
                     break;
                 case sequence:
@@ -154,7 +154,7 @@ public class Constructor extends SafeConstructor {
         Object result;
         switch (node.getNodeId()) {
         case scalar:
-            result = constructJavaBeanScalarNode((ScalarNode) node);
+            result = constructJavaScalar((ScalarNode) node);
             break;
         case sequence:
             SequenceNode snode = (SequenceNode) node;
@@ -179,9 +179,9 @@ public class Constructor extends SafeConstructor {
                 }
             } else {
                 if (node.isTwoStepsConstruction()) {
-                    result = createJavaBeanNode(node);
+                    result = createEmptyJavaBean(node);
                 } else {
-                    result = constructJavaBeanNode((MappingNode) node);
+                    result = constructJavaBean((MappingNode) node);
                 }
             }
         }
@@ -192,7 +192,7 @@ public class Constructor extends SafeConstructor {
     @Override
     protected void callPostCreate(Node node, Object object) {
         if (!node.isTwoStepsConstruction()) {
-            throw new YAMLException("Inexpected recursive structure. Node: " + node);
+            throw new YAMLException("Unexpected recursive structure. Node: " + node);
         }
         if (Object.class.equals(node.getType()) || "tag:yaml.org,2002:null".equals(node.getTag())) {
             super.callPostCreate(node, object);
@@ -209,13 +209,13 @@ public class Constructor extends SafeConstructor {
                 } else if (Set.class.isAssignableFrom(node.getType())) {
                     constructSet2ndStep((MappingNode) node, (Set<Object>) object);
                 } else {
-                    constructJavaBeanNode2ndStep((MappingNode) node, object);
+                    constructJavaBean2ndStep((MappingNode) node, object);
                 }
             }
         }
     }
 
-    private Object constructJavaBeanScalarNode(ScalarNode node) {
+    private Object constructJavaScalar(ScalarNode node) {
         Class<? extends Object> type = node.getType();
         Object result;
         if (type.isPrimitive() || type == String.class || Number.class.isAssignableFrom(type)
@@ -300,7 +300,7 @@ public class Constructor extends SafeConstructor {
         return result;
     }
 
-    private Object createJavaBeanNode(Node node) {
+    private Object createEmptyJavaBean(Node node) {
         try {
             Class<? extends Object> type = node.getType();
             if (Modifier.isAbstract(type.getModifiers())) {
@@ -332,12 +332,12 @@ public class Constructor extends SafeConstructor {
      *            <code>String</code>s) and values are objects to be created
      * @return constructed JavaBean
      */
-    private Object constructJavaBeanNode(MappingNode node) {
-        return constructJavaBeanNode2ndStep(node, createJavaBeanNode(node));
+    private Object constructJavaBean(MappingNode node) {
+        return constructJavaBean2ndStep(node, createEmptyJavaBean(node));
     }
 
     @SuppressWarnings("unchecked")
-    private Object constructJavaBeanNode2ndStep(MappingNode node, Object object) {
+    private Object constructJavaBean2ndStep(MappingNode node, Object object) {
         Class<? extends Object> beanType = node.getType();
         List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
         for (NodeTuple tuple : nodeValue) {
