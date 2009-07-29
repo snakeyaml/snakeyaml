@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.yaml.snakeyaml.composer.Composer;
+import org.yaml.snakeyaml.composer.ComposerException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -48,11 +49,21 @@ public abstract class BaseConstructor {
         this.composer = composer;
     }
 
+    /**
+     * Check if more documents available
+     * 
+     * @return true when there are more YAML documents in the stream
+     */
     public boolean checkData() {
         // If there are more documents available?
         return composer.checkNode();
     }
 
+    /**
+     * Construct and return the next document
+     * 
+     * @return constructed instance
+     */
     public Object getData() {
         // Construct and return the next document.
         composer.checkNode();
@@ -61,6 +72,13 @@ public abstract class BaseConstructor {
         return constructDocument(node);
     }
 
+    /**
+     * Ensure that the stream contains a single document and construct it
+     * 
+     * @return constructed instance
+     * @throws ComposerException
+     *             in case there are more documents in the stream
+     */
     public Object getSingleData() {
         // Ensure that the stream contains a single document and construct it
         Node node = composer.getSingleNode();
@@ -71,6 +89,14 @@ public abstract class BaseConstructor {
         return null;
     }
 
+    /**
+     * Construct complete YAML document. Call the second step in case of
+     * recursive structures. At the end cleans all the state.
+     * 
+     * @param node
+     *            root Node
+     * @return Java instance
+     */
     private Object constructDocument(Node node) {
         Object data = constructObject(node);
         while (!toBeConstructedAt2ndStep.isEmpty()) {
@@ -96,6 +122,14 @@ public abstract class BaseConstructor {
         return data;
     }
 
+    /**
+     * Construct object from the specified Node. Return existing instance if the
+     * node is already constructed.
+     * 
+     * @param node
+     *            Node to be constructed
+     * @return Java instance
+     */
     protected Object constructObject(Node node) {
         if (constructedObjects.containsKey(node)) {
             return constructedObjects.get(node);
@@ -114,6 +148,13 @@ public abstract class BaseConstructor {
         return data;
     }
 
+    /**
+     * Create Java instance from the specified Node
+     * 
+     * @param node
+     *            Node to be constructed
+     * @return Java instance
+     */
     protected Object callConstructor(Node node) {
         return getConstructor(node).construct(node);
     }
@@ -122,6 +163,14 @@ public abstract class BaseConstructor {
         getConstructor(node).construct2ndStep(node, object);
     }
 
+    /**
+     * Get the constructor to construct the Node. The constructor is chosen by
+     * the Node's tag.
+     * 
+     * @param node
+     *            Node to be constructed
+     * @return Construct implementation for the Node's tag
+     */
     private Construct getConstructor(Node node) {
         Construct constructor = yamlConstructors.get(node.getTag());
         if (constructor == null) {
