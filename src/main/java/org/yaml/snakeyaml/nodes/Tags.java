@@ -1,6 +1,6 @@
 package org.yaml.snakeyaml.nodes;
 
-public class Tags {
+public final class Tags {
     public static final String PREFIX = "tag:yaml.org,2002:";
     public static final String MAP = PREFIX + "map";
     public static final String SEQ = PREFIX + "seq";
