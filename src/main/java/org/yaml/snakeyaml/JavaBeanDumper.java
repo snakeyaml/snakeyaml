@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.nodes.Tags;
 import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -52,12 +53,12 @@ public class JavaBeanDumper {
     public void dump(Object data, Writer output) {
         DumperOptions options = new DumperOptions();
         if (!useGlobalTag) {
-            options.setExplicitRoot("tag:yaml.org,2002:map");
+            options.setExplicitRoot(Tags.MAP);
         }
         options.setDefaultFlowStyle(flowStyle);
         Representer representer = new Representer();
         for (Class<? extends Object> clazz : classTags) {
-            representer.addClassTag(clazz, "tag:yaml.org,2002:map");
+            representer.addClassTag(clazz, Tags.MAP);
         }
         Dumper dumper = new Dumper(representer, options);
         List<Object> list = new ArrayList<Object>(1);

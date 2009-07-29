@@ -106,12 +106,11 @@ public class Representer extends SafeRepresenter {
                     if (property.getType() == memberValue.getClass()) {
                         // we do not need global tag because the property
                         // Class is the same as the runtime class
-                        String memberTag = "tag:yaml.org,2002:map";
-                        nodeValue.setTag(memberTag);
+                        nodeValue.setTag(Tags.MAP);
                     }
                 }
             } else if (memberValue != null && Enum.class.isAssignableFrom(memberValue.getClass())) {
-                nodeValue.setTag("tag:yaml.org,2002:str");
+                nodeValue.setTag(Tags.STR);
             }
             if (nodeKey.getStyle() != null) {
                 bestStyle = false;

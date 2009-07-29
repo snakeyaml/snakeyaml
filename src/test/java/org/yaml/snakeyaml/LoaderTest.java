@@ -11,6 +11,7 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tags;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 public class LoaderTest extends TestCase {
@@ -24,11 +25,11 @@ public class LoaderTest extends TestCase {
         assertEquals(1, nodes.size());
         NodeTuple pairs = nodes.get(0);
         ScalarNode key = (ScalarNode) pairs.getKeyNode();
-        assertEquals("tag:yaml.org,2002:str", key.getTag());
+        assertEquals(Tags.STR, key.getTag());
         assertEquals("abc", key.getValue());
         //
         ScalarNode value = (ScalarNode) pairs.getValueNode();
-        assertEquals("tag:yaml.org,2002:int", value.getTag());
+        assertEquals(Tags.INT, value.getTag());
         assertEquals("3", value.getValue());
         //
         assertTrue(node
@@ -43,7 +44,7 @@ public class LoaderTest extends TestCase {
         loader.setResolver(new Resolver());
         String yaml = "3";
         ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
-        assertEquals("tag:yaml.org,2002:int", node.getTag());
+        assertEquals(Tags.INT, node.getTag());
         assertEquals("3", node.getValue());
         // not sure whether it should be null or 0
         assertEquals(new Character('\u0000'), node.getStyle());

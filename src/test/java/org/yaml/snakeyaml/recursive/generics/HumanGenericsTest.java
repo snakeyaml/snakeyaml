@@ -26,6 +26,7 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.generics.JvmDetector;
+import org.yaml.snakeyaml.nodes.Tags;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class HumanGenericsTest extends TestCase {
@@ -81,7 +82,7 @@ public class HumanGenericsTest extends TestCase {
         mother.setPartner(father);
         mother.setBankAccountOwner(father);
         DumperOptions options = new DumperOptions();
-        options.setExplicitRoot("tag:yaml.org,2002:map");
+        options.setExplicitRoot(Tags.MAP);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(father);
         String etalon = Util.getLocalResource("recursive/generics/no-children-2.yaml");
@@ -210,7 +211,7 @@ public class HumanGenericsTest extends TestCase {
         mother.setChildren(children);
         //
         Representer representer = new Representer();
-        representer.addClassTag(HumanGen2.class, "tag:yaml.org,2002:map");
+        representer.addClassTag(HumanGen2.class, Tags.MAP);
         Dumper dumper = new Dumper(representer, new DumperOptions());
         Yaml yaml = new Yaml(dumper);
         String output = yaml.dump(son);

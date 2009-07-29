@@ -13,6 +13,7 @@ import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tags;
 
 public class RepresentTest extends TestCase {
 
@@ -69,7 +70,7 @@ public class RepresentTest extends TestCase {
 
     class MyConstructor extends Constructor {
         public MyConstructor() {
-            this.yamlConstructors.put("tag:yaml.org,2002:Dice", new ConstructDice());
+            this.yamlConstructors.put(Tags.PREFIX + "Dice", new ConstructDice());
         }
 
         private class ConstructDice extends AbstractConstruct {

@@ -8,6 +8,8 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.nodes.Tags;
+
 public class JavaBeanWithNullValuesTest extends TestCase {
     private JavaBeanLoader<JavaBeanWithNullValues> loader;
 
@@ -83,7 +85,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
-        options.setExplicitRoot("tag:yaml.org,2002:map");
+        options.setExplicitRoot(Tags.MAP);
         Yaml yaml = new Yaml(options);
         javaBeanWithNullValues.setBoolean1(null);
         javaBeanWithNullValues.setDate(new Date(System.currentTimeMillis()));

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.Tags;
 
 /**
  * Resolver tries to detect a type by scalars's content (when the type is
@@ -18,9 +19,6 @@ import org.yaml.snakeyaml.nodes.NodeId;
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public class Resolver {
-    private static final String DEFAULT_SCALAR_TAG = "tag:yaml.org,2002:str";
-    private static final String DEFAULT_SEQUENCE_TAG = "tag:yaml.org,2002:seq";
-    private static final String DEFAULT_MAPPING_TAG = "tag:yaml.org,2002:map";
     private static final Pattern BOOL = Pattern
             .compile("^(?:yes|Yes|YES|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF)$");
     private static final Pattern FLOAT = Pattern
@@ -45,19 +43,19 @@ public class Resolver {
      */
     public Resolver(boolean respectDefaultImplicitScalars) {
         if (respectDefaultImplicitScalars) {
-            addImplicitResolver("tag:yaml.org,2002:bool", BOOL, "yYnNtTfFoO");
-            addImplicitResolver("tag:yaml.org,2002:float", FLOAT, "-+0123456789.");
-            addImplicitResolver("tag:yaml.org,2002:int", INT, "-+0123456789");
-            addImplicitResolver("tag:yaml.org,2002:merge", MERGE, "<");
-            addImplicitResolver("tag:yaml.org,2002:null", NULL, "~nN\0");
-            addImplicitResolver("tag:yaml.org,2002:null", EMPTY, null);
-            addImplicitResolver("tag:yaml.org,2002:timestamp", TIMESTAMP, "0123456789");
-            addImplicitResolver("tag:yaml.org,2002:value", VALUE, "=");
+            addImplicitResolver(Tags.BOOL, BOOL, "yYnNtTfFoO");
+            addImplicitResolver(Tags.FLOAT, FLOAT, "-+0123456789.");
+            addImplicitResolver(Tags.INT, INT, "-+0123456789");
+            addImplicitResolver(Tags.MERGE, MERGE, "<");
+            addImplicitResolver(Tags.NULL, NULL, "~nN\0");
+            addImplicitResolver(Tags.NULL, EMPTY, null);
+            addImplicitResolver(Tags.TIMESTAMP, TIMESTAMP, "0123456789");
+            addImplicitResolver(Tags.VALUE, VALUE, "=");
             // The following implicit resolver is only for documentation
             // purposes.
             // It cannot work
             // because plain scalars cannot start with '!', '&', or '*'.
-            addImplicitResolver("tag:yaml.org,2002:yaml", YAML, "!&*");
+            addImplicitResolver(Tags.YAML, YAML, "!&*");
         }
     }
 
@@ -120,11 +118,11 @@ public class Resolver {
         }
         switch (kind) {
         case scalar:
-            return DEFAULT_SCALAR_TAG;
+            return Tags.STR;
         case sequence:
-            return DEFAULT_SEQUENCE_TAG;
+            return Tags.SEQ;
         default:
-            return DEFAULT_MAPPING_TAG;
+            return Tags.MAP;
         }
     }
 }

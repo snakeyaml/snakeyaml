@@ -149,7 +149,7 @@ public class Constructor extends SafeConstructor {
 
     @Override
     protected Object callConstructor(Node node) {
-        if (Object.class.equals(node.getType()) || "tag:yaml.org,2002:null".equals(node.getTag())) {
+        if (Object.class.equals(node.getType()) || Tags.NULL.equals(node.getTag())) {
             return super.callConstructor(node);
         }
         Object result;
@@ -195,7 +195,7 @@ public class Constructor extends SafeConstructor {
         if (!node.isTwoStepsConstruction()) {
             throw new YAMLException("Unexpected recursive structure. Node: " + node);
         }
-        if (Object.class.equals(node.getType()) || "tag:yaml.org,2002:null".equals(node.getTag())) {
+        if (Object.class.equals(node.getType()) || Tags.NULL.equals(node.getTag())) {
             super.callPostCreate(node, object);
         } else {
             switch (node.getNodeId()) {
@@ -224,13 +224,13 @@ public class Constructor extends SafeConstructor {
                 || type == Character.class || type == BigInteger.class
                 || Enum.class.isAssignableFrom(type)) {
             if (type == String.class) {
-                Construct stringConstructor = yamlConstructors.get("tag:yaml.org,2002:str");
+                Construct stringConstructor = yamlConstructors.get(Tags.STR);
                 result = stringConstructor.construct((ScalarNode) node);
             } else if (type == Boolean.class || type == Boolean.TYPE) {
-                Construct boolConstructor = yamlConstructors.get("tag:yaml.org,2002:bool");
+                Construct boolConstructor = yamlConstructors.get(Tags.BOOL);
                 result = boolConstructor.construct((ScalarNode) node);
             } else if (type == Character.class || type == Character.TYPE) {
-                Construct charConstructor = yamlConstructors.get("tag:yaml.org,2002:str");
+                Construct charConstructor = yamlConstructors.get(Tags.STR);
                 String ch = (String) charConstructor.construct((ScalarNode) node);
                 if (ch.length() != 1) {
                     throw new YAMLException("Invalid node Character: '" + ch + "'; length: "
@@ -238,7 +238,7 @@ public class Constructor extends SafeConstructor {
                 }
                 result = new Character(ch.charAt(0));
             } else if (Date.class.isAssignableFrom(type)) {
-                Construct dateConstructor = yamlConstructors.get("tag:yaml.org,2002:timestamp");
+                Construct dateConstructor = yamlConstructors.get(Tags.TIMESTAMP);
                 Date date = (Date) dateConstructor.construct((ScalarNode) node);
                 if (type == Date.class) {
                     result = date;
@@ -252,7 +252,7 @@ public class Constructor extends SafeConstructor {
                 }
             } else if (type == Float.class || type == Double.class || type == Float.TYPE
                     || type == Double.TYPE || type == BigDecimal.class) {
-                Construct doubleConstructor = yamlConstructors.get("tag:yaml.org,2002:float");
+                Construct doubleConstructor = yamlConstructors.get(Tags.FLOAT);
                 result = doubleConstructor.construct(node);
                 if (type == Float.class || type == Float.TYPE) {
                     result = new Float((Double) result);
@@ -262,7 +262,7 @@ public class Constructor extends SafeConstructor {
             } else if (type == Byte.class || type == Short.class || type == Integer.class
                     || type == Long.class || type == BigInteger.class || type == Byte.TYPE
                     || type == Short.TYPE || type == Integer.TYPE || type == Long.TYPE) {
-                Construct intConstructor = yamlConstructors.get("tag:yaml.org,2002:int");
+                Construct intConstructor = yamlConstructors.get(Tags.INT);
                 result = intConstructor.construct(node);
                 if (type == Byte.class || type == Byte.TYPE) {
                     result = new Byte(result.toString());

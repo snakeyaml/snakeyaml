@@ -20,6 +20,7 @@ import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tags;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -31,7 +32,7 @@ public class ResolverTest extends TestCase {
         Loader loader = new Loader(new MyConstructor());
         Yaml yaml = new Yaml(loader, dumper);
         Pattern regexp = Pattern.compile("\\d\\d-\\d\\d-\\d\\d\\d");
-        yaml.addImplicitResolver("tag:yaml.org,2002:Phone", regexp, "0123456789");
+        yaml.addImplicitResolver(Tags.PREFIX + "Phone", regexp, "0123456789");
         Phone phone1 = new Phone("12-34-567");
         Phone phone2 = new Phone("11-22-333");
         Phone phone3 = new Phone("44-55-777");
@@ -53,10 +54,10 @@ public class ResolverTest extends TestCase {
         Dumper dumper = new Dumper(new PointRepresenter(), new DumperOptions());
         Yaml yaml = new Yaml(dumper);
         Pattern regexp = Pattern.compile("\\d\\d-\\d\\d-\\d\\d\\d");
-        yaml.addImplicitResolver("tag:yaml.org,2002:Phone", regexp, "\0");
+        yaml.addImplicitResolver(Tags.PREFIX + "Phone", regexp, "\0");
         Pattern regexp2 = Pattern.compile("x\\d_y\\d");
         // try any scalar, and not only those which start with 'x'
-        yaml.addImplicitResolver("tag:yaml.org,2002:Point", regexp2, null);
+        yaml.addImplicitResolver(Tags.PREFIX + "Point", regexp2, null);
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("a", new Phone("12-34-567"));
         map.put("b", new Point(1, 5));
@@ -98,14 +99,14 @@ public class ResolverTest extends TestCase {
             public Node representData(Object data) {
                 Phone phone = (Phone) data;
                 String value = phone.getNumber();
-                return representScalar("tag:yaml.org,2002:Phone", value);
+                return representScalar(Tags.PREFIX + "Phone", value);
             }
         }
     }
 
     class MyConstructor extends Constructor {
         public MyConstructor() {
-            this.yamlConstructors.put("tag:yaml.org,2002:Phone", new ConstructPhone());
+            this.yamlConstructors.put(Tags.PREFIX + "Phone", new ConstructPhone());
         }
 
         private class ConstructPhone extends AbstractConstruct {
@@ -126,7 +127,7 @@ public class ResolverTest extends TestCase {
             public Node representData(Object data) {
                 Point phone = (Point) data;
                 String value = "x" + (int) phone.getX() + "_y" + (int) phone.getY();
-                return representScalar("tag:yaml.org,2002:Point", value);
+                return representScalar(Tags.PREFIX + "Point", value);
             }
         }
 
@@ -134,7 +135,7 @@ public class ResolverTest extends TestCase {
             public Node representData(Object data) {
                 Phone phone = (Phone) data;
                 String value = phone.getNumber();
-                return representScalar("tag:yaml.org,2002:Phone", value);
+                return representScalar(Tags.PREFIX + "Phone", value);
             }
         }
     }

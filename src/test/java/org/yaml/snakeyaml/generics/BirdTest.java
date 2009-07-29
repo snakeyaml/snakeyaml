@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tags;
 
 public class BirdTest extends TestCase {
 
@@ -18,7 +19,7 @@ public class BirdTest extends TestCase {
         home.setHeight(3);
         bird.setHome(home);
         DumperOptions options = new DumperOptions();
-        options.setExplicitRoot("tag:yaml.org,2002:map");
+        options.setExplicitRoot(Tags.MAP);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(bird);
         Bird parsed;

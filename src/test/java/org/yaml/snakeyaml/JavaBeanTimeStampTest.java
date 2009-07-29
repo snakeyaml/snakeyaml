@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.nodes.Tags;
 
 public class JavaBeanTimeStampTest extends TestCase {
     public void testLoadDefaultJavaSqlTimestamp() throws Exception {
@@ -39,7 +40,7 @@ public class JavaBeanTimeStampTest extends TestCase {
         javaBeanToDump.setDate(date);
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        options.setExplicitRoot("tag:yaml.org,2002:map");
+        options.setExplicitRoot(Tags.MAP);
         Yaml yaml = new Yaml(options);
         String dumpStr = yaml.dump(javaBeanToDump);
         assertEquals("date: 2001-09-25T00:00:00Z\ntimestamp: 2001-09-09T01:46:40Z\n", dumpStr);

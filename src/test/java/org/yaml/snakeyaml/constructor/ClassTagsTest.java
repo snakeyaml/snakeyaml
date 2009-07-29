@@ -16,6 +16,7 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.nodes.Tags;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class ClassTagsTest extends TestCase {
@@ -45,7 +46,7 @@ public class ClassTagsTest extends TestCase {
         car.setWheels(wheels);
         Representer representer = new Representer();
         representer.addClassTag(Car.class, "!car");
-        representer.addClassTag(Wheel.class, "tag:yaml.org,2002:map");
+        representer.addClassTag(Wheel.class, Tags.MAP);
         Dumper dumper = new Dumper(representer, new DumperOptions());
         Yaml yaml = new Yaml(dumper);
         String output = yaml.dump(car);

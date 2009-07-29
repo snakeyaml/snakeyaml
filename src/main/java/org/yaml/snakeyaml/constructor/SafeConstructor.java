@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tags;
 import org.yaml.snakeyaml.util.Base64Coder;
 
 /**
@@ -32,18 +33,18 @@ import org.yaml.snakeyaml.util.Base64Coder;
 public class SafeConstructor extends BaseConstructor {
 
     public SafeConstructor() {
-        this.yamlConstructors.put("tag:yaml.org,2002:null", new ConstructYamlNull());
-        this.yamlConstructors.put("tag:yaml.org,2002:bool", new ConstructYamlBool());
-        this.yamlConstructors.put("tag:yaml.org,2002:int", new ConstructYamlInt());
-        this.yamlConstructors.put("tag:yaml.org,2002:float", new ConstructYamlFloat());
-        this.yamlConstructors.put("tag:yaml.org,2002:binary", new ConstructYamlBinary());
-        this.yamlConstructors.put("tag:yaml.org,2002:timestamp", new ConstructYamlTimestamp());
-        this.yamlConstructors.put("tag:yaml.org,2002:omap", new ConstructYamlOmap());
-        this.yamlConstructors.put("tag:yaml.org,2002:pairs", new ConstructYamlPairs());
-        this.yamlConstructors.put("tag:yaml.org,2002:set", new ConstructYamlSet());
-        this.yamlConstructors.put("tag:yaml.org,2002:str", new ConstructYamlStr());
-        this.yamlConstructors.put("tag:yaml.org,2002:seq", new ConstructYamlSeq());
-        this.yamlConstructors.put("tag:yaml.org,2002:map", new ConstructYamlMap());
+        this.yamlConstructors.put(Tags.NULL, new ConstructYamlNull());
+        this.yamlConstructors.put(Tags.BOOL, new ConstructYamlBool());
+        this.yamlConstructors.put(Tags.INT, new ConstructYamlInt());
+        this.yamlConstructors.put(Tags.FLOAT, new ConstructYamlFloat());
+        this.yamlConstructors.put(Tags.BINARY, new ConstructYamlBinary());
+        this.yamlConstructors.put(Tags.TIMESTAMP, new ConstructYamlTimestamp());
+        this.yamlConstructors.put(Tags.OMAP, new ConstructYamlOmap());
+        this.yamlConstructors.put(Tags.PAIRS, new ConstructYamlPairs());
+        this.yamlConstructors.put(Tags.SET, new ConstructYamlSet());
+        this.yamlConstructors.put(Tags.STR, new ConstructYamlStr());
+        this.yamlConstructors.put(Tags.SEQ, new ConstructYamlSeq());
+        this.yamlConstructors.put(Tags.MAP, new ConstructYamlMap());
         this.yamlConstructors.put(null, new ConstructUndefined());
     }
 
@@ -54,7 +55,7 @@ public class SafeConstructor extends BaseConstructor {
         while (index < nodeValue.size()) {
             Node keyNode = nodeValue.get(index).getKeyNode();
             Node valueNode = nodeValue.get(index).getValueNode();
-            if (keyNode.getTag().equals("tag:yaml.org,2002:merge")) {
+            if (keyNode.getTag().equals(Tags.MERGE)) {
                 nodeValue.remove(index);
                 switch (valueNode.getNodeId()) {
                 case mapping:
@@ -87,8 +88,8 @@ public class SafeConstructor extends BaseConstructor {
                             "expected a mapping or list of mappings for merging, but found "
                                     + valueNode.getNodeId(), valueNode.getStartMark());
                 }
-            } else if (keyNode.getTag().equals("tag:yaml.org,2002:value")) {
-                keyNode.setTag("tag:yaml.org,2002:str");
+            } else if (keyNode.getTag().equals(Tags.VALUE)) {
+                keyNode.setTag(Tags.STR);
                 index++;
             } else {
                 index++;

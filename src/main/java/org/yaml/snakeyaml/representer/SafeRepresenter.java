@@ -58,7 +58,7 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentNull implements Represent {
         public Node representData(Object data) {
-            return representScalar("tag:yaml.org,2002:null", "null");
+            return representScalar(Tags.NULL, "null");
         }
     }
 
@@ -66,11 +66,11 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentString implements Represent {
         public Node representData(Object data) {
-            String tag = "tag:yaml.org,2002:str";
+            String tag = Tags.STR;
             Character style = null;
             String value = data.toString();
             if (BINARY_PATTERN.matcher(value).find()) {
-                tag = "tag:yaml.org,2002:binary";
+                tag = Tags.BINARY;
                 char[] binary;
                 binary = Base64Coder.encode(value.getBytes());
                 value = String.valueOf(binary);
@@ -88,7 +88,7 @@ class SafeRepresenter extends BaseRepresenter {
             } else {
                 value = "false";
             }
-            return representScalar("tag:yaml.org,2002:bool", value);
+            return representScalar(Tags.BOOL, value);
         }
     }
 
@@ -98,11 +98,11 @@ class SafeRepresenter extends BaseRepresenter {
             String value;
             if (data instanceof Byte || data instanceof Short || data instanceof Integer
                     || data instanceof Long || data instanceof BigInteger) {
-                tag = "tag:yaml.org,2002:int";
+                tag = Tags.INT;
                 value = data.toString();
             } else {
                 Number number = (Number) data;
-                tag = "tag:yaml.org,2002:float";
+                tag = Tags.FLOAT;
                 if (number.equals(Double.NaN)) {
                     value = ".NaN";
                 } else if (number.equals(Double.POSITIVE_INFINITY)) {
@@ -120,7 +120,7 @@ class SafeRepresenter extends BaseRepresenter {
     private class RepresentList implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representSequence("tag:yaml.org,2002:seq", (List<Object>) data, null);
+            return representSequence(Tags.SEQ, (List<Object>) data, null);
         }
     }
 
@@ -128,14 +128,14 @@ class SafeRepresenter extends BaseRepresenter {
         public Node representData(Object data) {
             Object[] array = (Object[]) data;
             List<Object> list = Arrays.asList(array);
-            return representSequence("tag:yaml.org,2002:seq", list, null);
+            return representSequence(Tags.SEQ, list, null);
         }
     }
 
     private class RepresentMap implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representMapping("tag:yaml.org,2002:map", (Map<Object, Object>) data, null);
+            return representMapping(Tags.MAP, (Map<Object, Object>) data, null);
         }
     }
 
@@ -147,7 +147,7 @@ class SafeRepresenter extends BaseRepresenter {
             for (Object key : set) {
                 value.put(key, null);
             }
-            return representMapping("tag:yaml.org,2002:set", value, null);
+            return representMapping(Tags.SET, value, null);
         }
     }
 
@@ -200,7 +200,7 @@ class SafeRepresenter extends BaseRepresenter {
                 buffer.append(String.valueOf(millis));
             }
             buffer.append("Z");
-            return representScalar("tag:yaml.org,2002:timestamp", buffer.toString(), null);
+            return representScalar(Tags.TIMESTAMP, buffer.toString(), null);
         }
     }
 
@@ -213,9 +213,8 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentByteArray implements Represent {
         public Node representData(Object data) {
-            String tag = "tag:yaml.org,2002:binary";
             char[] binary = Base64Coder.encode((byte[]) data);
-            return representScalar(tag, String.valueOf(binary), '|');
+            return representScalar(Tags.BINARY, String.valueOf(binary), '|');
         }
     }
 }

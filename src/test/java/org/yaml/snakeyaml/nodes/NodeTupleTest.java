@@ -25,8 +25,8 @@ public class NodeTupleTest extends TestCase {
     }
 
     public void testToString() {
-        Node key = new ScalarNode("tag:yaml.org,2002:str", "key1", null, null, null);
-        Node value = new ScalarNode("tag:yaml.org,2002:str", "value1", null, null, null);
+        Node key = new ScalarNode(Tags.STR, "key1", null, null, null);
+        Node value = new ScalarNode(Tags.STR, "value1", null, null, null);
         NodeTuple tuple = new NodeTuple(key, value);
         assertEquals(
                 "<NodeTuple keyNode=<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:str, value=key1)>; valueNode=<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:str, value=value1)>>",
