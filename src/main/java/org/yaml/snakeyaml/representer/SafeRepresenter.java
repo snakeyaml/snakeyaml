@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.Tags;
 import org.yaml.snakeyaml.util.Base64Coder;
 
 /**
@@ -205,7 +206,7 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentEnum implements Represent {
         public Node representData(Object data) {
-            String tag = "tag:yaml.org,2002:" + data.getClass().getName();
+            String tag = Tags.PREFIX + data.getClass().getName();
             return representScalar(tag, data.toString());
         }
     }

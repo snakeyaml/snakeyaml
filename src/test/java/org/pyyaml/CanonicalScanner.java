@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.yaml.snakeyaml.error.Mark;
+import org.yaml.snakeyaml.nodes.Tags;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.AliasToken;
@@ -224,7 +225,7 @@ public class CanonicalScanner implements Scanner {
         if (value.length() == 0) {
             value = "!";
         } else if (value.charAt(0) == '!') {
-            value = "tag:yaml.org,2002:" + value.substring(1);
+            value = Tags.PREFIX + value.substring(1);
         } else if (value.charAt(0) == '<' && value.charAt(value.length() - 1) == '>') {
             value = value.substring(1, value.length() - 1);
         } else {

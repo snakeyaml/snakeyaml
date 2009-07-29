@@ -30,6 +30,7 @@ import org.yaml.snakeyaml.events.SequenceEndEvent;
 import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
+import org.yaml.snakeyaml.nodes.Tags;
 
 /**
  * <pre>
@@ -69,7 +70,7 @@ public final class Emitter {
     private final static Map<String, String> DEFAULT_TAG_PREFIXES = new LinkedHashMap<String, String>();
     static {
         DEFAULT_TAG_PREFIXES.put("!", "!");
-        DEFAULT_TAG_PREFIXES.put("tag:yaml.org,2002:", "!!");
+        DEFAULT_TAG_PREFIXES.put(Tags.PREFIX, "!!");
     }
     // The stream should have the methods `write` and possibly `flush`.
     private final Writer stream;

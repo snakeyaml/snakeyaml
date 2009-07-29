@@ -23,6 +23,7 @@ import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tags;
 
 /**
  * Represent JavaBeans
@@ -83,7 +84,7 @@ public class Representer extends SafeRepresenter {
         List<NodeTuple> value = new LinkedList<NodeTuple>();
         String tag;
         String customTag = classTags.get(javaBean.getClass());
-        tag = customTag != null ? customTag : "tag:yaml.org,2002:" + javaBean.getClass().getName();
+        tag = customTag != null ? customTag : Tags.PREFIX + javaBean.getClass().getName();
         // flow style will be chosen by BaseRepresenter
         MappingNode node = new MappingNode(tag, value, null);
         representedObjects.put(objectToRepresent, node);

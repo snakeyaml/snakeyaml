@@ -27,6 +27,7 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tags;
 
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
@@ -276,7 +277,7 @@ public class Constructor extends SafeConstructor {
                     result = new BigInteger(result.toString());
                 }
             } else if (Enum.class.isAssignableFrom(type)) {
-                String tag = "tag:yaml.org,2002:" + type.getName();
+                String tag = Tags.PREFIX + type.getName();
                 node.setTag(tag);
                 result = super.callConstructor(node);
             } else {
@@ -426,10 +427,10 @@ public class Constructor extends SafeConstructor {
     protected Class<?> getClassForNode(Node node) throws ClassNotFoundException {
         Class<? extends Object> customTag = typeTags.get(node.getTag());
         if (customTag == null) {
-            if (node.getTag().length() < "tag:yaml.org,2002:".length()) {
+            if (node.getTag().length() < Tags.PREFIX.length()) {
                 throw new YAMLException("Unknown tag: " + node.getTag());
             }
-            String name = node.getTag().substring("tag:yaml.org,2002:".length());
+            String name = node.getTag().substring(Tags.PREFIX.length());
             Class<?> cl = Class.forName(name);
             typeTags.put(node.getTag(), cl);
             return cl;
