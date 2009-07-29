@@ -9,10 +9,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 public class PyRecursiveTest extends TestCase {
 
@@ -23,6 +26,13 @@ public class PyRecursiveTest extends TestCase {
         value.put(instance, instance);
         Yaml yaml = new Yaml();
         String output1 = yaml.dump(value);
+        assertTrue(output1.contains("!!org.pyyaml.AnInstance"));
+        assertTrue(output1.contains("&id001"));
+        assertTrue(output1.contains("&id002"));
+        assertTrue(output1.contains("*id001"));
+        assertTrue(output1.contains("*id002"));
+        assertTrue(output1.contains("foo"));
+        assertTrue(output1.contains("bar"));
         Map<AnInstance, AnInstance> value2 = (Map<AnInstance, AnInstance>) yaml.load(output1);
         assertEquals(value.size(), value2.size());
         for (AnInstance tmpInstance : value2.values()) {
@@ -30,6 +40,22 @@ public class PyRecursiveTest extends TestCase {
             assertSame(tmpInstance.getBar(), value2);
             assertSame(tmpInstance, value2.get(tmpInstance));
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testDictSafeConstructor() {
+        Map value = new TreeMap();
+        value.put("abc", "www");
+        value.put("qwerty", value);
+        Yaml yaml = new Yaml(new Loader(new SafeConstructor()));
+        String output1 = yaml.dump(value);
+        assertEquals("&id001\nabc: www\nqwerty: *id001\n", output1);
+        Map value2 = (Map) yaml.load(output1);
+        assertEquals(2, value2.size());
+        assertEquals("www", value2.get("abc"));
+        assertTrue(value2.get("qwerty") instanceof Map);
+        Map value3 = (Map) value2.get("qwerty");
+        assertTrue(value3.get("qwerty") instanceof Map);
     }
 
     @SuppressWarnings("unchecked")
@@ -41,6 +67,29 @@ public class PyRecursiveTest extends TestCase {
 
         Yaml yaml = new Yaml();
         String output1 = yaml.dump(value);
+        assertEquals("&id001\n- *id001\n- test\n- 1\n", output1);
+        List value2 = (List) yaml.load(output1);
+        assertEquals(3, value2.size());
+        assertEquals(value.size(), value2.size());
+        assertSame(value2, value2.get(0));
+        // we expect self-reference as 1st element of the list
+        // let's remove self-reference and check other "simple" members of the
+        // list. otherwise assertEquals will lead us to StackOverflow
+        value.remove(0);
+        value2.remove(0);
+        assertEquals(value, value2);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testListSafeConstructor() {
+        List value = new ArrayList();
+        value.add(value);
+        value.add("test");
+        value.add(new Integer(1));
+
+        Yaml yaml = new Yaml(new Loader(new SafeConstructor()));
+        String output1 = yaml.dump(value);
+        assertEquals("&id001\n- *id001\n- test\n- 1\n", output1);
         List value2 = (List) yaml.load(output1);
         assertEquals(3, value2.size());
         assertEquals(value.size(), value2.size());
@@ -67,4 +116,5 @@ public class PyRecursiveTest extends TestCase {
             assertSame(tmpInstance.getBar(), value2);
         }
     }
+
 }
