@@ -1,0 +1,9 @@
+!!org.yaml.snakeyaml.immutable.Shape
+color: BLACK
+point:
+- 1.17
+- 3.14
+point3d: !!org.yaml.snakeyaml.immutable.Point3d
+- [1.17, 3.14]
+- 345.1
+id: 123

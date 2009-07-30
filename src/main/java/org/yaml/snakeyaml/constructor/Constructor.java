@@ -103,6 +103,7 @@ public class Constructor extends SafeConstructor {
                 java.lang.reflect.Constructor javaConstructor;
                 switch (node.getNodeId()) {
                 case mapping:
+                    // construct a JavaBean
                     node.setType(cl);
                     if (node.isTwoStepsConstruction()) {
                         result = createEmptyJavaBean(node);
@@ -111,21 +112,27 @@ public class Constructor extends SafeConstructor {
                     }
                     break;
                 case sequence:
+                    // construct an instance, call the appropriate instance's
+                    // constructor with the specified arguments
+                    // TODO should we try to guess the arguments' classes
                     SequenceNode seqNode = (SequenceNode) node;
-                    List<Object> values = (List<Object>) constructSequence(seqNode);
-                    Class[] parameterTypes = new Class[values.size()];
+                    List<Object> argumentList = (List<Object>) constructSequence(seqNode);
+                    Class[] parameterTypes = new Class[argumentList.size()];
                     int index = 0;
-                    for (Object parameter : values) {
+                    for (Object parameter : argumentList) {
                         parameterTypes[index] = parameter.getClass();
                         index++;
                     }
                     javaConstructor = cl.getConstructor(parameterTypes);
-                    Object[] initargs = values.toArray();
+                    Object[] initargs = argumentList.toArray();
                     result = javaConstructor.newInstance(initargs);
                     break;
-                default:// scalar
+                default:
+                    // scalar
                     ScalarNode scaNode = (ScalarNode) node;
-                    Object value = constructScalar(scaNode);
+                    // TODO should it be constructObject ? because it may be
+                    // also another node
+                    Object argument = constructScalar(scaNode);
                     if (Enum.class.isAssignableFrom(cl)) {
                         String enumValueName = scaNode.getValue();
                         try {
@@ -135,8 +142,8 @@ public class Constructor extends SafeConstructor {
                                     + "' for enum class: " + cl.getName());
                         }
                     } else {
-                        javaConstructor = cl.getConstructor(value.getClass());
-                        result = javaConstructor.newInstance(value);
+                        javaConstructor = cl.getConstructor(argument.getClass());
+                        result = javaConstructor.newInstance(argument);
                     }
                 }
             } catch (Exception e) {
@@ -150,6 +157,7 @@ public class Constructor extends SafeConstructor {
     @Override
     protected Object callConstructor(Node node) {
         if (Object.class.equals(node.getType()) || Tags.NULL.equals(node.getTag())) {
+            // when the runtime class is unknown rely on the resolved tag
             return super.callConstructor(node);
         }
         Object result;
@@ -158,6 +166,15 @@ public class Constructor extends SafeConstructor {
             result = constructJavaScalar((ScalarNode) node);
             break;
         case sequence:
+            // TODO
+            // get all constructors
+            // if only one constructor with the node.size() argument is present
+            // set the classes for arguments
+            // otherwise create list with (only implicit?) types
+            // if no constructor with the expected argument size is present try
+            // to find a constructor with a list/array as the argument
+            // if no constructor matches fail
+            // call the constructor with the created argument list
             SequenceNode snode = (SequenceNode) node;
             if (node.isTwoStepsConstruction()) {
                 result = createDefaultList(snode.getValue().size());
@@ -168,12 +185,16 @@ public class Constructor extends SafeConstructor {
         default:// mapping
             if (Map.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
+                    // TODO when the Map implementation is known it should be
+                    // used
                     result = createDefaultMap();
                 } else {
                     result = constructMapping((MappingNode) node);
                 }
             } else if (Set.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
+                    // TODO when the Set implementation is known it should be
+                    // used
                     result = createDefaultSet();
                 } else {
                     result = constructSet((MappingNode) node);
@@ -338,7 +359,8 @@ public class Constructor extends SafeConstructor {
     }
 
     @SuppressWarnings("unchecked")
-    private Object constructJavaBean2ndStep(MappingNode node, Object object) {
+    // TODO private or protected
+    protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
         Class<? extends Object> beanType = node.getType();
         List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
         for (NodeTuple tuple : nodeValue) {
@@ -388,6 +410,9 @@ public class Constructor extends SafeConstructor {
                 }
                 property.set(object, value);
             } catch (Exception e) {
+                // TODO use more informatiove error message, mention property
+                // name
+                System.err.println("key: " + key + "; valueNode=" + valueNode);
                 throw new YAMLException(e);
             }
         }
