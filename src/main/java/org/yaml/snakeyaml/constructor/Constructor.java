@@ -324,10 +324,6 @@ public class Constructor extends SafeConstructor {
 
     private Object createEmptyJavaBean(Node node) {
         try {
-            Class<? extends Object> type = node.getType();
-            if (Modifier.isAbstract(type.getModifiers())) {
-                node.setType(getClassForNode(node));
-            }
             /**
              * Using only default constructor. Everything else will be
              * initialized on 2nd step. If we do here some partial
@@ -339,8 +335,6 @@ public class Constructor extends SafeConstructor {
         } catch (InstantiationException e) {
             throw new YAMLException(e);
         } catch (IllegalAccessException e) {
-            throw new YAMLException(e);
-        } catch (ClassNotFoundException e) {
             throw new YAMLException(e);
         }
     }
