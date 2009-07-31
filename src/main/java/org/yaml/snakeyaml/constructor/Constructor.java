@@ -216,7 +216,7 @@ public class Constructor extends SafeConstructor {
         if (!node.isTwoStepsConstruction()) {
             throw new YAMLException("Unexpected recursive structure. Node: " + node);
         }
-        if (Object.class.equals(node.getType()) || Tags.NULL.equals(node.getTag())) {
+        if (Object.class.equals(node.getType())) {
             super.callPostCreate(node, object);
         } else {
             switch (node.getNodeId()) {
