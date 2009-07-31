@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.introspector.MethodProperty;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
@@ -48,6 +49,9 @@ public class Constructor extends SafeConstructor {
         rootType = theRoot;
         typeTags = new HashMap<String, Class<? extends Object>>();
         typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
+        yamlClassConstructors.put(NodeId.scalar, new ConstructScalarObject());
+        yamlClassConstructors.put(NodeId.mapping, new ConstructMappingFromClass());
+        yamlClassConstructors.put(NodeId.sequence, new ConstructSeqFromClass());
     }
 
     /**
@@ -94,58 +98,180 @@ public class Constructor extends SafeConstructor {
         return typeDefinitions.put(definition.getType(), definition);
     }
 
+    private class ConstructMappingFromClass implements Construct {
+        /**
+         * Construct JavaBean. If type safe collections are used please look at
+         * <code>TypeDescription</code>.
+         * 
+         * @param node
+         *            node where the keys are property names (they can only be
+         *            <code>String</code>s) and values are objects to be created
+         * @return constructed JavaBean
+         */
+        public Object construct(Node node) {
+            MappingNode mnode = (MappingNode) node;
+            if (Map.class.isAssignableFrom(node.getType())) {
+                if (node.isTwoStepsConstruction()) {
+                    // TODO when the Map implementation is known it should be
+                    // used
+                    return createDefaultMap();
+                } else {
+                    return constructMapping((MappingNode) node);
+                }
+            } else if (Set.class.isAssignableFrom(node.getType())) {
+                if (node.isTwoStepsConstruction()) {
+                    // TODO when the Set implementation is known it should be
+                    // used
+                    return createDefaultSet();
+                } else {
+                    return constructSet((MappingNode) node);
+                }
+            } else {
+                if (node.isTwoStepsConstruction()) {
+                    return createEmptyJavaBean(mnode);
+                } else {
+                    return constructJavaBean2ndStep(mnode, createEmptyJavaBean(mnode));
+                }
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        public void construct2ndStep(Node node, Object object) {
+            if (Map.class.isAssignableFrom(node.getType())) {
+                constructMapping2ndStep((MappingNode) node, (Map<Object, Object>) object);
+            } else if (Set.class.isAssignableFrom(node.getType())) {
+                constructSet2ndStep((MappingNode) node, (Set<Object>) object);
+            } else {
+                constructJavaBean2ndStep((MappingNode) node, object);
+            }
+        }
+
+        private Object createEmptyJavaBean(MappingNode node) {
+            try {
+                Class<? extends Object> type = node.getType();
+                if (Modifier.isAbstract(type.getModifiers())) {
+                    node.setType(getClassForNode(node));
+                }
+                /**
+                 * Using only default constructor. Everything else will be
+                 * initialized on 2nd step. If we do here some partial
+                 * initialization, how do we then track what need to be done on
+                 * 2nd step? I think it is better to get only object here (to
+                 * have it as reference for recursion) and do all other thing on
+                 * 2nd step.
+                 */
+                return node.getType().newInstance();
+            } catch (InstantiationException e) {
+                throw new YAMLException(e);
+            } catch (IllegalAccessException e) {
+                throw new YAMLException(e);
+            } catch (ClassNotFoundException e) {
+                throw new YAMLException(e);
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        private Object constructJavaBean2ndStep(MappingNode node, Object object) {
+            Class<? extends Object> beanType = node.getType();
+            List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+            for (NodeTuple tuple : nodeValue) {
+                ScalarNode keyNode;
+                if (tuple.getKeyNode() instanceof ScalarNode) {
+                    // key must be scalar
+                    keyNode = (ScalarNode) tuple.getKeyNode();
+                } else {
+                    throw new YAMLException("Keys must be scalars but found: " + tuple.getKeyNode());
+                }
+                Node valueNode = tuple.getValueNode();
+                // keys can only be Strings
+                keyNode.setType(String.class);
+                String key = (String) constructObject(keyNode);
+                boolean isArray = false;
+                try {
+                    Property property = getProperty(beanType, key);
+                    valueNode.setType(property.getType());
+                    TypeDescription memberDescription = typeDefinitions.get(beanType);
+                    if (memberDescription != null) {
+                        switch (valueNode.getNodeId()) {
+                        case sequence:
+                            SequenceNode snode = (SequenceNode) valueNode;
+                            Class<? extends Object> memberType = memberDescription
+                                    .getListPropertyType(key);
+                            if (memberType != null) {
+                                snode.setListType(memberType);
+                            } else if (property.getType().isArray()) {
+                                isArray = true;
+                                snode.setListType(property.getType().getComponentType());
+                            }
+                            break;
+                        case mapping:
+                            MappingNode mnode = (MappingNode) valueNode;
+                            Class<? extends Object> keyType = memberDescription.getMapKeyType(key);
+                            if (keyType != null) {
+                                mnode.setKeyType(keyType);
+                                mnode.setValueType(memberDescription.getMapValueType(key));
+                            }
+                            break;
+                        }
+                    }
+                    Object value = constructObject(valueNode);
+                    if (isArray) {
+                        List<Object> list = (List<Object>) value;
+                        value = list.toArray(createArray(property.getType()));
+                    }
+                    property.set(object, value);
+                } catch (Exception e) {
+                    // TODO use more informative error message, mention
+                    // property
+                    // name
+                    System.err.println("key: " + key + "; valueNode=" + valueNode);
+                    throw new YAMLException(e);
+                }
+            }
+            return object;
+        }
+
+        @SuppressWarnings("unchecked")
+        private <T> T[] createArray(Class<T> type) {
+            return (T[]) Array.newInstance(type.getComponentType(), 0);
+        }
+
+        private Property getProperty(Class<? extends Object> type, String name)
+                throws IntrospectionException {
+            for (PropertyDescriptor property : Introspector.getBeanInfo(type)
+                    .getPropertyDescriptors()) {
+                if (property.getName().equals(name)) {
+                    if (property.getWriteMethod() != null) {
+                        return new MethodProperty(property);
+                    } else {
+                        throw new YAMLException("Property '" + name + "' on JavaBean: "
+                                + type.getName() + " does not have the write method");
+                    }
+                }
+            }
+            for (Field field : type.getFields()) {
+                int modifiers = field.getModifiers();
+                if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers)) {
+                    continue;
+                }
+                if (field.getName().equals(name)) {
+                    return new FieldProperty(field);
+                }
+            }
+            throw new YAMLException("Unable to find property '" + name + "' on class: "
+                    + type.getName());
+        }
+    }
+
     private class ConstructYamlObject extends AbstractConstruct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             Object result = null;
             try {
                 Class cl = getClassForNode(node);
-                java.lang.reflect.Constructor javaConstructor;
-                switch (node.getNodeId()) {
-                case mapping:
-                    // construct a JavaBean
-                    node.setType(cl);
-                    if (node.isTwoStepsConstruction()) {
-                        result = createEmptyJavaBean(node);
-                    } else {
-                        result = constructJavaBean((MappingNode) node);
-                    }
-                    break;
-                case sequence:
-                    // construct an instance, call the appropriate instance's
-                    // constructor with the specified arguments
-                    // TODO should we try to guess the arguments' classes
-                    SequenceNode seqNode = (SequenceNode) node;
-                    List<Object> argumentList = (List<Object>) constructSequence(seqNode);
-                    Class[] parameterTypes = new Class[argumentList.size()];
-                    int index = 0;
-                    for (Object parameter : argumentList) {
-                        parameterTypes[index] = parameter.getClass();
-                        index++;
-                    }
-                    javaConstructor = cl.getConstructor(parameterTypes);
-                    Object[] initargs = argumentList.toArray();
-                    result = javaConstructor.newInstance(initargs);
-                    break;
-                default:
-                    // scalar
-                    ScalarNode scaNode = (ScalarNode) node;
-                    // TODO should it be constructObject ? because it may be
-                    // also another node
-                    Object argument = constructScalar(scaNode);
-                    if (Enum.class.isAssignableFrom(cl)) {
-                        String enumValueName = scaNode.getValue();
-                        try {
-                            result = Enum.valueOf(cl, enumValueName);
-                        } catch (Exception ex) {
-                            throw new YAMLException("Unable to find enum value '" + enumValueName
-                                    + "' for enum class: " + cl.getName());
-                        }
-                    } else {
-                        javaConstructor = cl.getConstructor(argument.getClass());
-                        result = javaConstructor.newInstance(argument);
-                    }
-                }
+                node.setType(cl);
+                Construct constructor = yamlClassConstructors.get(node.getNodeId());
+                result = constructor.construct(node);
             } catch (Exception e) {
                 throw new ConstructorException(null, null, "Can't construct a java object for "
                         + node.getTag() + "; exception=" + e.getMessage(), node.getStartMark(), e);
@@ -154,96 +280,57 @@ public class Constructor extends SafeConstructor {
         }
     }
 
-    @Override
-    protected Object callConstructor(Node node) {
-        if (Object.class.equals(node.getType()) || Tags.NULL.equals(node.getTag())) {
-            // when the runtime class is unknown rely on the resolved tag
-            return super.callConstructor(node);
-        }
-        Object result;
-        switch (node.getNodeId()) {
-        case scalar:
-            result = constructJavaScalar((ScalarNode) node);
-            break;
-        case sequence:
-            // TODO
-            // get all constructors
-            // if only one constructor with the node.size() argument is present
-            // set the classes for arguments
-            // otherwise create list with (only implicit?) types
-            // if no constructor with the expected argument size is present try
-            // to find a constructor with a list/array as the argument
-            // if no constructor matches fail
-            // call the constructor with the created argument list
-            SequenceNode snode = (SequenceNode) node;
-            if (node.isTwoStepsConstruction()) {
-                result = createDefaultList(snode.getValue().size());
+    /**
+     * Construct scalar instance when the runtime class is known. Recursive
+     * structures are not supported.
+     */
+    private class ConstructScalarObject extends AbstractConstruct {
+        @SuppressWarnings("unchecked")
+        public Object construct(Node nnode) {
+            ScalarNode node = (ScalarNode) nnode;
+            Class type = node.getType();
+            Object result;
+            if (type.isPrimitive() || type == String.class || Number.class.isAssignableFrom(type)
+                    || type == Boolean.class || Date.class.isAssignableFrom(type)
+                    || type == Character.class || type == BigInteger.class
+                    || Enum.class.isAssignableFrom(type)) {
+                // standard classes created directly
+                result = constructStandardJavaInstance(type, node);
             } else {
-                result = constructSequence(snode);
+                // there must be only 1 constructor with 1 argument
+                java.lang.reflect.Constructor[] javaConstructors = type.getConstructors();
+                boolean found = false;
+                java.lang.reflect.Constructor javaConstructor = null;
+                for (java.lang.reflect.Constructor c : javaConstructors) {
+                    if (c.getParameterTypes().length == 1) {
+                        if (found) {
+                            throw new YAMLException(
+                                    "More then 1 constructor with 1 argument found for " + type);
+                        }
+                        found = true;
+                        javaConstructor = c;
+                    }
+                }
+                if (javaConstructor == null) {
+                    throw new YAMLException("No single argument constructor found for " + type);
+                } else {
+                    Object argument = constructStandardJavaInstance(javaConstructor
+                            .getParameterTypes()[0], node);
+                    try {
+                        result = javaConstructor.newInstance(argument);
+                    } catch (Exception e) {
+                        throw new ConstructorException(null, null,
+                                "Can't construct a java object for scalar " + node.getTag()
+                                        + "; exception=" + e.getMessage(), node.getStartMark(), e);
+                    }
+                }
             }
-            break;
-        default:// mapping
-            if (Map.class.isAssignableFrom(node.getType())) {
-                if (node.isTwoStepsConstruction()) {
-                    // TODO when the Map implementation is known it should be
-                    // used
-                    result = createDefaultMap();
-                } else {
-                    result = constructMapping((MappingNode) node);
-                }
-            } else if (Set.class.isAssignableFrom(node.getType())) {
-                if (node.isTwoStepsConstruction()) {
-                    // TODO when the Set implementation is known it should be
-                    // used
-                    result = createDefaultSet();
-                } else {
-                    result = constructSet((MappingNode) node);
-                }
-            } else {
-                if (node.isTwoStepsConstruction()) {
-                    result = createEmptyJavaBean(node);
-                } else {
-                    result = constructJavaBean((MappingNode) node);
-                }
-            }
+            return result;
         }
-        return result;
-    }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected void callPostCreate(Node node, Object object) {
-        if (!node.isTwoStepsConstruction()) {
-            throw new YAMLException("Unexpected recursive structure. Node: " + node);
-        }
-        if (Object.class.equals(node.getType())) {
-            super.callPostCreate(node, object);
-        } else {
-            switch (node.getNodeId()) {
-            case scalar:
-                throw new YAMLException("Scalars cannot be recursive. Node: " + node);
-            case sequence:
-                constructSequenceStep2((SequenceNode) node, (List<Object>) object);
-                break;
-            default:// mapping
-                if (Map.class.isAssignableFrom(node.getType())) {
-                    constructMapping2ndStep((MappingNode) node, (Map<Object, Object>) object);
-                } else if (Set.class.isAssignableFrom(node.getType())) {
-                    constructSet2ndStep((MappingNode) node, (Set<Object>) object);
-                } else {
-                    constructJavaBean2ndStep((MappingNode) node, object);
-                }
-            }
-        }
-    }
-
-    private Object constructJavaScalar(ScalarNode node) {
-        Class<? extends Object> type = node.getType();
-        Object result;
-        if (type.isPrimitive() || type == String.class || Number.class.isAssignableFrom(type)
-                || type == Boolean.class || Date.class.isAssignableFrom(type)
-                || type == Character.class || type == BigInteger.class
-                || Enum.class.isAssignableFrom(type)) {
+        @SuppressWarnings("unchecked")
+        private Object constructStandardJavaInstance(Class type, ScalarNode node) {
+            Object result;
             if (type == String.class) {
                 Construct stringConstructor = yamlConstructors.get(Tags.STR);
                 result = stringConstructor.construct((ScalarNode) node);
@@ -253,11 +340,14 @@ public class Constructor extends SafeConstructor {
             } else if (type == Character.class || type == Character.TYPE) {
                 Construct charConstructor = yamlConstructors.get(Tags.STR);
                 String ch = (String) charConstructor.construct((ScalarNode) node);
-                if (ch.length() != 1) {
+                if (ch.length() == 0) {
+                    result = null;
+                } else if (ch.length() != 1) {
                     throw new YAMLException("Invalid node Character: '" + ch + "'; length: "
                             + ch.length());
+                } else {
+                    result = new Character(ch.charAt(0));
                 }
-                result = new Character(ch.charAt(0));
             } else if (Date.class.isAssignableFrom(type)) {
                 Construct dateConstructor = yamlConstructors.get(Tags.TIMESTAMP);
                 Date date = (Date) dateConstructor.construct((ScalarNode) node);
@@ -298,158 +388,54 @@ public class Constructor extends SafeConstructor {
                     result = new BigInteger(result.toString());
                 }
             } else if (Enum.class.isAssignableFrom(type)) {
-                String tag = Tags.PREFIX + type.getName();
-                node.setTag(tag);
-                result = super.callConstructor(node);
+                String enumValueName = node.getValue();
+                try {
+                    result = Enum.valueOf(type, enumValueName);
+                } catch (Exception ex) {
+                    throw new YAMLException("Unable to find enum value '" + enumValueName
+                            + "' for enum class: " + type.getName());
+                }
             } else {
                 throw new YAMLException("Unsupported class: " + type);
             }
-        } else {
-            try {
-                // get value by BaseConstructor
-                Object value = super.callConstructor(node);
-                if (type.isArray()) {
-                    result = value;
+            return result;
+        }
+    }
+
+    private class ConstructSeqFromClass extends AbstractConstruct {
+
+        @SuppressWarnings("unchecked")
+        public Object construct(Node node) {
+            SequenceNode snode = (SequenceNode) node;
+            if (List.class.isAssignableFrom(node.getType())) {
+                if (node.isTwoStepsConstruction()) {
+                    return createDefaultList(snode.getValue().size());
                 } else {
-                    java.lang.reflect.Constructor<? extends Object> javaConstructor = type
-                            .getConstructor(value.getClass());
-                    result = javaConstructor.newInstance(value);
+                    return constructSequence(snode);
                 }
-            } catch (Exception e) {
-                throw new YAMLException(e);
-            }
-        }
-        return result;
-    }
-
-    private Object createEmptyJavaBean(Node node) {
-        try {
-            Class<? extends Object> type = node.getType();
-            if (Modifier.isAbstract(type.getModifiers())) {
-                node.setType(getClassForNode(node));
-            }
-            /**
-             * Using only default constructor. Everything else will be
-             * initialized on 2nd step. If we do here some partial
-             * initialization, how do we then track what need to be done on 2nd
-             * step? I think it is better to get only object here (to have it as
-             * reference for recursion) and do all other thing on 2nd step.
-             */
-            return node.getType().newInstance();
-        } catch (InstantiationException e) {
-            throw new YAMLException(e);
-        } catch (IllegalAccessException e) {
-            throw new YAMLException(e);
-        } catch (ClassNotFoundException e) {
-            throw new YAMLException(e);
-        }
-    }
-
-    /**
-     * Construct JavaBean. If type safe collections are used please look at
-     * <code>TypeDescription</code>.
-     * 
-     * @param node
-     *            node where the keys are property names (they can only be
-     *            <code>String</code>s) and values are objects to be created
-     * @return constructed JavaBean
-     */
-    private Object constructJavaBean(MappingNode node) {
-        return constructJavaBean2ndStep(node, createEmptyJavaBean(node));
-    }
-
-    @SuppressWarnings("unchecked")
-    // TODO private or protected
-    protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
-        Class<? extends Object> beanType = node.getType();
-        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
-        for (NodeTuple tuple : nodeValue) {
-            ScalarNode keyNode;
-            if (tuple.getKeyNode() instanceof ScalarNode) {
-                // key must be scalar
-                keyNode = (ScalarNode) tuple.getKeyNode();
             } else {
-                throw new YAMLException("Keys must be scalars but found: " + tuple.getKeyNode());
-            }
-            Node valueNode = tuple.getValueNode();
-            // keys can only be Strings
-            keyNode.setType(String.class);
-            String key = (String) constructObject(keyNode);
-            boolean isArray = false;
-            try {
-                Property property = getProperty(beanType, key);
-                valueNode.setType(property.getType());
-                TypeDescription memberDescription = typeDefinitions.get(beanType);
-                if (memberDescription != null) {
-                    switch (valueNode.getNodeId()) {
-                    case sequence:
-                        SequenceNode snode = (SequenceNode) valueNode;
-                        Class<? extends Object> memberType = memberDescription
-                                .getListPropertyType(key);
-                        if (memberType != null) {
-                            snode.setListType(memberType);
-                        } else if (property.getType().isArray()) {
-                            isArray = true;
-                            snode.setListType(property.getType().getComponentType());
-                        }
-                        break;
-                    case mapping:
-                        MappingNode mnode = (MappingNode) valueNode;
-                        Class<? extends Object> keyType = memberDescription.getMapKeyType(key);
-                        if (keyType != null) {
-                            mnode.setKeyType(keyType);
-                            mnode.setValueType(memberDescription.getMapValueType(key));
-                        }
-                        break;
-                    }
+                // create immutable object
+                List<Object> argumentList = (List<Object>) constructSequence(snode);
+                Class[] parameterTypes = new Class[argumentList.size()];
+                int index = 0;
+                for (Object parameter : argumentList) {
+                    parameterTypes[index] = parameter.getClass();
+                    index++;
                 }
-                Object value = constructObject(valueNode);
-                if (isArray) {
-                    List<Object> list = (List<Object>) value;
-                    value = list.toArray(createArray(property.getType()));
-                }
-                property.set(object, value);
-            } catch (Exception e) {
-                // TODO use more informatiove error message, mention property
-                // name
-                System.err.println("key: " + key + "; valueNode=" + valueNode);
-                throw new YAMLException(e);
-            }
-        }
-        return object;
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> T[] createArray(Class<T> type) {
-        return (T[]) Array.newInstance(type.getComponentType(), 0);
-    }
-
-    private Property getProperty(Class<? extends Object> type, String name)
-            throws IntrospectionException {
-        for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors()) {
-            if (property.getName().equals(name)) {
-                if (property.getWriteMethod() != null) {
-                    return new MethodProperty(property);
-                } else {
-                    throw new YAMLException("Property '" + name + "' on JavaBean: "
-                            + type.getName() + " does not have the write method");
+                java.lang.reflect.Constructor javaConstructor;
+                try {
+                    Class cl = getClassForNode(node);
+                    javaConstructor = cl.getConstructor(parameterTypes);
+                    Object[] initargs = argumentList.toArray();
+                    return javaConstructor.newInstance(initargs);
+                } catch (Exception e) {
+                    throw new YAMLException(e);
                 }
             }
         }
-        for (Field field : type.getFields()) {
-            int modifiers = field.getModifiers();
-            if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers)) {
-                continue;
-            }
-            if (field.getName().equals(name)) {
-                return new FieldProperty(field);
-            }
-        }
-        throw new YAMLException("Unable to find property '" + name + "' on class: "
-                + type.getName());
     }
 
-    protected Class<?> getClassForNode(Node node) throws ClassNotFoundException {
+    private Class<?> getClassForNode(Node node) throws ClassNotFoundException {
         Class<? extends Object> customTag = typeTags.get(node.getTag());
         if (customTag == null) {
             if (node.getTag().length() < Tags.PREFIX.length()) {

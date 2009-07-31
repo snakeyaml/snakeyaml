@@ -8,6 +8,11 @@
 	<body>
 	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="development">
 	        <action dev="py4fun" type="update">
+                Refactor: Constructor is rewritten. Do not overwrite methods from BaseConstructor. 
+                Instead introduce ConstructScalarObject, ConstructSeqFromClass, ConstructMappingFromClass.
+                Tests are not finished yet (2009-07-31)
+            </action>
+            <action dev="py4fun" type="update">
                 Change Maven repository path: groupId='org.yaml', artifactId='snakeyaml' (2009-07-31)
             </action>
             <action dev="py4fun" type="fix" issue="10" due-to="derrick.rice">

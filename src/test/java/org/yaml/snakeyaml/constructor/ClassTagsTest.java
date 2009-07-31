@@ -69,7 +69,9 @@ public class ClassTagsTest extends TestCase {
         constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
         Loader loader = new Loader(constructor);
         Yaml yaml = new Yaml(loader);
-        Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
+        String source = Util.getLocalResource("constructor/car-without-tags.yaml");
+        System.out.println(source);
+        Car car = (Car) yaml.load(source);
         assertEquals("12-XP-F4", car.getPlate());
         List<Wheel> wheels = car.getWheels();
         assertNotNull(wheels);

@@ -17,14 +17,26 @@ import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.composer.ComposerException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tags;
 
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public abstract class BaseConstructor {
+    /**
+     * It maps the node kind to the the Construct implementation. When the
+     * runtime class is known then the tag (even explicit) is ignored.
+     */
+    protected final Map<NodeId, Construct> yamlClassConstructors = new HashMap<NodeId, Construct>();
+    /**
+     * It maps a the resolved tag to the Construct implementation. It is used
+     * when the runtime class of the instance is unknown (the node has the
+     * Object.class)
+     */
     protected final Map<String, Construct> yamlConstructors = new HashMap<String, Construct>();
 
     private Composer composer;
@@ -164,19 +176,24 @@ public abstract class BaseConstructor {
     }
 
     /**
-     * Get the constructor to construct the Node. The constructor is chosen by
-     * the Node's tag.
+     * Get the constructor to construct the Node. If the runtime class is known
+     * a dedicated Construct implementation is used. Otherwise the constructor
+     * is chosen by the tag.
      * 
      * @param node
      *            Node to be constructed
-     * @return Construct implementation for the Node's tag
+     * @return Construct implementation for the specified node
      */
     private Construct getConstructor(Node node) {
-        Construct constructor = yamlConstructors.get(node.getTag());
-        if (constructor == null) {
-            return yamlConstructors.get(null);
+        if (!Object.class.equals(node.getType()) && !node.getTag().equals(Tags.NULL)) {
+            return yamlClassConstructors.get(node.getNodeId());
+        } else {
+            Construct constructor = yamlConstructors.get(node.getTag());
+            if (constructor == null) {
+                return yamlConstructors.get(null);
+            }
+            return constructor;
         }
-        return constructor;
     }
 
     protected Object constructScalar(ScalarNode node) {

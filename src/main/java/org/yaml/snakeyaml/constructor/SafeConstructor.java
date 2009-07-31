@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
@@ -46,6 +47,9 @@ public class SafeConstructor extends BaseConstructor {
         this.yamlConstructors.put(Tags.SEQ, new ConstructYamlSeq());
         this.yamlConstructors.put(Tags.MAP, new ConstructYamlMap());
         this.yamlConstructors.put(null, new ConstructUndefined());
+        this.yamlClassConstructors.put(NodeId.scalar, new ConstructUndefined());
+        this.yamlClassConstructors.put(NodeId.sequence, new ConstructUndefined());
+        this.yamlClassConstructors.put(NodeId.mapping, new ConstructUndefined());
     }
 
     private void flattenMapping(MappingNode node) {
