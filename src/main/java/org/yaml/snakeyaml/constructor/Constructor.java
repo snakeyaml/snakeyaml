@@ -221,11 +221,8 @@ public class Constructor extends SafeConstructor {
                     }
                     property.set(object, value);
                 } catch (Exception e) {
-                    // TODO use more informative error message, mention
-                    // property
-                    // name
-                    System.err.println("key: " + key + "; valueNode=" + valueNode);
-                    throw new YAMLException(e);
+                    throw new YAMLException("Cannot create property=" + key + " for JavaBean="
+                            + object + "; " + e.getMessage(), e);
                 }
             }
             return object;
@@ -444,7 +441,6 @@ public class Constructor extends SafeConstructor {
             if (List.class.isAssignableFrom(node.getType())) {
                 constructSequenceStep2(snode, list);
             } else {
-                // TODO support arrays
                 throw new UnsupportedOperationException("Immutable objects cannot be recursive.");
             }
         }

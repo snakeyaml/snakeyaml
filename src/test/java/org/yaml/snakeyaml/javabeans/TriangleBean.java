@@ -22,4 +22,9 @@ public class TriangleBean {
     public void setShape(Shape shape) {
         this.shape = shape;
     }
+
+    @Override
+    public String toString() {
+        return "TriangleBean name=" + name;
+    }
 }

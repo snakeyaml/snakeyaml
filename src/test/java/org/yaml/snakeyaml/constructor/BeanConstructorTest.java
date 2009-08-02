@@ -97,14 +97,8 @@ public class BeanConstructorTest extends TestCase {
         TestBean1 bean = (TestBean1) yaml.load(document);
         assertNull("Null must be accepted.", bean.getCharClass());
         document = "charClass: ''";
-        // TODO fix test
-        // try {
-        // yaml.load(document);
-        // fail("Only one char must be allowed.");
-        // } catch (Exception e) {
-        // assertTrue(e.getMessage(), e.getMessage().contains(
-        // "Invalid node Character: ''; length: 0"));
-        // }
+        bean = (TestBean1) yaml.load(document);
+        assertNull("Null must be accepted.", bean.getCharClass());
         document = "charClass:\n";
         bean = (TestBean1) yaml.load(document);
         assertNull("Null must be accepted.", bean.getCharClass());

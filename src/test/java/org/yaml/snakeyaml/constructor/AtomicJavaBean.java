@@ -24,4 +24,9 @@ public class AtomicJavaBean {
     public void setAtomic(AtomicLong atomic) {
         this.atomic = atomic;
     }
+
+    @Override
+    public String toString() {
+        return "AtomicJavaBean";
+    }
 }

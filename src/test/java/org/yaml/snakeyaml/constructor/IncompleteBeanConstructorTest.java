@@ -39,7 +39,7 @@ public class IncompleteBeanConstructorTest extends TestCase {
             fail("'name' property does not have setter.");
         } catch (YAMLException e) {
             assertEquals(
-                    "org.yaml.snakeyaml.error.YAMLException: Property 'name' on JavaBean: org.yaml.snakeyaml.constructor.IncompleteJavaBean does not have the write method",
+                    "Cannot create property=name for JavaBean=<IncompleteJavaBean name=No name>; Property 'name' on JavaBean: org.yaml.snakeyaml.constructor.IncompleteJavaBean does not have the write method",
                     e.getCause().getMessage());
         }
     }

@@ -20,7 +20,7 @@ public class MockDateBeanConstructorTest extends TestCase {
             fail("MockDate cannot be constructed.");
         } catch (Exception e) {
             assertEquals(
-                    "org.yaml.snakeyaml.error.YAMLException: Cannot construct: 'class org.yaml.snakeyaml.constructor.MockDateBeanConstructorTest$MockDate'",
+                    "Cannot create property=date for JavaBean=<DateBean n=24>; Cannot construct: 'class org.yaml.snakeyaml.constructor.MockDateBeanConstructorTest$MockDate'",
                     e.getCause().getMessage());
         }
     }
@@ -43,6 +43,11 @@ public class MockDateBeanConstructorTest extends TestCase {
 
         public void setDate(MockDate date) {
             this.date = date;
+        }
+
+        @Override
+        public String toString() {
+            return "<DateBean n=" + number + ">";
         }
     }
 

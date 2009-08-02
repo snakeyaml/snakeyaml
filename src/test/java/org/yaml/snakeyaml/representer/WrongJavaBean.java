@@ -17,4 +17,9 @@ public class WrongJavaBean {
     private void method() {
         privateValue++;
     }
+
+    @Override
+    public String toString() {
+        return "WrongJavaBean";
+    }
 }

@@ -20,4 +20,9 @@ public class IncompleteJavaBean {
     public int obtainNumber() {
         return number;
     }
+
+    @Override
+    public String toString() {
+        return "<IncompleteJavaBean name=" + name + ">";
+    }
 }

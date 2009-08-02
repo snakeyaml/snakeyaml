@@ -39,7 +39,7 @@ public class TriangleBeanTest extends TestCase {
             fail("Class not found expected.");
         } catch (Exception e) {
             assertEquals(
-                    "org.yaml.snakeyaml.error.YAMLException: java.lang.ClassNotFoundException: org.yaml.snakeyaml.javabeans.Triangle777",
+                    "Cannot create property=shape for JavaBean=TriangleBean name=Bean25; java.lang.ClassNotFoundException: org.yaml.snakeyaml.javabeans.Triangle777",
                     e.getMessage());
         }
     }

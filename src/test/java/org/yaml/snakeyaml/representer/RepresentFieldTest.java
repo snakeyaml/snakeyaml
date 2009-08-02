@@ -30,10 +30,10 @@ public class RepresentFieldTest extends TestCase {
             fail("Only public fields can be used.");
         } catch (Exception e) {
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.representer.WrongJavaBean; exception=org.yaml.snakeyaml.error.YAMLException: Unable to find property 'packageField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.representer.WrongJavaBean; exception=Cannot create property=packageField for JavaBean=WrongJavaBean; Unable to find property 'packageField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
                     e.getMessage());
             assertEquals(
-                    "org.yaml.snakeyaml.error.YAMLException: Unable to find property 'packageField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
+                    "Cannot create property=packageField for JavaBean=WrongJavaBean; Unable to find property 'packageField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
                     e.getCause().getMessage());
         }
     }
@@ -46,10 +46,10 @@ public class RepresentFieldTest extends TestCase {
             fail("Static fields cannot be used.");
         } catch (Exception e) {
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.representer.WrongJavaBean; exception=org.yaml.snakeyaml.error.YAMLException: Unable to find property 'staticField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.representer.WrongJavaBean; exception=Cannot create property=staticField for JavaBean=WrongJavaBean; Unable to find property 'staticField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
                     e.getMessage());
             assertEquals(
-                    "org.yaml.snakeyaml.error.YAMLException: Unable to find property 'staticField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
+                    "Cannot create property=staticField for JavaBean=WrongJavaBean; Unable to find property 'staticField' on class: org.yaml.snakeyaml.representer.WrongJavaBean",
                     e.getCause().getMessage());
         }
     }

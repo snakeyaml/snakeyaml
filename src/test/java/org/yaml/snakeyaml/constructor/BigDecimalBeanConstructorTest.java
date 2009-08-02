@@ -42,7 +42,7 @@ public class BigDecimalBeanConstructorTest extends TestCase {
             fail("AtomicLong is not supported.");
         } catch (Exception e) {
             assertEquals(
-                    "org.yaml.snakeyaml.error.YAMLException: Unsupported class: class java.util.concurrent.atomic.AtomicLong",
+                    "Cannot create property=atomic for JavaBean=AtomicJavaBean; Unsupported class: class java.util.concurrent.atomic.AtomicLong",
                     e.getCause().getMessage());
         }
     }

@@ -8,6 +8,10 @@
 	<body>
 	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="development">
 	        <action dev="py4fun" type="update">
+                Use more informative error message when a JavaBean property cannot
+                be created (2009-08-08)
+            </action>
+            <action dev="py4fun" type="update">
                 Refactor: Constructor is rewritten. Do not overwrite methods from BaseConstructor. 
                 Instead introduce ConstructScalarObject, ConstructSeqFromClass, ConstructMappingFromClass.
                 Tests are not finished yet (2009-07-31)
