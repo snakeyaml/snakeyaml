@@ -407,7 +407,7 @@ public class Constructor extends SafeConstructor {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             SequenceNode snode = (SequenceNode) node;
-            if (List.class.isAssignableFrom(node.getType())) {
+            if (List.class.isAssignableFrom(node.getType()) || node.getType().isArray()) {
                 if (node.isTwoStepsConstruction()) {
                     return createDefaultList(snode.getValue().size());
                 } else {
