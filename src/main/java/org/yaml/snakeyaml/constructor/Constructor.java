@@ -402,7 +402,7 @@ public class Constructor extends SafeConstructor {
         }
     }
 
-    private class ConstructSeqFromClass extends AbstractConstruct {
+    private class ConstructSeqFromClass implements Construct {
 
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
@@ -433,6 +433,18 @@ public class Constructor extends SafeConstructor {
                 }
             }
         }
+
+        @SuppressWarnings("unchecked")
+        public void construct2ndStep(Node node, Object object) {
+            SequenceNode snode = (SequenceNode) node;
+            List<Object> list = (List<Object>) object;
+            if (List.class.isAssignableFrom(node.getType())) {
+                constructSequenceStep2(snode, list);
+            } else {
+                // TODO support arrays
+                throw new UnsupportedOperationException("Immutable objects cannot be recursive.");
+            }
+        }
     }
 
     private Class<?> getClassForNode(Node node) throws ClassNotFoundException {
@@ -449,5 +461,4 @@ public class Constructor extends SafeConstructor {
             return customTag;
         }
     }
-
 }
