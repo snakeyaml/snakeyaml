@@ -293,7 +293,7 @@ public class Constructor extends SafeConstructor {
             if (type.isPrimitive() || type == String.class || Number.class.isAssignableFrom(type)
                     || type == Boolean.class || Date.class.isAssignableFrom(type)
                     || type == Character.class || type == BigInteger.class
-                    || Enum.class.isAssignableFrom(type)) {
+                    || Enum.class.isAssignableFrom(type) || Tags.BINARY.equals(node.getTag())) {
                 // standard classes created directly
                 result = constructStandardJavaInstance(type, node);
             } else {
@@ -395,6 +395,9 @@ public class Constructor extends SafeConstructor {
                     throw new YAMLException("Unable to find enum value '" + enumValueName
                             + "' for enum class: " + type.getName());
                 }
+            } else if (Tags.BINARY.equals(node.getTag())) {
+                Construct intConstructor = yamlConstructors.get(Tags.BINARY);
+                result = intConstructor.construct(node);
             } else {
                 throw new YAMLException("Unsupported class: " + type);
             }
