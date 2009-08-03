@@ -3,6 +3,7 @@
  */
 package org.yaml.snakeyaml.constructor;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -31,7 +32,7 @@ public abstract class BaseConstructor {
      * It maps the node kind to the the Construct implementation. When the
      * runtime class is known then the tag (even explicit) is ignored.
      */
-    protected final Map<NodeId, Construct> yamlClassConstructors = new HashMap<NodeId, Construct>();
+    protected final Map<NodeId, Construct> yamlClassConstructors = new EnumMap<NodeId, Construct>(NodeId.class);
     /**
      * It maps a the resolved tag to the Construct implementation. It is used
      * when the runtime class of the instance is unknown (the node has the
