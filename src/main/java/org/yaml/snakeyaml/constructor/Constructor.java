@@ -120,7 +120,7 @@ public class Constructor extends SafeConstructor {
                     // used
                     return createDefaultMap();
                 } else {
-                    return constructMapping((MappingNode) node);
+                    return constructMapping(mnode);
                 }
             } else if (Set.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
@@ -128,7 +128,7 @@ public class Constructor extends SafeConstructor {
                     // used
                     return createDefaultSet();
                 } else {
-                    return constructSet((MappingNode) node);
+                    return constructSet(mnode);
                 }
             } else {
                 if (node.isTwoStepsConstruction()) {
