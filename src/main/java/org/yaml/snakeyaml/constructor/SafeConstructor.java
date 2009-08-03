@@ -33,6 +33,8 @@ import org.yaml.snakeyaml.util.Base64Coder;
  */
 public class SafeConstructor extends BaseConstructor {
 
+    public static ConstructUndefined undefinedConstructor = new ConstructUndefined();
+
     public SafeConstructor() {
         this.yamlConstructors.put(Tags.NULL, new ConstructYamlNull());
         this.yamlConstructors.put(Tags.BOOL, new ConstructYamlBool());
@@ -46,10 +48,10 @@ public class SafeConstructor extends BaseConstructor {
         this.yamlConstructors.put(Tags.STR, new ConstructYamlStr());
         this.yamlConstructors.put(Tags.SEQ, new ConstructYamlSeq());
         this.yamlConstructors.put(Tags.MAP, new ConstructYamlMap());
-        this.yamlConstructors.put(null, new ConstructUndefined());
-        this.yamlClassConstructors.put(NodeId.scalar, new ConstructUndefined());
-        this.yamlClassConstructors.put(NodeId.sequence, new ConstructUndefined());
-        this.yamlClassConstructors.put(NodeId.mapping, new ConstructUndefined());
+        this.yamlConstructors.put(null, undefinedConstructor);
+        this.yamlClassConstructors.put(NodeId.scalar, undefinedConstructor);
+        this.yamlClassConstructors.put(NodeId.sequence, undefinedConstructor);
+        this.yamlClassConstructors.put(NodeId.mapping, undefinedConstructor);
     }
 
     private void flattenMapping(MappingNode node) {
@@ -442,7 +444,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private class ConstructUndefined extends AbstractConstruct {
+    private static final class ConstructUndefined extends AbstractConstruct {
         public Object construct(Node node) {
             throw new ConstructorException(null, null,
                     "could not determine a constructor for the tag " + node.getTag(), node
