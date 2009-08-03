@@ -13,6 +13,24 @@ public class ShapeCustomDumperTest extends TestCase {
         assertEquals("BLACK", loaded.getName());
     }
 
+    public void testCode() {
+        Yaml yaml = new Yaml();
+        Code loaded = (Code) yaml.load("!!org.yaml.snakeyaml.immutable.Code 123");
+        assertEquals(new Integer(123), loaded.getCode());
+    }
+
+    public void testSuperColorFail() {
+        Yaml yaml = new Yaml();
+        try {
+            yaml.load("!!org.yaml.snakeyaml.immutable.SuperColor BLACK");
+            fail("SuperColor requires Color and not a String.");
+        } catch (Exception e) {
+            assertEquals(
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.SuperColor; exception=Unsupported class: class org.yaml.snakeyaml.immutable.Color",
+                    e.getMessage());
+        }
+    }
+
     public void testPoint() {
         Yaml yaml = new Yaml();
         Point loaded = (Point) yaml.load("!!org.yaml.snakeyaml.immutable.Point [1.17, 3.14]");
