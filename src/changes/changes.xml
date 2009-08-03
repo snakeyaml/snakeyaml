@@ -13,7 +13,7 @@
             </action>
             <action dev="py4fun" type="update">
                 Refactor: Constructor is rewritten. Do not overwrite methods from BaseConstructor. 
-                Instead introduce ConstructScalarObject, ConstructSeqFromClass, ConstructMappingFromClass.
+                Instead introduce ConstructScalar, ConstructSequence, ConstructMapping.
                 Tests are not finished yet (2009-07-31)
             </action>
             <action dev="py4fun" type="update">

@@ -49,9 +49,9 @@ public class Constructor extends SafeConstructor {
         rootType = theRoot;
         typeTags = new HashMap<String, Class<? extends Object>>();
         typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
-        yamlClassConstructors.put(NodeId.scalar, new ConstructScalarObject());
-        yamlClassConstructors.put(NodeId.mapping, new ConstructMappingFromClass());
-        yamlClassConstructors.put(NodeId.sequence, new ConstructSeqFromClass());
+        yamlClassConstructors.put(NodeId.scalar, new ConstructScalar());
+        yamlClassConstructors.put(NodeId.mapping, new ConstructMapping());
+        yamlClassConstructors.put(NodeId.sequence, new ConstructSequence());
     }
 
     /**
@@ -98,7 +98,11 @@ public class Constructor extends SafeConstructor {
         return typeDefinitions.put(definition.getType(), definition);
     }
 
-    private class ConstructMappingFromClass implements Construct {
+    /**
+     * Construct mapping instance (Map, JavaBean) when the runtime class is
+     * known.
+     */
+    private class ConstructMapping implements Construct {
         /**
          * Construct JavaBean. If type safe collections are used please look at
          * <code>TypeDescription</code>.
@@ -260,6 +264,12 @@ public class Constructor extends SafeConstructor {
         }
     }
 
+    /**
+     * Construct an instance when the runtime class is not known but a global
+     * tag with a class name is defined. It delegates the construction to the
+     * appropriate constructor based on the node kind (scalar, sequence,
+     * mapping)
+     */
     private class ConstructYamlObject extends AbstractConstruct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
@@ -267,6 +277,7 @@ public class Constructor extends SafeConstructor {
             try {
                 Class cl = getClassForNode(node);
                 node.setType(cl);
+                // call the constructor as if the runtime class is defined
                 Construct constructor = yamlClassConstructors.get(node.getNodeId());
                 result = constructor.construct(node);
             } catch (Exception e) {
@@ -281,7 +292,7 @@ public class Constructor extends SafeConstructor {
      * Construct scalar instance when the runtime class is known. Recursive
      * structures are not supported.
      */
-    private class ConstructScalarObject extends AbstractConstruct {
+    private class ConstructScalar extends AbstractConstruct {
         @SuppressWarnings("unchecked")
         public Object construct(Node nnode) {
             ScalarNode node = (ScalarNode) nnode;
@@ -402,8 +413,11 @@ public class Constructor extends SafeConstructor {
         }
     }
 
-    private class ConstructSeqFromClass implements Construct {
-
+    /**
+     * Construct sequence (List, Array, or immutable object) when the runtime
+     * class is known.
+     */
+    private class ConstructSequence implements Construct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             SequenceNode snode = (SequenceNode) node;
