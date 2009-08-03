@@ -52,12 +52,12 @@ public class ShapeCustomDumperTest extends TestCase {
         assertEquals(345.1, loaded.getZ());
     }
 
-    public void qtestShape() {
+    public void testShape() {
         Yaml yaml = new Yaml();
         String source = Util.getLocalResource("immutable/shape1.yaml");
         System.out.println(source);
         Shape loaded = (Shape) yaml.load(source);
-        assertEquals(123, loaded.getId());
+        assertEquals(new Integer(123), loaded.getId());
     }
 
 }

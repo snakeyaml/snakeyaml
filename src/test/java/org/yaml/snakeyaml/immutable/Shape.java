@@ -37,7 +37,7 @@ public class Shape {
         return point;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 }

@@ -438,7 +438,7 @@ public class Constructor extends SafeConstructor {
                 }
                 java.lang.reflect.Constructor javaConstructor;
                 try {
-                    Class cl = getClassForNode(node);
+                    Class cl = node.getType();
                     javaConstructor = cl.getConstructor(parameterTypes);
                     Object[] initargs = argumentList.toArray();
                     return javaConstructor.newInstance(initargs);
