@@ -293,7 +293,7 @@ public class Constructor extends SafeConstructor {
      * Construct scalar instance when the runtime class is known. Recursive
      * structures are not supported.
      */
-    private class ConstructScalar extends AbstractConstruct {
+    protected class ConstructScalar extends AbstractConstruct {
         @SuppressWarnings("unchecked")
         public Object construct(Node nnode) {
             ScalarNode node = (ScalarNode) nnode;
@@ -488,7 +488,7 @@ public class Constructor extends SafeConstructor {
         }
     }
 
-    private Class<?> getClassForNode(Node node) throws ClassNotFoundException {
+    protected Class<?> getClassForNode(Node node) throws ClassNotFoundException {
         Class<? extends Object> customTag = typeTags.get(node.getTag());
         if (customTag == null) {
             if (node.getTag().length() < Tags.PREFIX.length()) {

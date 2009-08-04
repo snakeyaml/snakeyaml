@@ -7,6 +7,11 @@
 	</properties>
 	<body>
 	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="development">
+	         <action dev="py4fun" type="fix" issue="9" due-to="wwagner4">
+                Fix: Bean with no property cannot be instantiated. This is implemented via better
+                support for immutable objects. Custom Constructor may be used when there are more
+                then 1 way to create an instance (2009-08-04)
+            </action>
 	        <action dev="py4fun" type="add">
                 Deliver possibility to load immutable instances with no global tags. Reflection for
                 constructor arguments is used to get the runtime classes (2009-08-04)
