@@ -1,3 +1,6 @@
+/*
+ * See LICENSE file in distribution for copyright and licensing information.
+ */
 package org.yaml.snakeyaml.issues.issue9;
 
 import java.util.Iterator;
