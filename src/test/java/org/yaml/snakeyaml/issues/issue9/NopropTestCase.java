@@ -92,12 +92,12 @@ public class NopropTestCase extends TestCase {
         assertEquals(1, beanHolder.getBean().getIntVal());
     }
 
-    public void qtestNonBean() {
+    public void testNonBean() {
         String yaml = "--- !!org.yaml.snakeyaml.issues.issue9.BeanHolder\nbean : !!org.yaml.snakeyaml.issues.issue9.Bean1 123";
         Iterator<Object> docs = new Yaml().loadAll(yaml).iterator();
         assertTrue(docs.hasNext());
         BeanHolder beanHolder = (BeanHolder) docs.next();
         assertEquals("BEAN_1", beanHolder.getBean().getStrVal());
-        assertEquals(1, beanHolder.getBean().getIntVal());
+        assertEquals(123, beanHolder.getBean().getIntVal());
     }
 }
