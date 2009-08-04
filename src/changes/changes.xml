@@ -6,7 +6,7 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="development">
+	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="better support for immutable objects">
 	         <action dev="py4fun" type="fix" issue="9" due-to="wwagner4">
                 Fix: Bean with no property cannot be instantiated. This is implemented via better
                 support for immutable objects. Custom Constructor may be used when there are more
