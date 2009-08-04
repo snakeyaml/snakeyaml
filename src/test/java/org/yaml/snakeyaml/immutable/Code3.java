@@ -3,21 +3,26 @@
  */
 package org.yaml.snakeyaml.immutable;
 
-public class Code {
+/**
+ * No constructors with 1 argument. These immutable objects are not supported.
+ */
+public class Code3 {
+    private final String name;
     private final Integer code;
 
-    public Code(Integer name) {
-        this.code = name;
+    public Code3(String name, Integer code) {
+        this.code = code;
+        this.name = name;
     }
 
-    public Integer getCode() {
-        return code;
+    public String getData() {
+        return name + code;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Code) {
-            Code code = (Code) obj;
+        if (obj instanceof Code3) {
+            Code3 code = (Code3) obj;
             return code.equals(code.code);
         } else {
             return false;
@@ -31,6 +36,6 @@ public class Code {
 
     @Override
     public String toString() {
-        return "<Code code=" + code + ">";
+        return "<Code3 data=" + getData() + ">";
     }
 }

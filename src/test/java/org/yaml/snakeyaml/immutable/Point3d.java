@@ -19,4 +19,9 @@ public class Point3d {
     public Point getPoint() {
         return point;
     }
+
+    @Override
+    public String toString() {
+        return "<Point3d point=" + point.toString() + " z=" + String.valueOf(z) + ">";
+    }
 }

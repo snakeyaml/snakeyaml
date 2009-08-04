@@ -18,7 +18,6 @@ public class TriangleBeanTest extends TestCase {
         bean.setName("Bean25");
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         String output = beanDumper.dump(bean);
-        System.out.println(output);
         assertEquals(
                 "name: Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle\n  name: Triangle25\n",
                 output);

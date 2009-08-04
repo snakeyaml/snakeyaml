@@ -33,4 +33,8 @@ public class SuperColor {
     public String toString() {
         return "SuperColor color=" + color;
     }
+
+    public Color getColor() {
+        return color;
+    }
 }

@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -429,7 +430,34 @@ public class Constructor extends SafeConstructor {
                 }
             } else {
                 // create immutable object
-                List<Object> argumentList = (List<Object>) constructSequence(snode);
+                List<java.lang.reflect.Constructor> possibleConstructors = new LinkedList<java.lang.reflect.Constructor>();
+                for (java.lang.reflect.Constructor constructor : node.getType().getConstructors()) {
+                    if (snode.getValue().size() == constructor.getParameterTypes().length) {
+                        possibleConstructors.add(constructor);
+                    }
+                }
+                if (possibleConstructors.isEmpty()) {
+                    throw new YAMLException("No constructors with "
+                            + String.valueOf(snode.getValue().size()) + " arguments found for "
+                            + node.getType());
+                }
+                List<Object> argumentList;
+                if (possibleConstructors.size() == 1) {
+                    argumentList = new LinkedList<Object>();
+                    java.lang.reflect.Constructor c = possibleConstructors.get(0);
+                    int index = 0;
+                    for (Node argumentNode : snode.getValue()) {
+                        Class type = c.getParameterTypes()[index];
+                        // set runtime classes for arguments
+                        argumentNode.setType(type);
+                        Object argumentValue = constructObject(argumentNode);
+                        argumentList.add(argumentValue);
+                        index++;
+                    }
+                } else {
+                    // use BaseConstructor
+                    argumentList = (List<Object>) constructSequence(snode);
+                }
                 Class[] parameterTypes = new Class[argumentList.size()];
                 int index = 0;
                 for (Object parameter : argumentList) {
@@ -455,7 +483,7 @@ public class Constructor extends SafeConstructor {
             if (List.class.isAssignableFrom(node.getType())) {
                 constructSequenceStep2(snode, list);
             } else {
-                throw new UnsupportedOperationException("Immutable objects cannot be recursive.");
+                throw new YAMLException("Immutable objects cannot be recursive.");
             }
         }
     }
