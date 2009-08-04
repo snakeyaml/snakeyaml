@@ -489,8 +489,8 @@ public class Constructor extends SafeConstructor {
     }
 
     private Class<?> getClassForNode(Node node) throws ClassNotFoundException {
-        Class<? extends Object> customTag = typeTags.get(node.getTag());
-        if (customTag == null) {
+        Class<? extends Object> classForTag = typeTags.get(node.getTag());
+        if (classForTag == null) {
             if (node.getTag().length() < Tags.PREFIX.length()) {
                 throw new YAMLException("Unknown tag: " + node.getTag());
             }
@@ -499,7 +499,7 @@ public class Constructor extends SafeConstructor {
             typeTags.put(node.getTag(), cl);
             return cl;
         } else {
-            return customTag;
+            return classForTag;
         }
     }
 }
