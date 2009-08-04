@@ -170,8 +170,6 @@ public class Constructor extends SafeConstructor {
                 throw new YAMLException(e);
             } catch (IllegalAccessException e) {
                 throw new YAMLException(e);
-            } catch (ClassNotFoundException e) {
-                throw new YAMLException(e);
             }
         }
 
@@ -307,6 +305,10 @@ public class Constructor extends SafeConstructor {
                 result = constructStandardJavaInstance(type, node);
             } else {
                 // there must be only 1 constructor with 1 argument
+                if (Modifier.isAbstract(type.getModifiers())) {
+                    // use the tag when the runtime class cannot be instantiated
+                    type = getClassForNode(node);
+                }
                 java.lang.reflect.Constructor[] javaConstructors = type.getConstructors();
                 boolean found = false;
                 java.lang.reflect.Constructor javaConstructor = null;
@@ -488,14 +490,19 @@ public class Constructor extends SafeConstructor {
         }
     }
 
-    private Class<?> getClassForNode(Node node) throws ClassNotFoundException {
+    private Class<?> getClassForNode(Node node) {
         Class<? extends Object> classForTag = typeTags.get(node.getTag());
         if (classForTag == null) {
             if (node.getTag().length() < Tags.PREFIX.length()) {
                 throw new YAMLException("Unknown tag: " + node.getTag());
             }
             String name = node.getTag().substring(Tags.PREFIX.length());
-            Class<?> cl = Class.forName(name);
+            Class<?> cl;
+            try {
+                cl = Class.forName(name);
+            } catch (ClassNotFoundException e) {
+                throw new YAMLException("Class not found: " + name);
+            }
             typeTags.put(node.getTag(), cl);
             return cl;
         } else {
