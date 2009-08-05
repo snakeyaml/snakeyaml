@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.Yaml;
 
-public class NopropTestCase extends TestCase {
+public class NopropTest extends TestCase {
 
     public void testOK01() {
         String yaml = "--- !!org.yaml.snakeyaml.issues.issue9.BeanHolder\nbean : !!org.yaml.snakeyaml.issues.issue9.Bean1\n  intVal : 11\n  strVal : HALLO_1 ";
