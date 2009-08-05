@@ -310,30 +310,41 @@ public class Constructor extends SafeConstructor {
                     type = getClassForNode(node);
                 }
                 java.lang.reflect.Constructor[] javaConstructors = type.getConstructors();
-                boolean found = false;
+                int oneArgCount = 0;
                 java.lang.reflect.Constructor javaConstructor = null;
                 for (java.lang.reflect.Constructor c : javaConstructors) {
                     if (c.getParameterTypes().length == 1) {
-                        if (found) {
-                            throw new YAMLException(
-                                    "More then 1 constructor with 1 argument found for " + type);
-                        }
-                        found = true;
+                        oneArgCount++;
                         javaConstructor = c;
                     }
                 }
+                Object argument;
                 if (javaConstructor == null) {
                     throw new YAMLException("No single argument constructor found for " + type);
+                } else if (oneArgCount == 1) {
+                    argument = constructStandardJavaInstance(
+                            javaConstructor.getParameterTypes()[0], node);
                 } else {
-                    Object argument = constructStandardJavaInstance(javaConstructor
-                            .getParameterTypes()[0], node);
+                    // TODO it should be possible to use implicit types instead
+                    // of forcing String. Resolver must be available here to
+                    // obtain the implicit tag. Then we can set the tag and call
+                    // callConstructor(node) to create the argument instance
+                    argument = constructScalar(node);
                     try {
-                        result = javaConstructor.newInstance(argument);
+                        javaConstructor = type.getConstructor(String.class);
                     } catch (Exception e) {
                         throw new ConstructorException(null, null,
                                 "Can't construct a java object for scalar " + node.getTag()
-                                        + "; exception=" + e.getMessage(), node.getStartMark(), e);
+                                        + "; No String constructor found. Exception="
+                                        + e.getMessage(), node.getStartMark(), e);
                     }
+                }
+                try {
+                    result = javaConstructor.newInstance(argument);
+                } catch (Exception e) {
+                    throw new ConstructorException(null, null,
+                            "Can't construct a java object for scalar " + node.getTag()
+                                    + "; exception=" + e.getMessage(), node.getStartMark(), e);
                 }
             }
             return result;

@@ -44,14 +44,8 @@ public class ShapeImmutableTest extends TestCase {
 
     public void testCode2() {
         Yaml yaml = new Yaml();
-        try {
-            yaml.load("!!org.yaml.snakeyaml.immutable.Code2 555");
-            fail("There must be only 1 constructor with 1 argument for scalar.");
-        } catch (Exception e) {
-            assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code2; exception=More then 1 constructor with 1 argument found for class org.yaml.snakeyaml.immutable.Code2",
-                    e.getMessage());
-        }
+        Code2 code2 = (Code2) yaml.load("!!org.yaml.snakeyaml.immutable.Code2 555");
+        assertEquals(new Integer(555), code2.getCode());
     }
 
     public void testCode3() {
@@ -62,6 +56,18 @@ public class ShapeImmutableTest extends TestCase {
         } catch (Exception e) {
             assertEquals(
                     "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code3; exception=No single argument constructor found for class org.yaml.snakeyaml.immutable.Code3",
+                    e.getMessage());
+        }
+    }
+
+    public void testCode4() {
+        Yaml yaml = new Yaml();
+        try {
+            yaml.load("!!org.yaml.snakeyaml.immutable.Code4 777");
+            fail("Constructor with String is required.");
+        } catch (Exception e) {
+            assertEquals(
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; exception=null; Can't construct a java object for scalar tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; No String constructor found. Exception=org.yaml.snakeyaml.immutable.Code4.<init>(java.lang.String)",
                     e.getMessage());
         }
     }

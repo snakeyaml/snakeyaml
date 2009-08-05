@@ -7,7 +7,12 @@
 	</properties>
 	<body>
 	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="better support for immutable objects">
-	         <action dev="py4fun" type="fix" issue="9" due-to="wwagner4">
+	        <action dev="py4fun" type="fix" issue="11" due-to="infinity0x">
+                Fix: in case there is more then 1 constructor with 1 argument to create an instance
+                for scalar node and a global or local tag does not allow to rely on the implicit type
+                then try to use the constructor with the String argument (2009-08-05)
+            </action>
+            <action dev="py4fun" type="fix" issue="9" due-to="wwagner4">
                 Fix: Bean with no property cannot be instantiated. This is implemented via better
                 support for immutable objects. Custom Constructor may be used when there are more
                 then 1 way to create an instance (2009-08-04)
