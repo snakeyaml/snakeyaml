@@ -20,4 +20,8 @@ public final class Tags {
     public static final String MERGE = PREFIX + "merge";
     public static final String VALUE = PREFIX + "value";
     public static final String YAML = PREFIX + "yaml";
+
+    public static String getGlobalTagForClass(Class<? extends Object> clazz) {
+        return PREFIX + clazz.getName();
+    }
 }

@@ -84,7 +84,7 @@ public class Representer extends SafeRepresenter {
         List<NodeTuple> value = new LinkedList<NodeTuple>();
         String tag;
         String customTag = classTags.get(javaBean.getClass());
-        tag = customTag != null ? customTag : Tags.PREFIX + javaBean.getClass().getName();
+        tag = customTag != null ? customTag : Tags.getGlobalTagForClass(javaBean.getClass());
         // flow style will be chosen by BaseRepresenter
         MappingNode node = new MappingNode(tag, value, null);
         representedObjects.put(objectToRepresent, node);

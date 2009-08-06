@@ -206,7 +206,7 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentEnum implements Represent {
         public Node representData(Object data) {
-            String tag = Tags.PREFIX + data.getClass().getName();
+            String tag = Tags.getGlobalTagForClass(data.getClass());
             return representScalar(tag, data.toString());
         }
     }
