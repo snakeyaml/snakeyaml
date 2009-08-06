@@ -30,13 +30,16 @@ import org.yaml.snakeyaml.nodes.Tags;
 public abstract class BaseConstructor {
     /**
      * It maps the node kind to the the Construct implementation. When the
-     * runtime class is known then the tag (even explicit) is ignored.
+     * runtime class is known then the implicit tag is ignored.
      */
-    protected final Map<NodeId, Construct> yamlClassConstructors = new EnumMap<NodeId, Construct>(NodeId.class);
+    protected final Map<NodeId, Construct> yamlClassConstructors = new EnumMap<NodeId, Construct>(
+            NodeId.class);
     /**
-     * It maps a the resolved tag to the Construct implementation. It is used
-     * when the runtime class of the instance is unknown (the node has the
-     * Object.class)
+     * It maps the (explicit or implicit) tag to the Construct implementation.
+     * It is used: <br/>
+     * 1) explicit tag - if present. <br/>
+     * 2) implicit tag - when the runtime class of the instance is unknown (the
+     * node has the Object.class)
      */
     protected final Map<String, Construct> yamlConstructors = new HashMap<String, Construct>();
 
@@ -177,16 +180,17 @@ public abstract class BaseConstructor {
     }
 
     /**
-     * Get the constructor to construct the Node. If the runtime class is known
-     * a dedicated Construct implementation is used. Otherwise the constructor
-     * is chosen by the tag.
+     * Get the constructor to construct the Node. For implicit tags if the
+     * runtime class is known a dedicated Construct implementation is used.
+     * Otherwise the constructor is chosen by the tag.
      * 
      * @param node
      *            Node to be constructed
      * @return Construct implementation for the specified node
      */
     private Construct getConstructor(Node node) {
-        if (!Object.class.equals(node.getType()) && !node.getTag().equals(Tags.NULL)) {
+        if (!node.hasExplicitTag() && !Object.class.equals(node.getType())
+                && !node.getTag().equals(Tags.NULL)) {
             return yamlClassConstructors.get(node.getNodeId());
         } else {
             Construct constructor = yamlConstructors.get(node.getTag());

@@ -305,10 +305,6 @@ public class Constructor extends SafeConstructor {
                 result = constructStandardJavaInstance(type, node);
             } else {
                 // there must be only 1 constructor with 1 argument
-                if (Modifier.isAbstract(type.getModifiers())) {
-                    // use the tag when the runtime class cannot be instantiated
-                    type = getClassForNode(node);
-                }
                 java.lang.reflect.Constructor[] javaConstructors = type.getConstructors();
                 int oneArgCount = 0;
                 java.lang.reflect.Constructor javaConstructor = null;
@@ -328,7 +324,9 @@ public class Constructor extends SafeConstructor {
                     // TODO it should be possible to use implicit types instead
                     // of forcing String. Resolver must be available here to
                     // obtain the implicit tag. Then we can set the tag and call
-                    // callConstructor(node) to create the argument instance
+                    // callConstructor(node) to create the argument instance.
+                    // On the other hand it may be safer to require a custom
+                    // constructor to avoid guessing the argument class
                     argument = constructScalar(node);
                     try {
                         javaConstructor = type.getConstructor(String.class);
@@ -417,9 +415,6 @@ public class Constructor extends SafeConstructor {
                     throw new YAMLException("Unable to find enum value '" + enumValueName
                             + "' for enum class: " + type.getName());
                 }
-            } else if (Tags.BINARY.equals(node.getTag())) {
-                Construct intConstructor = yamlConstructors.get(Tags.BINARY);
-                result = intConstructor.construct(node);
             } else {
                 throw new YAMLException("Unsupported class: " + type);
             }

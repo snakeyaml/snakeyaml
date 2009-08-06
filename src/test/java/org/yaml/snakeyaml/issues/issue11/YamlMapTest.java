@@ -21,12 +21,19 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlMapTest extends TestCase {
+    public void testYaml() throws IOException {
+        Yaml yaml = new Yaml(new Loader(new ExtendedConstructor()), new Dumper(
+                new ExtendedRepresenter(), new DumperOptions()));
+        String output = yaml.dump(new Custom(123));
+        // System.out.println(output);
+        Custom o = (Custom) yaml.load(output);
+        assertEquals("123", o.getStr());
+    }
 
     @SuppressWarnings("unchecked")
     public void testYamlMap() throws IOException {
         Map<String, Object> data = new TreeMap<String, Object>();
-        data.put("key3", new Custom("test"));
-        data.put("key4", new Wrapper("test", new Custom("test")));
+        data.put("customTag", new Custom(123));
 
         Yaml yaml = new Yaml(new Loader(new ExtendedConstructor()), new Dumper(
                 new ExtendedRepresenter(), new DumperOptions()));
@@ -36,8 +43,23 @@ public class YamlMapTest extends TestCase {
 
         assertTrue(o instanceof Map);
         Map<String, Object> m = (Map<String, Object>) o;
-        assertTrue(m.get("key3") instanceof Custom);
-        assertTrue(m.get("key4") instanceof Wrapper);
+        assertTrue(m.get("customTag") instanceof Custom);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testYamlMapBean() throws IOException {
+        Map<String, Object> data = new TreeMap<String, Object>();
+        data.put("knownClass", new Wrapper("test", new Custom(456)));
+
+        Yaml yaml = new Yaml(new Loader(new ExtendedConstructor()), new Dumper(
+                new ExtendedRepresenter(), new DumperOptions()));
+        String output = yaml.dump(data);
+        // System.out.println(output);
+        Object o = yaml.load(output);
+
+        assertTrue(o instanceof Map);
+        Map<String, Object> m = (Map<String, Object>) o;
+        assertEquals(Wrapper.class, m.get("knownClass").getClass());
     }
 
     public static class Wrapper {
@@ -72,12 +94,8 @@ public class YamlMapTest extends TestCase {
     public static class Custom {
         final private String str;
 
-        public Custom(String s) {
-            str = s;
-        }
-
         public Custom(Integer i) {
-            str = "";
+            str = i.toString();
         }
 
         public Custom(Custom c) {
@@ -85,6 +103,10 @@ public class YamlMapTest extends TestCase {
         }
 
         public String toString() {
+            return str;
+        }
+
+        public String getStr() {
             return str;
         }
     }
@@ -109,7 +131,7 @@ public class YamlMapTest extends TestCase {
         private class ConstructCustom extends AbstractConstruct {
             public Object construct(Node node) {
                 String str = (String) constructScalar((ScalarNode) node);
-                return new Custom(str);
+                return new Custom(Integer.parseInt(str));
             }
 
         }

@@ -133,11 +133,13 @@ public class Composer {
     private Node composeScalarNode(String anchor) {
         ScalarEvent ev = (ScalarEvent) parser.getEvent();
         String tag = ev.getTag();
+        boolean explicitTag = true;
         if (tag == null || tag.equals("!")) {
             tag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit()[0]);
+            explicitTag = false;
         }
-        Node node = new ScalarNode(tag, ev.getValue(), ev.getStartMark(), ev.getEndMark(), ev
-                .getStyle());
+        Node node = new ScalarNode(tag, explicitTag, ev.getValue(), ev.getStartMark(), ev
+                .getEndMark(), ev.getStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }

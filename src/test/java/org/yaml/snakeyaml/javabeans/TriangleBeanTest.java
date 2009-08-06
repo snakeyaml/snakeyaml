@@ -44,16 +44,19 @@ public class TriangleBeanTest extends TestCase {
     }
 
     /**
-     * Runtime class is more important then the tag (which is ignored if the
-     * class is known)
+     * Runtime class has less priority then an explicit tag
      */
     public void testClassAndTag() {
         String output = "name: !!whatever Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle\n  name: Triangle25\n";
         JavaBeanLoader<TriangleBean> beanLoader = new JavaBeanLoader<TriangleBean>(
                 TriangleBean.class);
-        TriangleBean loadedBean = beanLoader.load(output);
-        assertNotNull(loadedBean);
-        assertEquals("Bean25", loadedBean.getName());
-        assertEquals(7, loadedBean.getShape().process());
+        try {
+            beanLoader.load(output);
+            fail("Runtime class has less priority then an explicit tag");
+        } catch (Exception e) {
+            assertEquals(
+                    "Cannot create property=name for JavaBean=TriangleBean name=null; null; Can't construct a java object for tag:yaml.org,2002:whatever; exception=Class not found: whatever",
+                    e.getMessage());
+        }
     }
 }

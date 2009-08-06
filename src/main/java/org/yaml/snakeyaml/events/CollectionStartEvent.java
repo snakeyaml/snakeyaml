@@ -10,7 +10,10 @@ import org.yaml.snakeyaml.error.Mark;
  */
 public abstract class CollectionStartEvent extends NodeEvent {
     private final String tag;
+    // The implicit flag of a collection start event indicates if the tag may be
+    // omitted when the collection is emitted
     private final boolean implicit;
+    // flag indicates if a collection is block or flow
     private final Boolean flowStyle;
 
     public CollectionStartEvent(String anchor, String tag, boolean implicit, Mark startMark,

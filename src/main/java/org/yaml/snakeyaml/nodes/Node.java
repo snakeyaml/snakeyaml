@@ -14,6 +14,11 @@ public abstract class Node {
     protected Mark endMark;
     private Class<? extends Object> type;
     private boolean twoStepsConstruction;
+    // Plain scalars without explicitly defined tag are subject to implicit tag
+    // resolution. The scalar value is checked against a set of regular
+    // expressions.
+    // This is false when the tag was resolved
+    protected boolean explicitTag;
 
     public Node(String tag, Mark startMark, Mark endMark) {
         setTag(tag);
@@ -21,6 +26,7 @@ public abstract class Node {
         this.endMark = endMark;
         this.type = Object.class;
         this.twoStepsConstruction = false;
+        this.explicitTag = false;
     }
 
     public String getTag() {
@@ -77,5 +83,14 @@ public abstract class Node {
     @Override
     public final int hashCode() {
         return super.hashCode();
+    }
+
+    /**
+     * Check if the tag is defined in the YAML document
+     * 
+     * @return true when the tag is explicit, false when the tag is resolved
+     */
+    public boolean hasExplicitTag() {
+        return explicitTag;
     }
 }

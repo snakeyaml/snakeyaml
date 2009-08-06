@@ -8,7 +8,10 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.representer.Represent;
+import org.yaml.snakeyaml.representer.Representer;
 
 public class JavaBeanWithNullValuesTest extends TestCase {
     private JavaBeanLoader<JavaBeanWithNullValues> loader;
@@ -20,6 +23,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
     public void testNotNull() throws Exception {
         String dumpStr = dumpJavaBeanWithNullValues(false);
+        // System.out.println(dumpStr);
         Yaml yaml = new Yaml();
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNotNull(parsed.getString());
@@ -32,7 +36,6 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         assertNotNull(parsed.getSqlDate());
         assertNotNull(parsed.getTimestamp());
         //
-
         parsed = loader.load(dumpStr);
         assertNotNull(parsed.getString());
         assertNotNull(parsed.getBoolean1());
@@ -61,7 +64,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
-        Yaml yaml = new Yaml(options);
+        Yaml yaml = new Yaml(new Dumper(new CustomRepresenter(), options));
         javaBeanWithNullValues.setBoolean1(null);
         javaBeanWithNullValues.setDate(new Date(System.currentTimeMillis()));
         javaBeanWithNullValues.setDouble1(1d);
@@ -73,6 +76,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         javaBeanWithNullValues.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
         String dumpStr = yaml.dump(javaBeanWithNullValues);
+        // System.out.println(dumpStr);
         yaml = new Yaml();
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
@@ -86,7 +90,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
         options.setExplicitRoot(Tags.MAP);
-        Yaml yaml = new Yaml(options);
+        Yaml yaml = new Yaml(new Dumper(new CustomRepresenter(), options));
         javaBeanWithNullValues.setBoolean1(null);
         javaBeanWithNullValues.setDate(new Date(System.currentTimeMillis()));
         javaBeanWithNullValues.setDouble1(1d);
@@ -101,7 +105,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         // System.out.println(dumpStr);
         assertFalse("No explicit root tag must be used.", dumpStr
                 .contains("JavaBeanWithNullValues"));
-        yaml = new Yaml();
+        yaml = new Yaml(new Dumper(new CustomRepresenter(), options));
         JavaBeanWithNullValues parsed = loader.load(dumpStr);
         assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
         assertNull(" expect null, got " + parsed.getString(), parsed.getString());
@@ -117,7 +121,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
-        Yaml yaml = new Yaml(options);
+        Yaml yaml = new Yaml(new Dumper(new CustomRepresenter(), options));
         if (nullValues) {
             return yaml.dump(javaBeanWithNullValues);
         }
@@ -133,4 +137,38 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         return yaml.dump(javaBeanWithNullValues);
     }
 
+    public class CustomRepresenter extends Representer {
+        public CustomRepresenter() {
+            this.representers.put(Float.class, new RepresentFloat());
+            this.representers.put(Long.class, new RepresentLong());
+            this.representers.put(java.sql.Date.class, new RepresentDate());
+            this.representers.put(java.sql.Timestamp.class, new RepresentTime());
+        }
+
+        private class RepresentFloat implements Represent {
+            public Node representData(Object data) {
+                return representScalar(Tags.PREFIX + "java.lang.Float", ((Float) data).toString());
+            }
+        }
+
+        private class RepresentLong implements Represent {
+            public Node representData(Object data) {
+                return representScalar(Tags.PREFIX + "java.lang.Long", ((Long) data).toString());
+            }
+        }
+
+        private class RepresentDate implements Represent {
+            public Node representData(Object data) {
+                return representScalar(Tags.PREFIX + "java.sql.Date", ((java.sql.Date) data)
+                        .toString());
+            }
+        }
+
+        private class RepresentTime implements Represent {
+            public Node representData(Object data) {
+                return representScalar(Tags.PREFIX + "java.sql.Timestamp",
+                        ((java.sql.Timestamp) data).toString());
+            }
+        }
+    }
 }

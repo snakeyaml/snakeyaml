@@ -13,12 +13,18 @@ public class ScalarNode extends Node {
     private String value;
 
     public ScalarNode(String tag, String value, Mark startMark, Mark endMark, Character style) {
+        this(tag, false, value, startMark, endMark, style);
+    }
+
+    public ScalarNode(String tag, boolean explicit, String value, Mark startMark, Mark endMark,
+            Character style) {
         super(tag, startMark, endMark);
         if (value == null) {
             throw new NullPointerException("value in a Node is required.");
         }
         this.value = value;
         this.style = style;
+        this.explicitTag = explicit;
     }
 
     public Character getStyle() {
