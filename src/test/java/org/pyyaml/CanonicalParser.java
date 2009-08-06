@@ -11,6 +11,7 @@ import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
 import org.yaml.snakeyaml.events.Event;
+import org.yaml.snakeyaml.events.ImplicitTuple;
 import org.yaml.snakeyaml.events.MappingEndEvent;
 import org.yaml.snakeyaml.events.MappingStartEvent;
 import org.yaml.snakeyaml.events.ScalarEvent;
@@ -94,7 +95,7 @@ public class CanonicalParser implements Parser {
             }
             if (scanner.checkToken(ScalarToken.class)) {
                 ScalarToken token = (ScalarToken) scanner.getToken();
-                events.add(new ScalarEvent(anchor, tag, new boolean[] { false, false }, token
+                events.add(new ScalarEvent(anchor, tag, new ImplicitTuple(false, false), token
                         .getValue(), null, null, null));
             } else if (scanner.checkToken(FlowSequenceStartToken.class)) {
                 events.add(new SequenceStartEvent(anchor, tag, false, null, null, null));

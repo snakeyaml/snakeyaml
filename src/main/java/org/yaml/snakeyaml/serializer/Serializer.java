@@ -16,6 +16,7 @@ import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
+import org.yaml.snakeyaml.events.ImplicitTuple;
 import org.yaml.snakeyaml.events.MappingEndEvent;
 import org.yaml.snakeyaml.events.MappingStartEvent;
 import org.yaml.snakeyaml.events.ScalarEvent;
@@ -156,10 +157,9 @@ public final class Serializer {
                         true);
                 String defaultTag = this.resolver.resolve(NodeId.scalar, scalarNode.getValue(),
                         false);
-                boolean[] implicit = new boolean[] { false, false };
-                implicit[0] = node.getTag().equals(detectedTag);
-                implicit[1] = node.getTag().equals(defaultTag);
-                ScalarEvent event = new ScalarEvent(tAlias, node.getTag(), implicit, scalarNode
+                ImplicitTuple tuple = new ImplicitTuple(node.getTag().equals(detectedTag), node
+                        .getTag().equals(defaultTag));
+                ScalarEvent event = new ScalarEvent(tAlias, node.getTag(), tuple, scalarNode
                         .getValue(), null, null, scalarNode.getStyle());
                 this.emitter.emit(event);
                 break;

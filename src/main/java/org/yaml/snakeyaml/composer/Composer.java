@@ -135,7 +135,7 @@ public class Composer {
         String tag = ev.getTag();
         boolean explicitTag = true;
         if (tag == null || tag.equals("!")) {
-            tag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit()[0]);
+            tag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit().isFirst());
             explicitTag = false;
         }
         Node node = new ScalarNode(tag, explicitTag, ev.getValue(), ev.getStartMark(), ev

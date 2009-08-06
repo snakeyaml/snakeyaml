@@ -15,6 +15,7 @@ import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
 import org.yaml.snakeyaml.events.Event;
+import org.yaml.snakeyaml.events.ImplicitTuple;
 import org.yaml.snakeyaml.events.MappingEndEvent;
 import org.yaml.snakeyaml.events.MappingStartEvent;
 import org.yaml.snakeyaml.events.ScalarEvent;
@@ -456,16 +457,13 @@ public final class ParserImpl implements Parser {
                 if (scanner.checkToken(ScalarToken.class)) {
                     ScalarToken token = (ScalarToken) scanner.getToken();
                     endMark = token.getEndMark();
-                    boolean[] implicitValues = new boolean[2];
+                    ImplicitTuple implicitValues;
                     if ((token.getPlain() && tag == null) || "!".equals(tag)) {
-                        implicitValues[0] = true;
-                        implicitValues[1] = false;
+                        implicitValues = new ImplicitTuple(true, false);
                     } else if (tag == null) {
-                        implicitValues[0] = false;
-                        implicitValues[1] = true;
+                        implicitValues = new ImplicitTuple(false, true);
                     } else {
-                        implicitValues[0] = false;
-                        implicitValues[1] = false;
+                        implicitValues = new ImplicitTuple(false, false);
                     }
                     event = new ScalarEvent(anchor, tag, implicitValues, token.getValue(),
                             startMark, endMark, token.getStyle());
@@ -493,11 +491,8 @@ public final class ParserImpl implements Parser {
                 } else if (anchor != null || tag != null) {
                     // Empty scalars are allowed even if a tag or an anchor is
                     // specified.
-                    boolean[] implicitValues = new boolean[2];
-                    implicitValues[0] = implicit;
-                    implicitValues[1] = false;
-                    event = new ScalarEvent(anchor, tag, implicitValues, "", startMark, endMark,
-                            (char) 0);
+                    event = new ScalarEvent(anchor, tag, new ImplicitTuple(implicit, false), "",
+                            startMark, endMark, (char) 0);
                     state = states.removeLast();
                 } else {
                     String node;
@@ -848,9 +843,6 @@ public final class ParserImpl implements Parser {
      * </pre>
      */
     private Event processEmptyScalar(Mark mark) {
-        boolean[] value = new boolean[2];
-        value[0] = true;
-        value[1] = false;
-        return new ScalarEvent(null, null, value, "", mark, mark, (char) 0);
+        return new ScalarEvent(null, null, new ImplicitTuple(true, false), "", mark, mark, (char) 0);
     }
 }

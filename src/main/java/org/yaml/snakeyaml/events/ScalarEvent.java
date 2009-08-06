@@ -17,11 +17,10 @@ public final class ScalarEvent extends NodeEvent {
     // The implicit flag of a scalar event is a pair of boolean values that
     // indicate if the tag may be omitted when the scalar is emitted in a plain
     // and non-plain style correspondingly.
-    //TODO should we use tuple ?
-    private final boolean[] implicit;
+    private final ImplicitTuple implicit;
 
-    public ScalarEvent(String anchor, String tag, boolean[] implicit, String value, Mark startMark,
-            Mark endMark, Character style) {
+    public ScalarEvent(String anchor, String tag, ImplicitTuple implicit, String value,
+            Mark startMark, Mark endMark, Character style) {
         super(anchor, startMark, endMark);
         this.tag = tag;
         this.implicit = implicit;
@@ -41,14 +40,13 @@ public final class ScalarEvent extends NodeEvent {
         return this.value;
     }
 
-    public boolean[] getImplicit() {
+    public ImplicitTuple getImplicit() {
         return this.implicit;
     }
 
     @Override
     protected String getArguments() {
-        return super.getArguments() + ", tag=" + tag + ", implicit=[" + implicit[0] + ", "
-                + implicit[1] + "], value=" + value;
+        return super.getArguments() + ", tag=" + tag + ", " + implicit + ", value=" + value;
     }
 
 }

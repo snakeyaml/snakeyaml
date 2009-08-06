@@ -695,12 +695,12 @@ public final class Emitter {
             if (style == null) {
                 style = chooseScalarStyle();
             }
-            if (((!canonical || tag == null) && ((style == null && ev.getImplicit()[0]) || (style != null && ev
-                    .getImplicit()[1])))) {
+            if (((!canonical || tag == null) && ((style == null && ev.getImplicit().isFirst()) || (style != null && ev
+                    .getImplicit().isSecond())))) {
                 preparedTag = null;
                 return;
             }
-            if (ev.getImplicit()[0] && tag == null) {
+            if (ev.getImplicit().isFirst() && tag == null) {
                 tag = "!";
                 preparedTag = null;
             }
@@ -732,7 +732,7 @@ public final class Emitter {
         if (ev.getStyle() != null && ev.getStyle() == '"' || this.canonical) {
             return '"';
         }
-        if (ev.getStyle() == null && ev.getImplicit()[0]) {
+        if (ev.getStyle() == null && ev.getImplicit().isFirst()) {
             if (!(simpleKeyContext && (analysis.empty || analysis.multiline))
                     && ((flowLevel != 0 && analysis.allowFlowPlain) || (flowLevel == 0 && analysis.allowBlockPlain))) {
                 return null;

@@ -56,9 +56,7 @@ public class PyStructureTest extends PyImportTest {
             if (event1 instanceof ScalarEvent) {
                 ScalarEvent scalar1 = (ScalarEvent) event1;
                 ScalarEvent scalar2 = (ScalarEvent) event2;
-                boolean[] oldImplicit = scalar1.getImplicit();
-                boolean[] newImplicit = scalar2.getImplicit();
-                if (!oldImplicit[0] && !oldImplicit[1] && !newImplicit[0] && !newImplicit[1]) {
+                if (scalar1.getImplicit().bothFalse() && scalar2.getImplicit().bothFalse()) {
                     assertEquals(scalar1.getTag(), scalar2.getTag());
                 }
                 assertEquals(scalar1.getValue(), scalar2.getValue());

@@ -90,9 +90,7 @@ public class PyEmitterTest extends PyImportTest {
                     if (event instanceof ScalarEvent) {
                         ScalarEvent e1 = (ScalarEvent) event;
                         ScalarEvent e2 = (ScalarEvent) newEvent;
-                        boolean[] implicit1 = e1.getImplicit();
-                        boolean[] implicit2 = e2.getImplicit();
-                        if (!implicit1[0] && !implicit1[1] && !implicit2[0] && !implicit2[1]) {
+                        if (e1.getImplicit().bothFalse() && e2.getImplicit().bothFalse()) {
                             assertEquals(e1.getTag(), e2.getTag());
                         }
                         assertEquals(e1.getValue(), e2.getValue());
@@ -168,10 +166,8 @@ public class PyEmitterTest extends PyImportTest {
                             if (event instanceof ScalarEvent) {
                                 ScalarEvent scalarOld = (ScalarEvent) event;
                                 ScalarEvent scalarNew = (ScalarEvent) newEvent;
-                                boolean[] oldImplicit = scalarOld.getImplicit();
-                                boolean[] newImplicit = scalarNew.getImplicit();
-                                if (!oldImplicit[0] && !oldImplicit[1] && !newImplicit[0]
-                                        && !newImplicit[1]) {
+                                if (scalarOld.getImplicit().bothFalse()
+                                        && scalarNew.getImplicit().bothFalse()) {
                                     assertEquals(scalarOld.getTag(), scalarNew.getTag());
                                 }
                                 assertEquals(scalarOld.getValue(), scalarNew.getValue());
@@ -255,9 +251,8 @@ public class PyEmitterTest extends PyImportTest {
                     if (event instanceof ScalarEvent) {
                         ScalarEvent e1 = (ScalarEvent) event;
                         ScalarEvent e2 = (ScalarEvent) newEvent;
-                        boolean[] implicit1 = e1.getImplicit();
-                        boolean[] implicit2 = e2.getImplicit();
-                        if (implicit1[0] == implicit2[0] && implicit1[1] == implicit2[1]) {
+                        if (e1.getImplicit().isFirst() == e2.getImplicit().isFirst()
+                                && e1.getImplicit().isSecond() == e2.getImplicit().isSecond()) {
 
                         } else {
                             if ((e1.getTag() == null || e2.getTag() == null)

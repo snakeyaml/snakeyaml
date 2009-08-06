@@ -13,6 +13,7 @@ import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
 import org.yaml.snakeyaml.events.Event;
+import org.yaml.snakeyaml.events.ImplicitTuple;
 import org.yaml.snakeyaml.events.MappingEndEvent;
 import org.yaml.snakeyaml.events.MappingStartEvent;
 import org.yaml.snakeyaml.events.ScalarEvent;
@@ -51,13 +52,12 @@ public class EventConstructor extends Constructor {
                     v = "";
                 }
                 List implicitList = (List) mapping.get("implicit");
-                boolean implicit[];
+                ImplicitTuple implicit;
                 if (implicitList == null) {
-                    implicit = new boolean[] { false, true };
+                    implicit = new ImplicitTuple(false, true);
                 } else {
-                    implicit = new boolean[2];
-                    implicit[0] = (Boolean) implicitList.get(0);
-                    implicit[1] = (Boolean) implicitList.get(1);
+                    implicit = new ImplicitTuple((Boolean) implicitList.get(0),
+                            (Boolean) implicitList.get(1));
                 }
                 value = new ScalarEvent((String) mapping.get("anchor"), tag, implicit, v, null,
                         null, null);
