@@ -15,7 +15,6 @@ public class Point {
         return y;
     }
 
-    // TODO try primitive arguments
     public Point(Double x, Double y) {
         this.x = x;
         this.y = y;
