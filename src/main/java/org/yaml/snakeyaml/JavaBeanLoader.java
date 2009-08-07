@@ -11,10 +11,9 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
- * Convenience utility to parse JavaBeans. All the methods are Thread safe. When
- * the YAML document contains a global tag with the class definition like
- * '!!com.package.MyBean' it is ignored in favour of the runtime class
- * <code>T</code>.
+ * Convenience utility to parse JavaBeans. When the YAML document contains a
+ * global tag with the class definition like '!!com.package.MyBean' it is
+ * ignored in favour of the runtime class <code>T</code>.
  * 
  * @see http://www.artima.com/weblogs/viewpost.jsp?thread=208860
  */
