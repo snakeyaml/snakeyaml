@@ -1,24 +1,23 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.3: support for recursive objects
+Subject: [ANN] SnakeYAML-1.4: better support for immutable objects
 
 =============================
- Announcing SnakeYAML-1.3
+ Announcing SnakeYAML-1.4
 =============================
 
 A new release of SnakeYAML is now available:
 
     http://code.google.com/p/snakeyaml/
 
-This release delivers complete support for recursive objects as well as minor changes and bug fixes.
-A very important milestone is met: all the issues are fixed !
-(http://code.google.com/p/snakeyaml/issues/list)
+This release delivers better support for immutable objects, a minor improvement to process JavaBeans 
+as well as other minor changes and bug fixes.
 
 Changes
 =======
- * recursive objects are fully supported
- * further improve test coverage
- * minor bug fixes when constructing JavaBeans
+ * better support for immutable objects
+ * Introduce JavaBeanLoader and JavaBeanDumper. Deprecate JavaBeanParser
+ * Change Maven repository path: groupId=org.yaml, artifactId=snakeyaml
 
 Resources
 =========
@@ -26,7 +25,7 @@ Resources
 SnakeYAML homepage: http://code.google.com/p/snakeyaml/
 SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
 
-JAR package: http://snakeyamlrepo.appspot.com/repository/SnakeYAML/SnakeYAML/1.3/SnakeYAML-1.3.jar
+JAR package: http://snakeyamlrepo.appspot.com/repository/org/yaml/snakeyaml/1.4/snakeyaml-1.4.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/
