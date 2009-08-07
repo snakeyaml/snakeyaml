@@ -6,7 +6,7 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	     <release version="1.4-SNAPSHOT" date="in Mercurial" description="better support for immutable objects">
+	     <release version="1.4rc1" date="2009-08-07" description="better support for immutable objects">
 	        <action dev="py4fun" type="add">
                 Introduce Tags.getGlobalTagForClass() to simplify tag generation in custom constructors (2009-08-06)
             </action>
