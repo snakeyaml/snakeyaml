@@ -7,7 +7,10 @@
 	</properties>
 	<body>
 	     <release version="1.4rc1" date="2009-08-07" description="better support for immutable objects">
-	        <action dev="py4fun" type="add">
+	        <action dev="py4fun" ype="fix" issue="13" due-to="infinity0x">
+                Provide javadocs link to Sun Java API (2009-08-10)
+            </action>
+            <action dev="py4fun" type="add">
                 Introduce Tags.getGlobalTagForClass() to simplify tag generation in custom constructors (2009-08-06)
             </action>
             <action dev="py4fun" type="update">
