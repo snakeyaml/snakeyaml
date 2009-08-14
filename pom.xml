@@ -25,8 +25,8 @@
 	</scm>
 	<licenses>
 		<license>
-			<name>The MIT License</name>
-			<url>LICENSE</url>
+			<name>Apache License Version 2.0</name>
+			<url>LICENSE.txt</url>
 		</license>
 	</licenses>
 	<developers>
@@ -54,6 +54,32 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<!--pluginRepositories>
+		<pluginRepository>
+			<id>mc-release</id>
+			<name>Local Maven repository of releases</name>
+			<url>http://mc-repo.googlecode.com/svn/maven2/releases
+			</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<id>mc-release</id>
+			<name>Local Maven repository of releases</name>
+			<url>http://mc-repo.googlecode.com/svn/maven2/snapshots
+			</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories-->
 	<build>
 		<plugins>
 			<plugin>
@@ -150,7 +176,7 @@
 				<groupId>com.google.code.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
 				<configuration>
-					<header>header.txt</header>
+					<header>src/etc/header.txt</header>
 					<quiet>false</quiet>
 					<failIfMissing>true</failIfMissing>
 					<aggregate>false</aggregate>

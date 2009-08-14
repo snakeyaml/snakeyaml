@@ -15,6 +15,7 @@ as well as other minor changes and bug fixes.
 
 Changes
 =======
+ * Apply Apache License Version 2.0
  * better support for immutable objects
  * Introduce JavaBeanLoader and JavaBeanDumper. Deprecate JavaBeanParser
  * Change Maven repository path: groupId=org.yaml, artifactId=snakeyaml

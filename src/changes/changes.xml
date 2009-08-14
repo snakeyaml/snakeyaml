@@ -6,9 +6,15 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	     <release version="1.4rc1" date="2009-08-07" description="better support for immutable objects">
-	        <action dev="py4fun" type="fix" issue="13" due-to="infinity0x">
+	     <release version="1.4" date="in Mercurial" description="better support for immutable objects">
+	        <action dev="py4fun" type="update">
+                Apply Apache License Version 2.0 (2009-08-14)
+            </action>
+            <action dev="py4fun" type="fix" issue="13" due-to="infinity0x">
                 Provide javadocs link to Sun Java API (2009-08-10)
+            </action>
+            <action dev="py4fun" type="add">
+                Build 1.4 Release Candidate 1 (2009-08-07)
             </action>
             <action dev="py4fun" type="add">
                 Introduce Tags.getGlobalTagForClass() to simplify tag generation in custom constructors (2009-08-06)
