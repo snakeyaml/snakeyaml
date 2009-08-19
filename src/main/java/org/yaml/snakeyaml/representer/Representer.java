@@ -142,6 +142,7 @@ public class Representer extends SafeRepresenter {
 
     private Set<Property> getProperties(Class<? extends Object> type) throws IntrospectionException {
         Set<Property> properties = new TreeSet<Property>();
+        // add JavaBean getters
         for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors())
             if (property.getReadMethod() != null
                     && !property.getReadMethod().getName().equals("getClass")) {
