@@ -1,6 +1,6 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.4: better support for immutable objects
+Subject: [ANN] SnakeYAML-1.4: better support for loading immutable objects
 
 =============================
  Announcing SnakeYAML-1.4
@@ -10,13 +10,13 @@ A new release of SnakeYAML is now available:
 
     http://code.google.com/p/snakeyaml/
 
-This release delivers better support for immutable objects, a minor improvement to process JavaBeans 
-as well as other minor changes and bug fixes.
+This release delivers better support for loading immutable objects, a minor improvement to process JavaBeans 
+as well as other minor changes and bug fixes. It is backwards compatible with the 1.3 release.
 
 Changes
 =======
  * Apply Apache License Version 2.0
- * better support for immutable objects
+ * better support for loading immutable objects
  * Introduce JavaBeanLoader and JavaBeanDumper. Deprecate JavaBeanParser
  * Change Maven repository path: groupId=org.yaml, artifactId=snakeyaml
 
@@ -53,4 +53,4 @@ Copyright
 
 SnakeYAML is developed by Andrey Somov <py4fun@gmail.com>.
 
-SnakeYAML is released under the MIT license.
+SnakeYAML is released under the Apache License Version 2.0 license.
