@@ -16,7 +16,7 @@
 package org.yaml.snakeyaml;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -46,7 +46,7 @@ public class CollectionWithBeanYamlTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testYamlList() throws IOException {
-        List<Bean> data = new LinkedList<Bean>();
+        List<Bean> data = new ArrayList<Bean>();
         data.add(new Bean("1"));
         data.add(new Bean("2"));
 

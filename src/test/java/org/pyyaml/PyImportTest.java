@@ -19,7 +19,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -93,7 +93,7 @@ public abstract class PyImportTest extends TestCase {
             reader.forward();
         }
         CanonicalParser parser = new CanonicalParser(buffer.toString());
-        List<Event> result = new LinkedList<Event>();
+        List<Event> result = new ArrayList<Event>();
         while (parser.peekEvent() != null) {
             result.add(parser.getEvent());
         }
@@ -103,7 +103,7 @@ public abstract class PyImportTest extends TestCase {
     protected List<Event> parse(InputStream input) throws IOException {
         Reader reader = new Reader(new UnicodeReader(input));
         Parser parser = new ParserImpl(reader);
-        List<Event> result = new LinkedList<Event>();
+        List<Event> result = new ArrayList<Event>();
         while (parser.peekEvent() != null) {
             result.add(parser.getEvent());
         }

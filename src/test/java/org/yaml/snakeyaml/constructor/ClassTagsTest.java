@@ -16,7 +16,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -36,7 +36,7 @@ public class ClassTagsTest extends TestCase {
     public void testDefaultRepresenter() throws IOException {
         Car car = new Car();
         car.setPlate("12-XP-F4");
-        List<Wheel> wheels = new LinkedList<Wheel>();
+        List<Wheel> wheels = new ArrayList<Wheel>();
         for (int i = 1; i < 6; i++) {
             Wheel wheel = new Wheel();
             wheel.setId(i);
@@ -49,7 +49,7 @@ public class ClassTagsTest extends TestCase {
     public void testDumpClassTag() throws IOException {
         Car car = new Car();
         car.setPlate("12-XP-F4");
-        List<Wheel> wheels = new LinkedList<Wheel>();
+        List<Wheel> wheels = new ArrayList<Wheel>();
         for (int i = 1; i < 6; i++) {
             Wheel wheel = new Wheel();
             wheel.setId(i);

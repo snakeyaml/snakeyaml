@@ -19,7 +19,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -42,7 +42,7 @@ public class SafeRepresenterTest extends TestCase {
     }
 
     public void testNumber() {
-        List<Number> list = new LinkedList<Number>();
+        List<Number> list = new ArrayList<Number>();
         list.add(new Byte((byte) 3));
         list.add(new Short((short) 4));
         list.add(new Integer(5));
@@ -57,7 +57,7 @@ public class SafeRepresenterTest extends TestCase {
     }
 
     public void testDate() {
-        List<Date> list = new LinkedList<Date>();
+        List<Date> list = new ArrayList<Date>();
         list.add(new Date(1229684761159L));
         list.add(new Date(1229684761059L));
         list.add(new Date(1229684761009L));
@@ -81,7 +81,7 @@ public class SafeRepresenterTest extends TestCase {
     }
 
     public void testStyle() {
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(new Integer(1));
         list.add(new Integer(1));
         Map<String, Object> map = new HashMap<String, Object>();
@@ -99,7 +99,7 @@ public class SafeRepresenterTest extends TestCase {
     }
 
     public void testStyle2() {
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(new Integer(1));
         list.add(new Integer(1));
         Map<String, Object> map = new LinkedHashMap<String, Object>();

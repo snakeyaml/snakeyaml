@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.yaml.snakeyaml.DumperOptions;
@@ -74,7 +74,7 @@ public class PyEmitterTest extends PyImportTest {
                 }
                 //
                 String data = stream.toString();
-                List<Event> newEvents = new LinkedList<Event>();
+                List<Event> newEvents = new ArrayList<Event>();
                 Reader reader = new Reader(data);
                 Parser parser = new ParserImpl(reader);
                 while (parser.peekEvent() != null) {
@@ -122,11 +122,11 @@ public class PyEmitterTest extends PyImportTest {
         assertTrue("No test files found.", canonicalFiles.length > 0);
         File[] dataFiles = getStreamsByExtension(".data", true);
         assertTrue("No test files found.", dataFiles.length > 0);
-        List<File> allFiles = new LinkedList(Arrays.asList(canonicalFiles));
+        List<File> allFiles = new ArrayList(Arrays.asList(canonicalFiles));
         allFiles.addAll(Arrays.asList(dataFiles));
         for (File file : allFiles) {
             try {
-                List<Event> events = new LinkedList<Event>();
+                List<Event> events = new ArrayList<Event>();
                 Reader reader = new Reader(new UnicodeReader(new FileInputStream(file)));
                 Parser parser = new ParserImpl(reader);
                 while (parser.peekEvent() != null) {
@@ -136,7 +136,7 @@ public class PyEmitterTest extends PyImportTest {
                 //
                 for (Boolean flowStyle : new Boolean[] { Boolean.FALSE, Boolean.TRUE }) {
                     for (DumperOptions.ScalarStyle style : DumperOptions.ScalarStyle.values()) {
-                        List<Event> styledEvents = new LinkedList<Event>();
+                        List<Event> styledEvents = new ArrayList<Event>();
                         for (Event event : events) {
                             if (event instanceof ScalarEvent) {
                                 ScalarEvent scalar = (ScalarEvent) event;
@@ -207,7 +207,7 @@ public class PyEmitterTest extends PyImportTest {
 
     private List<Event> parse(String data) {
         ParserImpl parser = new ParserImpl(new Reader(data));
-        List<Event> newEvents = new LinkedList<Event>();
+        List<Event> newEvents = new ArrayList<Event>();
         while (parser.peekEvent() != null) {
             newEvents.add(parser.getEvent());
         }
@@ -224,7 +224,7 @@ public class PyEmitterTest extends PyImportTest {
             // }
             try {
                 Loader loader = new EventsLoader();
-                List<Event> events = new LinkedList<Event>();
+                List<Event> events = new ArrayList<Event>();
                 String content = getResource(file.getName());
                 events = (List<Event>) load(loader, content);
                 //
@@ -235,7 +235,7 @@ public class PyEmitterTest extends PyImportTest {
                 }
                 //
                 String data = stream.toString();
-                List<Event> newEvents = new LinkedList<Event>();
+                List<Event> newEvents = new ArrayList<Event>();
                 Reader reader = new Reader(data);
                 Parser parser = new ParserImpl(reader);
                 while (parser.peekEvent() != null) {

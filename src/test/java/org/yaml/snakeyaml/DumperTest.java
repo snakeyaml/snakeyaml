@@ -20,7 +20,7 @@ package org.yaml.snakeyaml;
  */
 import java.io.IOException;
 import java.io.Writer;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -32,7 +32,7 @@ public class DumperTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         for (int i = 0; i < 3; i++) {
             list.add(i);
         }
@@ -44,7 +44,7 @@ public class DumperTest extends TestCase {
     public void testDump2() {
         DumperOptions options = new DumperOptions();
         options.setExplicitStart(true);
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         for (int i = 0; i < 3; i++) {
             list.add(i);
         }
@@ -56,7 +56,7 @@ public class DumperTest extends TestCase {
     public void testDump3() {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.SINGLE_QUOTED);
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         for (int i = 0; i < 3; i++) {
             list.add(i);
         }

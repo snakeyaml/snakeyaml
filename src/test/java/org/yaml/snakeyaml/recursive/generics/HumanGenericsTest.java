@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -286,7 +286,7 @@ public class HumanGenericsTest extends TestCase {
         daughter.setFather(father);
         daughter.setMother(mother);
         //
-        LinkedList<HumanGen3> children = new LinkedList<HumanGen3>();
+        ArrayList<HumanGen3> children = new ArrayList<HumanGen3>();
         children.add(son);
         children.add(daughter);
         father.setChildren(children);
@@ -437,7 +437,7 @@ public class HumanGenericsTest extends TestCase {
         daughter.setFather(father);
         daughter.setMother(mother);
         //
-        LinkedList<HumanGen3> children = new LinkedList<HumanGen3>();
+        ArrayList<HumanGen3> children = new ArrayList<HumanGen3>();
         children.add(son);
         children.add(daughter);
         father.setChildren(children);

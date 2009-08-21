@@ -15,7 +15,7 @@
  */
 package org.yaml.snakeyaml.javabeans;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -36,7 +36,7 @@ public class HouseTest extends TestCase {
         FrontDoor frontDoor = new FrontDoor("qaz1", 5);
         frontDoor.setKeytype("qwerty123");
         house.setFrontDoor(frontDoor);
-        List<Room> rooms = new LinkedList<Room>();
+        List<Room> rooms = new ArrayList<Room>();
         rooms.add(new Room("Hall"));
         rooms.add(new Room("Kitchen"));
         house.setRooms(rooms);
@@ -72,7 +72,7 @@ public class HouseTest extends TestCase {
         FrontDoor frontDoor = new FrontDoor("qaz1", 5);
         frontDoor.setKeytype("qwerty123");
         house.setFrontDoor(frontDoor);
-        List<Room> rooms = new LinkedList<Room>();
+        List<Room> rooms = new ArrayList<Room>();
         rooms.add(new Room("Hall"));
         rooms.add(new Room("Kitchen"));
         house.setRooms(rooms);
@@ -116,7 +116,7 @@ public class HouseTest extends TestCase {
         FrontDoor frontDoor = new FrontDoor("qaz1", 5);
         frontDoor.setKeytype("qwerty123");
         house.setFrontDoor(frontDoor);
-        List<Room> rooms = new LinkedList<Room>();
+        List<Room> rooms = new ArrayList<Room>();
         rooms.add(new Room("Hall"));
         rooms.add(new Room("Kitchen"));
         house.setRooms(rooms);

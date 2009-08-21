@@ -19,7 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.yaml.snakeyaml.events.Event;
@@ -47,7 +47,7 @@ public class PyCanonicalTest extends PyImportTest {
             ch = input.read();
         }
         CanonicalScanner scanner = new CanonicalScanner(buffer.toString());
-        List<Token> result = new LinkedList<Token>();
+        List<Token> result = new ArrayList<Token>();
         while (scanner.peekToken() != null) {
             result.add(scanner.getToken());
         }

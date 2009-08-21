@@ -17,7 +17,7 @@ package org.yaml.snakeyaml.resolver;
 
 import java.awt.Point;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -48,7 +48,7 @@ public class ResolverTest extends TestCase {
         Phone phone1 = new Phone("12-34-567");
         Phone phone2 = new Phone("11-22-333");
         Phone phone3 = new Phone("44-55-777");
-        List<Phone> etalonList = new LinkedList<Phone>();
+        List<Phone> etalonList = new ArrayList<Phone>();
         etalonList.add(phone1);
         etalonList.add(phone2);
         etalonList.add(phone3);

@@ -15,7 +15,7 @@
  */
 package org.yaml.snakeyaml.recursive;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Human3 extends AbstractHuman {
@@ -27,7 +27,7 @@ public class Human3 extends AbstractHuman {
     protected List<Human3> children;
     
     public Human3() {
-        children = new LinkedList<Human3>();
+        children = new ArrayList<Human3>();
     }
 
     public Human3 getFather() {

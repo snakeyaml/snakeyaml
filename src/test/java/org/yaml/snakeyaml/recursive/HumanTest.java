@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -228,7 +228,7 @@ public class HumanTest extends TestCase {
         daughter.setFather(father);
         daughter.setMother(mother);
         //
-        LinkedList<Human3> children = new LinkedList<Human3>();
+        ArrayList<Human3> children = new ArrayList<Human3>();
         children.add(son);
         children.add(daughter);
         father.setChildren(children);
@@ -369,7 +369,7 @@ public class HumanTest extends TestCase {
         daughter.setFather(father);
         daughter.setMother(mother);
         //
-        LinkedList<Human3> children = new LinkedList<Human3>();
+        ArrayList<Human3> children = new ArrayList<Human3>();
         children.add(son);
         children.add(daughter);
         father.setChildren(children);

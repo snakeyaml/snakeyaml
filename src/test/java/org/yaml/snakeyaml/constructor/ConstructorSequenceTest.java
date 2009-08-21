@@ -39,7 +39,7 @@ public class ConstructorSequenceTest extends TestCase {
         assertTrue(list.getClass().toString(), list instanceof ArrayList);
     }
 
-    public void testGetLinkedList() {
+    public void testGetArrayList() {
         String data = "[ 1, 2, 3 ]";
         List<Object> list = construct(data);
         assertNotNull(list);

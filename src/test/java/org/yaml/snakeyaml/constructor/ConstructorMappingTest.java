@@ -41,7 +41,7 @@ public class ConstructorMappingTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testGetLinkedList() {
+    public void testGetArrayList() {
         String data = "{ one: 1, two: 2, three: 3 }";
         Map<Object, Object> map = (Map<Object, Object>) construct(data);
         assertNotNull(map);

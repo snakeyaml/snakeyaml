@@ -18,7 +18,7 @@ package org.yaml.snakeyaml;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -138,7 +138,7 @@ public class JavaBeanLoaderTest extends TestCase {
         bean.setId(3);
         bean.setName("Test me.");
         bean3.setBean(bean);
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(13);
         list.add(17);
         bean3.setList(list);

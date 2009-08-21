@@ -16,7 +16,7 @@
 package org.yaml.snakeyaml;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +59,7 @@ public class DumperOptionsTest extends TestCase {
 
     public void testDefaultFlowStyle() {
         Yaml yaml = new Yaml();
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -86,7 +86,7 @@ public class DumperOptionsTest extends TestCase {
 
     public void testDefaultFlowStyleNested() {
         Yaml yaml = new Yaml();
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -125,7 +125,7 @@ public class DumperOptionsTest extends TestCase {
 
     public void testIndent() {
         Yaml yaml = new Yaml();
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         DumperOptions options = new DumperOptions();
@@ -163,7 +163,7 @@ public class DumperOptionsTest extends TestCase {
 
     public void testLineBreak() {
         Yaml yaml = new Yaml();
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         DumperOptions options = new DumperOptions();
@@ -190,7 +190,7 @@ public class DumperOptionsTest extends TestCase {
                 .getProperty("line.separator"), lineBreak.getString());
         //
         Yaml yaml = new Yaml();
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         DumperOptions options = new DumperOptions();
@@ -236,7 +236,7 @@ public class DumperOptionsTest extends TestCase {
 
     public void testExplicitStart() {
         Yaml yaml = new Yaml();
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -255,7 +255,7 @@ public class DumperOptionsTest extends TestCase {
 
     public void testVersion() {
         Yaml yaml = new Yaml();
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -276,7 +276,7 @@ public class DumperOptionsTest extends TestCase {
 
     public void testTags() {
         Yaml yaml = new Yaml();
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -335,7 +335,7 @@ public class DumperOptionsTest extends TestCase {
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Dumper dumper = new Dumper(representer, options);
         Yaml yaml = new Yaml(dumper);
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         list.add(3);

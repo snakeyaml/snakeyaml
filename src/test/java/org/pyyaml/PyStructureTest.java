@@ -20,7 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.yaml.snakeyaml.Loader;
@@ -178,7 +178,7 @@ public class PyStructureTest extends PyImportTest {
     private List<Node> compose_all(InputStream file) {
         Composer composer = new Composer(new ParserImpl(new Reader(new UnicodeReader(file))),
                 new Resolver());
-        List<Node> documents = new LinkedList<Node>();
+        List<Node> documents = new ArrayList<Node>();
         while (composer.checkNode()) {
             documents.add(composer.getNode());
         }
@@ -194,7 +194,7 @@ public class PyStructureTest extends PyImportTest {
         }
         CanonicalParser parser = new CanonicalParser(buffer.toString());
         Composer composer = new Composer(parser, new Resolver());
-        List<Node> documents = new LinkedList<Node>();
+        List<Node> documents = new ArrayList<Node>();
         while (composer.checkNode()) {
             documents.add(composer.getNode());
         }

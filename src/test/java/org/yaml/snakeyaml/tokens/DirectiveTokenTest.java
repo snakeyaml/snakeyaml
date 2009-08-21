@@ -15,7 +15,7 @@
  */
 package org.yaml.snakeyaml.tokens;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -32,7 +32,7 @@ public class DirectiveTokenTest extends TestCase {
 
     public void testInvalidList() {
         Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(new Integer(1));
         try {
             new DirectiveToken("YAML", list, mark, mark);
@@ -44,7 +44,7 @@ public class DirectiveTokenTest extends TestCase {
 
     public void testTag() {
         Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
-        List<String> list = new LinkedList<String>();
+        List<String> list = new ArrayList<String>();
         list.add("!foo");
         list.add("!bar");
         DirectiveToken token = new DirectiveToken("TAG", list, mark, mark);
@@ -53,7 +53,7 @@ public class DirectiveTokenTest extends TestCase {
 
     public void testList() {
         Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(new Integer(1));
         list.add(new Integer(1));
         DirectiveToken token = new DirectiveToken("YAML", list, mark, mark);

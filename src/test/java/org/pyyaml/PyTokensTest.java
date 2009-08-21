@@ -20,7 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -86,12 +86,12 @@ public class PyTokensTest extends PyImportTest {
             //
             String tokenFileData = getResource(name);
             String[] split = tokenFileData.split("\\s+");
-            List<String> tokens2 = new LinkedList<String>();
+            List<String> tokens2 = new ArrayList<String>();
             for (int j = 0; j < split.length; j++) {
                 tokens2.add(split[j]);
             }
             //
-            List<String> tokens1 = new LinkedList<String>();
+            List<String> tokens1 = new ArrayList<String>();
             Reader reader = new Reader(new UnicodeReader(new FileInputStream(
                     getFileByName(dataName))));
             Scanner scanner = new ScannerImpl(reader);
@@ -122,7 +122,7 @@ public class PyTokensTest extends PyImportTest {
         File[] files = getStreamsByExtension(".data", true);
         assertTrue("No test files found.", files.length > 0);
         for (File file : files) {
-            List<String> tokens = new LinkedList<String>();
+            List<String> tokens = new ArrayList<String>();
             Reader reader = new Reader(new UnicodeReader(new FileInputStream(file)));
             Scanner scanner = new ScannerImpl(reader);
             try {
