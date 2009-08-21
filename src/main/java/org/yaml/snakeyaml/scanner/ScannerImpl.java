@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -137,7 +136,7 @@ public final class ScannerImpl implements Scanner {
     private int indent = -1;
 
     // Past indentation levels.
-    private LinkedList<Integer> indents;
+    private ArrayList<Integer> indents;
 
     // Variables related to simple keys treatment. See PyYAML.
 
@@ -176,8 +175,8 @@ public final class ScannerImpl implements Scanner {
 
     public ScannerImpl(org.yaml.snakeyaml.reader.Reader reader) {
         this.reader = reader;
-        this.tokens = new LinkedList<Token>();
-        this.indents = new LinkedList<Integer>();
+        this.tokens = new ArrayList<Token>(100);
+        this.indents = new ArrayList<Integer>();
         // the order in possibleSimpleKeys is kept for nextPossibleSimpleKey()
         this.possibleSimpleKeys = new LinkedHashMap<Integer, SimpleKey>();
         fetchStreamStart();// Add the STREAM-START token.
@@ -500,7 +499,7 @@ public final class ScannerImpl implements Scanner {
         // In block context, we may need to issue the BLOCK-END tokens.
         while (this.indent > col) {
             Mark mark = reader.getMark();
-            this.indent = this.indents.removeFirst();
+            this.indent = this.indents.remove(this.indents.size() - 1);
             this.tokens.add(new BlockEndToken(mark, mark));
         }
     }
@@ -510,7 +509,7 @@ public final class ScannerImpl implements Scanner {
      */
     private boolean addIndent(int column) {
         if (this.indent < column) {
-            this.indents.addFirst(this.indent);
+            this.indents.add(this.indent);
             this.indent = column;
             return true;
         }
