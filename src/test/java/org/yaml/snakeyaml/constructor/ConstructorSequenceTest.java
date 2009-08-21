@@ -19,7 +19,6 @@ package org.yaml.snakeyaml.constructor;
  * See LICENSE file in distribution for copyright and licensing information.
  */
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -44,7 +43,7 @@ public class ConstructorSequenceTest extends TestCase {
         String data = "[ 1, 2, 3 ]";
         List<Object> list = construct(data);
         assertNotNull(list);
-        assertTrue(list.getClass().toString(), list instanceof LinkedList);
+        assertTrue(list.getClass().toString(), list instanceof ArrayList);
     }
 
     public void testDumpList() {

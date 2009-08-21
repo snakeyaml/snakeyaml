@@ -15,12 +15,12 @@
  */
 package org.yaml.snakeyaml.constructor;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,8 +59,8 @@ public abstract class BaseConstructor {
     private final Map<Node, Object> constructedObjects;
     private final Set<Node> recursiveObjects;
     private final Stack<Tuple<Node, Object>> toBeConstructedAt2ndStep;
-    private final LinkedList<Tuple<Map<Object, Object>, Tuple<Object, Object>>> maps2fill;
-    private final LinkedList<Tuple<Set<Object>, Object>> sets2fill;
+    private final ArrayList<Tuple<Map<Object, Object>, Tuple<Object, Object>>> maps2fill;
+    private final ArrayList<Tuple<Set<Object>, Object>> sets2fill;
 
     protected Class<? extends Object> rootType;
 
@@ -68,8 +68,8 @@ public abstract class BaseConstructor {
         constructedObjects = new HashMap<Node, Object>();
         recursiveObjects = new HashSet<Node>();
         toBeConstructedAt2ndStep = new Stack<Tuple<Node, Object>>();
-        maps2fill = new LinkedList<Tuple<Map<Object, Object>, Tuple<Object, Object>>>();
-        sets2fill = new LinkedList<Tuple<Set<Object>, Object>>();
+        maps2fill = new ArrayList<Tuple<Map<Object, Object>, Tuple<Object, Object>>>();
+        sets2fill = new ArrayList<Tuple<Set<Object>, Object>>();
         rootType = Object.class;
     }
 
@@ -218,7 +218,7 @@ public abstract class BaseConstructor {
     }
 
     protected List<Object> createDefaultList(int initSize) {
-        return new LinkedList<Object>();
+        return new ArrayList<Object>(initSize);
     }
 
     protected List<? extends Object> constructSequence(SequenceNode node) {
@@ -278,7 +278,7 @@ public abstract class BaseConstructor {
                  * initialization compared to clean just created one. And map of
                  * course does not observe key hashCode changes.
                  */
-                maps2fill.addFirst(new Tuple<Map<Object, Object>, Tuple<Object, Object>>(mapping,
+                maps2fill.add(0, new Tuple<Map<Object, Object>, Tuple<Object, Object>>(mapping,
                         new Tuple<Object, Object>(key, value)));
             } else {
                 mapping.put(key, value);
@@ -306,7 +306,7 @@ public abstract class BaseConstructor {
                  * initialization compared to clean just created one. And set of
                  * course does not observe value hashCode changes.
                  */
-                sets2fill.addFirst(new Tuple<Set<Object>, Object>(set, key));
+                sets2fill.add(0, new Tuple<Set<Object>, Object>(set, key));
             } else {
                 set.add(key);
             }
