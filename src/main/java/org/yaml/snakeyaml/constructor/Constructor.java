@@ -23,9 +23,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -450,7 +450,8 @@ public class Constructor extends SafeConstructor {
                 }
             } else {
                 // create immutable object
-                List<java.lang.reflect.Constructor> possibleConstructors = new LinkedList<java.lang.reflect.Constructor>();
+                List<java.lang.reflect.Constructor> possibleConstructors = new ArrayList<java.lang.reflect.Constructor>(
+                        snode.getValue().size());
                 for (java.lang.reflect.Constructor constructor : node.getType().getConstructors()) {
                     if (snode.getValue().size() == constructor.getParameterTypes().length) {
                         possibleConstructors.add(constructor);
@@ -463,7 +464,7 @@ public class Constructor extends SafeConstructor {
                 }
                 List<Object> argumentList;
                 if (possibleConstructors.size() == 1) {
-                    argumentList = new LinkedList<Object>();
+                    argumentList = new ArrayList<Object>(snode.getValue().size());
                     java.lang.reflect.Constructor c = possibleConstructors.get(0);
                     int index = 0;
                     for (Node argumentNode : snode.getValue()) {
