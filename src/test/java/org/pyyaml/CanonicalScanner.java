@@ -16,7 +16,6 @@
 package org.pyyaml;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,14 +48,14 @@ public class CanonicalScanner implements Scanner {
 
     private String data;
     private int index;
-    public LinkedList<Token> tokens;
+    public ArrayList<Token> tokens;
     private boolean scanned;
     private Mark mark;
 
     public CanonicalScanner(String data) {
         this.data = data + "\0";
         this.index = 0;
-        this.tokens = new LinkedList<Token>();
+        this.tokens = new ArrayList<Token>();
         this.scanned = false;
         this.mark = new Mark("test", 0, 0, 0, data, 0);
     }
@@ -99,7 +98,7 @@ public class CanonicalScanner implements Scanner {
         if (!scanned) {
             scan();
         }
-        return this.tokens.poll();
+        return this.tokens.remove(0);
     }
 
     public Token getToken(Class<? extends Token> choice) {

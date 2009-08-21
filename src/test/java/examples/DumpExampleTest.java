@@ -16,8 +16,8 @@
 package examples;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +53,7 @@ public class DumpExampleTest extends TestCase {
     }
 
     public void testDumpMany() {
-        List<Integer> docs = new LinkedList<Integer>();
+        List<Integer> docs = new ArrayList<Integer>();
         for (int i = 1; i < 4; i++) {
             docs.add(i);
         }
@@ -73,7 +73,7 @@ public class DumpExampleTest extends TestCase {
     }
 
     public void testDumperOptions() {
-        List<Integer> data = new LinkedList<Integer>();
+        List<Integer> data = new ArrayList<Integer>();
         for (int i = 0; i < 50; i++) {
             data.add(i);
         }
@@ -90,7 +90,7 @@ public class DumpExampleTest extends TestCase {
     }
 
     public void testDumperOptionsCanonical() {
-        List<Integer> data = new LinkedList<Integer>();
+        List<Integer> data = new ArrayList<Integer>();
         for (int i = 0; i < 5; i++) {
             data.add(i);
         }
@@ -104,7 +104,7 @@ public class DumpExampleTest extends TestCase {
     }
 
     public void testDumperOptionsFlowStyle() {
-        List<Integer> data = new LinkedList<Integer>();
+        List<Integer> data = new ArrayList<Integer>();
         for (int i = 0; i < 5; i++) {
             data.add(i);
         }
@@ -118,7 +118,7 @@ public class DumpExampleTest extends TestCase {
     }
 
     public void testDumperOptionsStyle() {
-        List<Integer> data = new LinkedList<Integer>();
+        List<Integer> data = new ArrayList<Integer>();
         for (int i = 0; i < 5; i++) {
             data.add(i);
         }

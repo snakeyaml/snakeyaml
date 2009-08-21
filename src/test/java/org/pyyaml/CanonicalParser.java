@@ -16,7 +16,6 @@
 package org.pyyaml;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.yaml.snakeyaml.events.AliasEvent;
@@ -50,12 +49,12 @@ import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.ValueToken;
 
 public class CanonicalParser implements Parser {
-    private LinkedList<Event> events;
+    private ArrayList<Event> events;
     private boolean parsed;
     private CanonicalScanner scanner;
 
     public CanonicalParser(String data) {
-        events = new LinkedList<Event>();
+        events = new ArrayList<Event>();
         parsed = false;
         scanner = new CanonicalScanner(data);
     }
@@ -171,7 +170,7 @@ public class CanonicalParser implements Parser {
         if (!parsed) {
             parse();
         }
-        return events.removeFirst();
+        return events.remove(0);
     }
 
     public boolean checkEvent(List<Class<? extends Event>> choices) {
@@ -183,7 +182,7 @@ public class CanonicalParser implements Parser {
                 return true;
             }
             for (Class<? extends Event> class1 : choices) {
-                if (class1.isInstance(events.peek())) {
+                if (class1.isInstance(events.get(0))) {
                     return true;
                 }
             }
