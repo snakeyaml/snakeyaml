@@ -20,8 +20,8 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -93,7 +93,7 @@ public class Representer extends SafeRepresenter {
      * @return Node to get serialized
      */
     private Node representJavaBean(Set<Property> properties, Object javaBean) {
-        List<NodeTuple> value = new LinkedList<NodeTuple>();
+        List<NodeTuple> value = new ArrayList<NodeTuple>(properties.size());
         String tag;
         String customTag = classTags.get(javaBean.getClass());
         tag = customTag != null ? customTag : Tags.getGlobalTagForClass(javaBean.getClass());
