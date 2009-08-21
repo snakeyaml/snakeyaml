@@ -15,8 +15,8 @@
  */
 package org.yaml.snakeyaml.resolver;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -79,7 +79,7 @@ public class Resolver {
         if (first == null) {
             List<ResolverTuple> curr = yamlImplicitResolvers.get(null);
             if (curr == null) {
-                curr = new LinkedList<ResolverTuple>();
+                curr = new ArrayList<ResolverTuple>();
                 yamlImplicitResolvers.put(null, curr);
             }
             curr.add(new ResolverTuple(tag, regexp));
@@ -93,7 +93,7 @@ public class Resolver {
                 }
                 List<ResolverTuple> curr = yamlImplicitResolvers.get(theC);
                 if (curr == null) {
-                    curr = new LinkedList<ResolverTuple>();
+                    curr = new ArrayList<ResolverTuple>();
                     yamlImplicitResolvers.put(theC, curr);
                 }
                 curr.add(new ResolverTuple(tag, regexp));
