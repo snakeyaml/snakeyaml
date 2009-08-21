@@ -16,11 +16,11 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -67,7 +67,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     private void flattenMapping(MappingNode node) {
-        List<NodeTuple> merge = new LinkedList<NodeTuple>();
+        List<NodeTuple> merge = new ArrayList<NodeTuple>();
         int index = 0;
         List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
         while (index < nodeValue.size()) {
@@ -82,7 +82,7 @@ public class SafeConstructor extends BaseConstructor {
                     merge.addAll(mn.getValue());
                     break;
                 case sequence:
-                    List<List<NodeTuple>> submerge = new LinkedList<List<NodeTuple>>();
+                    List<List<NodeTuple>> submerge = new ArrayList<List<NodeTuple>>();
                     SequenceNode sn = (SequenceNode) valueNode;
                     List<Node> vals = sn.getValue();
                     for (Node subnode : vals) {
@@ -364,12 +364,12 @@ public class SafeConstructor extends BaseConstructor {
         public Object construct(Node node) {
             // Note: we do not check for duplicate keys, because it's too
             // CPU-expensive.
-            List<Object[]> pairs = new LinkedList<Object[]>();
             if (!(node instanceof SequenceNode)) {
                 throw new ConstructorException("while constructing pairs", node.getStartMark(),
                         "expected a sequence, but found " + node.getNodeId(), node.getStartMark());
             }
             SequenceNode snode = (SequenceNode) node;
+            List<Object[]> pairs = new ArrayList<Object[]>(snode.getValue().size());
             for (Node subnode : snode.getValue()) {
                 if (!(subnode instanceof MappingNode)) {
                     throw new ConstructorException("while constructingpairs", node.getStartMark(),
