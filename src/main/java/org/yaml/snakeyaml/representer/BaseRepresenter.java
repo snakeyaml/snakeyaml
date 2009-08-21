@@ -16,10 +16,10 @@
 package org.yaml.snakeyaml.representer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -124,7 +124,7 @@ public abstract class BaseRepresenter {
     }
 
     protected Node representSequence(String tag, List<? extends Object> sequence, Boolean flowStyle) {
-        List<Node> value = new LinkedList<Node>();
+        List<Node> value = new ArrayList<Node>(sequence.size());
         SequenceNode node = new SequenceNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
@@ -147,7 +147,7 @@ public abstract class BaseRepresenter {
 
     protected Node representMapping(String tag, Map<? extends Object, Object> mapping,
             Boolean flowStyle) {
-        List<NodeTuple> value = new LinkedList<NodeTuple>();
+        List<NodeTuple> value = new ArrayList<NodeTuple>(mapping.size());
         MappingNode node = new MappingNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
