@@ -17,7 +17,6 @@ package org.yaml.snakeyaml.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -136,8 +135,8 @@ public final class ParserImpl implements Parser {
     private Event currentEvent;
     private List<Integer> yamlVersion;
     private Map<String, String> tagHandles;
-    private final LinkedList<Production> states;
-    private final LinkedList<Mark> marks;
+    private final ArrayList<Production> states;
+    private final ArrayList<Mark> marks;
     private Production state;
 
     public ParserImpl(org.yaml.snakeyaml.reader.Reader reader) {
@@ -145,8 +144,8 @@ public final class ParserImpl implements Parser {
         currentEvent = null;
         yamlVersion = null;
         tagHandles = new HashMap<String, String>();
-        states = new LinkedList<Production>();
-        marks = new LinkedList<Mark>();
+        states = new ArrayList<Production>();
+        marks = new ArrayList<Mark>();
         state = new ParseStreamStart();
     }
 
@@ -317,7 +316,7 @@ public final class ParserImpl implements Parser {
             Event event;
             if (scanner.checkToken(choices)) {
                 event = processEmptyScalar(scanner.peekToken().getStartMark());
-                state = states.removeLast();
+                state = states.remove(states.size() - 1);
                 return event;
             } else {
                 Production p = new ParseBlockNode();
@@ -413,7 +412,7 @@ public final class ParserImpl implements Parser {
         if (scanner.checkToken(AliasToken.class)) {
             AliasToken token = (AliasToken) scanner.getToken();
             event = new AliasEvent(token.getValue(), token.getStartMark(), token.getEndMark());
-            state = states.removeLast();
+            state = states.remove(states.size() - 1);
         } else {
             String anchor = null;
             String[] tagTokenTag = null;
@@ -479,7 +478,7 @@ public final class ParserImpl implements Parser {
                     }
                     event = new ScalarEvent(anchor, tag, implicitValues, token.getValue(),
                             startMark, endMark, token.getStyle());
-                    state = states.removeLast();
+                    state = states.remove(states.size() - 1);
                 } else if (scanner.checkToken(FlowSequenceStartToken.class)) {
                     endMark = scanner.peekToken().getEndMark();
                     event = new SequenceStartEvent(anchor, tag, implicit, startMark, endMark,
@@ -505,7 +504,7 @@ public final class ParserImpl implements Parser {
                     // specified.
                     event = new ScalarEvent(anchor, tag, new ImplicitTuple(implicit, false), "",
                             startMark, endMark, (char) 0);
-                    state = states.removeLast();
+                    state = states.remove(states.size() - 1);
                 } else {
                     String node;
                     if (block) {
@@ -551,14 +550,14 @@ public final class ParserImpl implements Parser {
             }
             if (!scanner.checkToken(BlockEndToken.class)) {
                 Token token = scanner.peekToken();
-                throw new ParserException("while parsing a block collection", marks.getLast(),
-                        "expected <block end>, but found " + token.getTokenId(), token
-                                .getStartMark());
+                throw new ParserException("while parsing a block collection", marks.get(marks
+                        .size() - 1), "expected <block end>, but found " + token.getTokenId(),
+                        token.getStartMark());
             }
             Token token = scanner.getToken();
             Event event = new SequenceEndEvent(token.getStartMark(), token.getEndMark());
-            state = states.removeLast();
-            marks.removeLast();
+            state = states.remove(states.size() - 1);
+            marks.remove(marks.size() - 1);
             return event;
         }
     }
@@ -584,7 +583,7 @@ public final class ParserImpl implements Parser {
             }
             Token token = scanner.peekToken();
             Event event = new SequenceEndEvent(token.getStartMark(), token.getEndMark());
-            state = states.removeLast();
+            state = states.remove(states.size() - 1);
             return event;
         }
     }
@@ -615,14 +614,14 @@ public final class ParserImpl implements Parser {
             }
             if (!scanner.checkToken(BlockEndToken.class)) {
                 Token token = scanner.peekToken();
-                throw new ParserException("while parsing a block mapping", marks.getLast(),
-                        "expected <block end>, but found " + token.getTokenId(), token
-                                .getStartMark());
+                throw new ParserException("while parsing a block mapping", marks
+                        .get(marks.size() - 1), "expected <block end>, but found "
+                        + token.getTokenId(), token.getStartMark());
             }
             Token token = scanner.getToken();
             Event event = new MappingEndEvent(token.getStartMark(), token.getEndMark());
-            state = states.removeLast();
-            marks.removeLast();
+            state = states.remove(states.size() - 1);
+            marks.remove(marks.size() - 1);
             return event;
         }
     }
@@ -684,9 +683,9 @@ public final class ParserImpl implements Parser {
                         scanner.getToken();
                     } else {
                         Token token = scanner.peekToken();
-                        throw new ParserException("while parsing a flow sequence", marks.getLast(),
-                                "expected ',' or ']', but got " + token.getTokenId(), token
-                                        .getStartMark());
+                        throw new ParserException("while parsing a flow sequence", marks.get(marks
+                                .size() - 1), "expected ',' or ']', but got " + token.getTokenId(),
+                                token.getStartMark());
                     }
                 }
                 if (scanner.checkToken(KeyToken.class)) {
@@ -702,8 +701,8 @@ public final class ParserImpl implements Parser {
             }
             Token token = scanner.getToken();
             Event event = new SequenceEndEvent(token.getStartMark(), token.getEndMark());
-            state = states.removeLast();
-            marks.removeLast();
+            state = states.remove(states.size() - 1);
+            marks.remove(marks.size() - 1);
             return event;
         }
     }
@@ -786,9 +785,9 @@ public final class ParserImpl implements Parser {
                         scanner.getToken();
                     } else {
                         Token token = scanner.peekToken();
-                        throw new ParserException("while parsing a flow mapping", marks.getLast(),
-                                "expected ',' or '}', but got " + token.getTokenId(), token
-                                        .getStartMark());
+                        throw new ParserException("while parsing a flow mapping", marks.get(marks
+                                .size() - 1), "expected ',' or '}', but got " + token.getTokenId(),
+                                token.getStartMark());
                     }
                 }
                 if (scanner.checkToken(KeyToken.class)) {
@@ -811,8 +810,8 @@ public final class ParserImpl implements Parser {
             }
             Token token = scanner.getToken();
             Event event = new MappingEndEvent(token.getStartMark(), token.getEndMark());
-            state = states.removeLast();
-            marks.removeLast();
+            state = states.remove(states.size() - 1);
+            marks.remove(marks.size() - 1);
             return event;
         }
     }
