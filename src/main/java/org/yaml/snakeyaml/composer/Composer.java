@@ -15,9 +15,9 @@
  */
 package org.yaml.snakeyaml.composer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -164,8 +164,8 @@ public class Composer {
         if (tag == null || tag.equals("!")) {
             tag = resolver.resolve(NodeId.sequence, null, startEvent.getImplicit());
         }
-        SequenceNode node = new SequenceNode(tag, new LinkedList<Node>(),
-                startEvent.getStartMark(), null, startEvent.getFlowStyle());
+        SequenceNode node = new SequenceNode(tag, new ArrayList<Node>(), startEvent.getStartMark(),
+                null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
@@ -185,7 +185,7 @@ public class Composer {
         if (tag == null || tag.equals("!")) {
             tag = resolver.resolve(NodeId.mapping, null, startEvent.getImplicit());
         }
-        MappingNode node = new MappingNode(tag, new LinkedList<NodeTuple>(), startEvent
+        MappingNode node = new MappingNode(tag, new ArrayList<NodeTuple>(), startEvent
                 .getStartMark(), null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
