@@ -6,7 +6,7 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	     <release version="1.4" date="in Mercurial" description="better support for loading immutable objects">
+	     <release version="1.4" date="2009-08-26" description="better support for loading immutable objects">
 	        <action dev="py4fun" type="update">
                 Apply Apache License Version 2.0 (2009-08-14)
             </action>
