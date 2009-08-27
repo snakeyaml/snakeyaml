@@ -48,6 +48,7 @@ import org.yaml.snakeyaml.tokens.StreamStartToken;
 import org.yaml.snakeyaml.tokens.TagToken;
 import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.ValueToken;
+import org.yaml.snakeyaml.util.ArrayStack;
 
 /**
  * <pre>
@@ -136,7 +137,7 @@ public final class ScannerImpl implements Scanner {
     private int indent = -1;
 
     // Past indentation levels.
-    private ArrayList<Integer> indents;
+    private ArrayStack<Integer> indents;
 
     // Variables related to simple keys treatment. See PyYAML.
 
@@ -176,7 +177,7 @@ public final class ScannerImpl implements Scanner {
     public ScannerImpl(org.yaml.snakeyaml.reader.Reader reader) {
         this.reader = reader;
         this.tokens = new ArrayList<Token>(100);
-        this.indents = new ArrayList<Integer>();
+        this.indents = new ArrayStack<Integer>(10);
         // the order in possibleSimpleKeys is kept for nextPossibleSimpleKey()
         this.possibleSimpleKeys = new LinkedHashMap<Integer, SimpleKey>();
         fetchStreamStart();// Add the STREAM-START token.
@@ -499,7 +500,7 @@ public final class ScannerImpl implements Scanner {
         // In block context, we may need to issue the BLOCK-END tokens.
         while (this.indent > col) {
             Mark mark = reader.getMark();
-            this.indent = this.indents.remove(this.indents.size() - 1);
+            this.indent = this.indents.pop();
             this.tokens.add(new BlockEndToken(mark, mark));
         }
     }
@@ -509,7 +510,7 @@ public final class ScannerImpl implements Scanner {
      */
     private boolean addIndent(int column) {
         if (this.indent < column) {
-            this.indents.add(this.indent);
+            this.indents.push(this.indent);
             this.indent = column;
             return true;
         }

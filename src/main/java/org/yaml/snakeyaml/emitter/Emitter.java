@@ -17,7 +17,6 @@ package org.yaml.snakeyaml.emitter;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -44,6 +43,7 @@ import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.util.ArrayStack;
 
 /**
  * <pre>
@@ -93,7 +93,7 @@ public final class Emitter {
 
     // Emitter is a state machine with a stack of states to handle nested
     // structures.
-    private final ArrayList<EmitterState> states;
+    private final ArrayStack<EmitterState> states;
     private EmitterState state;
 
     // Current event and the event queue.
@@ -101,7 +101,7 @@ public final class Emitter {
     private Event event;
 
     // The current indentation level and the stack of previous indents.
-    private final ArrayList<Integer> indents;
+    private final ArrayStack<Integer> indents;
     private Integer indent;
 
     // Flow level.
@@ -147,13 +147,13 @@ public final class Emitter {
         this.stream = stream;
         // Emitter is a state machine with a stack of states to handle nested
         // structures.
-        this.states = new ArrayList<EmitterState>(100);
+        this.states = new ArrayStack<EmitterState>(100);
         this.state = new ExpectStreamStart();
         // Current event and the event queue.
         this.events = new ArrayBlockingQueue<Event>(100);
         this.event = null;
         // The current indentation level and the stack of previous indents.
-        this.indents = new ArrayList<Integer>();
+        this.indents = new ArrayStack<Integer>(10);
         this.indent = null;
         // Flow level.
         this.flowLevel = 0;
@@ -247,7 +247,7 @@ public final class Emitter {
     }
 
     private void increaseIndent(boolean flow, boolean indentless) {
-        indents.add(indent);
+        indents.push(indent);
         if (indent == null) {
             if (flow) {
                 indent = bestIndent;
@@ -359,7 +359,7 @@ public final class Emitter {
 
     private class ExpectDocumentRoot implements EmitterState {
         public void expect() throws IOException {
-            states.add(new ExpectDocumentEnd());
+            states.push(new ExpectDocumentEnd());
             expectNode(true, false, false, false);
         }
     }
@@ -403,14 +403,14 @@ public final class Emitter {
             throw new EmitterException("anchor is not specified for alias");
         }
         processAnchor("*");
-        state = states.remove(states.size() - 1);
+        state = states.pop();
     }
 
     private void expectScalar() throws IOException {
         increaseIndent(true, false);
         processScalar();
-        indent = indents.remove(indents.size() - 1);
-        state = states.remove(states.size() - 1);
+        indent = indents.pop();
+        state = states.pop();
     }
 
     // Flow sequence handlers.
@@ -425,15 +425,15 @@ public final class Emitter {
     private class ExpectFirstFlowSequenceItem implements EmitterState {
         public void expect() throws IOException {
             if (event instanceof SequenceEndEvent) {
-                indent = indents.remove(indents.size() - 1);
+                indent = indents.pop();
                 flowLevel--;
                 writeIndicator("]", false, false, false);
-                state = states.remove(states.size() - 1);
+                state = states.pop();
             } else {
                 if (canonical || column > bestWidth) {
                     writeIndent();
                 }
-                states.add(new ExpectFlowSequenceItem());
+                states.push(new ExpectFlowSequenceItem());
                 expectNode(false, true, false, false);
             }
         }
@@ -442,20 +442,20 @@ public final class Emitter {
     private class ExpectFlowSequenceItem implements EmitterState {
         public void expect() throws IOException {
             if (event instanceof SequenceEndEvent) {
-                indent = indents.remove(indents.size() - 1);
+                indent = indents.pop();
                 flowLevel--;
                 if (canonical) {
                     writeIndicator(",", false, false, false);
                     writeIndent();
                 }
                 writeIndicator("]", false, false, false);
-                state = states.remove(states.size() - 1);
+                state = states.pop();
             } else {
                 writeIndicator(",", false, false, false);
                 if (canonical || column > bestWidth) {
                     writeIndent();
                 }
-                states.add(new ExpectFlowSequenceItem());
+                states.push(new ExpectFlowSequenceItem());
                 expectNode(false, true, false, false);
             }
         }
@@ -473,20 +473,20 @@ public final class Emitter {
     private class ExpectFirstFlowMappingKey implements EmitterState {
         public void expect() throws IOException {
             if (event instanceof MappingEndEvent) {
-                indent = indents.remove(indents.size() - 1);
+                indent = indents.pop();
                 flowLevel--;
                 writeIndicator("}", false, false, false);
-                state = states.remove(states.size() - 1);
+                state = states.pop();
             } else {
                 if (canonical || column > bestWidth) {
                     writeIndent();
                 }
                 if (!canonical && checkSimpleKey()) {
-                    states.add(new ExpectFlowMappingSimpleValue());
+                    states.push(new ExpectFlowMappingSimpleValue());
                     expectNode(false, false, true, true);
                 } else {
                     writeIndicator("?", true, false, false);
-                    states.add(new ExpectFlowMappingValue());
+                    states.push(new ExpectFlowMappingValue());
                     expectNode(false, false, true, false);
                 }
             }
@@ -496,25 +496,25 @@ public final class Emitter {
     private class ExpectFlowMappingKey implements EmitterState {
         public void expect() throws IOException {
             if (event instanceof MappingEndEvent) {
-                indent = indents.remove(indents.size() - 1);
+                indent = indents.pop();
                 flowLevel--;
                 if (canonical) {
                     writeIndicator(",", false, false, false);
                     writeIndent();
                 }
                 writeIndicator("}", false, false, false);
-                state = states.remove(states.size() - 1);
+                state = states.pop();
             } else {
                 writeIndicator(",", false, false, false);
                 if (canonical || column > bestWidth) {
                     writeIndent();
                 }
                 if (!canonical && checkSimpleKey()) {
-                    states.add(new ExpectFlowMappingSimpleValue());
+                    states.push(new ExpectFlowMappingSimpleValue());
                     expectNode(false, false, true, true);
                 } else {
                     writeIndicator("?", true, false, false);
-                    states.add(new ExpectFlowMappingValue());
+                    states.push(new ExpectFlowMappingValue());
                     expectNode(false, false, true, false);
                 }
             }
@@ -524,7 +524,7 @@ public final class Emitter {
     private class ExpectFlowMappingSimpleValue implements EmitterState {
         public void expect() throws IOException {
             writeIndicator(":", false, false, false);
-            states.add(new ExpectFlowMappingKey());
+            states.push(new ExpectFlowMappingKey());
             expectNode(false, false, true, false);
         }
     }
@@ -535,7 +535,7 @@ public final class Emitter {
                 writeIndent();
             }
             writeIndicator(":", true, false, false);
-            states.add(new ExpectFlowMappingKey());
+            states.push(new ExpectFlowMappingKey());
             expectNode(false, false, true, false);
         }
     }
@@ -563,12 +563,12 @@ public final class Emitter {
 
         public void expect() throws IOException {
             if (!this.first && event instanceof SequenceEndEvent) {
-                indent = indents.remove(indents.size() - 1);
-                state = states.remove(states.size() - 1);
+                indent = indents.pop();
+                state = states.pop();
             } else {
                 writeIndent();
                 writeIndicator("-", true, false, true);
-                states.add(new ExpectBlockSequenceItem(false));
+                states.push(new ExpectBlockSequenceItem(false));
                 expectNode(false, true, false, false);
             }
         }
@@ -595,16 +595,16 @@ public final class Emitter {
 
         public void expect() throws IOException {
             if (!this.first && event instanceof MappingEndEvent) {
-                indent = indents.remove(indents.size() - 1);
-                state = states.remove(states.size() - 1);
+                indent = indents.pop();
+                state = states.pop();
             } else {
                 writeIndent();
                 if (checkSimpleKey()) {
-                    states.add(new ExpectBlockMappingSimpleValue());
+                    states.push(new ExpectBlockMappingSimpleValue());
                     expectNode(false, false, true, true);
                 } else {
                     writeIndicator("?", true, false, true);
-                    states.add(new ExpectBlockMappingValue());
+                    states.push(new ExpectBlockMappingValue());
                     expectNode(false, false, true, false);
                 }
             }
@@ -614,7 +614,7 @@ public final class Emitter {
     private class ExpectBlockMappingSimpleValue implements EmitterState {
         public void expect() throws IOException {
             writeIndicator(":", false, false, false);
-            states.add(new ExpectBlockMappingKey(false));
+            states.push(new ExpectBlockMappingKey(false));
             expectNode(false, false, true, false);
         }
     }
@@ -623,7 +623,7 @@ public final class Emitter {
         public void expect() throws IOException {
             writeIndent();
             writeIndicator(":", true, false, true);
-            states.add(new ExpectBlockMappingKey(false));
+            states.push(new ExpectBlockMappingKey(false));
             expectNode(false, false, true, false);
         }
     }
