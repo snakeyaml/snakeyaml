@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
+            <action dev="py4fun" type="fix" issue="16" due-to="infinity0x">
+                Cache JavaBean class properties. Tests show that the loading has become a few percents faster (2009-08-31)
+            </action>
             <action dev="py4fun" type="add">
                 Introduce ArrayStack to use push() and pop() instead of standard (and too verbose) 
                 'remove(size()-1)'  (2009-08-27)

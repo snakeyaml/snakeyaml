@@ -66,12 +66,19 @@ public class Representer extends SafeRepresenter {
     }
 
     private class RepresentJavaBean implements Represent {
+        private final Map<Class<? extends Object>, Set<Property>> propertiesCache = new HashMap<Class<? extends Object>, Set<Property>>();
+
         public Node representData(Object data) {
             Set<Property> properties;
-            try {
-                properties = getProperties(data.getClass());
-            } catch (IntrospectionException e) {
-                throw new YAMLException(e);
+            Class<? extends Object> clazz = data.getClass();
+            properties = propertiesCache.get(clazz);
+            if (properties == null) {
+                try {
+                    properties = getProperties(clazz);
+                    propertiesCache.put(clazz, properties);
+                } catch (IntrospectionException e) {
+                    throw new YAMLException(e);
+                }
             }
             Node node = representJavaBean(properties, data);
             return node;

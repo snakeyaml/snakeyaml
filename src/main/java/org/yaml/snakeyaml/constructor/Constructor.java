@@ -116,6 +116,8 @@ public class Constructor extends SafeConstructor {
      * known.
      */
     private class ConstructMapping implements Construct {
+        private final Map<Class<? extends Object>, Map<String, Property>> propertiesCache = new HashMap<Class<? extends Object>, Map<String, Property>>();
+
         /**
          * Construct JavaBean. If type safe collections are used please look at
          * <code>TypeDescription</code>.
@@ -250,28 +252,34 @@ public class Constructor extends SafeConstructor {
 
         private Property getProperty(Class<? extends Object> type, String name)
                 throws IntrospectionException {
-            for (PropertyDescriptor property : Introspector.getBeanInfo(type)
-                    .getPropertyDescriptors()) {
-                if (property.getName().equals(name)) {
+            // check cache
+            Map<String, Property> properties = propertiesCache.get(type);
+            if (properties == null) {
+                properties = new HashMap<String, Property>();
+                propertiesCache.put(type, properties);
+                for (PropertyDescriptor property : Introspector.getBeanInfo(type)
+                        .getPropertyDescriptors()) {
+                    String methodName = property.getName();
                     if (property.getWriteMethod() != null) {
-                        return new MethodProperty(property);
-                    } else {
-                        throw new YAMLException("Property '" + name + "' on JavaBean: "
-                                + type.getName() + " does not have the write method");
+                        properties.put(methodName, new MethodProperty(property));
                     }
                 }
-            }
-            for (Field field : type.getFields()) {
-                int modifiers = field.getModifiers();
-                if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers)) {
-                    continue;
-                }
-                if (field.getName().equals(name)) {
-                    return new FieldProperty(field);
+                for (Field field : type.getFields()) {
+                    int modifiers = field.getModifiers();
+                    if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers)) {
+                        continue;
+                    }
+                    properties.put(field.getName(), new FieldProperty(field));
                 }
             }
-            throw new YAMLException("Unable to find property '" + name + "' on class: "
-                    + type.getName());
+            // take from cache
+            Property property = properties.get(name);
+            if (property == null) {
+                throw new YAMLException("Unable to find property '" + name + "' on class: "
+                        + type.getName());
+            } else {
+                return property;
+            }
         }
     }
 
