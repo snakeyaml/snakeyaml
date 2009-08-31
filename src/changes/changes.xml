@@ -8,7 +8,8 @@
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
             <action dev="py4fun" type="add">
-                Introduce ArrayStack to use push() and pop() instead of standard 'remove(size()-1)'  (2009-08-27)
+                Introduce ArrayStack to use push() and pop() instead of standard (and too verbose) 
+                'remove(size()-1)'  (2009-08-27)
             </action>
             <action dev="py4fun" type="fix" issue="14" due-to="infinity0x">
                 Fix: ArrayList is more efficient than LinkedList  (2009-08-26)
