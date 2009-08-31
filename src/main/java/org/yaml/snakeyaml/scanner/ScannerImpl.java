@@ -536,7 +536,8 @@ public final class ScannerImpl implements Scanner {
         // Set the current intendation to -1.
         unwindIndent(-1);
 
-        // Reset everything (not really needed).
+        // Reset simple keys.
+        removePossibleSimpleKey();
         this.allowSimpleKey = false;
         this.possibleSimpleKeys = new HashMap<Integer, SimpleKey>();
 

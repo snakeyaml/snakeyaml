@@ -7,6 +7,10 @@
 	</properties>
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
+            <action dev="py4fun" type="fix">
+                Fixed an obscure scanner error not reported when there is no line break at the end 
+                of the stream. The fix is imported from PyYAML {ticket 118} (2009-08-31)
+            </action>
             <action dev="py4fun" type="fix" issue="16" due-to="infinity0x">
                 Cache JavaBean class properties. Tests show that the loading has become a few percents faster (2009-08-31)
             </action>
