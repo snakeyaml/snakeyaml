@@ -526,7 +526,7 @@ public class Constructor extends SafeConstructor {
             String name = node.getTag().substring(Tags.PREFIX.length());
             Class<?> cl;
             try {
-                cl = Class.forName(name);
+                cl = getClassForName(name);
             } catch (ClassNotFoundException e) {
                 throw new YAMLException("Class not found: " + name);
             }
@@ -535,5 +535,9 @@ public class Constructor extends SafeConstructor {
         } else {
             return classForTag;
         }
+    }
+
+    protected Class<?> getClassForName(String name) throws ClassNotFoundException {
+        return Class.forName(name);
     }
 }

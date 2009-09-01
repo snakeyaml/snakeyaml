@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
+            <action dev="py4fun" type="add">
+                Add possibility to define a custom Class Loader. (2009-09-01)
+            </action>
             <action dev="py4fun" type="fix">
                 Fixed an obscure scanner error not reported when there is no line break at the end 
                 of the stream. The fix is imported from PyYAML 3.09 {ticket 118} (2009-08-31)
