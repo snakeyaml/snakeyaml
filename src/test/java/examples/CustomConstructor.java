@@ -15,7 +15,7 @@
  */
 package examples;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.yaml.snakeyaml.Invoice;
@@ -29,6 +29,6 @@ public class CustomConstructor extends Constructor {
 
     @Override
     protected List<Object> createDefaultList(int initSize) {
-        return new ArrayList<Object>(initSize);
+        return new LinkedList<Object>();
     }
 }
