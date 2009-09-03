@@ -41,28 +41,8 @@ import org.yaml.snakeyaml.nodes.Tags;
  * Represent JavaBeans
  */
 public class Representer extends SafeRepresenter {
-    private Map<Class<? extends Object>, String> classTags;
-
     public Representer() {
-        classTags = new HashMap<Class<? extends Object>, String>();
         this.representers.put(null, new RepresentJavaBean());
-    }
-
-    /**
-     * Define a tag for the <code>Class</code> to serialize
-     * 
-     * @param clazz
-     *            <code>Class</code> which tag is changed
-     * @param tag
-     *            new tag to be used for every instance of the specified
-     *            <code>Class</code>
-     * @return the previous tag associated with the <code>Class</code>
-     */
-    public String addClassTag(Class<? extends Object> clazz, String tag) {
-        if (tag == null) {
-            throw new NullPointerException("Tag must be provided.");
-        }
-        return classTags.put(clazz, tag);
     }
 
     private class RepresentJavaBean implements Represent {

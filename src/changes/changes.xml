@@ -7,6 +7,10 @@
 	</properties>
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
+			<action dev="py4fun" type="fix" issue="18" due-to="creiniger">
+                SafeRepresenter respects custom tags for standard Java classes where standard tag has 
+                more then one Java implementation available (Long, List, Map, Date etc) (2009-09-03)
+            </action>
             <action dev="py4fun" type="add">
                 Add possibility to define a custom Class Loader. (2009-09-01)
             </action>

@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,8 @@ import org.yaml.snakeyaml.util.Base64Coder;
  */
 class SafeRepresenter extends BaseRepresenter {
 
+    protected Map<Class<? extends Object>, String> classTags;
+
     public SafeRepresenter() {
         this.nullRepresenter = new RepresentNull();
         this.representers.put(String.class, new RepresentString());
@@ -50,6 +53,15 @@ class SafeRepresenter extends BaseRepresenter {
         this.multiRepresenters.put(new Object[0].getClass(), new RepresentArray());
         this.multiRepresenters.put(Date.class, new RepresentDate());
         this.multiRepresenters.put(Enum.class, new RepresentEnum());
+        classTags = new HashMap<Class<? extends Object>, String>();
+    }
+
+    private String getTag(Class<?> clazz, String defaultTag) {
+        if (classTags.containsKey(clazz)) {
+            return classTags.get(clazz);
+        } else {
+            return defaultTag;
+        }
     }
 
     @Override
@@ -66,6 +78,23 @@ class SafeRepresenter extends BaseRepresenter {
         return data instanceof String || data instanceof Boolean || data instanceof Integer
                 || data instanceof Long || data instanceof Float || data instanceof Double
                 || data instanceof Enum;
+    }
+
+    /**
+     * Define a tag for the <code>Class</code> to serialize
+     * 
+     * @param clazz
+     *            <code>Class</code> which tag is changed
+     * @param tag
+     *            new tag to be used for every instance of the specified
+     *            <code>Class</code>
+     * @return the previous tag associated with the <code>Class</code>
+     */
+    public String addClassTag(Class<? extends Object> clazz, String tag) {
+        if (tag == null) {
+            throw new NullPointerException("Tag must be provided.");
+        }
+        return classTags.put(clazz, tag);
     }
 
     private class RepresentNull implements Represent {
@@ -125,14 +154,14 @@ class SafeRepresenter extends BaseRepresenter {
                     value = number.toString();
                 }
             }
-            return representScalar(tag, value);
+            return representScalar(getTag(data.getClass(), tag), value);
         }
     }
 
     private class RepresentList implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representSequence(Tags.SEQ, (List<Object>) data, null);
+            return representSequence(getTag(data.getClass(), Tags.SEQ), (List<Object>) data, null);
         }
     }
 
@@ -147,7 +176,8 @@ class SafeRepresenter extends BaseRepresenter {
     private class RepresentMap implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representMapping(Tags.MAP, (Map<Object, Object>) data, null);
+            return representMapping(getTag(data.getClass(), Tags.MAP), (Map<Object, Object>) data,
+                    null);
         }
     }
 
@@ -159,7 +189,7 @@ class SafeRepresenter extends BaseRepresenter {
             for (Object key : set) {
                 value.put(key, null);
             }
-            return representMapping(Tags.SET, value, null);
+            return representMapping(getTag(data.getClass(), Tags.SET), value, null);
         }
     }
 
@@ -212,14 +242,14 @@ class SafeRepresenter extends BaseRepresenter {
                 buffer.append(String.valueOf(millis));
             }
             buffer.append("Z");
-            return representScalar(Tags.TIMESTAMP, buffer.toString(), null);
+            return representScalar(getTag(data.getClass(), Tags.TIMESTAMP), buffer.toString(), null);
         }
     }
 
     private class RepresentEnum implements Represent {
         public Node representData(Object data) {
             String tag = Tags.getGlobalTagForClass(data.getClass());
-            return representScalar(tag, data.toString());
+            return representScalar(getTag(data.getClass(), tag), data.toString());
         }
     }
 
