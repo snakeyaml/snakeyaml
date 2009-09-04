@@ -54,6 +54,12 @@ public class Constructor extends SafeConstructor {
         this(Object.class);
     }
 
+    /**
+     * Create Constructor for the specified class as the root.
+     * 
+     * @param theRoot
+     *            - the class (usually JavaBean) to be constructed
+     */
     public Constructor(Class<? extends Object> theRoot) {
         if (theRoot == null) {
             throw new NullPointerException("Root type must be provided.");
@@ -72,7 +78,8 @@ public class Constructor extends SafeConstructor {
      * or for a definition from a Spring ApplicationContext.
      * 
      * @param theRoot
-     *            fully qualified class name of the root JavaBean
+     *            fully qualified class name of the root class (usually
+     *            JavaBean)
      * @throws ClassNotFoundException
      */
     public Constructor(String theRoot) throws ClassNotFoundException {

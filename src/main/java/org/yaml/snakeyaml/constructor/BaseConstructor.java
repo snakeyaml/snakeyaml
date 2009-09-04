@@ -28,6 +28,7 @@ import java.util.Stack;
 
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.composer.ComposerException;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -221,8 +222,19 @@ public abstract class BaseConstructor {
         return new ArrayList<Object>(initSize);
     }
 
+    @SuppressWarnings("unchecked")
     protected List<? extends Object> constructSequence(SequenceNode node) {
-        List<Object> result = createDefaultList(node.getValue().size());
+        List<Object> result;
+        if (List.class.isAssignableFrom(node.getType()) && !node.getType().isInterface()) {
+            // the root class may be defined (Vector for instance)
+            try {
+                result = (List<Object>) node.getType().newInstance();
+            } catch (Exception e) {
+                throw new YAMLException(e);
+            }
+        } else {
+            result = createDefaultList(node.getValue().size());
+        }
         constructSequenceStep2(node, result);
         return result;
     }
