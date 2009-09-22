@@ -214,6 +214,9 @@ public class Constructor extends SafeConstructor {
                 try {
                     Property property = getProperty(beanType, key);
                     valueNode.setType(property.getType());
+                    if (property.getType().isArray()) {
+                        isArray = true;
+                    }
                     TypeDescription memberDescription = typeDefinitions.get(beanType);
                     if (memberDescription != null) {
                         switch (valueNode.getNodeId()) {
@@ -239,7 +242,7 @@ public class Constructor extends SafeConstructor {
                         }
                     }
                     Object value = constructObject(valueNode);
-                    if (isArray) {
+                    if (isArray && value instanceof List) {
                         List<Object> list = (List<Object>) value;
                         value = list.toArray(createArray(property.getType()));
                     }
