@@ -67,6 +67,12 @@ public class SeqTagTest extends AbstractTest {
         assertEquals("[1, 1, 2]\n", output);
     }
 
+    public void testStringArray() {
+        String[] array = new String[] { "aaa", "bbb", "ccc" };
+        String output = dump(array);
+        assertEquals("[aaa, bbb, ccc]\n", output);
+    }
+
     public void testArrayPrimitives() {
         int[] array = new int[3];
         array[0] = 1;
