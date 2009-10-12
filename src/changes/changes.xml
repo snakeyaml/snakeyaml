@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
+		    <action dev="py4fun" type="fix" issue="24" due-to="shrode">
+                Line numbers reported in Exceptions are Zero based, should be 1 based (2009-10-12)
+            </action>
 			<action dev="py4fun" type="fix" issue="21" due-to="ashwin.jayaprakash">
                 Support arrays of reference types as JavaBean properties (2009-09-22)
             </action>

@@ -94,9 +94,9 @@ public final class Mark {
         StringBuffer where = new StringBuffer(" in \"");
         where.append(name);
         where.append("\", line ");
-        where.append(line);
+        where.append(line + 1);
         where.append(", column ");
-        where.append(column);
+        where.append(column + 1);
         if (snippet != null) {
             where.append(":\n");
             where.append(snippet);
@@ -108,10 +108,16 @@ public final class Mark {
         return name;
     }
 
+    /**
+     * starts with 0
+     */
     public int getLine() {
         return line;
     }
 
+    /**
+     * starts with 0
+     */
     public int getColumn() {
         return column;
     }
