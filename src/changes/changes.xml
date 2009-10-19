@@ -7,13 +7,20 @@
 	</properties>
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
-		    <action dev="py4fun" type="update">
+		    <action dev="py4fun" type="fix" issue="25" due-to="Benjamin Bentmann">
+                Improve construction of generic collections: while type erase makes no difference between 
+                Class&lt;Foo&gt; and Class&lt;Bar&gt; at runtime, the information about generics is still 
+                accessible via reflection from Method/Field. (2009-10-19)
+            </action>
+            <action dev="py4fun" type="update">
                 Fix ConstructYamlObject: support recursive objects. Introduce 'resolved'
                 property for Nodes. This property supposed to help to distinguish explicit tag
                 from the resolved tag (2009-10-19)
             </action>
             <action dev="py4fun" type="update">
-                Refactor: use rootTag instead of rootType (for Class) in BaseConstructor (2009-10-19)
+                Refactor: use rootTag instead of rootType (for Class) in BaseConstructor. This is done to 
+                solve the priority problem: normally explicit tag has more priority then runtime class but
+                for the root tag is is the other way around (2009-10-19)
             </action>
             <action dev="py4fun" type="fix" issue="24" due-to="shrode">
                 Line numbers reported in Exceptions are Zero based, should be 1 based (2009-10-12)

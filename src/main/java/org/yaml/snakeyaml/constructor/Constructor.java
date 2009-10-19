@@ -243,6 +243,14 @@ public class Constructor extends SafeConstructor {
                             break;
                         }
                     }
+                    if (valueNode.getNodeId() == NodeId.sequence && valueNode.isResolved()) {
+                        // type safe collection may contain the proper class
+                        Class t = property.getListType();
+                        if (t != null) {
+                            SequenceNode snode = (SequenceNode) valueNode;
+                            snode.setListType(t);
+                        }
+                    }
                     Object value = constructObject(valueNode);
                     if (isArray && value instanceof List) {
                         List<Object> list = (List<Object>) value;

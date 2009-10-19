@@ -16,6 +16,8 @@
 package org.yaml.snakeyaml.introspector;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -33,12 +35,23 @@ public class MethodProperty extends Property {
     }
 
     @Override
+    public Class<? extends Object> getListType() {
+        if (List.class.isAssignableFrom(property.getPropertyType())) {
+            ParameterizedType grt = (ParameterizedType) property.getReadMethod()
+                    .getGenericReturnType();
+            return (Class) grt.getActualTypeArguments()[0];
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public Object get(Object object) {
         try {
             return property.getReadMethod().invoke(object);
         } catch (Exception e) {
-            throw new YAMLException("Unable to find getter for property " + property.getName()
-                    + " on object " + object + ":" + e);
+            throw new YAMLException("Unable to find getter for property '" + property.getName()
+                    + "' on object " + object + ":" + e);
         }
     }
 }

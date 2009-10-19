@@ -109,7 +109,12 @@ public abstract class Node {
         return useClassConstructor.booleanValue();
     }
 
+    // TODO do we need it ?
     public void setUseClassConstructor(Boolean useClassConstructor) {
         this.useClassConstructor = useClassConstructor;
+    }
+
+    public boolean isResolved() {
+        return resolved;
     }
 }
