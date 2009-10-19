@@ -26,18 +26,19 @@ public class SequenceNode extends CollectionNode {
     private Class<? extends Object> listType;
     private List<Node> value;
 
-    public SequenceNode(String tag, List<Node> value, Mark startMark, Mark endMark,
-            Boolean flowStyle) {
+    public SequenceNode(String tag, boolean resolved, List<Node> value, Mark startMark,
+            Mark endMark, Boolean flowStyle) {
         super(tag, startMark, endMark, flowStyle);
         if (value == null) {
             throw new NullPointerException("value in a Node is required.");
         }
         this.value = value;
         listType = Object.class;
+        this.resolved = resolved;
     }
 
     public SequenceNode(String tag, List<Node> value, Boolean flowStyle) {
-        this(tag, value, null, null, flowStyle);
+        this(tag, true, value, null, null, flowStyle);
     }
 
     @Override

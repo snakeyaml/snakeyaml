@@ -35,7 +35,6 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
-import org.yaml.snakeyaml.nodes.Tags;
 
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
@@ -206,8 +205,7 @@ public abstract class BaseConstructor {
      * @return Construct implementation for the specified node
      */
     private Construct getConstructor(Node node) {
-        if (!node.hasExplicitTag() && !Object.class.equals(node.getType())
-                && !node.getTag().equals(Tags.NULL)) {
+        if (node.useClassConstructor()) {
             return yamlClassConstructors.get(node.getNodeId());
         } else {
             Construct constructor = yamlConstructors.get(node.getTag());

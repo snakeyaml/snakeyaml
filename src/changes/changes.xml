@@ -8,6 +8,11 @@
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
 		    <action dev="py4fun" type="update">
+                Fix ConstructYamlObject: support recursive objects. Introduce 'resolved'
+                property for Nodes. This property supposed to help to distinguish explicit tag
+                from the resolved tag (2009-10-19)
+            </action>
+            <action dev="py4fun" type="update">
                 Refactor: use rootTag instead of rootType (for Class) in BaseConstructor (2009-10-19)
             </action>
             <action dev="py4fun" type="fix" issue="24" due-to="shrode">

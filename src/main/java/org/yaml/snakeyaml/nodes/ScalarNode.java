@@ -25,10 +25,10 @@ public class ScalarNode extends Node {
     private String value;
 
     public ScalarNode(String tag, String value, Mark startMark, Mark endMark, Character style) {
-        this(tag, false, value, startMark, endMark, style);
+        this(tag, true, value, startMark, endMark, style);
     }
 
-    public ScalarNode(String tag, boolean explicit, String value, Mark startMark, Mark endMark,
+    public ScalarNode(String tag, boolean resolved, String value, Mark startMark, Mark endMark,
             Character style) {
         super(tag, startMark, endMark);
         if (value == null) {
@@ -36,7 +36,7 @@ public class ScalarNode extends Node {
         }
         this.value = value;
         this.style = style;
-        this.explicitTag = explicit;
+        this.resolved = resolved;
     }
 
     public Character getStyle() {

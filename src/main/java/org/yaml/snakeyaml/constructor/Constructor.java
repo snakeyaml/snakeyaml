@@ -301,21 +301,36 @@ public class Constructor extends SafeConstructor {
      * appropriate constructor based on the node kind (scalar, sequence,
      * mapping)
      */
-    private class ConstructYamlObject extends AbstractConstruct {
+    private class ConstructYamlObject implements Construct {
+
         @SuppressWarnings("unchecked")
+        private Construct getConstructor(Node node) {
+            Class cl = getClassForNode(node);
+            node.setType(cl);
+            // call the constructor as if the runtime class is defined
+            Construct constructor = yamlClassConstructors.get(node.getNodeId());
+            return constructor;
+        }
+
         public Object construct(Node node) {
             Object result = null;
             try {
-                Class cl = getClassForNode(node);
-                node.setType(cl);
-                // call the constructor as if the runtime class is defined
-                Construct constructor = yamlClassConstructors.get(node.getNodeId());
-                result = constructor.construct(node);
+                result = getConstructor(node).construct(node);
             } catch (Exception e) {
                 throw new ConstructorException(null, null, "Can't construct a java object for "
                         + node.getTag() + "; exception=" + e.getMessage(), node.getStartMark(), e);
             }
             return result;
+        }
+
+        public void construct2ndStep(Node node, Object object) {
+            try {
+                getConstructor(node).construct2ndStep(node, object);
+            } catch (Exception e) {
+                throw new ConstructorException(null, null,
+                        "Can't construct a second step for a java object for " + node.getTag()
+                                + "; exception=" + e.getMessage(), node.getStartMark(), e);
+            }
         }
     }
 
