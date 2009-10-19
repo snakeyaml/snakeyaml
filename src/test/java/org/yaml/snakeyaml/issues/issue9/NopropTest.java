@@ -104,6 +104,43 @@ public class NopropTest extends TestCase {
         assertTrue(docs.hasNext());
         BeanHolder beanHolder = (BeanHolder) docs.next();
         assertEquals("BEAN_1", beanHolder.getBean().getStrVal());
+        assertEquals(3, beanHolder.getBean().getIntVal());
+    }
+
+    public void testEmptyDoc2() {
+        String yaml = "---";
+        Loader loader = new Loader(new BeanConstructor());
+        Iterator<Object> docs = new Yaml(loader).loadAll(yaml).iterator();
+        assertTrue(docs.hasNext());
+        BeanHolder beanHolder = (BeanHolder) docs.next();
+        assertNotNull(beanHolder);
+        assertEquals("BEAN_1", beanHolder.getBean().getStrVal());
+        assertEquals(3, beanHolder.getBean().getIntVal());
+        // only space is also null
+        yaml = "--- ";
+        docs = new Yaml(new Loader(new BeanConstructor())).loadAll(yaml).iterator();
+        assertTrue(docs.hasNext());
+        beanHolder = (BeanHolder) docs.next();
+        assertNotNull(beanHolder);
+        assertEquals("BEAN_1", beanHolder.getBean().getStrVal());
+        assertEquals(3, beanHolder.getBean().getIntVal());
+        // only space is also null
+        yaml = "--- '23'";
+        docs = new Yaml(new Loader(new BeanConstructor())).loadAll(yaml).iterator();
+        assertTrue(docs.hasNext());
+        beanHolder = (BeanHolder) docs.next();
+        assertNotNull(beanHolder);
+        assertEquals("BEAN_1", beanHolder.getBean().getStrVal());
+        assertEquals(23, beanHolder.getBean().getIntVal());
+    }
+
+    public void testEmptyDoc3() {
+        String yaml = "--- !!org.yaml.snakeyaml.issues.issue9.BeanHolder";
+        Loader loader = new Loader(new BeanConstructor3());
+        Iterator<Object> docs = new Yaml(loader).loadAll(yaml).iterator();
+        assertTrue(docs.hasNext());
+        BeanHolder beanHolder = (BeanHolder) docs.next();
+        assertEquals("BEAN_1", beanHolder.getBean().getStrVal());
         assertEquals(1, beanHolder.getBean().getIntVal());
     }
 

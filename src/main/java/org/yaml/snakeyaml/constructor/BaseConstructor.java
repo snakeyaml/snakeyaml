@@ -63,7 +63,7 @@ public abstract class BaseConstructor {
     private final ArrayList<Tuple<Map<Object, Object>, Tuple<Object, Object>>> maps2fill;
     private final ArrayList<Tuple<Set<Object>, Object>> sets2fill;
 
-    protected Class<? extends Object> rootType;
+    protected String rootTag;
 
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();
@@ -71,7 +71,7 @@ public abstract class BaseConstructor {
         toBeConstructedAt2ndStep = new Stack<Tuple<Node, Object>>();
         maps2fill = new ArrayList<Tuple<Map<Object, Object>, Tuple<Object, Object>>>();
         sets2fill = new ArrayList<Tuple<Set<Object>, Object>>();
-        rootType = Object.class;
+        rootTag = null;
     }
 
     public void setComposer(Composer composer) {
@@ -97,7 +97,9 @@ public abstract class BaseConstructor {
         // Construct and return the next document.
         composer.checkNode();
         Node node = composer.getNode();
-        node.setType(rootType);
+        if (rootTag != null) {
+            node.setTag(rootTag);
+        }
         return constructDocument(node);
     }
 
@@ -112,7 +114,9 @@ public abstract class BaseConstructor {
         // Ensure that the stream contains a single document and construct it
         Node node = composer.getSingleNode();
         if (node != null) {
-            node.setType(rootType);
+            if (rootTag != null) {
+                node.setTag(rootTag);
+            }
             return constructDocument(node);
         }
         return null;

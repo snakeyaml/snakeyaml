@@ -50,7 +50,7 @@ public class TriangleBeanTest extends TestCase {
             fail("Class not found expected.");
         } catch (Exception e) {
             assertEquals(
-                    "Cannot create property=shape for JavaBean=TriangleBean name=Bean25; Class not found: org.yaml.snakeyaml.javabeans.Triangle777",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.javabeans.TriangleBean; exception=Cannot create property=shape for JavaBean=TriangleBean name=Bean25; Class not found: org.yaml.snakeyaml.javabeans.Triangle777",
                     e.getMessage());
         }
     }
@@ -67,7 +67,7 @@ public class TriangleBeanTest extends TestCase {
             fail("Runtime class has less priority then an explicit tag");
         } catch (Exception e) {
             assertEquals(
-                    "Cannot create property=name for JavaBean=TriangleBean name=null; null; Can't construct a java object for tag:yaml.org,2002:whatever; exception=Class not found: whatever",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.javabeans.TriangleBean; exception=Cannot create property=name for JavaBean=TriangleBean name=null; null; Can't construct a java object for tag:yaml.org,2002:whatever; exception=Class not found: whatever",
                     e.getMessage());
         }
     }

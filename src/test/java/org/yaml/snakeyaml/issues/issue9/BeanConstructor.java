@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.issues.issue9;
 
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tags;
 
@@ -44,7 +45,17 @@ public class BeanConstructor extends Constructor {
     private class BeanHolderScalarConstructor extends ConstructScalar {
         @Override
         public Object construct(Node node) {
-            return new BeanHolder();
+            if (node.getNodeId() == NodeId.scalar) {
+                ScalarNode n = (ScalarNode) node;
+                String value = n.getValue();
+                int i = 3;
+                if (value.length() != 0) {
+                    i = Integer.parseInt(value);
+                }
+                return new BeanHolder(new Bean1(i));
+            } else {
+                return new BeanHolder();
+            }
         }
     }
 }
