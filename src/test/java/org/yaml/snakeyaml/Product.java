@@ -20,4 +20,9 @@ public class Product {
     public Integer quantity;
     public String description;
     public Float price;
+
+    @Override
+    public String toString() {
+        return "Product: " + sku;
+    }
 }

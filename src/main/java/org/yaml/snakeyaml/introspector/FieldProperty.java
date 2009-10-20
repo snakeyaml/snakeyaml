@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.introspector;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -40,5 +41,12 @@ public class FieldProperty extends Property {
             throw new YAMLException("Unable to access field " + field.getName() + " on object "
                     + object + " : " + e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Class<? extends Object> getListType() {
+        ParameterizedType t = (ParameterizedType) field.getGenericType();
+        return (Class) t.getActualTypeArguments()[0];
     }
 }

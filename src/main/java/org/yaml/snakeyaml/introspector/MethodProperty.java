@@ -34,12 +34,17 @@ public class MethodProperty extends Property {
         property.getWriteMethod().invoke(object, value);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Class<? extends Object> getListType() {
         if (List.class.isAssignableFrom(property.getPropertyType())) {
-            ParameterizedType grt = (ParameterizedType) property.getReadMethod()
-                    .getGenericReturnType();
-            return (Class) grt.getActualTypeArguments()[0];
+            if (property.getReadMethod().getGenericReturnType() instanceof ParameterizedType) {
+                ParameterizedType grt = (ParameterizedType) property.getReadMethod()
+                        .getGenericReturnType();
+                return (Class) grt.getActualTypeArguments()[0];
+            } else {
+                return null;
+            }
         } else {
             return null;
         }

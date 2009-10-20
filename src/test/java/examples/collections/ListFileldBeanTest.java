@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package examples;
+package examples.collections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 
-public class TypeSafeListTest extends TestCase {
+public class ListFileldBeanTest extends TestCase {
     public void qtestDumpList() {
-        ListBean bean = new ListBean();
+        ListFieldBean bean = new ListFieldBean();
         List<String> list = new ArrayList<String>();
         list.add("aaa");
         list.add("bbb");
@@ -34,7 +34,7 @@ public class TypeSafeListTest extends TestCase {
         List<Developer> developers = new ArrayList<Developer>();
         developers.add(new Developer("Fred", "creator"));
         developers.add(new Developer("John", "committer"));
-        bean.setDevelopers(developers);
+        bean.developers = developers;
         JavaBeanDumper dumper = new JavaBeanDumper(false);
         String output = dumper.dump(bean);
         System.out.println(output);
@@ -46,18 +46,74 @@ public class TypeSafeListTest extends TestCase {
     public void testLoadList() {
         String output = Util.getLocalResource("examples/list-bean-1.yaml");
         // System.out.println(output);
-        JavaBeanLoader<ListBean> beanLoader = new JavaBeanLoader<ListBean>(ListBean.class);
-        ListBean parsed = beanLoader.load(output);
+        JavaBeanLoader<ListFieldBean> beanLoader = new JavaBeanLoader<ListFieldBean>(
+                ListFieldBean.class);
+        ListFieldBean parsed = beanLoader.load(output);
         assertNotNull(parsed);
         List<String> list2 = parsed.getChildren();
         assertEquals(2, list2.size());
         assertEquals("aaa", list2.get(0));
         assertEquals("bbb", list2.get(1));
-        List<Developer> developers = parsed.getDevelopers();
+        List<Developer> developers = parsed.developers;
         assertEquals(2, developers.size());
         assertEquals("Developer must be recognised.", Developer.class, developers.get(0).getClass());
         Developer fred = developers.get(0);
         assertEquals("Fred", fred.getName());
         assertEquals("creator", fred.getRole());
+    }
+
+    public static class ListFieldBean {
+        private List<String> children;
+        private String name;
+        public List<Developer> developers;
+
+        public ListFieldBean() {
+            name = "Bean456";
+        }
+
+        public List<String> getChildren() {
+            return children;
+        }
+
+        public void setChildren(List<String> children) {
+            this.children = children;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class Developer {
+        private String name;
+        private String role;
+
+        public Developer() {
+        }
+
+        public Developer(String name, String role) {
+            this.name = name;
+            this.role = role;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
     }
 }
