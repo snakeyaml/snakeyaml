@@ -30,7 +30,7 @@ import org.yaml.snakeyaml.Util;
  * Developer class cannot be properly recognised
  */
 public class TypeSafeListNoGerericsTest extends TestCase {
-    public void qtestDumpList() {
+    public void testDumpList() {
         ListBean bean = new ListBean();
         List<String> list = new ArrayList<String>();
         list.add("aaa");
@@ -42,7 +42,7 @@ public class TypeSafeListNoGerericsTest extends TestCase {
         bean.setDevelopers(developers);
         JavaBeanDumper dumper = new JavaBeanDumper(false);
         String output = dumper.dump(bean);
-        System.out.println(output);
+        // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-1.yaml");
         // TODO dump type safe collections
         // assertEquals(etalon, output);

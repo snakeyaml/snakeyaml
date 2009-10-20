@@ -29,7 +29,7 @@ import org.yaml.snakeyaml.Util;
  * Developer class must be properly recognised
  */
 public class ListFileldBeanTest extends TestCase {
-    public void qtestDumpList() {
+    public void testDumpList() {
         ListFieldBean bean = new ListFieldBean();
         List<String> list = new ArrayList<String>();
         list.add("aaa");
@@ -41,7 +41,7 @@ public class ListFileldBeanTest extends TestCase {
         bean.developers = developers;
         JavaBeanDumper dumper = new JavaBeanDumper(false);
         String output = dumper.dump(bean);
-        System.out.println(output);
+        // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-1.yaml");
         // TODO dump type safe collections
         // assertEquals(etalon, output);
