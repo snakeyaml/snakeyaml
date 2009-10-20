@@ -24,6 +24,10 @@ import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 
+/**
+ * Test public field ListBean->List<Developer> developers <br/>
+ * Developer class must be properly recognised
+ */
 public class ListFileldBeanTest extends TestCase {
     public void qtestDumpList() {
         ListFieldBean bean = new ListFieldBean();
