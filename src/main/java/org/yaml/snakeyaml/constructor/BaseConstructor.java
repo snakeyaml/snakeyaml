@@ -24,7 +24,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.composer.ComposerException;
@@ -35,6 +34,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.util.ArrayStack;
 
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
@@ -58,7 +58,7 @@ public abstract class BaseConstructor {
     private Composer composer;
     private final Map<Node, Object> constructedObjects;
     private final Set<Node> recursiveObjects;
-    private final Stack<Tuple<Node, Object>> toBeConstructedAt2ndStep;
+    private final ArrayStack<Tuple<Node, Object>> toBeConstructedAt2ndStep;
     private final ArrayList<Tuple<Map<Object, Object>, Tuple<Object, Object>>> maps2fill;
     private final ArrayList<Tuple<Set<Object>, Object>> sets2fill;
 
@@ -67,7 +67,7 @@ public abstract class BaseConstructor {
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();
         recursiveObjects = new HashSet<Node>();
-        toBeConstructedAt2ndStep = new Stack<Tuple<Node, Object>>();
+        toBeConstructedAt2ndStep = new ArrayStack<Tuple<Node, Object>>(10);
         maps2fill = new ArrayList<Tuple<Map<Object, Object>, Tuple<Object, Object>>>();
         sets2fill = new ArrayList<Tuple<Set<Object>, Object>>();
         rootTag = null;
