@@ -30,7 +30,7 @@ import org.yaml.snakeyaml.Util;
  */
 public class TypeSafeListTest extends TestCase {
     public void testDumpList() {
-        ListBean bean = new ListBean();
+        ListBean1 bean = new ListBean1();
         List<String> list = new ArrayList<String>();
         list.add("aaa");
         list.add("bbb");
@@ -50,8 +50,8 @@ public class TypeSafeListTest extends TestCase {
     public void testLoadList() {
         String output = Util.getLocalResource("examples/list-bean-1.yaml");
         // System.out.println(output);
-        JavaBeanLoader<ListBean> beanLoader = new JavaBeanLoader<ListBean>(ListBean.class);
-        ListBean parsed = beanLoader.load(output);
+        JavaBeanLoader<ListBean1> beanLoader = new JavaBeanLoader<ListBean1>(ListBean1.class);
+        ListBean1 parsed = beanLoader.load(output);
         assertNotNull(parsed);
         List<String> list2 = parsed.getChildren();
         assertEquals(2, list2.size());
@@ -65,12 +65,12 @@ public class TypeSafeListTest extends TestCase {
         assertEquals("creator", fred.getRole());
     }
 
-    public static class ListBean {
+    public static class ListBean1 {
         private List<String> children;
         private String name;
         private List<Developer> developers;
 
-        public ListBean() {
+        public ListBean1() {
             name = "Bean123";
         }
 
