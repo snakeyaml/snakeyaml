@@ -28,7 +28,7 @@ public abstract class Property implements Comparable<Property> {
         return type;
     }
 
-    public abstract Class<? extends Object> getListType();
+    public abstract Class<? extends Object> getGenericType();
 
     public String getName() {
         return name;

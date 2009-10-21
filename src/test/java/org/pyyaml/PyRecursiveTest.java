@@ -129,4 +129,17 @@ public class PyRecursiveTest extends TestCase {
         }
     }
 
+    public void testSet2() {
+        Set<Object> set = new HashSet<Object>(3);
+        set.add("aaa");
+        set.add(111);
+        set.add(set);
+        Yaml yaml = new Yaml();
+        try {
+            yaml.dump(set);
+            fail("set cannot be recursive because Java does not allow it to be a key for a map.");
+        } catch (StackOverflowError e) {
+            // ignore
+        }
+    }
 }

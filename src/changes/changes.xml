@@ -7,7 +7,10 @@
 	</properties>
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
-		    <action dev="py4fun" type="fix" issue="26" due-to="Benjamin Bentmann">
+		    <action dev="py4fun" type="update">
+                Parse Set or SortedSet without a global tag if it is a JavaBean property (2009-10-21)
+            </action>
+            <action dev="py4fun" type="fix" issue="26" due-to="Benjamin Bentmann">
                 Parse different Map implementations (SortedMap, Properties) without global 
                 tags if they are JavaBean properties (2009-10-21)
             </action>

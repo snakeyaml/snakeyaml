@@ -31,7 +31,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -161,10 +163,14 @@ public class Constructor extends SafeConstructor {
                 } else {
                     return constructMapping(mnode);
                 }
+            } else if (SortedSet.class.isAssignableFrom(node.getType())) {
+                SortedSet<Object> set = new TreeSet<Object>();
+                if (!node.isTwoStepsConstruction()) {
+                    constructSet2ndStep(mnode, set);
+                }
+                return set;
             } else if (Set.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
-                    // TODO when the Set implementation is known it should be
-                    // used
                     return createDefaultSet();
                 } else {
                     return constructSet(mnode);
@@ -260,10 +266,18 @@ public class Constructor extends SafeConstructor {
                     }
                     if (valueNode.getNodeId() == NodeId.sequence && valueNode.isResolved()) {
                         // type safe collection may contain the proper class
-                        Class t = property.getListType();
+                        Class t = property.getGenericType();
                         if (t != null) {
                             SequenceNode snode = (SequenceNode) valueNode;
                             snode.setListType(t);
+                        }
+                    } else if (Tags.SET.equals(valueNode.getTag())) {
+                        // type safe collection may contain the proper class
+                        Class t = property.getGenericType();
+                        if (t != null) {
+                            MappingNode mnode = (MappingNode) valueNode;
+                            mnode.setKeyType(t);
+                            mnode.setUseClassConstructor(true);
                         }
                     }
                     Object value = constructObject(valueNode);

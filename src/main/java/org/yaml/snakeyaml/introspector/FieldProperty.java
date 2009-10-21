@@ -45,7 +45,7 @@ public class FieldProperty extends Property {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Class<? extends Object> getListType() {
+    public Class<? extends Object> getGenericType() {
         ParameterizedType t = (ParameterizedType) field.getGenericType();
         return (Class) t.getActualTypeArguments()[0];
     }

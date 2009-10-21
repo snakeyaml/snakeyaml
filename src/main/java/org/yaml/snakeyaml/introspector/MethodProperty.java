@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Set;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -36,8 +37,9 @@ public class MethodProperty extends Property {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Class<? extends Object> getListType() {
-        if (List.class.isAssignableFrom(property.getPropertyType())) {
+    public Class<? extends Object> getGenericType() {
+        if (List.class.isAssignableFrom(property.getPropertyType())
+                || Set.class.isAssignableFrom(property.getPropertyType())) {
             if (property.getReadMethod().getGenericReturnType() instanceof ParameterizedType) {
                 ParameterizedType grt = (ParameterizedType) property.getReadMethod()
                         .getGenericReturnType();
