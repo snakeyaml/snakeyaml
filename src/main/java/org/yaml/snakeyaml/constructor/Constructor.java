@@ -28,7 +28,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -138,10 +141,22 @@ public class Constructor extends SafeConstructor {
          */
         public Object construct(Node node) {
             MappingNode mnode = (MappingNode) node;
-            if (Map.class.isAssignableFrom(node.getType())) {
+            if (Properties.class.isAssignableFrom(node.getType())) {
+                Properties properties = new Properties();
+                if (!node.isTwoStepsConstruction()) {
+                    constructMapping2ndStep(mnode, (Map<Object, Object>) properties);
+                } else {
+                    throw new YAMLException("Properties must not be recursive.");
+                }
+                return properties;
+            } else if (SortedMap.class.isAssignableFrom(node.getType())) {
+                SortedMap<Object, Object> map = new TreeMap<Object, Object>();
+                if (!node.isTwoStepsConstruction()) {
+                    constructMapping2ndStep(mnode, map);
+                }
+                return map;
+            } else if (Map.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
-                    // TODO when the Map implementation is known it should be
-                    // used
                     return createDefaultMap();
                 } else {
                     return constructMapping(mnode);
