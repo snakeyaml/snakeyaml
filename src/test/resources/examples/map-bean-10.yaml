@@ -1,7 +1,7 @@
 data:
   aaa: 1
-  zzz: 3
   bbb: 2
+  zzz: 3
 developers:
   team1:
     name: Fred

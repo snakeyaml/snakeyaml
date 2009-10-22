@@ -15,7 +15,7 @@
  */
 package examples.collections;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -31,12 +31,12 @@ import org.yaml.snakeyaml.Util;
 public class TypeSafeMapTest extends TestCase {
     public void testDumpList() {
         ListBean2 bean = new ListBean2();
-        Map<String, Integer> data = new HashMap<String, Integer>();
+        Map<String, Integer> data = new LinkedHashMap<String, Integer>();
         data.put("aaa", 1);
         data.put("bbb", 2);
         data.put("zzz", 3);
         bean.setData(data);
-        Map<String, Developer2> developers = new HashMap<String, Developer2>();
+        Map<String, Developer2> developers = new LinkedHashMap<String, Developer2>();
         developers.put("team1", new Developer2("Fred", "creator"));
         developers.put("team2", new Developer2("John", "committer"));
         bean.setDevelopers(developers);
@@ -49,11 +49,11 @@ public class TypeSafeMapTest extends TestCase {
 
     public void testDumpList2() {
         ListBean2 bean = new ListBean2();
-        Map<String, Integer> data = new HashMap<String, Integer>();
+        Map<String, Integer> data = new LinkedHashMap<String, Integer>();
         data.put("aaa", 1);
         data.put("bbb", 2);
         bean.setData(data);
-        Map<String, Developer2> developers = new HashMap<String, Developer2>();
+        Map<String, Developer2> developers = new LinkedHashMap<String, Developer2>();
         developers.put("team1", new Developer2("Fred", "creator"));
         developers.put("team2", new Developer2("John", "committer"));
         developers.put("team3", new Developer222("Bill", "head"));
