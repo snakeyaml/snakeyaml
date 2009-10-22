@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.introspector;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -43,10 +44,13 @@ public class FieldProperty extends Property {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Class<? extends Object> getGenericType() {
-        ParameterizedType t = (ParameterizedType) field.getGenericType();
-        return (Class) t.getActualTypeArguments()[0];
+    public Type[] getActualTypeArguments() {
+        if (field.getGenericType() instanceof ParameterizedType) {
+            ParameterizedType t = (ParameterizedType) field.getGenericType();
+            return t.getActualTypeArguments();
+        } else {
+            return null;
+        }
     }
 }

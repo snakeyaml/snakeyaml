@@ -15,6 +15,8 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import java.lang.reflect.Type;
+
 public abstract class Property implements Comparable<Property> {
     private final String name;
     private final Class<? extends Object> type;
@@ -28,7 +30,7 @@ public abstract class Property implements Comparable<Property> {
         return type;
     }
 
-    public abstract Class<? extends Object> getGenericType();
+    public abstract Type[] getActualTypeArguments();
 
     public String getName() {
         return name;

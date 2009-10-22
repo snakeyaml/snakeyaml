@@ -21,6 +21,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -268,21 +269,27 @@ public class Constructor extends SafeConstructor {
                             break;
                         }
                     }
-                    if (!typeDetected) {
+                    if (!typeDetected && valueNode.getNodeId() != NodeId.scalar) {
                         // only if there is no explicit TypeDescription
-                        if (valueNode.getNodeId() == NodeId.sequence && valueNode.isResolved()) {
-                            // type safe collection may contain the proper class
-                            Class t = property.getGenericType();
-                            if (t != null) {
+                        Type[] arguments = property.getActualTypeArguments();
+                        if (arguments != null) {
+                            // type safe (generic) collection may contain the
+                            // proper class
+                            if (valueNode.getNodeId() == NodeId.sequence) {
+                                Class t = (Class) arguments[0];
                                 SequenceNode snode = (SequenceNode) valueNode;
                                 snode.setListType(t);
-                            }
-                        } else if (Tags.SET.equals(valueNode.getTag())) {
-                            // type safe collection may contain the proper class
-                            Class t = property.getGenericType();
-                            if (t != null) {
+                            } else if (Tags.SET.equals(valueNode.getTag())) {
+                                Class t = (Class) arguments[0];
                                 MappingNode mnode = (MappingNode) valueNode;
                                 mnode.setKeyType(t);
+                                mnode.setUseClassConstructor(true);
+                            } else if (valueNode.getNodeId() == NodeId.mapping) {
+                                Class ketType = (Class) arguments[0];
+                                Class valueType = (Class) arguments[1];
+                                MappingNode mnode = (MappingNode) valueNode;
+                                mnode.setKeyType(ketType);
+                                mnode.setValueType(valueType);
                                 mnode.setUseClassConstructor(true);
                             }
                         }

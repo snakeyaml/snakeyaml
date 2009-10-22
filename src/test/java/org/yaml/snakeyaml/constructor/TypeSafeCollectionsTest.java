@@ -73,7 +73,6 @@ public class TypeSafeCollectionsTest extends TestCase {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public void testWithGlobalTag() throws IOException {
         Map<MyWheel, Date> wheels = new TreeMap<MyWheel, Date>();
         long time = 1248212168084L;
@@ -103,11 +102,10 @@ public class TypeSafeCollectionsTest extends TestCase {
             assertTrue(d.before(new Date(time + 1000 * 60 * 60 * 24)));
             assertTrue(d.after(new Date(time)));
         }
-        // due to erasure MyCar gets maps instead of MyWheels
         Object wheel = car.getWheels().keySet().iterator().next();
-        assertTrue(wheel instanceof Map);
-        Map<String, Object> map = (Map<String, Object>) wheel;
-        assertEquals(new Integer(1), (Integer) map.get("id"));
-        assertEquals("Pirelli1", map.get("brand"));
+        assertTrue(wheel instanceof MyWheel);
+        MyWheel w = (MyWheel) wheel;
+        assertEquals(1, w.getId());
+        assertEquals("Pirelli1", w.getBrand());
     }
 }
