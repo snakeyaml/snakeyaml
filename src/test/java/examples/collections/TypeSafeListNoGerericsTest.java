@@ -43,9 +43,8 @@ public class TypeSafeListNoGerericsTest extends TestCase {
         JavaBeanDumper dumper = new JavaBeanDumper(false);
         String output = dumper.dump(bean);
         // System.out.println(output);
-        String etalon = Util.getLocalResource("examples/list-bean-1.yaml");
-        // TODO dump type safe collections
-        // assertEquals(etalon, output);
+        String etalon = Util.getLocalResource("examples/list-bean-4.yaml");
+        assertEquals(etalon, output);
     }
 
     @SuppressWarnings("unchecked")

@@ -1,6 +1,6 @@
 !!org.yaml.snakeyaml.issues.issue10.DataSources
 dataSources:
-- &id001 !!org.yaml.snakeyaml.issues.issue10.DataSource {name: null}
+- &id001 {name: null}
 - !!org.yaml.snakeyaml.issues.issue10.JDBCDataSource
   name: null
   parent: *id001

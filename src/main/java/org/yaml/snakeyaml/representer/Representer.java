@@ -20,8 +20,10 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,8 +35,10 @@ import org.yaml.snakeyaml.introspector.MethodProperty;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tags;
 
 /**
@@ -79,6 +83,7 @@ public class Representer extends SafeRepresenter {
      *            instance for Node
      * @return Node to get serialized
      */
+    @SuppressWarnings("unchecked")
     private Node representJavaBean(Set<Property> properties, Object javaBean) {
         List<NodeTuple> value = new ArrayList<NodeTuple>(properties.size());
         String tag;
@@ -110,6 +115,41 @@ public class Representer extends SafeRepresenter {
                 }
             } else if (memberValue != null && Enum.class.isAssignableFrom(memberValue.getClass())) {
                 nodeValue.setTag(Tags.STR);
+            } else {
+                // generic collections
+                if (nodeValue.getNodeId() != NodeId.scalar) {
+                    Type[] arguments = property.getActualTypeArguments();
+                    if (arguments != null) {
+                        if (nodeValue.getNodeId() == NodeId.sequence
+                                && List.class.isAssignableFrom(memberValue.getClass())) {
+                            Class<? extends Object> t = (Class<? extends Object>) arguments[0];
+                            SequenceNode snode = (SequenceNode) nodeValue;
+                            List<Object> memberList = (List<Object>) memberValue;
+                            Iterator<Object> iter = memberList.iterator();
+                            for (Node childNode : snode.getValue()) {
+                                Object member = iter.next();
+                                if (t.equals(member.getClass())
+                                        && childNode.getNodeId() == NodeId.mapping) {
+                                    childNode.setTag(Tags.MAP);
+                                }
+                            }
+
+                        }
+                        // else if (Tags.SET.equals(valueNode.getTag())) {
+                        // Class t = (Class) arguments[0];
+                        // MappingNode mnode = (MappingNode) valueNode;
+                        // mnode.setKeyType(t);
+                        // mnode.setUseClassConstructor(true);
+                        // } else if (valueNode.getNodeId() == NodeId.mapping) {
+                        // Class ketType = (Class) arguments[0];
+                        // Class valueType = (Class) arguments[1];
+                        // MappingNode mnode = (MappingNode) valueNode;
+                        // mnode.setKeyType(ketType);
+                        // mnode.setValueType(valueType);
+                        // mnode.setUseClassConstructor(true);
+                        // }
+                    }
+                }
             }
             if (nodeKey.getStyle() != null) {
                 bestStyle = false;

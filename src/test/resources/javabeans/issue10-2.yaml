@@ -1,5 +1,5 @@
 dataSources:
-- &id001 !!org.yaml.snakeyaml.issues.issue10.DataSource
+- &id001
   name: null
 - !!org.yaml.snakeyaml.issues.issue10.JDBCDataSource
   name: null

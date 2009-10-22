@@ -39,12 +39,12 @@ public class ListFileldBeanTest extends TestCase {
         developers.add(new Developer("Fred", "creator"));
         developers.add(new Developer("John", "committer"));
         bean.developers = developers;
+        bean.setName("Bean123");
         JavaBeanDumper dumper = new JavaBeanDumper(false);
         String output = dumper.dump(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-1.yaml");
-        // TODO dump type safe collections
-        // assertEquals(etalon, output);
+        assertEquals(etalon, output);
     }
 
     public void testLoadList() {

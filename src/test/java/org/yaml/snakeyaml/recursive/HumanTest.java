@@ -16,11 +16,11 @@
 package org.yaml.snakeyaml.recursive;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -235,7 +235,7 @@ public class HumanTest extends TestCase {
         mother.setChildren(children);
         //
 
-        Constructor constructor = new Constructor();
+        Constructor constructor = new Constructor(Human3.class);
         TypeDescription Human3Description = new TypeDescription(Human3.class);
         Human3Description.putListPropertyType("children", Human3.class);
         constructor.addTypeDescription(Human3Description);

@@ -111,9 +111,7 @@ public class ImplicitTagsTest extends TestCase {
         Dumper dumper = new Dumper(representer, new DumperOptions());
         yaml = new Yaml(dumper);
         String carYaml2 = yaml.dump(car);
-        // TODO dump type safe collections
-        // assertEquals(Util.getLocalResource("constructor/car-without-tags.yaml"),
-        // carYaml2);
+        assertEquals(Util.getLocalResource("constructor/car-without-tags.yaml"), carYaml2);
     }
 
     public static class CarWithWheel {
