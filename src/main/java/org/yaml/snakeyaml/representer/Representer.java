@@ -120,8 +120,7 @@ public class Representer extends SafeRepresenter {
             if (nodeValue.getNodeId() != NodeId.scalar && !hasAlias) {
                 Type[] arguments = property.getActualTypeArguments();
                 if (arguments != null) {
-                    if (nodeValue.getNodeId() == NodeId.sequence
-                            && List.class.isAssignableFrom(memberValue.getClass())) {
+                    if (nodeValue.getNodeId() == NodeId.sequence) {
                         // apply map tag where class is the same
                         Class<? extends Object> t = (Class<? extends Object>) arguments[0];
                         SequenceNode snode = (SequenceNode) nodeValue;
