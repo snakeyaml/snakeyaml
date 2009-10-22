@@ -115,40 +115,47 @@ public class Representer extends SafeRepresenter {
                 }
             } else if (memberValue != null && Enum.class.isAssignableFrom(memberValue.getClass())) {
                 nodeValue.setTag(Tags.STR);
-            } else {
-                // generic collections
-                if (nodeValue.getNodeId() != NodeId.scalar) {
-                    Type[] arguments = property.getActualTypeArguments();
-                    if (arguments != null) {
-                        if (nodeValue.getNodeId() == NodeId.sequence
-                                && List.class.isAssignableFrom(memberValue.getClass())) {
-                            Class<? extends Object> t = (Class<? extends Object>) arguments[0];
-                            SequenceNode snode = (SequenceNode) nodeValue;
-                            List<Object> memberList = (List<Object>) memberValue;
-                            Iterator<Object> iter = memberList.iterator();
-                            for (Node childNode : snode.getValue()) {
-                                Object member = iter.next();
-                                if (t.equals(member.getClass())
-                                        && childNode.getNodeId() == NodeId.mapping) {
-                                    childNode.setTag(Tags.MAP);
-                                }
+            }
+            // generic collections
+            if (nodeValue.getNodeId() != NodeId.scalar && !hasAlias) {
+                Type[] arguments = property.getActualTypeArguments();
+                if (arguments != null) {
+                    if (nodeValue.getNodeId() == NodeId.sequence
+                            && List.class.isAssignableFrom(memberValue.getClass())) {
+                        // apply map tag where class is the same
+                        Class<? extends Object> t = (Class<? extends Object>) arguments[0];
+                        SequenceNode snode = (SequenceNode) nodeValue;
+                        List<Object> memberList = (List<Object>) memberValue;
+                        Iterator<Object> iter = memberList.iterator();
+                        for (Node childNode : snode.getValue()) {
+                            Object member = iter.next();
+                            if (t.equals(member.getClass())
+                                    && childNode.getNodeId() == NodeId.mapping) {
+                                childNode.setTag(Tags.MAP);
                             }
-
                         }
-                        // else if (Tags.SET.equals(valueNode.getTag())) {
-                        // Class t = (Class) arguments[0];
-                        // MappingNode mnode = (MappingNode) valueNode;
-                        // mnode.setKeyType(t);
-                        // mnode.setUseClassConstructor(true);
-                        // } else if (valueNode.getNodeId() == NodeId.mapping) {
-                        // Class ketType = (Class) arguments[0];
-                        // Class valueType = (Class) arguments[1];
-                        // MappingNode mnode = (MappingNode) valueNode;
-                        // mnode.setKeyType(ketType);
-                        // mnode.setValueType(valueType);
-                        // mnode.setUseClassConstructor(true);
-                        // }
+
+                    } else if (memberValue instanceof Set) {
+                        Class t = (Class) arguments[0];
+                        MappingNode mnode = (MappingNode) nodeValue;
+                        Iterator<NodeTuple> iter = mnode.getValue().iterator();
+                        Set set = (Set) memberValue;
+                        for (Object member : set) {
+                            NodeTuple tuple = iter.next();
+                            if (t.equals(member.getClass())
+                                    && tuple.getKeyNode().getNodeId() == NodeId.mapping) {
+                                tuple.getKeyNode().setTag(Tags.MAP);
+                            }
+                        }
                     }
+                    // else if (nodeValue.getNodeId() == NodeId.mapping) {
+                    // Class ketType = (Class) arguments[0];
+                    // Class valueType = (Class) arguments[1];
+                    // MappingNode mnode = (MappingNode) nodeValue;
+                    // mnode.setKeyType(ketType);
+                    // mnode.setValueType(valueType);
+                    // mnode.setUseClassConstructor(true);
+                    // }
                 }
             }
             if (nodeKey.getStyle() != null) {

@@ -47,8 +47,26 @@ public class TypeSafeSetImplementationsTest extends TestCase {
         String output = dumper.dump(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/set-bean-1.yaml");
-        // TODO dump type safe collections
-        // assertEquals(etalon, output);
+        assertEquals(etalon, output);
+    }
+
+    public void testDumpSet2() {
+        SetBean bean = new SetBean();
+        SortedSet<String> sortedSet = new TreeSet<String>();
+        sortedSet.add("two");
+        sortedSet.add("one");
+        sortedSet.add("three");
+        bean.setSorted(sortedSet);
+        SortedSet<Developer> developers = new TreeSet<Developer>();
+        developers.add(new Developer("John", "founder"));
+        developers.add(new Developer("Karl", "user"));
+        developers.add(new SuperDeveloper("Bill", "super"));
+        bean.setDevelopers(developers);
+        JavaBeanDumper dumper = new JavaBeanDumper(false);
+        String output = dumper.dump(bean);
+        // System.out.println(output);
+        String etalon = Util.getLocalResource("examples/set-bean-6.yaml");
+        assertEquals(etalon, output);
     }
 
     public void testLoadSet() {
@@ -157,6 +175,18 @@ public class TypeSafeSetImplementationsTest extends TestCase {
         public int compareTo(Developer o) {
             return name.compareTo(o.name);
         }
+    }
+
+    public static class SuperDeveloper extends Developer {
+
+        public SuperDeveloper() {
+            super();
+        }
+
+        public SuperDeveloper(String string, String string2) {
+            super(string, string2);
+        }
+
     }
 
     @SuppressWarnings("unchecked")

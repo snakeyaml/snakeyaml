@@ -1,4 +1,8 @@
 developers: !!set
+  ? !!examples.collections.TypeSafeSetImplementationsTest$SuperDeveloper
+    name: Bill
+    role: super
+  : null
   ? name: John
     role: founder
   : null

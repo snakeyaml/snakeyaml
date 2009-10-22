@@ -8,6 +8,9 @@
 	<body>
 		<release version="1.5" date="in Mercurial" description="development: improve performance">
 		    <action dev="py4fun" type="fix">
+                Issue 25: generic Set does not emit redundant global tags (2009-10-22)
+            </action>
+            <action dev="py4fun" type="fix">
                 Issue 25: generic List does not emit redundant global tags (2009-10-22)
             </action>
             <action dev="py4fun" type="fix">
