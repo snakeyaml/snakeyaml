@@ -137,7 +137,7 @@ public class PyRecursiveTest extends TestCase {
         Yaml yaml = new Yaml();
         try {
             yaml.dump(set);
-            fail("set cannot be recursive because Java does not allow it to be a key for a map.");
+            fail("Java does not allow a recursive set to be a key for a map.");
         } catch (StackOverflowError e) {
             // ignore
         }
