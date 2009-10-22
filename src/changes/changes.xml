@@ -6,7 +6,7 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-		<release version="1.5" date="in Mercurial" description="development: improve performance">
+		<release version="1.5" date="in Mercurial" description="development">
 		    <action dev="py4fun" type="fix">
                 Issue 25: generic Map does not emit redundant global tags (2009-10-22)
             </action>
