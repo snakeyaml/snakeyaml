@@ -241,6 +241,7 @@ public class Constructor extends SafeConstructor {
                         isArray = true;
                     }
                     TypeDescription memberDescription = typeDefinitions.get(beanType);
+                    boolean typeDetected = false;
                     if (memberDescription != null) {
                         switch (valueNode.getNodeId()) {
                         case sequence:
@@ -249,9 +250,11 @@ public class Constructor extends SafeConstructor {
                                     .getListPropertyType(key);
                             if (memberType != null) {
                                 snode.setListType(memberType);
+                                typeDetected = true;
                             } else if (property.getType().isArray()) {
                                 isArray = true;
                                 snode.setListType(property.getType().getComponentType());
+                                typeDetected = true;
                             }
                             break;
                         case mapping:
@@ -260,24 +263,28 @@ public class Constructor extends SafeConstructor {
                             if (keyType != null) {
                                 mnode.setKeyType(keyType);
                                 mnode.setValueType(memberDescription.getMapValueType(key));
+                                typeDetected = true;
                             }
                             break;
                         }
                     }
-                    if (valueNode.getNodeId() == NodeId.sequence && valueNode.isResolved()) {
-                        // type safe collection may contain the proper class
-                        Class t = property.getGenericType();
-                        if (t != null) {
-                            SequenceNode snode = (SequenceNode) valueNode;
-                            snode.setListType(t);
-                        }
-                    } else if (Tags.SET.equals(valueNode.getTag())) {
-                        // type safe collection may contain the proper class
-                        Class t = property.getGenericType();
-                        if (t != null) {
-                            MappingNode mnode = (MappingNode) valueNode;
-                            mnode.setKeyType(t);
-                            mnode.setUseClassConstructor(true);
+                    if (!typeDetected) {
+                        // only if there is no explicit TypeDescription
+                        if (valueNode.getNodeId() == NodeId.sequence && valueNode.isResolved()) {
+                            // type safe collection may contain the proper class
+                            Class t = property.getGenericType();
+                            if (t != null) {
+                                SequenceNode snode = (SequenceNode) valueNode;
+                                snode.setListType(t);
+                            }
+                        } else if (Tags.SET.equals(valueNode.getTag())) {
+                            // type safe collection may contain the proper class
+                            Class t = property.getGenericType();
+                            if (t != null) {
+                                MappingNode mnode = (MappingNode) valueNode;
+                                mnode.setKeyType(t);
+                                mnode.setUseClassConstructor(true);
+                            }
                         }
                     }
                     Object value = constructObject(valueNode);
