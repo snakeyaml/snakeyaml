@@ -1,0 +1,15 @@
+data:
+  aaa: 1
+  bbb: 2
+developers:
+  team3: !!examples.collections.TypeSafeMapTest$Developer222
+    name: Bill
+    role: head
+  team1:
+    name: Fred
+    role: creator
+  team2:
+    name: John
+    role: committer
+name: Bean123
+

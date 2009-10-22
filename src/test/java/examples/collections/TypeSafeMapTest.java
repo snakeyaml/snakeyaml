@@ -44,8 +44,25 @@ public class TypeSafeMapTest extends TestCase {
         String output = dumper.dump(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-bean-10.yaml");
-        // TODO dump type safe collections
-        // assertEquals(etalon, output);
+        assertEquals(etalon, output);
+    }
+
+    public void testDumpList2() {
+        ListBean2 bean = new ListBean2();
+        Map<String, Integer> data = new HashMap<String, Integer>();
+        data.put("aaa", 1);
+        data.put("bbb", 2);
+        bean.setData(data);
+        Map<String, Developer2> developers = new HashMap<String, Developer2>();
+        developers.put("team1", new Developer2("Fred", "creator"));
+        developers.put("team2", new Developer2("John", "committer"));
+        developers.put("team3", new Developer222("Bill", "head"));
+        bean.setDevelopers(developers);
+        JavaBeanDumper dumper = new JavaBeanDumper(false);
+        String output = dumper.dump(bean);
+        // System.out.println(output);
+        String etalon = Util.getLocalResource("examples/map-bean-11.yaml");
+        assertEquals(etalon, output);
     }
 
     public void testLoadList() {
@@ -128,6 +145,16 @@ public class TypeSafeMapTest extends TestCase {
 
         public void setRole(String role) {
             this.role = role;
+        }
+    }
+
+    public static class Developer222 extends Developer2 {
+        public Developer222() {
+            super();
+        }
+
+        public Developer222(String name, String role) {
+            super(name, role);
         }
     }
 

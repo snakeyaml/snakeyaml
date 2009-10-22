@@ -147,15 +147,24 @@ public class Representer extends SafeRepresenter {
                                 tuple.getKeyNode().setTag(Tags.MAP);
                             }
                         }
+                    } else if (nodeValue.getNodeId() == NodeId.mapping) {
+                        Class valueType = (Class) arguments[1];
+                        MappingNode mnode = (MappingNode) nodeValue;
+                        Map map = (Map) memberValue;
+                        for (NodeTuple tuple : mnode.getValue()) {
+                            if (tuple.getKeyNode() instanceof ScalarNode) {
+                                ScalarNode n = (ScalarNode) tuple.getKeyNode();
+                                Object v = map.get(n.getValue());
+                                // keys must be String for JavaBean
+                                if (v != null) {
+                                    if (valueType.equals(v.getClass())
+                                            && tuple.getValueNode().getNodeId() == NodeId.mapping) {
+                                        tuple.getValueNode().setTag(Tags.MAP);
+                                    }
+                                }
+                            }
+                        }
                     }
-                    // else if (nodeValue.getNodeId() == NodeId.mapping) {
-                    // Class ketType = (Class) arguments[0];
-                    // Class valueType = (Class) arguments[1];
-                    // MappingNode mnode = (MappingNode) nodeValue;
-                    // mnode.setKeyType(ketType);
-                    // mnode.setValueType(valueType);
-                    // mnode.setUseClassConstructor(true);
-                    // }
                 }
             }
             if (nodeKey.getStyle() != null) {
