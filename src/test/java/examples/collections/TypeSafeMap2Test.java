@@ -47,6 +47,37 @@ public class TypeSafeMap2Test extends TestCase {
         assertEquals(etalon, output);
     }
 
+    public void testMap2() {
+        MapBean2 bean = new MapBean2();
+        Map<Developer2, Color> data = new LinkedHashMap<Developer2, Color>();
+        data.put(new Developer2("Andy", "tester"), Color.BLACK);
+        data.put(new SuperMan("Bill", "cleaner", false), Color.BLACK);
+        data.put(new Developer2("Lisa", "owner"), Color.RED);
+        bean.setData(data);
+        Map<Color, Developer2> developers = new LinkedHashMap<Color, Developer2>();
+        developers.put(Color.WHITE, new Developer2("Fred", "creator"));
+        developers.put(Color.RED, new SuperMan("Jason", "contributor", true));
+        developers.put(Color.BLACK, new Developer2("John", "committer"));
+        bean.setDevelopers(developers);
+        JavaBeanDumper dumper = new JavaBeanDumper(false);
+        String output = dumper.dump(bean);
+        // System.out.println(output);
+        String etalon = Util.getLocalResource("examples/map-bean-13.yaml");
+        assertEquals(etalon, output);
+        // load
+        JavaBeanLoader<MapBean2> beanLoader = new JavaBeanLoader<MapBean2>(MapBean2.class);
+        MapBean2 parsed = beanLoader.load(etalon);
+        assertNotNull(parsed);
+        Map<Developer2, Color> parsedData = parsed.getData();
+        assertEquals(3, parsedData.size());
+        assertTrue(parsedData.containsKey(new SuperMan("Bill", "cleaner", false)));
+        assertEquals(Color.BLACK, parsedData.get(new SuperMan("Bill", "cleaner", false)));
+        //
+        Map<Color, Developer2> parsedDevelopers = parsed.getDevelopers();
+        assertEquals(3, parsedDevelopers.size());
+        assertEquals(new SuperMan("Jason", "contributor", true), parsedDevelopers.get(Color.RED));
+    }
+
     public void testLoadMap() {
         String output = Util.getLocalResource("examples/map-bean-12.yaml");
         // System.out.println(output);
@@ -126,7 +157,7 @@ public class TypeSafeMap2Test extends TestCase {
         public Developer2() {
         }
 
-        public Developer2(String name, String role) {
+        private Developer2(String name, String role) {
             this.name = name;
             this.role = role;
         }
@@ -150,6 +181,51 @@ public class TypeSafeMap2Test extends TestCase {
         public int compareTo(Developer2 o) {
             return name.compareTo(o.name);
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Developer2) {
+                return toString().equals(obj.toString());
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return toString().hashCode();
+        }
+
+        @Override
+        public String toString() {
+            return "Developer " + name + " " + role;
+        }
+
     }
 
+    public static class SuperMan extends Developer2 {
+        private boolean smart;
+
+        public SuperMan() {
+            super();
+        }
+
+        private SuperMan(String name, String role, boolean smart) {
+            super(name, role);
+            this.smart = smart;
+        }
+
+        public boolean isSmart() {
+            return smart;
+        }
+
+        public void setSmart(boolean smart) {
+            this.smart = smart;
+        }
+
+        @Override
+        public String toString() {
+            return "Super" + super.toString();
+        }
+    }
 }

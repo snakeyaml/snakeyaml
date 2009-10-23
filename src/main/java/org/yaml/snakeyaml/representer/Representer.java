@@ -49,7 +49,7 @@ public class Representer extends SafeRepresenter {
         this.representers.put(null, new RepresentJavaBean());
     }
 
-    private class RepresentJavaBean implements Represent {
+    protected class RepresentJavaBean implements Represent {
         private final Map<Class<? extends Object>, Set<Property>> propertiesCache = new HashMap<Class<? extends Object>, Set<Property>>();
 
         public Node representData(Object data) {
@@ -83,8 +83,7 @@ public class Representer extends SafeRepresenter {
      *            instance for Node
      * @return Node to get serialized
      */
-    @SuppressWarnings("unchecked")
-    private Node representJavaBean(Set<Property> properties, Object javaBean) {
+    protected Node representJavaBean(Set<Property> properties, Object javaBean) {
         List<NodeTuple> value = new ArrayList<NodeTuple>(properties.size());
         String tag;
         String customTag = classTags.get(javaBean.getClass());
@@ -118,60 +117,7 @@ public class Representer extends SafeRepresenter {
             }
             // generic collections
             if (nodeValue.getNodeId() != NodeId.scalar && !hasAlias) {
-                Type[] arguments = property.getActualTypeArguments();
-                if (arguments != null) {
-                    if (nodeValue.getNodeId() == NodeId.sequence) {
-                        // apply map tag where class is the same
-                        Class<? extends Object> t = (Class<? extends Object>) arguments[0];
-                        SequenceNode snode = (SequenceNode) nodeValue;
-                        List<Object> memberList = (List<Object>) memberValue;
-                        Iterator<Object> iter = memberList.iterator();
-                        for (Node childNode : snode.getValue()) {
-                            Object member = iter.next();
-                            if (t.equals(member.getClass())
-                                    && childNode.getNodeId() == NodeId.mapping) {
-                                childNode.setTag(Tags.MAP);
-                            }
-                        }
-
-                    } else if (memberValue instanceof Set) {
-                        Class t = (Class) arguments[0];
-                        MappingNode mnode = (MappingNode) nodeValue;
-                        Iterator<NodeTuple> iter = mnode.getValue().iterator();
-                        Set set = (Set) memberValue;
-                        for (Object member : set) {
-                            NodeTuple tuple = iter.next();
-                            if (t.equals(member.getClass())
-                                    && tuple.getKeyNode().getNodeId() == NodeId.mapping) {
-                                tuple.getKeyNode().setTag(Tags.MAP);
-                            }
-                        }
-                    } else if (nodeValue.getNodeId() == NodeId.mapping) {
-                        Class keyType = (Class) arguments[0];
-                        Class valueType = (Class) arguments[1];
-                        MappingNode mnode = (MappingNode) nodeValue;
-                        for (NodeTuple tuple : mnode.getValue()) {
-                            Node keyNode = tuple.getKeyNode();
-                            Node valueNode = tuple.getValueNode();
-                            String keyTag = keyNode.getTag();
-                            String valueTag = valueNode.getTag();
-                            if (Tags.getGlobalTagForClass(keyType).equals(keyTag)) {
-                                if (Enum.class.isAssignableFrom(keyType)) {
-                                    keyNode.setTag(Tags.STR);
-                                } else {
-                                    keyNode.setTag(Tags.MAP);
-                                }
-                            }
-                            if (Tags.getGlobalTagForClass(valueType).equals(valueTag)) {
-                                if (Enum.class.isAssignableFrom(valueType)) {
-                                    valueNode.setTag(Tags.STR);
-                                } else {
-                                    valueNode.setTag(Tags.MAP);
-                                }
-                            }
-                        }
-                    }
-                }
+                checkGlobalTag(property, nodeValue, memberValue);
             }
             if (nodeKey.getStyle() != null) {
                 bestStyle = false;
@@ -189,7 +135,70 @@ public class Representer extends SafeRepresenter {
         return node;
     }
 
-    private Set<Property> getProperties(Class<? extends Object> type) throws IntrospectionException {
+    /**
+     * Remove redundant global tag for a type safe (generic) collection if it is
+     * the same as defined by the JavaBean property
+     * 
+     * @param property
+     *            - JavaBean property
+     * @param node
+     *            - representation of the property
+     * @param object
+     *            - instance represented by the node
+     */
+    @SuppressWarnings("unchecked")
+    protected void checkGlobalTag(Property property, Node node, Object object) {
+        Type[] arguments = property.getActualTypeArguments();
+        if (arguments != null) {
+            if (node.getNodeId() == NodeId.sequence) {
+                // apply map tag where class is the same
+                Class<? extends Object> t = (Class<? extends Object>) arguments[0];
+                SequenceNode snode = (SequenceNode) node;
+                List<Object> memberList = (List<Object>) object;
+                Iterator<Object> iter = memberList.iterator();
+                for (Node childNode : snode.getValue()) {
+                    Object member = iter.next();
+                    if (t.equals(member.getClass()) && childNode.getNodeId() == NodeId.mapping) {
+                        childNode.setTag(Tags.MAP);
+                    }
+                }
+            } else if (object instanceof Set) {
+                Class t = (Class) arguments[0];
+                MappingNode mnode = (MappingNode) node;
+                Iterator<NodeTuple> iter = mnode.getValue().iterator();
+                Set set = (Set) object;
+                for (Object member : set) {
+                    NodeTuple tuple = iter.next();
+                    if (t.equals(member.getClass())
+                            && tuple.getKeyNode().getNodeId() == NodeId.mapping) {
+                        tuple.getKeyNode().setTag(Tags.MAP);
+                    }
+                }
+            } else if (node.getNodeId() == NodeId.mapping) {
+                Class keyType = (Class) arguments[0];
+                Class valueType = (Class) arguments[1];
+                MappingNode mnode = (MappingNode) node;
+                for (NodeTuple tuple : mnode.getValue()) {
+                    resetTag(keyType, tuple.getKeyNode());
+                    resetTag(valueType, tuple.getValueNode());
+                }
+            }
+        }
+    }
+
+    private void resetTag(Class<? extends Object> type, Node node) {
+        String tag = node.getTag();
+        if (Tags.getGlobalTagForClass(type).equals(tag)) {
+            if (Enum.class.isAssignableFrom(type)) {
+                node.setTag(Tags.STR);
+            } else {
+                node.setTag(Tags.MAP);
+            }
+        }
+    }
+
+    protected Set<Property> getProperties(Class<? extends Object> type)
+            throws IntrospectionException {
         Set<Property> properties = new TreeSet<Property>();
         // add JavaBean getters
         for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors())
