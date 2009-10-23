@@ -11,7 +11,7 @@
                 Performance improvement: use ArrayStack instead of Stack which extends Vector (2009-10-20)
             </action>
             <action dev="py4fun" type="fix" issue="25" due-to="Benjamin Bentmann">
-                Improve construction of generic collections: while type erase makes no difference between 
+                Improve usage of generic collections: while type erase makes no difference between 
                 Class&lt;Foo&gt; and Class&lt;Bar&gt; at runtime, the information about generics is still 
                 accessible via reflection from Method/Field. (2009-10-19)
             </action>
