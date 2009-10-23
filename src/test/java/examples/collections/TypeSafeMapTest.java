@@ -25,12 +25,12 @@ import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 
 /**
- * Test ListBean->Map<String, Developer> developers <br/>
+ * Test MapBean->Map<String, Developer> developers <br/>
  * Developer class must be properly recognised
  */
 public class TypeSafeMapTest extends TestCase {
-    public void testDumpList() {
-        ListBean2 bean = new ListBean2();
+    public void testDumpMap() {
+        MapBean bean = new MapBean();
         Map<String, Integer> data = new LinkedHashMap<String, Integer>();
         data.put("aaa", 1);
         data.put("bbb", 2);
@@ -47,8 +47,8 @@ public class TypeSafeMapTest extends TestCase {
         assertEquals(etalon, output);
     }
 
-    public void testDumpList2() {
-        ListBean2 bean = new ListBean2();
+    public void testDumpMap2() {
+        MapBean bean = new MapBean();
         Map<String, Integer> data = new LinkedHashMap<String, Integer>();
         data.put("aaa", 1);
         data.put("bbb", 2);
@@ -65,11 +65,11 @@ public class TypeSafeMapTest extends TestCase {
         assertEquals(etalon, output);
     }
 
-    public void testLoadList() {
+    public void testLoadMap() {
         String output = Util.getLocalResource("examples/map-bean-10.yaml");
         // System.out.println(output);
-        JavaBeanLoader<ListBean2> beanLoader = new JavaBeanLoader<ListBean2>(ListBean2.class);
-        ListBean2 parsed = beanLoader.load(output);
+        JavaBeanLoader<MapBean> beanLoader = new JavaBeanLoader<MapBean>(MapBean.class);
+        MapBean parsed = beanLoader.load(output);
         assertNotNull(parsed);
         Map<String, Integer> data = parsed.getData();
         assertEquals(3, data.size());
@@ -85,12 +85,12 @@ public class TypeSafeMapTest extends TestCase {
         assertEquals("creator", fred.getRole());
     }
 
-    public static class ListBean2 {
+    public static class MapBean {
         private Map<String, Integer> data;
         private String name;
         private Map<String, Developer2> developers;
 
-        public ListBean2() {
+        public MapBean() {
             name = "Bean123";
         }
 
@@ -162,12 +162,12 @@ public class TypeSafeMapTest extends TestCase {
      * No generic collection
      */
     @SuppressWarnings("unchecked")
-    public void testLoadListWithObject() {
+    public void testLoadMapWithObject() {
         String output = Util.getLocalResource("examples/map-bean-10.yaml");
         // System.out.println(output);
-        JavaBeanLoader<ListBeanNoGenerics> beanLoader = new JavaBeanLoader<ListBeanNoGenerics>(
-                ListBeanNoGenerics.class);
-        ListBeanNoGenerics parsed = beanLoader.load(output);
+        JavaBeanLoader<MapBeanNoGenerics> beanLoader = new JavaBeanLoader<MapBeanNoGenerics>(
+                MapBeanNoGenerics.class);
+        MapBeanNoGenerics parsed = beanLoader.load(output);
         assertNotNull(parsed);
         Map<String, Integer> data = parsed.getData();
         assertEquals(3, data.size());
@@ -184,14 +184,14 @@ public class TypeSafeMapTest extends TestCase {
         assertEquals("creator", developer.get("role"));
     }
 
-    public static class ListBeanNoGenerics {
+    public static class MapBeanNoGenerics {
         @SuppressWarnings("unchecked")
         private Map data;
         private String name;
         @SuppressWarnings("unchecked")
         private Map developers;
 
-        public ListBeanNoGenerics() {
+        public MapBeanNoGenerics() {
             name = "Bean123";
         }
 

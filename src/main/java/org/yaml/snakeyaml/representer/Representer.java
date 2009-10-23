@@ -147,21 +147,39 @@ public class Representer extends SafeRepresenter {
                             }
                         }
                     } else if (nodeValue.getNodeId() == NodeId.mapping) {
+                        Class keyType = (Class) arguments[0];
                         Class valueType = (Class) arguments[1];
                         MappingNode mnode = (MappingNode) nodeValue;
-                        Map map = (Map) memberValue;
                         for (NodeTuple tuple : mnode.getValue()) {
-                            if (tuple.getKeyNode() instanceof ScalarNode) {
-                                ScalarNode n = (ScalarNode) tuple.getKeyNode();
-                                Object v = map.get(n.getValue());
-                                // keys must be String for JavaBean
-                                if (v != null) {
-                                    if (valueType.equals(v.getClass())
-                                            && tuple.getValueNode().getNodeId() == NodeId.mapping) {
-                                        tuple.getValueNode().setTag(Tags.MAP);
-                                    }
+                            Node keyNode = tuple.getKeyNode();
+                            Node valueNode = tuple.getValueNode();
+                            String keyTag = keyNode.getTag();
+                            String valueTag = valueNode.getTag();
+                            if (Tags.getGlobalTagForClass(keyType).equals(keyTag)) {
+                                if (Enum.class.isAssignableFrom(keyType)) {
+                                    keyNode.setTag(Tags.STR);
+                                } else {
+                                    keyNode.setTag(Tags.MAP);
                                 }
                             }
+                            if (Tags.getGlobalTagForClass(valueType).equals(valueTag)) {
+                                if (Enum.class.isAssignableFrom(valueType)) {
+                                    valueNode.setTag(Tags.STR);
+                                } else {
+                                    valueNode.setTag(Tags.MAP);
+                                }
+                            }
+                            // if (tuple.getKeyNode() instanceof ScalarNode) {
+                            // ScalarNode n = (ScalarNode) tuple.getKeyNode();
+                            // Object v = map.get(n.getValue());
+                            // if (v != null) {
+                            // if (valueType.equals(v.getClass())
+                            // && tuple.getValueNode().getNodeId() ==
+                            // NodeId.mapping) {
+                            // tuple.getValueNode().setTag(Tags.MAP);
+                            // }
+                            // }
+                            // }
                         }
                     }
                 }

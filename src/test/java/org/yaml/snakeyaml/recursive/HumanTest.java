@@ -169,7 +169,7 @@ public class HumanTest extends TestCase {
         mother.setChildren(children);
         //
 
-        Constructor constructor = new Constructor();
+        Constructor constructor = new Constructor(Human2.class);
         TypeDescription humanDescription = new TypeDescription(Human2.class);
         humanDescription.putMapPropertyType("children", Human2.class, String.class);
         constructor.addTypeDescription(humanDescription);

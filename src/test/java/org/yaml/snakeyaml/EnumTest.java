@@ -108,7 +108,7 @@ public class EnumTest extends TestCase {
         bean.setMap(map);
         String output = yaml.dump(bean);
         assertEquals(
-                "!!org.yaml.snakeyaml.EnumBean\nid: 17\nmap:\n  !!org.yaml.snakeyaml.Suit 'CLUBS': 1\n  !!org.yaml.snakeyaml.Suit 'DIAMONDS': 2\nsuit: SPADES\n",
+                "!!org.yaml.snakeyaml.EnumBean\nid: 17\nmap:\n  CLUBS: 1\n  DIAMONDS: 2\nsuit: SPADES\n",
                 output);
     }
 
