@@ -15,12 +15,14 @@
  */
 package examples.collections;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
+import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 
 /**
@@ -45,27 +47,38 @@ public class TypeSafeMap2Test extends TestCase {
         assertEquals(etalon, output);
     }
 
-    // public void testLoadMap() {
-    // String output = Util.getLocalResource("examples/map-bean-10.yaml");
-    // // System.out.println(output);
-    // JavaBeanLoader<MapBean2> beanLoader = new
-    // JavaBeanLoader<MapBean2>(MapBean2.class);
-    // MapBean2 parsed = beanLoader.load(output);
-    // assertNotNull(parsed);
-    // Map<String, Integer> data = parsed.getData();
-    // assertEquals(3, data.size());
-    // assertEquals(new Integer(1), data.get("aaa"));
-    // assertEquals(new Integer(2), data.get("bbb"));
-    // assertEquals(new Integer(3), data.get("zzz"));
-    // Map<String, Developer2> developers = parsed.getDevelopers();
-    // assertEquals(2, developers.size());
-    // assertEquals("Developer must be recognised.", Developer2.class,
-    // developers.get("team1")
-    // .getClass());
-    // Developer2 fred = developers.get("team1");
-    // assertEquals("Fred", fred.getName());
-    // assertEquals("creator", fred.getRole());
-    // }
+    public void testLoadMap() {
+        String output = Util.getLocalResource("examples/map-bean-12.yaml");
+        // System.out.println(output);
+        JavaBeanLoader<MapBean2> beanLoader = new JavaBeanLoader<MapBean2>(MapBean2.class);
+        MapBean2 parsed = beanLoader.load(output);
+        assertNotNull(parsed);
+        Map<Developer2, Color> data = parsed.getData();
+        assertEquals(2, data.size());
+        Iterator<Developer2> iter = data.keySet().iterator();
+        Developer2 first = iter.next();
+        assertEquals("Andy", first.getName());
+        assertEquals("tester", first.getRole());
+        assertEquals(Color.BLACK, data.get(first));
+        Developer2 second = iter.next();
+        assertEquals("Lisa", second.getName());
+        assertEquals("owner", second.getRole());
+        assertEquals(Color.RED, data.get(second));
+        //
+        Map<Color, Developer2> developers = parsed.getDevelopers();
+        assertEquals(2, developers.size());
+        Iterator<Color> iter2 = developers.keySet().iterator();
+        Color firstColor = iter2.next();
+        assertEquals(Color.WHITE, firstColor);
+        Developer2 dev1 = developers.get(firstColor);
+        assertEquals("Fred", dev1.getName());
+        assertEquals("creator", dev1.getRole());
+        Color secondColor = iter2.next();
+        assertEquals(Color.BLACK, secondColor);
+        Developer2 dev2 = developers.get(secondColor);
+        assertEquals("John", dev2.getName());
+        assertEquals("committer", dev2.getRole());
+    }
 
     public static enum Color {
         WHITE, BLACK, RED;

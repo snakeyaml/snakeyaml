@@ -169,17 +169,6 @@ public class Representer extends SafeRepresenter {
                                     valueNode.setTag(Tags.MAP);
                                 }
                             }
-                            // if (tuple.getKeyNode() instanceof ScalarNode) {
-                            // ScalarNode n = (ScalarNode) tuple.getKeyNode();
-                            // Object v = map.get(n.getValue());
-                            // if (v != null) {
-                            // if (valueType.equals(v.getClass())
-                            // && tuple.getValueNode().getNodeId() ==
-                            // NodeId.mapping) {
-                            // tuple.getValueNode().setTag(Tags.MAP);
-                            // }
-                            // }
-                            // }
                         }
                     }
                 }
