@@ -6,13 +6,13 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-		<release version="1.5" date="in Mercurial" description="Improve usage of generic collections in JavaBeans">
+		<release version="1.5rc1" date="2009-10-23" description="Improve usage of generic collections in JavaBeans">
 		    <action dev="py4fun" type="update">
                 Performance improvement: use ArrayStack instead of Stack which extends Vector (2009-10-20)
             </action>
             <action dev="py4fun" type="fix" issue="25" due-to="Benjamin Bentmann">
                 Improve usage of generic collections: while type erase makes no difference between 
-                Class&lt;Foo&gt; and Class&lt;Bar&gt; at runtime, the information about generics is still 
+                Class&lt; Foo&gt; and Class&lt; Bar&gt; at runtime, the information about generics is still 
                 accessible via reflection from Method/Field. (2009-10-19)
             </action>
             <action dev="py4fun" type="update">
@@ -23,7 +23,7 @@
             <action dev="py4fun" type="update">
                 Refactor: use rootTag instead of rootType (for Class) in BaseConstructor. This is done to 
                 solve the priority problem: normally explicit tag has more priority then runtime class but
-                for the root tag is is the other way around (2009-10-19)
+                for the root tag it is the other way around (2009-10-19)
             </action>
             <action dev="py4fun" type="fix" issue="24" due-to="shrode">
                 Line numbers reported in Exceptions are Zero based, should be 1 based (2009-10-12)
