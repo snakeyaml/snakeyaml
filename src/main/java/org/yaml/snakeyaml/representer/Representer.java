@@ -115,8 +115,8 @@ public class Representer extends SafeRepresenter {
             } else if (memberValue != null && Enum.class.isAssignableFrom(memberValue.getClass())) {
                 nodeValue.setTag(Tags.STR);
             }
-            // generic collections
             if (nodeValue.getNodeId() != NodeId.scalar && !hasAlias) {
+                // generic collections
                 checkGlobalTag(property, nodeValue, memberValue);
             }
             if (nodeKey.getStyle() != null) {

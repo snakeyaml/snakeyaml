@@ -6,23 +6,7 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-		<release version="1.5" date="in Mercurial" description="development">
-		    <action dev="py4fun" type="fix">
-                Issue 25: generic Map does not emit redundant global tags (2009-10-22)
-            </action>
-            <action dev="py4fun" type="fix">
-                Issue 25: generic Set does not emit redundant global tags (2009-10-22)
-            </action>
-            <action dev="py4fun" type="fix">
-                Issue 25: generic List does not emit redundant global tags (2009-10-22)
-            </action>
-            <action dev="py4fun" type="fix">
-                Issue 25: add Map to already working Set and List (2009-10-22)
-            </action>
-            <action dev="py4fun" type="fix" issue="26" due-to="Benjamin Bentmann">
-                Parse different Map implementations (SortedMap, Properties) without global 
-                tags if they are JavaBean properties (2009-10-21)
-            </action>
+		<release version="1.5" date="in Mercurial" description="Improve usage of generic collections in JavaBeans">
 		    <action dev="py4fun" type="update">
                 Performance improvement: use ArrayStack instead of Stack which extends Vector (2009-10-20)
             </action>
