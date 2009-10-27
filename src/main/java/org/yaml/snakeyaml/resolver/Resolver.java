@@ -52,6 +52,7 @@ public class Resolver {
      * 
      * @param respectDefaultImplicitScalars
      *            false to parse/dump scalars as plain Strings
+     * @deprecated override addImplicitResolvers instead
      */
     public Resolver(boolean respectDefaultImplicitScalars) {
         if (respectDefaultImplicitScalars) {

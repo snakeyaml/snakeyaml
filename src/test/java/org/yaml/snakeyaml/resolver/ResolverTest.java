@@ -16,8 +16,8 @@
 package org.yaml.snakeyaml.resolver;
 
 import java.awt.Point;
-import java.util.LinkedHashMap;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -155,7 +155,7 @@ public class ResolverTest extends TestCase {
     /**
      * Parse scalars as Strings
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( { "unchecked", "deprecation" })
     public void testStringResolver() {
         Yaml yaml = new Yaml(new Loader(), new Dumper(new DumperOptions()), new Resolver(false));
         List<Object> output = (List<Object>) yaml.load("[ '1.00', 1.00, !!float '1.00' ]");

@@ -33,7 +33,7 @@ public class CustomResolverTest extends TestCase {
         Yaml yaml = new Yaml(new Loader(), new Dumper(new DumperOptions()), new CustomResolver());
         String output = yaml.dump(map);
         assertEquals("{1.0: 2009-01-01}\n", output);
-        assertEquals("Float and Date must be excaped.", "{'1.0': '2009-01-01'}\n", new Yaml()
+        assertEquals("Float and Date must be escaped.", "{'1.0': '2009-01-01'}\n", new Yaml()
                 .dump(map));
     }
 
