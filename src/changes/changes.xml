@@ -7,8 +7,8 @@
 	</properties>
 	<body>
 		<release version="1.5rc1" date="2009-10-23" description="Improve usage of generic collections in JavaBeans">
-		    <action dev="py4fun" type="update">
-                Make regular expressions in Resolver public to support custom implicit types (2009-10-27)
+            <action dev="py4fun" type="fix" issue="27" due-to="Polyglot Maven team">
+                Extend Resolver to support custom implicit types (2009-10-27)
             </action>
             <action dev="py4fun" type="update">
                 Performance improvement: use ArrayStack instead of Stack which extends Vector (2009-10-20)

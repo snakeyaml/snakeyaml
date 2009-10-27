@@ -55,20 +55,24 @@ public class Resolver {
      */
     public Resolver(boolean respectDefaultImplicitScalars) {
         if (respectDefaultImplicitScalars) {
-            addImplicitResolver(Tags.BOOL, BOOL, "yYnNtTfFoO");
-            addImplicitResolver(Tags.FLOAT, FLOAT, "-+0123456789.");
-            addImplicitResolver(Tags.INT, INT, "-+0123456789");
-            addImplicitResolver(Tags.MERGE, MERGE, "<");
-            addImplicitResolver(Tags.NULL, NULL, "~nN\0");
-            addImplicitResolver(Tags.NULL, EMPTY, null);
-            addImplicitResolver(Tags.TIMESTAMP, TIMESTAMP, "0123456789");
-            addImplicitResolver(Tags.VALUE, VALUE, "=");
-            // The following implicit resolver is only for documentation
-            // purposes.
-            // It cannot work
-            // because plain scalars cannot start with '!', '&', or '*'.
-            addImplicitResolver(Tags.YAML, YAML, "!&*");
+            addImplicitResolvers();
         }
+    }
+
+    protected void addImplicitResolvers() {
+        addImplicitResolver(Tags.BOOL, BOOL, "yYnNtTfFoO");
+        addImplicitResolver(Tags.FLOAT, FLOAT, "-+0123456789.");
+        addImplicitResolver(Tags.INT, INT, "-+0123456789");
+        addImplicitResolver(Tags.MERGE, MERGE, "<");
+        addImplicitResolver(Tags.NULL, NULL, "~nN\0");
+        addImplicitResolver(Tags.NULL, EMPTY, null);
+        addImplicitResolver(Tags.TIMESTAMP, TIMESTAMP, "0123456789");
+        addImplicitResolver(Tags.VALUE, VALUE, "=");
+        // The following implicit resolver is only for documentation
+        // purposes.
+        // It cannot work
+        // because plain scalars cannot start with '!', '&', or '*'.
+        addImplicitResolver(Tags.YAML, YAML, "!&*");
     }
 
     public Resolver() {
