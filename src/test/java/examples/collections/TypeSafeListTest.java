@@ -41,7 +41,7 @@ public class TypeSafeListTest extends TestCase {
         bean.setDevelopers(developers);
         JavaBeanDumper dumper = new JavaBeanDumper(false);
         String output = dumper.dump(bean);
-        System.out.println(output);
+        // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-1.yaml");
         assertEquals(etalon, output);
     }
