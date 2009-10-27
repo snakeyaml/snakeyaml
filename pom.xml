@@ -5,6 +5,9 @@
 	<artifactId>snakeyaml</artifactId>
 	<version>1.5rc1</version>
 	<packaging>jar</packaging>
+	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 	<name>SnakeYAML</name>
 	<description>YAML 1.1 parser and emitter for Java</description>
 	<inceptionYear>2008</inceptionYear>
