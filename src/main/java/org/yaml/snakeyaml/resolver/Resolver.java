@@ -31,21 +31,21 @@ import org.yaml.snakeyaml.nodes.Tags;
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public class Resolver {
-    private static final Pattern BOOL = Pattern
+    public static final Pattern BOOL = Pattern
             .compile("^(?:yes|Yes|YES|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF)$");
-    private static final Pattern FLOAT = Pattern
+    public static final Pattern FLOAT = Pattern
             .compile("^(?:[-+]?(?:[0-9][0-9_]*)\\.[0-9_]*(?:[eE][-+][0-9]+)?|[-+]?(?:[0-9][0-9_]*)?\\.[0-9_]+(?:[eE][-+][0-9]+)?|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$");
-    private static final Pattern INT = Pattern
+    public static final Pattern INT = Pattern
             .compile("^(?:[-+]?0b[0-1_]+|[-+]?0[0-7_]+|[-+]?(?:0|[1-9][0-9_]*)|[-+]?0x[0-9a-fA-F_]+|[-+]?[1-9][0-9_]*(?::[0-5]?[0-9])+)$");
-    private static final Pattern MERGE = Pattern.compile("^(?:<<)$");
-    private static final Pattern NULL = Pattern.compile("^(?:~|null|Null|NULL| )$");
-    private static final Pattern EMPTY = Pattern.compile("^$");
-    private static final Pattern TIMESTAMP = Pattern
+    public static final Pattern MERGE = Pattern.compile("^(?:<<)$");
+    public static final Pattern NULL = Pattern.compile("^(?:~|null|Null|NULL| )$");
+    public static final Pattern EMPTY = Pattern.compile("^$");
+    public static final Pattern TIMESTAMP = Pattern
             .compile("^(?:[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]|[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?(?:[Tt]|[ \t]+)[0-9][0-9]?:[0-9][0-9]:[0-9][0-9](?:\\.[0-9]*)?(?:[ \t]*(?:Z|[-+][0-9][0-9]?(?::[0-9][0-9])?))?)$");
-    private static final Pattern VALUE = Pattern.compile("^(?:=)$");
-    private static final Pattern YAML = Pattern.compile("^(?:!|&|\\*)$");
+    public static final Pattern VALUE = Pattern.compile("^(?:=)$");
+    public static final Pattern YAML = Pattern.compile("^(?:!|&|\\*)$");
 
-    private Map<Character, List<ResolverTuple>> yamlImplicitResolvers = new HashMap<Character, List<ResolverTuple>>();
+    protected Map<Character, List<ResolverTuple>> yamlImplicitResolvers = new HashMap<Character, List<ResolverTuple>>();
 
     /**
      * Create Resolver
