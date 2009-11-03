@@ -58,18 +58,18 @@ public abstract class BaseConstructor {
     private Composer composer;
     private final Map<Node, Object> constructedObjects;
     private final Set<Node> recursiveObjects;
-    private final ArrayStack<Tuple<Node, Object>> toBeConstructedAt2ndStep;
-    private final ArrayList<Tuple<Map<Object, Object>, Tuple<Object, Object>>> maps2fill;
-    private final ArrayList<Tuple<Set<Object>, Object>> sets2fill;
+    private final ArrayStack<RecursiveTuple<Node, Object>> toBeConstructedAt2ndStep;
+    private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>> maps2fill;
+    private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
 
     protected String rootTag;
 
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();
         recursiveObjects = new HashSet<Node>();
-        toBeConstructedAt2ndStep = new ArrayStack<Tuple<Node, Object>>(10);
-        maps2fill = new ArrayList<Tuple<Map<Object, Object>, Tuple<Object, Object>>>();
-        sets2fill = new ArrayList<Tuple<Set<Object>, Object>>();
+        toBeConstructedAt2ndStep = new ArrayStack<RecursiveTuple<Node, Object>>(10);
+        maps2fill = new ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>>();
+        sets2fill = new ArrayList<RecursiveTuple<Set<Object>, Object>>();
         rootTag = null;
     }
 
@@ -132,18 +132,18 @@ public abstract class BaseConstructor {
     private Object constructDocument(Node node) {
         Object data = constructObject(node);
         while (!toBeConstructedAt2ndStep.isEmpty()) {
-            Tuple<Node, Object> toBeProcessed = toBeConstructedAt2ndStep.pop();
+            RecursiveTuple<Node, Object> toBeProcessed = toBeConstructedAt2ndStep.pop();
             callPostCreate(toBeProcessed._1(), toBeProcessed._2());
         }
         if (!maps2fill.isEmpty()) {
-            for (Tuple<Map<Object, Object>, Tuple<Object, Object>> entry : maps2fill) {
-                Tuple<Object, Object> key_value = entry._2();
+            for (RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>> entry : maps2fill) {
+                RecursiveTuple<Object, Object> key_value = entry._2();
                 entry._1().put(key_value._1(), key_value._2());
             }
             maps2fill.clear();
         }
         if (!sets2fill.isEmpty()) {
-            for (Tuple<Set<Object>, Object> value : sets2fill) {
+            for (RecursiveTuple<Set<Object>, Object> value : sets2fill) {
                 value._1().add(value._2());
             }
             sets2fill.clear();
@@ -173,7 +173,7 @@ public abstract class BaseConstructor {
         recursiveObjects.add(node);
         Object data = callConstructor(node);
         if (node.isTwoStepsConstruction()) {
-            toBeConstructedAt2ndStep.push(new Tuple<Node, Object>(node, data));
+            toBeConstructedAt2ndStep.push(new RecursiveTuple<Node, Object>(node, data));
         }
         constructedObjects.put(node, data);
         recursiveObjects.remove(node);
@@ -292,8 +292,9 @@ public abstract class BaseConstructor {
                  * initialization compared to clean just created one. And map of
                  * course does not observe key hashCode changes.
                  */
-                maps2fill.add(0, new Tuple<Map<Object, Object>, Tuple<Object, Object>>(mapping,
-                        new Tuple<Object, Object>(key, value)));
+                maps2fill.add(0,
+                        new RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>(
+                                mapping, new RecursiveTuple<Object, Object>(key, value)));
             } else {
                 mapping.put(key, value);
             }
@@ -320,7 +321,7 @@ public abstract class BaseConstructor {
                  * initialization compared to clean just created one. And set of
                  * course does not observe value hashCode changes.
                  */
-                sets2fill.add(0, new Tuple<Set<Object>, Object>(set, key));
+                sets2fill.add(0, new RecursiveTuple<Set<Object>, Object>(set, key));
             } else {
                 set.add(key);
             }
@@ -338,4 +339,22 @@ public abstract class BaseConstructor {
     // }
     // return pairs;
     // }
+
+    private static class RecursiveTuple<T, K> {
+        private final T _1;
+        private final K _2;
+
+        public RecursiveTuple(T _1, K _2) {
+            this._1 = _1;
+            this._2 = _2;
+        }
+
+        public K _2() {
+            return _2;
+        }
+
+        public T _1() {
+            return _1;
+        }
+    }
 }

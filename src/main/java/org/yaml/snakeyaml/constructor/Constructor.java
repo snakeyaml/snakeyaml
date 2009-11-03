@@ -50,7 +50,7 @@ import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tags;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Construct a custom Java instance.
  */
 public class Constructor extends SafeConstructor {
     private final Map<String, Class<? extends Object>> typeTags;

@@ -6,6 +6,11 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
+	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="update">
+                Refactor: rename Tuple to RecursiveTuple and hide it inside BaseConstructor (2009-11-03)
+            </action>
+        </release>
 		<release version="1.5" date="2009-10-30" description="Improve usage of generic collections in JavaBeans">
             <action dev="py4fun" type="fix" issue="27" due-to="Polyglot Maven team">
                 Extend Resolver to support custom implicit types (2009-10-27)
