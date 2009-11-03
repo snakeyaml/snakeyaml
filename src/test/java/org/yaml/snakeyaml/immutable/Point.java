@@ -36,4 +36,18 @@ public class Point {
     public String toString() {
         return "<Point x=" + String.valueOf(x) + " y=" + String.valueOf(y) + ">";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Point) {
+            return toString().equals(obj.toString());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

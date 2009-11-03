@@ -1,0 +1,12 @@
+%YAML 1.1
+---
+#Welcome to my Beans !!!
+id: $bean.id # the ID must be first
+point: [$bean.point.x, $bean.point.y]
+#collection are at the end
+list: $list
+#foreach( $item in $bean.empty )
+  - $item
+#end
+#empty collection is not emitted
+

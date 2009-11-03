@@ -1,0 +1,9 @@
+%YAML 1.1
+---
+#Welcome to my Beans !!!
+id: id123 # the ID must be first
+point: [1.0, 2.0]
+#collection are at the end
+list: [aaa, bbb, ccc]
+
+#empty collection is not emitted
