@@ -1154,7 +1154,7 @@ public final class ScannerImpl implements Scanner {
      * The specification does not restrict characters for anchors and
      * aliases. This may lead to problems, for instance, the document:
      *   [ *alias, value ]
-     * can be interpteted in two ways, as
+     * can be interpreted in two ways, as
      *   [ &quot;value&quot; ]
      * and
      *   [ *alias , &quot;value&quot; ]
