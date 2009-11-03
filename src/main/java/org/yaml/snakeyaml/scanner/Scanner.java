@@ -44,5 +44,4 @@ public interface Scanner {
      * Return the next token.
      */
     Token getToken();
-
 }

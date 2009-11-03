@@ -76,16 +76,7 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * Read comments in the Scanner code for more details.
  * </pre>
  * 
- * Reader does the dirty work of checking for BOM and converting the input data
- * to Unicode. It also adds NUL to the end.
- * 
- * Reader supports the following methods
- * 
- * <pre>
- * reader.peek(i=0) # peek the next i-th character self.prefix(l=1)
- * reader.peek the next l characters
- * reader.forward(l=1) read the next l characters and move the pointer.
- * </pre>
+ * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public final class ScannerImpl implements Scanner {
     private final static String NULL_BL_LINEBR = "\0 \r\n\u0085\u2028\u2029";

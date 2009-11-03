@@ -30,5 +30,4 @@ public interface Parser {
     public Event peekEvent();
 
     public Event getEvent();
-
 }
