@@ -10,7 +10,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -18,10 +18,8 @@ import org.yaml.snakeyaml.immutable.Point;
 
 public class VelocityTest extends TestCase {
     public void testNoTemplate() {
-        DumperOptions options = new DumperOptions();
-        options.setExplicitStart(true);
-        Yaml yaml = new Yaml(options);
-        String output = yaml.dump(createBean());
+        JavaBeanDumper dumper = new JavaBeanDumper();
+        String output = dumper.dump(createBean());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("template/etalon1.yaml"), output);
     }
