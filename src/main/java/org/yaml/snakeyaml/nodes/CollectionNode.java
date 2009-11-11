@@ -18,7 +18,8 @@ package org.yaml.snakeyaml.nodes;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Base class for the two collection types {@link MappingNode mapping} 
+ * and {@link CollectionNode collection}.
  */
 public abstract class CollectionNode extends Node {
     private Boolean flowStyle;
@@ -28,6 +29,11 @@ public abstract class CollectionNode extends Node {
         this.flowStyle = flowStyle;
     }
 
+
+    /**
+     * Serialization style of this collection.
+     * @return <code>true</code> for flow style, <code>false</code> for block style.
+     */
     public Boolean getFlowStyle() {
         return flowStyle;
     }

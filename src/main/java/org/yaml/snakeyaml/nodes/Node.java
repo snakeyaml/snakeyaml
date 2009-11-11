@@ -18,7 +18,17 @@ package org.yaml.snakeyaml.nodes;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Base class for all nodes.
+ * <p>
+ * The nodes form the node-graph described in the 
+ * <a href="http://www.yaml.org/spec/1.2/spec.html">YAML Specification</a>.
+ * </p>
+ * <p>
+ * While loading, the node graph is usually created by the 
+ * {@link org.yaml.snakeyaml.composer.Composer},
+ * and later transformed into application specific Java classes by the
+ * classes from the {@link org.yaml.snakeyaml.constructor} package.
+ * </p>
  */
 public abstract class Node {
     private String tag;
@@ -42,6 +52,13 @@ public abstract class Node {
         this.useClassConstructor = null;
     }
 
+    /**
+     * Tag of this node.
+     * <p>
+     * Every node has a tag assigned. The tag
+     * is either local or global.
+     * @return Tag of this node.
+     */
     public String getTag() {
         return this.tag;
     }
@@ -89,6 +106,22 @@ public abstract class Node {
         this.twoStepsConstruction = twoStepsConstruction;
     }
 
+    /**
+     * Indicates if this node must be constructed in two steps.
+     * <p>
+     * Two-step construction is required whenever a node is
+     * a child (direct or indirect) of it self. That is,
+     * if a recursive structure is build using anchors and aliases.
+     * </p>
+     * <p>
+     * Set by {@link org.yaml.snakeyaml.composer.Composer}, 
+     * used during the construction process.
+     * </p>
+     * <p>
+     * Only relevant during loading.
+     * </p>
+     * @return <code>true</code> if the node is self referenced.
+     */
     public boolean isTwoStepsConstruction() {
         return twoStepsConstruction;
     }
@@ -113,6 +146,10 @@ public abstract class Node {
         this.useClassConstructor = useClassConstructor;
     }
 
+    /**
+     * Indicates if the tag was added by {@link org.yaml.snakeyaml.resolver.Resolver}.
+     * @return <code>true</code> if the tag of this node was resolved</code>
+     */
     public boolean isResolved() {
         return resolved;
     }

@@ -18,7 +18,7 @@ package org.yaml.snakeyaml.events;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Base class for the end events of the collection nodes.
  */
 public abstract class CollectionEndEvent extends Event {
 

@@ -18,7 +18,7 @@ package org.yaml.snakeyaml.events;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Marks a scalar value.
  */
 public final class ScalarEvent extends NodeEvent {
     private final String tag;
@@ -40,14 +40,36 @@ public final class ScalarEvent extends NodeEvent {
         this.style = style;
     }
 
+    /**
+     * Tag of this scalar.
+     * @return The tag of this scalar, or <code>null</code> if no explicit tag is available.
+     */
     public String getTag() {
         return this.tag;
     }
 
+    /**
+     * Style of the scalar.
+     * <dl>
+     *  <dt>''</dt><dd>Flow Style - Plain</dd>
+     *  <dt>'\''</dt><dd>Flow Style - Single-Quoted</dd>
+     *  <dt>'"'</dt><dd>Flow Style - Double-Quoted</dd>
+     *  <dt>'|'</dt><dd>Block Style - Literal</dd>
+     *  <dt>'>'</dt><dd>Block Style - Folded</dd>
+     * </dl>
+     * @return Style of the scalar.
+     */
     public Character getStyle() {
         return this.style;
     }
 
+    /**
+     * String representation of the value.
+     * <p>
+     * Without quotes and escaping.
+     * </p>
+     * @return Value as Unicode string.
+     */
     public String getValue() {
         return this.value;
     }
@@ -60,5 +82,4 @@ public final class ScalarEvent extends NodeEvent {
     protected String getArguments() {
         return super.getArguments() + ", tag=" + tag + ", " + implicit + ", value=" + value;
     }
-
 }

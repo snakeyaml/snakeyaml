@@ -18,7 +18,10 @@ package org.yaml.snakeyaml.nodes;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Represents a scalar node.
+ * <p>
+ * Scalar nodes form the leaves in the node graph.
+ * </p>
  */
 public class ScalarNode extends Node {
     private Character style;
@@ -39,6 +42,11 @@ public class ScalarNode extends Node {
         this.resolved = resolved;
     }
 
+    /**
+     * Serialized representation of this node.
+     * @see org.yaml.snakeyaml.events.ScalarEvent
+     * @return
+     */
     public Character getStyle() {
         return style;
     }
@@ -48,6 +56,10 @@ public class ScalarNode extends Node {
         return NodeId.scalar;
     }
 
+    /**
+     * Value of this scalar.
+     * @return Scalar's value.
+     */
     public String getValue() {
         return value;
     }

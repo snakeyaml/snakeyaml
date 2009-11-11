@@ -18,7 +18,10 @@ package org.yaml.snakeyaml.events;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Marks the end of a document.
+ * <p>
+ * This event follows the document's content.
+ * </p>
  */
 public final class DocumentEndEvent extends Event {
     private final boolean explicit;

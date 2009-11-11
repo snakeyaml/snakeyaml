@@ -41,7 +41,11 @@ import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Creates a node graph from parser events.
+ * <p>
+ * Corresponds to the 'Compose' step as described in chapter 3.1 of the 
+ * <a href="http://www.yaml.org/spec/1.2/spec.html">YAML Specification</a>.
+ * </p>
  */
 public class Composer {
     private final Parser parser;
@@ -56,6 +60,10 @@ public class Composer {
         this.recursiveNodes = new HashSet<Node>();
     }
 
+    /**
+     * Checks if further documents are available.
+     * @return <code>true</code> if there is at least one more document.
+     */
     public boolean checkNode() {
         // Drop the STREAM-START event.
         if (parser.checkEvent(StreamStartEvent.class)) {
@@ -65,6 +73,11 @@ public class Composer {
         return !parser.checkEvent(StreamEndEvent.class);
     }
 
+    /**
+     * Reads and composes the next document.
+     * @return The root node of the document or <code>null</code> if no
+     * more documents are available.
+     */
     public Node getNode() {
         // Get the root node of the next document.
         if (!parser.checkEvent(StreamEndEvent.class)) {
@@ -74,6 +87,15 @@ public class Composer {
         }
     }
 
+    /**
+     * Reads a document from a source that contains only one
+     * document.
+     * <p>
+     * If the stream contains more than one document an exception is thrown.
+     * </p>
+     * @return The root node of the document or <code>null</code> if no
+     * document is available.
+     */
     public Node getSingleNode() {
         // Drop the STREAM-START event.
         parser.getEvent();

@@ -18,7 +18,20 @@ package org.yaml.snakeyaml.events;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Marks the beginning of a mapping node.
+ * <p>
+ * This event is followed by a number of key value pairs.
+ * <br>
+ * The pairs are not in any particular order. However, the value
+ * always directly follows the corresponding key. 
+ * <br>
+ * After the key value pairs follows a {@link MappingEndEvent}.
+ * </p>
+ * <p>
+ * There must be an even number of node events between the start
+ * and end event.
+ * </p>
+ * @see MappingEndEvent
  */
 public final class MappingStartEvent extends CollectionStartEvent {
     public MappingStartEvent(String anchor, String tag, boolean implicit, Mark startMark,

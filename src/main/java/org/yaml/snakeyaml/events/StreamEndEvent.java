@@ -18,7 +18,15 @@ package org.yaml.snakeyaml.events;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Marks the end of a stream that might have contained multiple documents.
+ * <p>
+ * This event is the last event that a parser emits. Together
+ * with {@link StreamStartEvent} (which is the first event a parser emits)
+ * they mark the beginning and the end of a stream of documents.
+ * </p>
+ * <p>
+ * See {@link Event} for an exemplary output.
+ * </p>
  */
 public final class StreamEndEvent extends Event {
     public StreamEndEvent(Mark startMark, Mark endMark) {

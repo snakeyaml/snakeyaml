@@ -18,7 +18,12 @@ package org.yaml.snakeyaml.events;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Marks the beginning of a sequence node.
+ * <p>
+ * This event is followed by the elements contained in the sequence, and
+ * a {@link SequenceEndEvent}.
+ * </p>
+ * @see SequenceEndEvent
  */
 public final class SequenceStartEvent extends CollectionStartEvent {
     public SequenceStartEvent(String anchor, String tag, boolean implicit, Mark startMark,

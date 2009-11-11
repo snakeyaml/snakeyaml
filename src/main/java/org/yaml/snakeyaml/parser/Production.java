@@ -17,6 +17,9 @@ package org.yaml.snakeyaml.parser;
 
 import org.yaml.snakeyaml.events.Event;
 
+/**
+ * Helper for {@link ParserImpl}.
+ */
 interface Production {
     public Event produce();
 }

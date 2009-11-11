@@ -18,7 +18,9 @@ package org.yaml.snakeyaml.events;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Marks the end of a mapping node.
+ * 
+ * @see MappingStartEvent
  */
 public final class MappingEndEvent extends CollectionEndEvent {
 

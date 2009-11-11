@@ -20,7 +20,10 @@ import java.util.List;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Represents a sequence.
+ * <p>
+ * A sequence is a ordered collection of nodes.
+ * </p>
  */
 public class SequenceNode extends CollectionNode {
     private Class<? extends Object> listType;
@@ -46,13 +49,17 @@ public class SequenceNode extends CollectionNode {
         return NodeId.sequence;
     }
 
+    /**
+     * Returns the elements in this sequence.
+     * @return Nodes (sorted).
+     */
     public List<Node> getValue() {
         for (Node node : value) {
             node.setType(listType);
         }
         return value;
     }
-
+    
     public void setListType(Class<? extends Object> listType) {
         this.listType = listType;
     }

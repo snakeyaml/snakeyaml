@@ -20,7 +20,10 @@ import java.util.Map;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Marks the beginning of a document.
+ * <p>
+ * This event followed by the document's content and a {@link DocumentEndEvent}.
+ * </p>
  */
 public final class DocumentStartEvent extends Event {
     private final boolean explicit;
@@ -39,10 +42,22 @@ public final class DocumentStartEvent extends Event {
         return explicit;
     }
 
+    /**
+     * YAML version the document conforms to. 
+     * @return <code>null</code>if the document has no explicit 
+     * <code>%YAML</code> directive.
+     * Otherwise an array with two components, the major and minor part of
+     * the version (in this order).
+     */
     public Integer[] getVersion() {
         return version;
     }
 
+    /**
+     * Tag shorthands as defined by the <code>%TAG</code> directive.
+     * @return Mapping of 'handles' to 'prefixes' (the handles
+     * include the '!' characters).
+     */
     public Map<String, String> getTags() {
         return tags;
     }

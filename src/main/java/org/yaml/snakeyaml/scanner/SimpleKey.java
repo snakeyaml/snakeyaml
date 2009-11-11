@@ -19,8 +19,11 @@ import org.yaml.snakeyaml.error.Mark;
 
 /**
  * Simple keys treatment.
+ * <p>
+ * Helper class for {@link ScannerImpl}.
+ * </p>
  * 
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * @see ScannerImpl
  */
 final class SimpleKey {
     private int tokenNumber;

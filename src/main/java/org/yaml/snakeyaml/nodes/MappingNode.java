@@ -20,7 +20,10 @@ import java.util.List;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * Represents a map.
+ * <p>
+ * A map is a collection of unsorted key-value pairs.
+ * </p>
  */
 public class MappingNode extends CollectionNode {
     private Class<? extends Object> keyType;
@@ -48,6 +51,10 @@ public class MappingNode extends CollectionNode {
         return NodeId.mapping;
     }
 
+    /**
+     * Returns the entries of this map.
+     * @return List of entries.
+     */
     public List<NodeTuple> getValue() {
         for (NodeTuple nodes : value) {
             nodes.getKeyNode().setType(keyType);
