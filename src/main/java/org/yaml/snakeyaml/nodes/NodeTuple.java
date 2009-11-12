@@ -40,6 +40,7 @@ public class NodeTuple {
 
     /**
      * Value node.
+     * 
      * @return value
      */
     public Node getValueNode() {

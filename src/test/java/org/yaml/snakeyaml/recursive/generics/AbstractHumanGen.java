@@ -90,5 +90,5 @@ public abstract class AbstractHumanGen<T, K extends AbstractHumanGen<T, ?>> {
     public void setBankAccountOwner(K bankAccountOwner) {
         this.bankAccountOwner = bankAccountOwner;
     }
-    
+
 }

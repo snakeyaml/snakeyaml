@@ -22,23 +22,25 @@ import org.yaml.snakeyaml.tokens.Token;
 /**
  * This interface represents an input stream of {@link Token Tokens}.
  * <p>
- * The parser and the scanner form together the 'Parse' step in
- * the loading process (see chapter 3.1 of the 
- * <a href="http://yaml.org/spec/1.1/">YAML Specification</a>).
+ * The parser and the scanner form together the 'Parse' step in the loading
+ * process (see chapter 3.1 of the <a href="http://yaml.org/spec/1.1/">YAML
+ * Specification</a>).
  * </p>
- *
+ * 
  * @see org.yaml.snakeyaml.tokens.Token
  */
 public interface Scanner {
-	
+
     /**
      * Check if the next token is one of the given types.
-	 *
-     * @param choices List of token types.
-     * @return <code>true</code>  if the next token can be assigned to a 
-     * variable of at least one of the given types. Returns <code>false</code>
-     * if no more tokens are available.
-     * @throws ScannerException Thrown in case of malformed input.
+     * 
+     * @param choices
+     *            List of token types.
+     * @return <code>true</code> if the next token can be assigned to a variable
+     *         of at least one of the given types. Returns <code>false</code> if
+     *         no more tokens are available.
+     * @throws ScannerException
+     *             Thrown in case of malformed input.
      */
     boolean checkToken(List<Class<? extends Token>> choices);
 
@@ -46,27 +48,36 @@ public interface Scanner {
      * Check if the next token is assignable to the given type.
      * <p>
      * This is a convenience method to avoid <code>List</code> creation if
-     * calling {@link #checkToken(List)} for
-     * a single type.
+     * calling {@link #checkToken(List)} for a single type.
      * </p>
-     * @param choice Token type.
-     * @return True if the next token is an instance of <code>type</code>.
-     * False if no more tokens are available.
-     * @throws ScannerException Thrown in case of malformed input.
+     * 
+     * @param choice
+     *            Token type.
+     * @return True if the next token is an instance of <code>type</code>. False
+     *         if no more tokens are available.
+     * @throws ScannerException
+     *             Thrown in case of malformed input.
      */
     boolean checkToken(Class<? extends Token> choice);
 
     /**
      * Return the next token, but do not delete it from the stream.
-     * @return The token that will be returned on the next call to {@link #getToken}
-     * @throws ScannerException Thrown in case of malformed input.
+     * 
+     * @return The token that will be returned on the next call to
+     *         {@link #getToken}
+     * @throws ScannerException
+     *             Thrown in case of malformed input.
      */
     Token peekToken();
 
     /**
      * Returns the next token.
-     * <p>The token will be removed from the stream.</p>
-     * @throws ScannerException Thrown in case of malformed input.
+     * <p>
+     * The token will be removed from the stream.
+     * </p>
+     * 
+     * @throws ScannerException
+     *             Thrown in case of malformed input.
      */
     Token getToken();
 }

@@ -43,11 +43,12 @@ public final class DocumentStartEvent extends Event {
     }
 
     /**
-     * YAML version the document conforms to. 
-     * @return <code>null</code>if the document has no explicit 
-     * <code>%YAML</code> directive.
-     * Otherwise an array with two components, the major and minor part of
-     * the version (in this order).
+     * YAML version the document conforms to.
+     * 
+     * @return <code>null</code>if the document has no explicit
+     *         <code>%YAML</code> directive. Otherwise an array with two
+     *         components, the major and minor part of the version (in this
+     *         order).
      */
     public Integer[] getVersion() {
         return version;
@@ -55,8 +56,9 @@ public final class DocumentStartEvent extends Event {
 
     /**
      * Tag shorthands as defined by the <code>%TAG</code> directive.
-     * @return Mapping of 'handles' to 'prefixes' (the handles
-     * include the '!' characters).
+     * 
+     * @return Mapping of 'handles' to 'prefixes' (the handles include the '!'
+     *         characters).
      */
     public Map<String, String> getTags() {
         return tags;

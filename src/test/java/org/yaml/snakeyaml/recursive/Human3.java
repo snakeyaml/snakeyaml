@@ -25,7 +25,7 @@ public class Human3 extends AbstractHuman {
     private Human3 partner;
     private Human3 bankAccountOwner;
     protected List<Human3> children;
-    
+
     public Human3() {
         children = new ArrayList<Human3>();
     }
@@ -69,5 +69,5 @@ public class Human3 extends AbstractHuman {
     public void setChildren(List<Human3> children) {
         this.children = children;
     }
-    
+
 }

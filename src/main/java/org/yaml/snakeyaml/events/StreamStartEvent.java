@@ -20,9 +20,9 @@ import org.yaml.snakeyaml.error.Mark;
 /**
  * Marks the start of a stream that might contain multiple documents.
  * <p>
- * This event is the first event that a parser emits. Together
- * with {@link StreamEndEvent} (which is the last event a parser emits)
- * they mark the beginning and the end of a stream of documents.
+ * This event is the first event that a parser emits. Together with
+ * {@link StreamEndEvent} (which is the last event a parser emits) they mark the
+ * beginning and the end of a stream of documents.
  * </p>
  * <p>
  * See {@link Event} for an exemplary output.

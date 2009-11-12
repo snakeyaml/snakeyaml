@@ -45,5 +45,5 @@ public abstract class AbstractHuman {
     public void setBirthPlace(String birthPlace) {
         this.birthPlace = birthPlace;
     }
-    
+
 }

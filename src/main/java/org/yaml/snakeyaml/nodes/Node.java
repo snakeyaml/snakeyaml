@@ -20,14 +20,14 @@ import org.yaml.snakeyaml.error.Mark;
 /**
  * Base class for all nodes.
  * <p>
- * The nodes form the node-graph described in the 
- * <a href="http://yaml.org/spec/1.1/">YAML Specification</a>.
+ * The nodes form the node-graph described in the <a
+ * href="http://yaml.org/spec/1.1/">YAML Specification</a>.
  * </p>
  * <p>
- * While loading, the node graph is usually created by the 
- * {@link org.yaml.snakeyaml.composer.Composer},
- * and later transformed into application specific Java classes by the
- * classes from the {@link org.yaml.snakeyaml.constructor} package.
+ * While loading, the node graph is usually created by the
+ * {@link org.yaml.snakeyaml.composer.Composer}, and later transformed into
+ * application specific Java classes by the classes from the
+ * {@link org.yaml.snakeyaml.constructor} package.
  * </p>
  */
 public abstract class Node {
@@ -55,8 +55,8 @@ public abstract class Node {
     /**
      * Tag of this node.
      * <p>
-     * Every node has a tag assigned. The tag
-     * is either local or global.
+     * Every node has a tag assigned. The tag is either local or global.
+     * 
      * @return Tag of this node.
      */
     public String getTag() {
@@ -109,17 +109,18 @@ public abstract class Node {
     /**
      * Indicates if this node must be constructed in two steps.
      * <p>
-     * Two-step construction is required whenever a node is
-     * a child (direct or indirect) of it self. That is,
-     * if a recursive structure is build using anchors and aliases.
+     * Two-step construction is required whenever a node is a child (direct or
+     * indirect) of it self. That is, if a recursive structure is build using
+     * anchors and aliases.
      * </p>
      * <p>
-     * Set by {@link org.yaml.snakeyaml.composer.Composer}, 
-     * used during the construction process.
+     * Set by {@link org.yaml.snakeyaml.composer.Composer}, used during the
+     * construction process.
      * </p>
      * <p>
      * Only relevant during loading.
      * </p>
+     * 
      * @return <code>true</code> if the node is self referenced.
      */
     public boolean isTwoStepsConstruction() {
@@ -147,7 +148,9 @@ public abstract class Node {
     }
 
     /**
-     * Indicates if the tag was added by {@link org.yaml.snakeyaml.resolver.Resolver}.
+     * Indicates if the tag was added by
+     * {@link org.yaml.snakeyaml.resolver.Resolver}.
+     * 
      * @return <code>true</code> if the tag of this node was resolved</code>
      */
     public boolean isResolved() {

@@ -18,8 +18,8 @@ package org.yaml.snakeyaml.events;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * Basic unit of output from a {@link org.yaml.snakeyaml.parser.Parser}
- * or input of a {@link org.yaml.snakeyaml.emitter.Emitter}.
+ * Basic unit of output from a {@link org.yaml.snakeyaml.parser.Parser} or input
+ * of a {@link org.yaml.snakeyaml.emitter.Emitter}.
  */
 public abstract class Event {
     private final Mark startMark;
@@ -48,7 +48,6 @@ public abstract class Event {
     protected String getArguments() {
         return "";
     }
-    
 
     /*
      * for tests only

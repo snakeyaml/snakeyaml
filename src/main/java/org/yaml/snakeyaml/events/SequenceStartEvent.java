@@ -20,9 +20,10 @@ import org.yaml.snakeyaml.error.Mark;
 /**
  * Marks the beginning of a sequence node.
  * <p>
- * This event is followed by the elements contained in the sequence, and
- * a {@link SequenceEndEvent}.
+ * This event is followed by the elements contained in the sequence, and a
+ * {@link SequenceEndEvent}.
  * </p>
+ * 
  * @see SequenceEndEvent
  */
 public final class SequenceStartEvent extends CollectionStartEvent {

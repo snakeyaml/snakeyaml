@@ -38,14 +38,18 @@ public abstract class CollectionStartEvent extends NodeEvent {
 
     /**
      * Tag of this collection.
-     * @return The tag of this collection, or <code>null</code> if no explicit tag is available.
+     * 
+     * @return The tag of this collection, or <code>null</code> if no explicit
+     *         tag is available.
      */
     public String getTag() {
         return this.tag;
     }
 
     /**
-     * <code>true</code> if the tag can be omitted while this collection is emitted.
+     * <code>true</code> if the tag can be omitted while this collection is
+     * emitted.
+     * 
      * @return True if the tag can be omitted while this collection is emitted.
      */
     public boolean getImplicit() {
@@ -55,6 +59,7 @@ public abstract class CollectionStartEvent extends NodeEvent {
     /**
      * <code>true</code> if this collection is in flow style, <code>false</code>
      * for block style.
+     * 
      * @return If this collection is in flow style.
      */
     public Boolean getFlowStyle() {

@@ -43,8 +43,8 @@ import org.yaml.snakeyaml.resolver.Resolver;
 /**
  * Creates a node graph from parser events.
  * <p>
- * Corresponds to the 'Compose' step as described in chapter 3.1 of the 
- * <a href="http://yaml.org/spec/1.1/">YAML Specification</a>.
+ * Corresponds to the 'Compose' step as described in chapter 3.1 of the <a
+ * href="http://yaml.org/spec/1.1/">YAML Specification</a>.
  * </p>
  */
 public class Composer {
@@ -62,6 +62,7 @@ public class Composer {
 
     /**
      * Checks if further documents are available.
+     * 
      * @return <code>true</code> if there is at least one more document.
      */
     public boolean checkNode() {
@@ -75,8 +76,9 @@ public class Composer {
 
     /**
      * Reads and composes the next document.
-     * @return The root node of the document or <code>null</code> if no
-     * more documents are available.
+     * 
+     * @return The root node of the document or <code>null</code> if no more
+     *         documents are available.
      */
     public Node getNode() {
         // Get the root node of the next document.
@@ -88,13 +90,13 @@ public class Composer {
     }
 
     /**
-     * Reads a document from a source that contains only one
-     * document.
+     * Reads a document from a source that contains only one document.
      * <p>
      * If the stream contains more than one document an exception is thrown.
      * </p>
-     * @return The root node of the document or <code>null</code> if no
-     * document is available.
+     * 
+     * @return The root node of the document or <code>null</code> if no document
+     *         is available.
      */
     public Node getSingleNode() {
         // Drop the STREAM-START event.

@@ -25,7 +25,7 @@ public class Human2 extends AbstractHuman {
     private Human2 partner;
     private Human2 bankAccountOwner;
     protected Map<Human2, String> children;
-    
+
     public Human2() {
         children = new HashMap<Human2, String>();
     }
@@ -69,5 +69,5 @@ public class Human2 extends AbstractHuman {
     public void setChildren(Map<Human2, String> children) {
         this.children = children;
     }
-    
+
 }

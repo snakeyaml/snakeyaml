@@ -18,7 +18,7 @@ package org.yaml.snakeyaml.recursive.generics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HumanGen3 extends AbstractHumanGen<List<HumanGen3>, HumanGen3>{
+public class HumanGen3 extends AbstractHumanGen<List<HumanGen3>, HumanGen3> {
 
     public HumanGen3() {
         children = new ArrayList<HumanGen3>();

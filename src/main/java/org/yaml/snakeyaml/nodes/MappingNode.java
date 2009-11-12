@@ -53,6 +53,7 @@ public class MappingNode extends CollectionNode {
 
     /**
      * Returns the entries of this map.
+     * 
      * @return List of entries.
      */
     public List<NodeTuple> getValue() {
