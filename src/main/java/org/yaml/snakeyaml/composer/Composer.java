@@ -44,7 +44,7 @@ import org.yaml.snakeyaml.resolver.Resolver;
  * Creates a node graph from parser events.
  * <p>
  * Corresponds to the 'Compose' step as described in chapter 3.1 of the 
- * <a href="http://www.yaml.org/spec/1.2/spec.html">YAML Specification</a>.
+ * <a href="http://yaml.org/spec/1.1/">YAML Specification</a>.
  * </p>
  */
 public class Composer {

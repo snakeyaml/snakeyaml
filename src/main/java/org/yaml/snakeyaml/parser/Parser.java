@@ -24,7 +24,7 @@ import org.yaml.snakeyaml.events.Event;
  * <p>
  * The parser and the scanner form together the 'Parse' step in
  * the loading process (see chapter 3.1 of the 
- * <a href="http://www.yaml.org/spec/1.2/spec.html">YAML Specification</a>).
+ * <a href="http://yaml.org/spec/1.1/">YAML Specification</a>).
  * </p>
  * 
  * @see org.yaml.snakeyaml.events.Event

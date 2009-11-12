@@ -42,7 +42,9 @@ public final class ScalarEvent extends NodeEvent {
 
     /**
      * Tag of this scalar.
-     * @return The tag of this scalar, or <code>null</code> if no explicit tag is available.
+     * 
+     * @return The tag of this scalar, or <code>null</code> if no explicit tag
+     *         is available.
      */
     public String getTag() {
         return this.tag;
@@ -51,12 +53,19 @@ public final class ScalarEvent extends NodeEvent {
     /**
      * Style of the scalar.
      * <dl>
-     *  <dt>''</dt><dd>Flow Style - Plain</dd>
-     *  <dt>'\''</dt><dd>Flow Style - Single-Quoted</dd>
-     *  <dt>'"'</dt><dd>Flow Style - Double-Quoted</dd>
-     *  <dt>'|'</dt><dd>Block Style - Literal</dd>
-     *  <dt>'>'</dt><dd>Block Style - Folded</dd>
+     * <dt>''</dt>
+     * <dd>Flow Style - Plain</dd>
+     * <dt>'\''</dt>
+     * <dd>Flow Style - Single-Quoted</dd>
+     * <dt>'"'</dt>
+     * <dd>Flow Style - Double-Quoted</dd>
+     * <dt>'|'</dt>
+     * <dd>Block Style - Literal</dd>
+     * <dt>'>'</dt>
+     * <dd>Block Style - Folded</dd>
      * </dl>
+     * 
+     * @see http://yaml.org/spec/1.1/#id864487
      * @return Style of the scalar.
      */
     public Character getStyle() {
@@ -68,6 +77,7 @@ public final class ScalarEvent extends NodeEvent {
      * <p>
      * Without quotes and escaping.
      * </p>
+     * 
      * @return Value as Unicode string.
      */
     public String getValue() {

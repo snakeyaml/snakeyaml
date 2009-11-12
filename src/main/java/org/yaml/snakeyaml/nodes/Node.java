@@ -21,7 +21,7 @@ import org.yaml.snakeyaml.error.Mark;
  * Base class for all nodes.
  * <p>
  * The nodes form the node-graph described in the 
- * <a href="http://www.yaml.org/spec/1.2/spec.html">YAML Specification</a>.
+ * <a href="http://yaml.org/spec/1.1/">YAML Specification</a>.
  * </p>
  * <p>
  * While loading, the node graph is usually created by the 

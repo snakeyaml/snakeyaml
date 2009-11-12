@@ -51,7 +51,8 @@ public class SequenceNode extends CollectionNode {
 
     /**
      * Returns the elements in this sequence.
-     * @return Nodes (sorted).
+     * 
+     * @return Nodes in the specified order.
      */
     public List<Node> getValue() {
         for (Node node : value) {
@@ -59,7 +60,7 @@ public class SequenceNode extends CollectionNode {
         }
         return value;
     }
-    
+
     public void setListType(Class<? extends Object> listType) {
         this.listType = listType;
     }

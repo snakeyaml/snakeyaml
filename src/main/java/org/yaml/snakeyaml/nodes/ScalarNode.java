@@ -43,8 +43,10 @@ public class ScalarNode extends Node {
     }
 
     /**
-     * Serialized representation of this node.
+     * Get scalar style of this node.
+     * 
      * @see org.yaml.snakeyaml.events.ScalarEvent
+     * @see http://yaml.org/spec/1.1/#id864487
      * @return
      */
     public Character getStyle() {
@@ -58,6 +60,7 @@ public class ScalarNode extends Node {
 
     /**
      * Value of this scalar.
+     * 
      * @return Scalar's value.
      */
     public String getValue() {
