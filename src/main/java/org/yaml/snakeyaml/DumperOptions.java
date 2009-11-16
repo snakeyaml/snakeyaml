@@ -18,6 +18,7 @@ package org.yaml.snakeyaml;
 import java.util.Map;
 
 import org.yaml.snakeyaml.emitter.Emitter;
+import org.yaml.snakeyaml.emitter.ScalarAnalysis;
 import org.yaml.snakeyaml.error.YAMLException;
 
 /**
@@ -49,6 +50,25 @@ public class DumperOptions {
         @Override
         public String toString() {
             return "Scalar style: '" + styleChar + "'";
+        }
+
+        public static ScalarStyle createStyle(Character style) {
+            if (style == null) {
+                return PLAIN;
+            } else {
+                switch (style) {
+                case '"':
+                    return DOUBLE_QUOTED;
+                case '\'':
+                    return SINGLE_QUOTED;
+                case '|':
+                    return LITERAL;
+                case '>':
+                    return FOLDED;
+                default:
+                    throw new YAMLException("Unknown scalar style character: " + style);
+                }
+            }
         }
     }
 
@@ -299,4 +319,16 @@ public class DumperOptions {
         this.tags = tags;
     }
 
+    /**
+     * Define the ScalarStyle to be used for emitting scalars
+     * 
+     * @param analysis
+     *            - Scalar meta data
+     * @param style
+     *            - automatically detected style
+     * @return ScalarStyle to be used for scalar
+     */
+    public ScalarStyle chooseScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
+        return style;
+    }
 }

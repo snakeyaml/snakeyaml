@@ -28,6 +28,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.CollectionEndEvent;
 import org.yaml.snakeyaml.events.CollectionStartEvent;
@@ -141,6 +142,7 @@ public final class Emitter {
     // Scalar analysis and style.
     private ScalarAnalysis analysis;
     private Character style;
+    private DumperOptions options;
 
     public Emitter(Writer stream, DumperOptions opts) {
         // The stream should have the methods `write` and possibly `flush`.
@@ -197,6 +199,7 @@ public final class Emitter {
         // Scalar analysis and style.
         this.analysis = null;
         this.style = null;
+        this.options = opts;
     }
 
     public void emit(Event event) throws IOException {
@@ -772,6 +775,7 @@ public final class Emitter {
         if (style == null) {
             style = chooseScalarStyle();
         }
+        style = options.chooseScalarStyle(analysis, ScalarStyle.createStyle(style)).getChar();
         boolean split = !simpleKeyContext;
         if (style == null) {
             writePlain(analysis.scalar, split);

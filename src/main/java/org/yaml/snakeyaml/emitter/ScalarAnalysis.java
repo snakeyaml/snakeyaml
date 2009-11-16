@@ -18,7 +18,7 @@ package org.yaml.snakeyaml.emitter;
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
-final class ScalarAnalysis {
+public final class ScalarAnalysis {
     public String scalar;
     public boolean empty;
     public boolean multiline;
