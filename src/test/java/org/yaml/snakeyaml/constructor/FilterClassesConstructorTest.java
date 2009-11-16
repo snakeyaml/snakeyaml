@@ -24,18 +24,15 @@ public class FilterClassesConstructorTest extends TestCase {
 
     public void testGetClassForName() {
         Yaml yaml = new Yaml(new Loader(new FilterConstructor(true)));
+        String input = "!!org.yaml.snakeyaml.constructor.FilterClassesConstructorTest$FilteredBean {name: Andrey, number: 543}";
         try {
-            yaml
-                    .load("!!org.yaml.snakeyaml.constructor.FilterClassesConstructorTestt$LoaderBean {name: Andrey, number: 555}");
+            yaml.load(input);
             fail("Filter is expected.");
         } catch (Exception e) {
-            assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.constructor.FilterClassesConstructorTestt$LoaderBean; exception=Filter is applied.",
-                    e.getMessage());
+            assertTrue(e.getMessage().contains("Filter is applied."));
         }
         yaml = new Yaml(new Loader(new FilterConstructor(false)));
-        LoaderBean s = (LoaderBean) yaml
-                .load("!!org.yaml.snakeyaml.constructor.FilterClassesConstructorTest$LoaderBean {name: Andrey, number: 555}");
+        FilteredBean s = (FilteredBean) yaml.load(input);
         assertEquals("Andrey", s.getName());
     }
 
@@ -55,7 +52,7 @@ public class FilterClassesConstructorTest extends TestCase {
         }
     }
 
-    public static class LoaderBean {
+    public static class FilteredBean {
         private String name;
         private int number;
 
