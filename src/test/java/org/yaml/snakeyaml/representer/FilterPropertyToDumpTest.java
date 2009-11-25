@@ -22,12 +22,24 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
 
 public class FilterPropertyToDumpTest extends TestCase {
 
     public void testFilterProperty() {
+        BeanToRemoveProperty bean = new BeanToRemoveProperty();
+        bean.setNumber(24);
+        JavaBeanDumper d = new JavaBeanDumper(new MyRepresenter(), new DumperOptions());
+        String dump = d.dump(bean);
+        // System.out.println(dump);
+        assertEquals(
+                "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {number: 24}\n",
+                dump);
+    }
+
+    public void testFilterProperty2() {
         BeanToRemoveProperty bean = new BeanToRemoveProperty();
         bean.setNumber(24);
         Dumper dumper = new Dumper(new MyRepresenter(), new DumperOptions());

@@ -33,6 +33,8 @@ import org.yaml.snakeyaml.resolver.Resolver;
 public class JavaBeanDumper {
     private boolean useGlobalTag;
     private FlowStyle flowStyle;
+    private DumperOptions options;
+    private Representer representer;
     private Set<Class<? extends Object>> classTags;
 
     /**
@@ -54,6 +56,11 @@ public class JavaBeanDumper {
         this(false);
     }
 
+    public JavaBeanDumper(Representer representer, DumperOptions options) {
+        this.options = options;
+        this.representer = representer;
+    }
+
     /**
      * Serialize JavaBean
      * 
@@ -63,16 +70,26 @@ public class JavaBeanDumper {
      *            destination
      */
     public void dump(Object data, Writer output) {
-        DumperOptions options = new DumperOptions();
-        if (!useGlobalTag) {
-            options.setExplicitRoot(Tags.MAP);
+        DumperOptions doptions;
+        if (this.options == null) {
+            doptions = new DumperOptions();
+            if (!useGlobalTag) {
+                doptions.setExplicitRoot(Tags.MAP);
+            }
+            doptions.setDefaultFlowStyle(flowStyle);
+        } else {
+            doptions = this.options;
         }
-        options.setDefaultFlowStyle(flowStyle);
-        Representer representer = new Representer();
-        for (Class<? extends Object> clazz : classTags) {
-            representer.addClassTag(clazz, Tags.MAP);
+        Representer repr;
+        if (this.representer == null) {
+            repr = new Representer();
+            for (Class<? extends Object> clazz : classTags) {
+                repr.addClassTag(clazz, Tags.MAP);
+            }
+        } else {
+            repr = this.representer;
         }
-        Dumper dumper = new Dumper(representer, options);
+        Dumper dumper = new Dumper(repr, doptions);
         List<Object> list = new ArrayList<Object>(1);
         list.add(data);
         dumper.dump(list.iterator(), output, new Resolver());
