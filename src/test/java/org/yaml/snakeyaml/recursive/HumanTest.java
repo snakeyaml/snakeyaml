@@ -129,6 +129,9 @@ public class HumanTest extends TestCase {
             // check if type descriptor was correct
             assertSame(Human.class, child.getClass());
         }
+
+        // check if hashCode is correct
+        validateSet(children2);
     }
 
     public void testChildren2() throws IOException {
@@ -195,6 +198,7 @@ public class HumanTest extends TestCase {
         assertEquals(2, children2.size());
         assertSame(father2.getPartner().getChildren(), children2);
 
+        validateMapKeys(children2);
     }
 
     public void testChildren3() throws IOException {
@@ -300,6 +304,8 @@ public class HumanTest extends TestCase {
             // check if type descriptor was correct
             assertSame(Human.class, child.getClass());
         }
+        
+        validateSet(children2);
     }
 
     /*
@@ -331,6 +337,8 @@ public class HumanTest extends TestCase {
         assertSame(father2, firstChild.getMother().getPartner());
 
         assertSame(father2.getPartner().getChildren(), children2);
+        
+        validateMapKeys(children2);
     }
 
     /*
@@ -450,5 +458,27 @@ public class HumanTest extends TestCase {
         // } catch (StackOverflowError e) {
         // fail("Cannot dump recursive collections.");
         // }
+    }
+
+    /**
+     * Checks if object was put into the set after full construction. So the hashCode
+     * was calculated correctly (if it depends on internal object's state).
+     * @param set
+     */
+    private void validateSet(Set<?> set) {
+        for (Object object : set) {
+            assertTrue(set.contains(object));
+        }
+    }
+
+    /**
+     * Checks if object was put into the map as key after full construction. So the hashCode
+     * was calculated correctly (if it depends on internal object's state).
+     * @param map
+     */
+    private void validateMapKeys(Map<?,?> map) {
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            assertTrue(map.containsKey(entry.getKey()));
+        }
     }
 }

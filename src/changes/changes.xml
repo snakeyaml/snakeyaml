@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="update">
+                Refactor BaseConstructor: simplify second step for recursive structures (2009-11-25)
+            </action>
             <action dev="py4fun" type="add">
                 Add FilterPropertyToDumpTest to show how to filter JavaBean properties (2009-11-24)
             </action>

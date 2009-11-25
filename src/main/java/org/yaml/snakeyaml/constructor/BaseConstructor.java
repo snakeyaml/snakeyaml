@@ -34,7 +34,6 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
-import org.yaml.snakeyaml.util.ArrayStack;
 
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
@@ -58,7 +57,6 @@ public abstract class BaseConstructor {
     private Composer composer;
     private final Map<Node, Object> constructedObjects;
     private final Set<Node> recursiveObjects;
-    private final ArrayStack<RecursiveTuple<Node, Object>> toBeConstructedAt2ndStep;
     private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>> maps2fill;
     private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
 
@@ -67,7 +65,6 @@ public abstract class BaseConstructor {
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();
         recursiveObjects = new HashSet<Node>();
-        toBeConstructedAt2ndStep = new ArrayStack<RecursiveTuple<Node, Object>>(10);
         maps2fill = new ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>>();
         sets2fill = new ArrayList<RecursiveTuple<Set<Object>, Object>>();
         rootTag = null;
@@ -131,10 +128,13 @@ public abstract class BaseConstructor {
      */
     private Object constructDocument(Node node) {
         Object data = constructObject(node);
-        while (!toBeConstructedAt2ndStep.isEmpty()) {
-            RecursiveTuple<Node, Object> toBeProcessed = toBeConstructedAt2ndStep.pop();
-            callPostCreate(toBeProcessed._1(), toBeProcessed._2());
-        }
+        fillRecursive();
+        constructedObjects.clear();
+        recursiveObjects.clear();
+        return data;
+    }
+
+    private void fillRecursive() {
         if (!maps2fill.isEmpty()) {
             for (RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>> entry : maps2fill) {
                 RecursiveTuple<Object, Object> key_value = entry._2();
@@ -148,10 +148,6 @@ public abstract class BaseConstructor {
             }
             sets2fill.clear();
         }
-        constructedObjects.clear();
-        recursiveObjects.clear();
-        toBeConstructedAt2ndStep.clear();
-        return data;
     }
 
     /**
@@ -171,28 +167,14 @@ public abstract class BaseConstructor {
                     .getStartMark());
         }
         recursiveObjects.add(node);
-        Object data = callConstructor(node);
-        if (node.isTwoStepsConstruction()) {
-            toBeConstructedAt2ndStep.push(new RecursiveTuple<Node, Object>(node, data));
-        }
+        Construct constructor = getConstructor(node);
+        Object data = constructor.construct(node);
         constructedObjects.put(node, data);
         recursiveObjects.remove(node);
+        if (node.isTwoStepsConstruction()) {
+            constructor.construct2ndStep(node, data);
+        }
         return data;
-    }
-
-    /**
-     * Create Java instance from the specified Node
-     * 
-     * @param node
-     *            Node to be constructed
-     * @return Java instance
-     */
-    protected Object callConstructor(Node node) {
-        return getConstructor(node).construct(node);
-    }
-
-    protected void callPostCreate(Node node, Object object) {
-        getConstructor(node).construct2ndStep(node, object);
     }
 
     /**
