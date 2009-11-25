@@ -7,6 +7,10 @@
 	</properties>
 	<body>
 	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="fix" issue="36">
+                Introduce multi contructors (tag prefix). A family of tags may be processed
+                by a single constructor (2009-11-25)
+            </action>
             <action dev="py4fun" type="update">
                 Refactor BaseConstructor: simplify second step for recursive structures (2009-11-25)
             </action>

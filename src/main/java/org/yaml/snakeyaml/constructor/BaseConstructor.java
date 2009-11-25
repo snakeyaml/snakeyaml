@@ -53,6 +53,11 @@ public abstract class BaseConstructor {
      * node has the Object.class)
      */
     protected final Map<String, Construct> yamlConstructors = new HashMap<String, Construct>();
+    /**
+     * It maps the (explicit or implicit) tag to the Construct implementation.
+     * It is used when no exact match found.
+     */
+    protected final Map<String, Construct> yamlMultiConstructors = new HashMap<String, Construct>();
 
     private Composer composer;
     private final Map<Node, Object> constructedObjects;
@@ -192,6 +197,11 @@ public abstract class BaseConstructor {
         } else {
             Construct constructor = yamlConstructors.get(node.getTag());
             if (constructor == null) {
+                for (String prefix : yamlMultiConstructors.keySet()) {
+                    if (node.getTag().startsWith(prefix)) {
+                        return yamlMultiConstructors.get(prefix);
+                    }
+                }
                 return yamlConstructors.get(null);
             }
             return constructor;
