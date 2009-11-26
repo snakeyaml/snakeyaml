@@ -25,14 +25,18 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 
+/**
+ * Example to process a family of tags with the same prefix with one constructor
+ * (PrefixConstruct)
+ */
 public class PrefixConstructorTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void test1() {
-        Yaml yaml = new Yaml(new Loader(new PrefixConstructor()));
-        String input = "- !org.yaml.Foo 123\n- !org.yaml.Bar 456\n- !Immutable [aaa, bbb]";
+        Yaml yaml = new Yaml(new Loader(new CustomConstructor()));
+        String input = "- !org.yaml.Foo 123\n- !org.yaml.Bar 456\n- !org.yaml.Exact 789\n- !Immutable [aaa, bbb]";
         List<Extra> list = (List<Extra>) yaml.load(input);
-        assertEquals(3, list.size());
+        assertEquals(4, list.size());
         Extra foo = list.get(0);
         assertEquals("Foo", foo.getName());
         assertEquals("123", foo.getValue());
@@ -41,21 +45,30 @@ public class PrefixConstructorTest extends TestCase {
         assertEquals("Bar", bar.getName());
         assertEquals("456", bar.getValue());
         //
-        Extra immut = list.get(2);
+        Extra item = list.get(2);
+        assertEquals("Item", item.getName());
+        assertEquals("789", item.getValue());
+        //
+        Extra immut = list.get(3);
         assertEquals("aaa", immut.getName());
         assertEquals("bbb", immut.getValue());
     }
 
-    private class PrefixConstructor extends SafeConstructor {
-        public PrefixConstructor() {
+    private class CustomConstructor extends SafeConstructor {
+        public CustomConstructor() {
             // define tags which begin with !org.yaml.
             String prefix = "!org.yaml.";
             this.yamlMultiConstructors.put(prefix, new PrefixConstruct(prefix,
-                    PrefixConstructor.this));
-            this.yamlConstructors.put(null, new ConstructUnknown(PrefixConstructor.this));
+                    CustomConstructor.this));
+            this.yamlConstructors.put(null, new ConstructUnknown(CustomConstructor.this));
+            this.yamlConstructors
+                    .put("!org.yaml.Exact", new ExactConstruct(CustomConstructor.this));
         }
     }
 
+    /**
+     * Process tags which start with '!org.yaml.'
+     */
     private class PrefixConstruct extends AbstractConstruct {
         private String prefix;
         private BaseConstructor con;
@@ -71,6 +84,24 @@ public class PrefixConstructorTest extends TestCase {
         }
     }
 
+    /**
+     * This has more priority then PrefixConstruct
+     */
+    private class ExactConstruct extends AbstractConstruct {
+        private BaseConstructor con;
+
+        public ExactConstruct(BaseConstructor con) {
+            this.con = con;
+        }
+
+        public Object construct(Node node) {
+            return new Extra("Item", con.constructScalar((ScalarNode) node).toString());
+        }
+    }
+
+    /**
+     * Process unrecognised tags
+     */
     private class ConstructUnknown extends AbstractConstruct {
         private BaseConstructor con;
 

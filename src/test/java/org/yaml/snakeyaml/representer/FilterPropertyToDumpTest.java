@@ -80,6 +80,7 @@ public class FilterPropertyToDumpTest extends TestCase {
                 throws IntrospectionException {
             Set<Property> set = super.getProperties(type);
             if (type.equals(BeanToRemoveProperty.class)) {
+                // drop setTestCase property
                 for (Property prop : set) {
                     if (prop.getName().equals("setTestCase")) {
                         set.remove(prop);
