@@ -328,7 +328,7 @@ public class DumperOptions {
      *            - automatically detected style
      * @return ScalarStyle to be used for scalar
      */
-    public ScalarStyle chooseScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
+    public ScalarStyle calculateScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
         return style;
     }
 }

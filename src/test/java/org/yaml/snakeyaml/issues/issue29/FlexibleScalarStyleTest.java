@@ -47,11 +47,11 @@ public class FlexibleScalarStyleTest extends TestCase {
 
     private class MyOptions extends DumperOptions {
         @Override
-        public ScalarStyle chooseScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
+        public ScalarStyle calculateScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
             if (analysis.allowBlock && analysis.scalar.length() > 80) {
                 return ScalarStyle.FOLDED;
             } else {
-                return super.chooseScalarStyle(analysis, style);
+                return super.calculateScalarStyle(analysis, style);
             }
         }
     }

@@ -775,7 +775,7 @@ public final class Emitter {
         if (style == null) {
             style = chooseScalarStyle();
         }
-        style = options.chooseScalarStyle(analysis, ScalarStyle.createStyle(style)).getChar();
+        style = options.calculateScalarStyle(analysis, ScalarStyle.createStyle(style)).getChar();
         boolean split = !simpleKeyContext;
         if (style == null) {
             writePlain(analysis.scalar, split);
