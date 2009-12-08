@@ -34,7 +34,7 @@ public class IgnoreTagsExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testLoad() {
         String input = Util.getLocalResource("examples/unknown-tags-example.yaml");
-        System.out.println(input);
+        // System.out.println(input);
         Yaml yaml = new Yaml(new Loader(new MyConstructor()));
         Map<String, Object> result = (Map<String, Object>) yaml.load(input);
         // Check the result
