@@ -1,0 +1,8 @@
+--- !Foo
+aaa: !Bar1 123
+bbb: !Bar2
+- 111
+- ddd
+ccc: !Bar3
+ x: !!float 1
+ y: 3.1416
