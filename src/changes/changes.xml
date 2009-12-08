@@ -7,6 +7,12 @@
 	</properties>
 	<body>
 	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
+            <action dev="py4fun" type="add">
+                Add Ruby example (2009-12-08)
+            </action>
+            <action dev="py4fun" type="update">
+                Do not omit the tag for JavaBean properties when the tag is explicitly defined (2009-12-08)
+            </action>
             <action dev="py4fun" type="fix" issue="38" due-to="gchpaco">
                 Fix ID format for numbers over 999 (2009-12-05)
             </action>

@@ -1,0 +1,10 @@
+--- !ruby/object:Test::Module::Object
+  sub1: !ruby/object:Test::Module::Sub1
+    att1: []
+    att2: 0
+    att3: []
+  sub2: !ruby/object:Test::Module::Sub2
+    att1: MyString
+    att2:
+    - entry1
+    att3: 12345

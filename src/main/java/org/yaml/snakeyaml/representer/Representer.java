@@ -106,10 +106,13 @@ public class Representer extends SafeRepresenter {
                 // the node is a map, set or JavaBean
                 if (!Map.class.isAssignableFrom(memberValue.getClass())) {
                     // the node is set or JavaBean
-                    if (property.getType() == memberValue.getClass()) {
-                        // we do not need global tag because the property
-                        // Class is the same as the runtime class
-                        nodeValue.setTag(Tags.MAP);
+                    if (customTag == null) {
+                        // custom tag is not defined
+                        if (property.getType() == memberValue.getClass()) {
+                            // we do not need global tag because the property
+                            // Class is the same as the runtime class
+                            nodeValue.setTag(Tags.MAP);
+                        }
                     }
                 }
             } else if (memberValue != null && Enum.class.isAssignableFrom(memberValue.getClass())) {
