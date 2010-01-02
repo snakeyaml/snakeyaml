@@ -238,6 +238,10 @@ public class Constructor extends SafeConstructor {
                 try {
                     Property property = getProperty(beanType, key);
                     valueNode.setType(property.getType());
+                    //TODO remove BigDecimal.class
+                    if (BigDecimal.class.equals(property.getType())) {
+                        valueNode.setUseClassConstructor(true);
+                    }
                     if (property.getType().isArray()) {
                         isArray = true;
                     }
@@ -398,7 +402,8 @@ public class Constructor extends SafeConstructor {
             if (type.isPrimitive() || type == String.class || Number.class.isAssignableFrom(type)
                     || type == Boolean.class || Date.class.isAssignableFrom(type)
                     || type == Character.class || type == BigInteger.class
-                    || Enum.class.isAssignableFrom(type) || Tags.BINARY.equals(node.getTag())) {
+                    || type == BigDecimal.class || Enum.class.isAssignableFrom(type)
+                    || Tags.BINARY.equals(node.getTag())) {
                 // standard classes created directly
                 result = constructStandardJavaInstance(type, node);
             } else {
@@ -481,12 +486,14 @@ public class Constructor extends SafeConstructor {
                 }
             } else if (type == Float.class || type == Double.class || type == Float.TYPE
                     || type == Double.TYPE || type == BigDecimal.class) {
-                Construct doubleConstructor = yamlConstructors.get(Tags.FLOAT);
-                result = doubleConstructor.construct(node);
-                if (type == Float.class || type == Float.TYPE) {
-                    result = new Float((Double) result);
-                } else if (type == BigDecimal.class) {
-                    result = new BigDecimal(((Double) result).doubleValue());
+                if (type == BigDecimal.class) {
+                    result = new BigDecimal(node.getValue());
+                } else {
+                    Construct doubleConstructor = yamlConstructors.get(Tags.FLOAT);
+                    result = doubleConstructor.construct(node);
+                    if (type == Float.class || type == Float.TYPE) {
+                        result = new Float((Double) result);
+                    }
                 }
             } else if (type == Byte.class || type == Short.class || type == Integer.class
                     || type == Long.class || type == BigInteger.class || type == Byte.TYPE
