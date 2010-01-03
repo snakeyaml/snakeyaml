@@ -41,7 +41,7 @@ public class DogFoodBeanTest extends TestCase {
         // System.out.println(text);
         assertEquals("decimal: 5.123\n", text);
         JavaBeanLoader<DogFoodBean> loader = new JavaBeanLoader<DogFoodBean>(DogFoodBean.class);
-        DogFoodBean output = (DogFoodBean) loader.load(text);
+        DogFoodBean output = loader.load(text);
         assertEquals(input.getDecimal(), output.getDecimal());
     }
 
