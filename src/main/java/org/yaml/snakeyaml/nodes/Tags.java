@@ -15,6 +15,13 @@
  */
 package org.yaml.snakeyaml.nodes;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public final class Tags {
     public static final String PREFIX = "tag:yaml.org,2002:";
     public static final String MAP = PREFIX + "map";
@@ -35,5 +42,34 @@ public final class Tags {
 
     public static String getGlobalTagForClass(Class<? extends Object> clazz) {
         return PREFIX + clazz.getName();
+    }
+
+    // TODO is it the proper place for the code ?
+    // TODO should we define the preference which one is created when the
+    // runtime class is not known ?
+    /**
+     * Get list of classes which are constructed out of the same tag
+     * 
+     * @param tag
+     *            - the tag with more then one matching Java class
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static List<Class> getCompatibleForTag(String tag) {
+        List<Class> result = new ArrayList<Class>(3);
+        if (TIMESTAMP.equals(tag)) {
+            result.add(Date.class);
+            result.add(java.sql.Date.class);
+            result.add(Timestamp.class);
+        } else if (FLOAT.equals(tag)) {
+            result.add(Double.class);
+            result.add(Float.class);
+            result.add(BigDecimal.class);
+        } else if (INT.equals(tag)) {
+            result.add(Integer.class);
+            result.add(Long.class);
+            result.add(BigInteger.class);
+        }
+        return result;
     }
 }

@@ -238,10 +238,6 @@ public class Constructor extends SafeConstructor {
                 try {
                     Property property = getProperty(beanType, key);
                     valueNode.setType(property.getType());
-                    //TODO remove BigDecimal.class
-                    if (BigDecimal.class.equals(property.getType())) {
-                        valueNode.setUseClassConstructor(true);
-                    }
                     if (property.getType().isArray()) {
                         isArray = true;
                     }

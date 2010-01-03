@@ -134,7 +134,11 @@ public abstract class Node {
 
     public boolean useClassConstructor() {
         if (useClassConstructor == null) {
-            if (resolved && !Object.class.equals(type) && !tag.equals(Tags.NULL)) {
+            if (isResolved() && !Object.class.equals(type) && !tag.equals(Tags.NULL)) {
+                return true;
+            } else if (Tags.getCompatibleForTag(tag).contains(getType())) {
+                // the tag is compatible with the runtime class
+                // the tag will be ignored
                 return true;
             } else {
                 return false;

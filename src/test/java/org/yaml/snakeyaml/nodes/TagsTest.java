@@ -17,6 +17,9 @@ package org.yaml.snakeyaml.nodes;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+
 public class TagsTest extends TestCase {
 
     /**
@@ -31,5 +34,32 @@ public class TagsTest extends TestCase {
         assertEquals("tag:yaml.org,2002:java.lang.String", Tags.getGlobalTagForClass(String.class));
         assertEquals("tag:yaml.org,2002:org.yaml.snakeyaml.nodes.TagsTest", Tags
                 .getGlobalTagForClass(TagsTest.class));
+    }
+
+    /**
+     * test fix for issue 18 -
+     * http://code.google.com/p/snakeyaml/issues/detail?id=18
+     */
+    public void testLong() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
+        Yaml yaml = new Yaml(options);
+        Foo foo = new Foo();
+        String output = yaml.dump(foo);
+        System.out.println(output);
+        Foo foo2 = (Foo) yaml.load(output);
+        assertEquals(new Long(42L), foo2.getBar());
+    }
+
+    public static class Foo {
+        private Long bar = Long.valueOf(42L);
+
+        public Long getBar() {
+            return bar;
+        }
+
+        public void setBar(Long bar) {
+            this.bar = bar;
+        }
     }
 }

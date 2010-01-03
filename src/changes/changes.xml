@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
+	    	<action dev="py4fun" type="fix" issue="40" due-to="sitrious">
+                Ignore tags when they are compatible with the runtime class (2010-01-04)
+            </action>
             <action dev="py4fun" type="add">
                 Add example to ignore unknown tags (2009-12-08)
             </action>
