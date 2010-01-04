@@ -18,10 +18,13 @@ package org.yaml.snakeyaml.nodes;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
+@SuppressWarnings("unchecked")
 public final class Tags {
     public static final String PREFIX = "tag:yaml.org,2002:";
     public static final String MAP = PREFIX + "map";
@@ -39,6 +42,27 @@ public final class Tags {
     public static final String MERGE = PREFIX + "merge";
     public static final String VALUE = PREFIX + "value";
     public static final String YAML = PREFIX + "yaml";
+    public static final Map<String, Set<Class>> COMPATIBILITY_MAP;
+    static {
+        COMPATIBILITY_MAP = new HashMap<String, Set<Class>>();
+        Set<Class> floatSet = new HashSet<Class>();
+        floatSet.add(Double.class);
+        floatSet.add(Float.class);
+        floatSet.add(BigDecimal.class);
+        COMPATIBILITY_MAP.put(FLOAT, floatSet);
+        //
+        Set<Class> intSet = new HashSet<Class>();
+        intSet.add(Integer.class);
+        intSet.add(Long.class);
+        intSet.add(BigInteger.class);
+        COMPATIBILITY_MAP.put(INT, intSet);
+        //
+        Set<Class> timestampSet = new HashSet<Class>();
+        timestampSet.add(Date.class);
+        timestampSet.add(java.sql.Date.class);
+        timestampSet.add(Timestamp.class);
+        COMPATIBILITY_MAP.put(TIMESTAMP, timestampSet);
+    }
 
     public static String getGlobalTagForClass(Class<? extends Object> clazz) {
         return PREFIX + clazz.getName();
@@ -47,29 +71,13 @@ public final class Tags {
     // TODO is it the proper place for the code ?
     // TODO should we define the preference which one is created when the
     // runtime class is not known ?
-    /**
-     * Get list of classes which are constructed out of the same tag
-     * 
-     * @param tag
-     *            - the tag with more then one matching Java class
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static List<Class> getCompatibleForTag(String tag) {
-        List<Class> result = new ArrayList<Class>(3);
-        if (TIMESTAMP.equals(tag)) {
-            result.add(Date.class);
-            result.add(java.sql.Date.class);
-            result.add(Timestamp.class);
-        } else if (FLOAT.equals(tag)) {
-            result.add(Double.class);
-            result.add(Float.class);
-            result.add(BigDecimal.class);
-        } else if (INT.equals(tag)) {
-            result.add(Integer.class);
-            result.add(Long.class);
-            result.add(BigInteger.class);
+    // TODO choose a better name
+    public static boolean areCompatible(String tag, Class clazz) {
+        Set<Class> set = COMPATIBILITY_MAP.get(tag);
+        if (set != null) {
+            return set.contains(clazz);
+        } else {
+            return false;
         }
-        return result;
     }
 }
