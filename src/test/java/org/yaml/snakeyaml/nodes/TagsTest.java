@@ -46,7 +46,7 @@ public class TagsTest extends TestCase {
         Yaml yaml = new Yaml(options);
         Foo foo = new Foo();
         String output = yaml.dump(foo);
-        System.out.println(output);
+        // System.out.println(output);
         Foo foo2 = (Foo) yaml.load(output);
         assertEquals(new Long(42L), foo2.getBar());
     }

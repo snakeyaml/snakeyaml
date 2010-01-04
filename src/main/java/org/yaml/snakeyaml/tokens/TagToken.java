@@ -16,30 +16,25 @@
 package org.yaml.snakeyaml.tokens;
 
 import org.yaml.snakeyaml.error.Mark;
-import org.yaml.snakeyaml.error.YAMLException;
 
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public final class TagToken extends Token {
-    private final String[] value;
+    private final TagTuple value;
 
-    public TagToken(String[] value, Mark startMark, Mark endMark) {
+    public TagToken(TagTuple value, Mark startMark, Mark endMark) {
         super(startMark, endMark);
-        if (value.length != 2) {
-            throw new YAMLException("Two strings must be provided instead of "
-                    + String.valueOf(value.length));
-        }
         this.value = value;
     }
 
-    public String[] getValue() {
+    public TagTuple getValue() {
         return this.value;
     }
 
     @Override
     protected String getArguments() {
-        return "value=[" + value[0] + ", " + value[1] + "]";
+        return "value=[" + value.getHandle() + ", " + value.getSuffix() + "]";
     }
 
     @Override

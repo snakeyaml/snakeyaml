@@ -56,6 +56,7 @@ import org.yaml.snakeyaml.tokens.ScalarToken;
 import org.yaml.snakeyaml.tokens.StreamEndToken;
 import org.yaml.snakeyaml.tokens.StreamStartToken;
 import org.yaml.snakeyaml.tokens.TagToken;
+import org.yaml.snakeyaml.tokens.TagTuple;
 import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.ValueToken;
 import org.yaml.snakeyaml.util.ArrayStack;
@@ -416,7 +417,7 @@ public final class ParserImpl implements Parser {
             state = states.pop();
         } else {
             String anchor = null;
-            String[] tagTokenTag = null;
+            TagTuple tagTokenTag = null;
             if (scanner.checkToken(AnchorToken.class)) {
                 AnchorToken token = (AnchorToken) scanner.getToken();
                 startMark = token.getStartMark();
@@ -442,8 +443,8 @@ public final class ParserImpl implements Parser {
             }
             String tag = null;
             if (tagTokenTag != null) {
-                String handle = tagTokenTag[0];
-                String suffix = tagTokenTag[1];
+                String handle = tagTokenTag.getHandle();
+                String suffix = tagTokenTag.getSuffix();
                 if (handle != null) {
                     if (!tagHandles.containsKey(handle)) {
                         throw new ParserException("while parsing a node", startMark,

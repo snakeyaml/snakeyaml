@@ -37,6 +37,7 @@ import org.yaml.snakeyaml.tokens.ScalarToken;
 import org.yaml.snakeyaml.tokens.StreamEndToken;
 import org.yaml.snakeyaml.tokens.StreamStartToken;
 import org.yaml.snakeyaml.tokens.TagToken;
+import org.yaml.snakeyaml.tokens.TagTuple;
 import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.ValueToken;
 
@@ -242,7 +243,7 @@ public class CanonicalScanner implements Scanner {
         } else {
             value = "!" + value;
         }
-        return new TagToken(new String[] { "", value }, mark, mark);
+        return new TagToken(new TagTuple("", value), mark, mark);
     }
 
     private Token scanScalar() {

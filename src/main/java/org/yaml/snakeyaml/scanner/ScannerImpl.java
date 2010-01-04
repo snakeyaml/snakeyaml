@@ -46,6 +46,7 @@ import org.yaml.snakeyaml.tokens.ScalarToken;
 import org.yaml.snakeyaml.tokens.StreamEndToken;
 import org.yaml.snakeyaml.tokens.StreamStartToken;
 import org.yaml.snakeyaml.tokens.TagToken;
+import org.yaml.snakeyaml.tokens.TagTuple;
 import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.ValueToken;
 import org.yaml.snakeyaml.util.ArrayStack;
@@ -1197,7 +1198,7 @@ public final class ScannerImpl implements Scanner {
             suffix = scanTagUri("tag", startMark);
             if (reader.peek() != '>') {
                 throw new ScannerException("while scanning a tag", startMark,
-                        "expected '>', but found " + reader.peek() + "(" + ((int) reader.peek())
+                        "expected '>', but found '" + reader.peek() + "' (" + ((int) reader.peek())
                                 + ")", reader.getMark());
             }
             reader.forward();
@@ -1227,9 +1228,9 @@ public final class ScannerImpl implements Scanner {
         ch = reader.peek();
         if (NULL_BL_LINEBR.indexOf(ch) == -1) {
             throw new ScannerException("while scanning a tag", startMark,
-                    "expected ' ', but found " + ch + "(" + ((int) ch) + ")", reader.getMark());
+                    "expected ' ', but found '" + ch + "' (" + ((int) ch) + ")", reader.getMark());
         }
-        String[] value = new String[] { handle, suffix };
+        TagTuple value = new TagTuple(handle, suffix);
         Mark endMark = reader.getMark();
         return new TagToken(value, startMark, endMark);
     }
