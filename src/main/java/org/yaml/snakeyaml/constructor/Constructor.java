@@ -601,7 +601,7 @@ public class Constructor extends SafeConstructor {
     protected Class<?> getClassForNode(Node node) {
         Class<? extends Object> classForTag = typeTags.get(node.getTag());
         if (classForTag == null) {
-            if (node.getTag().length() < Tags.PREFIX.length()) {
+            if (!node.getTag().startsWith(Tags.PREFIX)) {
                 throw new YAMLException("Unknown tag: " + node.getTag());
             }
             String name = node.getTag().substring(Tags.PREFIX.length());
