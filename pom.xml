@@ -63,32 +63,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<!--pluginRepositories>
-		<pluginRepository>
-			<id>mc-release</id>
-			<name>Local Maven repository of releases</name>
-			<url>http://mc-repo.googlecode.com/svn/maven2/releases
-			</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</pluginRepository>
-		<pluginRepository>
-			<id>mc-release</id>
-			<name>Local Maven repository of releases</name>
-			<url>http://mc-repo.googlecode.com/svn/maven2/snapshots
-			</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories-->
 	<build>
 		<plugins>
 			<plugin>
@@ -181,8 +155,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- plugin>
-				<groupId>com.google.code.maven-license-plugin</groupId>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
 				<configuration>
 					<header>src/etc/header.txt</header>
@@ -202,7 +176,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin -->
+			</plugin>
 			<plugin>
 	            <artifactId>maven-resources-plugin</artifactId>
 	            <configuration>
