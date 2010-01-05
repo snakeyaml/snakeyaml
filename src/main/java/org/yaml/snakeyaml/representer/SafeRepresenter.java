@@ -38,7 +38,7 @@ import org.yaml.snakeyaml.util.Base64Coder;
  */
 class SafeRepresenter extends BaseRepresenter {
 
-    protected Map<Class<? extends Object>, String> classTags;
+    protected Map<Class<? extends Object>, Tag> classTags;
 
     public SafeRepresenter() {
         this.nullRepresenter = new RepresentNull();
@@ -53,10 +53,10 @@ class SafeRepresenter extends BaseRepresenter {
         this.multiRepresenters.put(new Object[0].getClass(), new RepresentArray());
         this.multiRepresenters.put(Date.class, new RepresentDate());
         this.multiRepresenters.put(Enum.class, new RepresentEnum());
-        classTags = new HashMap<Class<? extends Object>, String>();
+        classTags = new HashMap<Class<? extends Object>, Tag>();
     }
 
-    private String getTag(Class<?> clazz, String defaultTag) {
+    private Tag getTag(Class<?> clazz, Tag defaultTag) {
         if (classTags.containsKey(clazz)) {
             return classTags.get(clazz);
         } else {
@@ -83,6 +83,7 @@ class SafeRepresenter extends BaseRepresenter {
     /**
      * Define a tag for the <code>Class</code> to serialize
      * 
+     * @deprecated use Tag instead of String
      * @param clazz
      *            <code>Class</code> which tag is changed
      * @param tag
@@ -90,7 +91,11 @@ class SafeRepresenter extends BaseRepresenter {
      *            <code>Class</code>
      * @return the previous tag associated with the <code>Class</code>
      */
-    public String addClassTag(Class<? extends Object> clazz, String tag) {
+    public Tag addClassTag(Class<? extends Object> clazz, String tag) {
+        return addClassTag(clazz, Tag.createTag(tag));
+    }
+
+    public Tag addClassTag(Class<? extends Object> clazz, Tag tag) {
         if (tag == null) {
             throw new NullPointerException("Tag must be provided.");
         }
@@ -107,7 +112,7 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentString implements Represent {
         public Node representData(Object data) {
-            String tag = Tag.STR;
+            Tag tag = Tag.STR;
             Character style = null;
             String value = data.toString();
             if (BINARY_PATTERN.matcher(value).find()) {
@@ -135,7 +140,7 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentNumber implements Represent {
         public Node representData(Object data) {
-            String tag;
+            Tag tag;
             String value;
             if (data instanceof Byte || data instanceof Short || data instanceof Integer
                     || data instanceof Long || data instanceof BigInteger) {
@@ -248,7 +253,7 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentEnum implements Represent {
         public Node representData(Object data) {
-            String tag = Tag.getGlobalTagForClass(data.getClass());
+            Tag tag = new Tag(data.getClass());
             return representScalar(getTag(data.getClass(), tag), data.toString());
         }
     }

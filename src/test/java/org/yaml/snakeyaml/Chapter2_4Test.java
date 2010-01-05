@@ -31,6 +31,7 @@ import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Test Chapter 2.4 from the YAML specification
@@ -130,7 +131,7 @@ public class Chapter2_4Test extends TestCase {
 
     class SomethingConstructor extends Constructor {
         public SomethingConstructor() {
-            this.yamlConstructors.put("!something", new ConstructSomething());
+            this.yamlConstructors.put(Tag.createTag("!something"), new ConstructSomething());
         }
 
         private class ConstructSomething extends AbstractConstruct {

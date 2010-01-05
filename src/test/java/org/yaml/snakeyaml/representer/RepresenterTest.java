@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.representer;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class RepresenterTest extends TestCase {
 
@@ -134,7 +135,7 @@ public class RepresenterTest extends TestCase {
     public void testRepresenterAddNull() {
         Representer representer = new Representer();
         try {
-            representer.addClassTag(EmptyBean.class, null);
+            representer.addClassTag(EmptyBean.class, (Tag) null);
             fail("Tag must be provided.");
         } catch (Exception e) {
             assertEquals("Tag must be provided.", e.getMessage());

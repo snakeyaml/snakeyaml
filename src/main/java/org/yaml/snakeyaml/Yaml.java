@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -243,6 +244,24 @@ public class Yaml {
      * Add an implicit scalar detector. If an implicit scalar value matches the
      * given regexp, the corresponding tag is assigned to the scalar.
      * 
+     * @deprecated use Tag instead of String
+     * @param tag
+     *            tag to assign to the node
+     * @param regexp
+     *            regular expression to match against
+     * @param first
+     *            a sequence of possible initial characters or null (which means
+     *            any).
+     * 
+     */
+    public void addImplicitResolver(String tag, Pattern regexp, String first) {
+        addImplicitResolver(Tag.createTag(tag), regexp, first);
+    }
+
+    /**
+     * Add an implicit scalar detector. If an implicit scalar value matches the
+     * given regexp, the corresponding tag is assigned to the scalar.
+     * 
      * @param tag
      *            tag to assign to the node
      * @param regexp
@@ -251,7 +270,7 @@ public class Yaml {
      *            a sequence of possible initial characters or null (which means
      *            any).
      */
-    public void addImplicitResolver(String tag, Pattern regexp, String first) {
+    public void addImplicitResolver(Tag tag, Pattern regexp, String first) {
         resolver.addImplicitResolver(tag, regexp, first);
     }
 

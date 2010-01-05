@@ -25,9 +25,8 @@ public class BeanConstructor extends Constructor {
 
     public BeanConstructor() {
         super(BeanHolder.class);
-        yamlConstructors.put(Tag.getGlobalTagForClass(Bean1.class), new Bean1ScalarConstructor());
-        yamlConstructors.put(Tag.getGlobalTagForClass(BeanHolder.class),
-                new BeanHolderScalarConstructor());
+        yamlConstructors.put(new Tag(Bean1.class), new Bean1ScalarConstructor());
+        yamlConstructors.put(new Tag(BeanHolder.class), new BeanHolderScalarConstructor());
     }
 
     private class Bean1ScalarConstructor extends ConstructScalar {

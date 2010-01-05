@@ -34,6 +34,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
@@ -52,7 +53,7 @@ public abstract class BaseConstructor {
      * 2) implicit tag - when the runtime class of the instance is unknown (the
      * node has the Object.class)
      */
-    protected final Map<String, Construct> yamlConstructors = new HashMap<String, Construct>();
+    protected final Map<Tag, Construct> yamlConstructors = new HashMap<Tag, Construct>();
     /**
      * It maps the (explicit or implicit) tag to the Construct implementation.
      * It is used when no exact match found.
@@ -65,7 +66,7 @@ public abstract class BaseConstructor {
     private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>> maps2fill;
     private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
 
-    protected String rootTag;
+    protected Tag rootTag;
 
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();

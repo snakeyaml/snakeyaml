@@ -60,7 +60,7 @@ public final class Serializer {
     private Map<Node, String> anchors;
     private int lastAnchorId;
     private Boolean closed;
-    private String explicitRoot;
+    private Tag explicitRoot;
 
     public Serializer(Emitter emitter, Resolver resolver, DumperOptions opts) {
         this.emitter = emitter;
@@ -108,7 +108,7 @@ public final class Serializer {
                 useTags));
         anchorNode(node);
         if (explicitRoot != null) {
-            node.setTag(Tag.createTag(explicitRoot));
+            node.setTag(explicitRoot);
         }
         serializeNode(node, null, null);
         this.emitter.emit(new DocumentEndEvent(null, null, this.explicitEnd));
@@ -167,10 +167,8 @@ public final class Serializer {
             switch (node.getNodeId()) {
             case scalar:
                 ScalarNode scalarNode = (ScalarNode) node;
-                String detectedTag = this.resolver.resolve(NodeId.scalar, scalarNode.getValue(),
-                        true);
-                String defaultTag = this.resolver.resolve(NodeId.scalar, scalarNode.getValue(),
-                        false);
+                Tag detectedTag = this.resolver.resolve(NodeId.scalar, scalarNode.getValue(), true);
+                Tag defaultTag = this.resolver.resolve(NodeId.scalar, scalarNode.getValue(), false);
                 ImplicitTuple tuple = new ImplicitTuple(node.getTag().equals(detectedTag), node
                         .getTag().equals(defaultTag));
                 ScalarEvent event = new ScalarEvent(tAlias, node.getTag().getValue(), tuple,
@@ -192,7 +190,7 @@ public final class Serializer {
                 this.emitter.emit(new SequenceEndEvent(null, null));
                 break;
             default:// instance of MappingNode
-                String implicitTag = this.resolver.resolve(NodeId.mapping, null, true);
+                Tag implicitTag = this.resolver.resolve(NodeId.mapping, null, true);
                 boolean implicitM = (node.getTag().equals(implicitTag));
                 this.emitter.emit(new MappingStartEvent(tAlias, node.getTag().getValue(),
                         implicitM, null, null, ((CollectionNode) node).getFlowStyle()));

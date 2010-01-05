@@ -22,8 +22,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 public class BeanConstructor3 extends Constructor {
 
     public BeanConstructor3() {
-        yamlConstructors.put(Tag.getGlobalTagForClass(BeanHolder.class),
-                new BeanHolderScalarConstructor());
+        yamlConstructors.put(new Tag(BeanHolder.class), new BeanHolderScalarConstructor());
     }
 
     private class BeanHolderScalarConstructor extends ConstructScalar {

@@ -17,16 +17,18 @@ package org.yaml.snakeyaml.resolver;
 
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.nodes.Tag;
+
 final class ResolverTuple {
-    private final String tag;
+    private final Tag tag;
     private final Pattern regexp;
 
-    public ResolverTuple(String tag, Pattern regexp) {
+    public ResolverTuple(Tag tag, Pattern regexp) {
         this.tag = tag;
         this.regexp = regexp;
     }
 
-    public String getTag() {
+    public Tag getTag() {
         return tag;
     }
 

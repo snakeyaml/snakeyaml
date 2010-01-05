@@ -111,14 +111,14 @@ public class ResolverTest extends TestCase {
             public Node representData(Object data) {
                 Phone phone = (Phone) data;
                 String value = phone.getNumber();
-                return representScalar(Tag.PREFIX + "Phone", value);
+                return representScalar(Tag.createTag(Tag.PREFIX + "Phone"), value);
             }
         }
     }
 
     class MyConstructor extends Constructor {
         public MyConstructor() {
-            this.yamlConstructors.put(Tag.PREFIX + "Phone", new ConstructPhone());
+            this.yamlConstructors.put(Tag.createTag(Tag.PREFIX + "Phone"), new ConstructPhone());
         }
 
         private class ConstructPhone extends AbstractConstruct {
@@ -139,7 +139,7 @@ public class ResolverTest extends TestCase {
             public Node representData(Object data) {
                 Point phone = (Point) data;
                 String value = "x" + (int) phone.getX() + "_y" + (int) phone.getY();
-                return representScalar(Tag.PREFIX + "Point", value);
+                return representScalar(Tag.createTag(Tag.PREFIX + "Point"), value);
             }
         }
 
@@ -147,7 +147,7 @@ public class ResolverTest extends TestCase {
             public Node representData(Object data) {
                 Phone phone = (Phone) data;
                 String value = phone.getNumber();
-                return representScalar(Tag.PREFIX + "Phone", value);
+                return representScalar(Tag.createTag(Tag.PREFIX + "Phone"), value);
             }
         }
     }

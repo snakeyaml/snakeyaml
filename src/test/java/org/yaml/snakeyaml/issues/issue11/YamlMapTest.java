@@ -29,6 +29,7 @@ import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -130,14 +131,14 @@ public class YamlMapTest extends TestCase {
 
         private class RepresentCustom implements Represent {
             public Node representData(Object data) {
-                return representScalar("!Custom", ((Custom) data).toString());
+                return representScalar(Tag.createTag("!Custom"), ((Custom) data).toString());
             }
         }
     }
 
     public static class ExtendedConstructor extends Constructor {
         public ExtendedConstructor() {
-            this.yamlConstructors.put("!Custom", new ConstructCustom());
+            this.yamlConstructors.put(Tag.createTag("!Custom"), new ConstructCustom());
         }
 
         private class ConstructCustom extends AbstractConstruct {

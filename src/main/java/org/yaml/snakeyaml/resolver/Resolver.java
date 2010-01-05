@@ -80,7 +80,7 @@ public class Resolver {
         this(true);
     }
 
-    public void addImplicitResolver(String tag, Pattern regexp, String first) {
+    public void addImplicitResolver(Tag tag, Pattern regexp, String first) {
         if (first == null) {
             List<ResolverTuple> curr = yamlImplicitResolvers.get(null);
             if (curr == null) {
@@ -106,7 +106,7 @@ public class Resolver {
         }
     }
 
-    public String resolve(NodeId kind, String value, boolean implicit) {
+    public Tag resolve(NodeId kind, String value, boolean implicit) {
         if (kind == NodeId.scalar && implicit) {
             List<ResolverTuple> resolvers = null;
             if ("".equals(value)) {
@@ -116,7 +116,7 @@ public class Resolver {
             }
             if (resolvers != null) {
                 for (ResolverTuple v : resolvers) {
-                    String tag = v.getTag();
+                    Tag tag = v.getTag();
                     Pattern regexp = v.getRegexp();
                     if (regexp.matcher(value).matches()) {
                         return tag;
@@ -125,7 +125,7 @@ public class Resolver {
             }
             if (yamlImplicitResolvers.containsKey(null)) {
                 for (ResolverTuple v : yamlImplicitResolvers.get(null)) {
-                    String tag = v.getTag();
+                    Tag tag = v.getTag();
                     Pattern regexp = v.getRegexp();
                     if (regexp.matcher(value).matches()) {
                         return tag;

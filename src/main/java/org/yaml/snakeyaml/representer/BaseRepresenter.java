@@ -111,22 +111,22 @@ public abstract class BaseRepresenter {
         return node;
     }
 
-    protected Node representScalar(String tag, String value, Character style) {
+    protected Node representScalar(Tag tag, String value, Character style) {
         if (style == null) {
             style = this.defaultStyle;
         }
-        Node node = new ScalarNode(Tag.createTag(tag), value, null, null, style);
+        Node node = new ScalarNode(tag, value, null, null, style);
         representedObjects.put(objectToRepresent, node);
         return node;
     }
 
-    protected Node representScalar(String tag, String value) {
+    protected Node representScalar(Tag tag, String value) {
         return representScalar(tag, value, null);
     }
 
-    protected Node representSequence(String tag, List<? extends Object> sequence, Boolean flowStyle) {
+    protected Node representSequence(Tag tag, List<? extends Object> sequence, Boolean flowStyle) {
         List<Node> value = new ArrayList<Node>(sequence.size());
-        SequenceNode node = new SequenceNode(Tag.createTag(tag), value, flowStyle);
+        SequenceNode node = new SequenceNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
         for (Object item : sequence) {
@@ -146,10 +146,10 @@ public abstract class BaseRepresenter {
         return node;
     }
 
-    protected Node representMapping(String tag, Map<? extends Object, Object> mapping,
+    protected Node representMapping(Tag tag, Map<? extends Object, Object> mapping,
             Boolean flowStyle) {
         List<NodeTuple> value = new ArrayList<NodeTuple>(mapping.size());
-        MappingNode node = new MappingNode(Tag.createTag(tag), value, flowStyle);
+        MappingNode node = new MappingNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
         for (Object itemKey : mapping.keySet()) {

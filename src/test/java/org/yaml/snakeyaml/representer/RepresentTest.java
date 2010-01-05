@@ -75,14 +75,14 @@ public class RepresentTest extends TestCase {
             public Node representData(Object data) {
                 CustomBean coin = (CustomBean) data;
                 String value = coin.getPrefix() + "d" + coin.getSuffix();
-                return representScalar("!!Dice", value);
+                return representScalar(Tag.createTag("!!Dice"), value);
             }
         }
     }
 
     class MyConstructor extends Constructor {
         public MyConstructor() {
-            this.yamlConstructors.put(Tag.PREFIX + "Dice", new ConstructDice());
+            this.yamlConstructors.put(Tag.createTag(Tag.PREFIX + "Dice"), new ConstructDice());
         }
 
         private class ConstructDice extends AbstractConstruct {

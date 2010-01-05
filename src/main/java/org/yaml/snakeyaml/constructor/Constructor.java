@@ -72,7 +72,7 @@ public class Constructor extends SafeConstructor {
         }
         this.yamlConstructors.put(null, new ConstructYamlObject());
         if (!Object.class.equals(theRoot)) {
-            rootTag = Tag.getGlobalTagForClass(theRoot);
+            rootTag = new Tag(theRoot);
         }
         typeTags = new HashMap<String, Class<? extends Object>>();
         typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
@@ -119,7 +119,7 @@ public class Constructor extends SafeConstructor {
             throw new NullPointerException("TypeDescription is required.");
         }
         if (rootTag == null && definition.isRoot()) {
-            rootTag = Tag.getGlobalTagForClass(definition.getType());
+            rootTag = new Tag(definition.getType());
         }
         String tag = definition.getTag();
         typeTags.put(tag, definition.getType());

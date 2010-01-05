@@ -28,24 +28,24 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 public final class Tag {
     public static final String PREFIX = "tag:yaml.org,2002:";
-    public static final String YAML = PREFIX + "yaml";
-    public static final String VALUE = PREFIX + "value";
-    public static final String MERGE = PREFIX + "merge";
-    public static final String SET = PREFIX + "set";
-    public static final String PAIRS = PREFIX + "pairs";
-    public static final String OMAP = PREFIX + "omap";
-    public static final String BINARY = PREFIX + "binary";
-    public static final String INT = PREFIX + "int";
-    public static final String FLOAT = PREFIX + "float";
-    public static final String TIMESTAMP = PREFIX + "timestamp";
-    public static final String BOOL = PREFIX + "bool";
-    public static final String NULL = PREFIX + "null";
-    public static final String STR = PREFIX + "str";
-    public static final String SEQ = PREFIX + "seq";
-    public static final String MAP = PREFIX + "map";
-    public static final Map<String, Set<Class<?>>> COMPATIBILITY_MAP;
+    public static final Tag YAML = new Tag(PREFIX + "yaml");
+    public static final Tag VALUE = new Tag(PREFIX + "value");
+    public static final Tag MERGE = new Tag(PREFIX + "merge");
+    public static final Tag SET = new Tag(PREFIX + "set");
+    public static final Tag PAIRS = new Tag(PREFIX + "pairs");
+    public static final Tag OMAP = new Tag(PREFIX + "omap");
+    public static final Tag BINARY = new Tag(PREFIX + "binary");
+    public static final Tag INT = new Tag(PREFIX + "int");
+    public static final Tag FLOAT = new Tag(PREFIX + "float");
+    public static final Tag TIMESTAMP = new Tag(PREFIX + "timestamp");
+    public static final Tag BOOL = new Tag(PREFIX + "bool");
+    public static final Tag NULL = new Tag(PREFIX + "null");
+    public static final Tag STR = new Tag(PREFIX + "str");
+    public static final Tag SEQ = new Tag(PREFIX + "seq");
+    public static final Tag MAP = new Tag(PREFIX + "map");
+    public static final Map<Tag, Set<Class<?>>> COMPATIBILITY_MAP;
     static {
-        COMPATIBILITY_MAP = new HashMap<String, Set<Class<?>>>();
+        COMPATIBILITY_MAP = new HashMap<Tag, Set<Class<?>>>();
         Set<Class<?>> floatSet = new HashSet<Class<?>>();
         floatSet.add(Double.class);
         floatSet.add(Float.class);
@@ -80,7 +80,10 @@ public final class Tag {
     }
 
     public Tag(Class<? extends Object> clazz) {
-        this(Tag.PREFIX + clazz.getName());
+        if (clazz == null) {
+            throw new NullPointerException("Class for tag must be provided.");
+        }
+        this.value = Tag.PREFIX + clazz.getName();
     }
 
     public String getValue() {
@@ -136,7 +139,7 @@ public final class Tag {
      *         language-independent tag
      */
     public boolean isCompatible(Class<?> clazz) {
-        Set<Class<?>> set = COMPATIBILITY_MAP.get(value);
+        Set<Class<?>> set = COMPATIBILITY_MAP.get(Tag.createTag(value));
         if (set != null) {
             return set.contains(clazz);
         } else {
@@ -155,7 +158,4 @@ public final class Tag {
         return value.equals(Tag.PREFIX + clazz.getName());
     }
 
-    public static String getGlobalTagForClass(Class<? extends Object> clazz) {
-        return PREFIX + clazz.getName();
-    }
 }

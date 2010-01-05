@@ -159,26 +159,28 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
         private class RepresentFloat implements Represent {
             public Node representData(Object data) {
-                return representScalar(Tag.PREFIX + "java.lang.Float", ((Float) data).toString());
+                return representScalar(Tag.createTag(Tag.PREFIX + "java.lang.Float"),
+                        ((Float) data).toString());
             }
         }
 
         private class RepresentLong implements Represent {
             public Node representData(Object data) {
-                return representScalar(Tag.PREFIX + "java.lang.Long", ((Long) data).toString());
+                return representScalar(Tag.createTag(Tag.PREFIX + "java.lang.Long"), ((Long) data)
+                        .toString());
             }
         }
 
         private class RepresentDate implements Represent {
             public Node representData(Object data) {
-                return representScalar(Tag.PREFIX + "java.sql.Date", ((java.sql.Date) data)
-                        .toString());
+                return representScalar(Tag.createTag(Tag.PREFIX + "java.sql.Date"),
+                        ((java.sql.Date) data).toString());
             }
         }
 
         private class RepresentTime implements Represent {
             public Node representData(Object data) {
-                return representScalar(Tag.PREFIX + "java.sql.Timestamp",
+                return representScalar(Tag.createTag(Tag.PREFIX + "java.sql.Timestamp"),
                         ((java.sql.Timestamp) data).toString());
             }
         }

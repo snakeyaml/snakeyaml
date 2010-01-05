@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Example to process a family of tags with the same prefix with one constructor
@@ -61,8 +62,8 @@ public class PrefixConstructorTest extends TestCase {
             this.yamlMultiConstructors.put(prefix, new PrefixConstruct(prefix,
                     CustomConstructor.this));
             this.yamlConstructors.put(null, new ConstructUnknown(CustomConstructor.this));
-            this.yamlConstructors
-                    .put("!org.yaml.Exact", new ExactConstruct(CustomConstructor.this));
+            this.yamlConstructors.put(Tag.createTag("!org.yaml.Exact"), new ExactConstruct(
+                    CustomConstructor.this));
         }
     }
 

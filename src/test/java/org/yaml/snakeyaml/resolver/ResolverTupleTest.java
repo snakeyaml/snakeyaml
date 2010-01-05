@@ -19,10 +19,12 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.nodes.Tag;
+
 public class ResolverTupleTest extends TestCase {
 
     public void testToString() {
-        ResolverTuple tuple = new ResolverTuple("dice", Pattern.compile("\\d+"));
+        ResolverTuple tuple = new ResolverTuple(Tag.createTag("dice"), Pattern.compile("\\d+"));
         assertEquals("Tuple tag=dice regexp=\\d+", tuple.toString());
     }
 }

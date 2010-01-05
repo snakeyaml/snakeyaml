@@ -171,12 +171,13 @@ public class Composer {
         ScalarEvent ev = (ScalarEvent) parser.getEvent();
         String tag = ev.getTag();
         boolean resolved = false;
+        Tag nodeTag = Tag.createTag(tag);
         if (tag == null || tag.equals("!")) {
-            tag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit().isFirst());
+            nodeTag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit().isFirst());
             resolved = true;
         }
-        Node node = new ScalarNode(Tag.createTag(tag), resolved, ev.getValue(), ev.getStartMark(),
-                ev.getEndMark(), ev.getStyle());
+        Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(), ev
+                .getEndMark(), ev.getStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
@@ -186,13 +187,14 @@ public class Composer {
     private Node composeSequenceNode(String anchor) {
         SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
+        Tag nodeTag = Tag.createTag(tag);
         boolean resolved = false;
         if (tag == null || tag.equals("!")) {
-            tag = resolver.resolve(NodeId.sequence, null, startEvent.getImplicit());
+            nodeTag = resolver.resolve(NodeId.sequence, null, startEvent.getImplicit());
             resolved = true;
         }
-        SequenceNode node = new SequenceNode(Tag.createTag(tag), resolved, new ArrayList<Node>(),
-                startEvent.getStartMark(), null, startEvent.getFlowStyle());
+        SequenceNode node = new SequenceNode(nodeTag, resolved, new ArrayList<Node>(), startEvent
+                .getStartMark(), null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
@@ -209,14 +211,14 @@ public class Composer {
     private Node composeMappingNode(String anchor) {
         MappingStartEvent startEvent = (MappingStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
+        Tag nodeTag = Tag.createTag(tag);
         boolean resolved = false;
         if (tag == null || tag.equals("!")) {
-            tag = resolver.resolve(NodeId.mapping, null, startEvent.getImplicit());
+            nodeTag = resolver.resolve(NodeId.mapping, null, startEvent.getImplicit());
             resolved = true;
         }
-        MappingNode node = new MappingNode(Tag.createTag(tag), resolved,
-                new ArrayList<NodeTuple>(), startEvent.getStartMark(), null, startEvent
-                        .getFlowStyle());
+        MappingNode node = new MappingNode(nodeTag, resolved, new ArrayList<NodeTuple>(),
+                startEvent.getStartMark(), null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }

@@ -20,6 +20,7 @@ import java.util.Map;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.emitter.ScalarAnalysis;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
@@ -161,7 +162,7 @@ public class DumperOptions {
     private LineBreak lineBreak = LineBreak.UNIX;
     private boolean explicitStart = false;
     private boolean explicitEnd = false;
-    private String explicitRoot = null;
+    private Tag explicitRoot = null;
     private Version version = null;
     private Map<String, String> tags = null;
 
@@ -267,16 +268,26 @@ public class DumperOptions {
         return defaultFlowStyle;
     }
 
-    public String getExplicitRoot() {
+    public Tag getExplicitRoot() {
         return explicitRoot;
     }
 
     /**
      * @param expRoot
      *            tag to be used for the root node. (JavaBeans may use
-     *            Tags.MAP="tag:yaml.org,2002:map")
+     *            Tag.MAP="tag:yaml.org,2002:map")
+     * @deprecated use Tag instead of String
      */
     public void setExplicitRoot(String expRoot) {
+        setExplicitRoot(Tag.createTag(expRoot));
+    }
+
+    /**
+     * @param expRoot
+     *            tag to be used for the root node. (JavaBeans may use
+     *            Tag.MAP="tag:yaml.org,2002:map")
+     */
+    public void setExplicitRoot(Tag expRoot) {
         if (expRoot == null) {
             throw new NullPointerException("Root tag must be specified.");
         }
@@ -315,6 +326,7 @@ public class DumperOptions {
         return tags;
     }
 
+    // TODO should use Tag ???
     public void setTags(Map<String, String> tags) {
         this.tags = tags;
     }
