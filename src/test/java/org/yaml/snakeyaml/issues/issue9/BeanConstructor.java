@@ -19,14 +19,14 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.ScalarNode;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class BeanConstructor extends Constructor {
 
     public BeanConstructor() {
         super(BeanHolder.class);
-        yamlConstructors.put(Tags.getGlobalTagForClass(Bean1.class), new Bean1ScalarConstructor());
-        yamlConstructors.put(Tags.getGlobalTagForClass(BeanHolder.class),
+        yamlConstructors.put(Tag.getGlobalTagForClass(Bean1.class), new Bean1ScalarConstructor());
+        yamlConstructors.put(Tag.getGlobalTagForClass(BeanHolder.class),
                 new BeanHolderScalarConstructor());
     }
 

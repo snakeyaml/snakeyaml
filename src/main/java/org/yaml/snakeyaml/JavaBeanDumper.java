@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -74,7 +74,7 @@ public class JavaBeanDumper {
         if (this.options == null) {
             doptions = new DumperOptions();
             if (!useGlobalTag) {
-                doptions.setExplicitRoot(Tags.MAP);
+                doptions.setExplicitRoot(Tag.MAP);
             }
             doptions.setDefaultFlowStyle(flowStyle);
         } else {
@@ -84,7 +84,7 @@ public class JavaBeanDumper {
         if (this.representer == null) {
             repr = new Representer();
             for (Class<? extends Object> clazz : classTags) {
-                repr.addClassTag(clazz, Tags.MAP);
+                repr.addClassTag(clazz, Tag.MAP);
             }
         } else {
             repr = this.representer;

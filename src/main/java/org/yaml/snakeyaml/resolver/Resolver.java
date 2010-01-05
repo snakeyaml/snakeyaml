@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.nodes.NodeId;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Resolver tries to detect a type by scalars's content (when the type is
@@ -61,19 +61,19 @@ public class Resolver {
     }
 
     protected void addImplicitResolvers() {
-        addImplicitResolver(Tags.BOOL, BOOL, "yYnNtTfFoO");
-        addImplicitResolver(Tags.FLOAT, FLOAT, "-+0123456789.");
-        addImplicitResolver(Tags.INT, INT, "-+0123456789");
-        addImplicitResolver(Tags.MERGE, MERGE, "<");
-        addImplicitResolver(Tags.NULL, NULL, "~nN\0");
-        addImplicitResolver(Tags.NULL, EMPTY, null);
-        addImplicitResolver(Tags.TIMESTAMP, TIMESTAMP, "0123456789");
-        addImplicitResolver(Tags.VALUE, VALUE, "=");
+        addImplicitResolver(Tag.BOOL, BOOL, "yYnNtTfFoO");
+        addImplicitResolver(Tag.FLOAT, FLOAT, "-+0123456789.");
+        addImplicitResolver(Tag.INT, INT, "-+0123456789");
+        addImplicitResolver(Tag.MERGE, MERGE, "<");
+        addImplicitResolver(Tag.NULL, NULL, "~nN\0");
+        addImplicitResolver(Tag.NULL, EMPTY, null);
+        addImplicitResolver(Tag.TIMESTAMP, TIMESTAMP, "0123456789");
+        addImplicitResolver(Tag.VALUE, VALUE, "=");
         // The following implicit resolver is only for documentation
         // purposes.
         // It cannot work
         // because plain scalars cannot start with '!', '&', or '*'.
-        addImplicitResolver(Tags.YAML, YAML, "!&*");
+        addImplicitResolver(Tag.YAML, YAML, "!&*");
     }
 
     public Resolver() {
@@ -135,11 +135,11 @@ public class Resolver {
         }
         switch (kind) {
         case scalar:
-            return Tags.STR;
+            return Tag.STR;
         case sequence:
-            return Tags.SEQ;
+            return Tag.SEQ;
         default:
-            return Tags.MAP;
+            return Tag.MAP;
         }
     }
 }

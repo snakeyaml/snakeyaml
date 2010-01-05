@@ -46,7 +46,7 @@ public class ComposerImplTest extends TestCase {
         assertTrue(node instanceof MappingNode);
         assertEquals(
                 "tag:yaml.org,2002:org.yaml.snakeyaml.composer.ComposerImplTest$BeanToCompose",
-                node.getTag());
+                node.getTag().getValue());
         assertEquals(NodeId.mapping, node.getNodeId());
         assertEquals(Object.class, node.getType());
     }

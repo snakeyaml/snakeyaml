@@ -31,7 +31,7 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public abstract class Node {
-    private String tag;
+    private Tag tag;
     private Mark startMark;
     protected Mark endMark;
     private Class<? extends Object> type;
@@ -42,7 +42,7 @@ public abstract class Node {
     protected boolean resolved;
     protected Boolean useClassConstructor;
 
-    public Node(String tag, Mark startMark, Mark endMark) {
+    public Node(Tag tag, Mark startMark, Mark endMark) {
         setTag(tag);
         this.startMark = startMark;
         this.endMark = endMark;
@@ -59,7 +59,7 @@ public abstract class Node {
      * 
      * @return Tag of this node.
      */
-    public String getTag() {
+    public Tag getTag() {
         return this.tag;
     }
 
@@ -79,11 +79,15 @@ public abstract class Node {
         return startMark;
     }
 
-    public void setTag(String tag) {
+    public void setTag(Tag tag) {
         if (tag == null) {
             throw new NullPointerException("tag in a Node is required.");
         }
         this.tag = tag;
+    }
+
+    public void setTag(String tag) {
+        setTag(Tag.createTag(tag));
     }
 
     /*
@@ -134,9 +138,9 @@ public abstract class Node {
 
     public boolean useClassConstructor() {
         if (useClassConstructor == null) {
-            if (isResolved() && !Object.class.equals(type) && !tag.equals(Tags.NULL)) {
+            if (isResolved() && !Object.class.equals(type) && !tag.equals(Tag.NULL)) {
                 return true;
-            } else if (Tags.areCompatible(tag, getType())) {
+            } else if (tag.isCompatible(getType())) {
                 // the tag is compatible with the runtime class
                 // the tag will be ignored
                 return true;

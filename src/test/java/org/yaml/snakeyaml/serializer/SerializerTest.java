@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 public class SerializerTest extends TestCase {
@@ -61,7 +62,8 @@ public class SerializerTest extends TestCase {
         serializer.open();
         serializer.close();
         try {
-            serializer.serialize(new ScalarNode("!foo", "bar", null, null, (char) 0));
+            serializer
+                    .serialize(new ScalarNode(Tag.createTag("!foo"), "bar", null, null, (char) 0));
             fail();
         } catch (RuntimeException e) {
             assertEquals("serializer is closed", e.getMessage());
@@ -85,7 +87,8 @@ public class SerializerTest extends TestCase {
 
     public void testSerializerIsNotOpened2() throws IOException {
         try {
-            serializer.serialize(new ScalarNode("!foo", "bar", null, null, (char) 0));
+            serializer
+                    .serialize(new ScalarNode(Tag.createTag("!foo"), "bar", null, null, (char) 0));
             fail();
         } catch (RuntimeException e) {
             assertEquals("serializer is not opened", e.getMessage());

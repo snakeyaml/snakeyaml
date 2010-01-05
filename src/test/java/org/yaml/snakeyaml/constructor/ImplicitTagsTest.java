@@ -28,7 +28,7 @@ import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class ImplicitTagsTest extends TestCase {
@@ -62,7 +62,7 @@ public class ImplicitTagsTest extends TestCase {
         car1.setMap(map);
         car1.setYear("2008");
         DumperOptions options = new DumperOptions();
-        options.setExplicitRoot(Tags.MAP);
+        options.setExplicitRoot(Tag.MAP);
         String carYaml1 = new Yaml(options).dump(car1);
         assertEquals(Util.getLocalResource("constructor/car-without-root-tag.yaml"), carYaml1);
         //

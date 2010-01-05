@@ -28,7 +28,7 @@ import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class IgnoreTagsExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
@@ -68,11 +68,11 @@ public class IgnoreTagsExampleTest extends TestCase {
                 } else {
                     switch (node.getNodeId()) {
                     case scalar:
-                        return yamlConstructors.get(Tags.STR).construct(node);
+                        return yamlConstructors.get(Tag.STR).construct(node);
                     case sequence:
-                        return yamlConstructors.get(Tags.SEQ).construct(node);
+                        return yamlConstructors.get(Tag.SEQ).construct(node);
                     case mapping:
-                        return yamlConstructors.get(Tags.MAP).construct(node);
+                        return yamlConstructors.get(Tag.MAP).construct(node);
                     default:
                         throw new YAMLException("Unexpected node");
                     }

@@ -30,7 +30,7 @@ public class MappingNode extends CollectionNode {
     private Class<? extends Object> valueType;
     private List<NodeTuple> value;
 
-    public MappingNode(String tag, boolean resolved, List<NodeTuple> value, Mark startMark,
+    public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark,
             Mark endMark, Boolean flowStyle) {
         super(tag, startMark, endMark, flowStyle);
         if (value == null) {
@@ -42,7 +42,7 @@ public class MappingNode extends CollectionNode {
         this.resolved = resolved;
     }
 
-    public MappingNode(String tag, List<NodeTuple> value, Boolean flowStyle) {
+    public MappingNode(Tag tag, List<NodeTuple> value, Boolean flowStyle) {
         this(tag, true, value, null, null, flowStyle);
     }
 

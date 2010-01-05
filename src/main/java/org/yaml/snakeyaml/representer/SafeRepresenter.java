@@ -28,7 +28,7 @@ import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.util.Base64Coder;
 
 /**
@@ -99,7 +99,7 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentNull implements Represent {
         public Node representData(Object data) {
-            return representScalar(Tags.NULL, "null");
+            return representScalar(Tag.NULL, "null");
         }
     }
 
@@ -107,11 +107,11 @@ class SafeRepresenter extends BaseRepresenter {
 
     private class RepresentString implements Represent {
         public Node representData(Object data) {
-            String tag = Tags.STR;
+            String tag = Tag.STR;
             Character style = null;
             String value = data.toString();
             if (BINARY_PATTERN.matcher(value).find()) {
-                tag = Tags.BINARY;
+                tag = Tag.BINARY;
                 char[] binary;
                 binary = Base64Coder.encode(value.getBytes());
                 value = String.valueOf(binary);
@@ -129,7 +129,7 @@ class SafeRepresenter extends BaseRepresenter {
             } else {
                 value = "false";
             }
-            return representScalar(Tags.BOOL, value);
+            return representScalar(Tag.BOOL, value);
         }
     }
 
@@ -139,11 +139,11 @@ class SafeRepresenter extends BaseRepresenter {
             String value;
             if (data instanceof Byte || data instanceof Short || data instanceof Integer
                     || data instanceof Long || data instanceof BigInteger) {
-                tag = Tags.INT;
+                tag = Tag.INT;
                 value = data.toString();
             } else {
                 Number number = (Number) data;
-                tag = Tags.FLOAT;
+                tag = Tag.FLOAT;
                 if (number.equals(Double.NaN)) {
                     value = ".NaN";
                 } else if (number.equals(Double.POSITIVE_INFINITY)) {
@@ -161,7 +161,7 @@ class SafeRepresenter extends BaseRepresenter {
     private class RepresentList implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representSequence(getTag(data.getClass(), Tags.SEQ), (List<Object>) data, null);
+            return representSequence(getTag(data.getClass(), Tag.SEQ), (List<Object>) data, null);
         }
     }
 
@@ -169,14 +169,14 @@ class SafeRepresenter extends BaseRepresenter {
         public Node representData(Object data) {
             Object[] array = (Object[]) data;
             List<Object> list = Arrays.asList(array);
-            return representSequence(Tags.SEQ, list, null);
+            return representSequence(Tag.SEQ, list, null);
         }
     }
 
     private class RepresentMap implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representMapping(getTag(data.getClass(), Tags.MAP), (Map<Object, Object>) data,
+            return representMapping(getTag(data.getClass(), Tag.MAP), (Map<Object, Object>) data,
                     null);
         }
     }
@@ -189,7 +189,7 @@ class SafeRepresenter extends BaseRepresenter {
             for (Object key : set) {
                 value.put(key, null);
             }
-            return representMapping(getTag(data.getClass(), Tags.SET), value, null);
+            return representMapping(getTag(data.getClass(), Tag.SET), value, null);
         }
     }
 
@@ -242,13 +242,13 @@ class SafeRepresenter extends BaseRepresenter {
                 buffer.append(String.valueOf(millis));
             }
             buffer.append("Z");
-            return representScalar(getTag(data.getClass(), Tags.TIMESTAMP), buffer.toString(), null);
+            return representScalar(getTag(data.getClass(), Tag.TIMESTAMP), buffer.toString(), null);
         }
     }
 
     private class RepresentEnum implements Represent {
         public Node representData(Object data) {
-            String tag = Tags.getGlobalTagForClass(data.getClass());
+            String tag = Tag.getGlobalTagForClass(data.getClass());
             return representScalar(getTag(data.getClass(), tag), data.toString());
         }
     }
@@ -256,7 +256,7 @@ class SafeRepresenter extends BaseRepresenter {
     private class RepresentByteArray implements Represent {
         public Node representData(Object data) {
             char[] binary = Base64Coder.encode((byte[]) data);
-            return representScalar(Tags.BINARY, String.valueOf(binary), '|');
+            return representScalar(Tag.BINARY, String.valueOf(binary), '|');
         }
     }
 }

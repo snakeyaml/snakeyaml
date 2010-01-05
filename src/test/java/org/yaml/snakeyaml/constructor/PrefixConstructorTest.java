@@ -79,7 +79,7 @@ public class PrefixConstructorTest extends TestCase {
         }
 
         public Object construct(Node node) {
-            String suffix = node.getTag().substring(prefix.length());
+            String suffix = node.getTag().getValue().substring(prefix.length());
             return new Extra(suffix, con.constructScalar((ScalarNode) node).toString());
         }
     }

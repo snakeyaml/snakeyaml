@@ -35,7 +35,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.util.Base64Coder;
 
 /**
@@ -48,18 +48,18 @@ public class SafeConstructor extends BaseConstructor {
     public static ConstructUndefined undefinedConstructor = new ConstructUndefined();
 
     public SafeConstructor() {
-        this.yamlConstructors.put(Tags.NULL, new ConstructYamlNull());
-        this.yamlConstructors.put(Tags.BOOL, new ConstructYamlBool());
-        this.yamlConstructors.put(Tags.INT, new ConstructYamlInt());
-        this.yamlConstructors.put(Tags.FLOAT, new ConstructYamlFloat());
-        this.yamlConstructors.put(Tags.BINARY, new ConstructYamlBinary());
-        this.yamlConstructors.put(Tags.TIMESTAMP, new ConstructYamlTimestamp());
-        this.yamlConstructors.put(Tags.OMAP, new ConstructYamlOmap());
-        this.yamlConstructors.put(Tags.PAIRS, new ConstructYamlPairs());
-        this.yamlConstructors.put(Tags.SET, new ConstructYamlSet());
-        this.yamlConstructors.put(Tags.STR, new ConstructYamlStr());
-        this.yamlConstructors.put(Tags.SEQ, new ConstructYamlSeq());
-        this.yamlConstructors.put(Tags.MAP, new ConstructYamlMap());
+        this.yamlConstructors.put(Tag.NULL, new ConstructYamlNull());
+        this.yamlConstructors.put(Tag.BOOL, new ConstructYamlBool());
+        this.yamlConstructors.put(Tag.INT, new ConstructYamlInt());
+        this.yamlConstructors.put(Tag.FLOAT, new ConstructYamlFloat());
+        this.yamlConstructors.put(Tag.BINARY, new ConstructYamlBinary());
+        this.yamlConstructors.put(Tag.TIMESTAMP, new ConstructYamlTimestamp());
+        this.yamlConstructors.put(Tag.OMAP, new ConstructYamlOmap());
+        this.yamlConstructors.put(Tag.PAIRS, new ConstructYamlPairs());
+        this.yamlConstructors.put(Tag.SET, new ConstructYamlSet());
+        this.yamlConstructors.put(Tag.STR, new ConstructYamlStr());
+        this.yamlConstructors.put(Tag.SEQ, new ConstructYamlSeq());
+        this.yamlConstructors.put(Tag.MAP, new ConstructYamlMap());
         this.yamlConstructors.put(null, undefinedConstructor);
         this.yamlClassConstructors.put(NodeId.scalar, undefinedConstructor);
         this.yamlClassConstructors.put(NodeId.sequence, undefinedConstructor);
@@ -73,7 +73,7 @@ public class SafeConstructor extends BaseConstructor {
         while (index < nodeValue.size()) {
             Node keyNode = nodeValue.get(index).getKeyNode();
             Node valueNode = nodeValue.get(index).getValueNode();
-            if (keyNode.getTag().equals(Tags.MERGE)) {
+            if (keyNode.getTag().equals(Tag.MERGE)) {
                 nodeValue.remove(index);
                 switch (valueNode.getNodeId()) {
                 case mapping:
@@ -106,8 +106,8 @@ public class SafeConstructor extends BaseConstructor {
                             "expected a mapping or list of mappings for merging, but found "
                                     + valueNode.getNodeId(), valueNode.getStartMark());
                 }
-            } else if (keyNode.getTag().equals(Tags.VALUE)) {
-                keyNode.setTag(Tags.STR);
+            } else if (keyNode.getTag().equals(Tag.VALUE)) {
+                keyNode.setTag(Tag.STR);
                 index++;
             } else {
                 index++;

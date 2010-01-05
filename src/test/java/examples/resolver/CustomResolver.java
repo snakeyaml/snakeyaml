@@ -15,7 +15,7 @@
  */
 package examples.resolver;
 
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 public class CustomResolver extends Resolver {
@@ -24,13 +24,13 @@ public class CustomResolver extends Resolver {
      * do not resolve float and timestamp
      */
     protected void addImplicitResolvers() {
-        addImplicitResolver(Tags.BOOL, BOOL, "yYnNtTfFoO");
+        addImplicitResolver(Tag.BOOL, BOOL, "yYnNtTfFoO");
         // addImplicitResolver(Tags.FLOAT, FLOAT, "-+0123456789.");
-        addImplicitResolver(Tags.INT, INT, "-+0123456789");
-        addImplicitResolver(Tags.MERGE, MERGE, "<");
-        addImplicitResolver(Tags.NULL, NULL, "~nN\0");
-        addImplicitResolver(Tags.NULL, EMPTY, null);
+        addImplicitResolver(Tag.INT, INT, "-+0123456789");
+        addImplicitResolver(Tag.MERGE, MERGE, "<");
+        addImplicitResolver(Tag.NULL, NULL, "~nN\0");
+        addImplicitResolver(Tag.NULL, EMPTY, null);
         // addImplicitResolver(Tags.TIMESTAMP, TIMESTAMP, "0123456789");
-        addImplicitResolver(Tags.VALUE, VALUE, "=");
+        addImplicitResolver(Tag.VALUE, VALUE, "=");
     }
 }

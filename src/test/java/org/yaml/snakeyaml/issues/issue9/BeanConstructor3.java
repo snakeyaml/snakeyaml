@@ -17,12 +17,12 @@ package org.yaml.snakeyaml.issues.issue9;
 
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class BeanConstructor3 extends Constructor {
 
     public BeanConstructor3() {
-        yamlConstructors.put(Tags.getGlobalTagForClass(BeanHolder.class),
+        yamlConstructors.put(Tag.getGlobalTagForClass(BeanHolder.class),
                 new BeanHolderScalarConstructor());
     }
 

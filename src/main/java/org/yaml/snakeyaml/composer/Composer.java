@@ -37,6 +37,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -174,7 +175,7 @@ public class Composer {
             tag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit().isFirst());
             resolved = true;
         }
-        Node node = new ScalarNode(tag, resolved, ev.getValue(), ev.getStartMark(),
+        Node node = new ScalarNode(Tag.createTag(tag), resolved, ev.getValue(), ev.getStartMark(),
                 ev.getEndMark(), ev.getStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
@@ -190,8 +191,8 @@ public class Composer {
             tag = resolver.resolve(NodeId.sequence, null, startEvent.getImplicit());
             resolved = true;
         }
-        SequenceNode node = new SequenceNode(tag, resolved, new ArrayList<Node>(), startEvent
-                .getStartMark(), null, startEvent.getFlowStyle());
+        SequenceNode node = new SequenceNode(Tag.createTag(tag), resolved, new ArrayList<Node>(),
+                startEvent.getStartMark(), null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
@@ -213,8 +214,9 @@ public class Composer {
             tag = resolver.resolve(NodeId.mapping, null, startEvent.getImplicit());
             resolved = true;
         }
-        MappingNode node = new MappingNode(tag, resolved, new ArrayList<NodeTuple>(), startEvent
-                .getStartMark(), null, startEvent.getFlowStyle());
+        MappingNode node = new MappingNode(Tag.createTag(tag), resolved,
+                new ArrayList<NodeTuple>(), startEvent.getStartMark(), null, startEvent
+                        .getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }

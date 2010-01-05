@@ -25,7 +25,7 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class RubyTest extends TestCase {
@@ -43,7 +43,7 @@ public class RubyTest extends TestCase {
         TestObject result = parseObject(Util.getLocalResource("ruby/ruby1.yaml"));
         DumperOptions options = new DumperOptions();
         options.setExplicitStart(true);
-        options.setExplicitRoot(Tags.MAP);
+        options.setExplicitRoot(Tag.MAP);
         Yaml yaml2 = new Yaml(options);
         String output = yaml2.dump(result);
         assertFalse("No tags expected.", output.contains("Sub1"));

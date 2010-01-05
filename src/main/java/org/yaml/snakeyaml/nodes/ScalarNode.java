@@ -27,11 +27,11 @@ public class ScalarNode extends Node {
     private Character style;
     private String value;
 
-    public ScalarNode(String tag, String value, Mark startMark, Mark endMark, Character style) {
+    public ScalarNode(Tag tag, String value, Mark startMark, Mark endMark, Character style) {
         this(tag, true, value, startMark, endMark, style);
     }
 
-    public ScalarNode(String tag, boolean resolved, String value, Mark startMark, Mark endMark,
+    public ScalarNode(Tag tag, boolean resolved, String value, Mark startMark, Mark endMark,
             Character style) {
         super(tag, startMark, endMark);
         if (value == null) {

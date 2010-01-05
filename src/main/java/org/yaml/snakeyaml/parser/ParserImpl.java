@@ -34,7 +34,7 @@ import org.yaml.snakeyaml.events.SequenceEndEvent;
 import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.AliasToken;
@@ -130,7 +130,7 @@ public final class ParserImpl implements Parser {
     private static final Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();
     static {
         DEFAULT_TAGS.put("!", "!");
-        DEFAULT_TAGS.put("!!", Tags.PREFIX);
+        DEFAULT_TAGS.put("!!", Tag.PREFIX);
     }
 
     private final Scanner scanner;

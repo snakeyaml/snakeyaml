@@ -53,7 +53,7 @@ public class EventConstructor extends Constructor {
             } else {
                 mapping = constructMapping((MappingNode) node);
             }
-            String className = node.getTag().substring(1) + "Event";
+            String className = node.getTag().getValue().substring(1) + "Event";
             Event value;
             if (className.equals("AliasEvent")) {
                 value = new AliasEvent((String) mapping.get("anchor"), null, null);

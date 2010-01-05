@@ -21,7 +21,7 @@ import java.util.Date;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -101,7 +101,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
-        options.setExplicitRoot(Tags.MAP);
+        options.setExplicitRoot(Tag.MAP);
         Yaml yaml = new Yaml(new Dumper(new CustomRepresenter(), options));
         javaBeanWithNullValues.setBoolean1(null);
         javaBeanWithNullValues.setDate(new Date(System.currentTimeMillis()));
@@ -159,26 +159,26 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
         private class RepresentFloat implements Represent {
             public Node representData(Object data) {
-                return representScalar(Tags.PREFIX + "java.lang.Float", ((Float) data).toString());
+                return representScalar(Tag.PREFIX + "java.lang.Float", ((Float) data).toString());
             }
         }
 
         private class RepresentLong implements Represent {
             public Node representData(Object data) {
-                return representScalar(Tags.PREFIX + "java.lang.Long", ((Long) data).toString());
+                return representScalar(Tag.PREFIX + "java.lang.Long", ((Long) data).toString());
             }
         }
 
         private class RepresentDate implements Represent {
             public Node representData(Object data) {
-                return representScalar(Tags.PREFIX + "java.sql.Date", ((java.sql.Date) data)
+                return representScalar(Tag.PREFIX + "java.sql.Date", ((java.sql.Date) data)
                         .toString());
             }
         }
 
         private class RepresentTime implements Represent {
             public Node representData(Object data) {
-                return representScalar(Tags.PREFIX + "java.sql.Timestamp",
+                return representScalar(Tag.PREFIX + "java.sql.Timestamp",
                         ((java.sql.Timestamp) data).toString());
             }
         }

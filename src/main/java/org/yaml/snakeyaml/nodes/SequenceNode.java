@@ -29,8 +29,8 @@ public class SequenceNode extends CollectionNode {
     private Class<? extends Object> listType;
     private List<Node> value;
 
-    public SequenceNode(String tag, boolean resolved, List<Node> value, Mark startMark,
-            Mark endMark, Boolean flowStyle) {
+    public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,
+            Boolean flowStyle) {
         super(tag, startMark, endMark, flowStyle);
         if (value == null) {
             throw new NullPointerException("value in a Node is required.");
@@ -40,7 +40,7 @@ public class SequenceNode extends CollectionNode {
         this.resolved = resolved;
     }
 
-    public SequenceNode(String tag, List<Node> value, Boolean flowStyle) {
+    public SequenceNode(Tag tag, List<Node> value, Boolean flowStyle) {
         this(tag, true, value, null, null, flowStyle);
     }
 

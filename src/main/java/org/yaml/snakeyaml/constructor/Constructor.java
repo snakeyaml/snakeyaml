@@ -47,7 +47,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Construct a custom Java instance.
@@ -72,7 +72,7 @@ public class Constructor extends SafeConstructor {
         }
         this.yamlConstructors.put(null, new ConstructYamlObject());
         if (!Object.class.equals(theRoot)) {
-            rootTag = Tags.getGlobalTagForClass(theRoot);
+            rootTag = Tag.getGlobalTagForClass(theRoot);
         }
         typeTags = new HashMap<String, Class<? extends Object>>();
         typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
@@ -119,7 +119,7 @@ public class Constructor extends SafeConstructor {
             throw new NullPointerException("TypeDescription is required.");
         }
         if (rootTag == null && definition.isRoot()) {
-            rootTag = Tags.getGlobalTagForClass(definition.getType());
+            rootTag = Tag.getGlobalTagForClass(definition.getType());
         }
         String tag = definition.getTag();
         typeTags.put(tag, definition.getType());
@@ -279,7 +279,7 @@ public class Constructor extends SafeConstructor {
                                 Class t = (Class) arguments[0];
                                 SequenceNode snode = (SequenceNode) valueNode;
                                 snode.setListType(t);
-                            } else if (Tags.SET.equals(valueNode.getTag())) {
+                            } else if (valueNode.getTag().equals(Tag.SET)) {
                                 Class t = (Class) arguments[0];
                                 MappingNode mnode = (MappingNode) valueNode;
                                 mnode.setKeyType(t);
@@ -399,7 +399,7 @@ public class Constructor extends SafeConstructor {
                     || type == Boolean.class || Date.class.isAssignableFrom(type)
                     || type == Character.class || type == BigInteger.class
                     || type == BigDecimal.class || Enum.class.isAssignableFrom(type)
-                    || Tags.BINARY.equals(node.getTag())) {
+                    || Tag.BINARY.equals(node.getTag())) {
                 // standard classes created directly
                 result = constructStandardJavaInstance(type, node);
             } else {
@@ -451,13 +451,13 @@ public class Constructor extends SafeConstructor {
         private Object constructStandardJavaInstance(Class type, ScalarNode node) {
             Object result;
             if (type == String.class) {
-                Construct stringConstructor = yamlConstructors.get(Tags.STR);
+                Construct stringConstructor = yamlConstructors.get(Tag.STR);
                 result = stringConstructor.construct((ScalarNode) node);
             } else if (type == Boolean.class || type == Boolean.TYPE) {
-                Construct boolConstructor = yamlConstructors.get(Tags.BOOL);
+                Construct boolConstructor = yamlConstructors.get(Tag.BOOL);
                 result = boolConstructor.construct((ScalarNode) node);
             } else if (type == Character.class || type == Character.TYPE) {
-                Construct charConstructor = yamlConstructors.get(Tags.STR);
+                Construct charConstructor = yamlConstructors.get(Tag.STR);
                 String ch = (String) charConstructor.construct((ScalarNode) node);
                 if (ch.length() == 0) {
                     result = null;
@@ -468,7 +468,7 @@ public class Constructor extends SafeConstructor {
                     result = new Character(ch.charAt(0));
                 }
             } else if (Date.class.isAssignableFrom(type)) {
-                Construct dateConstructor = yamlConstructors.get(Tags.TIMESTAMP);
+                Construct dateConstructor = yamlConstructors.get(Tag.TIMESTAMP);
                 Date date = (Date) dateConstructor.construct((ScalarNode) node);
                 if (type == Date.class) {
                     result = date;
@@ -485,7 +485,7 @@ public class Constructor extends SafeConstructor {
                 if (type == BigDecimal.class) {
                     result = new BigDecimal(node.getValue());
                 } else {
-                    Construct doubleConstructor = yamlConstructors.get(Tags.FLOAT);
+                    Construct doubleConstructor = yamlConstructors.get(Tag.FLOAT);
                     result = doubleConstructor.construct(node);
                     if (type == Float.class || type == Float.TYPE) {
                         result = new Float((Double) result);
@@ -494,7 +494,7 @@ public class Constructor extends SafeConstructor {
             } else if (type == Byte.class || type == Short.class || type == Integer.class
                     || type == Long.class || type == BigInteger.class || type == Byte.TYPE
                     || type == Short.TYPE || type == Integer.TYPE || type == Long.TYPE) {
-                Construct intConstructor = yamlConstructors.get(Tags.INT);
+                Construct intConstructor = yamlConstructors.get(Tag.INT);
                 result = intConstructor.construct(node);
                 if (type == Byte.class || type == Byte.TYPE) {
                     result = new Byte(result.toString());
@@ -601,17 +601,14 @@ public class Constructor extends SafeConstructor {
     protected Class<?> getClassForNode(Node node) {
         Class<? extends Object> classForTag = typeTags.get(node.getTag());
         if (classForTag == null) {
-            if (!node.getTag().startsWith(Tags.PREFIX)) {
-                throw new YAMLException("Unknown tag: " + node.getTag());
-            }
-            String name = node.getTag().substring(Tags.PREFIX.length());
+            String name = node.getTag().getClassName();
             Class<?> cl;
             try {
                 cl = getClassForName(name);
             } catch (ClassNotFoundException e) {
                 throw new YAMLException("Class not found: " + name);
             }
-            typeTags.put(node.getTag(), cl);
+            typeTags.put(node.getTag().getValue(), cl);
             return cl;
         } else {
             return classForTag;

@@ -27,7 +27,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.SequenceNode;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -140,7 +140,7 @@ public class Example2_24Test extends TestCase {
         private class RepresentHex implements Represent {
             public Node representData(Object data) {
                 HexInteger hex = (HexInteger) data;
-                return representScalar(Tags.INT, "0x"
+                return representScalar(Tag.INT, "0x"
                         + Integer.toHexString(hex.getColor()).toUpperCase(), null);
             }
         }

@@ -25,7 +25,7 @@ import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
-import org.yaml.snakeyaml.nodes.Tags;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class RepresentTest extends TestCase {
 
@@ -82,7 +82,7 @@ public class RepresentTest extends TestCase {
 
     class MyConstructor extends Constructor {
         public MyConstructor() {
-            this.yamlConstructors.put(Tags.PREFIX + "Dice", new ConstructDice());
+            this.yamlConstructors.put(Tag.PREFIX + "Dice", new ConstructDice());
         }
 
         private class ConstructDice extends AbstractConstruct {

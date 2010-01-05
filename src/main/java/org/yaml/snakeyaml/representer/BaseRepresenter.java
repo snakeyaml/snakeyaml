@@ -32,6 +32,7 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.serializer.Serializer;
 
 /**
@@ -114,7 +115,7 @@ public abstract class BaseRepresenter {
         if (style == null) {
             style = this.defaultStyle;
         }
-        Node node = new ScalarNode(tag, value, null, null, style);
+        Node node = new ScalarNode(Tag.createTag(tag), value, null, null, style);
         representedObjects.put(objectToRepresent, node);
         return node;
     }
@@ -125,7 +126,7 @@ public abstract class BaseRepresenter {
 
     protected Node representSequence(String tag, List<? extends Object> sequence, Boolean flowStyle) {
         List<Node> value = new ArrayList<Node>(sequence.size());
-        SequenceNode node = new SequenceNode(tag, value, flowStyle);
+        SequenceNode node = new SequenceNode(Tag.createTag(tag), value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
         for (Object item : sequence) {
@@ -148,7 +149,7 @@ public abstract class BaseRepresenter {
     protected Node representMapping(String tag, Map<? extends Object, Object> mapping,
             Boolean flowStyle) {
         List<NodeTuple> value = new ArrayList<NodeTuple>(mapping.size());
-        MappingNode node = new MappingNode(tag, value, flowStyle);
+        MappingNode node = new MappingNode(Tag.createTag(tag), value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
         for (Object itemKey : mapping.keySet()) {

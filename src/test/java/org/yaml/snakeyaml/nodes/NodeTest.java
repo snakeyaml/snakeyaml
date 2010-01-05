@@ -23,7 +23,7 @@ public class NodeTest extends TestCase {
 
     public void testNode() {
         try {
-            new ScalarNode("!foo", null, null, null, '"');
+            new ScalarNode(Tag.createTag("!foo"), null, null, null, '"');
             fail("Value must be required.");
         } catch (Exception e) {
             assertEquals("value in a Node is required.", e.getMessage());
@@ -32,8 +32,8 @@ public class NodeTest extends TestCase {
 
     public void testSetTag() {
         try {
-            ScalarNode node = new ScalarNode("!foo", "Value1", null, null, '"');
-            node.setTag(null);
+            ScalarNode node = new ScalarNode(Tag.createTag("!foo"), "Value1", null, null, '"');
+            node.setTag((Tag) null);
             fail("Value must be required.");
         } catch (Exception e) {
             assertEquals("tag in a Node is required.", e.getMessage());
@@ -43,7 +43,7 @@ public class NodeTest extends TestCase {
     public void testGetEndMark() {
         Mark mark1 = new Mark("name", 5, 2, 12, "afd asd asd", 7);
         Mark mark2 = new Mark("name", 6, 3, 13, "afd asd asd", 8);
-        Node node = new ScalarNode("!foo", "bla-bla", mark1, mark2, '"');
+        Node node = new ScalarNode(Tag.createTag("!foo"), "bla-bla", mark1, mark2, '"');
         assertEquals(mark1, node.getStartMark());
         assertEquals(mark2, node.getEndMark());
     }
