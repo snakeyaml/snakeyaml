@@ -18,19 +18,21 @@ package org.yaml.snakeyaml;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.yaml.snakeyaml.nodes.Tag;
+
 /**
  * Provides additional runtime information necessary to create a custom Java
  * instance.
  */
 public final class TypeDescription {
     private final Class<? extends Object> type;
-    private String tag;
+    private Tag tag;
     private boolean root;
     private Map<String, Class<? extends Object>> listProperties;
     private Map<String, Class<? extends Object>> keyProperties;
     private Map<String, Class<? extends Object>> valueProperties;
 
-    public TypeDescription(Class<? extends Object> clazz, String tag) {
+    public TypeDescription(Class<? extends Object> clazz, Tag tag) {
         this.type = clazz;
         this.tag = tag;
         listProperties = new HashMap<String, Class<? extends Object>>();
@@ -38,8 +40,12 @@ public final class TypeDescription {
         valueProperties = new HashMap<String, Class<? extends Object>>();
     }
 
+    public TypeDescription(Class<? extends Object> clazz, String tag) {
+        this(clazz, Tag.createTag(tag));
+    }
+
     public TypeDescription(Class<? extends Object> clazz) {
-        this(clazz, null);
+        this(clazz, (Tag) null);
     }
 
     /**
@@ -48,7 +54,7 @@ public final class TypeDescription {
      * @return tag to be used. It may be a tag for Language-Independent Types
      *         (http://www.yaml.org/type/)
      */
-    public String getTag() {
+    public Tag getTag() {
         return tag;
     }
 
@@ -58,8 +64,12 @@ public final class TypeDescription {
      * @param tag
      *            local or global tag
      */
-    public void setTag(String tag) {
+    public void setTag(Tag tag) {
         this.tag = tag;
+    }
+
+    public void setTag(String tag) {
+        setTag(Tag.createTag(tag));
     }
 
     /**

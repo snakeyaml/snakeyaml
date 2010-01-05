@@ -53,7 +53,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  * Construct a custom Java instance.
  */
 public class Constructor extends SafeConstructor {
-    private final Map<String, Class<? extends Object>> typeTags;
+    private final Map<Tag, Class<? extends Object>> typeTags;
     private final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
 
     public Constructor() {
@@ -74,7 +74,7 @@ public class Constructor extends SafeConstructor {
         if (!Object.class.equals(theRoot)) {
             rootTag = new Tag(theRoot);
         }
-        typeTags = new HashMap<String, Class<? extends Object>>();
+        typeTags = new HashMap<Tag, Class<? extends Object>>();
         typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
         yamlClassConstructors.put(NodeId.scalar, new ConstructScalar());
         yamlClassConstructors.put(NodeId.mapping, new ConstructMapping());
@@ -121,7 +121,7 @@ public class Constructor extends SafeConstructor {
         if (rootTag == null && definition.isRoot()) {
             rootTag = new Tag(definition.getType());
         }
-        String tag = definition.getTag();
+        Tag tag = definition.getTag();
         typeTags.put(tag, definition.getType());
         return typeDefinitions.put(definition.getType(), definition);
     }
@@ -608,7 +608,7 @@ public class Constructor extends SafeConstructor {
             } catch (ClassNotFoundException e) {
                 throw new YAMLException("Class not found: " + name);
             }
-            typeTags.put(node.getTag().getValue(), cl);
+            typeTags.put(node.getTag(), cl);
             return cl;
         } else {
             return classForTag;

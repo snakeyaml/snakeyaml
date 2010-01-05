@@ -40,11 +40,11 @@ public class LoaderTest extends TestCase {
         assertEquals(1, nodes.size());
         NodeTuple pairs = nodes.get(0);
         ScalarNode key = (ScalarNode) pairs.getKeyNode();
-        assertEquals(Tag.STR, key.getTag().getValue());
+        assertEquals(Tag.STR, key.getTag());
         assertEquals("abc", key.getValue());
         //
         ScalarNode value = (ScalarNode) pairs.getValueNode();
-        assertEquals(Tag.INT, value.getTag().getValue());
+        assertEquals(Tag.INT, value.getTag());
         assertEquals("3", value.getValue());
         //
         assertTrue(node
@@ -59,7 +59,7 @@ public class LoaderTest extends TestCase {
         loader.setResolver(new Resolver());
         String yaml = "3";
         ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
-        assertEquals(Tag.INT, node.getTag().getValue());
+        assertEquals(Tag.INT, node.getTag());
         assertEquals("3", node.getValue());
         // not sure whether it should be null or 0
         assertEquals(new Character('\u0000'), node.getStyle());

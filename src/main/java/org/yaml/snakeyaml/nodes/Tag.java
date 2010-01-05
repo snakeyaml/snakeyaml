@@ -26,7 +26,7 @@ import java.util.Set;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
-public final class Tag {
+public final class Tag implements Comparable<Tag> {
     public static final String PREFIX = "tag:yaml.org,2002:";
     public static final Tag YAML = new Tag(PREFIX + "yaml");
     public static final Tag VALUE = new Tag(PREFIX + "value");
@@ -117,12 +117,9 @@ public final class Tag {
         }
         if (obj instanceof Tag) {
             return value.equals(((Tag) obj).getValue());
-        } else if (obj instanceof String) {
-            if (value.equals(obj.toString())) {
-                return true;
-            }
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -131,7 +128,8 @@ public final class Tag {
     }
 
     /**
-     * Java has more then 1 one class compatible with a language-independent tag
+     * Java has more then 1 class compatible with a language-independent tag
+     * (!!int, !!float, !!timestamp etc)
      * 
      * @param clazz
      *            - Class to check compatibility
@@ -139,7 +137,7 @@ public final class Tag {
      *         language-independent tag
      */
     public boolean isCompatible(Class<?> clazz) {
-        Set<Class<?>> set = COMPATIBILITY_MAP.get(Tag.createTag(value));
+        Set<Class<?>> set = COMPATIBILITY_MAP.get(this);
         if (set != null) {
             return set.contains(clazz);
         } else {
@@ -158,4 +156,7 @@ public final class Tag {
         return value.equals(Tag.PREFIX + clazz.getName());
     }
 
+    public int compareTo(Tag o) {
+        return value.compareTo(o.getValue());
+    }
 }

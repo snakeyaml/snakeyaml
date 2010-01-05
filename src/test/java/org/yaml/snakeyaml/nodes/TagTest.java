@@ -26,6 +26,15 @@ public class TagTest extends TestCase {
         assertEquals(Tag.PREFIX + "org.yaml.snakeyaml.nodes.TagTest", tag.getValue());
     }
 
+    public void testCreate2() {
+        try {
+            new Tag(null);
+            fail();
+        } catch (Exception e) {
+            assertEquals("Class for tag must be provided.", e.getMessage());
+        }
+    }
+
     public void testGetClassName() {
         Tag tag = Tag.createTag(Tag.PREFIX + "org.yaml.snakeyaml.nodes.TagTest");
         assertEquals("org.yaml.snakeyaml.nodes.TagTest", tag.getClassName());
@@ -42,10 +51,15 @@ public class TagTest extends TestCase {
         assertEquals("!car", tag.toString());
     }
 
+    public void testCompare() {
+        Tag tag = Tag.createTag("!car");
+        assertEquals(0, tag.compareTo(Tag.createTag("!car")));
+    }
+
     public void testEqualsObject() {
         Tag tag = Tag.createTag("!car");
         assertEquals(tag, tag);
-        assertEquals(tag, "!car");
+        assertFalse(tag.equals("!car"));
         assertEquals(tag, Tag.createTag("!car"));
         assertFalse(tag.equals(Tag.createTag("!!str")));
         assertFalse(tag.equals(null));
