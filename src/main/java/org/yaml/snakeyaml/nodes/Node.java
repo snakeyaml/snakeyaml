@@ -86,10 +86,6 @@ public abstract class Node {
         this.tag = tag;
     }
 
-    public void setTag(String tag) {
-        setTag(Tag.createTag(tag));
-    }
-
     /*
      * It is not allowed to overwrite this method. Two Nodes are never equal.
      */

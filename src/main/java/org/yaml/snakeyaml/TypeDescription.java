@@ -41,7 +41,7 @@ public final class TypeDescription {
     }
 
     public TypeDescription(Class<? extends Object> clazz, String tag) {
-        this(clazz, Tag.createTag(tag));
+        this(clazz, new Tag (tag));
     }
 
     public TypeDescription(Class<? extends Object> clazz) {
@@ -69,7 +69,7 @@ public final class TypeDescription {
     }
 
     public void setTag(String tag) {
-        setTag(Tag.createTag(tag));
+        setTag(new Tag (tag));
     }
 
     /**

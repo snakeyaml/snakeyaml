@@ -255,7 +255,7 @@ public class Yaml {
      * 
      */
     public void addImplicitResolver(String tag, Pattern regexp, String first) {
-        addImplicitResolver(Tag.createTag(tag), regexp, first);
+        addImplicitResolver(new Tag (tag), regexp, first);
     }
 
     /**

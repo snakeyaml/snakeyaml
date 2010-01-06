@@ -21,14 +21,31 @@ import junit.framework.TestCase;
 public class TagTest extends TestCase {
 
     public void testCreate() {
-        assertNull(Tag.createTag(null));
+        try {
+            new Tag((String) null);
+            fail();
+        } catch (Exception e) {
+            assertEquals("Tag must be provided.", e.getMessage());
+        }
+        try {
+            new Tag("");
+            fail();
+        } catch (Exception e) {
+            assertEquals("Tag must not be empty.", e.getMessage());
+        }
+        try {
+            new Tag("!Dice ");
+            fail();
+        } catch (Exception e) {
+            assertEquals("Tag must not contain leading or trailing spaces.", e.getMessage());
+        }
         Tag tag = new Tag(TagTest.class);
         assertEquals(Tag.PREFIX + "org.yaml.snakeyaml.nodes.TagTest", tag.getValue());
     }
 
     public void testCreate2() {
         try {
-            new Tag(null);
+            new Tag((Class<?>) null);
             fail();
         } catch (Exception e) {
             assertEquals("Class for tag must be provided.", e.getMessage());
@@ -36,32 +53,32 @@ public class TagTest extends TestCase {
     }
 
     public void testGetClassName() {
-        Tag tag = Tag.createTag(Tag.PREFIX + "org.yaml.snakeyaml.nodes.TagTest");
+        Tag tag = new Tag(Tag.PREFIX + "org.yaml.snakeyaml.nodes.TagTest");
         assertEquals("org.yaml.snakeyaml.nodes.TagTest", tag.getClassName());
     }
 
     public void testLength() {
         String t = Tag.PREFIX + "org.yaml.snakeyaml.nodes.TagTest";
-        Tag tag = Tag.createTag(t);
+        Tag tag = new Tag(t);
         assertEquals(t.length(), tag.getLength());
     }
 
     public void testToString() {
-        Tag tag = Tag.createTag("!car");
+        Tag tag = new Tag("!car");
         assertEquals("!car", tag.toString());
     }
 
     public void testCompare() {
-        Tag tag = Tag.createTag("!car");
-        assertEquals(0, tag.compareTo(Tag.createTag("!car")));
+        Tag tag = new Tag("!car");
+        assertEquals(0, tag.compareTo(new Tag("!car")));
     }
 
     public void testEqualsObject() {
-        Tag tag = Tag.createTag("!car");
+        Tag tag = new Tag("!car");
         assertEquals(tag, tag);
         assertFalse(tag.equals("!car"));
-        assertEquals(tag, Tag.createTag("!car"));
-        assertFalse(tag.equals(Tag.createTag("!!str")));
+        assertEquals(tag, new Tag("!car"));
+        assertFalse(tag.equals(new Tag("!!str")));
         assertFalse(tag.equals(null));
         assertFalse(tag.equals(25));
     }

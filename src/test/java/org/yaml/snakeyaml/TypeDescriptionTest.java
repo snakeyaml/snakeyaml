@@ -25,9 +25,9 @@ public class TypeDescriptionTest extends TestCase {
     public void testSetTag() {
         TypeDescription descr = new TypeDescription(TypeDescriptionTest.class);
         descr.setTag("!bla");
-        assertEquals(Tag.createTag("!bla"), descr.getTag());
-        descr.setTag(Tag.createTag("!foo"));
-        assertEquals(Tag.createTag("!foo"), descr.getTag());
+        assertEquals(new Tag ("!bla"), descr.getTag());
+        descr.setTag(new Tag ("!foo"));
+        assertEquals(new Tag ("!foo"), descr.getTag());
     }
 
     public void testToString() {

@@ -60,14 +60,14 @@ public class DiceExampleTest extends TestCase {
             public Node representData(Object data) {
                 Dice dice = (Dice) data;
                 String value = dice.getA() + "d" + dice.getB();
-                return representScalar(Tag.createTag("!dice"), value);
+                return representScalar(new Tag ("!dice"), value);
             }
         }
     }
 
     class DiceConstructor extends SafeConstructor {
         public DiceConstructor() {
-            this.yamlConstructors.put(Tag.createTag("!dice"), new ConstructDice());
+            this.yamlConstructors.put(new Tag ("!dice"), new ConstructDice());
         }
 
         private class ConstructDice extends AbstractConstruct {

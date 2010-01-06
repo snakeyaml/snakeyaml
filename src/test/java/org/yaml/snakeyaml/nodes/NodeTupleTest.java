@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 public class NodeTupleTest extends TestCase {
 
     public void testNodeTuple1() {
-        Node node = new ScalarNode(Tag.createTag("!tag"), "value1", null, null, null);
+        Node node = new ScalarNode(new Tag ("!tag"), "value1", null, null, null);
         try {
             new NodeTuple(null, node);
             fail("Node must be provided.");
@@ -30,7 +30,7 @@ public class NodeTupleTest extends TestCase {
     }
 
     public void testNodeTuple2() {
-        Node node = new ScalarNode(Tag.createTag("!tag"), "value1", null, null, null);
+        Node node = new ScalarNode(new Tag ("!tag"), "value1", null, null, null);
         try {
             new NodeTuple(node, null);
             fail("Node must be provided.");

@@ -131,7 +131,7 @@ public class Chapter2_4Test extends TestCase {
 
     class SomethingConstructor extends Constructor {
         public SomethingConstructor() {
-            this.yamlConstructors.put(Tag.createTag("!something"), new ConstructSomething());
+            this.yamlConstructors.put(new Tag ("!something"), new ConstructSomething());
         }
 
         private class ConstructSomething extends AbstractConstruct {

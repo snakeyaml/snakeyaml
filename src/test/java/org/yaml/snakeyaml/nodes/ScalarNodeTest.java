@@ -24,12 +24,12 @@ public class ScalarNodeTest extends TestCase {
     }
 
     public void testGetNodeId() {
-        Node node = new ScalarNode(Tag.createTag("str"), "text", null, null, '>');
+        Node node = new ScalarNode(new Tag ("str"), "text", null, null, '>');
         assertEquals(NodeId.scalar, node.getNodeId());
     }
 
     public void testToString() {
-        Node node = new ScalarNode(Tag.createTag("str"), "text", null, null, '>');
+        Node node = new ScalarNode(new Tag ("str"), "text", null, null, '>');
         assertTrue(node.toString().contains("ScalarNode"));
         assertTrue(node.toString().contains("tag="));
         assertTrue(node.toString().contains("value="));

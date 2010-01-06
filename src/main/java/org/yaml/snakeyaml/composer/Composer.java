@@ -171,10 +171,12 @@ public class Composer {
         ScalarEvent ev = (ScalarEvent) parser.getEvent();
         String tag = ev.getTag();
         boolean resolved = false;
-        Tag nodeTag = Tag.createTag(tag);
+        Tag nodeTag;
         if (tag == null || tag.equals("!")) {
             nodeTag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit().isFirst());
             resolved = true;
+        } else {
+            nodeTag = new Tag(tag);
         }
         Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(), ev
                 .getEndMark(), ev.getStyle());
@@ -187,11 +189,13 @@ public class Composer {
     private Node composeSequenceNode(String anchor) {
         SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
-        Tag nodeTag = Tag.createTag(tag);
+        Tag nodeTag;
         boolean resolved = false;
         if (tag == null || tag.equals("!")) {
             nodeTag = resolver.resolve(NodeId.sequence, null, startEvent.getImplicit());
             resolved = true;
+        } else {
+            nodeTag = new Tag(tag);
         }
         SequenceNode node = new SequenceNode(nodeTag, resolved, new ArrayList<Node>(), startEvent
                 .getStartMark(), null, startEvent.getFlowStyle());
@@ -211,11 +215,13 @@ public class Composer {
     private Node composeMappingNode(String anchor) {
         MappingStartEvent startEvent = (MappingStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
-        Tag nodeTag = Tag.createTag(tag);
+        Tag nodeTag;
         boolean resolved = false;
         if (tag == null || tag.equals("!")) {
             nodeTag = resolver.resolve(NodeId.mapping, null, startEvent.getImplicit());
             resolved = true;
+        } else {
+            nodeTag = new Tag(tag);
         }
         MappingNode node = new MappingNode(nodeTag, resolved, new ArrayList<NodeTuple>(),
                 startEvent.getStartMark(), null, startEvent.getFlowStyle());

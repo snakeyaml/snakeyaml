@@ -67,16 +67,15 @@ public final class Tag implements Comparable<Tag> {
 
     private final String value;
 
-    private Tag(String tag) {
-        this.value = tag;
-    }
-
-    public static Tag createTag(String tag) {
+    public Tag(String tag) {
         if (tag == null) {
-            return null;
-        } else {
-            return new Tag(tag);
+            throw new NullPointerException("Tag must be provided.");
+        } else if (tag.length() == 0) {
+            throw new IllegalArgumentException("Tag must not be empty.");
+        } else if (tag.trim().length() != tag.length()) {
+            throw new IllegalArgumentException("Tag must not contain leading or trailing spaces.");
         }
+        this.value = tag;
     }
 
     public Tag(Class<? extends Object> clazz) {

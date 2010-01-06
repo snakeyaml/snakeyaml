@@ -92,7 +92,7 @@ class SafeRepresenter extends BaseRepresenter {
      * @return the previous tag associated with the <code>Class</code>
      */
     public Tag addClassTag(Class<? extends Object> clazz, String tag) {
-        return addClassTag(clazz, Tag.createTag(tag));
+        return addClassTag(clazz, new Tag (tag));
     }
 
     public Tag addClassTag(Class<? extends Object> clazz, Tag tag) {

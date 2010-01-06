@@ -131,14 +131,14 @@ public class YamlMapTest extends TestCase {
 
         private class RepresentCustom implements Represent {
             public Node representData(Object data) {
-                return representScalar(Tag.createTag("!Custom"), ((Custom) data).toString());
+                return representScalar(new Tag ("!Custom"), ((Custom) data).toString());
             }
         }
     }
 
     public static class ExtendedConstructor extends Constructor {
         public ExtendedConstructor() {
-            this.yamlConstructors.put(Tag.createTag("!Custom"), new ConstructCustom());
+            this.yamlConstructors.put(new Tag ("!Custom"), new ConstructCustom());
         }
 
         private class ConstructCustom extends AbstractConstruct {

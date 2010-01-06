@@ -279,7 +279,7 @@ public class DumperOptions {
      * @deprecated use Tag instead of String
      */
     public void setExplicitRoot(String expRoot) {
-        setExplicitRoot(Tag.createTag(expRoot));
+        setExplicitRoot(new Tag (expRoot));
     }
 
     /**
