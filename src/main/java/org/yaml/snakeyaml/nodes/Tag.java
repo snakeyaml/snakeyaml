@@ -116,9 +116,14 @@ public final class Tag implements Comparable<Tag> {
         }
         if (obj instanceof Tag) {
             return value.equals(((Tag) obj).getValue());
-        } else {
-            return false;
+        } else if (obj instanceof String) {
+            if (value.equals(obj.toString())) {
+                // TODO to be removed later (version 2.0?)
+                System.err.println("Comparing Tag and String is deprecated.");
+                return true;
+            }
         }
+        return false;
     }
 
     @Override

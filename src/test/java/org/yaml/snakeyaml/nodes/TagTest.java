@@ -76,7 +76,8 @@ public class TagTest extends TestCase {
     public void testEqualsObject() {
         Tag tag = new Tag("!car");
         assertEquals(tag, tag);
-        assertFalse(tag.equals("!car"));
+        // TODO should be removed when tags as Strings are not used
+        assertTrue("Temporarily  allow compare Tag and String.", tag.equals("!car"));
         assertEquals(tag, new Tag("!car"));
         assertFalse(tag.equals(new Tag("!!str")));
         assertFalse(tag.equals(null));
