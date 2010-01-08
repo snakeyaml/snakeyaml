@@ -7,7 +7,10 @@
 	</properties>
 	<body>
 	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
-	    	<action dev="py4fun" type="update">
+	    	<action dev="py4fun" type="fix" issue="42" due-to="Artem">
+                BaseConstructor shall give more flexibility to choose a constructor at runtime (2010-01-08)
+            </action>
+            <action dev="py4fun" type="update">
                 Refactor: introduce TagTuple instead of String[] (2010-01-04)
             </action>
 	    	<action dev="py4fun" type="fix" issue="40" due-to="sitrious">
