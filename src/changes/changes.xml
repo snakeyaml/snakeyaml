@@ -10,6 +10,9 @@
 	    	<action dev="py4fun" type="update">
                 Refactor: introduce Tag instead of Tags. Nodes use Tag class instead of String (2010-01-05)
             </action>
+            <action dev="py4fun" type="fix" issue="42" due-to="Artem">
+                BaseConstructor shall give more flexibility to choose a constructor at runtime (2010-01-08)
+            </action>
             <action dev="py4fun" type="update">
                 Refactor: introduce TagTuple instead of String[] (2010-01-04)
             </action>

@@ -192,7 +192,7 @@ public abstract class BaseConstructor {
      *            Node to be constructed
      * @return Construct implementation for the specified node
      */
-    private Construct getConstructor(Node node) {
+    protected Construct getConstructor(Node node) {
         if (node.useClassConstructor()) {
             return yamlClassConstructors.get(node.getNodeId());
         } else {
