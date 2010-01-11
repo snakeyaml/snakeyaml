@@ -53,12 +53,8 @@ public class UnicodeReader extends java.io.Reader {
     private static final int BOM_SIZE = 3;
 
     /**
-     * 
      * @param in
      *            InputStream to be read
-     * @param defaultEnc
-     *            default encoding if stream does not have BOM marker. Give NULL
-     *            to use system-level default.
      */
     public UnicodeReader(InputStream in) {
         internalIn = new PushbackInputStream(in, BOM_SIZE);
