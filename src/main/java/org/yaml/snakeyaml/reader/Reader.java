@@ -71,12 +71,8 @@ public class Reader {
     }
 
     public Mark getMark() {
-        if (this.stream == null) {
-            return new Mark(name, this.index, this.line, this.column, this.buffer.toString(),
-                    this.pointer);
-        } else {
-            return new Mark(name, this.index, this.line, this.column, null, 0);
-        }
+        return new Mark(name, this.index, this.line, this.column, this.buffer.toString(),
+                this.pointer);
     }
 
     public void forward() {
