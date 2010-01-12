@@ -39,7 +39,15 @@ public final class Constant {
         return content.indexOf(ch) != -1;
     }
 
+    public boolean hasNo(char ch) {
+        return !has(ch);
+    }
+
     public boolean has(String additional, char ch) {
         return additional.indexOf(ch) != -1 || content.indexOf(ch) != -1;
+    }
+
+    public boolean hasNo(String additional, char ch) {
+        return !has(additional, ch);
     }
 }

@@ -1148,7 +1148,7 @@ public final class Emitter {
                     start = end;
                 }
             } else if (breaks) {
-                if (ch == 0 || !Constant.LINEBR.has(ch)) {
+                if (ch == 0 || Constant.LINEBR.hasNo(ch)) {
                     if (text.charAt(start) == '\n') {
                         writeLineBreak(null);
                     }
@@ -1255,7 +1255,7 @@ public final class Emitter {
                 hints.append(bestIndent);
             }
             char ch1 = text.charAt(text.length() - 1);
-            if (!Constant.LINEBR.has(ch1)) {
+            if (Constant.LINEBR.hasNo(ch1)) {
                 hints.append("-");
             } else if (text.length() == 1 || Constant.LINEBR.has(text.charAt(text.length() - 2))) {
                 hints.append("+");
@@ -1281,7 +1281,7 @@ public final class Emitter {
                 ch = text.charAt(end);
             }
             if (breaks) {
-                if (ch == 0 || !Constant.LINEBR.has(ch)) {
+                if (ch == 0 || Constant.LINEBR.hasNo(ch)) {
                     if (!leadingSpace && ch != 0 && ch != ' ' && text.charAt(start) == '\n') {
                         writeLineBreak(null);
                     }
@@ -1344,7 +1344,7 @@ public final class Emitter {
                 ch = text.charAt(end);
             }
             if (breaks) {
-                if (ch == 0 || !Constant.LINEBR.has(ch)) {
+                if (ch == 0 || Constant.LINEBR.hasNo(ch)) {
                     String data = text.substring(start, end);
                     for (char br : data.toCharArray()) {
                         if (br == '\n') {
@@ -1411,7 +1411,7 @@ public final class Emitter {
                     start = end;
                 }
             } else if (breaks) {
-                if (!Constant.LINEBR.has(ch)) {
+                if (Constant.LINEBR.hasNo(ch)) {
                     if (text.charAt(start) == '\n') {
                         writeLineBreak(null);
                     }

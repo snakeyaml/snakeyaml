@@ -939,8 +939,8 @@ public final class ScannerImpl implements Scanner {
          * </pre>
          */
         char ch = reader.peek();
-        return (!Constant.NULL_BL_T_LINEBR.has("-?:,[]{}#&*!|>\'\"%@`", ch) || !Constant.NULL_BL_T_LINEBR
-                .has(reader.peek(1))
+        return (Constant.NULL_BL_T_LINEBR.hasNo("-?:,[]{}#&*!|>\'\"%@`", ch) || Constant.NULL_BL_T_LINEBR
+                .hasNo(reader.peek(1))
                 && (ch == '-' || (this.flowLevel == 0 && "?:".indexOf(ch) != -1)));
     }
 
@@ -977,7 +977,7 @@ public final class ScannerImpl implements Scanner {
                 reader.forward();
             }
             if (reader.peek() == '#') {
-                while (!Constant.NULL_OR_LINEBR.has(reader.peek())) {
+                while (Constant.NULL_OR_LINEBR.hasNo(reader.peek())) {
                     reader.forward();
                 }
             }
@@ -1006,7 +1006,7 @@ public final class ScannerImpl implements Scanner {
             endMark = reader.getMark();
         } else {
             endMark = reader.getMark();
-            while (!Constant.NULL_OR_LINEBR.has(reader.peek())) {
+            while (Constant.NULL_OR_LINEBR.hasNo(reader.peek())) {
                 reader.forward();
             }
         }
@@ -1030,7 +1030,7 @@ public final class ScannerImpl implements Scanner {
         String value = reader.prefix(length);
         reader.forward(length);
         ch = reader.peek();
-        if (!Constant.NULL_BL_LINEBR.has(ch)) {
+        if (Constant.NULL_BL_LINEBR.hasNo(ch)) {
             throw new ScannerException("while scanning a directive", startMark,
                     "expected alphabetic or numeric character, but found " + ch + "(" + ((int) ch)
                             + ")", reader.getMark());
@@ -1051,7 +1051,7 @@ public final class ScannerImpl implements Scanner {
         }
         reader.forward();
         Integer minor = scanYamlDirectiveNumber(startMark);
-        if (!Constant.NULL_BL_LINEBR.has(reader.peek())) {
+        if (Constant.NULL_BL_LINEBR.hasNo(reader.peek())) {
             throw new ScannerException("while scanning a directive", startMark,
                     "expected a digit or ' ', but found " + reader.peek() + "("
                             + ((int) reader.peek()) + ")", reader.getMark());
@@ -1108,7 +1108,7 @@ public final class ScannerImpl implements Scanner {
     private String scanTagDirectivePrefix(Mark startMark) {
         // See the specification for details.
         String value = scanTagUri("directive", startMark);
-        if (!Constant.NULL_BL_LINEBR.has(reader.peek())) {
+        if (Constant.NULL_BL_LINEBR.hasNo(reader.peek())) {
             throw new ScannerException("while scanning a directive", startMark,
                     "expected ' ', but found " + reader.peek() + "(" + ((int) reader.peek()) + ")",
                     reader.getMark());
@@ -1122,12 +1122,12 @@ public final class ScannerImpl implements Scanner {
             reader.forward();
         }
         if (reader.peek() == '#') {
-            while (!Constant.NULL_OR_LINEBR.has(reader.peek())) {
+            while (Constant.NULL_OR_LINEBR.hasNo(reader.peek())) {
                 reader.forward();
             }
         }
         char ch = reader.peek();
-        if (!Constant.NULL_OR_LINEBR.has(ch)) {
+        if (Constant.NULL_OR_LINEBR.hasNo(ch)) {
             throw new ScannerException("while scanning a directive", startMark,
                     "expected a comment or a line break, but found " + ch + "(" + ((int) ch) + ")",
                     reader.getMark());
@@ -1166,7 +1166,7 @@ public final class ScannerImpl implements Scanner {
         String value = reader.prefix(length);
         reader.forward(length);
         ch = reader.peek();
-        if (!Constant.NULL_BL_T_LINEBR.has("?:,]}%@`", ch)) {
+        if (Constant.NULL_BL_T_LINEBR.hasNo("?:,]}%@`", ch)) {
             throw new ScannerException("while scanning an " + name, startMark,
                     "expected alphabetic or numeric character, but found " + ch + "("
                             + ((int) reader.peek()) + ")", reader.getMark());
@@ -1202,7 +1202,7 @@ public final class ScannerImpl implements Scanner {
         } else {
             int length = 1;
             boolean useHandle = false;
-            while (!Constant.NULL_BL_LINEBR.has(ch)) {
+            while (Constant.NULL_BL_LINEBR.hasNo(ch)) {
                 if (ch == '!') {
                     useHandle = true;
                     break;
@@ -1220,7 +1220,7 @@ public final class ScannerImpl implements Scanner {
             suffix = scanTagUri("tag", startMark);
         }
         ch = reader.peek();
-        if (!Constant.NULL_BL_LINEBR.has(ch)) {
+        if (Constant.NULL_BL_LINEBR.hasNo(ch)) {
             throw new ScannerException("while scanning a tag", startMark,
                     "expected ' ', but found '" + ch + "' (" + ((int) ch) + ")", reader.getMark());
         }
@@ -1275,7 +1275,7 @@ public final class ScannerImpl implements Scanner {
             chunks.append(breaks);
             boolean leadingNonSpace = " \t".indexOf(reader.peek()) == -1;
             int length = 0;
-            while (!Constant.NULL_OR_LINEBR.has(reader.peek(length))) {
+            while (Constant.NULL_OR_LINEBR.hasNo(reader.peek(length))) {
                 length++;
             }
             chunks.append(reader.prefix(length));
@@ -1355,7 +1355,7 @@ public final class ScannerImpl implements Scanner {
             }
         }
         ch = reader.peek();
-        if (!Constant.NULL_BL_LINEBR.has(ch)) {
+        if (Constant.NULL_BL_LINEBR.hasNo(ch)) {
             throw new ScannerException("while scanning a block scalar", startMark,
                     "expected chomping or indentation indicators, but found " + ch, reader
                             .getMark());
@@ -1369,12 +1369,12 @@ public final class ScannerImpl implements Scanner {
             reader.forward();
         }
         if (reader.peek() == '#') {
-            while (!Constant.NULL_OR_LINEBR.has(reader.peek())) {
+            while (Constant.NULL_OR_LINEBR.hasNo(reader.peek())) {
                 reader.forward();
             }
         }
         char ch = reader.peek();
-        if (!Constant.NULL_OR_LINEBR.has(ch)) {
+        if (Constant.NULL_OR_LINEBR.hasNo(ch)) {
             throw new ScannerException("while scanning a block scalar", startMark,
                     "expected a comment or a line break, but found " + ch, reader.getMark());
         }
@@ -1453,7 +1453,7 @@ public final class ScannerImpl implements Scanner {
         StringBuilder chunks = new StringBuilder();
         while (true) {
             int length = 0;
-            while (!Constant.NULL_BL_T_LINEBR.has("\'\"\\", reader.peek(length))) {
+            while (Constant.NULL_BL_T_LINEBR.hasNo("\'\"\\", reader.peek(length))) {
                 length++;
             }
             if (length != 0) {
@@ -1584,7 +1584,7 @@ public final class ScannerImpl implements Scanner {
             }
             // It's not clear what we should do with ':' in the flow context.
             if (this.flowLevel != 0 && ch == ':'
-                    && !Constant.NULL_BL_T_LINEBR.has(",[]{}", reader.peek(length + 1))) {
+                    && Constant.NULL_BL_T_LINEBR.hasNo(",[]{}", reader.peek(length + 1))) {
                 reader.forward(length);
                 throw new ScannerException("while scanning a plain scalar", startMark,
                         "found unexpected ':'", reader.getMark(),
