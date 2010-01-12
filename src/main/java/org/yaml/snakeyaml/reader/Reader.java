@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.scanner.Constant;
 
 /**
  * Reader: determines the data encoding and converts it to unicode, checks if
@@ -34,8 +35,6 @@ public class Reader {
     // it in case of data corruption
     final static Pattern NON_PRINTABLE = Pattern
             .compile("[^\t\n\r\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFC]");
-    public final static String LINEBR = "\n\u0085\u2028\u2029";
-
     private String name;
     private final java.io.Reader stream;
     private int pointer = 0;
@@ -93,8 +92,7 @@ public class Reader {
             ch = this.buffer.charAt(this.pointer);
             this.pointer++;
             this.index++;
-            if (LINEBR.indexOf(ch) != -1
-                    || (ch == '\r' && this.buffer.charAt(this.pointer) != '\n')) {
+            if (Constant.LINEBR.has(ch) || (ch == '\r' && buffer.charAt(pointer) != '\n')) {
                 this.line++;
                 this.column = 0;
             } else if (ch != '\uFEFF') {

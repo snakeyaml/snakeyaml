@@ -8,6 +8,9 @@
 	<body>
 	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
 	    	<action dev="py4fun" type="update">
+                Refactor: introduce Constant class to share String constants (2010-01-12)
+            </action>
+            <action dev="py4fun" type="update">
                 Keep Tag.equals(String) to simplify transition to Tag class (2010-01-08)
             </action>
             <action dev="py4fun" type="update">

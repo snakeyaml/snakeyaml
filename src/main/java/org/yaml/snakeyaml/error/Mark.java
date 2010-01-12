@@ -15,7 +15,7 @@
  */
 package org.yaml.snakeyaml.error;
 
-import org.yaml.snakeyaml.scanner.ScannerImpl;
+import org.yaml.snakeyaml.scanner.Constant;
 
 /**
  * It's just a record and its only use is producing nice error messages. Parser
@@ -40,7 +40,7 @@ public final class Mark {
     }
 
     private boolean isLineBreak(char ch) {
-        return ScannerImpl.NULL_OR_LINEBR.indexOf(ch) != -1;
+        return Constant.NULL_OR_LINEBR.has(ch);
     }
 
     public String get_snippet(int indent, int max_length) {
