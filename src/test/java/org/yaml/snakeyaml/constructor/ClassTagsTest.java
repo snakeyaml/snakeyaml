@@ -57,7 +57,7 @@ public class ClassTagsTest extends TestCase {
         }
         car.setWheels(wheels);
         Representer representer = new Representer();
-        representer.addClassTag(Car.class, "!car");
+        representer.addClassTag(Car.class, new Tag("!car"));
         representer.addClassTag(Wheel.class, Tag.MAP);
         Dumper dumper = new Dumper(representer, new DumperOptions());
         Yaml yaml = new Yaml(dumper);

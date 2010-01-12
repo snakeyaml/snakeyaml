@@ -60,14 +60,14 @@ public class DiceExampleTest extends TestCase {
             public Node representData(Object data) {
                 Dice dice = (Dice) data;
                 String value = dice.getA() + "d" + dice.getB();
-                return representScalar(new Tag ("!dice"), value);
+                return representScalar(new Tag("!dice"), value);
             }
         }
     }
 
     class DiceConstructor extends SafeConstructor {
         public DiceConstructor() {
-            this.yamlConstructors.put(new Tag ("!dice"), new ConstructDice());
+            this.yamlConstructors.put(new Tag("!dice"), new ConstructDice());
         }
 
         private class ConstructDice extends AbstractConstruct {
@@ -93,7 +93,7 @@ public class DiceExampleTest extends TestCase {
     public void testImplicitResolver() throws IOException {
         Yaml yaml = new Yaml(new Loader(new DiceConstructor()), new Dumper(new DiceRepresenter(),
                 new DumperOptions()));
-        yaml.addImplicitResolver("!dice", Pattern.compile("\\d+d\\d+"), "123456789");
+        yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), "123456789");
         // dump
         Map<String, Dice> treasure = (Map<String, Dice>) new HashMap<String, Dice>();
         treasure.put("treasure", new Dice(10, 20));

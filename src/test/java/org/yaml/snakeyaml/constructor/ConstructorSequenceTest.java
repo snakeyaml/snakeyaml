@@ -36,14 +36,14 @@ public class ConstructorSequenceTest extends TestCase {
         String data = "[ 1, 2, 3 ]";
         List<Object> list = construct(new CustomConstructor(), data);
         assertNotNull(list);
-        assertTrue(list.getClass().toString(), list instanceof ArrayList);
+        assertTrue(list.getClass().toString(), list instanceof ArrayList<?>);
     }
 
     public void testGetArrayList() {
         String data = "[ 1, 2, 3 ]";
         List<Object> list = construct(data);
         assertNotNull(list);
-        assertTrue(list.getClass().toString(), list instanceof ArrayList);
+        assertTrue(list.getClass().toString(), list instanceof ArrayList<?>);
     }
 
     public void testDumpList() {

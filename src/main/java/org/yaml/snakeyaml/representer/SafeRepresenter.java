@@ -77,7 +77,7 @@ class SafeRepresenter extends BaseRepresenter {
         }
         return data instanceof String || data instanceof Boolean || data instanceof Integer
                 || data instanceof Long || data instanceof Float || data instanceof Double
-                || data instanceof Enum;
+                || data instanceof Enum<?>;
     }
 
     /**
@@ -92,7 +92,7 @@ class SafeRepresenter extends BaseRepresenter {
      * @return the previous tag associated with the <code>Class</code>
      */
     public Tag addClassTag(Class<? extends Object> clazz, String tag) {
-        return addClassTag(clazz, new Tag (tag));
+        return addClassTag(clazz, new Tag(tag));
     }
 
     public Tag addClassTag(Class<? extends Object> clazz, Tag tag) {

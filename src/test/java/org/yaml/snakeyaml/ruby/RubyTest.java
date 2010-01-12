@@ -62,9 +62,9 @@ public class RubyTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setExplicitStart(true);
         Representer repr = new Representer();
-        repr.addClassTag(TestObject.class, "!ruby/object:Test::Module::Object");
-        repr.addClassTag(Sub1.class, "!ruby/object:Test::Module::Sub1");
-        repr.addClassTag(Sub2.class, "!ruby/object:Test::Module::Sub2");
+        repr.addClassTag(TestObject.class, new Tag("!ruby/object:Test::Module::Object"));
+        repr.addClassTag(Sub1.class, new Tag("!ruby/object:Test::Module::Sub1"));
+        repr.addClassTag(Sub2.class, new Tag("!ruby/object:Test::Module::Sub2"));
         Yaml yaml2 = new Yaml(new Dumper(repr, options));
         String output = yaml2.dump(result);
         // System.out.println(output);
