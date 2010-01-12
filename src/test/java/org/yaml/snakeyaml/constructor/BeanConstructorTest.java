@@ -129,13 +129,15 @@ public class BeanConstructorTest extends TestCase {
         } catch (Exception e) {
             assertTrue(e.getMessage(), e.getMessage().contains("InstantiationException"));
         }
+        TestBean2 bean = new TestBean2();
+        assertEquals("", bean.getText());
     }
 
     private class TestBean2 {
         private String text;
 
-        public TestBean2(String text) {
-            this.text = text;
+        public TestBean2() {
+            setText("");
         }
 
         public String getText() {
@@ -148,7 +150,7 @@ public class BeanConstructorTest extends TestCase {
     }
 
     public void testPrivateMethod() throws IOException {
-        Loader loader = new Loader(new Constructor(TestBean3.class));
+        Loader loader = new Loader(new Constructor(TestBean2.class));
         Yaml yaml = new Yaml(loader);
         String document = "text: qwerty";
         try {
@@ -156,22 +158,6 @@ public class BeanConstructorTest extends TestCase {
             fail("Private method cannot be called.");
         } catch (Exception e) {
             assertTrue(e.getMessage(), e.getMessage().contains("InstantiationException"));
-        }
-    }
-
-    private class TestBean3 {
-        private String text;
-
-        public TestBean3() {
-            setText("123");
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        private void setText(String text) {
-            this.text = text;
         }
     }
 
