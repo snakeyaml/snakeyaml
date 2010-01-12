@@ -8,6 +8,9 @@
 	<body>
 	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
 	    	<action dev="py4fun" type="update">
+                Refactor: use StringBuilder instead of StringBuffer (2010-01-12)
+            </action>
+            <action dev="py4fun" type="update">
                 Refactor: introduce Constant class to share String constants (2010-01-12)
             </action>
             <action dev="py4fun" type="update">

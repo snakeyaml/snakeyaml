@@ -187,7 +187,7 @@ public class PyStructureTest extends PyImportTest {
 
     private List<Node> canonical_compose_all(InputStream file) {
         Reader reader = new Reader(new UnicodeReader(file));
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         while (reader.peek() != '\0') {
             buffer.append(reader.peek());
             reader.forward();
@@ -215,7 +215,7 @@ public class PyStructureTest extends PyImportTest {
         @Override
         public Iterable<Object> loadAll(java.io.Reader yaml) {
             Reader reader = new Reader(yaml);
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             while (reader.peek() != '\0') {
                 buffer.append(reader.peek());
                 reader.forward();

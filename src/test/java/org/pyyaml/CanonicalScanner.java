@@ -248,7 +248,7 @@ public class CanonicalScanner implements Scanner {
 
     private Token scanScalar() {
         index++;
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         int start = index;
         boolean ignoreSpaces = false;
         while (data.charAt(index) != '"') {

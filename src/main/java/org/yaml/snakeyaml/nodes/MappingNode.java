@@ -79,7 +79,7 @@ public class MappingNode extends CollectionNode {
     @Override
     public String toString() {
         String values;
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (NodeTuple node : getValue()) {
             buf.append("{ key=");
             buf.append(node.getKeyNode());

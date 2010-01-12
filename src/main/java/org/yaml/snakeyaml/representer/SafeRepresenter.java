@@ -210,7 +210,7 @@ class SafeRepresenter extends BaseRepresenter {
             int minutes = calendar.get(Calendar.MINUTE); // 0..59
             int seconds = calendar.get(Calendar.SECOND); // 0..59
             int millis = calendar.get(Calendar.MILLISECOND);
-            StringBuffer buffer = new StringBuffer(String.valueOf(years));
+            StringBuilder buffer = new StringBuilder(String.valueOf(years));
             buffer.append("-");
             if (months < 10) {
                 buffer.append("0");

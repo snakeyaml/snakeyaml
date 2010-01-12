@@ -27,7 +27,7 @@ public class CanonicalLoader extends Loader {
     public Object load(java.io.Reader yaml) {
         try {
             int ch = yaml.read();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             while (ch != -1) {
                 buffer.append((char) ch);
                 ch = yaml.read();
@@ -43,7 +43,7 @@ public class CanonicalLoader extends Loader {
     public Iterable<Object> loadAll(java.io.Reader yaml) {
         try {
             int ch = yaml.read();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             while (ch != -1) {
                 buffer.append((char) ch);
                 ch = yaml.read();

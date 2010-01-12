@@ -87,7 +87,7 @@ public abstract class PyImportTest extends TestCase {
 
     protected List<Event> canonicalParse(InputStream input2) throws IOException {
         Reader reader = new Reader(new UnicodeReader(input2));
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         while (reader.peek() != '\0') {
             buffer.append(reader.peek());
             reader.forward();

@@ -69,7 +69,7 @@ public final class Mark {
             }
         }
         String snippet = buffer.substring(start, end);
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < indent; i++) {
             result.append(" ");
         }
@@ -91,7 +91,7 @@ public final class Mark {
     @Override
     public String toString() {
         String snippet = get_snippet();
-        StringBuffer where = new StringBuffer(" in \"");
+        StringBuilder where = new StringBuilder(" in \"");
         where.append(name);
         where.append("\", line ");
         where.append(line + 1);

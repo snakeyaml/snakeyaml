@@ -53,7 +53,7 @@ public class MarkedYAMLException extends YAMLException {
 
     @Override
     public String toString() {
-        StringBuffer lines = new StringBuffer();
+        StringBuilder lines = new StringBuilder();
         if (context != null) {
             lines.append(context);
             lines.append("\n");

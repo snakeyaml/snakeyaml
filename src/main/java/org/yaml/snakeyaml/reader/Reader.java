@@ -39,14 +39,14 @@ public class Reader {
     private final java.io.Reader stream;
     private int pointer = 0;
     private boolean eof = true;
-    private final StringBuffer buffer;
+    private final StringBuilder buffer;
     private int index = 0;
     private int line = 0;
     private int column = 0;
 
     public Reader(String stream) {
         this.name = "<string>";
-        this.buffer = new StringBuffer();
+        this.buffer = new StringBuilder();
         checkPrintable(stream);
         this.buffer.append(stream);
         this.stream = null;
@@ -55,7 +55,7 @@ public class Reader {
 
     public Reader(java.io.Reader reader) {
         this.name = "<reader>";
-        this.buffer = new StringBuffer();
+        this.buffer = new StringBuilder();
         this.stream = reader;
         this.eof = false;
     }

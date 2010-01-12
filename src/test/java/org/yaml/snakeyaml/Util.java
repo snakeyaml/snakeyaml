@@ -29,7 +29,7 @@ public class Util {
                 throw new RuntimeException("Can not find " + theName);
             }
             BufferedInputStream is = new BufferedInputStream(input);
-            StringBuffer buf = new StringBuffer(3000);
+            StringBuilder buf = new StringBuilder(3000);
             int i;
             try {
                 while ((i = is.read()) != -1) {
@@ -41,7 +41,7 @@ public class Util {
             String resource = buf.toString();
             // convert EOLs
             String[] lines = resource.split("\\r?\\n");
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             for (int j = 0; j < lines.length; j++) {
                 buffer.append(lines[j]);
                 buffer.append("\n");

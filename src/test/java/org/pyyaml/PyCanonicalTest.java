@@ -41,7 +41,7 @@ public class PyCanonicalTest extends PyImportTest {
 
     private List<Token> canonicalScan(InputStream input) throws IOException {
         int ch = input.read();
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         while (ch != -1) {
             buffer.append((char) ch);
             ch = input.read();

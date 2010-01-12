@@ -828,7 +828,7 @@ public final class Emitter {
         if (prefix == null || "".equals(prefix)) {
             throw new EmitterException("tag prefix must not be empty");
         }
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         int start = 0;
         int end = 0;
         if (prefix.charAt(0) == '!') {
@@ -858,7 +858,7 @@ public final class Emitter {
                 suffix = tag.substring(prefix.length());
             }
         }
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         int start = 0;
         int end = 0;
         while (end < suffix.length()) {
@@ -1094,7 +1094,7 @@ public final class Emitter {
 
         if (this.column < indent) {
             this.whitespace = true;
-            StringBuffer data = new StringBuffer();
+            StringBuilder data = new StringBuilder();
             for (int i = 0; i < indent - this.column; i++) {
                 data.append(" ");
             }
@@ -1249,7 +1249,7 @@ public final class Emitter {
     }
 
     private String determineBlockHints(String text) {
-        StringBuffer hints = new StringBuffer();
+        StringBuilder hints = new StringBuilder();
         if (text != null && text.length() > 0) {
             if (Constant.LINEBR.has(" ", text.charAt(0))) {
                 hints.append(bestIndent);

@@ -1237,7 +1237,7 @@ public final class ScannerImpl implements Scanner {
         } else {
             folded = false;
         }
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         Mark startMark = reader.getMark();
         // Scan the header.
         reader.forward();
@@ -1383,7 +1383,7 @@ public final class ScannerImpl implements Scanner {
 
     private Object[] scanBlockScalarIndentation() {
         // See the specification for details.
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         int maxIndent = 0;
         Mark endMark = reader.getMark();
         while (Constant.LINEBR.has(" \r", reader.peek())) {
@@ -1402,7 +1402,7 @@ public final class ScannerImpl implements Scanner {
 
     private Object[] scanBlockScalarBreaks(int indent) {
         // See the specification for details.
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         Mark endMark = reader.getMark();
         while (this.reader.getColumn() < indent && reader.peek() == ' ') {
             reader.forward();
@@ -1434,7 +1434,7 @@ public final class ScannerImpl implements Scanner {
         } else {
             _double = false;
         }
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         Mark startMark = reader.getMark();
         char quote = reader.peek();
         reader.forward();
@@ -1450,7 +1450,7 @@ public final class ScannerImpl implements Scanner {
 
     private String scanFlowScalarNonSpaces(boolean _double, Mark startMark) {
         // See the specification for details.
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         while (true) {
             int length = 0;
             while (!Constant.NULL_BL_T_LINEBR.has("\'\"\\", reader.peek(length))) {
@@ -1502,7 +1502,7 @@ public final class ScannerImpl implements Scanner {
 
     private String scanFlowScalarSpaces(Mark startMark) {
         // See the specification for details.
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         int length = 0;
         while (" \t".indexOf(reader.peek(length)) != -1) {
             length++;
@@ -1530,7 +1530,7 @@ public final class ScannerImpl implements Scanner {
 
     private String scanFlowScalarBreaks(Mark startMark) {
         // See the specification for details.
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         while (true) {
             // Instead of checking indentation, we check for document
             // separators.
@@ -1561,7 +1561,7 @@ public final class ScannerImpl implements Scanner {
      * </pre>
      */
     private Token scanPlain() {
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         Mark startMark = reader.getMark();
         Mark endMark = startMark;
         int indent = this.indent + 1;
@@ -1615,7 +1615,7 @@ public final class ScannerImpl implements Scanner {
      * </pre>
      */
     private String scanPlainSpaces() {
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         int length = 0;
         while (reader.peek(length) == ' ') {
             length++;
@@ -1631,7 +1631,7 @@ public final class ScannerImpl implements Scanner {
                     && Constant.NULL_BL_T_LINEBR.has(reader.peek(3))) {
                 return "";
             }
-            StringBuffer breaks = new StringBuffer();
+            StringBuilder breaks = new StringBuilder();
             while (Constant.LINEBR.has(" \r", reader.peek())) {
                 if (reader.peek() == ' ') {
                     reader.forward();
@@ -1691,7 +1691,7 @@ public final class ScannerImpl implements Scanner {
     private String scanTagUri(String name, Mark startMark) {
         // See the specification for details.
         // Note: we do not check if URI is well-formed.
-        StringBuffer chunks = new StringBuffer();
+        StringBuilder chunks = new StringBuilder();
         int length = 0;
         char ch = reader.peek(length);
         while (ALPHA.indexOf(ch) != -1 || "-;/?:@&=+$,_.!~*\'()[]%".indexOf(ch) != -1) {
@@ -1719,7 +1719,7 @@ public final class ScannerImpl implements Scanner {
 
     private String scanUriEscapes(String name, Mark startMark) {
         // See the specification for details.
-        StringBuffer bytes = new StringBuffer();
+        StringBuilder bytes = new StringBuilder();
         while (reader.peek() == '%') {
             reader.forward();
             try {
