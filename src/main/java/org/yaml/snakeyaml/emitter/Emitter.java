@@ -44,6 +44,7 @@ import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.reader.Reader;
 import org.yaml.snakeyaml.util.ArrayStack;
 
 /**
@@ -958,7 +959,7 @@ public final class Emitter {
                 }
             }
             // Check for line breaks, special, and unicode characters.
-            if (ch == '\n' || ch == '\u0085' || ch == '\u2028' || ch == '\u2029') {
+            if (Reader.LINEBR.indexOf(ch) != -1) {
                 lineBreaks = true;
             }
             if (!(ch == '\n' || ('\u0020' <= ch && ch <= '\u007E'))) {
@@ -985,7 +986,7 @@ public final class Emitter {
                 }
                 previousSpace = true;
                 previousBreak = false;
-            } else if ("\n\u0085\u2028\u2029".indexOf(ch) != -1) {
+            } else if (Reader.LINEBR.indexOf(ch) != -1) {
                 if (index == 0) {
                     leadingBreak = true;
                 }
@@ -1004,8 +1005,8 @@ public final class Emitter {
 
             // Prepare for the next character.
             index++;
-            preceededByWhitespace = "\0 \t\r\n\u0085\u2028\u2029".indexOf(ch) != -1;
-            followedByWhitespace = (index + 1 >= scalar.length() || "\0 \t\r\n\u0085\u2028\u2029"
+            preceededByWhitespace = ("\0 \t\r" + Reader.LINEBR).indexOf(ch) != -1;
+            followedByWhitespace = (index + 1 >= scalar.length() || ("\0 \t\r" + Reader.LINEBR)
                     .indexOf(scalar.charAt(index + 1)) != -1);
         }
         // Let's decide what styles are allowed.
@@ -1147,7 +1148,7 @@ public final class Emitter {
                     start = end;
                 }
             } else if (breaks) {
-                if (ch == 0 || "\n\u0085\u2028\u2029".indexOf(ch) == -1) {
+                if (ch == 0 || Reader.LINEBR.indexOf(ch) == -1) {
                     if (text.charAt(start) == '\n') {
                         writeLineBreak(null);
                     }
@@ -1163,7 +1164,7 @@ public final class Emitter {
                     start = end;
                 }
             } else {
-                if (ch == 0 || " \n\u0085\u2028\u2029".indexOf(ch) != -1 || ch == '\'') {
+                if (ch == 0 || (" " + Reader.LINEBR).indexOf(ch) != -1 || ch == '\'') {
                     if (start < end) {
                         String data = text.substring(start, end);
                         this.column += data.length();
@@ -1180,7 +1181,7 @@ public final class Emitter {
             }
             if (ch != 0) {
                 spaces = ch == ' ';
-                breaks = "\n\u0085\u2028\u2029".indexOf(ch) != -1;
+                breaks = Reader.LINEBR.indexOf(ch) != -1;
             }
             end++;
         }
@@ -1250,14 +1251,14 @@ public final class Emitter {
     private String determineBlockHints(String text) {
         StringBuffer hints = new StringBuffer();
         if (text != null && text.length() > 0) {
-            if (" \n\u0085\u2028\u2029".indexOf(text.charAt(0)) != -1) {
+            if ((" " + Reader.LINEBR).indexOf(text.charAt(0)) != -1) {
                 hints.append(bestIndent);
             }
             char ch1 = text.charAt(text.length() - 1);
-            if ("\n\u0085\u2028\u2029".indexOf(ch1) == -1) {
+            if (Reader.LINEBR.indexOf(ch1) == -1) {
                 hints.append("-");
             } else if (text.length() == 1
-                    || ("\n\u0085\u2028\u2029".indexOf(text.charAt(text.length() - 2)) != -1)) {
+                    || (Reader.LINEBR.indexOf(text.charAt(text.length() - 2)) != -1)) {
                 hints.append("+");
             }
         }
@@ -1281,7 +1282,7 @@ public final class Emitter {
                 ch = text.charAt(end);
             }
             if (breaks) {
-                if (ch == 0 || ("\n\0085\u2028\u2029".indexOf(ch) == -1)) {
+                if (ch == 0 || (Reader.LINEBR.indexOf(ch) == -1)) {
                     if (!leadingSpace && ch != 0 && ch != ' ' && text.charAt(start) == '\n') {
                         writeLineBreak(null);
                     }
@@ -1311,7 +1312,7 @@ public final class Emitter {
                     start = end;
                 }
             } else {
-                if (ch == 0 || " \n\0085\u2028\u2029".indexOf(ch) != -1) {
+                if (ch == 0 || (" " + Reader.LINEBR).indexOf(ch) != -1) {
                     String data = text.substring(start, end);
                     this.column += data.length();
                     stream.write(data);
@@ -1322,7 +1323,7 @@ public final class Emitter {
                 }
             }
             if (ch != 0) {
-                breaks = ("\n\u0085\u2028\u2029".indexOf(ch) != -1);
+                breaks = (Reader.LINEBR.indexOf(ch) != -1);
                 spaces = (ch == ' ');
             }
             end++;
@@ -1344,7 +1345,7 @@ public final class Emitter {
                 ch = text.charAt(end);
             }
             if (breaks) {
-                if (ch == 0 || "\n\u0085\u2028\u2029".indexOf(ch) == -1) {
+                if (ch == 0 || Reader.LINEBR.indexOf(ch) == -1) {
                     String data = text.substring(start, end);
                     for (char br : data.toCharArray()) {
                         if (br == '\n') {
@@ -1359,7 +1360,7 @@ public final class Emitter {
                     start = end;
                 }
             } else {
-                if (ch == 0 || "\n\u0085\u2028\u2029".indexOf(ch) != -1) {
+                if (ch == 0 || Reader.LINEBR.indexOf(ch) != -1) {
                     String data = text.substring(start, end);
                     stream.write(data);
                     if (ch == 0) {
@@ -1369,7 +1370,7 @@ public final class Emitter {
                 }
             }
             if (ch != 0) {
-                breaks = ("\n\u0085\u2028\u2029".indexOf(ch) != -1);
+                breaks = (Reader.LINEBR.indexOf(ch) != -1);
             }
             end++;
         }
@@ -1411,7 +1412,7 @@ public final class Emitter {
                     start = end;
                 }
             } else if (breaks) {
-                if ("\n\u0085\u2028\u2029".indexOf(ch) == -1) {
+                if (Reader.LINEBR.indexOf(ch) == -1) {
                     if (text.charAt(start) == '\n') {
                         writeLineBreak(null);
                     }
@@ -1429,7 +1430,7 @@ public final class Emitter {
                     start = end;
                 }
             } else {
-                if (ch == 0 || "\n\u0085\u2028\u2029".indexOf(ch) != -1) {
+                if (ch == 0 || Reader.LINEBR.indexOf(ch) != -1) {
                     String data = text.substring(start, end);
                     this.column += data.length();
                     stream.write(data);
@@ -1438,7 +1439,7 @@ public final class Emitter {
             }
             if (ch != 0) {
                 spaces = (ch == ' ');
-                breaks = ("\n\u0085\u2028\u2029".indexOf(ch) != -1);
+                breaks = (Reader.LINEBR.indexOf(ch) != -1);
             }
             end++;
         }

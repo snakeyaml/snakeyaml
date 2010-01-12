@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.reader.Reader;
 import org.yaml.snakeyaml.tokens.AliasToken;
 import org.yaml.snakeyaml.tokens.AnchorToken;
 import org.yaml.snakeyaml.tokens.BlockEndToken;
@@ -80,10 +81,10 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public final class ScannerImpl implements Scanner {
-    private final static String NULL_BL_LINEBR = "\0 \r\n\u0085\u2028\u2029";
-    private final static String NULL_BL_T_LINEBR = "\0 \t\r\n\u0085\u2028\u2029";
-    public final static String NULL_OR_LINEBR = "\0\r\n\u0085\u2028\u2029";
-    private final static String FULL_LINEBR = "\r\n\u0085\u2028\u2029";
+    private final static String NULL_BL_LINEBR = "\0 \r" + Reader.LINEBR;
+    private final static String NULL_BL_T_LINEBR = "\0 \t\r" + Reader.LINEBR;
+    public final static String NULL_OR_LINEBR = "\0\r" + Reader.LINEBR;
+    private final static String FULL_LINEBR = "\r" + Reader.LINEBR;
     private final static String ALPHA = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
     private final static Pattern NOT_HEXA = Pattern.compile("[^0-9A-Fa-f]");
     public final static Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
@@ -880,7 +881,7 @@ public final class ScannerImpl implements Scanner {
         return reader.getColumn() == 0;
     }
 
-    private static final String SPACES = "\0 \t\r\n\u0085\u2028\u2029";
+    private static final String SPACES = "\0 \t\r" + Reader.LINEBR;
 
     private boolean checkDocumentStart() {
         // DOCUMENT-START: ^ '---' (' '|'\n')
@@ -945,7 +946,7 @@ public final class ScannerImpl implements Scanner {
          * </pre>
          */
         char ch = reader.peek();
-        return ("\0 \t\r\n\u0085\u2028\u2029-?:,[]{}#&*!|>\'\"%@`".indexOf(ch) == -1 || ("\0 \t\r\n\u0085\u2028\u2029"
+        return (("\0 \t\r-?:,[]{}#&*!|>\'\"%@`" + Reader.LINEBR).indexOf(ch) == -1 || (("\0 \t\r" + Reader.LINEBR)
                 .indexOf(reader.peek(1)) == -1 && (ch == '-' || (this.flowLevel == 0 && "?:"
                 .indexOf(ch) != -1))));
     }
@@ -983,7 +984,7 @@ public final class ScannerImpl implements Scanner {
                 reader.forward();
             }
             if (reader.peek() == '#') {
-                while ("\0\r\n\u0085\u2028\u2029".indexOf(reader.peek()) == -1) {
+                while (("\0\r" + Reader.LINEBR).indexOf(reader.peek()) == -1) {
                     reader.forward();
                 }
             }
@@ -1012,7 +1013,7 @@ public final class ScannerImpl implements Scanner {
             endMark = reader.getMark();
         } else {
             endMark = reader.getMark();
-            while ("\0\r\n\u0085\u2028\u2029".indexOf(reader.peek()) == -1) {
+            while (("\0\r" + Reader.LINEBR).indexOf(reader.peek()) == -1) {
                 reader.forward();
             }
         }
@@ -1172,7 +1173,7 @@ public final class ScannerImpl implements Scanner {
         String value = reader.prefix(length);
         reader.forward(length);
         ch = reader.peek();
-        if ("\0 \t\r\n\u0085\u2028\u2029?:,]}%@`".indexOf(ch) == -1) {
+        if (("\0 \t\r?:,]}%@`" + Reader.LINEBR).indexOf(ch) == -1) {
             throw new ScannerException("while scanning an " + name, startMark,
                     "expected alphabetic or numeric character, but found " + ch + "("
                             + ((int) reader.peek()) + ")", reader.getMark());
@@ -1208,7 +1209,7 @@ public final class ScannerImpl implements Scanner {
         } else {
             int length = 1;
             boolean useHandle = false;
-            while ("\0 \r\n\u0085\u2028\u2029".indexOf(ch) == -1) {
+            while (("\0 \r" + Reader.LINEBR).indexOf(ch) == -1) {
                 if (ch == '!') {
                     useHandle = true;
                     break;
@@ -1392,7 +1393,7 @@ public final class ScannerImpl implements Scanner {
         StringBuffer chunks = new StringBuffer();
         int maxIndent = 0;
         Mark endMark = reader.getMark();
-        while (" \r\n\u0085\u2028\u2029".indexOf(reader.peek()) != -1) {
+        while ((" \r" + Reader.LINEBR).indexOf(reader.peek()) != -1) {
             if (reader.peek() != ' ') {
                 chunks.append(scanLineBreak());
                 endMark = reader.getMark();
@@ -1459,7 +1460,7 @@ public final class ScannerImpl implements Scanner {
         StringBuffer chunks = new StringBuffer();
         while (true) {
             int length = 0;
-            while ("\'\"\\\0 \t\r\n\u0085\u2028\u2029".indexOf(reader.peek(length)) == -1) {
+            while (("\'\"\\\0 \t\r" + Reader.LINEBR).indexOf(reader.peek(length)) == -1) {
                 length++;
             }
             if (length != 0) {
@@ -1580,8 +1581,8 @@ public final class ScannerImpl implements Scanner {
             }
             while (true) {
                 ch = reader.peek(length);
-                if ("\0 \t\r\n\u0085\u2028\u2029".indexOf(ch) != -1
-                        || (this.flowLevel == 0 && ch == ':' && "\0 \t\r\n\u0085\u2028\u2029"
+                if (("\0 \t\r" + Reader.LINEBR).indexOf(ch) != -1
+                        || (this.flowLevel == 0 && ch == ':' && ("\0 \t\r" + Reader.LINEBR)
                                 .indexOf(reader.peek(length + 1)) != -1)
                         || (this.flowLevel != 0 && ",:?[]{}".indexOf(ch) != -1)) {
                     break;
@@ -1590,7 +1591,7 @@ public final class ScannerImpl implements Scanner {
             }
             // It's not clear what we should do with ':' in the flow context.
             if (this.flowLevel != 0 && ch == ':'
-                    && "\0 \t\r\n\u0085\u2028\u2029,[]{}".indexOf(reader.peek(length + 1)) == -1) {
+                    && ("\0 \t\r,[]{}" + Reader.LINEBR).indexOf(reader.peek(length + 1)) == -1) {
                 reader.forward(length);
                 throw new ScannerException("while scanning a plain scalar", startMark,
                         "found unexpected ':'", reader.getMark(),
@@ -1638,7 +1639,7 @@ public final class ScannerImpl implements Scanner {
                 return "";
             }
             StringBuffer breaks = new StringBuffer();
-            while (" \r\n\u0085\u2028\u2029".indexOf(reader.peek()) != -1) {
+            while ((" \r" + Reader.LINEBR).indexOf(reader.peek()) != -1) {
                 if (reader.peek() == ' ') {
                     reader.forward();
                 } else {
