@@ -36,7 +36,7 @@ import org.yaml.snakeyaml.events.ScalarEvent;
 import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
-import org.yaml.snakeyaml.reader.Reader;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 
 /**
@@ -75,7 +75,7 @@ public class PyEmitterTest extends PyImportTest {
                 //
                 String data = stream.toString();
                 List<Event> newEvents = new ArrayList<Event>();
-                Reader reader = new Reader(data);
+                StreamReader reader = new StreamReader(data);
                 Parser parser = new ParserImpl(reader);
                 while (parser.peekEvent() != null) {
                     Event event = parser.getEvent();
@@ -127,7 +127,7 @@ public class PyEmitterTest extends PyImportTest {
         for (File file : allFiles) {
             try {
                 List<Event> events = new ArrayList<Event>();
-                Reader reader = new Reader(new UnicodeReader(new FileInputStream(file)));
+                StreamReader reader = new StreamReader(new UnicodeReader(new FileInputStream(file)));
                 Parser parser = new ParserImpl(reader);
                 while (parser.peekEvent() != null) {
                     Event event = parser.getEvent();
@@ -206,7 +206,7 @@ public class PyEmitterTest extends PyImportTest {
     }
 
     private List<Event> parse(String data) {
-        ParserImpl parser = new ParserImpl(new Reader(data));
+        ParserImpl parser = new ParserImpl(new StreamReader(data));
         List<Event> newEvents = new ArrayList<Event>();
         while (parser.peekEvent() != null) {
             newEvents.add(parser.getEvent());
@@ -236,7 +236,7 @@ public class PyEmitterTest extends PyImportTest {
                 //
                 String data = stream.toString();
                 List<Event> newEvents = new ArrayList<Event>();
-                Reader reader = new Reader(data);
+                StreamReader reader = new StreamReader(data);
                 Parser parser = new ParserImpl(reader);
                 while (parser.peekEvent() != null) {
                     Event event = parser.getEvent();

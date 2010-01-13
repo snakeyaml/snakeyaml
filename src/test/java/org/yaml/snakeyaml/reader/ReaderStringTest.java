@@ -22,17 +22,17 @@ import junit.framework.TestCase;
 public class ReaderStringTest extends TestCase {
 
     public void testCheckPrintable() {
-        Reader reader = new Reader("test");
+        StreamReader reader = new StreamReader("test");
         reader.checkPrintable("test");
-        Matcher matcher = Reader.NON_PRINTABLE.matcher("test");
+        Matcher matcher = StreamReader.NON_PRINTABLE.matcher("test");
         assertFalse(matcher.find());
     }
 
     public void testCheckNonPrintable() {
-        Matcher matcher = Reader.NON_PRINTABLE.matcher("test\u0005 fail");
+        Matcher matcher = StreamReader.NON_PRINTABLE.matcher("test\u0005 fail");
         assertTrue(matcher.find());
         try {
-            new Reader("test\u0005 fail");
+            new StreamReader("test\u0005 fail");
             fail("Non printable Unicode characters must not be accepted.");
         } catch (ReaderException e) {
             assertEquals(
@@ -42,11 +42,11 @@ public class ReaderStringTest extends TestCase {
     }
 
     public void testForward() {
-        Reader reader = new Reader("test");
+        StreamReader reader = new StreamReader("test");
         while (reader.peek() != '\u0000') {
             reader.forward(1);
         }
-        reader = new Reader("test");
+        reader = new StreamReader("test");
         assertEquals('t', reader.peek());
         reader.forward(1);
         assertEquals('e', reader.peek());
@@ -59,7 +59,7 @@ public class ReaderStringTest extends TestCase {
     }
 
     public void testPeekInt() {
-        Reader reader = new Reader("test");
+        StreamReader reader = new StreamReader("test");
         assertEquals('t', reader.peek(0));
         assertEquals('e', reader.peek(1));
         assertEquals('s', reader.peek(2));

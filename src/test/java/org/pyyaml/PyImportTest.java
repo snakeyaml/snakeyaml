@@ -30,7 +30,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
-import org.yaml.snakeyaml.reader.Reader;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 
 public abstract class PyImportTest extends TestCase {
@@ -86,7 +86,7 @@ public abstract class PyImportTest extends TestCase {
     }
 
     protected List<Event> canonicalParse(InputStream input2) throws IOException {
-        Reader reader = new Reader(new UnicodeReader(input2));
+        StreamReader reader = new StreamReader(new UnicodeReader(input2));
         StringBuilder buffer = new StringBuilder();
         while (reader.peek() != '\0') {
             buffer.append(reader.peek());
@@ -101,7 +101,7 @@ public abstract class PyImportTest extends TestCase {
     }
 
     protected List<Event> parse(InputStream input) throws IOException {
-        Reader reader = new Reader(new UnicodeReader(input));
+        StreamReader reader = new StreamReader(new UnicodeReader(input));
         Parser parser = new ParserImpl(reader);
         List<Event> result = new ArrayList<Event>();
         while (parser.peekEvent() != null) {

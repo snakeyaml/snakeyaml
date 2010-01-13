@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.reader;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,18 +26,17 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.scanner.Constant;
 
 /**
- * Reader: determines the data encoding and converts it to unicode, checks if
- * characters are in allowed range, adds '\0' to the end.
+ * Reader: checks if characters are in allowed range, adds '\0' to the end.
  * 
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
-public class Reader {
+public class StreamReader {
     // NON_PRINTABLE changed from PyYAML: \uFFFD excluded because Java returns
     // it in case of data corruption
     final static Pattern NON_PRINTABLE = Pattern
             .compile("[^\t\n\r\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFC]");
     private String name;
-    private final java.io.Reader stream;
+    private final Reader stream;
     private int pointer = 0;
     private boolean eof = true;
     private final StringBuilder buffer;
@@ -44,7 +44,7 @@ public class Reader {
     private int line = 0;
     private int column = 0;
 
-    public Reader(String stream) {
+    public StreamReader(String stream) {
         this.name = "<string>";
         this.buffer = new StringBuilder();
         checkPrintable(stream);
@@ -53,7 +53,7 @@ public class Reader {
         this.eof = true;
     }
 
-    public Reader(java.io.Reader reader) {
+    public StreamReader(Reader reader) {
         this.name = "<reader>";
         this.buffer = new StringBuilder();
         this.stream = reader;
@@ -139,7 +139,7 @@ public class Reader {
         this.buffer.delete(0, this.pointer);
         this.pointer = 0;
         while (this.buffer.length() < length) {
-            String rawData = "";
+            String rawData = null;
             if (!this.eof) {
                 char[] data = new char[1024];
                 int converted = -2;
@@ -154,8 +154,10 @@ public class Reader {
                     rawData = new String(data, 0, converted);
                 }
             }
-            checkPrintable(rawData);
-            this.buffer.append(rawData);
+            if (rawData != null) {
+                checkPrintable(rawData);
+                this.buffer.append(rawData);
+            }
             if (this.eof) {
                 this.buffer.append('\0');
                 break;

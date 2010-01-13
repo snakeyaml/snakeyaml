@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.Mark;
-import org.yaml.snakeyaml.reader.Reader;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.tokens.BlockEndToken;
 import org.yaml.snakeyaml.tokens.BlockMappingStartToken;
 import org.yaml.snakeyaml.tokens.KeyToken;
@@ -39,7 +39,7 @@ public class ScannerImplTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testGetToken() {
         String data = "string: abcd";
-        Reader reader = new Reader(data);
+        StreamReader reader = new StreamReader(data);
         Scanner scanner = new ScannerImpl(reader);
         Mark dummy = new Mark("dummy", 0, 0, 0, "", 0);
         LinkedList<Token> etalonTokens = new LinkedList<Token>();

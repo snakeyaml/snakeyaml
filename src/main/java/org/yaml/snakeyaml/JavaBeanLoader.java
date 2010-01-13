@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml;
 
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.StringReader;
 
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -80,7 +81,7 @@ public class JavaBeanLoader<T> {
      * @return parsed JavaBean
      */
     @SuppressWarnings("unchecked")
-    public T load(java.io.Reader io) {
+    public T load(Reader io) {
         return (T) loader.load(io);
     }
 

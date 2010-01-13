@@ -27,7 +27,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
-import org.yaml.snakeyaml.reader.Reader;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 public class ConstructorSequenceTest extends TestCase {
@@ -70,7 +70,7 @@ public class ConstructorSequenceTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     private List<Object> construct(Constructor constructor, String data) {
-        Reader reader = new Reader(data);
+        StreamReader reader = new StreamReader(data);
         Parser parser = new ParserImpl(reader);
         Resolver resolver = new Resolver();
         Composer composer = new Composer(parser, resolver);

@@ -41,12 +41,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PushbackInputStream;
+import java.io.Reader;
 
 /**
  * Generic unicode textreader, which will use BOM mark to identify the encoding
  * to be used. If BOM is not found then use a given default or system encoding.
  */
-public class UnicodeReader extends java.io.Reader {
+public class UnicodeReader extends Reader {
     PushbackInputStream internalIn;
     InputStreamReader internalIn2 = null;
 

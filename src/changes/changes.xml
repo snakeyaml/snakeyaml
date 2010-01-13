@@ -8,6 +8,9 @@
 	<body>
 	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
 	    	<action dev="py4fun" type="update">
+                Refactor: rename Reader to StreamReader to avoid name conflict with java.io.Reader (2010-01-13)
+            </action>
+            <action dev="py4fun" type="update">
                 Refactor: use StringBuilder instead of StringBuffer (2010-01-12)
             </action>
             <action dev="py4fun" type="update">

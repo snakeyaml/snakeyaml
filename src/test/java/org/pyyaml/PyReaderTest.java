@@ -19,8 +19,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import org.yaml.snakeyaml.reader.Reader;
 import org.yaml.snakeyaml.reader.ReaderException;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 
 /**
@@ -31,7 +31,7 @@ public class PyReaderTest extends PyImportTest {
     public void testReaderUnicodeErrors() throws IOException {
         File[] inputs = getStreamsByExtension(".stream-error");
         for (int i = 0; i < inputs.length; i++) {
-            Reader stream = new Reader(new UnicodeReader(new FileInputStream(inputs[i])));
+            StreamReader stream = new StreamReader(new UnicodeReader(new FileInputStream(inputs[i])));
             try {
                 while (stream.peek() != '\u0000') {
                     stream.forward();

@@ -17,6 +17,7 @@ package org.yaml.snakeyaml;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class JavaBeanLoaderTest extends TestCase {
 
     public void testLoadReader() {
         String yaml = "!!org.yaml.snakeyaml.JavaBeanParserTest$Bean {id: 3, name: Test me.}\n";
-        java.io.Reader input = new StringReader(yaml);
+        Reader input = new StringReader(yaml);
         JavaBeanLoader<Bean> loader = new JavaBeanLoader<Bean>(Bean.class);
         Bean parsed = loader.load(input);
         assertEquals(3, parsed.getId());

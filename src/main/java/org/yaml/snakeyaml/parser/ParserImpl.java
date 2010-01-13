@@ -35,6 +35,7 @@ import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.AliasToken;
@@ -141,7 +142,7 @@ public final class ParserImpl implements Parser {
     private final ArrayStack<Mark> marks;
     private Production state;
 
-    public ParserImpl(org.yaml.snakeyaml.reader.Reader reader) {
+    public ParserImpl(StreamReader reader) {
         this.scanner = new ScannerImpl(reader);
         currentEvent = null;
         yamlVersion = null;

@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml;
 
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -173,7 +174,7 @@ public class Yaml {
      *            data to load from (BOM must not be present)
      * @return parsed object
      */
-    public Object load(java.io.Reader io) {
+    public Object load(Reader io) {
         return loader.load(io);
     }
 
@@ -186,7 +187,7 @@ public class Yaml {
      * @return an iterator over the parsed Java objects in this String in proper
      *         sequence
      */
-    public Iterable<Object> loadAll(java.io.Reader yaml) {
+    public Iterable<Object> loadAll(Reader yaml) {
         return loader.loadAll(yaml);
     }
 
@@ -224,7 +225,7 @@ public class Yaml {
      *            stream of a YAML document
      * @return parsed root Node for the specified YAML document
      */
-    public Node compose(java.io.Reader io) {
+    public Node compose(Reader io) {
         return loader.compose(io);
     }
 
@@ -236,7 +237,7 @@ public class Yaml {
      *            stream of YAML documents
      * @return parsed root Nodes for all the specified YAML documents
      */
-    public Iterable<Node> composeAll(java.io.Reader io) {
+    public Iterable<Node> composeAll(Reader io) {
         return loader.composeAll(io);
     }
 
@@ -255,7 +256,7 @@ public class Yaml {
      * 
      */
     public void addImplicitResolver(String tag, Pattern regexp, String first) {
-        addImplicitResolver(new Tag (tag), regexp, first);
+        addImplicitResolver(new Tag(tag), regexp, first);
     }
 
     /**
@@ -307,7 +308,7 @@ public class Yaml {
      *            YAML document(s)
      * @return parsed events
      */
-    public Iterable<Event> parse(java.io.Reader yaml) {
+    public Iterable<Event> parse(Reader yaml) {
         return loader.parse(yaml);
     }
 }

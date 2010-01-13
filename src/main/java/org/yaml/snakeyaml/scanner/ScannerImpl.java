@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.tokens.AliasToken;
 import org.yaml.snakeyaml.tokens.AnchorToken;
 import org.yaml.snakeyaml.tokens.BlockEndToken;
@@ -107,7 +108,7 @@ public final class ScannerImpl implements Scanner {
         ESCAPE_CODES.put(new Character('u'), new Integer(4));
         ESCAPE_CODES.put(new Character('U'), new Integer(8));
     }
-    private final org.yaml.snakeyaml.reader.Reader reader;
+    private final StreamReader reader;
     // Had we reached the end of the stream?
     private boolean done = false;
 
@@ -162,7 +163,7 @@ public final class ScannerImpl implements Scanner {
      */
     private Map<Integer, SimpleKey> possibleSimpleKeys;
 
-    public ScannerImpl(org.yaml.snakeyaml.reader.Reader reader) {
+    public ScannerImpl(org.yaml.snakeyaml.reader.StreamReader reader) {
         this.reader = reader;
         this.tokens = new ArrayList<Token>(100);
         this.indents = new ArrayStack<Integer>(10);

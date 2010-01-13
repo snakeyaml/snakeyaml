@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml;
 
 import java.io.InputStream;
+import java.io.Reader;
 
 /**
  * Convenience utility to parse JavaBeans. The returned instance is enforced to
@@ -70,7 +71,7 @@ public class JavaBeanParser {
      *            JavaBean class to be parsed
      * @return parsed JavaBean
      */
-    public static <T> T load(java.io.Reader io, Class<T> javabean) {
+    public static <T> T load(Reader io, Class<T> javabean) {
         JavaBeanLoader<T> loader = new JavaBeanLoader<T>(javabean);
         return loader.load(io);
     }

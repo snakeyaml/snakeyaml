@@ -17,6 +17,7 @@ package org.yaml.snakeyaml;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.StringReader;
 
 import junit.framework.TestCase;
@@ -54,7 +55,7 @@ public class JavaBeanParserTest extends TestCase {
     @SuppressWarnings("deprecation")
     public void testLoadReader() {
         String yaml = "!!org.yaml.snakeyaml.JavaBeanParserTest$Bean {id: 3, name: Test me.}\n";
-        java.io.Reader input = new StringReader(yaml);
+        Reader input = new StringReader(yaml);
         Bean parsed = JavaBeanParser.load(input, Bean.class);
         assertEquals(3, parsed.getId());
         assertEquals("Test me.", parsed.getName());

@@ -32,13 +32,13 @@ import org.yaml.snakeyaml.events.SequenceEndEvent;
 import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
-import org.yaml.snakeyaml.reader.Reader;
+import org.yaml.snakeyaml.reader.StreamReader;
 
 public class ParserImplTest extends TestCase {
 
     public void testGetEvent() {
         String data = "string: abcd";
-        Reader reader = new Reader(data);
+        StreamReader reader = new StreamReader(data);
         Parser parser = new ParserImpl(reader);
         Mark dummyMark = new Mark("dummy", 0, 0, 0, "", 0);
         LinkedList<Event> etalonEvents = new LinkedList<Event>();
@@ -66,7 +66,7 @@ public class ParserImplTest extends TestCase {
 
     public void testGetEvent2() {
         String data = "american:\n  - Boston Red Sox";
-        Reader reader = new Reader(data);
+        StreamReader reader = new StreamReader(data);
         Parser parser = new ParserImpl(reader);
         Mark dummyMark = new Mark("dummy", 0, 0, 0, "", 0);
         LinkedList<Event> etalonEvents = new LinkedList<Event>();

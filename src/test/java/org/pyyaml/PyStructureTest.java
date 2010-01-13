@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +39,7 @@ import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.parser.ParserImpl;
-import org.yaml.snakeyaml.reader.Reader;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -176,7 +177,7 @@ public class PyStructureTest extends PyImportTest {
     }
 
     private List<Node> compose_all(InputStream file) {
-        Composer composer = new Composer(new ParserImpl(new Reader(new UnicodeReader(file))),
+        Composer composer = new Composer(new ParserImpl(new StreamReader(new UnicodeReader(file))),
                 new Resolver());
         List<Node> documents = new ArrayList<Node>();
         while (composer.checkNode()) {
@@ -186,7 +187,7 @@ public class PyStructureTest extends PyImportTest {
     }
 
     private List<Node> canonical_compose_all(InputStream file) {
-        Reader reader = new Reader(new UnicodeReader(file));
+        StreamReader reader = new StreamReader(new UnicodeReader(file));
         StringBuilder buffer = new StringBuilder();
         while (reader.peek() != '\0') {
             buffer.append(reader.peek());
@@ -213,8 +214,8 @@ public class PyStructureTest extends PyImportTest {
         }
 
         @Override
-        public Iterable<Object> loadAll(java.io.Reader yaml) {
-            Reader reader = new Reader(yaml);
+        public Iterable<Object> loadAll(Reader yaml) {
+            StreamReader reader = new StreamReader(yaml);
             StringBuilder buffer = new StringBuilder();
             while (reader.peek() != '\0') {
                 buffer.append(reader.peek());

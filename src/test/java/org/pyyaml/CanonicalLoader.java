@@ -16,6 +16,7 @@
 package org.pyyaml;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Iterator;
 
 import org.yaml.snakeyaml.Loader;
@@ -24,7 +25,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 public class CanonicalLoader extends Loader {
     @Override
-    public Object load(java.io.Reader yaml) {
+    public Object load(Reader yaml) {
         try {
             int ch = yaml.read();
             StringBuilder buffer = new StringBuilder();
@@ -40,7 +41,7 @@ public class CanonicalLoader extends Loader {
         }
     }
 
-    public Iterable<Object> loadAll(java.io.Reader yaml) {
+    public Iterable<Object> loadAll(Reader yaml) {
         try {
             int ch = yaml.read();
             StringBuilder buffer = new StringBuilder();

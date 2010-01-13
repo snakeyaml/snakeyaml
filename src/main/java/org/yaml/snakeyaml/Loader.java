@@ -15,6 +15,7 @@
  */
 package org.yaml.snakeyaml;
 
+import java.io.Reader;
 import java.util.Iterator;
 
 import org.yaml.snakeyaml.composer.Composer;
@@ -25,7 +26,7 @@ import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
-import org.yaml.snakeyaml.reader.Reader;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
@@ -45,14 +46,14 @@ public class Loader {
         this(new Constructor());
     }
 
-    public Object load(java.io.Reader io) {
-        Composer composer = new Composer(new ParserImpl(new Reader(io)), resolver);
+    public Object load(Reader io) {
+        Composer composer = new Composer(new ParserImpl(new StreamReader(io)), resolver);
         constructor.setComposer(composer);
         return constructor.getSingleData();
     }
 
-    public Iterable<Object> loadAll(java.io.Reader yaml) {
-        Composer composer = new Composer(new ParserImpl(new Reader(yaml)), resolver);
+    public Iterable<Object> loadAll(Reader yaml) {
+        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver);
         this.constructor.setComposer(composer);
         Iterator<Object> result = new Iterator<Object>() {
             public boolean hasNext() {
@@ -78,8 +79,8 @@ public class Loader {
      *            YAML document
      * @return parsed root Node for the specified YAML document
      */
-    public Node compose(java.io.Reader yaml) {
-        Composer composer = new Composer(new ParserImpl(new Reader(yaml)), resolver);
+    public Node compose(Reader yaml) {
+        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver);
         this.constructor.setComposer(composer);
         return composer.getSingleNode();
     }
@@ -92,8 +93,8 @@ public class Loader {
      *            stream of YAML documents
      * @return parsed root Nodes for all the specified YAML documents
      */
-    public Iterable<Node> composeAll(java.io.Reader yaml) {
-        final Composer composer = new Composer(new ParserImpl(new Reader(yaml)), resolver);
+    public Iterable<Node> composeAll(Reader yaml) {
+        final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver);
         this.constructor.setComposer(composer);
         Iterator<Node> result = new Iterator<Node>() {
             public boolean hasNext() {
@@ -159,8 +160,8 @@ public class Loader {
      *            YAML document(s)
      * @return parsed events
      */
-    public Iterable<Event> parse(java.io.Reader yaml) {
-        final Parser parser = new ParserImpl(new Reader(yaml));
+    public Iterable<Event> parse(Reader yaml) {
+        final Parser parser = new ParserImpl(new StreamReader(yaml));
         Iterator<Event> result = new Iterator<Event>() {
             public boolean hasNext() {
                 return parser.peekEvent() != null;
