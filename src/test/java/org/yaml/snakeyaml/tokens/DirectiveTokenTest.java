@@ -26,7 +26,7 @@ public class DirectiveTokenTest extends TestCase {
 
     public void testGetArguments() {
         Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
-        DirectiveToken token = new DirectiveToken("YAML", null, mark, mark);
+        DirectiveToken<Integer> token = new DirectiveToken<Integer>("YAML", null, mark, mark);
         assertEquals("name=YAML", token.getArguments());
     }
 
@@ -35,7 +35,7 @@ public class DirectiveTokenTest extends TestCase {
         List<Integer> list = new ArrayList<Integer>();
         list.add(new Integer(1));
         try {
-            new DirectiveToken("YAML", list, mark, mark);
+            new DirectiveToken<Integer>("YAML", list, mark, mark);
             fail("List must have 2 values.");
         } catch (Exception e) {
             assertEquals("Two strings must be provided instead of 1", e.getMessage());
@@ -47,7 +47,7 @@ public class DirectiveTokenTest extends TestCase {
         List<String> list = new ArrayList<String>();
         list.add("!foo");
         list.add("!bar");
-        DirectiveToken token = new DirectiveToken("TAG", list, mark, mark);
+        DirectiveToken<String> token = new DirectiveToken<String>("TAG", list, mark, mark);
         assertEquals("name=TAG, value=[!foo, !bar]", token.getArguments());
     }
 
@@ -56,13 +56,13 @@ public class DirectiveTokenTest extends TestCase {
         List<Integer> list = new ArrayList<Integer>();
         list.add(new Integer(1));
         list.add(new Integer(1));
-        DirectiveToken token = new DirectiveToken("YAML", list, mark, mark);
+        DirectiveToken<Integer> token = new DirectiveToken<Integer>("YAML", list, mark, mark);
         assertEquals("name=YAML, value=[1, 1]", token.getArguments());
     }
 
     public void testGetTokenId() {
         Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
-        DirectiveToken token = new DirectiveToken("YAML", null, mark, mark);
+        DirectiveToken<Integer> token = new DirectiveToken<Integer>("YAML", null, mark, mark);
         assertEquals("<directive>", token.getTokenId());
     }
 }

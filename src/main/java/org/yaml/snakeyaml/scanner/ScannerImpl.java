@@ -992,6 +992,7 @@ public final class ScannerImpl implements Scanner {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private Token scanDirective() {
         // See the specification for details.
         Mark startMark = reader.getMark();

@@ -199,7 +199,7 @@ public class CanonicalScanner implements Scanner {
             List<Integer> implicit = new ArrayList<Integer>(2);
             implicit.add(new Integer(1));
             implicit.add(new Integer(1));
-            return new DirectiveToken("YAML", implicit, mark, mark);
+            return new DirectiveToken<Integer>("YAML", implicit, mark, mark);
         } else {
             throw new CanonicalException("invalid directive");
         }

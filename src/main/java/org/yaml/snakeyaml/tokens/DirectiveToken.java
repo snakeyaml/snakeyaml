@@ -23,11 +23,11 @@ import org.yaml.snakeyaml.error.YAMLException;
 /**
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
-public final class DirectiveToken extends Token {
+public final class DirectiveToken<T> extends Token {
     private final String name;
-    private final List<?> value;
+    private final List<T> value;
 
-    public DirectiveToken(String name, List<?> value, Mark startMark, Mark endMark) {
+    public DirectiveToken(String name, List<T> value, Mark startMark, Mark endMark) {
         super(startMark, endMark);
         this.name = name;
         if (value != null && value.size() != 2) {
@@ -41,7 +41,7 @@ public final class DirectiveToken extends Token {
         return this.name;
     }
 
-    public List<?> getValue() {
+    public List<T> getValue() {
         return this.value;
     }
 
