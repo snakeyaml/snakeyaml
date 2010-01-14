@@ -33,20 +33,9 @@ import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.tokens.AliasToken;
 import org.yaml.snakeyaml.tokens.AnchorToken;
-import org.yaml.snakeyaml.tokens.DirectiveToken;
-import org.yaml.snakeyaml.tokens.DocumentStartToken;
-import org.yaml.snakeyaml.tokens.FlowEntryToken;
-import org.yaml.snakeyaml.tokens.FlowMappingEndToken;
-import org.yaml.snakeyaml.tokens.FlowMappingStartToken;
-import org.yaml.snakeyaml.tokens.FlowSequenceEndToken;
-import org.yaml.snakeyaml.tokens.FlowSequenceStartToken;
-import org.yaml.snakeyaml.tokens.KeyToken;
 import org.yaml.snakeyaml.tokens.ScalarToken;
-import org.yaml.snakeyaml.tokens.StreamEndToken;
-import org.yaml.snakeyaml.tokens.StreamStartToken;
 import org.yaml.snakeyaml.tokens.TagToken;
 import org.yaml.snakeyaml.tokens.Token;
-import org.yaml.snakeyaml.tokens.ValueToken;
 
 public class CanonicalParser implements Parser {
     private ArrayList<Event> events;
@@ -61,28 +50,25 @@ public class CanonicalParser implements Parser {
 
     // stream: STREAM-START document* STREAM-END
     private void parseStream() {
-        scanner.getToken(StreamStartToken.class);
+        scanner.getToken(Token.ID.StreamStart);
         events.add(new StreamStartEvent(null, null));
-        while (!scanner.checkToken(StreamEndToken.class)) {
-            List<Class<? extends Token>> list = new ArrayList<Class<? extends Token>>();
-            list.add(DirectiveToken.class);
-            list.add(DocumentStartToken.class);
-            if (scanner.checkToken(list)) {
+        while (!scanner.checkToken(Token.ID.StreamEnd)) {
+            if (scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart)) {
                 parseDocument();
             } else {
                 throw new CanonicalException("document is expected, got " + scanner.tokens.get(0));
             }
         }
-        scanner.getToken(StreamEndToken.class);
+        scanner.getToken(Token.ID.StreamEnd);
         events.add(new StreamEndEvent(null, null));
     }
 
     // document: DIRECTIVE? DOCUMENT-START node
     private void parseDocument() {
-        if (scanner.checkToken(DirectiveToken.class)) {
-            scanner.getToken(DirectiveToken.class);
+        if (scanner.checkToken(Token.ID.Directive)) {
+            scanner.getToken(Token.ID.Directive);
         }
-        scanner.getToken(DocumentStartToken.class);
+        scanner.getToken(Token.ID.DocumentStart);
         events.add(new DocumentStartEvent(null, null, true, new Integer[] { 1, 1 }, null));
         parseNode();
         events.add(new DocumentEndEvent(null, null, true));
@@ -90,28 +76,28 @@ public class CanonicalParser implements Parser {
 
     // node: ALIAS | ANCHOR? TAG? (SCALAR|sequence|mapping)
     private void parseNode() {
-        if (scanner.checkToken(AliasToken.class)) {
+        if (scanner.checkToken(Token.ID.Alias)) {
             AliasToken token = (AliasToken) scanner.getToken();
             events.add(new AliasEvent(token.getValue(), null, null));
         } else {
             String anchor = null;
-            if (scanner.checkToken(AnchorToken.class)) {
+            if (scanner.checkToken(Token.ID.Anchor)) {
                 AnchorToken token = (AnchorToken) scanner.getToken();
                 anchor = token.getValue();
             }
             String tag = null;
-            if (scanner.checkToken(TagToken.class)) {
+            if (scanner.checkToken(Token.ID.Tag)) {
                 TagToken token = (TagToken) scanner.getToken();
                 tag = token.getValue().getHandle() + token.getValue().getSuffix();
             }
-            if (scanner.checkToken(ScalarToken.class)) {
+            if (scanner.checkToken(Token.ID.Scalar)) {
                 ScalarToken token = (ScalarToken) scanner.getToken();
                 events.add(new ScalarEvent(anchor, tag, new ImplicitTuple(false, false), token
                         .getValue(), null, null, null));
-            } else if (scanner.checkToken(FlowSequenceStartToken.class)) {
+            } else if (scanner.checkToken(Token.ID.FlowSequenceStart)) {
                 events.add(new SequenceStartEvent(anchor, tag, false, null, null, null));
                 parseSequence();
-            } else if (scanner.checkToken(FlowMappingStartToken.class)) {
+            } else if (scanner.checkToken(Token.ID.FlowMappingStart)) {
                 events.add(new MappingStartEvent(anchor, tag, false, null, null, null));
                 parseMapping();
             } else {
@@ -123,41 +109,41 @@ public class CanonicalParser implements Parser {
 
     // sequence: SEQUENCE-START (node (ENTRY node)*)? ENTRY? SEQUENCE-END
     private void parseSequence() {
-        scanner.getToken(FlowSequenceStartToken.class);
-        if (!scanner.checkToken(FlowSequenceEndToken.class)) {
+        scanner.getToken(Token.ID.FlowSequenceStart);
+        if (!scanner.checkToken(Token.ID.FlowSequenceEnd)) {
             parseNode();
-            while (!scanner.checkToken(FlowSequenceEndToken.class)) {
-                scanner.getToken(FlowEntryToken.class);
-                if (!scanner.checkToken(FlowSequenceEndToken.class)) {
+            while (!scanner.checkToken(Token.ID.FlowSequenceEnd)) {
+                scanner.getToken(Token.ID.FlowEntry);
+                if (!scanner.checkToken(Token.ID.FlowSequenceEnd)) {
                     parseNode();
                 }
             }
         }
-        scanner.getToken(FlowSequenceEndToken.class);
+        scanner.getToken(Token.ID.FlowSequenceEnd);
         events.add(new SequenceEndEvent(null, null));
     }
 
     // mapping: MAPPING-START (map_entry (ENTRY map_entry)*)? ENTRY? MAPPING-END
     private void parseMapping() {
-        scanner.getToken(FlowMappingStartToken.class);
-        if (!scanner.checkToken(FlowMappingEndToken.class)) {
+        scanner.getToken(Token.ID.FlowMappingStart);
+        if (!scanner.checkToken(Token.ID.FlowMappingEnd)) {
             parseMapEntry();
-            while (!scanner.checkToken(FlowMappingEndToken.class)) {
-                scanner.getToken(FlowEntryToken.class);
-                if (!scanner.checkToken(FlowMappingEndToken.class)) {
+            while (!scanner.checkToken(Token.ID.FlowMappingEnd)) {
+                scanner.getToken(Token.ID.FlowEntry);
+                if (!scanner.checkToken(Token.ID.FlowMappingEnd)) {
                     parseMapEntry();
                 }
             }
         }
-        scanner.getToken(FlowMappingEndToken.class);
+        scanner.getToken(Token.ID.FlowMappingEnd);
         events.add(new MappingEndEvent(null, null));
     }
 
     // map_entry: KEY node VALUE node
     private void parseMapEntry() {
-        scanner.getToken(KeyToken.class);
+        scanner.getToken(Token.ID.Key);
         parseNode();
-        scanner.getToken(ValueToken.class);
+        scanner.getToken(Token.ID.Value);
         parseNode();
     }
 

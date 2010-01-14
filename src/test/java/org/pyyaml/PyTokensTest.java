@@ -95,7 +95,7 @@ public class PyTokensTest extends PyImportTest {
                     getFileByName(dataName))));
             Scanner scanner = new ScannerImpl(reader);
             try {
-                while (scanner.checkToken(new ArrayList<Class<? extends Token>>())) {
+                while (scanner.checkToken(new Token.ID[0])) {
                     Token token = scanner.getToken();
                     if (!(token instanceof StreamStartToken || token instanceof StreamEndToken)) {
                         String replacement = replaces.get(token.getClass());
@@ -125,7 +125,7 @@ public class PyTokensTest extends PyImportTest {
             StreamReader reader = new StreamReader(new UnicodeReader(new FileInputStream(file)));
             Scanner scanner = new ScannerImpl(reader);
             try {
-                while (scanner.checkToken(new ArrayList<Class<? extends Token>>())) {
+                while (scanner.checkToken(new Token.ID[0])) {
                     Token token = scanner.getToken();
                     tokens.add(token.getClass().getName());
                 }

@@ -15,8 +15,6 @@
  */
 package org.yaml.snakeyaml.scanner;
 
-import java.util.List;
-
 import org.yaml.snakeyaml.tokens.Token;
 
 /**
@@ -42,23 +40,7 @@ public interface Scanner {
      * @throws ScannerException
      *             Thrown in case of malformed input.
      */
-    boolean checkToken(List<Class<? extends Token>> choices);
-
-    /**
-     * Check if the next token is assignable to the given type.
-     * <p>
-     * This is a convenience method to avoid <code>List</code> creation if
-     * calling {@link #checkToken(List)} for a single type.
-     * </p>
-     * 
-     * @param choice
-     *            Token type.
-     * @return True if the next token is an instance of <code>type</code>. False
-     *         if no more tokens are available.
-     * @throws ScannerException
-     *             Thrown in case of malformed input.
-     */
-    boolean checkToken(Class<? extends Token> choice);
+    boolean checkToken(Token.ID... choices);
 
     /**
      * Return the next token, but do not delete it from the stream.

@@ -16,7 +16,6 @@
 package org.yaml.snakeyaml.scanner;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import junit.framework.TestCase;
@@ -36,7 +35,6 @@ import org.yaml.snakeyaml.tokens.ValueToken;
 
 public class ScannerImplTest extends TestCase {
 
-    @SuppressWarnings("unchecked")
     public void testGetToken() {
         String data = "string: abcd";
         StreamReader reader = new StreamReader(data);
@@ -51,11 +49,11 @@ public class ScannerImplTest extends TestCase {
         etalonTokens.add(new ScalarToken("abcd", true, dummy, dummy, (char) 0));
         etalonTokens.add(new BlockEndToken(dummy, dummy));
         etalonTokens.add(new StreamEndToken(dummy, dummy));
-        while (scanner.checkToken(new ArrayList())) {
+        while (scanner.checkToken(new Token.ID[0])) {
             assertEquals(etalonTokens.removeFirst(), scanner.getToken());
         }
         assertFalse("Must contain no more tokens: " + scanner.getToken(), scanner
-                .checkToken(new ArrayList()));
+                .checkToken(new Token.ID[0]));
     }
 
     public void testWrongTab() throws IOException {

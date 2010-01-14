@@ -61,28 +61,22 @@ public class CanonicalScanner implements Scanner {
         this.mark = new Mark("test", 0, 0, 0, data, 0);
     }
 
-    public boolean checkToken(List<Class<? extends Token>> choices) {
+    public boolean checkToken(Token.ID... choices) {
         if (!scanned) {
             scan();
         }
         if (!tokens.isEmpty()) {
-            if (choices.isEmpty()) {
+            if (choices.length == 0) {
                 return true;
             }
             Token first = this.tokens.get(0);
-            for (Class<? extends Token> choice : choices) {
-                if (choice.isInstance(first)) {
+            for (Token.ID choice : choices) {
+                if (first.getTokenId() == choice) {
                     return true;
                 }
             }
         }
         return false;
-    }
-
-    public boolean checkToken(Class<? extends Token> choice) {
-        List<Class<? extends Token>> list = new ArrayList<Class<? extends Token>>();
-        list.add(choice);
-        return checkToken(list);
     }
 
     public Token peekToken() {
@@ -102,9 +96,9 @@ public class CanonicalScanner implements Scanner {
         return this.tokens.remove(0);
     }
 
-    public Token getToken(Class<? extends Token> choice) {
+    public Token getToken(Token.ID choice) {
         Token token = getToken();
-        if (choice != null && !choice.isInstance(token)) {
+        if (choice != null && token.getTokenId() != choice) {
             throw new CanonicalException("unexpected token " + token);
         }
         return token;
