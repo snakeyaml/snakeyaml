@@ -55,7 +55,7 @@ public final class DirectiveToken<T> extends Token {
     }
 
     @Override
-    public String getTokenId() {
-        return "<directive>";
+    public ID getTokenId() {
+        return ID.Directive;
     }
 }

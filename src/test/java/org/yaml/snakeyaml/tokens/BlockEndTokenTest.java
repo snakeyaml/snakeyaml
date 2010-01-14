@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.tokens;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.error.Mark;
+import org.yaml.snakeyaml.tokens.Token.ID;
 
 public class BlockEndTokenTest extends TestCase {
 
@@ -30,6 +31,6 @@ public class BlockEndTokenTest extends TestCase {
     public void testGetTokenId() {
         Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
         BlockEndToken token = new BlockEndToken(mark, mark);
-        assertEquals("<block end>", token.getTokenId());
+        assertEquals(ID.BlockEnd, token.getTokenId());
     }
 }

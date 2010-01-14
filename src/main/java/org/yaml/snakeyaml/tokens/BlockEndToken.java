@@ -27,7 +27,7 @@ public final class BlockEndToken extends Token {
     }
 
     @Override
-    public String getTokenId() {
-        return "<block end>";
+    public ID getTokenId() {
+        return ID.BlockEnd;
     }
 }

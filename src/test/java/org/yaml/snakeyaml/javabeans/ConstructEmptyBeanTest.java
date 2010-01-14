@@ -100,8 +100,8 @@ public class ConstructEmptyBeanTest extends TestCase {
             fail("Invalid document provided.");
         } catch (Exception e) {
             assertEquals(
-                    "while parsing a flow node; expected the node content, but found <stream end>",
-                    e.getMessage());
+                    "while parsing a flow node; expected the node content, but found StreamEnd", e
+                            .getMessage());
         }
     }
 

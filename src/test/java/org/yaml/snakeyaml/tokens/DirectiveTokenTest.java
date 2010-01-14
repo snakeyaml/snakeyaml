@@ -21,6 +21,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.error.Mark;
+import org.yaml.snakeyaml.tokens.Token.ID;
 
 public class DirectiveTokenTest extends TestCase {
 
@@ -63,6 +64,6 @@ public class DirectiveTokenTest extends TestCase {
     public void testGetTokenId() {
         Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
         DirectiveToken<Integer> token = new DirectiveToken<Integer>("YAML", null, mark, mark);
-        assertEquals("<directive>", token.getTokenId());
+        assertEquals(ID.Directive, token.getTokenId());
     }
 }

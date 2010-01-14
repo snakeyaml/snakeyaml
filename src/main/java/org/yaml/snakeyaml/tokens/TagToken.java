@@ -38,7 +38,7 @@ public final class TagToken extends Token {
     }
 
     @Override
-    public String getTokenId() {
-        return "<tag>";
+    public ID getTokenId() {
+        return ID.Tag;
     }
 }

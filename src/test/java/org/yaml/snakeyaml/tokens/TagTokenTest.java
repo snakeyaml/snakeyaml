@@ -19,6 +19,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.tokens.Token.ID;
 
 public class TagTokenTest extends TestCase {
 
@@ -57,6 +58,6 @@ public class TagTokenTest extends TestCase {
     public void testGetTokenId() {
         Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
         TagToken token = new TagToken(new TagTuple("!foo", "!bar"), mark, mark);
-        assertEquals("<tag>", token.getTokenId());
+        assertEquals(ID.Tag, token.getTokenId());
     }
 }

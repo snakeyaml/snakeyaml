@@ -22,6 +22,10 @@ import org.yaml.snakeyaml.error.YAMLException;
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public abstract class Token {
+    public enum ID {
+        Alias, Anchor, BlockEnd, BlockEntry, BlockMappingStart, BlockSequenceStart, Directive, DocumentEnd, DocumentStart, FlowEntry, FlowMappingEnd, FlowMappingStart, FlowSequenceEnd, FlowSequenceStart, Key, Scalar, StreamEnd, StreamStart, Tag, Value
+    }
+
     private final Mark startMark;
     private final Mark endMark;
 
@@ -57,7 +61,7 @@ public abstract class Token {
      * 
      * @see class variable 'id' in PyYAML
      */
-    public abstract String getTokenId();
+    public abstract ID getTokenId();
 
     /*
      * for tests only

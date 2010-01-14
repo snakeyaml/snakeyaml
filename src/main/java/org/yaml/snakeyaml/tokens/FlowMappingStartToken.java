@@ -27,7 +27,7 @@ public final class FlowMappingStartToken extends Token {
     }
 
     @Override
-    public String getTokenId() {
-        return "{";
+    public ID getTokenId() {
+        return ID.FlowMappingStart;
     }
 }

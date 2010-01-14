@@ -27,7 +27,7 @@ public final class FlowEntryToken extends Token {
     }
 
     @Override
-    public String getTokenId() {
-        return ",";
+    public ID getTokenId() {
+        return ID.FlowEntry;
     }
 }

@@ -27,7 +27,7 @@ public final class DocumentEndToken extends Token {
     }
 
     @Override
-    public String getTokenId() {
-        return "<document end>";
+    public ID getTokenId() {
+        return ID.DocumentEnd;
     }
 }

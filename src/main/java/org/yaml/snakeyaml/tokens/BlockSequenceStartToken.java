@@ -27,7 +27,7 @@ public final class BlockSequenceStartToken extends Token {
     }
 
     @Override
-    public String getTokenId() {
-        return "<block sequence start>";
+    public ID getTokenId() {
+        return ID.BlockSequenceStart;
     }
 }

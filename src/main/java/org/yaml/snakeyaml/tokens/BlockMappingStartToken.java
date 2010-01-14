@@ -27,7 +27,7 @@ public final class BlockMappingStartToken extends Token {
     }
 
     @Override
-    public String getTokenId() {
-        return "<block mapping start>";
+    public ID getTokenId() {
+        return ID.BlockMappingStart;
     }
 }

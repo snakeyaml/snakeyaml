@@ -27,7 +27,7 @@ public final class StreamEndToken extends Token {
     }
 
     @Override
-    public String getTokenId() {
-        return "<stream end>";
+    public ID getTokenId() {
+        return ID.StreamEnd;
     }
 }
