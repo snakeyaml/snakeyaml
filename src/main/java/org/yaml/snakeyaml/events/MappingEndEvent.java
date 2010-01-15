@@ -27,4 +27,9 @@ public final class MappingEndEvent extends CollectionEndEvent {
     public MappingEndEvent(Mark startMark, Mark endMark) {
         super(startMark, endMark);
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.MappingEnd == id;
+    }
 }

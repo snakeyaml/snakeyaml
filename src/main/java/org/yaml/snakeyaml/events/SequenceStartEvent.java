@@ -31,4 +31,9 @@ public final class SequenceStartEvent extends CollectionStartEvent {
             Mark endMark, Boolean flowStyle) {
         super(anchor, tag, implicit, startMark, endMark, flowStyle);
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.SequenceStart == id;
+    }
 }

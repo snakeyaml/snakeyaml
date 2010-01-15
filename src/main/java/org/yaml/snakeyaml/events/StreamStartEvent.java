@@ -33,4 +33,9 @@ public final class StreamStartEvent extends Event {
     public StreamStartEvent(Mark startMark, Mark endMark) {
         super(startMark, endMark);
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.StreamStart == id;
+    }
 }

@@ -25,4 +25,9 @@ public abstract class CollectionEndEvent extends Event {
     public CollectionEndEvent(Mark startMark, Mark endMark) {
         super(startMark, endMark);
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.CollectionEnd == id;
+    }
 }

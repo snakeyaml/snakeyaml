@@ -92,4 +92,9 @@ public final class ScalarEvent extends NodeEvent {
     protected String getArguments() {
         return super.getArguments() + ", tag=" + tag + ", " + implicit + ", value=" + value;
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.Scalar == id;
+    }
 }

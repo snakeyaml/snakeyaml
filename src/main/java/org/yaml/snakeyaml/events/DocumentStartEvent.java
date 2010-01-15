@@ -63,4 +63,9 @@ public final class DocumentStartEvent extends Event {
     public Map<String, String> getTags() {
         return tags;
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.DocumentStar == id;
+    }
 }

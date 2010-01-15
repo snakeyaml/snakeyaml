@@ -22,6 +22,10 @@ import org.yaml.snakeyaml.error.Mark;
  * of a {@link org.yaml.snakeyaml.emitter.Emitter}.
  */
 public abstract class Event {
+    public enum ID {
+        Alias, CollectionEnd, CollectionStart, DocumentEnd, DocumentStar, MappingEnd, MappingStart, Node, Scalar, SequenceEnd, SequenceStart, StreamEnd, StreamStart
+    }
+
     private final Mark startMark;
     private final Mark endMark;
 
@@ -48,6 +52,8 @@ public abstract class Event {
     protected String getArguments() {
         return "";
     }
+
+    public abstract boolean is(ID id);
 
     /*
      * for tests only

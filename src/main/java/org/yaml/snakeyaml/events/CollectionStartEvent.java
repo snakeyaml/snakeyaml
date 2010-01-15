@@ -70,4 +70,9 @@ public abstract class CollectionStartEvent extends NodeEvent {
     protected String getArguments() {
         return super.getArguments() + ", tag=" + tag + ", implicit=" + implicit;
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.CollectionStart == id;
+    }
 }

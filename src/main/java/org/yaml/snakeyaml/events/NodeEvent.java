@@ -46,4 +46,9 @@ public abstract class NodeEvent extends Event {
     protected String getArguments() {
         return "anchor=" + anchor;
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.Node == id;
+    }
 }

@@ -24,4 +24,9 @@ public final class AliasEvent extends NodeEvent {
     public AliasEvent(String anchor, Mark startMark, Mark endMark) {
         super(anchor, startMark, endMark);
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.Alias == id;
+    }
 }

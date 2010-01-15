@@ -36,4 +36,9 @@ public final class MappingStartEvent extends CollectionStartEvent {
             Mark endMark, Boolean flowStyle) {
         super(anchor, tag, implicit, startMark, endMark, flowStyle);
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.MappingStart == id;
+    }
 }

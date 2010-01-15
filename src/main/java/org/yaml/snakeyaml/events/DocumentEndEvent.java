@@ -34,4 +34,9 @@ public final class DocumentEndEvent extends Event {
     public boolean getExplicit() {
         return explicit;
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.DocumentEnd == id;
+    }
 }

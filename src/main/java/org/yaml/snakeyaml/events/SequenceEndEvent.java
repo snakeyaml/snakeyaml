@@ -27,4 +27,9 @@ public final class SequenceEndEvent extends CollectionEndEvent {
     public SequenceEndEvent(Mark startMark, Mark endMark) {
         super(startMark, endMark);
     }
+
+    @Override
+    public boolean is(ID id) {
+        return ID.SequenceEnd == id;
+    }
 }
