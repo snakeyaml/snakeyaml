@@ -33,7 +33,7 @@ public interface Scanner {
      * Check if the next token is one of the given types.
      * 
      * @param choices
-     *            List of token types.
+     *            token IDs.
      * @return <code>true</code> if the next token can be assigned to a variable
      *         of at least one of the given types. Returns <code>false</code> if
      *         no more tokens are available.
