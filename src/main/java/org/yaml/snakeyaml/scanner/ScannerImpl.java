@@ -175,16 +175,16 @@ public final class ScannerImpl implements Scanner {
     /**
      * Check if the next token is one of the given types.
      */
-    public boolean checkToken(Token.ID... ids) {
+    public boolean checkToken(Token.ID... choices) {
         while (needMoreTokens()) {
             fetchMoreTokens();
         }
         if (!this.tokens.isEmpty()) {
-            if (ids.length == 0) {
+            if (choices.length == 0) {
                 return true;
             }
             Token first = this.tokens.get(0);
-            for (Token.ID id : ids) {
+            for (Token.ID id : choices) {
                 if (first.getTokenId() == id) {
                     return true;
                 }

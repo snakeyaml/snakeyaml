@@ -143,28 +143,14 @@ public final class ParserImpl implements Parser {
     /**
      * Check the type of the next event.
      */
-    public boolean checkEvent(List<Class<? extends Event>> choices) {
+    public boolean checkEvent(Event.ID choices) {
         peekEvent();
         if (currentEvent != null) {
-            if (choices.size() == 0) {
+            if (currentEvent.is(choices)) {
                 return true;
-            }
-            for (Class<? extends Event> class1 : choices) {
-                if (class1.isInstance(currentEvent)) {
-                    return true;
-                }
             }
         }
         return false;
-    }
-
-    /**
-     * Check the type of the next event.
-     */
-    public boolean checkEvent(Class<? extends Event> cls) {
-        List<Class<? extends Event>> list = new ArrayList<Class<? extends Event>>(1);
-        list.add(cls);
-        return checkEvent(list);
     }
 
     /*

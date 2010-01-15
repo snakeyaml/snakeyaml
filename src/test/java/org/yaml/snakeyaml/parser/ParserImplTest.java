@@ -15,7 +15,6 @@
  */
 package org.yaml.snakeyaml.parser;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import junit.framework.TestCase;
@@ -53,15 +52,14 @@ public class ParserImplTest extends TestCase {
         etalonEvents.add(new MappingEndEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentEndEvent(dummyMark, dummyMark, false));
         etalonEvents.add(new StreamEndEvent(dummyMark, dummyMark));
-        while (parser.checkEvent(new ArrayList<Class<? extends Event>>())) {
+        while (parser.checkEvent(null)) {
             Event event = parser.getEvent();
             if (etalonEvents.isEmpty()) {
                 fail("unexpected event: " + event);
             }
             assertEquals(etalonEvents.removeFirst(), event);
         }
-        assertFalse("Must contain no more events: " + parser.getEvent(), parser
-                .checkEvent(new ArrayList<Class<? extends Event>>()));
+        assertFalse("Must contain no more events: " + parser.getEvent(), parser.checkEvent(null));
     }
 
     public void testGetEvent2() {
@@ -84,14 +82,13 @@ public class ParserImplTest extends TestCase {
         etalonEvents.add(new MappingEndEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentEndEvent(dummyMark, dummyMark, false));
         etalonEvents.add(new StreamEndEvent(dummyMark, dummyMark));
-        while (parser.checkEvent(new ArrayList<Class<? extends Event>>())) {
+        while (parser.checkEvent(null)) {
             Event event = parser.getEvent();
             if (etalonEvents.isEmpty()) {
                 fail("unexpected event: " + event);
             }
             assertEquals(etalonEvents.removeFirst(), event);
         }
-        assertFalse("Must contain no more events: " + parser.getEvent(), parser
-                .checkEvent(new ArrayList<Class<? extends Event>>()));
+        assertFalse("Must contain no more events: " + parser.getEvent(), parser.checkEvent(null));
     }
 }

@@ -23,14 +23,10 @@ import java.util.Set;
 
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.Event;
-import org.yaml.snakeyaml.events.MappingEndEvent;
 import org.yaml.snakeyaml.events.MappingStartEvent;
 import org.yaml.snakeyaml.events.NodeEvent;
 import org.yaml.snakeyaml.events.ScalarEvent;
-import org.yaml.snakeyaml.events.SequenceEndEvent;
 import org.yaml.snakeyaml.events.SequenceStartEvent;
-import org.yaml.snakeyaml.events.StreamEndEvent;
-import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -68,11 +64,11 @@ public class Composer {
      */
     public boolean checkNode() {
         // Drop the STREAM-START event.
-        if (parser.checkEvent(StreamStartEvent.class)) {
+        if (parser.checkEvent(Event.ID.StreamStart)) {
             parser.getEvent();
         }
         // If there are more documents available?
-        return !parser.checkEvent(StreamEndEvent.class);
+        return !parser.checkEvent(Event.ID.StreamEnd);
     }
 
     /**
@@ -83,7 +79,7 @@ public class Composer {
      */
     public Node getNode() {
         // Get the root node of the next document.
-        if (!parser.checkEvent(StreamEndEvent.class)) {
+        if (!parser.checkEvent(Event.ID.StreamEnd)) {
             return composeDocument();
         } else {
             return (Node) null;
@@ -104,11 +100,11 @@ public class Composer {
         parser.getEvent();
         // Compose a document if the stream is not empty.
         Node document = null;
-        if (!parser.checkEvent(StreamEndEvent.class)) {
+        if (!parser.checkEvent(Event.ID.StreamEnd)) {
             document = composeDocument();
         }
         // Ensure that the stream contains no more documents.
-        if (!parser.checkEvent(StreamEndEvent.class)) {
+        if (!parser.checkEvent(Event.ID.StreamEnd)) {
             Event event = parser.getEvent();
             throw new ComposerException("expected a single document in the stream", document
                     .getStartMark(), "but found another document", event.getStartMark());
@@ -132,7 +128,7 @@ public class Composer {
 
     private Node composeNode(Node parent, Object index) {
         recursiveNodes.add(parent);
-        if (parser.checkEvent(AliasEvent.class)) {
+        if (parser.checkEvent(Event.ID.Alias)) {
             AliasEvent event = (AliasEvent) parser.getEvent();
             String anchor = event.getAnchor();
             if (!anchors.containsKey(anchor)) {
@@ -155,9 +151,9 @@ public class Composer {
         }
         // resolver.descendResolver(parent, index);
         Node node = null;
-        if (parser.checkEvent(ScalarEvent.class)) {
+        if (parser.checkEvent(Event.ID.Scalar)) {
             node = composeScalarNode(anchor);
-        } else if (parser.checkEvent(SequenceStartEvent.class)) {
+        } else if (parser.checkEvent(Event.ID.SequenceStart)) {
             node = composeSequenceNode(anchor);
         } else {
             node = composeMappingNode(anchor);
@@ -203,7 +199,7 @@ public class Composer {
             anchors.put(anchor, node);
         }
         int index = 0;
-        while (!parser.checkEvent(SequenceEndEvent.class)) {
+        while (!parser.checkEvent(Event.ID.SequenceEnd)) {
             (node.getValue()).add(composeNode(node, new Integer(index)));
             index++;
         }
@@ -228,7 +224,7 @@ public class Composer {
         if (anchor != null) {
             anchors.put(anchor, node);
         }
-        while (!parser.checkEvent(MappingEndEvent.class)) {
+        while (!parser.checkEvent(Event.ID.MappingEnd)) {
             Node itemKey = composeNode(node, null);
             Node itemValue = composeNode(node, itemKey);
             node.getValue().add(new NodeTuple(itemKey, itemValue));

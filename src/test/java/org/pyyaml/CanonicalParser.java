@@ -16,7 +16,6 @@
 package org.pyyaml;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
@@ -159,27 +158,16 @@ public class CanonicalParser implements Parser {
         return events.remove(0);
     }
 
-    public boolean checkEvent(List<Class<? extends Event>> choices) {
+    public boolean checkEvent(Event.ID choice) {
         if (!parsed) {
             parse();
         }
         if (!events.isEmpty()) {
-            if (choices.isEmpty()) {
+            if (events.get(0).is(choice)) {
                 return true;
-            }
-            for (Class<? extends Event> class1 : choices) {
-                if (class1.isInstance(events.get(0))) {
-                    return true;
-                }
             }
         }
         return false;
-    }
-
-    public boolean checkEvent(Class<? extends Event> choice) {
-        List<Class<? extends Event>> list = new ArrayList<Class<? extends Event>>(1);
-        list.add(choice);
-        return checkEvent(list);
     }
 
     public Event peekEvent() {
