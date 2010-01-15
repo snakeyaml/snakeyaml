@@ -163,7 +163,7 @@ public final class ScannerImpl implements Scanner {
      */
     private Map<Integer, SimpleKey> possibleSimpleKeys;
 
-    public ScannerImpl(org.yaml.snakeyaml.reader.StreamReader reader) {
+    public ScannerImpl(StreamReader reader) {
         this.reader = reader;
         this.tokens = new ArrayList<Token>(100);
         this.indents = new ArrayStack<Integer>(10);
