@@ -519,7 +519,7 @@ public final class ScannerImpl implements Scanner {
         // Reset simple keys.
         removePossibleSimpleKey();
         this.allowSimpleKey = false;
-        this.possibleSimpleKeys = new HashMap<Integer, SimpleKey>();
+        this.possibleSimpleKeys.clear();
 
         // Read the token.
         Mark mark = reader.getMark();
