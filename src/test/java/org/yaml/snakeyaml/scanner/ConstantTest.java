@@ -27,11 +27,11 @@ public class ConstantTest extends TestCase {
     }
 
     public void testHasStringChar() {
-        assertTrue(Constant.LINEBR.has(" ", ' '));
+        assertTrue(Constant.LINEBR.has(' ', " "));
     }
 
     public void testHas0() {
-        assertTrue(Constant.LINEBR.has("\0", (char) 0));
+        assertTrue(Constant.LINEBR.has((char) 0, "\0"));
     }
 
 }

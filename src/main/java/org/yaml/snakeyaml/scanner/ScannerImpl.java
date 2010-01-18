@@ -931,7 +931,7 @@ public final class ScannerImpl implements Scanner {
          * </pre>
          */
         char ch = reader.peek();
-        return (Constant.NULL_BL_T_LINEBR.hasNo("-?:,[]{}#&*!|>\'\"%@`", ch) || Constant.NULL_BL_T_LINEBR
+        return (Constant.NULL_BL_T_LINEBR.hasNo(ch, "-?:,[]{}#&*!|>\'\"%@`") || Constant.NULL_BL_T_LINEBR
                 .hasNo(reader.peek(1))
                 && (ch == '-' || (this.flowLevel == 0 && "?:".indexOf(ch) != -1)));
     }
@@ -1159,7 +1159,7 @@ public final class ScannerImpl implements Scanner {
         String value = reader.prefix(length);
         reader.forward(length);
         ch = reader.peek();
-        if (Constant.NULL_BL_T_LINEBR.hasNo("?:,]}%@`", ch)) {
+        if (Constant.NULL_BL_T_LINEBR.hasNo(ch, "?:,]}%@`")) {
             throw new ScannerException("while scanning an " + name, startMark,
                     "expected alphabetic or numeric character, but found " + ch + "("
                             + ((int) reader.peek()) + ")", reader.getMark());
@@ -1379,7 +1379,7 @@ public final class ScannerImpl implements Scanner {
         StringBuilder chunks = new StringBuilder();
         int maxIndent = 0;
         Mark endMark = reader.getMark();
-        while (Constant.LINEBR.has(" \r", reader.peek())) {
+        while (Constant.LINEBR.has(reader.peek(), " \r")) {
             if (reader.peek() != ' ') {
                 chunks.append(scanLineBreak());
                 endMark = reader.getMark();
@@ -1446,7 +1446,7 @@ public final class ScannerImpl implements Scanner {
         StringBuilder chunks = new StringBuilder();
         while (true) {
             int length = 0;
-            while (Constant.NULL_BL_T_LINEBR.hasNo("\'\"\\", reader.peek(length))) {
+            while (Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(length), "\'\"\\")) {
                 length++;
             }
             if (length != 0) {
@@ -1577,7 +1577,7 @@ public final class ScannerImpl implements Scanner {
             }
             // It's not clear what we should do with ':' in the flow context.
             if (this.flowLevel != 0 && ch == ':'
-                    && Constant.NULL_BL_T_LINEBR.hasNo(",[]{}", reader.peek(length + 1))) {
+                    && Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(length + 1), ",[]{}")) {
                 reader.forward(length);
                 throw new ScannerException("while scanning a plain scalar", startMark,
                         "found unexpected ':'", reader.getMark(),
@@ -1625,7 +1625,7 @@ public final class ScannerImpl implements Scanner {
                 return "";
             }
             StringBuilder breaks = new StringBuilder();
-            while (Constant.LINEBR.has(" \r", reader.peek())) {
+            while (Constant.LINEBR.has(reader.peek(), " \r")) {
                 if (reader.peek() == ' ') {
                     reader.forward();
                 } else {

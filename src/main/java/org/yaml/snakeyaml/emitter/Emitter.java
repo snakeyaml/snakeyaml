@@ -1164,7 +1164,7 @@ public final class Emitter {
                     start = end;
                 }
             } else {
-                if (Constant.LINEBR.has("\0 \'", ch)) {
+                if (Constant.LINEBR.has(ch, "\0 \'")) {
                     if (start < end) {
                         String data = text.substring(start, end);
                         this.column += data.length();
@@ -1251,7 +1251,7 @@ public final class Emitter {
     private String determineBlockHints(String text) {
         StringBuilder hints = new StringBuilder();
         if (text != null && text.length() > 0) {
-            if (Constant.LINEBR.has(" ", text.charAt(0))) {
+            if (Constant.LINEBR.has(text.charAt(0), " ")) {
                 hints.append(bestIndent);
             }
             char ch1 = text.charAt(text.length() - 1);
@@ -1311,7 +1311,7 @@ public final class Emitter {
                     start = end;
                 }
             } else {
-                if (Constant.LINEBR.has("\0 ", ch)) {
+                if (Constant.LINEBR.has(ch, "\0 ")) {
                     String data = text.substring(start, end);
                     this.column += data.length();
                     stream.write(data);

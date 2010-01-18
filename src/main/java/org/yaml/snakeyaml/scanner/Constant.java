@@ -43,11 +43,11 @@ public final class Constant {
         return !has(ch);
     }
 
-    public boolean has(String additional, char ch) {
+    public boolean has(char ch, String additional) {
         return additional.indexOf(ch) != -1 || content.indexOf(ch) != -1;
     }
 
-    public boolean hasNo(String additional, char ch) {
-        return !has(additional, ch);
+    public boolean hasNo(char ch, String additional) {
+        return !has(ch, additional);
     }
 }
