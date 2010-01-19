@@ -931,9 +931,9 @@ public final class ScannerImpl implements Scanner {
          * </pre>
          */
         char ch = reader.peek();
-        return (Constant.NULL_BL_T_LINEBR.hasNo(ch, "-?:,[]{}#&*!|>\'\"%@`") || Constant.NULL_BL_T_LINEBR
-                .hasNo(reader.peek(1))
-                && (ch == '-' || (this.flowLevel == 0 && "?:".indexOf(ch) != -1)));
+        return Constant.NULL_BL_T_LINEBR.hasNo(ch, "-?:,[]{}#&*!|>\'\"%@`")
+                || (Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(1)) && (ch == '-' || (this.flowLevel == 0 && "?:"
+                        .indexOf(ch) != -1)));
     }
 
     // Scanners.
@@ -1468,14 +1468,14 @@ public final class ScannerImpl implements Scanner {
                 } else if (ESCAPE_CODES.containsKey(new Character(ch))) {
                     length = ((Integer) ESCAPE_CODES.get(new Character(ch))).intValue();
                     reader.forward();
-                    String val = reader.prefix(length);
-                    if (NOT_HEXA.matcher(val).find()) {
+                    String hex = reader.prefix(length);
+                    if (NOT_HEXA.matcher(hex).find()) {
                         throw new ScannerException("while scanning a double-quoted scalar",
                                 startMark, "expected escape sequence of " + length
-                                        + " hexadecimal numbers, but found: " + val, reader
+                                        + " hexadecimal numbers, but found: " + hex, reader
                                         .getMark());
                     }
-                    char unicode = (char) Integer.parseInt(val, 16);
+                    char unicode = (char) Integer.parseInt(hex, 16);
                     chunks.append(unicode);
                     reader.forward(length);
                 } else if (Constant.FULL_LINEBR.has(ch)) {
