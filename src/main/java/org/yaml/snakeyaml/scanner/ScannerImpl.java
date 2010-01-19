@@ -1234,9 +1234,8 @@ public final class ScannerImpl implements Scanner {
         Mark startMark = reader.getMark();
         // Scan the header.
         reader.forward();
-        Object[] chompi = scanBlockScalarIndicators(startMark);
-        Boolean chomping = (Boolean) chompi[0];
-        int increment = ((Integer) chompi[1]).intValue();
+        Chomping chompi = scanBlockScalarIndicators(startMark);
+        int increment = chompi.getIncrement();
         scanBlockScalarIgnoredLine(startMark);
 
         // Determine the indentation level and go to the first non-empty line.
@@ -1297,17 +1296,17 @@ public final class ScannerImpl implements Scanner {
             }
         }
         // Chomp the tail.
-        if (chomping == null || chomping.booleanValue()) {
+        if (chompi.chompTailIsNotFalse()) {
             chunks.append(lineBreak);
         }
-        if (chomping != null && chomping.booleanValue()) {
+        if (chompi.chompTailIsTrue()) {
             chunks.append(breaks);
         }
         // We are done.
         return new ScalarToken(chunks.toString(), false, startMark, endMark, style);
     }
 
-    private Object[] scanBlockScalarIndicators(Mark startMark) {
+    private Chomping scanBlockScalarIndicators(Mark startMark) {
         // See the specification for details.
         Boolean chomping = null;
         int increment = -1;
@@ -1353,7 +1352,7 @@ public final class ScannerImpl implements Scanner {
                     "expected chomping or indentation indicators, but found " + ch, reader
                             .getMark());
         }
-        return new Object[] { chomping, new Integer(increment) };
+        return new Chomping(chomping, increment);
     }
 
     private String scanBlockScalarIgnoredLine(Mark startMark) {
@@ -1749,5 +1748,30 @@ public final class ScannerImpl implements Scanner {
             return String.valueOf(ch);
         }
         return "";
+    }
+
+    /**
+     * Chomping the tail may have 3 values - yes, no, not defined.
+     */
+    private class Chomping {
+        private final Boolean value;
+        private final int increment;
+
+        public Chomping(Boolean value, int increment) {
+            this.value = value;
+            this.increment = increment;
+        }
+
+        public boolean chompTailIsNotFalse() {
+            return value == null || value;
+        }
+
+        public boolean chompTailIsTrue() {
+            return value != null && value;
+        }
+
+        public int getIncrement() {
+            return increment;
+        }
     }
 }
