@@ -9,11 +9,7 @@
 	    <release version="1.6-SNAPSHOT" date="in Mercurial" description="development">
 	        <action dev="py4fun" type="update">
                 Refactor: introduce Chomping to avoid using null as value for Boolean.
-                Stay in line with Scala friens where null is not allowed (2010-01-19)
-            </action>
-            <action dev="py4fun" type="update">
-                Refactor: change signature for Constant.has(). When the additional String is
-                at the end it is possible to use default arguments in Scala (2010-01-18)
+                Stay in line with Scala port where null is not allowed (2010-01-19)
             </action>
 	    	<action dev="py4fun" type="update">
                 Refactor: use Event.ID enum instead of classes (2010-01-15)
