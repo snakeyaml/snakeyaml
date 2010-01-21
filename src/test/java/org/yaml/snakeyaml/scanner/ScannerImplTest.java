@@ -20,7 +20,6 @@ import java.util.LinkedList;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.reader.StreamReader;
@@ -49,7 +48,7 @@ public class ScannerImplTest extends TestCase {
         etalonTokens.add(new ScalarToken("abcd", true, dummy, dummy, (char) 0));
         etalonTokens.add(new BlockEndToken(dummy, dummy));
         etalonTokens.add(new StreamEndToken(dummy, dummy));
-        while (scanner.checkToken(new Token.ID[0])) {
+        while (!etalonTokens.isEmpty() && scanner.checkToken(etalonTokens.get(0).getTokenId())) {
             assertEquals(etalonTokens.removeFirst(), scanner.getToken());
         }
         assertFalse("Must contain no more tokens: " + scanner.getToken(), scanner
@@ -57,15 +56,14 @@ public class ScannerImplTest extends TestCase {
     }
 
     public void testWrongTab() throws IOException {
-        String data = Util.getLocalResource("constructor/tab-error.yaml");
         Yaml yaml = new Yaml();
         try {
-            yaml.load(data);
+            yaml.load("\t  data: 1");
             fail("TAB cannot start a token.");
         } catch (Exception e) {
-            assertFalse("Error message shall mention TAB and not '(9'.", e.getMessage().contains(
-                    "(9"));
-            assertTrue(e.getMessage().contains("'\\t'"));
+            assertEquals(
+                    "while scanning for the next token; found character \t'\\t' that cannot start any token",
+                    e.getMessage());
         }
     }
 }
