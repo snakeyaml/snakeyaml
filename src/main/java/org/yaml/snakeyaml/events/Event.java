@@ -23,7 +23,7 @@ import org.yaml.snakeyaml.error.Mark;
  */
 public abstract class Event {
     public enum ID {
-        Alias, CollectionEnd, CollectionStart, DocumentEnd, DocumentStart, MappingEnd, MappingStart, Node, Scalar, SequenceEnd, SequenceStart, StreamEnd, StreamStart
+        Alias, CollectionEnd, CollectionStart, DocumentEnd, DocumentStart, MappingEnd, MappingStart, Scalar, SequenceEnd, SequenceStart, StreamEnd, StreamStart
     }
 
     private final Mark startMark;
