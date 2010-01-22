@@ -30,17 +30,17 @@ import org.yaml.snakeyaml.events.Event;
 public interface Parser {
 
     /**
-     * Check if the next event is one of the given types.
+     * Check if the next event is one of the given type.
      * 
      * @param choice
      *            Event ID.
      * @return <code>true</code> if the next event can be assigned to a variable
-     *         of at least one of the given types. Returns <code>false</code> if
-     *         no more events are available.
+     *         of the given type. Returns <code>false</code> if no more events
+     *         are available.
      * @throws ParserException
      *             Thrown in case of malformed input.
      */
-    public boolean checkEvent(Event.ID choices);
+    public boolean checkEvent(Event.ID choice);
 
     /**
      * Return the next event, but do not delete it from the stream.
