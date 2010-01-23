@@ -104,9 +104,9 @@ public final class ScannerImpl implements Scanner {
         ESCAPE_REPLACEMENTS.put(new Character('L'), "\u2028");
         ESCAPE_REPLACEMENTS.put(new Character('P'), "\u2029");
 
-        ESCAPE_CODES.put(new Character('x'), new Integer(2));
-        ESCAPE_CODES.put(new Character('u'), new Integer(4));
-        ESCAPE_CODES.put(new Character('U'), new Integer(8));
+        ESCAPE_CODES.put(new Character('x'), 2);
+        ESCAPE_CODES.put(new Character('u'), 4);
+        ESCAPE_CODES.put(new Character('U'), 8);
     }
     private final StreamReader reader;
     // Had we reached the end of the stream?
@@ -440,7 +440,7 @@ public final class ScannerImpl implements Scanner {
             int tokenNumber = this.tokensTaken + this.tokens.size();
             SimpleKey key = new SimpleKey(tokenNumber, required, reader.getIndex(), reader
                     .getLine(), this.reader.getColumn(), this.reader.getMark());
-            this.possibleSimpleKeys.put(new Integer(this.flowLevel), key);
+            this.possibleSimpleKeys.put(this.flowLevel, key);
         }
     }
 
@@ -448,14 +448,12 @@ public final class ScannerImpl implements Scanner {
      * Remove the saved possible key position at the current flow level.
      */
     private void removePossibleSimpleKey() {
-        if (this.possibleSimpleKeys.keySet().contains(new Integer(flowLevel))) {
-            SimpleKey key = possibleSimpleKeys.get(new Integer(flowLevel));
-            if (key.isRequired()) {
-                throw new ScannerException("while scanning a simple key", key.getMark(),
-                        "could not found expected ':'", reader.getMark());
-            }
-            possibleSimpleKeys.remove(flowLevel);
+        SimpleKey key = possibleSimpleKeys.get(flowLevel);
+        if (key != null && key.isRequired()) {
+            throw new ScannerException("while scanning a simple key", key.getMark(),
+                    "could not found expected ':'", reader.getMark());
         }
+        possibleSimpleKeys.remove(flowLevel);
     }
 
     // Indentation functions.
@@ -1389,7 +1387,7 @@ public final class ScannerImpl implements Scanner {
                 }
             }
         }
-        return new Object[] { chunks.toString(), new Integer(maxIndent), endMark };
+        return new Object[] { chunks.toString(), maxIndent, endMark };
     }
 
     private Object[] scanBlockScalarBreaks(int indent) {

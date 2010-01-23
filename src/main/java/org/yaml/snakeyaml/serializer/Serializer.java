@@ -184,7 +184,7 @@ public final class Serializer {
                 int indexCounter = 0;
                 List<Node> list = seqNode.getValue();
                 for (Node item : list) {
-                    serializeNode(item, node, new Integer(indexCounter));
+                    serializeNode(item, node, indexCounter);
                     indexCounter++;
                 }
                 this.emitter.emit(new SequenceEndEvent(null, null));

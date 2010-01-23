@@ -200,7 +200,7 @@ public class SafeConstructor extends BaseConstructor {
         }
         try {
             int integer = Integer.parseInt(number, radix);
-            result = new Integer(integer);
+            result = integer;
         } catch (NumberFormatException e) {
             try {
                 long longValue = Long.parseLong(number, radix);

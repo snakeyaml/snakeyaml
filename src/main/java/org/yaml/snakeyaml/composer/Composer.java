@@ -200,7 +200,7 @@ public class Composer {
         }
         int index = 0;
         while (!parser.checkEvent(Event.ID.SequenceEnd)) {
-            (node.getValue()).add(composeNode(node, new Integer(index)));
+            (node.getValue()).add(composeNode(node, index));
             index++;
         }
         Event endEvent = parser.getEvent();
