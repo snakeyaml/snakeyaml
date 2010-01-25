@@ -26,7 +26,7 @@ public class Code2 {
     }
 
     public Code2(String name) {
-        this.code = Integer.parseInt(name);
+        this.code = new Integer(name);
     }
 
     public Integer getCode() {

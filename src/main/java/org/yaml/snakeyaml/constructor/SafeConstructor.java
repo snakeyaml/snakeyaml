@@ -199,12 +199,10 @@ public class SafeConstructor extends BaseConstructor {
             number = "-" + number;
         }
         try {
-            int integer = Integer.parseInt(number, radix);
-            result = integer;
+            result = Integer.valueOf(number, radix);
         } catch (NumberFormatException e) {
             try {
-                long longValue = Long.parseLong(number, radix);
-                result = new Long(longValue);
+                result = Long.valueOf(number, radix);
             } catch (NumberFormatException e1) {
                 result = new BigInteger(number, radix);
             }

@@ -36,7 +36,7 @@ public class BeanConstructor extends Constructor {
             if (snode.getValue().length() == 0) {
                 return new Bean1();
             } else {
-                return new Bean1(Integer.parseInt(snode.getValue()));
+                return new Bean1(new Integer(snode.getValue()));
             }
         }
     }
