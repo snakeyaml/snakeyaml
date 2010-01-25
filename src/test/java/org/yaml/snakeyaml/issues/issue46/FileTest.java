@@ -44,6 +44,7 @@ public class FileTest extends TestCase {
         map.put("one", file);
         String output = yaml.dump(map);
         // System.out.println(output);
+        assertEquals("{one: !!java.io.File '/storage/scala-workspace/snakeyaml/src/test/resources/examples/list-bean-1.yaml'}\n", output);
         Map<String, File> parsed = (Map<String, File>) yaml.load(output);
         File file2 = parsed.get("one");
         assertTrue(file2.getAbsolutePath(), file2.getAbsolutePath().endsWith("list-bean-1.yaml"));
