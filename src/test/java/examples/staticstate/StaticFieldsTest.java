@@ -81,7 +81,7 @@ public class StaticFieldsTest extends TestCase {
     private class MyRepresenter extends Representer {
         @Override
         protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {
-            MappingNode node = (MappingNode) super.representJavaBean(properties, javaBean);
+            MappingNode node = super.representJavaBean(properties, javaBean);
             if (javaBean instanceof JavaBeanWithStaticState) {
                 List<NodeTuple> value = node.getValue();
                 value.add(new NodeTuple(representData("color"),
