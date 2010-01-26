@@ -69,7 +69,7 @@ public class StaticFieldsWrapperTest extends TestCase {
         repr.addClassTag(Wrapper.class, new Tag("!mybean"));
         Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
         String output = yaml.dump(new Wrapper(bean));
-        System.out.println(output);
+        // System.out.println(output);
         assertEquals("!mybean {age: -47, color: Violet, name: Bahrack, type: Type3}\n", output);
         // parse back to instance
         Constructor constr = new Constructor();
@@ -96,7 +96,7 @@ public class StaticFieldsWrapperTest extends TestCase {
         options.setExplicitRoot(Tag.MAP);
         JavaBeanDumper dumper = new JavaBeanDumper(new Representer(), options);
         String output = dumper.dump(new Wrapper(bean));
-        System.out.println(output);
+        // System.out.println(output);
         assertEquals("{age: -47, color: Violet, name: Bahrack, type: Type3}\n", output);
         // parse back to instance
         JavaBeanLoader<Wrapper> loader = new JavaBeanLoader<Wrapper>(Wrapper.class);

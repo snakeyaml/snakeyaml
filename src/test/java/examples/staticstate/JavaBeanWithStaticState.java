@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-/**
- * 
- */
 package examples.staticstate;
 
 public class JavaBeanWithStaticState {
