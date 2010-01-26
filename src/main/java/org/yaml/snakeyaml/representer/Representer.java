@@ -83,6 +83,7 @@ public class Representer extends SafeRepresenter {
      *            instance for Node
      * @return Node to get serialized
      */
+    // TODO MappingNode ?
     protected Node representJavaBean(Set<Property> properties, Object javaBean) {
         List<NodeTuple> value = new ArrayList<NodeTuple>(properties.size());
         Tag tag;
