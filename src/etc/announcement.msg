@@ -1,25 +1,27 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.5: Improve usage of generic collections in JavaBeans
+Subject: [ANN] SnakeYAML-1.6: introduce Tag class
 
 ==========================
- Announcing SnakeYAML-1.5
+ Announcing SnakeYAML-1.6
 ==========================
 
 A new release of SnakeYAML is now available:
 
     http://code.google.com/p/snakeyaml/
 
-This release delivers better support for usage of generic collections in JavaBeans, 
-as well as other minor changes and bug fixes. It is backwards compatible with the 1.4 release.
+This release delivers introduction of Tag class, 
+as well as other minor changes and bug fixes. There is a minor backwards incompatible change with the 1.5 release - 
+tags must be provided as instances of Tag class instead of simply Strings:
+http://code.google.com/p/snakeyaml/issues/detail?id=43
 
 Changes
 ========
- * Improve usage of generic collections
+ * Introduction of Tag class
  * Performance improvements
- * Add possibility to define a custom Class Loader
+ * Refactoring of scanner and parser
 
-The complete list of changes is here: http://snakeyamlrepo.appspot.com/releases/1.5/site/changes-report.html 
+The complete list of changes is here: http://snakeyamlrepo.appspot.com/releases/1.6/site/changes-report.html 
 
 Resources
 ==========
@@ -27,7 +29,7 @@ Resources
 SnakeYAML homepage: http://code.google.com/p/snakeyaml/
 SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
 
-JAR package: http://snakeyamlrepo.appspot.com/repository/org/yaml/snakeyaml/1.5/snakeyaml-1.5.jar
+JAR package: http://snakeyamlrepo.appspot.com/repository/org/yaml/snakeyaml/1.6/snakeyaml-1.6.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/
