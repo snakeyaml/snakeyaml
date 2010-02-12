@@ -93,42 +93,19 @@ public class Representer extends SafeRepresenter {
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
         for (Property property : properties) {
-            ScalarNode nodeKey = (ScalarNode) representData(property.getName());
             Object memberValue = property.get(javaBean);
-            boolean hasAlias = false;
-            if (this.representedObjects.containsKey(memberValue)) {
-                // the first occurrence of the node must keep the tag
-                hasAlias = true;
+            NodeTuple tuple = representJavaBeanProperty(javaBean, property, memberValue, customTag);
+            if (tuple == null) {
+                continue;
             }
-            Node nodeValue = representData(memberValue);
-            // if possible try to avoid a global tag with a class name
-            if (nodeValue instanceof MappingNode && !hasAlias) {
-                // the node is a map, set or JavaBean
-                if (!Map.class.isAssignableFrom(memberValue.getClass())) {
-                    // the node is set or JavaBean
-                    if (customTag == null) {
-                        // custom tag is not defined
-                        if (property.getType() == memberValue.getClass()) {
-                            // we do not need global tag because the property
-                            // Class is the same as the runtime class
-                            nodeValue.setTag(Tag.MAP);
-                        }
-                    }
-                }
-            } else if (memberValue != null && Enum.class.isAssignableFrom(memberValue.getClass())) {
-                nodeValue.setTag(Tag.STR);
-            }
-            if (nodeValue.getNodeId() != NodeId.scalar && !hasAlias) {
-                // generic collections
-                checkGlobalTag(property, nodeValue, memberValue);
-            }
-            if (nodeKey.getStyle() != null) {
+            if (((ScalarNode) tuple.getKeyNode()).getStyle() != null) {
                 bestStyle = false;
             }
+            Node nodeValue = tuple.getValueNode();
             if (!((nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null))) {
                 bestStyle = false;
             }
-            value.add(new NodeTuple(nodeKey, nodeValue));
+            value.add(tuple);
         }
         if (defaultFlowStyle != null) {
             node.setFlowStyle(defaultFlowStyle);
@@ -136,6 +113,53 @@ public class Representer extends SafeRepresenter {
             node.setFlowStyle(bestStyle);
         }
         return node;
+    }
+
+    /**
+     * Represent one JavaBean property.
+     * 
+     * @param javaBean
+     *            - the instance to be represented
+     * @param property
+     *            - the property of the instance
+     * @param propertyValue
+     *            - value to be represented
+     * @param customTag
+     *            - user defined Tag
+     * @return NodeTuple to be used in a MappingNode. Return null to skip the
+     *         property
+     */
+    protected NodeTuple representJavaBeanProperty(Object javaBean, Property property,
+            Object propertyValue, Tag customTag) {
+        ScalarNode nodeKey = (ScalarNode) representData(property.getName());
+        boolean hasAlias = false;
+        if (this.representedObjects.containsKey(propertyValue)) {
+            // the first occurrence of the node must keep the tag
+            hasAlias = true;
+        }
+        Node nodeValue = representData(propertyValue);
+        // if possible try to avoid a global tag with a class name
+        if (nodeValue instanceof MappingNode && !hasAlias) {
+            // the node is a map, set or JavaBean
+            if (!Map.class.isAssignableFrom(propertyValue.getClass())) {
+                // the node is set or JavaBean
+                if (customTag == null) {
+                    // custom tag is not defined
+                    if (property.getType() == propertyValue.getClass()) {
+                        // we do not need global tag because the property
+                        // Class is the same as the runtime class
+                        nodeValue.setTag(Tag.MAP);
+                    }
+                }
+            }
+        } else if (propertyValue != null && Enum.class.isAssignableFrom(propertyValue.getClass())) {
+            nodeValue.setTag(Tag.STR);
+        }
+        if (nodeValue.getNodeId() != NodeId.scalar && !hasAlias) {
+            // generic collections
+            checkGlobalTag(property, nodeValue, propertyValue);
+        }
+        return new NodeTuple(nodeKey, nodeValue);
     }
 
     /**

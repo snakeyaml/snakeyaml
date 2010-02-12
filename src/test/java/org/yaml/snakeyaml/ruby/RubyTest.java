@@ -70,7 +70,8 @@ public class RubyTest extends TestCase {
         // System.out.println(output);
         assertTrue("Tags must be present.", output
                 .startsWith("--- !ruby/object:Test::Module::Object"));
-        assertTrue("Tags must be present.", output.contains("!ruby/object:Test::Module::Sub1"));
+        assertTrue("Tags must be present: " + output, output
+                .contains("!ruby/object:Test::Module::Sub1"));
         assertTrue("Tags must be present.", output.contains("!ruby/object:Test::Module::Sub2"));
         // parse back.
         TestObject result2 = parseObject(output);

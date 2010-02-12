@@ -7,7 +7,11 @@
 	</properties>
 	<body>
 	    <release version="1.6rc1" date="2010-02-01" description="introduce Tag class">
-	        <action dev="py4fun" type="update">
+	        <action dev="py4fun" type="fix" issue="48" due-to="obastard">
+                Introduce representJavaBeanProperty() method in Representer. The method
+                can be overwritten to simplify custom JavaBean representation (2010-02-12)
+            </action>
+            <action dev="py4fun" type="update">
                 Release Candidate 1 is available (2010-02-01)
             </action>
             <action dev="py4fun" type="add">
