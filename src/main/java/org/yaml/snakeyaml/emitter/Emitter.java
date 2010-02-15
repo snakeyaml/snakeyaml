@@ -1209,12 +1209,18 @@ public final class Emitter {
                     String data;
                     if (ESCAPE_REPLACEMENTS.containsKey(new Character(ch))) {
                         data = "\\" + ESCAPE_REPLACEMENTS.get(new Character(ch));
-                    } else if (ch <= '\u00FF') {
-                        String s = "0" + Integer.toString(ch, 16);
-                        data = "\\x" + s.substring(s.length() - 2);
+                    } else if (!this.allowUnicode) {
+                        // this is different from PyYAML which escapes all
+                        // non-ASCII characters
+                        if (ch <= '\u00FF') {
+                            String s = "0" + Integer.toString(ch, 16);
+                            data = "\\x" + s.substring(s.length() - 2);
+                        } else {
+                            String s = "000" + Integer.toString(ch, 16);
+                            data = "\\u" + s.substring(s.length() - 4);
+                        }
                     } else {
-                        String s = "000" + Integer.toString(ch, 16);
-                        data = "\\u" + s.substring(s.length() - 4);
+                        data = String.valueOf(ch);
                     }
                     this.column += data.length();
                     stream.write(data);

@@ -7,7 +7,11 @@
 	</properties>
 	<body>
 	    <release version="1.6rc1" date="2010-02-01" description="introduce Tag class">
-	        <action dev="py4fun" type="fix" issue="48" due-to="obastard">
+	        <action dev="py4fun" type="fix" issue="51" due-to="johann.Werner">
+                Some Unicode characters are wrongly replaced by \x{fffd} during 
+                double quoted style dump (2010-02-15)
+            </action>
+            <action dev="py4fun" type="fix" issue="48" due-to="obastard">
                 Introduce representJavaBeanProperty() method in Representer. The method
                 can be overwritten to simplify custom JavaBean representation (2010-02-12)
             </action>
