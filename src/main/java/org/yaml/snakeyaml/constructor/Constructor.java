@@ -25,6 +25,7 @@ import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -399,7 +400,7 @@ public class Constructor extends SafeConstructor {
                     || type == Boolean.class || Date.class.isAssignableFrom(type)
                     || type == Character.class || type == BigInteger.class
                     || type == BigDecimal.class || Enum.class.isAssignableFrom(type)
-                    || Tag.BINARY.equals(node.getTag())) {
+                    || Tag.BINARY.equals(node.getTag()) || Calendar.class.isAssignableFrom(type)) {
                 // standard classes created directly
                 result = constructStandardJavaInstance(type, node);
             } else {
@@ -516,6 +517,10 @@ public class Constructor extends SafeConstructor {
                     throw new YAMLException("Unable to find enum value '" + enumValueName
                             + "' for enum class: " + type.getName());
                 }
+            } else if (Calendar.class.isAssignableFrom(type)) {
+                ConstructYamlTimestamp contr = new ConstructYamlTimestamp();
+                contr.construct(node);
+                result = contr.getCalendar();
             } else {
                 throw new YAMLException("Unsupported class: " + type);
             }

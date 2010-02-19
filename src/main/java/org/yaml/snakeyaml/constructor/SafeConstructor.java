@@ -255,7 +255,13 @@ public class SafeConstructor extends BaseConstructor {
     private final static Pattern YMD_REGEXP = Pattern
             .compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)$");
 
-    private class ConstructYamlTimestamp extends AbstractConstruct {
+    protected class ConstructYamlTimestamp extends AbstractConstruct {
+        private Calendar calendar;
+
+        public Calendar getCalendar() {
+            return calendar;
+        }
+
         public Object construct(Node node) {
             ScalarNode scalar = (ScalarNode) node;
             String nodeValue = scalar.getValue();
@@ -264,13 +270,13 @@ public class SafeConstructor extends BaseConstructor {
                 String year_s = match.group(1);
                 String month_s = match.group(2);
                 String day_s = match.group(3);
-                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-                cal.clear();
-                cal.set(Calendar.YEAR, Integer.parseInt(year_s));
+                calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                calendar.clear();
+                calendar.set(Calendar.YEAR, Integer.parseInt(year_s));
                 // Java's months are zero-based...
-                cal.set(Calendar.MONTH, Integer.parseInt(month_s) - 1); // x
-                cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day_s));
-                return cal.getTime();
+                calendar.set(Calendar.MONTH, Integer.parseInt(month_s) - 1); // x
+                calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day_s));
+                return calendar.getTime();
             } else {
                 match = TIMESTAMP_REGEXP.matcher(nodeValue);
                 if (!match.matches()) {
@@ -295,31 +301,24 @@ public class SafeConstructor extends BaseConstructor {
                         }
                     }
                 }
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.YEAR, Integer.parseInt(year_s));
-                // Java's months are zero-based...
-                cal.set(Calendar.MONTH, Integer.parseInt(month_s) - 1);
-                cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day_s));
-                cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour_s));
-                cal.set(Calendar.MINUTE, Integer.parseInt(min_s));
-                cal.set(Calendar.SECOND, Integer.parseInt(sec_s));
-                cal.set(Calendar.MILLISECOND, usec);
+                TimeZone timeZone;
                 if (timezoneh_s != null) {
-                    int zone = 0;
-                    int sign = +1;
-                    if (timezoneh_s.startsWith("-")) {
-                        sign = -1;
-                    }
-                    zone += Integer.parseInt(timezoneh_s.substring(1)) * 3600000;
-                    if (timezonem_s != null) {
-                        zone += Integer.parseInt(timezonem_s) * 60000;
-                    }
-                    cal.set(Calendar.ZONE_OFFSET, sign * zone);
+                    String time = timezonem_s != null ? ":" + timezonem_s : "00";
+                    timeZone = TimeZone.getTimeZone("GMT" + timezoneh_s + time);
                 } else {
                     // no time zone provided
-                    cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    timeZone = TimeZone.getTimeZone("UTC");
                 }
-                return cal.getTime();
+                calendar = Calendar.getInstance(timeZone);
+                calendar.set(Calendar.YEAR, Integer.parseInt(year_s));
+                // Java's months are zero-based...
+                calendar.set(Calendar.MONTH, Integer.parseInt(month_s) - 1);
+                calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day_s));
+                calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour_s));
+                calendar.set(Calendar.MINUTE, Integer.parseInt(min_s));
+                calendar.set(Calendar.SECOND, Integer.parseInt(sec_s));
+                calendar.set(Calendar.MILLISECOND, usec);
+                return calendar.getTime();
             }
         }
     }

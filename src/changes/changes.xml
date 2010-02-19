@@ -7,7 +7,10 @@
 	</properties>
 	<body>
 	    <release version="1.6" date="in Mercurial" description="introduce Tag class">
-	        <action dev="py4fun" type="fix" issue="51" due-to="johann.Werner">
+	        <action dev="py4fun" type="fix" issue="49" due-to="obastard">
+                Support GregorianCalendar (2010-02-19)
+            </action>
+            <action dev="py4fun" type="fix" issue="51" due-to="johann.Werner">
                 Some Unicode characters are wrongly replaced by \x{fffd} during 
                 double quoted style dump (2010-02-15)
             </action>
