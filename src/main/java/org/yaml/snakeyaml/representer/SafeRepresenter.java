@@ -52,6 +52,7 @@ class SafeRepresenter extends BaseRepresenter {
         this.multiRepresenters.put(Set.class, new RepresentSet());
         this.multiRepresenters.put(new Object[0].getClass(), new RepresentArray());
         this.multiRepresenters.put(Date.class, new RepresentDate());
+        this.multiRepresenters.put(Calendar.class, new RepresentDate());
         this.multiRepresenters.put(Enum.class, new RepresentEnum());
         classTags = new HashMap<Class<? extends Object>, Tag>();
     }
@@ -201,8 +202,13 @@ class SafeRepresenter extends BaseRepresenter {
     private class RepresentDate implements Represent {
         public Node representData(Object data) {
             // because SimpleDateFormat ignores timezone we have to use Calendar
-            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            calendar.setTime((Date) data);
+            Calendar calendar;
+            if (data instanceof Calendar) {
+                calendar = (Calendar) data;
+            } else {
+                calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                calendar.setTime((Date) data);
+            }
             int years = calendar.get(Calendar.YEAR);
             int months = calendar.get(Calendar.MONTH) + 1; // 0..12
             int days = calendar.get(Calendar.DAY_OF_MONTH); // 1..31
@@ -246,7 +252,13 @@ class SafeRepresenter extends BaseRepresenter {
                 }
                 buffer.append(String.valueOf(millis));
             }
-            buffer.append("Z");
+            if (TimeZone.getTimeZone("UTC").equals(calendar.getTimeZone())) {
+                buffer.append("Z");
+            } else {
+                int offset = calendar.getTimeZone().getOffset(calendar.getTime().getTime());
+                System.out.println(offset);
+                buffer.append(calendar.getTimeZone().getID().substring(3));
+            }
             return representScalar(getTag(data.getClass(), Tag.TIMESTAMP), buffer.toString(), null);
         }
     }

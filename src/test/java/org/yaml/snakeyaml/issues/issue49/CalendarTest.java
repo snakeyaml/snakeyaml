@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class CalendarTest extends TestCase {
@@ -37,9 +36,30 @@ public class CalendarTest extends TestCase {
         bean.setCalendar(cal);
         JavaBeanDumper yaml = new JavaBeanDumper();
         String output = yaml.dump(bean);
-        // System.out.println(output);
-        assertTrue(output, output.startsWith("calendar: !!java.util.GregorianCalendar"));
-        assertEquals(Util.getLocalResource("issues/issue47-1.yaml"), output);
+        System.out.println(output);
+        assertEquals("calendar: 2001-09-08T17:46:40-08:00\nname: lunch\n", output);
+        //
+        JavaBeanLoader<CalendarBean> loader = new JavaBeanLoader<CalendarBean>(CalendarBean.class);
+        CalendarBean parsed = loader.load(output);
+        assertEquals(bean.getCalendar(), parsed.getCalendar());
+    }
+
+    // TODO
+    public void qtestDump2() {
+        CalendarBean bean = new CalendarBean();
+        bean.setName("lunch");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(1000000000000L));
+        cal.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+        bean.setCalendar(cal);
+        JavaBeanDumper yaml = new JavaBeanDumper();
+        String output = yaml.dump(bean);
+        System.out.println(output);
+        assertEquals("calendar: 2001-09-08T17:46:40-08:00\nname: lunch\n", output);
+        //
+        JavaBeanLoader<CalendarBean> loader = new JavaBeanLoader<CalendarBean>(CalendarBean.class);
+        CalendarBean parsed = loader.load(output);
+        assertEquals(bean.getCalendar(), parsed.getCalendar());
     }
 
     public void testLoadBean() {
