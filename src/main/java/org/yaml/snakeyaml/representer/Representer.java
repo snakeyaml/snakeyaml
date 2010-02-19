@@ -45,6 +45,8 @@ import org.yaml.snakeyaml.nodes.Tag;
  * Represent JavaBeans
  */
 public class Representer extends SafeRepresenter {
+    private boolean allowReadOnlyProperties = true;
+
     public Representer() {
         this.representers.put(null, new RepresentJavaBean());
     }
@@ -230,6 +232,7 @@ public class Representer extends SafeRepresenter {
         // add JavaBean getters
         for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors())
             if (property.getReadMethod() != null
+                    && (allowReadOnlyProperties || property.getWriteMethod() != null)
                     && !property.getReadMethod().getName().equals("getClass")) {
                 properties.add(new MethodProperty(property));
             }
@@ -246,4 +249,7 @@ public class Representer extends SafeRepresenter {
         return properties;
     }
 
+    public void setAllowReadOnlyProperties(boolean allowReadOnlyProperties) {
+        this.allowReadOnlyProperties = allowReadOnlyProperties;
+    }
 }

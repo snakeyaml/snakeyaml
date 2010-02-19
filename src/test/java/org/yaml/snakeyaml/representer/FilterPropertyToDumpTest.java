@@ -50,7 +50,9 @@ public class FilterPropertyToDumpTest extends TestCase {
                 "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {number: 24}\n",
                 dump);
         // include by default
-        yaml = new Yaml();
+        DumperOptions options = new DumperOptions();
+        options.setAllowReadOnlyProperties(true);
+        yaml = new Yaml(options);
         dump = yaml.dump(bean);
         // System.out.println(dump);
         assertEquals(

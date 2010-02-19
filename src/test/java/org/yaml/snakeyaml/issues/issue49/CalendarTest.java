@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class CalendarTest extends TestCase {
@@ -37,8 +38,8 @@ public class CalendarTest extends TestCase {
         JavaBeanDumper yaml = new JavaBeanDumper();
         String output = yaml.dump(bean);
         // System.out.println(output);
-        // TODO assertEquals("???", output);
         assertTrue(output, output.startsWith("calendar: !!java.util.GregorianCalendar"));
+        assertEquals(Util.getLocalResource("issues/issue47-1.yaml"), output);
     }
 
     public void testLoadBean() {

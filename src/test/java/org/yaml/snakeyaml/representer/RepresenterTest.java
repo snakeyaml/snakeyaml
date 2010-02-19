@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.representer;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 
@@ -65,7 +66,9 @@ public class RepresenterTest extends TestCase {
 
     public void testRepresenterNoConstructorAvailable() {
         MyBean2 bean = new MyBean2("Gnome", true);
-        Yaml yaml = new Yaml();
+        DumperOptions options = new DumperOptions();
+        options.setAllowReadOnlyProperties(true);
+        Yaml yaml = new Yaml(options);
         assertEquals("!!org.yaml.snakeyaml.representer.RepresenterTest$MyBean2 {valid: true}\n",
                 yaml.dump(bean));
     }

@@ -67,7 +67,9 @@ public class DumpExampleTest extends TestCase {
 
     public void testDumpCustomJavaClass() {
         Hero hero = new Hero("Galain Ysseleg", -3, 2);
-        Yaml yaml = new Yaml();
+        DumperOptions options = new DumperOptions();
+        options.setAllowReadOnlyProperties(true);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(hero);
         assertEquals("!!examples.Hero {hp: -3, name: Galain Ysseleg, sp: 2}\n", output);
     }

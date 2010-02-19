@@ -26,15 +26,23 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.immutable.Point;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Representer;
 
 public class VelocityTest extends TestCase {
     public void testNoTemplate() {
-        JavaBeanDumper dumper = new JavaBeanDumper();
+        DumperOptions options = new DumperOptions();
+        options.setAllowReadOnlyProperties(true);
+        options.setExplicitRoot(Tag.MAP);
+        options.setDefaultFlowStyle(FlowStyle.BLOCK);
+        JavaBeanDumper dumper = new JavaBeanDumper(new Representer(), options);
         String output = dumper.dump(createBean());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("template/etalon1.yaml"), output);

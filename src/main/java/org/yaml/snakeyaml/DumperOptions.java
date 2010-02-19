@@ -157,6 +157,7 @@ public class DumperOptions {
     private FlowStyle defaultFlowStyle = FlowStyle.AUTO;
     private boolean canonical = false;
     private boolean allowUnicode = true;
+    private boolean allowReadOnlyProperties = false;
     private int indent = 2;
     private int bestWidth = 80;
     private LineBreak lineBreak = LineBreak.UNIX;
@@ -279,7 +280,7 @@ public class DumperOptions {
      * @deprecated use Tag instead of String
      */
     public void setExplicitRoot(String expRoot) {
-        setExplicitRoot(new Tag (expRoot));
+        setExplicitRoot(new Tag(expRoot));
     }
 
     /**
@@ -342,5 +343,27 @@ public class DumperOptions {
      */
     public ScalarStyle calculateScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
         return style;
+    }
+
+    /**
+     * Report whether read-only JavaBean properties (the ones without setters)
+     * should be included in the YAML document
+     * 
+     * @return false when read-only JavaBean properties are not emitted
+     */
+    public boolean isAllowReadOnlyProperties() {
+        return allowReadOnlyProperties;
+    }
+
+    /**
+     * Set to true to include read-only JavaBean properties (the ones without
+     * setters) in the YAML document. By default these properties are not
+     * included to be able to parse later the same JavaBean.
+     * 
+     * @param allowReadOnlyProperties
+     *            - true to dump read-only JavaBean properties
+     */
+    public void setAllowReadOnlyProperties(boolean allowReadOnlyProperties) {
+        this.allowReadOnlyProperties = allowReadOnlyProperties;
     }
 }

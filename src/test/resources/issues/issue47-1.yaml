@@ -1,0 +1,11 @@
+calendar: !!java.util.GregorianCalendar
+  firstDayOfWeek: 2
+  gregorianChange: 1582-10-15T00:00:00Z
+  lenient: true
+  minimalDaysInFirstWeek: 4
+  time: 2001-09-09T01:46:40Z
+  timeInMillis: 1000000000000
+  timeZone: !!sun.util.calendar.ZoneInfo
+    ID: GMT-08:00
+    rawOffset: -28800000
+name: lunch

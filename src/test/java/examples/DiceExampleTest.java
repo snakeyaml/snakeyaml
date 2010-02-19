@@ -37,7 +37,9 @@ import org.yaml.snakeyaml.representer.Representer;
 public class DiceExampleTest extends TestCase {
     public void testRepresenter() throws IOException {
         Dice dice = new Dice(3, 6);
-        Yaml yaml = new Yaml();
+        DumperOptions options = new DumperOptions();
+        options.setAllowReadOnlyProperties(true);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(dice);
         assertEquals("!!examples.Dice {a: 3, b: 6}\n", output);
     }
