@@ -27,7 +27,10 @@ import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Yaml;
 
 public class CalendarTest extends TestCase {
-    public void testDump() {
+    /**
+     * Daylight Saving Time is not taken into account
+     */
+    public void testDumpDstIgnored() {
         CalendarBean bean = new CalendarBean();
         bean.setName("lunch");
         Calendar cal = Calendar.getInstance();
@@ -36,30 +39,63 @@ public class CalendarTest extends TestCase {
         bean.setCalendar(cal);
         JavaBeanDumper yaml = new JavaBeanDumper();
         String output = yaml.dump(bean);
-        System.out.println(output);
-        assertEquals("calendar: 2001-09-08T17:46:40-08:00\nname: lunch\n", output);
+        // System.out.println(output);
+        assertEquals("calendar: 2001-09-08T17:46:40-8:00\nname: lunch\n", output);
         //
         JavaBeanLoader<CalendarBean> loader = new JavaBeanLoader<CalendarBean>(CalendarBean.class);
         CalendarBean parsed = loader.load(output);
         assertEquals(bean.getCalendar(), parsed.getCalendar());
     }
 
-    // TODO
-    public void qtestDump2() {
+    /**
+     * Daylight Saving Time is in effect on this date/time in
+     * America/Los_Angeles Daylight<br/>
+     * Saving Time is not in effect on this date/time in GMT
+     */
+    public void testDumpDstIsNotTheSame() {
+        check(1000000000000L, "America/Los_Angeles", "Must be 7 hours difference.",
+                "2001-09-08T18:46:40-7:00");
+    }
+
+    /**
+     * Daylight Saving Time is not in effect on this date/time in
+     * America/Los_Angeles Daylight<br/>
+     * Saving Time is not in effect on this date/time in GMT
+     */
+    public void testDumpDstIsTheSame() {
+        check(1266833741374L, "America/Los_Angeles", "Must be 8 hours difference.",
+                "2010-02-22T02:15:41.374-8:00");
+    }
+
+    /**
+     * Test odd time zone
+     */
+    public void testNepal() {
+        check(1266833741374L, "Asia/Katmandu", "Must be 5:45 hours difference.",
+                "2010-02-22T16:00:41.374+5:45");
+    }
+
+    public void testMoreThen10hours() {
+        check(1266833741374L, "Asia/Kamchatka", "Must be 12 hours difference.",
+                "2010-02-22T22:15:41.374+12:00");
+    }
+
+    private void check(long time, String timeZone, String warning, String etalon) {
         CalendarBean bean = new CalendarBean();
         bean.setName("lunch");
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date(1000000000000L));
-        cal.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+        cal.setTime(new Date(time));
+        cal.setTimeZone(TimeZone.getTimeZone(timeZone));
         bean.setCalendar(cal);
         JavaBeanDumper yaml = new JavaBeanDumper();
         String output = yaml.dump(bean);
-        System.out.println(output);
-        assertEquals("calendar: 2001-09-08T17:46:40-08:00\nname: lunch\n", output);
+        // System.out.println(output);
+        assertEquals(warning, "calendar: " + etalon + "\nname: lunch\n", output);
         //
         JavaBeanLoader<CalendarBean> loader = new JavaBeanLoader<CalendarBean>(CalendarBean.class);
         CalendarBean parsed = loader.load(output);
-        assertEquals(bean.getCalendar(), parsed.getCalendar());
+        assertFalse("TimeZone must deviate.", bean.getCalendar().equals(parsed.getCalendar()));
+        assertEquals(bean.getCalendar().getTimeInMillis(), parsed.getCalendar().getTimeInMillis());
     }
 
     public void testLoadBean() {
@@ -87,5 +123,4 @@ public class CalendarTest extends TestCase {
         Date date = (Date) yaml.load("2001-12-14t21:59:43.10-05:00");
         assertEquals(date, calendar.getTime());
     }
-
 }

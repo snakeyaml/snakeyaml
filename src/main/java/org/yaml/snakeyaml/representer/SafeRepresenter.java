@@ -255,9 +255,16 @@ class SafeRepresenter extends BaseRepresenter {
             if (TimeZone.getTimeZone("UTC").equals(calendar.getTimeZone())) {
                 buffer.append("Z");
             } else {
-                int offset = calendar.getTimeZone().getOffset(calendar.getTime().getTime());
-                System.out.println(offset);
-                buffer.append(calendar.getTimeZone().getID().substring(3));
+                // Get the Offset from GMT taking DST into account
+                int gmtOffset = calendar.getTimeZone().getOffset(calendar.get(Calendar.ERA),
+                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.DAY_OF_WEEK),
+                        calendar.get(Calendar.MILLISECOND));
+                int minutesOffset = gmtOffset / (60 * 1000);
+                int hoursOffset = minutesOffset / 60;
+                int partOfHour = minutesOffset % 60;
+                buffer.append((hoursOffset > 0 ? "+" : "") + hoursOffset + ":"
+                        + (partOfHour < 10 ? "0" + partOfHour : partOfHour));
             }
             return representScalar(getTag(data.getClass(), Tag.TIMESTAMP), buffer.toString(), null);
         }

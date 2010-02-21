@@ -13,7 +13,8 @@
                 This is no backwards compatible change (2010-02-19)
             </action>
             <action dev="py4fun" type="fix" issue="49" due-to="obastard">
-                Support GregorianCalendar (2010-02-19)
+                Support GregorianCalendar. Due to Daylight Saving Time parsing the timestamp with
+                a TimeZone cannot determine the exact time (2010-02-19)
             </action>
             <action dev="py4fun" type="fix" issue="51" due-to="johann.Werner">
                 Some Unicode characters are wrongly replaced by \x{fffd} during 
