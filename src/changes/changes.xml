@@ -6,7 +6,7 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	    <release version="1.6" date="in Mercurial" description="introduce Tag class">
+	    <release version="1.6" date="2010-02-26" description="introduce Tag class">
 	        <action dev="py4fun" type="update">
                 Release Candidate 2 is available (2010-02-24)
             </action>
