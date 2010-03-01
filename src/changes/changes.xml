@@ -6,6 +6,11 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
+		<release version="1.7" date="in Mercurial" description="development">
+	        <action dev="py4fun" type="update">
+                Issue 50 fails in Eclipse but works with Maven (2010-03-01)
+            </action>
+        </release>
 	    <release version="1.6" date="2010-02-26" description="introduce Tag class">
 	        <action dev="py4fun" type="update">
                 Release Candidate 2 is available (2010-02-24)

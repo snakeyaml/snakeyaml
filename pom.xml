@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.yaml</groupId>
 	<artifactId>snakeyaml</artifactId>
-	<version>1.6</version>
+	<version>1.7-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -177,12 +177,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-	            <artifactId>maven-resources-plugin</artifactId>
-	            <configuration>
-	                <encoding>UTF-8</encoding>
-	            </configuration>
-            </plugin>
 		</plugins>
 	</build>
 	<reporting>
