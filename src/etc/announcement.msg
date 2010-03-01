@@ -1,6 +1,6 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.6: introduce Tag class
+Subject: [ANN] SnakeYAML-1.6 final is available
 
 ==========================
  Announcing SnakeYAML-1.6
@@ -11,9 +11,7 @@ A new release of SnakeYAML is now available:
     http://code.google.com/p/snakeyaml/
 
 This release delivers introduction of Tag class, 
-as well as other minor changes and bug fixes. There is a minor backwards incompatible change with the 1.5 release - 
-tags must be provided as instances of Tag class instead of simply Strings:
-http://code.google.com/p/snakeyaml/issues/detail?id=43
+as well as other minor changes and bug fixes.
 
 Changes
 ========
