@@ -53,7 +53,7 @@ public abstract class Event {
         return "";
     }
 
-    public abstract boolean is(ID id);
+    public abstract boolean is(Event.ID id);
 
     /*
      * for tests only

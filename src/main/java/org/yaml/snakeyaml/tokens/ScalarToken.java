@@ -54,7 +54,7 @@ public final class ScalarToken extends Token {
     }
 
     @Override
-    public ID getTokenId() {
+    public Token.ID getTokenId() {
         return ID.Scalar;
     }
 }

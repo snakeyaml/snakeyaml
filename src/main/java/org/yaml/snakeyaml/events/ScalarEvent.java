@@ -94,7 +94,7 @@ public final class ScalarEvent extends NodeEvent {
     }
 
     @Override
-    public boolean is(ID id) {
+    public boolean is(Event.ID id) {
         return ID.Scalar == id;
     }
 }

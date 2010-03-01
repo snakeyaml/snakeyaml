@@ -27,7 +27,7 @@ public final class DocumentStartToken extends Token {
     }
 
     @Override
-    public ID getTokenId() {
+    public Token.ID getTokenId() {
         return ID.DocumentStart;
     }
 }

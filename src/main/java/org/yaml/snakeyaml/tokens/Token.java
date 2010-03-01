@@ -61,7 +61,7 @@ public abstract class Token {
      * 
      * @see class variable 'id' in PyYAML
      */
-    public abstract ID getTokenId();
+    public abstract Token.ID getTokenId();
 
     /*
      * for tests only

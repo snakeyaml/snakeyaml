@@ -47,7 +47,8 @@ public class FlexibleScalarStyleTest extends TestCase {
 
     private class MyOptions extends DumperOptions {
         @Override
-        public ScalarStyle calculateScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
+        public DumperOptions.ScalarStyle calculateScalarStyle(ScalarAnalysis analysis,
+                DumperOptions.ScalarStyle style) {
             if (analysis.allowBlock && analysis.scalar.length() > 80) {
                 return ScalarStyle.FOLDED;
             } else {

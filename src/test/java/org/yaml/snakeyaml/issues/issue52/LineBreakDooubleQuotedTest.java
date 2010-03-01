@@ -36,7 +36,7 @@ public class LineBreakDooubleQuotedTest extends TestCase {
         Yaml yaml = new Yaml(options);
         String etalon = "12345678901234567890\n\n123  456";
         String output = yaml.dump(etalon);
-        System.out.println(output);
+        // System.out.println(output);
         assertEquals("\"12345678901234567890\\n\\\n    \\n123  456\"\n", output);
         String parsed = (String) yaml.load(output);
         assertEquals(etalon, parsed);
