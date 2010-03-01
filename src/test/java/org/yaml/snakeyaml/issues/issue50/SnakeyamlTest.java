@@ -15,14 +15,14 @@
  */
 package org.yaml.snakeyaml.issues.issue50;
 
-import java.io.IOException;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * test issue 50. Eclipse fails to get a property.
+ * test issue 50.
  */
 public class SnakeyamlTest extends TestCase {
     public static interface SomeBean {
@@ -65,13 +65,24 @@ public class SnakeyamlTest extends TestCase {
         }
     }
 
-    public void testEclipseFailure() throws IOException {
+    public void testIntrospector() throws Exception {
         SomeBean someBean = new SomeBeanImpl("value1", "value2");
         Yaml dumper = new Yaml();
-        String output = dumper.dump(someBean);
-        // System.out.println(output);
-        assertEquals(
-                "!!org.yaml.snakeyaml.issues.issue50.SnakeyamlTest$SomeBeanImpl {attribute1: value1,\n  attribute2: value2}\n",
-                output);
+        try {
+            String output = dumper.dump(someBean);
+            // System.out.println(output);
+            assertEquals(
+                    "!!org.yaml.snakeyaml.issues.issue50.SnakeyamlTest$SomeBeanImpl {attribute1: value1,\n  attribute2: value2}\n",
+                    output);
+        } catch (Exception e) {
+            System.out
+                    .println("Unexpected result. Check issue 50. http://code.google.com/p/snakeyaml/issues/detail?id=50");
+            Properties props = System.getProperties();
+            for (Object key : new String[] { "java.runtime.name", "java.vm.version",
+                    "java.vm.vendor", "java.vm.name", "java.runtime.version", "os.version",
+                    "java.specification.version", "java.version" }) {
+                System.out.println(key.toString() + ": " + props.getProperty(key.toString()));
+            }
+        }
     }
 }

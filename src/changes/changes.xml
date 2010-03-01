@@ -8,6 +8,10 @@
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
 	        <action dev="py4fun" type="update">
+                Issue 50 is connected to problems reported in issue 1. Introspector.getBeanInfo() 
+                does not work as expected. Latest Sun JDKs work properly (2010-03-01)
+            </action>
+            <action dev="py4fun" type="update">
                 Format source (2010-03-01)
             </action>
             <action dev="py4fun" type="update">
