@@ -23,8 +23,8 @@ import org.yaml.snakeyaml.Yaml;
 public class TagsTest extends TestCase {
 
     public void testGetGlobalTagForClass() {
-        assertEquals(new Tag ("tag:yaml.org,2002:java.lang.String"), new Tag(String.class));
-        assertEquals(new Tag ("tag:yaml.org,2002:org.yaml.snakeyaml.nodes.TagsTest"), new Tag(
+        assertEquals(new Tag("tag:yaml.org,2002:java.lang.String"), new Tag(String.class));
+        assertEquals(new Tag("tag:yaml.org,2002:org.yaml.snakeyaml.nodes.TagsTest"), new Tag(
                 TagsTest.class));
     }
 

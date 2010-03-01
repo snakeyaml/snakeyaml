@@ -31,7 +31,8 @@ public class PyReaderTest extends PyImportTest {
     public void testReaderUnicodeErrors() throws IOException {
         File[] inputs = getStreamsByExtension(".stream-error");
         for (int i = 0; i < inputs.length; i++) {
-            StreamReader stream = new StreamReader(new UnicodeReader(new FileInputStream(inputs[i])));
+            StreamReader stream = new StreamReader(
+                    new UnicodeReader(new FileInputStream(inputs[i])));
             try {
                 while (stream.peek() != '\u0000') {
                     stream.forward();

@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * test issue 50. XStream can get the JavaBean properties.
+ * test issue 50. Eclipse fails to get a property.
  */
 public class SnakeyamlTest extends TestCase {
     public static interface SomeBean {
@@ -65,12 +65,11 @@ public class SnakeyamlTest extends TestCase {
         }
     }
 
-    public void test1() throws IOException {
+    public void testEclipseFailure() throws IOException {
         SomeBean someBean = new SomeBeanImpl("value1", "value2");
         Yaml dumper = new Yaml();
-        // final JavaBeanDumper dumper = new JavaBeanDumper();
         String output = dumper.dump(someBean);
-        System.out.println(output);
+        // System.out.println(output);
         assertEquals(
                 "!!org.yaml.snakeyaml.issues.issue50.SnakeyamlTest$SomeBeanImpl {attribute1: value1,\n  attribute2: value2}\n",
                 output);

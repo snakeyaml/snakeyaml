@@ -62,8 +62,7 @@ public class SerializerTest extends TestCase {
         serializer.open();
         serializer.close();
         try {
-            serializer
-                    .serialize(new ScalarNode(new Tag ("!foo"), "bar", null, null, (char) 0));
+            serializer.serialize(new ScalarNode(new Tag("!foo"), "bar", null, null, (char) 0));
             fail();
         } catch (RuntimeException e) {
             assertEquals("serializer is closed", e.getMessage());
@@ -87,8 +86,7 @@ public class SerializerTest extends TestCase {
 
     public void testSerializerIsNotOpened2() throws IOException {
         try {
-            serializer
-                    .serialize(new ScalarNode(new Tag ("!foo"), "bar", null, null, (char) 0));
+            serializer.serialize(new ScalarNode(new Tag("!foo"), "bar", null, null, (char) 0));
             fail();
         } catch (RuntimeException e) {
             assertEquals("serializer is not opened", e.getMessage());

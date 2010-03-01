@@ -24,7 +24,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 public class ResolverTupleTest extends TestCase {
 
     public void testToString() {
-        ResolverTuple tuple = new ResolverTuple(new Tag ("dice"), Pattern.compile("\\d+"));
+        ResolverTuple tuple = new ResolverTuple(new Tag("dice"), Pattern.compile("\\d+"));
         assertEquals("Tuple tag=dice regexp=\\d+", tuple.toString());
     }
 }

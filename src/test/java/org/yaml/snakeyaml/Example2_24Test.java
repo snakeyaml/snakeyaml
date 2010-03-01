@@ -40,13 +40,12 @@ import org.yaml.snakeyaml.representer.Representer;
 public class Example2_24Test extends TestCase {
     class MyConstructor extends Constructor {
         public MyConstructor() {
-            this.yamlConstructors.put(new Tag ("tag:clarkevans.com,2002:shape"),
+            this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:shape"),
                     new ConstructShape());
-            this.yamlConstructors.put(new Tag ("tag:clarkevans.com,2002:circle"),
+            this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:circle"),
                     new ConstructCircle());
-            this.yamlConstructors.put(new Tag ("tag:clarkevans.com,2002:line"),
-                    new ConstructLine());
-            this.yamlConstructors.put(new Tag ("tag:clarkevans.com,2002:label"),
+            this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:line"), new ConstructLine());
+            this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:label"),
                     new ConstructLabel());
         }
 
@@ -106,7 +105,7 @@ public class Example2_24Test extends TestCase {
             public Node representData(Object data) {
                 Shape shape = (Shape) data;
                 List<Entity> value = shape.getEntities();
-                return representSequence(new Tag ("!shape"), value, Boolean.FALSE);
+                return representSequence(new Tag("!shape"), value, Boolean.FALSE);
             }
         }
 
@@ -116,7 +115,7 @@ public class Example2_24Test extends TestCase {
                 Map<String, Object> map = new TreeMap<String, Object>();
                 map.put("center", circle.getCenter());
                 map.put("radius", circle.getRadius());
-                return representMapping(new Tag ("!circle"), map, Boolean.FALSE);
+                return representMapping(new Tag("!circle"), map, Boolean.FALSE);
             }
         }
 
@@ -126,7 +125,7 @@ public class Example2_24Test extends TestCase {
                 Map<String, Object> map = new TreeMap<String, Object>();
                 map.put("start", line.getStart());
                 map.put("finish", line.getFinish());
-                return representMapping(new Tag ("!line"), map, Boolean.FALSE);
+                return representMapping(new Tag("!line"), map, Boolean.FALSE);
             }
         }
 
@@ -137,7 +136,7 @@ public class Example2_24Test extends TestCase {
                 map.put("start", label.getStart());
                 map.put("color", new HexInteger(label.getColor()));
                 map.put("text", label.getText());
-                return representMapping(new Tag ("!label"), map, Boolean.FALSE);
+                return representMapping(new Tag("!label"), map, Boolean.FALSE);
             }
         }
 

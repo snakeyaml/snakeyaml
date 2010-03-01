@@ -304,7 +304,7 @@ public class HumanTest extends TestCase {
             // check if type descriptor was correct
             assertSame(Human.class, child.getClass());
         }
-        
+
         validateSet(children2);
     }
 
@@ -337,7 +337,7 @@ public class HumanTest extends TestCase {
         assertSame(father2, firstChild.getMother().getPartner());
 
         assertSame(father2.getPartner().getChildren(), children2);
-        
+
         validateMapKeys(children2);
     }
 
@@ -461,8 +461,10 @@ public class HumanTest extends TestCase {
     }
 
     /**
-     * Checks if object was put into the set after full construction. So the hashCode
-     * was calculated correctly (if it depends on internal object's state).
+     * Checks if object was put into the set after full construction. So the
+     * hashCode was calculated correctly (if it depends on internal object's
+     * state).
+     * 
      * @param set
      */
     private void validateSet(Set<?> set) {
@@ -472,11 +474,13 @@ public class HumanTest extends TestCase {
     }
 
     /**
-     * Checks if object was put into the map as key after full construction. So the hashCode
-     * was calculated correctly (if it depends on internal object's state).
+     * Checks if object was put into the map as key after full construction. So
+     * the hashCode was calculated correctly (if it depends on internal object's
+     * state).
+     * 
      * @param map
      */
-    private void validateMapKeys(Map<?,?> map) {
+    private void validateMapKeys(Map<?, ?> map) {
         for (Map.Entry<?, ?> entry : map.entrySet()) {
             assertTrue(map.containsKey(entry.getKey()));
         }

@@ -62,7 +62,7 @@ public class PrefixConstructorTest extends TestCase {
             this.yamlMultiConstructors.put(prefix, new PrefixConstruct(prefix,
                     CustomConstructor.this));
             this.yamlConstructors.put(null, new ConstructUnknown(CustomConstructor.this));
-            this.yamlConstructors.put(new Tag ("!org.yaml.Exact"), new ExactConstruct(
+            this.yamlConstructors.put(new Tag("!org.yaml.Exact"), new ExactConstruct(
                     CustomConstructor.this));
         }
     }

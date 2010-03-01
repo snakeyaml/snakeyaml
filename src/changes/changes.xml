@@ -8,6 +8,9 @@
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
 	        <action dev="py4fun" type="update">
+                Format source (2010-03-01)
+            </action>
+            <action dev="py4fun" type="update">
                 Use Token.ID and Event.ID instead of just ID (2010-03-01)
             </action>
             <action dev="py4fun" type="update">
