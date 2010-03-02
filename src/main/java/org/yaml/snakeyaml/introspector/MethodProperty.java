@@ -57,6 +57,7 @@ public class MethodProperty extends Property {
     @Override
     public Object get(Object object) {
         try {
+            property.getReadMethod().setAccessible(true);// issue 50
             return property.getReadMethod().invoke(object);
         } catch (Exception e) {
             throw new YAMLException("Unable to find getter for property '" + property.getName()
