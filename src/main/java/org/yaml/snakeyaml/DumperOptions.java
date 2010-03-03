@@ -240,17 +240,17 @@ public class DumperOptions {
     }
 
     /**
-     * Force the emitter to produce a pretty YAML document when using the flow style.
-     *
-     * @param  prettyFlow  true produce pretty flow YAML document
+     * Force the emitter to produce a pretty YAML document when using the flow
+     * style.
+     * 
+     * @param prettyFlow
+     *            true produce pretty flow YAML document
      */
-    public void setPrettyFlow(boolean prettyFlow)
-    {
+    public void setPrettyFlow(boolean prettyFlow) {
         this.prettyFlow = prettyFlow;
     }
 
-    public boolean isPrettyFlow()
-    {
+    public boolean isPrettyFlow() {
         return this.prettyFlow;
     }
 

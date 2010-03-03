@@ -129,7 +129,7 @@ public final class Emitter {
     // Formatting details.
     private Boolean canonical;
     // pretty print flow by adding extra line breaks
-    private Boolean prettyFlow; 
+    private Boolean prettyFlow;
 
     private boolean allowUnicode;
     private int bestIndent;
@@ -181,8 +181,8 @@ public final class Emitter {
         openEnded = false;
 
         // Formatting details.
-        this.canonical    = opts.isCanonical();
-        this.prettyFlow   = opts.isPrettyFlow();
+        this.canonical = opts.isCanonical();
+        this.prettyFlow = opts.isPrettyFlow();
         this.allowUnicode = opts.isAllowUnicode();
         this.bestIndent = 2;
         if ((opts.getIndent() > MIN_INDENT) && (opts.getIndent() < MAX_INDENT)) {
@@ -427,13 +427,10 @@ public final class Emitter {
         writeIndicator("[", true, true, false);
         flowLevel++;
         increaseIndent(true, false);
-        
-        if (prettyFlow)
-        {
+        if (prettyFlow) {
             writeIndent();
         }
-
-       state = new ExpectFirstFlowSequenceItem();
+        state = new ExpectFirstFlowSequenceItem();
     }
 
     private class ExpectFirstFlowSequenceItem implements EmitterState {
@@ -442,8 +439,7 @@ public final class Emitter {
                 indent = indents.pop();
                 flowLevel--;
                 writeIndicator("]", false, false, false);
-                if (prettyFlow)
-                {
+                if (prettyFlow) {
                     writeIndent();
                 }
                 state = states.pop();
@@ -467,8 +463,7 @@ public final class Emitter {
                     writeIndent();
                 }
                 writeIndicator("]", false, false, false);
-                if (prettyFlow)
-                {
+                if (prettyFlow) {
                     writeIndent();
                 }
                 state = states.pop();
@@ -489,12 +484,9 @@ public final class Emitter {
         writeIndicator("{", true, true, false);
         flowLevel++;
         increaseIndent(true, false);
-
-        if (prettyFlow)
-        {
+        if (prettyFlow) {
             writeIndent();
         }
-
         state = new ExpectFirstFlowMappingKey();
     }
 
@@ -503,8 +495,7 @@ public final class Emitter {
             if (event instanceof MappingEndEvent) {
                 indent = indents.pop();
                 flowLevel--;
-                if (prettyFlow)
-                {
+                if (prettyFlow) {
                     writeIndent();
                 }
                 writeIndicator("}", false, false, false);
@@ -534,8 +525,7 @@ public final class Emitter {
                     writeIndicator(",", false, false, false);
                     writeIndent();
                 }
-                if (prettyFlow)
-                {
+                if (prettyFlow) {
                     writeIndent();
                 }
                 writeIndicator("}", false, false, false);

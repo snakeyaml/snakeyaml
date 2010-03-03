@@ -79,7 +79,7 @@ public class HumanTest extends TestCase {
         father.setPartner(mother);
         mother.setPartner(father);
         mother.setBankAccountOwner(father);
-        DumperOptions options= new DumperOptions();
+        DumperOptions options = new DumperOptions();
         options.setPrettyFlow(true);
         options.setDefaultFlowStyle(FlowStyle.FLOW);
         Yaml yaml = new Yaml(options);
@@ -164,7 +164,7 @@ public class HumanTest extends TestCase {
         // check if hashCode is correct
         validateSet(children2);
     }
-    
+
     public void testChildrenPretty() throws IOException {
         Human father = new Human();
         father.setName("Father");
@@ -202,7 +202,7 @@ public class HumanTest extends TestCase {
         father.setChildren(children);
         mother.setChildren(children);
         //
-        DumperOptions options=new DumperOptions();
+        DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.FLOW);
         options.setPrettyFlow(true);
         Yaml beanDumper = new Yaml(options);

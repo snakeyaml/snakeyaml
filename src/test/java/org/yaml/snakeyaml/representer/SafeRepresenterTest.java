@@ -114,6 +114,7 @@ public class SafeRepresenterTest extends TestCase {
         assertEquals("{'age': !!int '5', 'name': 'Ubuntu', 'list': [!!int '1', !!int '1']}\n",
                 output);
     }
+
     public void testStyle2Pretty() {
         List<Integer> list = new ArrayList<Integer>();
         list.add(new Integer(1));
@@ -128,7 +129,8 @@ public class SafeRepresenterTest extends TestCase {
         options.setPrettyFlow(true);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
-        assertEquals("{\n  'age': !!int '5',\n  'name': 'Ubuntu',\n  'list': [\n    !!int '1',\n    !!int '1']\n  \n}\n",
+        assertEquals(
+                "{\n  'age': !!int '5',\n  'name': 'Ubuntu',\n  'list': [\n    !!int '1',\n    !!int '1']\n  \n}\n",
                 output);
     }
 }
