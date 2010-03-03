@@ -65,6 +65,24 @@ public class EmitterTest extends TestCase {
         assertEquals(etalon, output);
     }
 
+    public void testWritePlainPretty()
+    {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(ScalarStyle.PLAIN);
+        options.setPrettyFlow(true);
+
+        String              folded = "0123456789 0123456789\n0123456789 0123456789";
+        Map<String, String> map    = new LinkedHashMap<String, String>();
+        map.put("aaa", folded);
+        map.put("bbb", "\nbla-bla");
+
+        Yaml   yaml   = new Yaml(options);
+        String output = yaml.dump(map);
+        String etalon =
+            "{\n  aaa: '0123456789 0123456789\n\n    0123456789 0123456789',\n  bbb: '\n\n    bla-bla'\n}\n";
+        assertEquals(etalon, output);
+    }
+
     public void testWriteSingleQuoted() {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(ScalarStyle.SINGLE_QUOTED);

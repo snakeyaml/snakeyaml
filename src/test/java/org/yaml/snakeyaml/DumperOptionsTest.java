@@ -72,6 +72,12 @@ public class DumperOptionsTest extends TestCase {
         assertEquals("[1, 2, 3]\n", yaml.dump(list));
         //
         options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
+        options.setPrettyFlow(true);
+        yaml = new Yaml(options);
+        assertEquals("[\n  1,\n  2,\n  3]\n", yaml.dump(list));
+        //
+        options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         yaml = new Yaml(options);
         assertEquals("- 1\n- 2\n- 3\n", yaml.dump(list));
@@ -93,7 +99,8 @@ public class DumperOptionsTest extends TestCase {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("a", "b");
         map.put("c", list);
-        assertEquals("a: b\nc: [1, 2, 3]\n", yaml.dump(map));
+        String result=yaml.dump(map);
+        assertEquals("a: b\nc: [1, 2, 3]\n", result);
         //
         DumperOptions options = new DumperOptions();
         options = new DumperOptions();
@@ -102,6 +109,13 @@ public class DumperOptionsTest extends TestCase {
         assertEquals("{a: b, c: [1, 2, 3]}\n", yaml.dump(map));
         //
         options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
+        options.setPrettyFlow(true);
+        yaml = new Yaml(options);
+        result=yaml.dump(map);
+        assertEquals("{\n  a: b,\n  c: [\n    1,\n    2,\n    3]\n  \n}\n", result);
+        //
+       options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         yaml = new Yaml(options);
         assertEquals("a: b\nc:\n- 1\n- 2\n- 3\n", yaml.dump(map));

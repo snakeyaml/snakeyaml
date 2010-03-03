@@ -1,0 +1,23 @@
+&id001 !!org.yaml.snakeyaml.recursive.Human {
+  bankAccountOwner: *id001,
+  birthPlace: Leningrad,
+  birthday: !!timestamp '1970-01-12T13:46:40Z',
+  children: !!set {
+    
+  },
+  father: null,
+  mother: null,
+  name: Father,
+  partner: {
+    bankAccountOwner: *id001,
+    birthPlace: Saint-Petersburg,
+    birthday: !!timestamp '1973-03-03T09:46:40Z',
+    children: !!set {
+      
+    },
+    father: null,
+    mother: null,
+    name: Mother,
+    partner: *id001
+  }
+}

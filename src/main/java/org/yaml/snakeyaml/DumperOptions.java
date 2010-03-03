@@ -166,6 +166,7 @@ public class DumperOptions {
     private Tag explicitRoot = null;
     private Version version = null;
     private Map<String, String> tags = null;
+    private Boolean prettyFlow = false;
 
     public boolean isAllowUnicode() {
         return allowUnicode;
@@ -236,6 +237,21 @@ public class DumperOptions {
 
     public boolean isCanonical() {
         return this.canonical;
+    }
+
+    /**
+     * Force the emitter to produce a pretty YAML document when using the flow style.
+     *
+     * @param  prettyFlow  true produce pretty flow YAML document
+     */
+    public void setPrettyFlow(boolean prettyFlow)
+    {
+        this.prettyFlow = prettyFlow;
+    }
+
+    public boolean isPrettyFlow()
+    {
+        return this.prettyFlow;
     }
 
     /**

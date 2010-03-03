@@ -19,6 +19,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 public class StringArrayTest extends TestCase {
@@ -28,6 +29,19 @@ public class StringArrayTest extends TestCase {
         Yaml yaml = new Yaml();
         String output = yaml.dump(a);
         assertEquals("!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [aaa, bbb, ccc]\n",
+                output);
+        A b = (A) yaml.load(output);
+        assertTrue(Arrays.equals(a.getNames(), b.getNames()));
+    }
+    
+    public void testStringsPretty() {
+        A a = new A();
+        a.setNames(new String[] { "aaa", "bbb", "ccc" });
+        DumperOptions options = new DumperOptions();
+        options.setPrettyFlow(true);
+        Yaml yaml = new Yaml(options);
+        String output = yaml.dump(a);
+        assertEquals("!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [\n  aaa,\n  bbb,\n  ccc]\n",
                 output);
         A b = (A) yaml.load(output);
         assertTrue(Arrays.equals(a.getNames(), b.getNames()));

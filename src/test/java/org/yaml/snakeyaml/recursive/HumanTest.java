@@ -28,12 +28,14 @@ import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class HumanTest extends TestCase {
@@ -54,6 +56,35 @@ public class HumanTest extends TestCase {
         Yaml yaml = new Yaml();
         String output = yaml.dump(father);
         String etalon = Util.getLocalResource("recursive/no-children-1.yaml");
+        assertEquals(etalon, output);
+        //
+        Human father2 = (Human) yaml.load(output);
+        assertNotNull(father2);
+        assertEquals("Father", father2.getName());
+        assertEquals("Mother", father2.getPartner().getName());
+        assertEquals("Father", father2.getBankAccountOwner().getName());
+        assertSame(father2, father2.getBankAccountOwner());
+    }
+
+    public void testNoChildrenPretty() throws IOException {
+        Human father = new Human();
+        father.setName("Father");
+        father.setBirthday(new Date(1000000000));
+        father.setBirthPlace("Leningrad");
+        father.setBankAccountOwner(father);
+        Human mother = new Human();
+        mother.setName("Mother");
+        mother.setBirthday(new Date(100000000000L));
+        mother.setBirthPlace("Saint-Petersburg");
+        father.setPartner(mother);
+        mother.setPartner(father);
+        mother.setBankAccountOwner(father);
+        DumperOptions options= new DumperOptions();
+        options.setPrettyFlow(true);
+        options.setDefaultFlowStyle(FlowStyle.FLOW);
+        Yaml yaml = new Yaml(options);
+        String output = yaml.dump(father);
+        String etalon = Util.getLocalResource("recursive/no-children-1-pretty.yaml");
         assertEquals(etalon, output);
         //
         Human father2 = (Human) yaml.load(output);
@@ -105,6 +136,79 @@ public class HumanTest extends TestCase {
         String output = beanDumper.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children.yaml");
+        assertEquals(etalon, output);
+        TypeDescription humanDescription = new TypeDescription(Human.class);
+        humanDescription.putMapPropertyType("children", Human.class, Object.class);
+        JavaBeanLoader<Human> beanLoader = new JavaBeanLoader<Human>(humanDescription);
+        //
+        Human son2 = beanLoader.load(output);
+        assertNotNull(son2);
+        assertEquals("Son", son.getName());
+
+        Human father2 = son2.getFather();
+        assertEquals("Father", father2.getName());
+        assertEquals("Mother", son2.getMother().getName());
+        assertSame(father2, father2.getBankAccountOwner());
+        assertSame(father2.getPartner(), son2.getMother());
+        assertSame(father2, son2.getMother().getPartner());
+
+        Set<Human> children2 = father2.getChildren();
+        assertEquals(2, children2.size());
+        assertSame(father2.getPartner().getChildren(), children2);
+
+        for (Object child : children2) {
+            // check if type descriptor was correct
+            assertSame(Human.class, child.getClass());
+        }
+
+        // check if hashCode is correct
+        validateSet(children2);
+    }
+    
+    public void testChildrenPretty() throws IOException {
+        Human father = new Human();
+        father.setName("Father");
+        father.setBirthday(new Date(1000000000));
+        father.setBirthPlace("Leningrad");
+        father.setBankAccountOwner(father);
+        //
+        Human mother = new Human();
+        mother.setName("Mother");
+        mother.setBirthday(new Date(100000000000L));
+        mother.setBirthPlace("Saint-Petersburg");
+        father.setPartner(mother);
+        mother.setPartner(father);
+        mother.setBankAccountOwner(father);
+        //
+        Human son = new Human();
+        son.setName("Son");
+        son.setBirthday(new Date(310000000000L));
+        son.setBirthPlace("Munich");
+        son.setBankAccountOwner(father);
+        son.setFather(father);
+        son.setMother(mother);
+        //
+        Human daughter = new Human();
+        daughter.setName("Daughter");
+        daughter.setBirthday(new Date(420000000000L));
+        daughter.setBirthPlace("New York");
+        daughter.setBankAccountOwner(father);
+        daughter.setFather(father);
+        daughter.setMother(mother);
+        //
+        Set<Human> children = new LinkedHashSet<Human>(2);
+        children.add(son);
+        children.add(daughter);
+        father.setChildren(children);
+        mother.setChildren(children);
+        //
+        DumperOptions options=new DumperOptions();
+        options.setDefaultFlowStyle(FlowStyle.FLOW);
+        options.setPrettyFlow(true);
+        Yaml beanDumper = new Yaml(options);
+        String output = beanDumper.dump(son);
+        // System.out.println(output);
+        String etalon = Util.getLocalResource("recursive/with-children-pretty.yaml");
         assertEquals(etalon, output);
         TypeDescription humanDescription = new TypeDescription(Human.class);
         humanDescription.putMapPropertyType("children", Human.class, Object.class);

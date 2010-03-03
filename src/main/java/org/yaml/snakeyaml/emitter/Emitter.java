@@ -128,6 +128,9 @@ public final class Emitter {
 
     // Formatting details.
     private Boolean canonical;
+    // pretty print flow by adding extra line breaks
+    private Boolean prettyFlow; 
+
     private boolean allowUnicode;
     private int bestIndent;
     private int bestWidth;
@@ -178,7 +181,8 @@ public final class Emitter {
         openEnded = false;
 
         // Formatting details.
-        this.canonical = opts.isCanonical();
+        this.canonical    = opts.isCanonical();
+        this.prettyFlow   = opts.isPrettyFlow();
         this.allowUnicode = opts.isAllowUnicode();
         this.bestIndent = 2;
         if ((opts.getIndent() > MIN_INDENT) && (opts.getIndent() < MAX_INDENT)) {
@@ -423,7 +427,13 @@ public final class Emitter {
         writeIndicator("[", true, true, false);
         flowLevel++;
         increaseIndent(true, false);
-        state = new ExpectFirstFlowSequenceItem();
+        
+        if (prettyFlow)
+        {
+            writeIndent();
+        }
+
+       state = new ExpectFirstFlowSequenceItem();
     }
 
     private class ExpectFirstFlowSequenceItem implements EmitterState {
@@ -432,9 +442,13 @@ public final class Emitter {
                 indent = indents.pop();
                 flowLevel--;
                 writeIndicator("]", false, false, false);
+                if (prettyFlow)
+                {
+                    writeIndent();
+                }
                 state = states.pop();
             } else {
-                if (canonical || column > bestWidth) {
+                if (canonical || column > bestWidth || prettyFlow) {
                     writeIndent();
                 }
                 states.push(new ExpectFlowSequenceItem());
@@ -453,10 +467,14 @@ public final class Emitter {
                     writeIndent();
                 }
                 writeIndicator("]", false, false, false);
+                if (prettyFlow)
+                {
+                    writeIndent();
+                }
                 state = states.pop();
             } else {
                 writeIndicator(",", false, false, false);
-                if (canonical || column > bestWidth) {
+                if (canonical || column > bestWidth || prettyFlow) {
                     writeIndent();
                 }
                 states.push(new ExpectFlowSequenceItem());
@@ -471,6 +489,12 @@ public final class Emitter {
         writeIndicator("{", true, true, false);
         flowLevel++;
         increaseIndent(true, false);
+
+        if (prettyFlow)
+        {
+            writeIndent();
+        }
+
         state = new ExpectFirstFlowMappingKey();
     }
 
@@ -479,10 +503,14 @@ public final class Emitter {
             if (event instanceof MappingEndEvent) {
                 indent = indents.pop();
                 flowLevel--;
+                if (prettyFlow)
+                {
+                    writeIndent();
+                }
                 writeIndicator("}", false, false, false);
                 state = states.pop();
             } else {
-                if (canonical || column > bestWidth) {
+                if (canonical || column > bestWidth || prettyFlow) {
                     writeIndent();
                 }
                 if (!canonical && checkSimpleKey()) {
@@ -506,11 +534,15 @@ public final class Emitter {
                     writeIndicator(",", false, false, false);
                     writeIndent();
                 }
+                if (prettyFlow)
+                {
+                    writeIndent();
+                }
                 writeIndicator("}", false, false, false);
                 state = states.pop();
             } else {
                 writeIndicator(",", false, false, false);
-                if (canonical || column > bestWidth) {
+                if (canonical || column > bestWidth || prettyFlow) {
                     writeIndent();
                 }
                 if (!canonical && checkSimpleKey()) {
@@ -535,7 +567,7 @@ public final class Emitter {
 
     private class ExpectFlowMappingValue implements EmitterState {
         public void expect() throws IOException {
-            if (canonical || column > bestWidth) {
+            if (canonical || column > bestWidth || prettyFlow) {
                 writeIndent();
             }
             writeIndicator(":", true, false, false);
