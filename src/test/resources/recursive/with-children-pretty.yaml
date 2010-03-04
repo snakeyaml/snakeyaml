@@ -10,8 +10,7 @@
         birthPlace: New York,
         birthday: !!timestamp '1983-04-24T02:40:00Z',
         children: !!set {
-          
-        },
+          },
         father: *id001,
         mother: &id004 {
           bankAccountOwner: *id001,
@@ -36,8 +35,7 @@
   birthPlace: Munich,
   birthday: !!timestamp '1979-10-28T23:06:40Z',
   children: !!set {
-    
-  },
+    },
   father: *id001,
   mother: *id004,
   name: Son,

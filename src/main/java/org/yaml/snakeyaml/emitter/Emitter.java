@@ -439,9 +439,6 @@ public final class Emitter {
                 indent = indents.pop();
                 flowLevel--;
                 writeIndicator("]", false, false, false);
-                if (prettyFlow) {
-                    writeIndent();
-                }
                 state = states.pop();
             } else {
                 if (canonical || column > bestWidth || prettyFlow) {
@@ -495,9 +492,6 @@ public final class Emitter {
             if (event instanceof MappingEndEvent) {
                 indent = indents.pop();
                 flowLevel--;
-                if (prettyFlow) {
-                    writeIndent();
-                }
                 writeIndicator("}", false, false, false);
                 state = states.pop();
             } else {
