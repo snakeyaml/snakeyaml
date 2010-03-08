@@ -6,8 +6,8 @@
 	<version>1.7-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<name>SnakeYAML</name>
 	<description>YAML 1.1 parser and emitter for Java</description>
 	<inceptionYear>2008</inceptionYear>
@@ -58,8 +58,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
-  			<artifactId>velocity</artifactId>
-  			<version>1.6.2</version>
+			<artifactId>velocity</artifactId>
+			<version>1.6.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -236,11 +236,46 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<distributionManagement>
-		<repository>
-			<id>internal</id>
-			<name>SnakeYAML Repo</name>
-			<url>http://10.3.3.26:8080/archiva/repository/internal</url>
-		</repository>
-	</distributionManagement>
+	<profiles>
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.0-alpha-4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<distributionManagement>
+				<repository>
+					<id>oss.sonatype.org-releases</id>
+					<name>OSSRH Release Repository</name>
+					<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+				</repository>
+				<snapshotRepository>
+					<id>oss.sonatype.org-snapshots</id>
+					<name>OSSRH Snapshot Repository</name>
+					<url>http://oss.sonatype.org/content/repositories/snapshots/</url>
+					<uniqueVersion>false</uniqueVersion>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
+	</profiles>
 </project>
