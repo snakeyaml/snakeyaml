@@ -7,7 +7,10 @@
 	</properties>
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
-	        <action dev="obastard" type="fix" issue="53" due-to="obastard">
+	        <action dev="py4fun" type="fix" issue="56" due-to="DZeiss">
+                Make constructors in SafeConstructor public (2010-03-16)
+            </action>
+            <action dev="obastard" type="fix" issue="53" due-to="obastard">
                 Enhancement for a pretty format that combines BLOCK and FLOW (2010-03-03)
             </action>
             <action dev="py4fun" type="fix" issue="50" due-to="sualeh.fatehi">

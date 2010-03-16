@@ -1,0 +1,830 @@
+--- !de.oddb.org,2007/ODDB::Drugs::Product 
+oid: 1724265
+name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+  canonical: 
+    :de: ARGATRA  MITSUBISHI
+  synonyms: []
+
+company: !de.oddb.org,2007/ODDB::Business::Company 
+  oid: 1724276
+  name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+    canonical: 
+      :de: Mitsubishi Ph Dt. GmbH
+    synonyms: []
+
+sequences: 
+- !de.oddb.org,2007/ODDB::Drugs::Sequence 
+  oid: 1724267
+  codes: []
+
+  data_origins: 
+    :substance: zdavatz@ywesee.com
+    :atc: zdavatz@ywesee.com
+    :registration: zdavatz@ywesee.com
+  fachinfo_url: http://gripsdb.dimdi.de/amispb/doc/2162085-20050615/OBFM086D979C01C570B0.rtf
+  name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+    canonical: {}
+
+    synonyms: []
+
+  patinfo_url: http://gripsdb.dimdi.de/amispb/doc/2162085-20050615/OBFM6D3DDEAF01C570D8.rtf
+  atc: !de.oddb.org,2007/ODDB::Drugs::Atc 
+    oid: 2250
+    code: B01AE03
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :en: Argatroban
+        :de: Argatroban
+      synonyms: []
+
+  compositions: 
+  - !de.oddb.org,2007/ODDB::Drugs::Composition 
+    oid: 1724261
+    active_agents: 
+    - !de.oddb.org,2007/ODDB::Drugs::ActiveAgent 
+      oid: 1724263
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 250
+        unit: mg
+      substance: !de.oddb.org,2007/ODDB::Drugs::Substance 
+        oid: 1724260
+        codes: []
+
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: Argatroban
+          synonyms: []
+
+    parts: 
+    - &id002 !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 1724270
+      multi: 
+      quantity: 
+      size: 1
+      unit: &id001 !de.oddb.org,2007/ODDB::Drugs::Unit 
+        oid: 19094
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: Durchstechflasche
+          synonyms: []
+
+    - &id003 !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 1727992
+      multi: 
+      quantity: 
+      size: 1
+      unit: *id001
+  packages: 
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 1724271
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "3081565"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: true
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: zuzahlungsbefreit
+      value: false
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 
+    data_origins: 
+      :price_exfactory: hwyss@ywesee.com
+      :code_festbetragsgruppe: zdavatz@ywesee.com
+      :code_zuzahlungsbefreit: zdavatz@ywesee.com
+      :code_festbetragsstufe: zdavatz@ywesee.com
+      :size: hwyss@ywesee.com
+      :name: zdavatz@ywesee.com
+      :price_public: zdavatz@ywesee.com
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Argatra(R) 100 mg/ml Argatroban (N1)
+      synonyms: []
+
+    parts: 
+    - *id002
+    prices: 
+      public: 238.11
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 1727993
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: true
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: zuzahlungsbefreit
+      value: false
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "1022245"
+    data_origins: 
+      :price_exfactory: hwyss@ywesee.com
+      :code_festbetragsgruppe: zdavatz@ywesee.com
+      :code_zuzahlungsbefreit: zdavatz@ywesee.com
+      :code_festbetragsstufe: zdavatz@ywesee.com
+      :size: hwyss@ywesee.com
+      :code_cid: zdavatz@ywesee.com
+      :name: zdavatz@ywesee.com
+      :price_public: hwyss@ywesee.com
+      :code_prescription: zdavatz@ywesee.com
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Argatra(R) 100 mg/ml Argatroban (Klinikpackung)
+      synonyms: []
+
+    parts: 
+    - *id003
+    prices: 
+      exfactory: 158.0
+--- !de.oddb.org,2007/ODDB::Drugs::Product 
+oid: 1841680
+name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+  canonical: 
+    :de: ASTHMA BRONCHIALE  STAUFEN
+  synonyms: []
+
+company: !de.oddb.org,2007/ODDB::Business::Company 
+  oid: 1841686
+  name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+    canonical: 
+      :de: Staufen Pharma
+    synonyms: []
+
+sequences: 
+- !de.oddb.org,2007/ODDB::Drugs::Sequence 
+  oid: 1841675
+  codes: 
+  - !de.oddb.org,2007/ODDB::Util::Code 
+    country: EU
+    type: registration
+    value: 2510055.00.00
+  name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+    canonical: {}
+
+    synonyms: []
+
+  patinfo_url: http://gripsdb.dimdi.de/amispb/doc/2009/03/07/2510055/OBFME745B5B701C954E7.rtf
+  compositions: 
+  - !de.oddb.org,2007/ODDB::Drugs::Composition 
+    oid: 1841672
+    galenic_form: !de.oddb.org,2007/ODDB::Drugs::GalenicForm 
+      oid: 18210
+      codes: 
+      - !de.oddb.org,2007/ODDB::Util::Code 
+        country: DE
+        type: galenic_form
+        value: AMP
+      - !de.oddb.org,2007/ODDB::Util::Code 
+        country: DE
+        type: galenic_form
+        value: AMP1
+      description: !de.oddb.org,2007/ODDB::Util::Multilingual 
+        canonical: 
+          :de: Ampullen
+        synonyms: []
+
+    active_agents: 
+    - !de.oddb.org,2007/ODDB::Drugs::ActiveAgent 
+      oid: 1841674
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 1
+        unit: ml
+      substance: !de.oddb.org,2007/ODDB::Drugs::Substance 
+        oid: 1841670
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: Asthma-bronchiale-Nosode (Pot.-Angaben)
+          synonyms: []
+
+    parts: 
+    - &id001 !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 1841683
+      multi: 
+      size: 10
+      unit: !de.oddb.org,2007/ODDB::Drugs::Unit 
+        oid: 19684
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: Ampullen
+          synonyms: []
+
+  packages: 
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 1841684
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "4661796"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: false
+    data_origins: 
+      :price_public: :csv_product_infos
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Asthma Bronchiale Nosoden Ser. Ampullen
+      synonyms: []
+
+    parts: 
+    - *id001
+    prices: 
+      public: 15.3866
+--- !de.oddb.org,2007/ODDB::Drugs::Product 
+oid: 27823
+name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+  canonical: 
+    :de: Aarane
+  synonyms: []
+
+company: !de.oddb.org,2007/ODDB::Business::Company 
+  oid: 213595
+  name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+    canonical: 
+      :de: Sanofi-Aventis Dt. GmbH
+    synonyms: []
+
+sequences: 
+- !de.oddb.org,2007/ODDB::Drugs::Sequence 
+  oid: 27830
+  codes: 
+  - !de.oddb.org,2007/ODDB::Util::Code 
+    country: EU
+    type: registration
+    value: 3159.00.00
+  fachinfo_url: http://gripsdb.dimdi.de/amispb/doc/2009/02/27/2103159/OBFMDE81481A01C93A3F.rtf
+  name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+    canonical: {}
+
+    synonyms: []
+
+  patinfo_url: http://gripsdb.dimdi.de/amispb/doc/2009/02/27/2103159/OBFMDEDBE17601C93A3F.rtf
+  atc: !de.oddb.org,2007/ODDB::Drugs::Atc 
+    oid: 13239
+    code: R03AK05
+    ddd_guidelines: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: {}
+
+      synonyms: []
+
+    guidelines: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: {}
+
+      synonyms: []
+
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :en: Reproterol and Other Drugs for Obstructive Airway Diseases
+        :de: "Reproterol und andere Mittel bei obstruktiven Atemwegserkrankungen "
+      synonyms: []
+
+    ddds: []
+
+  compositions: 
+  - !de.oddb.org,2007/ODDB::Drugs::Composition 
+    oid: 27825
+    equivalence_factor: 0.25
+    galenic_form: !de.oddb.org,2007/ODDB::Drugs::GalenicForm 
+      oid: 18225
+      codes: 
+      - !de.oddb.org,2007/ODDB::Util::Code 
+        country: DE
+        type: galenic_form
+        value: DA
+      - !de.oddb.org,2007/ODDB::Util::Code 
+        country: DE
+        type: galenic_form
+        value: DA1
+      description: !de.oddb.org,2007/ODDB::Util::Multilingual 
+        canonical: 
+          :de: Dosieraerosol
+        synonyms: []
+
+    active_agents: 
+    - !de.oddb.org,2007/ODDB::Drugs::ActiveAgent 
+      oid: 27827
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 0.5
+        unit: mg
+      substance: !de.oddb.org,2007/ODDB::Drugs::Substance 
+        oid: 258913
+        codes: []
+
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: Reproterolhydrochlorid
+          synonyms: []
+
+    - !de.oddb.org,2007/ODDB::Drugs::ActiveAgent 
+      oid: 27828
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 1
+        unit: mg
+      substance: !de.oddb.org,2007/ODDB::Drugs::Substance 
+        oid: 258916
+        codes: []
+
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: Natriumcromoglicat (Ph.Eur.)
+          synonyms: []
+
+    parts: 
+    - &id001 !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 27834
+      multi: 
+      quantity: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 10
+        unit: ml
+      size: 1
+      unit: &id002 !de.oddb.org,2007/ODDB::Drugs::Unit 
+        oid: 27833
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: Dosieraerosol
+          synonyms: []
+
+  packages: 
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 27835
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "225437"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: "1"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 3
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: true
+    data_origins: 
+      :price_exfactory: :dimdi
+      :price_public: :dimdi
+      :price_festbetrag: :dimdi
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Aarane N Dos.-Aerosol
+      synonyms: []
+
+    parts: 
+    - *id001
+    prices: 
+      festbetrag: 41.63
+      exfactory: 27.483606557377
+      public: 41.63
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 27846
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "225443"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: "1"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 3
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: true
+    data_origins: 
+      :price_exfactory: :dimdi
+      :price_public: :dimdi
+      :price_festbetrag: :dimdi
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Aarane N Dos.-Aerosol
+      synonyms: []
+
+    parts: 
+    - !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 27845
+      multi: 
+      quantity: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 10
+        unit: ml
+      size: 2
+      unit: *id002
+    prices: 
+      festbetrag: 70.44
+      exfactory: 51.0983606557377
+      public: 70.44
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 27857
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "225466"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: "1"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 3
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: true
+    data_origins: 
+      :price_exfactory: :dimdi
+      :price_public: :dimdi
+      :price_festbetrag: :dimdi
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Aarane N Dos.-Aerosol
+      synonyms: []
+
+    parts: 
+    - !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 27856
+      multi: 
+      quantity: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 10
+        unit: ml
+      size: 3
+      unit: *id002
+    prices: 
+      festbetrag: 98.14
+      exfactory: 73.8032786885246
+      public: 98.14
+--- !de.oddb.org,2007/ODDB::Drugs::Product 
+oid: 123058
+name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+  canonical: 
+    :de: Ass Stada
+  synonyms: []
+
+company: !de.oddb.org,2007/ODDB::Business::Company 
+  oid: 213544
+  name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+    canonical: 
+      :de: Stadapharm GmbH
+    synonyms: []
+
+sequences: 
+- !de.oddb.org,2007/ODDB::Drugs::Sequence 
+  oid: 123064
+  atc: !de.oddb.org,2007/ODDB::Drugs::Atc 
+    oid: 10794
+    code: N02BA01
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :en: Acetylsalicylic Acid
+        :de: "Acetylsalicyls\xC3\xA4ure"
+      synonyms: []
+
+    ddds: 
+    - !de.oddb.org,2007/ODDB::Drugs::Ddd 
+      oid: 17503
+      administration: O
+      comment: 
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 3
+        unit: g
+    - !de.oddb.org,2007/ODDB::Drugs::Ddd 
+      oid: 17504
+      administration: P
+      comment: bezogen auf Lysinacetylsalicylat
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 1
+        unit: g
+    - !de.oddb.org,2007/ODDB::Drugs::Ddd 
+      oid: 17505
+      administration: R
+      comment: 
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 3
+        unit: g
+  compositions: 
+  - !de.oddb.org,2007/ODDB::Drugs::Composition 
+    oid: 123060
+    equivalence_factor: 500.0
+    galenic_form: &id004 !de.oddb.org,2007/ODDB::Drugs::GalenicForm 
+      oid: 18322
+      codes: 
+      - !de.oddb.org,2007/ODDB::Util::Code 
+        country: DE
+        type: galenic_form
+        value: TAB1
+      - !de.oddb.org,2007/ODDB::Util::Code 
+        country: DE
+        type: galenic_form
+        value: TABL
+      - !de.oddb.org,2007/ODDB::Util::Code 
+        country: DE
+        type: galenic_form
+        value: TABL1
+      - !de.oddb.org,2007/ODDB::Util::Code 
+        country: DE
+        type: galenic_form
+        value: TABL2
+      - !de.oddb.org,2007/ODDB::Util::Code 
+        country: DE
+        type: galenic_form
+        value: TABL3
+      description: !de.oddb.org,2007/ODDB::Util::Multilingual 
+        canonical: 
+          :de: Tabletten
+        synonyms: 
+        - Tablette
+      group: !de.oddb.org,2007/ODDB::Drugs::GalenicGroup 
+        oid: 18348
+        administration: O
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: Tabletten
+          synonyms: []
+
+    active_agents: 
+    - !de.oddb.org,2007/ODDB::Drugs::ActiveAgent 
+      oid: 123062
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 500
+        unit: mg
+      substance: &id005 !de.oddb.org,2007/ODDB::Drugs::Substance 
+        oid: 18991
+        codes: []
+
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: "Acetylsalicyls\xC3\xA4ure"
+          synonyms: 
+          - ASS
+        group: !de.oddb.org,2007/ODDB::Drugs::SubstanceGroup 
+          oid: 18993
+          name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+            canonical: 
+              :de: ASS / ASS-Puffer
+            synonyms: []
+
+    parts: 
+    - &id002 !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 123067
+      multi: 
+      size: 10
+      unit: &id001 !de.oddb.org,2007/ODDB::Drugs::Unit 
+        oid: 18979
+        name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+          canonical: 
+            :de: Tabletten
+          synonyms: []
+
+    - &id003 !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 166317
+      multi: 
+      size: 30
+      unit: *id001
+  packages: 
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 123068
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "3366167"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: "1"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 3
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: false
+    data_origins: 
+      :price_public: :dimdi
+      :price_festbetrag: :dimdi
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Ass Stada 500 Tabletten
+      synonyms: []
+
+    parts: 
+    - *id002
+    prices: 
+      festbetrag: 1.62
+      public: 1.34
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 166318
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "4860432"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: "1"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 3
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: false
+    data_origins: 
+      :price_public: :dimdi
+      :price_festbetrag: :dimdi
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Ass Stada 500 Tabletten
+      synonyms: []
+
+    parts: 
+    - *id003
+    prices: 
+      festbetrag: 3.45
+      public: 1.59
+- !de.oddb.org,2007/ODDB::Drugs::Sequence 
+  oid: 187618
+  codes: []
+
+  fachinfo_url: http://gripsdb.dimdi.de/amispb/doc/2007/10/20/2149897/OBFME354082201C79E74.rtf
+  name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+    canonical: {}
+
+    synonyms: []
+
+  patinfo_url: http://gripsdb.dimdi.de/amispb/doc/2007/10/20/2149897/OBFME3351D5E01C79E74.rtf
+  atc: !de.oddb.org,2007/ODDB::Drugs::Atc 
+    oid: 2160
+    code: B01AC06
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :en: Acetylsalicylic Acid
+        :de: "Acetylsalicyls\xC3\xA4ure"
+      synonyms: []
+
+    ddds: 
+    - !de.oddb.org,2007/ODDB::Drugs::Ddd 
+      oid: 16383
+      administration: O
+      comment: "unabh\xC3\xA4ngig von der Wirkst\xC3\xA4rke"
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 1
+        unit: ""
+  compositions: 
+  - !de.oddb.org,2007/ODDB::Drugs::Composition 
+    oid: 187614
+    equivalence_factor: 100.0
+    galenic_form: *id004
+    active_agents: 
+    - !de.oddb.org,2007/ODDB::Drugs::ActiveAgent 
+      oid: 187616
+      dose: !de.oddb.org,2007/ODDB::Drugs::Dose 
+        val: 100
+        unit: mg
+      substance: *id005
+    parts: 
+    - &id006 !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 187621
+      multi: 
+      size: 50
+      unit: *id001
+    - &id007 !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 187624
+      multi: 
+      size: 100
+      unit: *id001
+    - &id008 !de.oddb.org,2007/ODDB::Drugs::Part 
+      oid: 188222
+      multi: 
+      size: 20
+      unit: *id001
+  packages: 
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 187622
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "7382275"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: "1"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 3
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: false
+    data_origins: 
+      :price_public: :dimdi
+      :price_festbetrag: :dimdi
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Ass Stada 100 Tabletten
+      synonyms: []
+
+    parts: 
+    - *id006
+    prices: 
+      festbetrag: 2.64
+      public: 1.64
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 187625
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "7382281"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: "1"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 3
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: false
+    data_origins: 
+      :price_public: :dimdi
+      :price_festbetrag: :dimdi
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Ass Stada 100 Tabletten
+      synonyms: []
+
+    parts: 
+    - *id007
+    prices: 
+      festbetrag: 4.26
+      public: 2.87
+  - !de.oddb.org,2007/ODDB::Drugs::Package 
+    oid: 188223
+    codes: 
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: cid
+      value: "7394433"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsgruppe
+      value: "1"
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: festbetragsstufe
+      value: 3
+    - !de.oddb.org,2007/ODDB::Util::Code 
+      country: DE
+      type: prescription
+      value: false
+    data_origins: 
+      :price_public: :dimdi
+      :price_festbetrag: :dimdi
+    name: !de.oddb.org,2007/ODDB::Util::Multilingual 
+      canonical: 
+        :de: Ass Stada 100 Tabletten
+      synonyms: []
+
+    parts: 
+    - *id008
+    prices: 
+      festbetrag: 1.42
+      public: 1.14

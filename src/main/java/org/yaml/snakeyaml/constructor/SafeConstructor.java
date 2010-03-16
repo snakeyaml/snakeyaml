@@ -130,7 +130,7 @@ public class SafeConstructor extends BaseConstructor {
         super.constructSet2ndStep(node, set);
     }
 
-    private class ConstructYamlNull extends AbstractConstruct {
+    public class ConstructYamlNull extends AbstractConstruct {
         public Object construct(Node node) {
             constructScalar((ScalarNode) node);
             return null;
@@ -147,14 +147,14 @@ public class SafeConstructor extends BaseConstructor {
         BOOL_VALUES.put("off", Boolean.FALSE);
     }
 
-    private class ConstructYamlBool extends AbstractConstruct {
+    public class ConstructYamlBool extends AbstractConstruct {
         public Object construct(Node node) {
             String val = (String) constructScalar((ScalarNode) node);
             return BOOL_VALUES.get(val.toLowerCase());
         }
     }
 
-    private class ConstructYamlInt extends AbstractConstruct {
+    public class ConstructYamlInt extends AbstractConstruct {
         public Object construct(Node node) {
             String value = constructScalar((ScalarNode) node).toString().replaceAll("_", "");
             int sign = +1;
@@ -210,7 +210,7 @@ public class SafeConstructor extends BaseConstructor {
         return result;
     }
 
-    private class ConstructYamlFloat extends AbstractConstruct {
+    public class ConstructYamlFloat extends AbstractConstruct {
         public Object construct(Node node) {
             String value = constructScalar((ScalarNode) node).toString().replaceAll("_", "");
             int sign = +1;
@@ -242,7 +242,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private class ConstructYamlBinary extends AbstractConstruct {
+    public class ConstructYamlBinary extends AbstractConstruct {
         public Object construct(Node node) {
             byte[] decoded = Base64Coder.decode(constructScalar((ScalarNode) node).toString()
                     .toCharArray());
@@ -255,7 +255,7 @@ public class SafeConstructor extends BaseConstructor {
     private final static Pattern YMD_REGEXP = Pattern
             .compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)$");
 
-    protected class ConstructYamlTimestamp extends AbstractConstruct {
+    public class ConstructYamlTimestamp extends AbstractConstruct {
         private Calendar calendar;
 
         public Calendar getCalendar() {
@@ -323,7 +323,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private class ConstructYamlOmap extends AbstractConstruct {
+    public class ConstructYamlOmap extends AbstractConstruct {
         public Object construct(Node node) {
             // Note: we do not check for duplicate keys, because it's too
             // CPU-expensive.
@@ -357,7 +357,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     // Note: the same code as `construct_yaml_omap`.
-    private class ConstructYamlPairs extends AbstractConstruct {
+    public class ConstructYamlPairs extends AbstractConstruct {
         public Object construct(Node node) {
             // Note: we do not check for duplicate keys, because it's too
             // CPU-expensive.
@@ -389,7 +389,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private class ConstructYamlSet implements Construct {
+    public class ConstructYamlSet implements Construct {
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
                 return createDefaultSet();
@@ -408,13 +408,13 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private class ConstructYamlStr extends AbstractConstruct {
+    public class ConstructYamlStr extends AbstractConstruct {
         public Object construct(Node node) {
             return (String) constructScalar((ScalarNode) node);
         }
     }
 
-    private class ConstructYamlSeq implements Construct {
+    public class ConstructYamlSeq implements Construct {
         public Object construct(Node node) {
             SequenceNode seqNode = (SequenceNode) node;
             if (node.isTwoStepsConstruction()) {
@@ -434,7 +434,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private class ConstructYamlMap implements Construct {
+    public class ConstructYamlMap implements Construct {
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
                 return createDefaultMap();
@@ -453,7 +453,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    private static final class ConstructUndefined extends AbstractConstruct {
+    public static final class ConstructUndefined extends AbstractConstruct {
         public Object construct(Node node) {
             throw new ConstructorException(null, null,
                     "could not determine a constructor for the tag " + node.getTag(), node
