@@ -51,6 +51,6 @@ public class CodeBean {
 
     @Override
     public String toString() {
-        return "CODE: " + getValue();
+        return "CodeBean: " + getValue();
     }
 }
