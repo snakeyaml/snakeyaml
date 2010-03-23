@@ -7,7 +7,11 @@
 	</properties>
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
-	        <action dev="py4fun" type="fix" issue="56" due-to="DZeiss">
+	        <action dev="py4fun" type="fix" issue="58" due-to="jeff.caulfield">
+                JavaBeanDumper.dump throws NullPointerException on list property 
+                with null element (2010-03-23)
+            </action>
+            <action dev="py4fun" type="fix" issue="56" due-to="DZeiss">
                 Make constructors in SafeConstructor public (2010-03-16)
             </action>
             <action dev="obastard" type="fix" issue="53" due-to="obastard">

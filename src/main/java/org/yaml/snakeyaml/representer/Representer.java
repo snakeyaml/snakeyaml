@@ -187,7 +187,8 @@ public class Representer extends SafeRepresenter {
                 Iterator<Object> iter = memberList.iterator();
                 for (Node childNode : snode.getValue()) {
                     Object member = iter.next();
-                    if (t.equals(member.getClass()) && childNode.getNodeId() == NodeId.mapping) {
+                    if (member != null && t.equals(member.getClass())
+                            && childNode.getNodeId() == NodeId.mapping) {
                         childNode.setTag(Tag.MAP);
                     }
                 }
