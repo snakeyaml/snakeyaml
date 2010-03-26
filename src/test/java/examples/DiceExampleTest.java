@@ -91,11 +91,31 @@ public class DiceExampleTest extends TestCase {
         assertEquals(new Dice(8, 4), map.get("initial hit points"));
     }
 
+    // the tag must start with a digit
     @SuppressWarnings("unchecked")
     public void testImplicitResolver() throws IOException {
         Yaml yaml = new Yaml(new Loader(new DiceConstructor()), new Dumper(new DiceRepresenter(),
                 new DumperOptions()));
+        // the tag must start with a digit
         yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), "123456789");
+        // dump
+        Map<String, Dice> treasure = (Map<String, Dice>) new HashMap<String, Dice>();
+        treasure.put("treasure", new Dice(10, 20));
+        String output = yaml.dump(treasure);
+        assertEquals("{treasure: 10d20}\n", output);
+        // load
+        Object data = yaml.load("{damage: 5d10}");
+        Map<String, Dice> map = (Map<String, Dice>) data;
+        assertEquals(new Dice(5, 10), map.get("damage"));
+    }
+
+    // the tag may start with anything
+    @SuppressWarnings("unchecked")
+    public void testImplicitResolverWithNull() throws IOException {
+        Yaml yaml = new Yaml(new Loader(new DiceConstructor()), new Dumper(new DiceRepresenter(),
+                new DumperOptions()));
+        // the tag may start with anything
+        yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), null);
         // dump
         Map<String, Dice> treasure = (Map<String, Dice>) new HashMap<String, Dice>();
         treasure.put("treasure", new Dice(10, 20));
