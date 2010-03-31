@@ -1,0 +1,4 @@
+!!org.yaml.snakeyaml.issues.issue60.SkipBean
+listInt: [null, 1, 2, 3]
+listStr: [bar, null, foo, null]
+text: foo

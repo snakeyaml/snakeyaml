@@ -7,7 +7,10 @@
 	</properties>
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
-	        <action dev="py4fun" type="fix" issue="58" due-to="jeff.caulfield">
+	        <action dev="py4fun" type="fix" issue="60">
+                Provide example for skipping null and empty collections (2010-03-29)
+            </action>
+            <action dev="py4fun" type="fix" issue="58" due-to="jeff.caulfield">
                 JavaBeanDumper.dump throws NullPointerException on list property 
                 with null element (2010-03-23)
             </action>
