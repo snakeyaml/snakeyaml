@@ -227,6 +227,14 @@ public class Representer extends SafeRepresenter {
         }
     }
 
+    /**
+     * Get JavaBean properties to be serialised. The order is respected. This
+     * method may be overridden to provide custom property selection or order.
+     * 
+     * @param type
+     *            - JavaBean to inspect the properties
+     * @return properties to serialise
+     */
     protected Set<Property> getProperties(Class<? extends Object> type)
             throws IntrospectionException {
         Set<Property> properties = new TreeSet<Property>();

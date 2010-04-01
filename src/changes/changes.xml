@@ -7,7 +7,10 @@
 	</properties>
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
-	        <action dev="py4fun" type="fix" issue="60">
+	        <action dev="py4fun" type="fix" issue="59">
+                Provide an example for changing JavaBean properties order (2010-04-01)
+            </action>
+            <action dev="py4fun" type="fix" issue="60">
                 Provide example for skipping null and empty collections (2010-03-29)
             </action>
             <action dev="py4fun" type="fix" issue="58" due-to="jeff.caulfield">
