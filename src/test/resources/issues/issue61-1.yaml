@@ -1,0 +1,7 @@
+list:
+- !!org.yaml.snakeyaml.issues.issue61.GenericBeanTest$Bean
+  name: foo
+  number: 0
+- !!org.yaml.snakeyaml.issues.issue61.GenericBeanTest$Bean
+  name: bar
+  number: 3

@@ -7,7 +7,10 @@
 	</properties>
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
-	        <action dev="py4fun" type="fix" issue="59">
+	        <action dev="py4fun" type="fix" issue="61">
+                Fix: ClassCastException when dumping generic bean (2010-04-01)
+            </action>
+            <action dev="py4fun" type="fix" issue="59">
                 Provide an example for changing JavaBean properties order (2010-04-01)
             </action>
             <action dev="py4fun" type="fix" issue="60">

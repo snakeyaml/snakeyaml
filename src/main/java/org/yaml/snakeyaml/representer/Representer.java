@@ -21,6 +21,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -181,6 +182,10 @@ public class Representer extends SafeRepresenter {
         if (arguments != null) {
             if (node.getNodeId() == NodeId.sequence) {
                 // apply map tag where class is the same
+                if (arguments[0] instanceof TypeVariable) {
+                    // generic collections need the tag
+                    return;
+                }
                 Class<? extends Object> t = (Class<? extends Object>) arguments[0];
                 SequenceNode snode = (SequenceNode) node;
                 List<Object> memberList = (List<Object>) object;
