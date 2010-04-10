@@ -22,9 +22,11 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
+import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 
-public class GenericBeanTest extends TestCase {
+public class GenericListBeanTest extends TestCase {
+    @SuppressWarnings("unchecked")
     public void testGenericList() throws Exception {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         ListProvider<String> listProvider = new ListProvider<String>();
@@ -34,13 +36,14 @@ public class GenericBeanTest extends TestCase {
         // System.out.println(s);
         assertEquals("list:\n- foo\n- bar\n", s);
         // parse
-        // JavaBeanLoader<ListProvider> loader = new
-        // JavaBeanLoader<ListProvider>(ListProvider.class);
-        // ListProvider listProvider2 = loader.load(s);
-        // assertEquals("foo", listProvider2.getList().get(0));
-        // assertEquals("bar", listProvider2.getList().get(1));
+        JavaBeanLoader<ListProvider> loader = new JavaBeanLoader<ListProvider>(ListProvider.class);
+        ListProvider<String> listProvider2 = loader.load(s);
+        assertEquals("foo", listProvider2.getList().get(0));
+        assertEquals("bar", listProvider2.getList().get(1));
+        assertEquals(listProvider, listProvider2);
     }
 
+    @SuppressWarnings("unchecked")
     public void testGenericBean() throws Exception {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         ListProvider<Bean> listProvider = new ListProvider<Bean>();
@@ -55,6 +58,15 @@ public class GenericBeanTest extends TestCase {
         // System.out.println(s);
         String etalon = Util.getLocalResource("issues/issue61-1.yaml");
         assertEquals(etalon, s);
+        // parse
+        JavaBeanLoader<ListProvider> loader = new JavaBeanLoader<ListProvider>(ListProvider.class);
+        ListProvider listProvider2 = loader.load(s);
+        Bean foo2 = (Bean) listProvider2.getList().get(0);
+        assertEquals("foo", foo2.getName());
+        assertEquals(0, foo2.getNumber());
+        Bean bar2 = (Bean) listProvider2.getList().get(1);
+        assertEquals("bar", bar2.getName());
+        assertEquals(3, bar2.getNumber());
     }
 
     public static class ListProvider<T> {
@@ -66,6 +78,21 @@ public class GenericBeanTest extends TestCase {
 
         public void setList(List<T> list) {
             this.list = list;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof ListProvider) {
+                return list.equals(((ListProvider) obj).getList());
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return list.hashCode();
         }
     }
 
@@ -89,5 +116,4 @@ public class GenericBeanTest extends TestCase {
             this.number = number;
         }
     }
-
 }

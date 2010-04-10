@@ -1,0 +1,7 @@
+map:
+  foo: !!org.yaml.snakeyaml.issues.issue61.GenericMapBeanTest$Bean
+    name: foo
+    number: 0
+  bar: !!org.yaml.snakeyaml.issues.issue61.GenericMapBeanTest$Bean
+    name: bar
+    number: 3

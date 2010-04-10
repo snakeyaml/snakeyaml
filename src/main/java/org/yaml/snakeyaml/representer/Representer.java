@@ -179,13 +179,9 @@ public class Representer extends SafeRepresenter {
     @SuppressWarnings("unchecked")
     protected void checkGlobalTag(Property property, Node node, Object object) {
         Type[] arguments = property.getActualTypeArguments();
-        if (arguments != null) {
+        if (arguments != null && !(arguments[0] instanceof TypeVariable)) {
             if (node.getNodeId() == NodeId.sequence) {
                 // apply map tag where class is the same
-                if (arguments[0] instanceof TypeVariable) {
-                    // generic collections need the tag
-                    return;
-                }
                 Class<? extends Object> t = (Class<? extends Object>) arguments[0];
                 SequenceNode snode = (SequenceNode) node;
                 List<Object> memberList = (List<Object>) object;
