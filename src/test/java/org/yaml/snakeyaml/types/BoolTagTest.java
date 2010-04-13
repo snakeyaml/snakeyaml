@@ -19,8 +19,17 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.yaml.snakeyaml.Dumper;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Represent;
+import org.yaml.snakeyaml.representer.Representer;
+
 /**
- * @see http://yaml.org/type/int.html
+ * @see http://yaml.org/type/bool.html
  */
 public class BoolTagTest extends AbstractTest {
     public void testBool() throws IOException {
@@ -68,4 +77,57 @@ public class BoolTagTest extends AbstractTest {
         assertTrue(output, output.contains("boolean: true"));
     }
 
+    public void testBoolOutAsYes() throws IOException {
+        Yaml yaml = new Yaml(new Dumper(new BoolRepresenter("YES"), new DumperOptions()));
+        String output = yaml.dump(true);
+        assertEquals("YES\n", output);
+    }
+
+    /**
+     * test flow style
+     */
+    public void testBoolOutAsEmpty2() throws IOException {
+        Yaml yaml = new Yaml(new Dumper(new BoolRepresenter("on"), new DumperOptions()));
+        Map<String, Boolean> map = new HashMap<String, Boolean>();
+        map.put("aaa", false);
+        map.put("bbb", true);
+        String output = yaml.dump(map);
+        assertEquals("{aaa: false, bbb: on}\n", output);
+    }
+
+    /**
+     * test block style
+     */
+    public void testBoolOutAsEmpty3() throws IOException {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(FlowStyle.BLOCK);
+        Yaml yaml = new Yaml(new Dumper(new BoolRepresenter("True"), options));
+        Map<String, Boolean> map = new HashMap<String, Boolean>();
+        map.put("aaa", false);
+        map.put("bbb", true);
+        String output = yaml.dump(map);
+        assertEquals("aaa: false\nbbb: True\n", output);
+    }
+
+    private class BoolRepresenter extends Representer {
+        private String value;
+
+        public BoolRepresenter(String value) {
+            super();
+            this.value = value;
+            this.representers.put(Boolean.class, new RepresentBool());
+        }
+
+        private class RepresentBool implements Represent {
+            public Node representData(Object data) {
+                String v;
+                if (Boolean.TRUE.equals(data)) {
+                    v = value;
+                } else {
+                    v = "false";
+                }
+                return representScalar(Tag.BOOL, v);
+            }
+        }
+    }
 }
