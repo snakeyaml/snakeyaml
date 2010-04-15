@@ -236,13 +236,9 @@ public class Constructor extends SafeConstructor {
                 // keys can only be Strings
                 keyNode.setType(String.class);
                 String key = (String) constructObject(keyNode);
-                boolean isArray = false;
                 try {
                     Property property = getProperty(beanType, key);
                     valueNode.setType(property.getType());
-                    if (property.getType().isArray()) {
-                        isArray = true;
-                    }
                     TypeDescription memberDescription = typeDefinitions.get(beanType);
                     boolean typeDetected = false;
                     if (memberDescription != null) {
@@ -255,7 +251,6 @@ public class Constructor extends SafeConstructor {
                                 snode.setListType(memberType);
                                 typeDetected = true;
                             } else if (property.getType().isArray()) {
-                                isArray = true;
                                 snode.setListType(property.getType().getComponentType());
                                 typeDetected = true;
                             }
@@ -298,10 +293,6 @@ public class Constructor extends SafeConstructor {
                         }
                     }
                     Object value = constructObject(valueNode);
-                    if (isArray && value instanceof List) {
-                        List<Object> list = (List<Object>) value;
-                        value = list.toArray(createArray(property.getType()));
-                    }
                     property.set(object, value);
                 } catch (Exception e) {
                     throw new YAMLException("Cannot create property=" + key + " for JavaBean="
@@ -309,11 +300,6 @@ public class Constructor extends SafeConstructor {
                 }
             }
             return object;
-        }
-
-        @SuppressWarnings("unchecked")
-        private <T> T[] createArray(Class<T> type) {
-            return (T[]) Array.newInstance(type.getComponentType(), 0);
         }
 
         private Property getProperty(Class<? extends Object> type, String name)
@@ -535,14 +521,21 @@ public class Constructor extends SafeConstructor {
      * class is known. TODO make protected
      */
     private class ConstructSequence implements Construct {
+
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             SequenceNode snode = (SequenceNode) node;
-            if (List.class.isAssignableFrom(node.getType()) || node.getType().isArray()) {
+            if (List.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
                     return createDefaultList(snode.getValue().size());
                 } else {
                     return constructSequence(snode);
+                }
+            } else if (node.getType().isArray()) {
+                if (node.isTwoStepsConstruction()) {
+                    return createArray(node.getType(), snode.getValue().size());
+                } else {
+                    return constructArray(snode);
                 }
             } else {
                 // create immutable object
@@ -596,13 +589,16 @@ public class Constructor extends SafeConstructor {
         @SuppressWarnings("unchecked")
         public void construct2ndStep(Node node, Object object) {
             SequenceNode snode = (SequenceNode) node;
-            List<Object> list = (List<Object>) object;
-            if (List.class.isAssignableFrom(node.getType()) || node.getType().isArray()) {
+            if (List.class.isAssignableFrom(node.getType())) {
+                List<Object> list = (List<Object>) object;
                 constructSequenceStep2(snode, list);
+            } else if (node.getType().isArray()) {
+                constructArrayStep2(snode, object);
             } else {
                 throw new YAMLException("Immutable objects cannot be recursive.");
             }
         }
+
     }
 
     protected Class<?> getClassForNode(Node node) {

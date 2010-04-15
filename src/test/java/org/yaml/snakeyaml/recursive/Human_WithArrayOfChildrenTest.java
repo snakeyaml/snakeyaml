@@ -142,13 +142,13 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
         assertSame(father2.getPartner(), son2.getMother());
         assertSame(father2, son2.getMother().getPartner());
 
-        Human_WithArrayOfChildren[] children2 = father2.getChildren();
-        assertEquals(2, children2.length);
-        Human_WithArrayOfChildren[] fathersChildren = father2.getPartner().getChildren();
-        // TODO Daughter is lost assertEquals(2, fathersChildren.length);
-        // assertSame(father2.getPartner().getChildren(), children2);
+        Human_WithArrayOfChildren[] fathersChildren = father2.getChildren();
+        assertEquals(2, fathersChildren.length);
+        Human_WithArrayOfChildren[] mothersChildren = father2.getPartner().getChildren();
+        assertEquals(2, mothersChildren.length);
+        assertSame(mothersChildren, fathersChildren);
 
-        for (Object child : children2) {
+        for (Object child : fathersChildren) {
             // check if type descriptor was correct
             assertSame(Human_WithArrayOfChildren.class, child.getClass());
         }

@@ -15,7 +15,9 @@
  */
 package org.yaml.snakeyaml.constructor;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,7 +63,7 @@ public abstract class BaseConstructor {
     protected final Map<String, Construct> yamlMultiConstructors = new HashMap<String, Construct>();
 
     private Composer composer;
-    private final Map<Node, Object> constructedObjects;
+    protected final Map<Node, Object> constructedObjects;
     private final Set<Node> recursiveObjects;
     private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>> maps2fill;
     private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
@@ -218,6 +220,11 @@ public abstract class BaseConstructor {
     }
 
     @SuppressWarnings("unchecked")
+    protected <T> T[] createArray(Class<T> type, int size) {
+        return (T[]) Array.newInstance(type.getComponentType(), size);
+    }
+
+    @SuppressWarnings("unchecked")
     protected List<? extends Object> constructSequence(SequenceNode node) {
         List<Object> result;
         if (List.class.isAssignableFrom(node.getType()) && !node.getType().isInterface()) {
@@ -232,12 +239,26 @@ public abstract class BaseConstructor {
         }
         constructSequenceStep2(node, result);
         return result;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Object constructArray(SequenceNode node) {
+        return constructArrayStep2(node, createArray(node.getType(), node.getValue().size()));
     }
 
     protected void constructSequenceStep2(SequenceNode node, List<Object> list) {
         for (Node child : node.getValue()) {
             list.add(constructObject(child));
         }
+    }
+
+    protected Object constructArrayStep2(SequenceNode node, Object array) {
+        int index = 0;
+        for (Node child : node.getValue()) {
+            Array.set(array, index++, constructObject(child));
+        }
+        return array;
     }
 
     protected Map<Object, Object> createDefaultMap() {
