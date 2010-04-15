@@ -597,7 +597,7 @@ public class Constructor extends SafeConstructor {
         public void construct2ndStep(Node node, Object object) {
             SequenceNode snode = (SequenceNode) node;
             List<Object> list = (List<Object>) object;
-            if (List.class.isAssignableFrom(node.getType())) {
+            if (List.class.isAssignableFrom(node.getType()) || node.getType().isArray()) {
                 constructSequenceStep2(snode, list);
             } else {
                 throw new YAMLException("Immutable objects cannot be recursive.");
