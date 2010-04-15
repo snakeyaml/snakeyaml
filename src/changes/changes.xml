@@ -7,7 +7,14 @@
 	</properties>
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
-	        <action dev="py4fun" type="fix" issue="62">
+	        <action dev="py4fun" type="update">
+                Improve toString() method for Node. Since scalars cannot be recursive
+                they can be printed (2010-04-15)
+            </action>
+            <action dev="maslovalex" type="fix" issue="63" due-to="Udo">
+                Refactor the way arrays are constructed (2010-04-15)
+            </action>
+            <action dev="py4fun" type="fix" issue="62">
                 Add examples for dumping custom values for !!bool and !!null (2010-04-13)
             </action>
             <action dev="py4fun" type="fix" issue="61">

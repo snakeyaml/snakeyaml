@@ -18,7 +18,6 @@ package org.yaml.snakeyaml.constructor;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -521,7 +520,6 @@ public class Constructor extends SafeConstructor {
      * class is known. TODO make protected
      */
     private class ConstructSequence implements Construct {
-
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             SequenceNode snode = (SequenceNode) node;
@@ -598,7 +596,6 @@ public class Constructor extends SafeConstructor {
                 throw new YAMLException("Immutable objects cannot be recursive.");
             }
         }
-
     }
 
     protected Class<?> getClassForNode(Node node) {

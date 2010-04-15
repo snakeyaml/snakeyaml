@@ -17,7 +17,6 @@ package org.yaml.snakeyaml.constructor;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -242,7 +241,6 @@ public abstract class BaseConstructor {
 
     }
 
-    @SuppressWarnings("unchecked")
     protected Object constructArray(SequenceNode node) {
         return constructArrayStep2(node, createArray(node.getType(), node.getValue().size()));
     }

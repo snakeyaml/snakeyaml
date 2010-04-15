@@ -83,10 +83,14 @@ public class MappingNode extends CollectionNode {
         for (NodeTuple node : getValue()) {
             buf.append("{ key=");
             buf.append(node.getKeyNode());
-            buf.append("; value=Node<");
-            // to avoid overflow in case of recursive structures
-            buf.append(System.identityHashCode(node.getValueNode()));
-            buf.append("> }");
+            buf.append("; value=");
+            if (node.getValueNode() instanceof CollectionNode) {
+                // to avoid overflow in case of recursive structures
+                buf.append(System.identityHashCode(node.getValueNode()));
+            } else {
+                buf.append(node.toString());
+            }
+            buf.append(" }");
         }
         values = buf.toString();
         return "<" + this.getClass().getName() + " (tag=" + getTag() + ", values=" + values + ")>";

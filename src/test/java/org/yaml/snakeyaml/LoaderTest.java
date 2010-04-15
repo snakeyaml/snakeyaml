@@ -47,11 +47,9 @@ public class LoaderTest extends TestCase {
         assertEquals(Tag.INT, value.getTag());
         assertEquals("3", value.getValue());
         //
-        assertTrue(node
-                .toString()
-                .startsWith(
-                        "<org.yaml.snakeyaml.nodes.MappingNode (tag=tag:yaml.org,2002:map, values={ key=<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:str, value=abc)>; value=Node<"));
-        assertTrue(node.toString().endsWith("> })>"));
+        assertEquals(
+                "<org.yaml.snakeyaml.nodes.MappingNode (tag=tag:yaml.org,2002:map, values={ key=<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:str, value=abc)>; value=<NodeTuple keyNode=<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:str, value=abc)>; valueNode=<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:int, value=3)>> })>",
+                node.toString());
     }
 
     public void testCompose2() {
