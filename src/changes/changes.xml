@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
+		    <action dev="py4fun" type="fix" issue="64" due-to="maxim.moschko">
+                ClassCastException in Representer when working with ParameterizedType (2010-04-25)
+            </action>
 	        <action dev="py4fun" type="update">
                 Improve toString() method for Node. Since scalars cannot be recursive
                 they can be printed (2010-04-15)

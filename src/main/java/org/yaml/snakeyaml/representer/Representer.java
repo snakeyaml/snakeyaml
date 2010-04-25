@@ -21,7 +21,6 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -179,7 +178,7 @@ public class Representer extends SafeRepresenter {
     @SuppressWarnings("unchecked")
     protected void checkGlobalTag(Property property, Node node, Object object) {
         Type[] arguments = property.getActualTypeArguments();
-        if (arguments != null && !(arguments[0] instanceof TypeVariable)) {
+        if (arguments != null) {
             if (node.getNodeId() == NodeId.sequence) {
                 // apply map tag where class is the same
                 Class<? extends Object> t = (Class<? extends Object>) arguments[0];

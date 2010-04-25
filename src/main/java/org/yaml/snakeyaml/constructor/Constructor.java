@@ -21,7 +21,6 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -268,7 +267,7 @@ public class Constructor extends SafeConstructor {
                     if (!typeDetected && valueNode.getNodeId() != NodeId.scalar) {
                         // only if there is no explicit TypeDescription
                         Type[] arguments = property.getActualTypeArguments();
-                        if (arguments != null && !(arguments[0] instanceof TypeVariable)) {
+                        if (arguments != null) {
                             // TODO check non Java HotSpot(TM) Server VM
                             // type safe (generic) collection may contain the
                             // proper class

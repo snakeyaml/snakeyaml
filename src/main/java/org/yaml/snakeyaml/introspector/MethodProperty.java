@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,6 +38,7 @@ public class MethodProperty extends Property {
         property.getWriteMethod().invoke(object, value);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Type[] getActualTypeArguments() {
         if (List.class.isAssignableFrom(property.getPropertyType())
@@ -45,7 +47,13 @@ public class MethodProperty extends Property {
             if (property.getReadMethod().getGenericReturnType() instanceof ParameterizedType) {
                 ParameterizedType grt = (ParameterizedType) property.getReadMethod()
                         .getGenericReturnType();
-                return grt.getActualTypeArguments();
+                Type[] result = grt.getActualTypeArguments();
+                if (result == null || (result[0] instanceof TypeVariable)
+                        || (result[0] instanceof ParameterizedType)) {
+                    return null;
+                } else {
+                    return result;
+                }
             } else {
                 return null;
             }
