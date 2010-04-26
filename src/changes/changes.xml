@@ -7,7 +7,10 @@
 	</properties>
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
-		    <action dev="py4fun" type="fix" issue="64" due-to="maxim.moschko">
+		    <action dev="py4fun" type="add">
+                Add a test to see how stack trace is serialised (2010-04-27)
+            </action>
+            <action dev="py4fun" type="fix" issue="64" due-to="maxim.moschko">
                 ClassCastException in Representer when working with ParameterizedType (2010-04-25)
             </action>
 	        <action dev="py4fun" type="update">

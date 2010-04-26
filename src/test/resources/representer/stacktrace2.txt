@@ -1,0 +1,6 @@
+org.apache.commons.lang.UnhandledException@ while parsing a block mapping
+    at org.yaml.snakeyaml.parser.ParserImpl$ParseBlockMappingKey.produce(ParserImpl.java@575)
+    at org.yaml.snakeyaml.parser.ParserImpl.peekEvent(ParserImpl.java@162)
+    at org.yaml.snakeyaml.parser.ParserImpl.checkEvent(ParserImpl.java@147)
+    at org.yaml.snakeyaml.composer.Composer.composeMappingNode(Composer.java@227)
+    at org.yaml.snakeyaml.composer.Composer.composeNode(Composer.java@159)
