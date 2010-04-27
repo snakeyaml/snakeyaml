@@ -51,4 +51,18 @@ public class CustomResolverTest extends TestCase {
         assertTrue(map2.toString(), map2.containsKey(new Double(1.0)));
     }
 
+    public void testResolverSimpleInt() {
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        map.put("run_ID", "2010_03_31_101");
+        Yaml yaml = new Yaml(new Loader(), new Dumper(new DumperOptions()), new CustomIntResolver());
+        String output = yaml.dump(map);
+        // load
+        assertEquals("{run_ID: 2010_03_31_101}\n", output);
+        Map<Object, Object> parsed = (Map<Object, Object>) yaml.load(output);
+        assertEquals(map, parsed);
+        // check standard resolver
+        assertEquals("Standard resolver should quote the string", "{run_ID: '2010_03_31_101'}\n",
+                new Yaml().dump(map));
+    }
+
 }
