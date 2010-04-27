@@ -34,6 +34,9 @@ public class JavaBeanLoader<T> {
     private Loader loader;
 
     public JavaBeanLoader(TypeDescription typeDescription) {
+        if (typeDescription == null) {
+            throw new NullPointerException("TypeDescription must be provided.");
+        }
         Constructor constructor = new Constructor(typeDescription.getType());
         typeDescription.setRoot(true);
         constructor.addTypeDescription(typeDescription);

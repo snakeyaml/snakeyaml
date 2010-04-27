@@ -57,6 +57,12 @@ public class JavaBeanDumper {
     }
 
     public JavaBeanDumper(Representer representer, DumperOptions options) {
+        if (representer == null) {
+            throw new NullPointerException("Representer must be provided.");
+        }
+        if (options == null) {
+            throw new NullPointerException("DumperOptions must be provided.");
+        }
         this.options = options;
         this.representer = representer;
     }

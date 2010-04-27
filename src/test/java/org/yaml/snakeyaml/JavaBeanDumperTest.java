@@ -68,6 +68,24 @@ public class JavaBeanDumperTest extends TestCase {
                 output);
     }
 
+    public void testDumpObjectNullRepresenter() {
+        try {
+            new JavaBeanDumper(null, new DumperOptions());
+            fail();
+        } catch (NullPointerException e) {
+            assertEquals("Representer must be provided.", e.getMessage());
+        }
+    }
+
+    public void testDumpObjectNullOptions() {
+        try {
+            new JavaBeanDumper(new Representer(), null);
+            fail();
+        } catch (NullPointerException e) {
+            assertEquals("DumperOptions must be provided.", e.getMessage());
+        }
+    }
+
     public static class DumpBean {
         private String name;
         private int number;

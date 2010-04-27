@@ -64,6 +64,25 @@ public class JavaBeanLoaderTest extends TestCase {
         assertEquals("Test me.", parsed.getName());
     }
 
+    @SuppressWarnings("unchecked")
+    public void testLoaderNullClass() {
+        try {
+            new JavaBeanLoader<Bean>((Class) null);
+            fail();
+        } catch (NullPointerException e) {
+            assertEquals("Root type must be provided.", e.getMessage());
+        }
+    }
+
+    public void testLoaderNullTypeDescription() {
+        try {
+            new JavaBeanLoader<Bean>((TypeDescription) null);
+            fail();
+        } catch (NullPointerException e) {
+            assertEquals("TypeDescription must be provided.", e.getMessage());
+        }
+    }
+
     public static class Bean {
         private String name;
         private int id;
