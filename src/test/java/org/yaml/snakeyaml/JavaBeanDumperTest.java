@@ -20,6 +20,7 @@ import java.io.StringWriter;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.representer.Representer;
 
 public class JavaBeanDumperTest extends TestCase {
 
@@ -51,7 +52,20 @@ public class JavaBeanDumperTest extends TestCase {
         StringWriter buffer = new StringWriter();
         dumper.dump(bean, buffer);
         assertEquals("name: Name2\nnumber: 4\n", buffer.toString());
+    }
 
+    public void testDumpObject2() {
+        DumpBean bean = new DumpBean();
+        bean.setName("Name2");
+        bean.setNumber(4);
+        JavaBeanDumper dumper = new JavaBeanDumper(new Representer(), new DumperOptions());
+        StringWriter buffer = new StringWriter();
+        dumper.dump(bean, buffer);
+        assertEquals("!!org.yaml.snakeyaml.JavaBeanDumperTest$DumpBean {name: Name2, number: 4}\n",
+                buffer.toString());
+        String output = dumper.dump(bean);
+        assertEquals("!!org.yaml.snakeyaml.JavaBeanDumperTest$DumpBean {name: Name2, number: 4}\n",
+                output);
     }
 
     public static class DumpBean {
