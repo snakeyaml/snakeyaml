@@ -127,11 +127,14 @@ public class NullTagTest extends AbstractTest {
     private class NullRepresenter extends Representer {
         public NullRepresenter() {
             super();
+            // null representer is exceptional and it is stored as an instance
+            // variable.
             this.nullRepresenter = new RepresentNull();
         }
 
         private class RepresentNull implements Represent {
             public Node representData(Object data) {
+                // possible values are here http://yaml.org/type/null.html
                 return representScalar(Tag.NULL, "");
             }
         }

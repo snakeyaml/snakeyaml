@@ -48,8 +48,7 @@ public class MethodProperty extends Property {
                 ParameterizedType grt = (ParameterizedType) property.getReadMethod()
                         .getGenericReturnType();
                 Type[] result = grt.getActualTypeArguments();
-                if (result == null || (result[0] instanceof TypeVariable)
-                        || (result[0] instanceof ParameterizedType)) {
+                if (result[0] instanceof TypeVariable || result[0] instanceof ParameterizedType) {
                     return null;
                 } else {
                     return result;

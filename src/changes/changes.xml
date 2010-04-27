@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="1.7" date="in Mercurial" description="development">
+		    <action dev="py4fun" type="fix" issue="65" due-to="lerch.johannes">
+                Fix: add checks for null arguments for JavaBeanDumper (2010-04-27)
+            </action>
 		    <action dev="py4fun" type="add">
                 Add a test to see how stack trace is serialised (2010-04-27)
             </action>

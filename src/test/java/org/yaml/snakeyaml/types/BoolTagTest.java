@@ -118,6 +118,8 @@ public class BoolTagTest extends AbstractTest {
             this.representers.put(Boolean.class, new RepresentBool());
         }
 
+        // possible values are here http://yaml.org/type/bool.html
+        // y, Y, n, N should not be used
         private class RepresentBool implements Represent {
             public Node representData(Object data) {
                 String v;
