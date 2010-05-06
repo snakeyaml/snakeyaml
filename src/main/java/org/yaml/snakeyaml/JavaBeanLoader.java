@@ -45,7 +45,7 @@ public class JavaBeanLoader<T> {
         loader.setResolver(resolver);
     }
 
-    public JavaBeanLoader(Class<? extends T> clazz) {
+    public <S extends T> JavaBeanLoader(Class<S> clazz) {
         this(new TypeDescription(clazz));
     }
 
