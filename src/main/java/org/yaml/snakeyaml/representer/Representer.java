@@ -17,22 +17,17 @@
 package org.yaml.snakeyaml.representer;
 
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.introspector.FieldProperty;
-import org.yaml.snakeyaml.introspector.MethodProperty;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -45,29 +40,18 @@ import org.yaml.snakeyaml.nodes.Tag;
  * Represent JavaBeans
  */
 public class Representer extends SafeRepresenter {
-    private boolean allowReadOnlyProperties = true;
 
     public Representer() {
         this.representers.put(null, new RepresentJavaBean());
     }
 
     protected class RepresentJavaBean implements Represent {
-        private final Map<Class<? extends Object>, Set<Property>> propertiesCache = new HashMap<Class<? extends Object>, Set<Property>>();
-
         public Node representData(Object data) {
-            Set<Property> properties;
-            Class<? extends Object> clazz = data.getClass();
-            properties = propertiesCache.get(clazz);
-            if (properties == null) {
-                try {
-                    properties = getProperties(clazz);
-                    propertiesCache.put(clazz, properties);
-                } catch (IntrospectionException e) {
-                    throw new YAMLException(e);
-                }
+            try {
+                return representJavaBean(getProperties(data.getClass()), data);
+            } catch (IntrospectionException e) {
+                throw new YAMLException(e);
             }
-            Node node = representJavaBean(properties, data);
-            return node;
         }
     }
 
@@ -85,7 +69,7 @@ public class Representer extends SafeRepresenter {
      *            instance for Node
      * @return Node to get serialized
      */
-    protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {
+    protected MappingNode representJavaBean(Collection<Property> properties, Object javaBean) {
         List<NodeTuple> value = new ArrayList<NodeTuple>(properties.size());
         Tag tag;
         Tag customTag = classTags.get(javaBean.getClass());
@@ -237,28 +221,7 @@ public class Representer extends SafeRepresenter {
      */
     protected Set<Property> getProperties(Class<? extends Object> type)
             throws IntrospectionException {
-        Set<Property> properties = new TreeSet<Property>();
-        // add JavaBean getters
-        for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors())
-            if (property.getReadMethod() != null
-                    && (allowReadOnlyProperties || property.getWriteMethod() != null)
-                    && !property.getReadMethod().getName().equals("getClass")) {
-                properties.add(new MethodProperty(property));
-            }
-        // add public fields
-        for (Field field : type.getFields()) {
-            int modifiers = field.getModifiers();
-            if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers))
-                continue;
-            properties.add(new FieldProperty(field));
-        }
-        if (properties.isEmpty()) {
-            throw new YAMLException("No JavaBean properties found in " + type.getName());
-        }
-        return properties;
+        return getPropertyUtils().getProperties(type);
     }
 
-    public void setAllowReadOnlyProperties(boolean allowReadOnlyProperties) {
-        this.allowReadOnlyProperties = allowReadOnlyProperties;
-    }
 }

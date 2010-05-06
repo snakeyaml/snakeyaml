@@ -28,6 +28,7 @@ import java.util.Set;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -57,6 +58,7 @@ public abstract class BaseRepresenter {
     protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>();
     private final Set<Object> objectKeeper = new HashSet<Object>();
     protected Object objectToRepresent;
+    private PropertyUtils propertyUtils;
 
     public void represent(Serializer serializer, Object data) throws IOException {
         Node node = representData(data);
@@ -184,4 +186,16 @@ public abstract class BaseRepresenter {
     public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {
         this.defaultFlowStyle = defaultFlowStyle.getStyleBoolean();
     }
+
+    public void setPropertyUtils(PropertyUtils propertyUtils) {
+        this.propertyUtils = propertyUtils;
+    }
+
+    public final PropertyUtils getPropertyUtils() {
+        if (propertyUtils == null) {
+            propertyUtils = new PropertyUtils();
+        }
+        return propertyUtils;
+    }
+
 }

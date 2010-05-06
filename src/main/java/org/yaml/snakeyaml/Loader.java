@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.constructor.BaseConstructor;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.Event;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
@@ -47,6 +48,10 @@ public class Loader {
         this(new Constructor());
     }
 
+    public void setBeanAccess(BeanAccess beanAccess) {
+        constructor.getPropertyUtils().setBeanAccess(beanAccess);
+    }
+    
     public Object load(Reader io) {
         Composer composer = new Composer(new ParserImpl(new StreamReader(io)), resolver);
         constructor.setComposer(composer);

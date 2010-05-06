@@ -23,10 +23,14 @@ import org.yaml.snakeyaml.error.YAMLException;
 public class MethodProperty extends GenericProperty {
 	
     private final PropertyDescriptor property;
+    private final boolean readable;
+    private final boolean writable;
 
     public MethodProperty(PropertyDescriptor property) {
         super(property.getName(), property.getPropertyType(), property.getReadMethod() == null ? null : property.getReadMethod().getGenericReturnType());
         this.property = property;
+        this.readable = property.getReadMethod() != null;
+        this.writable = property.getWriteMethod() != null;
     }
    
     @Override
@@ -44,4 +48,15 @@ public class MethodProperty extends GenericProperty {
                     + "' on object " + object + ":" + e);
         }
     }
+
+    @Override
+    public boolean isWritable() {
+        return writable;
+    }
+    
+    @Override
+    public boolean isReadable() {
+        return readable;
+    }
+    
 }

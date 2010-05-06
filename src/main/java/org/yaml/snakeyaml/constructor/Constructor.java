@@ -17,9 +17,6 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -38,9 +35,8 @@ import java.util.TreeSet;
 
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.introspector.FieldProperty;
-import org.yaml.snakeyaml.introspector.MethodProperty;
 import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -131,7 +127,6 @@ public class Constructor extends SafeConstructor {
      * known. TODO make protected
      */
     private class ConstructMapping implements Construct {
-        private final Map<Class<? extends Object>, Map<String, Property>> propertiesCache = new HashMap<Class<? extends Object>, Map<String, Property>>();
 
         /**
          * Construct JavaBean. If type safe collections are used please look at
@@ -210,10 +205,10 @@ public class Constructor extends SafeConstructor {
                  * have it as reference for recursion) and do all other thing on
                  * 2nd step.
                  */
-                return node.getType().newInstance();
-            } catch (InstantiationException e) {
-                throw new YAMLException(e);
-            } catch (IllegalAccessException e) {
+                java.lang.reflect.Constructor<?> c = node.getType().getDeclaredConstructor();
+                c.setAccessible(true);
+                return c.newInstance();
+            } catch (Exception e) {
                 throw new YAMLException(e);
             }
         }
@@ -301,34 +296,7 @@ public class Constructor extends SafeConstructor {
 
         private Property getProperty(Class<? extends Object> type, String name)
                 throws IntrospectionException {
-            // check cache
-            Map<String, Property> properties = propertiesCache.get(type);
-            if (properties == null) {
-                properties = new HashMap<String, Property>();
-                propertiesCache.put(type, properties);
-                for (PropertyDescriptor property : Introspector.getBeanInfo(type)
-                        .getPropertyDescriptors()) {
-                    String methodName = property.getName();
-                    if (property.getWriteMethod() != null) {
-                        properties.put(methodName, new MethodProperty(property));
-                    }
-                }
-                for (Field field : type.getFields()) {
-                    int modifiers = field.getModifiers();
-                    if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers)) {
-                        continue;
-                    }
-                    properties.put(field.getName(), new FieldProperty(field));
-                }
-            }
-            // take from cache
-            Property property = properties.get(name);
-            if (property == null) {
-                throw new YAMLException("Unable to find property '" + name + "' on class: "
-                        + type.getName());
-            } else {
-                return property;
-            }
+            return getPropertyUtils().getProperty(type, name);
         }
     }
 
@@ -616,4 +584,5 @@ public class Constructor extends SafeConstructor {
     protected Class<?> getClassForName(String name) throws ClassNotFoundException {
         return Class.forName(name);
     }
+
 }

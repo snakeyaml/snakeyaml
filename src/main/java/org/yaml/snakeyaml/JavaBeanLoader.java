@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.io.StringReader;
 
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -35,6 +36,10 @@ public class JavaBeanLoader<T> {
     private Loader loader;
 
     public JavaBeanLoader(TypeDescription typeDescription) {
+        this(typeDescription, BeanAccess.DEFAULT);
+    }
+    
+    public JavaBeanLoader(TypeDescription typeDescription, BeanAccess beanAccess) {
         if (typeDescription == null) {
             throw new NullPointerException("TypeDescription must be provided.");
         }
@@ -42,12 +47,17 @@ public class JavaBeanLoader<T> {
         typeDescription.setRoot(true);
         constructor.addTypeDescription(typeDescription);
         loader = new Loader(constructor);
+        loader.setBeanAccess(beanAccess);
         Resolver resolver = new Resolver();
         loader.setResolver(resolver);
     }
 
+    public <S extends T> JavaBeanLoader(Class<S> clazz, BeanAccess beanAccess) {
+        this(new TypeDescription(clazz), beanAccess);
+    }
+    
     public <S extends T> JavaBeanLoader(Class<S> clazz) {
-        this(new TypeDescription(clazz));
+        this(clazz, BeanAccess.DEFAULT);
     }
 
     /**

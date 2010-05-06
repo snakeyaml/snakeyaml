@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.resolver.Resolver;
@@ -37,6 +38,7 @@ public class JavaBeanDumper {
     private DumperOptions options;
     private Representer representer;
     private Set<Class<? extends Object>> classTags;
+    private final BeanAccess beanAccess;
 
     /**
      * Create Dumper for JavaBeans
@@ -44,17 +46,26 @@ public class JavaBeanDumper {
      * @param useGlobalTag
      *            true to emit the global tag with the class name
      */
-    public JavaBeanDumper(boolean useGlobalTag) {
+    public JavaBeanDumper(boolean useGlobalTag, BeanAccess beanAccess) {
         this.useGlobalTag = useGlobalTag;
+        this.beanAccess = beanAccess;
         this.flowStyle = FlowStyle.BLOCK;
         classTags = new HashSet<Class<? extends Object>>();
     }
-
+    
+    public JavaBeanDumper(boolean useGlobalTag) {
+        this(useGlobalTag, BeanAccess.DEFAULT);
+    }
+    
+    public JavaBeanDumper(BeanAccess beanAccess) {
+        this(false, beanAccess);
+    }
+    
     /**
      * Create Dumper for JavaBeans. Use "tag:yaml.org,2002:map" as the root tag.
      */
     public JavaBeanDumper() {
-        this(false);
+        this(BeanAccess.DEFAULT);
     }
 
     public JavaBeanDumper(Representer representer, DumperOptions options) {
@@ -66,6 +77,7 @@ public class JavaBeanDumper {
         }
         this.options = options;
         this.representer = representer;
+        this.beanAccess = null; // bean access in not used if representer supplied
     }
 
     /**
@@ -90,6 +102,7 @@ public class JavaBeanDumper {
         Representer repr;
         if (this.representer == null) {
             repr = new Representer();
+            repr.getPropertyUtils().setBeanAccess(beanAccess);
             for (Class<? extends Object> clazz : classTags) {
                 repr.addClassTag(clazz, Tag.MAP);
             }
@@ -140,4 +153,5 @@ public class JavaBeanDumper {
     public void setMapTagForBean(Class<? extends Object> clazz) {
         classTags.add(clazz);
     }
+    
 }

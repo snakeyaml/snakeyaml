@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.introspector;
 
-
 public abstract class Property implements Comparable<Property> {
 
     private final String name;
@@ -44,6 +43,14 @@ public abstract class Property implements Comparable<Property> {
 
     public int compareTo(Property o) {
         return name.compareTo(o.name);
+    }
+
+    public boolean isWritable() {
+        return true;
+    }
+
+    public boolean isReadable() {
+        return true;
     }
 
     abstract public void set(Object object, Object value) throws Exception;

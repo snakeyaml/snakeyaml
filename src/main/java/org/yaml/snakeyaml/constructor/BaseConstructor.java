@@ -30,6 +30,7 @@ import java.util.Set;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.composer.ComposerException;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -69,6 +70,7 @@ public abstract class BaseConstructor {
     private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
 
     protected Tag rootTag;
+    private PropertyUtils propertyUtils;
 
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();
@@ -352,6 +354,17 @@ public abstract class BaseConstructor {
     // }
     // return pairs;
     // }
+
+    public void setPropertyUtils(PropertyUtils propertyUtils) {
+        this.propertyUtils = propertyUtils;
+    }
+
+    public final PropertyUtils getPropertyUtils() {
+        if (propertyUtils == null) {
+            propertyUtils = new PropertyUtils();
+        }
+        return propertyUtils;
+    }
 
     private static class RecursiveTuple<T, K> {
         private final T _1;

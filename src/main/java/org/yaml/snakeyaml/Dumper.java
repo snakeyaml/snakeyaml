@@ -37,7 +37,7 @@ public class Dumper {
         this.representer = representer;
         representer.setDefaultFlowStyle(options.getDefaultFlowStyle());
         representer.setDefaultScalarStyle(options.getDefaultScalarStyle());
-        representer.setAllowReadOnlyProperties(options.isAllowReadOnlyProperties());
+        representer.getPropertyUtils().setAllowReadOnlyProperties(options.isAllowReadOnlyProperties());
         this.options = options;
     }
 

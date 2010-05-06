@@ -26,6 +26,7 @@ public class FieldProperty extends GenericProperty {
     public FieldProperty(Field field) {
         super(field.getName(), field.getType(), field.getGenericType());
         this.field = field;
+        field.setAccessible(true);
     }
 
     @Override

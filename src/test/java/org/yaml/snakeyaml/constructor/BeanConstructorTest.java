@@ -128,7 +128,7 @@ public class BeanConstructorTest extends TestCase {
             yaml.load(document);
             fail("No empty constructor available");
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains("InstantiationException"));
+            assertTrue(e.getMessage(), e.getMessage().contains("NoSuchMethodException"));
         }
         TestBean2 bean = new TestBean2();
         assertEquals("", bean.getText());
@@ -151,6 +151,7 @@ public class BeanConstructorTest extends TestCase {
     }
 
     public void testPrivateMethod() throws IOException {
+        //TODO: Are we sure no private ????
         Loader loader = new Loader(new Constructor(TestBean2.class));
         Yaml yaml = new Yaml(loader);
         String document = "text: qwerty";
@@ -158,7 +159,7 @@ public class BeanConstructorTest extends TestCase {
             yaml.load(document);
             fail("Private method cannot be called.");
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains("InstantiationException"));
+            assertTrue(e.getMessage(), e.getMessage().contains("NoSuchMethodException"));
         }
     }
 
