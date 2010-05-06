@@ -16,49 +16,21 @@
 package org.yaml.snakeyaml.introspector;
 
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
-public class MethodProperty extends Property {
+public class MethodProperty extends GenericProperty {
+	
     private final PropertyDescriptor property;
 
     public MethodProperty(PropertyDescriptor property) {
-        super(property.getName(), property.getPropertyType());
+        super(property.getName(), property.getPropertyType(), property.getReadMethod() == null ? null : property.getReadMethod().getGenericReturnType());
         this.property = property;
     }
-
+   
     @Override
     public void set(Object object, Object value) throws Exception {
         property.getWriteMethod().invoke(object, value);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Type[] getActualTypeArguments() {
-        if (List.class.isAssignableFrom(property.getPropertyType())
-                || Set.class.isAssignableFrom(property.getPropertyType())
-                || Map.class.isAssignableFrom(property.getPropertyType())) {
-            if (property.getReadMethod().getGenericReturnType() instanceof ParameterizedType) {
-                ParameterizedType grt = (ParameterizedType) property.getReadMethod()
-                        .getGenericReturnType();
-                Type[] result = grt.getActualTypeArguments();
-                if (result[0] instanceof TypeVariable || result[0] instanceof ParameterizedType) {
-                    return null;
-                } else {
-                    return result;
-                }
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
     }
 
     @Override

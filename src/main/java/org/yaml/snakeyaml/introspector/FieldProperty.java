@@ -16,16 +16,14 @@
 package org.yaml.snakeyaml.introspector;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
-public class FieldProperty extends Property {
+public class FieldProperty extends GenericProperty {
     private final Field field;
 
     public FieldProperty(Field field) {
-        super(field.getName(), field.getType());
+        super(field.getName(), field.getType(), field.getGenericType());
         this.field = field;
     }
 
@@ -44,13 +42,4 @@ public class FieldProperty extends Property {
         }
     }
 
-    @Override
-    public Type[] getActualTypeArguments() {
-        if (field.getGenericType() instanceof ParameterizedType) {
-            ParameterizedType t = (ParameterizedType) field.getGenericType();
-            return t.getActualTypeArguments();
-        } else {
-            return null;
-        }
-    }
 }

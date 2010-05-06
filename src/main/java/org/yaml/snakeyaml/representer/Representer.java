@@ -20,7 +20,6 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -177,11 +176,11 @@ public class Representer extends SafeRepresenter {
      */
     @SuppressWarnings("unchecked")
     protected void checkGlobalTag(Property property, Node node, Object object) {
-        Type[] arguments = property.getActualTypeArguments();
+        Class<?>[] arguments = property.getActualTypeArguments();
         if (arguments != null) {
             if (node.getNodeId() == NodeId.sequence) {
                 // apply map tag where class is the same
-                Class<? extends Object> t = (Class<? extends Object>) arguments[0];
+                Class<? extends Object> t = arguments[0];
                 SequenceNode snode = (SequenceNode) node;
                 List<Object> memberList = (List<Object>) object;
                 Iterator<Object> iter = memberList.iterator();
@@ -193,7 +192,7 @@ public class Representer extends SafeRepresenter {
                     }
                 }
             } else if (object instanceof Set) {
-                Class t = (Class) arguments[0];
+                Class t = arguments[0];
                 MappingNode mnode = (MappingNode) node;
                 Iterator<NodeTuple> iter = mnode.getValue().iterator();
                 Set set = (Set) object;
@@ -205,8 +204,8 @@ public class Representer extends SafeRepresenter {
                     }
                 }
             } else if (node.getNodeId() == NodeId.mapping) {
-                Class keyType = (Class) arguments[0];
-                Class valueType = (Class) arguments[1];
+                Class keyType = arguments[0];
+                Class valueType = arguments[1];
                 MappingNode mnode = (MappingNode) node;
                 for (NodeTuple tuple : mnode.getValue()) {
                     resetTag(keyType, tuple.getKeyNode());

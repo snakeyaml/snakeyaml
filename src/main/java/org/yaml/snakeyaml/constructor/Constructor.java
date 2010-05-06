@@ -20,7 +20,6 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -266,23 +265,23 @@ public class Constructor extends SafeConstructor {
                     }
                     if (!typeDetected && valueNode.getNodeId() != NodeId.scalar) {
                         // only if there is no explicit TypeDescription
-                        Type[] arguments = property.getActualTypeArguments();
+                        Class[] arguments = property.getActualTypeArguments();
                         if (arguments != null) {
                             // TODO check non Java HotSpot(TM) Server VM
                             // type safe (generic) collection may contain the
                             // proper class
                             if (valueNode.getNodeId() == NodeId.sequence) {
-                                Class t = (Class) arguments[0];
+                                Class t = arguments[0];
                                 SequenceNode snode = (SequenceNode) valueNode;
                                 snode.setListType(t);
                             } else if (valueNode.getTag().equals(Tag.SET)) {
-                                Class t = (Class) arguments[0];
+                                Class t = arguments[0];
                                 MappingNode mnode = (MappingNode) valueNode;
                                 mnode.setKeyType(t);
                                 mnode.setUseClassConstructor(true);
                             } else if (valueNode.getNodeId() == NodeId.mapping) {
-                                Class ketType = (Class) arguments[0];
-                                Class valueType = (Class) arguments[1];
+                                Class ketType = arguments[0];
+                                Class valueType = arguments[1];
                                 MappingNode mnode = (MappingNode) valueNode;
                                 mnode.setKeyType(ketType);
                                 mnode.setValueType(valueType);
