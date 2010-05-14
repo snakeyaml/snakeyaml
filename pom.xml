@@ -93,8 +93,8 @@
 				<version>2.2</version>
 				<configuration>
 					<check>
-						<totalBranchRate>80</totalBranchRate>
-						<totalLineRate>95</totalLineRate>
+						<totalBranchRate>75</totalBranchRate>
+						<totalLineRate>85</totalLineRate>
 					</check>
 					<formats>
 						<format>html</format>
@@ -166,6 +166,9 @@
 					<includes>
 						<include>src/**/*.java</include>
 					</includes>
+					<excludes>
+						<exclude>src/main/java/com/**</exclude>
+					</excludes>
 					<useDefaultExcludes>true</useDefaultExcludes>
 					<useDefaultMapping>true</useDefaultMapping>
 				</configuration>

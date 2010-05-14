@@ -7,6 +7,10 @@
 	</properties>
 	<body>
           <release version="1.7" date="in Mercurial" description="development">
+            <action dev="py4fun" type="fix" issue="67" due-to="Manuel Sugawara">
+                Fix: java classes containing non-ASCII characters in names are 
+                incorrectly encoded (2010-05-14)
+            </action>
             <action dev="py4fun" type="fix" issue="65" due-to="lerch.johannes">
                 Fix: add checks for null arguments for JavaBeanDumper (2010-04-27)
             </action>

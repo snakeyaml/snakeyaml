@@ -23,8 +23,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.net.URLDecoder;
 
 import org.yaml.snakeyaml.error.YAMLException;
+import com.google.gdata.util.common.base.PercentEscaper;
+import com.google.gdata.util.common.base.Escaper;
 
 public final class Tag implements Comparable<Tag> {
     public static final String PREFIX = "tag:yaml.org,2002:";
@@ -64,7 +67,7 @@ public final class Tag implements Comparable<Tag> {
         timestampSet.add(Timestamp.class);
         COMPATIBILITY_MAP.put(TIMESTAMP, timestampSet);
     }
-
+    private final Escaper escaper = new PercentEscaper(PercentEscaper.SAFEPATHCHARS_URLENCODER, false);
     private final String value;
 
     public Tag(String tag) {
@@ -82,7 +85,7 @@ public final class Tag implements Comparable<Tag> {
         if (clazz == null) {
             throw new NullPointerException("Class for tag must be provided.");
         }
-        this.value = Tag.PREFIX + clazz.getName();
+        this.value = Tag.PREFIX + escaper.escape(clazz.getName());
     }
 
     public String getValue() {
@@ -97,7 +100,11 @@ public final class Tag implements Comparable<Tag> {
         if (!value.startsWith(Tag.PREFIX)) {
             throw new YAMLException("Unknown tag: " + value);
         }
-        return value.substring(Tag.PREFIX.length());
+        try {
+            return URLDecoder.decode(value.substring(Tag.PREFIX.length()), "UTF-8");
+        } catch (java.io.UnsupportedEncodingException except) {
+            throw new RuntimeException(except);
+        }
     }
 
     public int getLength() {
@@ -134,7 +141,7 @@ public final class Tag implements Comparable<Tag> {
     /**
      * Java has more then 1 class compatible with a language-independent tag
      * (!!int, !!float, !!timestamp etc)
-     * 
+     *
      * @param clazz
      *            - Class to check compatibility
      * @return true when the Class can be represented by this
@@ -151,7 +158,7 @@ public final class Tag implements Comparable<Tag> {
 
     /**
      * Check whether this tag matches the global tag for the Class
-     * 
+     *
      * @param clazz
      *            - Class to check
      * @return true when the this tag can be used as a global tag for the Class

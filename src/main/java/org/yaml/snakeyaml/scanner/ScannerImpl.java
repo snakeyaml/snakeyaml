@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.net.URLDecoder;
 
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -77,7 +78,7 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * SCALAR(value, plain, style)
  * Read comments in the Scanner code for more details.
  * </pre>
- * 
+ *
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public final class ScannerImpl implements Scanner {
@@ -141,7 +142,7 @@ public final class ScannerImpl implements Scanner {
      * We emit the KEY token before all keys, so when we find a potential
      * simple key, we try to locate the corresponding ':' indicator.
      * Simple keys should be limited to a single line and 1024 characters.
-     * 
+     *
      * Can a simple key start at the current position? A simple key may
      * start:
      * - at the beginning of the line, not counting indentation spaces
@@ -918,11 +919,11 @@ public final class ScannerImpl implements Scanner {
          *   '-', '?', ':', ',', '[', ']', '{', '}',
          *   '#', '&amp;', '*', '!', '|', '&gt;', '\'', '\&quot;',
          *   '%', '@', '`'.
-         * 
+         *
          * It may also start with
          *   '-', '?', ':'
          * if it is followed by a non-space character.
-         * 
+         *
          * Note that we limit the last rule to the block context (except the
          * '-' character) because we want the flow context to be space
          * independent.
@@ -1704,7 +1705,7 @@ public final class ScannerImpl implements Scanner {
             throw new ScannerException("while scanning a " + name, startMark,
                     "expected URI, but found " + ch + "(" + ((int) ch) + ")", reader.getMark());
         }
-        return chunks.toString();
+        return URLDecoder.decode(chunks.toString());
     }
 
     private String scanUriEscapes(String name, Mark startMark) {
@@ -1713,7 +1714,7 @@ public final class ScannerImpl implements Scanner {
         while (reader.peek() == '%') {
             reader.forward();
             try {
-                bytes.append(Integer.parseInt(reader.prefix(2), 16));
+                bytes.append('%').append(reader.prefix(2));
             } catch (NumberFormatException nfe) {
                 throw new ScannerException("while scanning a " + name, startMark,
                         "expected URI escape sequence of 2 hexadecimal numbers, but found "
