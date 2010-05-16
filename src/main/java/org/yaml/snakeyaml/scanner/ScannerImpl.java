@@ -15,6 +15,8 @@
  */
 package org.yaml.snakeyaml.scanner;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.net.URLDecoder;
 
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -1705,7 +1706,13 @@ public final class ScannerImpl implements Scanner {
             throw new ScannerException("while scanning a " + name, startMark,
                     "expected URI, but found " + ch + "(" + ((int) ch) + ")", reader.getMark());
         }
-        return URLDecoder.decode(chunks.toString());
+        
+        try {
+            return URLDecoder.decode(chunks.toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new ScannerException("while scanning a " + name, startMark,
+                    " UnsupportedEncoding UTF-8.... sounds strange", reader.getMark());
+        }
     }
 
     private String scanUriEscapes(String name, Mark startMark) {
