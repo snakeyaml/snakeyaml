@@ -94,13 +94,18 @@
 				<version>2.2</version>
 				<configuration>
 					<check>
-						<totalBranchRate>75</totalBranchRate>
-						<totalLineRate>85</totalLineRate>
+						<totalBranchRate>80</totalBranchRate>
+						<totalLineRate>95</totalLineRate>
 					</check>
 					<formats>
 						<format>html</format>
 						<format>xml</format>
 					</formats>
+					<instrumentation>
+						<excludes>
+							<exclude>com/google/**</exclude>
+						</excludes>
+					</instrumentation>
 				</configuration>
 				<executions>
 					<execution>
@@ -168,7 +173,7 @@
 						<include>src/**/*.java</include>
 					</includes>
 					<excludes>
-						<exclude>src/main/java/com/**</exclude>
+						<exclude>src/main/java/com/google/**</exclude>
 					</excludes>
 					<useDefaultExcludes>true</useDefaultExcludes>
 					<useDefaultMapping>true</useDefaultMapping>
