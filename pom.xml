@@ -39,8 +39,9 @@
 			<email>py4fun@gmail.com</email>
 		</developer>
 		<developer>
-			<id>alexander.maslov</id>
+			<id>maslovalex</id><>
 			<name>Alexander Maslov</name>
+			<email>alexander.maslov@gmail.com</email>
 		</developer>
 	</developers>
 	<dependencies>
@@ -180,8 +181,9 @@
 				</configuration>
 				<executions>
 					<execution>
+						<phase>site</phase>
 						<goals>
-							<goal>check</goal>
+							<goal>format</goal>
 						</goals>
 					</execution>
 				</executions>
