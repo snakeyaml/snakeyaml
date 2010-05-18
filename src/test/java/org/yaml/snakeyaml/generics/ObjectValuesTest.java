@@ -92,8 +92,7 @@ public class ObjectValuesTest extends TestCase {
         try {
             ov2.getPossible()[0].toString();
         } catch (Exception e) {
-            assertEquals("[Ljava.lang.Object; cannot be cast to [Ljava.lang.String;", e
-                    .getMessage());
+            assertTrue(e.getMessage(), e.getMessage().startsWith("[Ljava.lang.Object"));
         }
     }
 }
