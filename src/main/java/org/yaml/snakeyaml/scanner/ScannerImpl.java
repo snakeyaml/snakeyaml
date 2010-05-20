@@ -15,8 +15,8 @@
  */
 package org.yaml.snakeyaml.scanner;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,6 +53,7 @@ import org.yaml.snakeyaml.tokens.TagTuple;
 import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.ValueToken;
 import org.yaml.snakeyaml.util.ArrayStack;
+import org.yaml.snakeyaml.util.UriEncoder;
 
 /**
  * <pre>
@@ -1690,20 +1691,7 @@ public final class ScannerImpl implements Scanner {
                 chunks.append(reader.prefix(length));
                 reader.forward(length);
                 length = 0;
-                String escaped = scanUriEscapes(name, startMark);
-                Mark contextMark = reader.getMark();
-                try {
-                    // URIs containing 16 and 32 bit Unicode characters are
-                    // encoded in UTF-8, and then each octet is written as a
-                    // separate character.
-                    chunks.append(URLDecoder.decode(escaped, "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    throw new ScannerException("while scanning a " + name, startMark,
-                            " UnsupportedEncoding UTF-8.... sounds strange", contextMark);
-                } catch (IllegalArgumentException e) {
-                    throw new ScannerException("while scanning a " + name, startMark, e
-                            .getMessage(), contextMark);
-                }
+                chunks.append(scanUriEscapes(name, startMark));
             } else {
                 length++;
             }
@@ -1721,17 +1709,18 @@ public final class ScannerImpl implements Scanner {
         return chunks.toString();
     }
 
-    /**
-     * Check if '%' is followed by exactly 2 hexadecimal numbers
-     */
     private String scanUriEscapes(String name, Mark startMark) {
         // See the specification for details.
-        StringBuilder bytes = new StringBuilder();
+        // URIs containing 16 and 32 bit Unicode characters are
+        // encoded in UTF-8, and then each octet is written as a
+        // separate character.
+        Mark beginningMark = reader.getMark();
+        ByteBuffer buff = ByteBuffer.allocate(256);
         while (reader.peek() == '%') {
             reader.forward();
             try {
-                Integer.parseInt(reader.prefix(2), 16);
-                bytes.append("%" + reader.prefix(2));
+                byte code = (byte) Integer.parseInt(reader.prefix(2), 16);
+                buff.put(code);
             } catch (NumberFormatException nfe) {
                 throw new ScannerException("while scanning a " + name, startMark,
                         "expected URI escape sequence of 2 hexadecimal numbers, but found "
@@ -1741,7 +1730,13 @@ public final class ScannerImpl implements Scanner {
             }
             reader.forward(2);
         }
-        return bytes.toString();
+        buff.flip();
+        try {
+            return UriEncoder.decode(buff);
+        } catch (CharacterCodingException e) {
+            throw new ScannerException("while scanning a " + name, startMark,
+                    "expected URI in UTF-8: " + e.getMessage(), beginningMark);
+        }
     }
 
     private String scanLineBreak() {

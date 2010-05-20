@@ -26,9 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.yaml.snakeyaml.error.YAMLException;
-
-import com.google.gdata.util.common.base.Escaper;
-import com.google.gdata.util.common.base.PercentEscaper;
+import org.yaml.snakeyaml.util.UriEncoder;
 
 public final class Tag implements Comparable<Tag> {
     public static final String PREFIX = "tag:yaml.org,2002:";
@@ -68,8 +66,7 @@ public final class Tag implements Comparable<Tag> {
         timestampSet.add(Timestamp.class);
         COMPATIBILITY_MAP.put(TIMESTAMP, timestampSet);
     }
-    private static final Escaper escaper = new PercentEscaper(
-            PercentEscaper.SAFEPATHCHARS_URLENCODER, false);
+
     private final String value;
 
     public Tag(String tag) {
@@ -87,7 +84,7 @@ public final class Tag implements Comparable<Tag> {
         if (clazz == null) {
             throw new NullPointerException("Class for tag must be provided.");
         }
-        this.value = Tag.PREFIX + escaper.escape(clazz.getName());
+        this.value = Tag.PREFIX + UriEncoder.encode(clazz.getName());
     }
 
     public String getValue() {
@@ -182,6 +179,6 @@ public final class Tag implements Comparable<Tag> {
      * @see http://yaml.org/spec/1.1/#escaping%20in%20URI/
      */
     public static Tag escape(String tag) {
-        return new Tag(escaper.escape(tag));
+        return new Tag(UriEncoder.encode(tag));
     }
 }

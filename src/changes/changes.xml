@@ -8,6 +8,10 @@
 	<body>
           <release version="1.7" date="in Mercurial" description="development">
             <action dev="maslovalex" type="update">
+                URLDecoder.decode() does not fail when UTF-8 is invalid. Use 
+                CodingErrorAction.REPORT to implement the failure (2010-05-21)
+            </action>
+            <action dev="maslovalex" type="update">
                 Fix generic collections which contain other collections (2010-05-18)
             </action>
             <action dev="py4fun" type="fix" issue="67" due-to="Manuel Sugawara">

@@ -70,6 +70,18 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         }
     }
 
+    public void testLoadInvalidUtf8() {
+        try {
+            Yaml yaml = new Yaml();
+            yaml.load(PREFIX + "Acad%C0mico {id: 3, name: Foo bar}");
+            fail("Illegal UTF-8 must not be accepted.");
+        } catch (ScannerException e) {
+            assertEquals("while scanning a tag; expected URI in UTF-8: Input length = 1", e
+                    .getMessage());
+            assertEquals(Util.getLocalResource("issues/issue67-error2.txt"), e.toString());
+        }
+    }
+
     public static class Académico {
         public int getId() {
             return id;
@@ -127,5 +139,4 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
             assertEquals("Tag (URI) may not contain non-ASCII characters.", e.getMessage());
         }
     }
-
 }
