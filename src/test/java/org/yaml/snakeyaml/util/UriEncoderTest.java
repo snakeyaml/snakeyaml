@@ -25,6 +25,7 @@ public class UriEncoderTest extends TestCase {
 
     public void testEncode() {
         assertEquals("Acad%C3%A9mico", UriEncoder.encode("Académico"));
+        // TODO for issue 67 assertEquals("[]", UriEncoder.encode("[]"));
     }
 
     public void testDecode() throws CharacterCodingException {
