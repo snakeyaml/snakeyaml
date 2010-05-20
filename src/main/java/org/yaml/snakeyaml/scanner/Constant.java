@@ -17,17 +17,21 @@
 package org.yaml.snakeyaml.scanner;
 
 public final class Constant {
+    final static String ALPHA = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
+
     private final static String LINEBR_S = "\n\u0085\u2028\u2029";
     private final static String FULL_LINEBR_S = "\r" + LINEBR_S;
     private final static String NULL_OR_LINEBR_S = "\0" + FULL_LINEBR_S;
     private final static String NULL_BL_LINEBR_S = " " + NULL_OR_LINEBR_S;
     private final static String NULL_BL_T_LINEBR_S = "\t" + NULL_BL_LINEBR_S;
+    private final static String URI_CHARS_S = ALPHA + "-;/?:@&=+$,_.!~*\'()[]%";
 
     public final static Constant LINEBR = new Constant(LINEBR_S);
     public final static Constant FULL_LINEBR = new Constant(FULL_LINEBR_S);
     public final static Constant NULL_OR_LINEBR = new Constant(NULL_OR_LINEBR_S);
     public final static Constant NULL_BL_LINEBR = new Constant(NULL_BL_LINEBR_S);
     public final static Constant NULL_BL_T_LINEBR = new Constant(NULL_BL_T_LINEBR_S);
+    public final static Constant URI_CHARS = new Constant(URI_CHARS_S);
 
     private String content;
 

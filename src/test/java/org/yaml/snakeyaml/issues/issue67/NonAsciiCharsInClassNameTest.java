@@ -18,26 +18,56 @@ package org.yaml.snakeyaml.issues.issue67;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.Dumper;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Representer;
+import org.yaml.snakeyaml.scanner.ScannerException;
 
 public class NonAsciiCharsInClassNameTest extends TestCase {
+    private String PREFIX = "!!org.yaml.snakeyaml.issues.issue67.NonAsciiCharsInClassNameTest$";
+
     public void testDump() {
         Académico obj = new Académico();
         obj.setId(1);
         obj.setName("Foo bar baz");
         Yaml yaml = new Yaml();
         String result = yaml.dump(obj);
-        assertEquals(
-                "!!org.yaml.snakeyaml.issues.issue67.NonAsciiCharsInClassNameTest$Acad%C3%A9mico {\n  id: 1, name: Foo bar baz}\n",
-                result);
+        assertEquals(PREFIX + "Acad%C3%A9mico {\n  id: 1, name: Foo bar baz}\n", result);
     }
 
     public void testLoad() {
         Yaml yaml = new Yaml();
-        Académico obj = (Académico) yaml
-                .load("!!org.yaml.snakeyaml.issues.issue67.NonAsciiCharsInClassNameTest$Acad%C3%A9mico {id: 3, name: Foo bar}");
+        Académico obj = (Académico) yaml.load(PREFIX + "Acad%C3%A9mico {id: 3, name: Foo bar}");
         assertEquals(3, obj.getId());
         assertEquals("Foo bar", obj.getName());
+    }
+
+    public void testLoadInvalidPattern() {
+        try {
+            Yaml yaml = new Yaml();
+            yaml.load(PREFIX + "Acad%WZ%A9mico {id: 3, name: Foo bar}");
+            fail("Illegal hex characters in escape (%) pattern must not be accepted.");
+        } catch (Exception e) {
+            assertEquals(
+                    "while scanning a tag; expected URI escape sequence of 2 hexadecimal numbers, but found W(87) and Z(90)",
+                    e.getMessage());
+        }
+    }
+
+    public void testLoadInvalidPatternTooShort() {
+        try {
+            Yaml yaml = new Yaml();
+            yaml.load(PREFIX + "Acad%9%A9mico {id: 3, name: Foo bar}");
+            fail("Illegal hex characters in escape (%) pattern must not be accepted.");
+        } catch (ScannerException e) {
+            assertEquals(
+                    "while scanning a tag; expected URI escape sequence of 2 hexadecimal numbers, but found 9(57) and %(37)",
+                    e.getMessage());
+            assertEquals(Util.getLocalResource("issues/issue67-error1.txt"), e.toString());
+        }
     }
 
     public static class Académico {
@@ -60,4 +90,42 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         private int id;
         private String name;
     }
+
+    public void testDumpCustomTag() {
+        Académico obj = new Académico();
+        obj.setId(123);
+        obj.setName("Foo bar 123");
+        Representer repr = new Representer();
+        repr.addClassTag(Académico.class, new Tag("!foo"));
+        Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
+        String result = yaml.dump(obj);
+        assertEquals("!foo {id: 123, name: Foo bar 123}\n", result);
+    }
+
+    public void testDumpEscapedTag() {
+        Académico obj = new Académico();
+        obj.setId(123);
+        obj.setName("Foo bar 123");
+        Representer repr = new Representer();
+        repr.addClassTag(Académico.class, new Tag("!Acad%C3%A9mico"));
+        Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
+        String result = yaml.dump(obj);
+        assertEquals("!Acad%C3%A9mico {id: 123, name: Foo bar 123}\n", result);
+    }
+
+    public void testDumpInvalidTag() {
+        Académico obj = new Académico();
+        obj.setId(123);
+        obj.setName("Foo bar 123");
+        Representer repr = new Representer();
+        repr.addClassTag(Académico.class, new Tag("!Académico"));
+        Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
+        try {
+            yaml.dump(obj);
+            fail("URI may not contain non-ASCII characters.");
+        } catch (Exception e) {
+            assertEquals("Tag (URI) may not contain non-ASCII characters.", e.getMessage());
+        }
+    }
+
 }

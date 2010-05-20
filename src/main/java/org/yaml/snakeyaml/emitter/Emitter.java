@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.CollectionEndEvent;
 import org.yaml.snakeyaml.events.CollectionStartEvent;
@@ -865,6 +866,12 @@ public final class Emitter {
         }
         if ("!".equals(tag)) {
             return tag;
+        }
+        for (int i = 0; i < tag.length(); i++) {
+            char ch = tag.charAt(i);
+            if (Constant.URI_CHARS.hasNo(ch)) {
+                throw new YAMLException("Tag (URI) may not contain non-ASCII characters.");
+            }
         }
         String handle = null;
         String suffix = tag;

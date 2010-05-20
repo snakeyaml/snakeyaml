@@ -79,11 +79,10 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * SCALAR(value, plain, style)
  * Read comments in the Scanner code for more details.
  * </pre>
- *
+ * 
  * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public final class ScannerImpl implements Scanner {
-    private final static String ALPHA = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
     private final static Pattern NOT_HEXA = Pattern.compile("[^0-9A-Fa-f]");
     public final static Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
     public final static Map<Character, Integer> ESCAPE_CODES = new HashMap<Character, Integer>();
@@ -143,7 +142,7 @@ public final class ScannerImpl implements Scanner {
      * We emit the KEY token before all keys, so when we find a potential
      * simple key, we try to locate the corresponding ':' indicator.
      * Simple keys should be limited to a single line and 1024 characters.
-     *
+     * 
      * Can a simple key start at the current position? A simple key may
      * start:
      * - at the beginning of the line, not counting indentation spaces
@@ -920,11 +919,11 @@ public final class ScannerImpl implements Scanner {
          *   '-', '?', ':', ',', '[', ']', '{', '}',
          *   '#', '&amp;', '*', '!', '|', '&gt;', '\'', '\&quot;',
          *   '%', '@', '`'.
-         *
+         * 
          * It may also start with
          *   '-', '?', ':'
          * if it is followed by a non-space character.
-         *
+         * 
          * Note that we limit the last rule to the block context (except the
          * '-' character) because we want the flow context to be space
          * independent.
@@ -1011,7 +1010,7 @@ public final class ScannerImpl implements Scanner {
         // See the specification for details.
         int length = 0;
         char ch = reader.peek(length);
-        while (ALPHA.indexOf(ch) != -1) {
+        while (Constant.ALPHA.indexOf(ch) != -1) {
             length++;
             ch = reader.peek(length);
         }
@@ -1147,7 +1146,7 @@ public final class ScannerImpl implements Scanner {
         reader.forward();
         int length = 0;
         char ch = reader.peek(length);
-        while (ALPHA.indexOf(ch) != -1) {
+        while (Constant.ALPHA.indexOf(ch) != -1) {
             length++;
             ch = reader.peek(length);
         }
@@ -1664,7 +1663,7 @@ public final class ScannerImpl implements Scanner {
         int length = 1;
         ch = reader.peek(length);
         if (ch != ' ') {
-            while (ALPHA.indexOf(ch) != -1) {
+            while (Constant.ALPHA.indexOf(ch) != -1) {
                 length++;
                 ch = reader.peek(length);
             }
@@ -1686,12 +1685,25 @@ public final class ScannerImpl implements Scanner {
         StringBuilder chunks = new StringBuilder();
         int length = 0;
         char ch = reader.peek(length);
-        while (ALPHA.indexOf(ch) != -1 || "-;/?:@&=+$,_.!~*\'()[]%".indexOf(ch) != -1) {
+        while (Constant.URI_CHARS.has(ch)) {
             if (ch == '%') {
                 chunks.append(reader.prefix(length));
                 reader.forward(length);
                 length = 0;
-                chunks.append(scanUriEscapes(name, startMark));
+                String escaped = scanUriEscapes(name, startMark);
+                Mark contextMark = reader.getMark();
+                try {
+                    // URIs containing 16 and 32 bit Unicode characters are
+                    // encoded in UTF-8, and then each octet is written as a
+                    // separate character.
+                    chunks.append(URLDecoder.decode(escaped, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    throw new ScannerException("while scanning a " + name, startMark,
+                            " UnsupportedEncoding UTF-8.... sounds strange", contextMark);
+                } catch (IllegalArgumentException e) {
+                    throw new ScannerException("while scanning a " + name, startMark, e
+                            .getMessage(), contextMark);
+                }
             } else {
                 length++;
             }
@@ -1706,27 +1718,25 @@ public final class ScannerImpl implements Scanner {
             throw new ScannerException("while scanning a " + name, startMark,
                     "expected URI, but found " + ch + "(" + ((int) ch) + ")", reader.getMark());
         }
-        
-        try {
-            return URLDecoder.decode(chunks.toString(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new ScannerException("while scanning a " + name, startMark,
-                    " UnsupportedEncoding UTF-8.... sounds strange", reader.getMark());
-        }
+        return chunks.toString();
     }
 
+    /**
+     * Check if '%' is followed by exactly 2 hexadecimal numbers
+     */
     private String scanUriEscapes(String name, Mark startMark) {
         // See the specification for details.
         StringBuilder bytes = new StringBuilder();
         while (reader.peek() == '%') {
             reader.forward();
             try {
-                bytes.append('%').append(reader.prefix(2));
+                Integer.parseInt(reader.prefix(2), 16);
+                bytes.append("%" + reader.prefix(2));
             } catch (NumberFormatException nfe) {
                 throw new ScannerException("while scanning a " + name, startMark,
                         "expected URI escape sequence of 2 hexadecimal numbers, but found "
-                                + reader.peek(1) + "(" + ((int) reader.peek(1)) + ") and "
-                                + reader.peek(2) + "(" + ((int) reader.peek(2)) + ")", reader
+                                + reader.peek() + "(" + ((int) reader.peek()) + ") and "
+                                + reader.peek(1) + "(" + ((int) reader.peek(1)) + ")", reader
                                 .getMark());
             }
             reader.forward(2);

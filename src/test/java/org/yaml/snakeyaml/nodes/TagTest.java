@@ -57,6 +57,16 @@ public class TagTest extends TestCase {
         assertEquals("org.yaml.snakeyaml.nodes.TagTest", tag.getClassName());
     }
 
+    public void testGetClassNameError() {
+        try {
+            Tag tag = new Tag("!TagTest");
+            tag.getClassName();
+            fail("Class name is only available for global tag");
+        } catch (Exception e) {
+            assertEquals("Unknown tag: !TagTest", e.getMessage());
+        }
+    }
+
     public void testLength() {
         String t = Tag.PREFIX + "org.yaml.snakeyaml.nodes.TagTest";
         Tag tag = new Tag(t);
@@ -66,6 +76,21 @@ public class TagTest extends TestCase {
     public void testToString() {
         Tag tag = new Tag("!car");
         assertEquals("!car", tag.toString());
+    }
+
+    public void testUri1() {
+        Tag tag = new Tag("!Académico");
+        assertEquals("!Académico", tag.toString());
+    }
+
+    public void testUri2() {
+        Tag tag = new Tag("!ruby/object:Test::Module::Sub2");
+        assertEquals("!ruby/object:Test::Module::Sub2", tag.getValue());
+    }
+
+    public void testUri3() {
+        Tag tag = Tag.escape("!Académico");
+        assertEquals("!Acad%C3%A9mico", tag.toString());
     }
 
     public void testCompare() {
