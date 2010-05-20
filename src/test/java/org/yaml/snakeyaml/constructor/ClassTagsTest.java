@@ -71,7 +71,7 @@ public class ClassTagsTest extends TestCase {
             yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
             fail("Must fail because of unknown tag: !car");
         } catch (YAMLException e) {
-            assertTrue(e.getMessage().contains("Unknown tag: !car"));
+            assertTrue(e.getMessage().contains("Invalid tag: !car"));
         }
 
     }

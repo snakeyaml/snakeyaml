@@ -17,7 +17,6 @@ package org.yaml.snakeyaml.nodes;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -97,13 +96,9 @@ public final class Tag implements Comparable<Tag> {
 
     public String getClassName() {
         if (!value.startsWith(Tag.PREFIX)) {
-            throw new YAMLException("Unknown tag: " + value);
+            throw new YAMLException("Invalid tag: " + value);
         }
-        try {
-            return URLDecoder.decode(value.substring(Tag.PREFIX.length()), "UTF-8");
-        } catch (java.io.UnsupportedEncodingException except) {
-            throw new RuntimeException(except);
-        }
+        return UriEncoder.decode(value.substring(Tag.PREFIX.length()));
     }
 
     public int getLength() {

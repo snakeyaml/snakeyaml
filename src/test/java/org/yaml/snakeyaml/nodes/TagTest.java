@@ -63,7 +63,7 @@ public class TagTest extends TestCase {
             tag.getClassName();
             fail("Class name is only available for global tag");
         } catch (Exception e) {
-            assertEquals("Unknown tag: !TagTest", e.getMessage());
+            assertEquals("Invalid tag: !TagTest", e.getMessage());
         }
     }
 
