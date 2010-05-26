@@ -267,7 +267,6 @@ public class Constructor extends SafeConstructor {
                         // only if there is no explicit TypeDescription
                         Class[] arguments = property.getActualTypeArguments();
                         if (arguments != null) {
-                            // TODO check non Java HotSpot(TM) Server VM
                             // type safe (generic) collection may contain the
                             // proper class
                             if (valueNode.getNodeId() == NodeId.sequence) {
