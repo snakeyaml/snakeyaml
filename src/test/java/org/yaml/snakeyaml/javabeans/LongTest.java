@@ -65,11 +65,11 @@ public class LongTest extends TestCase {
         assertEquals(new Long(42L), foo2.getBar());
     }
 
-    // public void testLongConstructor() {
-    // String doc =
-    // "!!org.yaml.snakeyaml.javabeans.LongTest$Foo\n\"bar\": !!int \"42\"";
-    // System.out.println(doc);
-    // Constructor constr = new Constructor();
-    // Loader loader = new Loader(constr);
-    // }
+    public void testLongConstructor() {
+        String doc = "!!org.yaml.snakeyaml.javabeans.LongTest$Foo\n\"bar\": !!int \"42\"";
+        // System.out.println(doc);
+        Yaml yaml = new Yaml();
+        Foo foo2 = (Foo) yaml.load(doc);
+        assertEquals(new Long(42L), foo2.getBar());
+    }
 }
