@@ -139,4 +139,9 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
             assertEquals("Tag (URI) may not contain non-ASCII characters.", e.getMessage());
         }
     }
+
+    public void testTag() {
+        Tag tag = new Tag("!java/javabean:foo.Bar");
+        assertEquals("!java/javabean:foo.Bar", tag.getValue());
+    }
 }
