@@ -119,25 +119,10 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         obj.setId(123);
         obj.setName("Foo bar 123");
         Representer repr = new Representer();
-        repr.addClassTag(Académico.class, new Tag("!Acad%C3%A9mico"));
+        repr.addClassTag(Académico.class, new Tag("!Académico"));
         Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
         String result = yaml.dump(obj);
         assertEquals("!Acad%C3%A9mico {id: 123, name: Foo bar 123}\n", result);
-    }
-
-    public void testDumpInvalidTag() {
-        Académico obj = new Académico();
-        obj.setId(123);
-        obj.setName("Foo bar 123");
-        Representer repr = new Representer();
-        repr.addClassTag(Académico.class, new Tag("!Académico"));
-        Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
-        try {
-            yaml.dump(obj);
-            fail("URI may not contain non-ASCII characters.");
-        } catch (Exception e) {
-            assertEquals("Tag (URI) may not contain non-ASCII characters.", e.getMessage());
-        }
     }
 
     public void testTag() {

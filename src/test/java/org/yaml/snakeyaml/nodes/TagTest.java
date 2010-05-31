@@ -16,6 +16,9 @@
 
 package org.yaml.snakeyaml.nodes;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import junit.framework.TestCase;
 
 public class TagTest extends TestCase {
@@ -80,7 +83,7 @@ public class TagTest extends TestCase {
 
     public void testUri1() {
         Tag tag = new Tag("!Académico");
-        assertEquals("!Académico", tag.toString());
+        assertEquals("!Acad%C3%A9mico", tag.toString());
     }
 
     public void testUri2() {
@@ -88,9 +91,18 @@ public class TagTest extends TestCase {
         assertEquals("!ruby/object:Test::Module::Sub2", tag.getValue());
     }
 
-    public void testUri3() {
-        Tag tag = Tag.escape("!Académico");
-        assertEquals("!Acad%C3%A9mico", tag.toString());
+    public void testUri3() throws URISyntaxException {
+        Tag tag = new Tag(new URI("!!java/javabean:foo.Bar"));
+        assertEquals("!!java/javabean:foo.Bar", tag.toString());
+    }
+
+    public void testNullUri() throws URISyntaxException {
+        try {
+            new Tag((URI) null);
+            fail("URI for tag must not be null.");
+        } catch (Exception e) {
+            assertEquals("URI for tag must be provided.", e.getMessage());
+        }
     }
 
     public void testCompare() {
@@ -103,6 +115,7 @@ public class TagTest extends TestCase {
         assertEquals(tag, tag);
         // TODO should be removed when tags as Strings are not used
         assertTrue("Temporarily  allow compare Tag and String.", tag.equals("!car"));
+        assertFalse("Temporarily  allow compare Tag and String.", tag.equals("!foo"));
         assertEquals(tag, new Tag("!car"));
         assertFalse(tag.equals(new Tag("!!str")));
         assertFalse(tag.equals(null));

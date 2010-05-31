@@ -7,6 +7,9 @@
 	</properties>
 	<body>
           <release version="1.7" date="in Mercurial" description="development">
+            <action dev="py4fun" type="add" issue="67" due-to="Manuel Sugawara">
+                Add possibility to create a Tag out of an URI (2010-05-31)
+            </action>
             <action dev="py4fun" type="update">
                 URLDecoder.decode() does not fail when UTF-8 is invalid. Use 
                 CodingErrorAction.REPORT to implement the failure (2010-05-21)

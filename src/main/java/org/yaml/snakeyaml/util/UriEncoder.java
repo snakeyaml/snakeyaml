@@ -36,7 +36,7 @@ public class UriEncoder {
     // Include the [] chars to the SAFEPATHCHARS_URLENCODER to avoid
     // its escape as required by spec. See
     // http://yaml.org/spec/1.1/#escaping%20in%20URI/
-    private static final String SAFE_CHARS = PercentEscaper.SAFEPATHCHARS_URLENCODER + "[]";
+    private static final String SAFE_CHARS = PercentEscaper.SAFEPATHCHARS_URLENCODER + "[]/";
     private static final Escaper escaper = new PercentEscaper(SAFE_CHARS, false);
 
     /**

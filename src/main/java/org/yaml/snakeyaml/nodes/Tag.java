@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.nodes;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URI;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -76,7 +77,7 @@ public final class Tag implements Comparable<Tag> {
         } else if (tag.trim().length() != tag.length()) {
             throw new IllegalArgumentException("Tag must not contain leading or trailing spaces.");
         }
-        this.value = tag;
+        this.value = UriEncoder.encode(tag);
     }
 
     public Tag(Class<? extends Object> clazz) {
@@ -84,6 +85,13 @@ public final class Tag implements Comparable<Tag> {
             throw new NullPointerException("Class for tag must be provided.");
         }
         this.value = Tag.PREFIX + UriEncoder.encode(clazz.getName());
+    }
+
+    public Tag(URI uri) {
+        if (uri == null) {
+            throw new NullPointerException("URI for tag must be provided.");
+        }
+        this.value = uri.toASCIIString();
     }
 
     public String getValue() {
@@ -163,17 +171,5 @@ public final class Tag implements Comparable<Tag> {
 
     public int compareTo(Tag o) {
         return value.compareTo(o.getValue());
-    }
-
-    /**
-     * Factory method to escape non-ASCII characters in tags
-     * 
-     * @param tag
-     *            - tag which may contain non-ASCII characters
-     * @return '%'-escaped tag
-     * @see http://yaml.org/spec/1.1/#escaping%20in%20URI/
-     */
-    public static Tag escape(String tag) {
-        return new Tag(UriEncoder.encode(tag));
     }
 }
