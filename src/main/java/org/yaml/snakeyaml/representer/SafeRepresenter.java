@@ -58,7 +58,7 @@ class SafeRepresenter extends BaseRepresenter {
         classTags = new HashMap<Class<? extends Object>, Tag>();
     }
 
-    private Tag getTag(Class<?> clazz, Tag defaultTag) {
+    protected Tag getTag(Class<?> clazz, Tag defaultTag) {
         if (classTags.containsKey(clazz)) {
             return classTags.get(clazz);
         } else {
