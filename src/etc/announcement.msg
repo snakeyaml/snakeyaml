@@ -47,7 +47,4 @@ configuration files to object serialization and persistence.
 
 Copyright
 ==========
-
-SnakeYAML is developed by Andrey Somov <py4fun@gmail.com>
-
 SnakeYAML is released under the Apache License Version 2.0
