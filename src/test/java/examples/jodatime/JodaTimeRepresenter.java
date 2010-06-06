@@ -15,11 +15,10 @@
  */
 package examples.jodatime;
 
+import java.util.Date;
+
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 class JodaTimeRepresenter extends Representer {
@@ -27,74 +26,11 @@ class JodaTimeRepresenter extends Representer {
         multiRepresenters.put(DateTime.class, new RepresentJodaDateTime());
     }
 
-    private class RepresentJodaDateTime implements Represent {
+    private class RepresentJodaDateTime extends RepresentDate {
 
         public Node representData(Object data) {
-            DateTime dt = (DateTime) data;
-            int years = dt.getYear();
-            int months = dt.getMonthOfYear();
-            int days = dt.getDayOfMonth();
-            int hour24 = dt.getHourOfDay();
-            System.out.println(hour24);
-            int minutes = dt.getMinuteOfHour();
-            int seconds = dt.getSecondOfMinute();
-            int millis = dt.getMillisOfSecond();
-            StringBuilder buffer = new StringBuilder(String.valueOf(years));
-            buffer.append("-");
-            if (months < 10) {
-                buffer.append("0");
-            }
-            buffer.append(String.valueOf(months));
-            buffer.append("-");
-            if (days < 10) {
-                buffer.append("0");
-            }
-            buffer.append(String.valueOf(days));
-            buffer.append("T");
-            if (hour24 < 10) {
-                buffer.append("0");
-            }
-            buffer.append(String.valueOf(hour24));
-            buffer.append(":");
-            if (minutes < 10) {
-                buffer.append("0");
-            }
-            buffer.append(String.valueOf(minutes));
-            buffer.append(":");
-            if (seconds < 10) {
-                buffer.append("0");
-            }
-            buffer.append(String.valueOf(seconds));
-            if (millis > 0) {
-                if (millis < 10) {
-                    buffer.append(".00");
-                } else if (millis < 100) {
-                    buffer.append(".0");
-                } else {
-                    buffer.append(".");
-                }
-                buffer.append(String.valueOf(millis));
-            }
-            if (DateTimeZone.UTC.equals(dt.getZone())) {
-                buffer.append("Z");
-            } else {
-                // Get the Offset from GMT taking DST into account
-                int gmtOffset = dt.getZone().getOffset(dt);
-                int minutesOffset = gmtOffset / (60 * 1000);
-                int hoursOffset = minutesOffset / 60;
-                int partOfHour = minutesOffset % 60;
-                if (hoursOffset > 0) {
-                    buffer.append("");
-                }
-                buffer.append(hoursOffset + ":");
-                if (partOfHour < 10) {
-                    buffer.append("0" + partOfHour);
-                } else {
-                    buffer.append(partOfHour);
-                }
-            }
-            return representScalar(getTag(data.getClass(), Tag.TIMESTAMP), buffer.toString(), null);
+            DateTime date = (DateTime) data;
+            return super.representData(new Date(date.getMillis()));
         }
     }
-
 }
