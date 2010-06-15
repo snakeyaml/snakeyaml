@@ -18,16 +18,13 @@ package org.yaml.snakeyaml.representer;
 
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -69,7 +66,7 @@ public class Representer extends SafeRepresenter {
      *            instance for Node
      * @return Node to get serialized
      */
-    protected MappingNode representJavaBean(Collection<Property> properties, Object javaBean) {
+    protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {
         List<NodeTuple> value = new ArrayList<NodeTuple>(properties.size());
         Tag tag;
         Tag customTag = classTags.get(javaBean.getClass());

@@ -17,7 +17,6 @@
 package examples.staticstate;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -82,7 +81,7 @@ public class StaticFieldsTest extends TestCase {
 
     private class MyRepresenter extends Representer {
         @Override
-        protected MappingNode representJavaBean(Collection<Property> properties, Object javaBean) {
+        protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {
             MappingNode node = super.representJavaBean(properties, javaBean);
             if (javaBean instanceof JavaBeanWithStaticState) {
                 List<NodeTuple> value = node.getValue();
