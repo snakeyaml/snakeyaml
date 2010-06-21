@@ -542,44 +542,88 @@ public class Constructor extends SafeConstructor {
                         possibleConstructors.add(constructor);
                     }
                 }
-                if (possibleConstructors.isEmpty()) {
-                    throw new YAMLException("No constructors with "
-                            + String.valueOf(snode.getValue().size()) + " arguments found for "
-                            + node.getType());
-                }
-                List<Object> argumentList;
-                if (possibleConstructors.size() == 1) {
-                    argumentList = new ArrayList<Object>(snode.getValue().size());
-                    java.lang.reflect.Constructor c = possibleConstructors.get(0);
+                if (!possibleConstructors.isEmpty()) {
+                    if (possibleConstructors.size() == 1) {
+                        Object[] argumentList = new Object[snode.getValue().size()];
+                        java.lang.reflect.Constructor c = possibleConstructors.get(0);
+                        int index = 0;
+                        for (Node argumentNode : snode.getValue()) {
+                            Class type = c.getParameterTypes()[index];
+                            // set runtime classes for arguments
+                            argumentNode.setType(type);
+                            argumentList[index++] = constructObject(argumentNode);
+                        }
+
+                        try {
+                            return c.newInstance(argumentList);
+                        } catch (Exception e) {
+                            throw new YAMLException(e);
+                        }
+                    }
+
+                    // use BaseConstructor
+                    List<Object> argumentList = (List<Object>) constructSequence(snode);
+                    Class[] parameterTypes = new Class[argumentList.size()];
                     int index = 0;
-                    for (Node argumentNode : snode.getValue()) {
-                        Class type = c.getParameterTypes()[index];
-                        // set runtime classes for arguments
-                        argumentNode.setType(type);
-                        Object argumentValue = constructObject(argumentNode);
-                        argumentList.add(argumentValue);
+                    for (Object parameter : argumentList) {
+                        parameterTypes[index] = parameter.getClass();
                         index++;
                     }
-                } else {
-                    // use BaseConstructor
-                    argumentList = (List<Object>) constructSequence(snode);
+
+                    for (java.lang.reflect.Constructor c : possibleConstructors) {
+                        Class[] argTypes = c.getParameterTypes();
+                        boolean foundConstructor = true;
+                        for (int i = 0; i < argTypes.length; i++) {
+                            if (!wrapIfPrimitive(argTypes[i]).isAssignableFrom(parameterTypes[i])) {
+                                foundConstructor = false;
+                                break;
+                            }
+                        }
+                        if (foundConstructor) {
+                            try {
+                                return c.newInstance(argumentList.toArray());
+                            } catch (Exception e) {
+                                throw new YAMLException(e);
+                            }
+                        }
+                    }
                 }
-                Class[] parameterTypes = new Class[argumentList.size()];
-                int index = 0;
-                for (Object parameter : argumentList) {
-                    parameterTypes[index] = parameter.getClass();
-                    index++;
-                }
-                java.lang.reflect.Constructor javaConstructor;
-                try {
-                    Class cl = node.getType();
-                    javaConstructor = cl.getConstructor(parameterTypes);
-                    Object[] initargs = argumentList.toArray();
-                    return javaConstructor.newInstance(initargs);
-                } catch (Exception e) {
-                    throw new YAMLException(e);
-                }
+                throw new YAMLException("No constructors with "
+                        + String.valueOf(snode.getValue().size()) + " arguments found for "
+                        + node.getType());
+
             }
+        }
+
+        private final Class<? extends Object> wrapIfPrimitive(Class<?> clazz) {
+            if (!clazz.isPrimitive()) {
+                return clazz;
+            }
+            if (clazz == Integer.TYPE) {
+                return Integer.class;
+            }
+            if (clazz == Long.TYPE) {
+                return Long.class;
+            }
+            if (clazz == Float.TYPE) {
+                return Float.class;
+            }
+            if (clazz == Double.TYPE) {
+                return Double.class;
+            }
+            if (clazz == Boolean.TYPE) {
+                return Boolean.class;
+            }
+            if (clazz == Character.TYPE) {
+                return Character.class;
+            }
+            if (clazz == Short.TYPE) {
+                return Short.class;
+            }
+            if (clazz == Byte.TYPE) {
+                return Byte.class;
+            }
+            return clazz;
         }
 
         @SuppressWarnings("unchecked")
