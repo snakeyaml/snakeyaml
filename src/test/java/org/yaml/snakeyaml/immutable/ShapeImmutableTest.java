@@ -106,7 +106,7 @@ public class ShapeImmutableTest extends TestCase {
             fail("Two arguments required.");
         } catch (Exception e) {
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Point; exception=No constructors with 1 arguments found for class org.yaml.snakeyaml.immutable.Point",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Point; exception=No suitable constructor with 1 arguments found for class org.yaml.snakeyaml.immutable.Point",
                     e.getMessage());
         }
     }

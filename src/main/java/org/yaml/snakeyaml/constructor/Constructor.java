@@ -588,7 +588,7 @@ public class Constructor extends SafeConstructor {
                         }
                     }
                 }
-                throw new YAMLException("No constructors with "
+                throw new YAMLException("No suitable constructor with "
                         + String.valueOf(snode.getValue().size()) + " arguments found for "
                         + node.getType());
 

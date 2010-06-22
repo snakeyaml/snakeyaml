@@ -34,6 +34,10 @@ public class BunchOfPrimitives {
         this.primitiveInt = i1;
     }
 
+    public BunchOfPrimitives(long i1, double i2, boolean i3) {
+        this((int) i1, i2, i3);
+    }
+
     public int getPrimitiveInt() {
         return primitiveInt;
     }

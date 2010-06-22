@@ -39,11 +39,20 @@ public class ImmutablePrimitivesTest extends TestCase {
     public void testPrimitivesLong() {
         Yaml yaml = new Yaml();
         String dump = "!!org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives [10000000000, 40.0, true]";
+        BunchOfPrimitives bunch = (BunchOfPrimitives) yaml.load(dump);
+        assertEquals("Must be truncated.", new Long(10000000000L).intValue(), bunch
+                .getPrimitiveInt());
+    }
+
+    public void testPrimitivesException() {
+        Yaml yaml = new Yaml();
+        String dump = "!!org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives [10, 40, true]";
         try {
             yaml.load(dump);
+            fail();
         } catch (YAMLException e) {
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives; exception=No constructors with 3 arguments found for class org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives; exception=No suitable constructor with 3 arguments found for class org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives",
                     e.getMessage());
         }
     }
