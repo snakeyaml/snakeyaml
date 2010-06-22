@@ -602,9 +602,6 @@ public class Constructor extends SafeConstructor {
             if (clazz == Integer.TYPE) {
                 return Integer.class;
             }
-            if (clazz == Long.TYPE) {
-                return Long.class;
-            }
             if (clazz == Float.TYPE) {
                 return Float.class;
             }
@@ -613,6 +610,9 @@ public class Constructor extends SafeConstructor {
             }
             if (clazz == Boolean.TYPE) {
                 return Boolean.class;
+            }
+            if (clazz == Long.TYPE) {
+                return Long.class;
             }
             if (clazz == Character.TYPE) {
                 return Character.class;
@@ -623,7 +623,7 @@ public class Constructor extends SafeConstructor {
             if (clazz == Byte.TYPE) {
                 return Byte.class;
             }
-            return clazz;
+            throw new YAMLException("Unexpected primitive " + clazz);
         }
 
         @SuppressWarnings("unchecked")

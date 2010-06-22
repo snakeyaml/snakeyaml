@@ -33,10 +33,8 @@ public class ImmutablePrimitivesRepresenter extends Representer {
         public Node representData(Object data) {
             BunchOfPrimitives bunch = (BunchOfPrimitives) data;
             return representSequence(getTag(data.getClass(), new Tag(data.getClass())), Arrays
-                    .asList(new Object[] { bunch.getPrimitiveInt(), bunch.getPrimitiveLong(),
-                            bunch.getPrimitiveFloat(), bunch.getPrimitiveDouble(),
-                            bunch.isPrimitiveBoolean(), bunch.primitiveChar, bunch.primitiveShort,
-                            bunch.primitiveByte }), true);
+                    .asList(new Object[] { bunch.getPrimitiveInt(), bunch.getPrimitiveDouble(),
+                            bunch.primitiveBoolean }), true);
         }
     }
 }

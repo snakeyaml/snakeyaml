@@ -18,31 +18,19 @@ package org.yaml.snakeyaml.immutable.primitives;
 
 public class BunchOfPrimitives {
     private int primitiveInt;
-    private long primitiveLong;
-    private float primitiveFloat;
     private double primitiveDouble;
-    private boolean primitiveBoolean;
-    public char primitiveChar;
-    public short primitiveShort;
-    public byte primitiveByte;
+    public boolean primitiveBoolean;
 
-    public BunchOfPrimitives(int primitiveInt, long primitiveLong, float primitiveFloat,
-            double primitiveDouble, boolean primitiveBoolean, char primitiveChar,
-            short primitiveShort, byte primitiveByte) {
+    public BunchOfPrimitives(int primitiveInt, double primitiveDouble, boolean primitiveBoolean) {
         this.primitiveInt = primitiveInt;
-        this.primitiveLong = primitiveLong;
-        this.primitiveFloat = primitiveFloat;
         this.primitiveDouble = primitiveDouble;
         this.primitiveBoolean = primitiveBoolean;
-        this.primitiveChar = primitiveChar;
-        this.primitiveShort = primitiveShort;
-        this.primitiveByte = primitiveByte;
     }
 
     /**
      * The number of parameters is the same but the type is different
      */
-    public BunchOfPrimitives(int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
+    public BunchOfPrimitives(int i1, int i2, int i3) {
         this.primitiveInt = i1;
     }
 
@@ -50,20 +38,8 @@ public class BunchOfPrimitives {
         return primitiveInt;
     }
 
-    public long getPrimitiveLong() {
-        return primitiveLong;
-    }
-
-    public float getPrimitiveFloat() {
-        return primitiveFloat;
-    }
-
     public double getPrimitiveDouble() {
         return primitiveDouble;
-    }
-
-    public boolean isPrimitiveBoolean() {
-        return primitiveBoolean;
     }
 
     @Override
@@ -85,5 +61,4 @@ public class BunchOfPrimitives {
     public String toString() {
         return "BunchOfPrimitives " + primitiveInt;
     }
-
 }
