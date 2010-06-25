@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,14 +48,17 @@ class SafeRepresenter extends BaseRepresenter {
         this.representers.put(Boolean.class, new RepresentBoolean());
         this.representers.put(Character.class, new RepresentString());
         this.representers.put(byte[].class, new RepresentByteArray());
-        this.multiRepresenters.put(Number.class, new RepresentNumber());
-        this.multiRepresenters.put(List.class, new RepresentList());
         this.multiRepresenters.put(Map.class, new RepresentMap());
+        this.multiRepresenters.put(Number.class, new RepresentNumber());
         this.multiRepresenters.put(Set.class, new RepresentSet());
+        // iterator must go after other collections since otherwise maps and
+        // sets will be represented as sequences
+        this.multiRepresenters.put(Iterable.class, new RepresentIterable());
+        this.multiRepresenters.put(Iterator.class, new RepresentIterator());
         this.multiRepresenters.put(new Object[0].getClass(), new RepresentArray());
         this.multiRepresenters.put(Date.class, new RepresentDate());
-        this.multiRepresenters.put(Calendar.class, new RepresentDate());
         this.multiRepresenters.put(Enum.class, new RepresentEnum());
+        this.multiRepresenters.put(Calendar.class, new RepresentDate());
         classTags = new HashMap<Class<? extends Object>, Tag>();
     }
 
@@ -165,10 +169,32 @@ class SafeRepresenter extends BaseRepresenter {
         }
     }
 
-    protected class RepresentList implements Represent {
+    protected class RepresentIterable implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representSequence(getTag(data.getClass(), Tag.SEQ), (List<Object>) data, null);
+            return representSequence(getTag(data.getClass(), Tag.SEQ), (Iterable<Object>) data,
+                    null);
+        }
+    }
+
+    protected class RepresentIterator implements Represent {
+        @SuppressWarnings("unchecked")
+        public Node representData(Object data) {
+            Iterator<Object> iter = (Iterator<Object>) data;
+            return representSequence(getTag(data.getClass(), Tag.SEQ), new IteratorWrapper(iter),
+                    null);
+        }
+    }
+
+    private class IteratorWrapper implements Iterable<Object> {
+        private Iterator<Object> iter;
+
+        public IteratorWrapper(Iterator<Object> iter) {
+            this.iter = iter;
+        }
+
+        public Iterator<Object> iterator() {
+            return iter;
         }
     }
 

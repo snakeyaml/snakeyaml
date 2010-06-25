@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,7 +52,8 @@ public abstract class BaseRepresenter {
      */
     protected Represent nullRepresenter;
     @SuppressWarnings("unchecked")
-    protected final Map<Class, Represent> multiRepresenters = new HashMap<Class, Represent>();
+    //the order is important (map can be also a sequence of key-values)
+    protected final Map<Class, Represent> multiRepresenters = new LinkedHashMap<Class, Represent>();
     private Character defaultStyle;
     protected Boolean defaultFlowStyle;
     protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>();
@@ -125,8 +127,12 @@ public abstract class BaseRepresenter {
         return representScalar(tag, value, null);
     }
 
-    protected Node representSequence(Tag tag, List<? extends Object> sequence, Boolean flowStyle) {
-        List<Node> value = new ArrayList<Node>(sequence.size());
+    protected Node representSequence(Tag tag, Iterable<? extends Object> sequence, Boolean flowStyle) {
+        int size = 10;// default for ArrayList
+        if (sequence instanceof List<?>) {
+            size = ((List<?>) sequence).size();
+        }
+        List<Node> value = new ArrayList<Node>(size);
         SequenceNode node = new SequenceNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
