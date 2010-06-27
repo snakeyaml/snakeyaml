@@ -66,7 +66,7 @@ public class StreamReader {
         if (em.find()) {
             int position = this.index + this.buffer.length() - this.pointer + em.start();
             throw new ReaderException(name, position, em.group().charAt(0),
-                    " special characters are not allowed");
+                    "special characters are not allowed");
         }
     }
 
