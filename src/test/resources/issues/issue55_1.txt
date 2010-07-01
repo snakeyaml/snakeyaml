@@ -1,0 +1,5 @@
+posts:
+- text: Dummy
+  title: Test
+- text: Creative
+  title: Highly
