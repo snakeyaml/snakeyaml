@@ -18,10 +18,13 @@ package org.yaml.snakeyaml.issues.issue55;
 class Post {
     private String title;
     private String text;
+    public static String description;
+    public transient String cache;
 
-    // TODO make it immutable (remove this constructor)
-    public Post() {
-        super();
+    // TODO empty constructor is required to support 2 step construction
+    protected Post() {
+        description = "I should not be dumped.";
+        cache = "Q34598723SDW234";
     }
 
     public Post(String title, String text) {
@@ -31,14 +34,6 @@ class Post {
 
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public String getText() {
