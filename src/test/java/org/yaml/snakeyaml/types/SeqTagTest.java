@@ -16,6 +16,9 @@
 
 package org.yaml.snakeyaml.types;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +60,21 @@ public class SeqTagTest extends AbstractTest {
         //
         assertEquals(list1, list2);
         assertNotSame(list1, list2);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testCollection() {
+        Collection<Integer> collection = new LinkedList<Integer>();
+        collection.add(1);
+        collection.add(2);
+        collection.add(3);
+        String output = dump(collection);
+        assertEquals("[1, 2, 3]\n", output);
+        Collection<Integer> obj = (Collection<Integer>) load(output);
+        // System.out.println(obj);
+        assertEquals(3, obj.size());
+        assertTrue("Create ArrayList by default: " + obj.getClass().toString(),
+                obj instanceof ArrayList);
     }
 
     public void testArray() {
