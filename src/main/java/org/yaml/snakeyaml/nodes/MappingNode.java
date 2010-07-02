@@ -30,6 +30,7 @@ public class MappingNode extends CollectionNode {
     private Class<? extends Object> keyType;
     private Class<? extends Object> valueType;
     private List<NodeTuple> value;
+    private boolean need2setTypes = true;
 
     public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark,
             Mark endMark, Boolean flowStyle) {
@@ -58,23 +59,29 @@ public class MappingNode extends CollectionNode {
      * @return List of entries.
      */
     public List<NodeTuple> getValue() {
-        for (NodeTuple nodes : value) {
-            nodes.getKeyNode().setType(keyType);
-            nodes.getValueNode().setType(valueType);
+        if (need2setTypes) {
+            for (NodeTuple nodes : value) {
+                nodes.getKeyNode().setType(keyType);
+                nodes.getValueNode().setType(valueType);
+            }
+            need2setTypes = false;
         }
         return value;
     }
 
     public void setValue(List<NodeTuple> merge) {
         value = merge;
+        need2setTypes = true;
     }
 
     public void setKeyType(Class<? extends Object> keyType) {
         this.keyType = keyType;
+        need2setTypes = true;
     }
 
     public void setValueType(Class<? extends Object> valueType) {
         this.valueType = valueType;
+        need2setTypes = true;
     }
 
     @Override

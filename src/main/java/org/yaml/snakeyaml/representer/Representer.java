@@ -164,7 +164,7 @@ public class Representer extends SafeRepresenter {
                 // apply map tag where class is the same
                 Class<? extends Object> t = arguments[0];
                 SequenceNode snode = (SequenceNode) node;
-                List<Object> memberList = (List<Object>) object;
+                Iterable<Object> memberList = (Iterable<Object>) object;
                 Iterator<Object> iter = memberList.iterator();
                 for (Node childNode : snode.getValue()) {
                     Object member = iter.next();

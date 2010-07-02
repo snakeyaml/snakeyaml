@@ -11,6 +11,12 @@
                 Allow direct field access bypassing setters and getters. Empty constructor
                 is required to support 2-step construction (2010-07-02)
             </action>
+            <action dev="py4fun" type="update" issue="69">
+                Serialise Iterator and Iterable as sequences (2010-06-25)
+            </action>
+            <action dev="py4fun" type="update" due-to="maslovalex">
+                Change error message when 'No suitable constructor with N arguments found for class' (2010-06-23)
+            </action>
             <action dev="py4fun" type="add" due-to="Antony Stubbs">
                 Add JodaTime example (2010-06-04)
             </action>

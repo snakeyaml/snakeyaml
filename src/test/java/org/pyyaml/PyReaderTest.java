@@ -41,7 +41,8 @@ public class PyReaderTest extends PyImportTest {
                 fail("Invalid stream must not be accepted: " + inputs[i].getAbsolutePath()
                         + "; encoding=" + stream.getEncoding());
             } catch (ReaderException e) {
-                assertTrue(e.toString().contains(" special characters are not allowed"));
+                assertTrue(e.toString(), e.toString().contains(
+                        " special characters are not allowed"));
             }
         }
     }
