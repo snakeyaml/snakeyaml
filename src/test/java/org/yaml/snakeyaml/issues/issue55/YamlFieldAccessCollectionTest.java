@@ -17,6 +17,7 @@
 package org.yaml.snakeyaml.issues.issue55;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,10 +36,8 @@ public class YamlFieldAccessCollectionTest {
 
     @Test
     public void testYaml() {
-
         Blog original = createTestBlog();
         Yaml yamlDumper = constructYamlDumper();
-
         String serialized = yamlDumper.dump(original);
         // System.out.println(serialized);
         Assert.assertEquals(Util.getLocalResource("issues/issue55_1.txt"), serialized);
@@ -47,58 +46,52 @@ public class YamlFieldAccessCollectionTest {
         checkTestBlog(rehydrated);
     }
 
-    /*
-     * @Test public void testYaml() {
-     * 
-     * Blog original = createTestBlog(); Yaml yamlDumper =
-     * constructYamlDumper();
-     * 
-     * String serialized = yamlDumper.dump(original); //
-     * System.out.println(serialized);
-     * Assert.assertEquals(Util.getLocalResource("issues/issue55_1.txt"),
-     * serialized); Yaml yaml2 = constructYamlParser(); // this fails with
-     * "No constructor with 2 arguments found..." Blog rehydrated; try {
-     * rehydrated = (Blog) yaml2.load(serialized); Assert.fail("Fix issue 55");
-     * checkTestBlog(rehydrated); } catch (Exception e) { Thread.dumpStack();
-     * Assert.assertTrue(true);// FIXME issue 55 } }
-     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testYamlWithoutConfiguration() {
+        Yaml yaml = new Yaml();
+        Map<String, Object> map = (Map<String, Object>) yaml.load(Util
+                .getLocalResource("issues/issue55_1.txt"));
+        Assert.assertEquals(1, map.size());
+    }
+
+    @Test
+    public void testYamlFailure() {
+        JavaBeanLoader<Blog> beanLoader = new JavaBeanLoader<Blog>(Blog.class);
+        try {
+            beanLoader.load(Util.getLocalResource("issues/issue55_1.txt"));
+            Assert.fail("BeanAccess.FIELD is required.");
+        } catch (Exception e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains(
+                    "Unable to find property 'posts'"));
+        }
+    }
 
     protected Yaml constructYamlDumper() {
-
         Representer representer = new Representer();
         representer.getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
-
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
         options.setExplicitRoot(Tag.MAP);
         Dumper dumper = new Dumper(representer, options);
-
         Yaml yaml = new Yaml(dumper);
         return yaml;
-
     }
 
     protected Yaml constructYamlParser() {
-
         Loader loader = new Loader();
         loader.setBeanAccess(BeanAccess.FIELD);
-
         Yaml yaml = new Yaml(loader);
         return yaml;
-
     }
 
     protected Blog createTestBlog() {
-
         Post post1 = new Post("Test", "Dummy");
         Post post2 = new Post("Highly", "Creative");
-
         Blog blog = new Blog();
         blog.addPost(post1);
         blog.addPost(post2);
-
         return blog;
-
     }
 
     protected void checkTestBlog(Blog blog) {
