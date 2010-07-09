@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,6 @@ import java.util.TreeSet;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -165,7 +165,7 @@ public class Constructor extends SafeConstructor {
                     constructSet2ndStep(mnode, set);
                 }
                 return set;
-            } else if (Set.class.isAssignableFrom(node.getType())) {
+            } else if (Collection.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
                     return createDefaultSet();
                 } else {
@@ -489,7 +489,7 @@ public class Constructor extends SafeConstructor {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             SequenceNode snode = (SequenceNode) node;
-            if (List.class.isAssignableFrom(node.getType())) {
+            if (Collection.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
                     return createDefaultList(snode.getValue().size());
                 } else {

@@ -7,6 +7,9 @@
 	</properties>
 	<body>
           <release version="1.7" date="in Mercurial" description="development">
+            <action dev="py4fun" type="add" issue="72" due-to="birnbuazn">
+                Support java.util.Collection as a parent for List and Set (2010-07-09)
+            </action>
             <action dev="maslovalex" type="add" issue="55" due-to="birnbuazn">
                 Allow direct field access bypassing setters and getters. Empty constructor
                 is required to support 2-step construction (2010-07-02)
