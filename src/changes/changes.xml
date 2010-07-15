@@ -72,6 +72,10 @@
             <action dev="py4fun" type="fix" issue="56" due-to="DZeiss">
                 Make constructors in SafeConstructor public (2010-03-16)
             </action>
+            <action dev="py4fun" type="update" due-to="David Bernard">
+                Releases and snapshots are available in the Sonatype Maven repository. 
+                https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide 
+            </action>
             <action dev="obastard" type="fix" issue="53" due-to="obastard">
                 Enhancement for a pretty format that combines BLOCK and FLOW (2010-03-03)
             </action>
