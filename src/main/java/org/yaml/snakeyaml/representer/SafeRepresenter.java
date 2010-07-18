@@ -77,9 +77,7 @@ class SafeRepresenter extends BaseRepresenter {
         }
         if (data instanceof Object[]) {
             Object[] array = (Object[]) data;
-            if (array.length == 0) {
-                return true;
-            }
+            return array.length == 0;
         }
         return data instanceof String || data instanceof Boolean || data instanceof Integer
                 || data instanceof Long || data instanceof Float || data instanceof Double
@@ -101,6 +99,16 @@ class SafeRepresenter extends BaseRepresenter {
         return addClassTag(clazz, new Tag(tag));
     }
 
+    /**
+     * Define a tag for the <code>Class</code> to serialize.
+     * 
+     * @param clazz
+     *            <code>Class</code> which tag is changed
+     * @param tag
+     *            new tag to be used for every instance of the specified
+     *            <code>Class</code>
+     * @return the previous tag associated with the <code>Class</code>
+     */
     public Tag addClassTag(Class<? extends Object> clazz, Tag tag) {
         if (tag == null) {
             throw new NullPointerException("Tag must be provided.");
