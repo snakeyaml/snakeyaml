@@ -1,0 +1,8 @@
+!!org.yaml.snakeyaml.issues.issue73.Blog
+labels: [Java, SnakeYAML, YAML]
+name: Test Me!
+numbers: [19, 17]
+posts:
+- {text: text 1, title: Title1}
+- {text: text text 2, title: Title2}
+

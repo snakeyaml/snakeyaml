@@ -8,7 +8,8 @@
 	<body>
           <release version="1.7" date="in Mercurial" description="development">
             <action dev="py4fun" type="add" issue="73" due-to="birnbuazn">
-                Provide sequence support for loading java.util.Set (2010-07-19)
+                Provide sequence support for loading java.util.Set. Also provide an example
+                to serialise a java.util.Set as a sequence. (2010-07-19)
             </action>
             <action dev="py4fun" type="add" issue="72" due-to="birnbuazn">
                 Support java.util.Collection as a parent for List and Set (2010-07-09)
