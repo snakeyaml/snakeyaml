@@ -16,6 +16,8 @@
 
 package org.yaml.snakeyaml.issues.issue73;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -91,6 +93,46 @@ public class SetAsSequenceTest extends TestCase {
         Set<String> strings = (Set<String>) yaml.load(doc);
         // System.out.println(strings);
         assertEquals(3, strings.size());
+        assertEquals(HashSet.class, strings.getClass());
+        assertTrue(strings.contains("aaa"));
+        assertTrue(strings.contains("bbb"));
+        assertTrue(strings.contains("ccc"));
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testLoadRootSet2() {
+        Yaml yaml = new Yaml();
+        String doc = "!!java.util.HashSet {aaa: null, bbb: null, ccc: null}";
+        Set<String> strings = (Set<String>) yaml.load(doc);
+        // System.out.println(strings);
+        assertEquals(3, strings.size());
+        assertEquals(LinkedHashSet.class, strings.getClass());
+        assertTrue(strings.contains("aaa"));
+        assertTrue(strings.contains("bbb"));
+        assertTrue(strings.contains("ccc"));
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testLoadRootSet3() {
+        Yaml yaml = new Yaml();
+        String doc = "!!java.util.TreeSet {aaa: null, bbb: null, ccc: null}";
+        Set<String> strings = (Set<String>) yaml.load(doc);
+        // System.out.println(strings);
+        assertEquals(3, strings.size());
+        assertEquals(TreeSet.class, strings.getClass());
+        assertTrue(strings.contains("aaa"));
+        assertTrue(strings.contains("bbb"));
+        assertTrue(strings.contains("ccc"));
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testLoadRootSet6() {
+        Yaml yaml = new Yaml();
+        String doc = Util.getLocalResource("issues/issue73-6.txt");
+        Set<String> strings = (Set<String>) yaml.load(doc);
+        // System.out.println(strings);
+        assertEquals(3, strings.size());
+        assertEquals(TreeSet.class, strings.getClass());
         assertTrue(strings.contains("aaa"));
         assertTrue(strings.contains("bbb"));
         assertTrue(strings.contains("ccc"));
