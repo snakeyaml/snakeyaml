@@ -69,6 +69,13 @@ public class RecursiveSetTest extends TestCase {
         assertEquals(3, set.size());
         assertTrue(set.remove("zzz"));
         assertTrue(set.remove("ccc"));
+        assertFalse(set.contains("111"));
+        try {
+            set.contains(set);
+            fail("Recursive set fails to provide a hashcode.");
+        } catch (StackOverflowError e) {
+            // ignore
+        }
         //
         Set<Object> self = (Set<Object>) set.iterator().next();
         assertEquals(LinkedHashSet.class, self.getClass());
@@ -76,10 +83,18 @@ public class RecursiveSetTest extends TestCase {
         assertSame(set, self);
         assertEquals(1, set.size());
         assertEquals(1, self.size());
+        set.add("111");
+        assertEquals(2, set.size());
+        assertEquals(2, self.size());
         //
         self.clear();
         assertTrue(self.isEmpty());
         assertTrue(set.isEmpty());
+        assertFalse("Now it should not be recursive any longer (no StackOverflowError).", set.contains(set));
+        // 
+        set.add("jjj");
+        assertEquals(1, set.size());
+        assertEquals(1, self.size());
     }
 
     public static class Bean1 {
