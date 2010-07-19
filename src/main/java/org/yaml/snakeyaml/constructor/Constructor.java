@@ -161,8 +161,10 @@ public class Constructor extends SafeConstructor {
                 }
             } else if (SortedSet.class.isAssignableFrom(node.getType())) {
                 SortedSet<Object> set = new TreeSet<Object>();
-                // set cannot be recursive
+                // XXX why this is not used ?
+                // if (!node.isTwoStepsConstruction()) {
                 constructSet2ndStep(mnode, set);
+                // }
                 return set;
             } else if (Collection.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
@@ -633,5 +635,4 @@ public class Constructor extends SafeConstructor {
     protected Class<?> getClassForName(String name) throws ClassNotFoundException {
         return Class.forName(name);
     }
-
 }

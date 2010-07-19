@@ -1,0 +1,7 @@
+&id001 !!org.yaml.snakeyaml.issues.issue73.RecursiveSortedSetTest$Bean11
+id: ID555
+set: !!set
+  *id001: null
+  ggg: null
+  hhh: null
+
