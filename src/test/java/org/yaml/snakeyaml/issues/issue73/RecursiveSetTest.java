@@ -17,6 +17,7 @@
 package org.yaml.snakeyaml.issues.issue73;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -34,6 +35,7 @@ public class RecursiveSetTest extends TestCase {
         Yaml yaml = new Yaml();
         try {
             yaml.dump(set1);
+            fail("Recursive sets are not supported.");
         } catch (StackOverflowError e) {
             assertEquals(null, e.getMessage());
         }
@@ -45,20 +47,39 @@ public class RecursiveSetTest extends TestCase {
         Yaml yaml = new Yaml();
         try {
             yaml.load(doc);
+            fail("Recursive sets are not supported.");
         } catch (Exception e) {
             assertTrue(e.getMessage(), e.getMessage().contains("Set cannot be recursive."));
         }
     }
 
-    public void testLoadException2() {
+    /**
+     * XXX: sets can be recursive
+     */
+    @SuppressWarnings("unchecked")
+    public void testLoadRecursiveTest() {
         String doc = Util.getLocalResource("issues/issue73-recursive5.txt");
         // System.out.println(doc);
         Yaml yaml = new Yaml();
-        try {
-            yaml.load(doc);
-        } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains("Set cannot be recursive."));
-        }
+        Bean1 obj = (Bean1) yaml.load(doc);
+        Set<Object> set = obj.getSet();
+        // System.out.println(set);
+        assertEquals(LinkedHashSet.class, set.getClass());
+        assertEquals("ID123", obj.getId());
+        assertEquals(3, set.size());
+        assertTrue(set.remove("zzz"));
+        assertTrue(set.remove("ccc"));
+        //
+        Set<Object> self = (Set<Object>) set.iterator().next();
+        assertEquals(LinkedHashSet.class, self.getClass());
+        assertEquals(set, self);
+        assertSame(set, self);
+        assertEquals(1, set.size());
+        assertEquals(1, self.size());
+        //
+        self.clear();
+        assertTrue(self.isEmpty());
+        assertTrue(set.isEmpty());
     }
 
     public static class Bean1 {

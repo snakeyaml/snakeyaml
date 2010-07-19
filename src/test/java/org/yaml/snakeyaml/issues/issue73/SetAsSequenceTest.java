@@ -72,7 +72,6 @@ public class SetAsSequenceTest extends TestCase {
         // System.out.println(serialized);
         JavaBeanLoader<Blog> beanLoader = new JavaBeanLoader<Blog>(Blog.class, BeanAccess.FIELD);
         Blog rehydrated = beanLoader.load(serialized);
-
         checkTestBlog(rehydrated);
     }
 
@@ -83,7 +82,6 @@ public class SetAsSequenceTest extends TestCase {
         assertTrue(posts.contains(new Post("Highly", "Creative")));
         assertEquals("No tags!", blog.getName());
         assertEquals(0, blog.numbers.size());
-
     }
 
     @SuppressWarnings("unchecked")
