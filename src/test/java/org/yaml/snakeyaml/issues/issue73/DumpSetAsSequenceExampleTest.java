@@ -57,6 +57,8 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
 
     private class SetRepresenter extends Representer {
         public SetRepresenter() {
+            // when representer for Set is removed sets will be treated as
+            // collections (!!seq)
             this.multiRepresenters.remove(Set.class);
         }
     }
