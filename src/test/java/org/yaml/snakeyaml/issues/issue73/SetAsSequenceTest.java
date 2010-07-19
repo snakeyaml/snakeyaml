@@ -20,6 +20,9 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.Dumper;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -31,41 +34,47 @@ public class SetAsSequenceTest extends TestCase {
         Blog blog = new Blog("Test Me!");
         blog.addPost(new Post("Title1", "text 1"));
         blog.addPost(new Post("Title2", "text text 2"));
-        blog.numbers.add(17);
         blog.numbers.add(19);
-        Yaml yaml = new Yaml();
+        blog.numbers.add(17);
+        DumperOptions options = new DumperOptions();
+        options.setAllowReadOnlyProperties(true);
+        Yaml yaml = new Yaml(new Dumper(options));
         String output = yaml.dump(blog);
-        System.out.println(output);
+        // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue73-1.txt"), output);
     }
 
     public void testLoad() {
+        Loader loader = new Loader();
+        loader.setBeanAccess(BeanAccess.FIELD);
+        Yaml yaml = new Yaml(loader);
         String doc = Util.getLocalResource("issues/issue73-1.txt");
-        Blog blog = (Blog) constructYamlParser().load(doc);
-        System.out.println(blog);
+        Blog blog = (Blog) yaml.load(doc);
+        // System.out.println(blog);
+        assertEquals("Test Me!", blog.getName());
+        assertEquals(2, blog.numbers.size());
+        assertEquals(2, blog.getPosts().size());
+        for (Post post : blog.getPosts()) {
+            assertEquals(Post.class, post.getClass());
+        }
     }
 
     public void testYaml() {
-        String serialized = "!!org.yaml.snakeyaml.issues.issue73.Blog\n" + "posts:\n"
-                + "  - text: Dummy\n" + "    title: Test\n" + "  - text: Creative\n"
-                + "    title: Highly\n";
-
-        Yaml yaml2 = constructYamlParser();
-        Blog rehydrated = (Blog) yaml2.load(serialized);
+        String serialized = Util.getLocalResource("issues/issue73-2.txt");
+        // System.out.println(serialized);
+        JavaBeanLoader<Blog> beanLoader = new JavaBeanLoader<Blog>(Blog.class, BeanAccess.FIELD);
+        Blog rehydrated = beanLoader.load(serialized);
 
         checkTestBlog(rehydrated);
-    }
-
-    protected Yaml constructYamlParser() {
-        Loader loader = new Loader();
-        loader.setBeanAccess(BeanAccess.FIELD);
-
-        Yaml yaml = new Yaml(loader);
-        return yaml;
     }
 
     protected void checkTestBlog(Blog blog) {
         Set<Post> posts = blog.getPosts();
         assertEquals("Blog contains 2 posts", 2, posts.size());
+        for (Post post : posts) {
+            assertEquals(Post.class, post.getClass());
+        }
+        assertEquals("No tags!", blog.getName());
+        assertEquals(0, blog.numbers.size());
     }
 }

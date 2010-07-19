@@ -16,7 +16,7 @@
 
 package org.yaml.snakeyaml.issues.issue73;
 
-class Post {
+class Post implements Comparable<Post> {
 
     private String title;
     private String text;
@@ -36,5 +36,9 @@ class Post {
 
     public String getText() {
         return text;
+    }
+
+    public int compareTo(Post o) {
+        return title.compareTo(o.title);
     }
 }

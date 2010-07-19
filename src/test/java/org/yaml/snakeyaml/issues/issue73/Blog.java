@@ -16,15 +16,15 @@
 
 package org.yaml.snakeyaml.issues.issue73;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-class Blog {
+public class Blog {
 
     private String name;
-    private Set<Post> posts = new HashSet<Post>();
-    public Set<Integer> numbers = new TreeSet<Integer>();
+    private Set<Post> posts = new TreeSet<Post>();
+    public Set<Integer> numbers = new LinkedHashSet<Integer>();
 
     public Blog() {
         name = "SuperBlog";
@@ -49,4 +49,24 @@ class Blog {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return name.equals(obj.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Blog '" + name + "'";
+    }
+
 }

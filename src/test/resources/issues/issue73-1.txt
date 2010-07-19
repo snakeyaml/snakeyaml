@@ -1,4 +1,9 @@
 !!org.yaml.snakeyaml.issues.issue73.Blog
 name: Test Me!
-numbers: !!set {17: null, 19: null}
+numbers: !!set {19: null, 17: null}
+posts: !!set
+  ? {text: text 1, title: Title1}
+  : null
+  ? {text: text text 2, title: Title2}
+  : null
 
