@@ -126,8 +126,8 @@ public class Representer extends SafeRepresenter {
             // the node is a map, set or JavaBean
             if (!Map.class.isAssignableFrom(propertyValue.getClass())) {
                 // the node is set or JavaBean
-                if (customTag == null) {
-                    // custom tag is not defined
+                if (customTag == null && !nodeValue.getTag().equals(Tag.SET)) {
+                    // custom tag is not defined, set must keep the '!!set' tag
                     if (property.getType() == propertyValue.getClass()) {
                         // we do not need global tag because the property
                         // Class is the same as the runtime class

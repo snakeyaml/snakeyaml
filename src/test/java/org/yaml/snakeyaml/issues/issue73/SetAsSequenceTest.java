@@ -17,6 +17,7 @@
 package org.yaml.snakeyaml.issues.issue73;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.TestCase;
 
@@ -36,6 +37,11 @@ public class SetAsSequenceTest extends TestCase {
         blog.addPost(new Post("Title2", "text text 2"));
         blog.numbers.add(19);
         blog.numbers.add(17);
+        TreeSet<String> labels = new TreeSet<String>();
+        labels.add("Java");
+        labels.add("YAML");
+        labels.add("SnakeYAML");
+        blog.setLabels(labels);
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
         Yaml yaml = new Yaml(new Dumper(options));
@@ -71,10 +77,22 @@ public class SetAsSequenceTest extends TestCase {
     protected void checkTestBlog(Blog blog) {
         Set<Post> posts = blog.getPosts();
         assertEquals("Blog contains 2 posts", 2, posts.size());
-        for (Post post : posts) {
-            assertEquals(Post.class, post.getClass());
-        }
+        assertTrue(posts.contains(new Post("Test", "Dummy")));
+        assertTrue(posts.contains(new Post("Highly", "Creative")));
         assertEquals("No tags!", blog.getName());
         assertEquals(0, blog.numbers.size());
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testLoadRootSet() {
+        Yaml yaml = new Yaml();
+        String doc = Util.getLocalResource("issues/issue73-3.txt");
+        Set<String> strings = (Set<String>) yaml.load(doc);
+        // System.out.println(strings);
+        assertEquals(3, strings.size());
+        assertTrue(strings.contains("aaa"));
+        assertTrue(strings.contains("bbb"));
+        assertTrue(strings.contains("ccc"));
     }
 }

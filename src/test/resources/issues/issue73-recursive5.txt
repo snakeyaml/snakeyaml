@@ -1,0 +1,4 @@
+!!org.yaml.snakeyaml.issues.issue73.RecursiveSetTest$Bean1
+id: ID123
+set: &id001 !!set {ccc: null, *id001: null, zzz: null}
+

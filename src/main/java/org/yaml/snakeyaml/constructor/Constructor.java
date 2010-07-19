@@ -161,9 +161,8 @@ public class Constructor extends SafeConstructor {
                 }
             } else if (SortedSet.class.isAssignableFrom(node.getType())) {
                 SortedSet<Object> set = new TreeSet<Object>();
-                if (!node.isTwoStepsConstruction()) {
-                    constructSet2ndStep(mnode, set);
-                }
+                // set cannot be recursive
+                constructSet2ndStep(mnode, set);
                 return set;
             } else if (Collection.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
@@ -491,7 +490,7 @@ public class Constructor extends SafeConstructor {
             SequenceNode snode = (SequenceNode) node;
             if (Set.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
-                    return createDefaultSet(snode.getValue().size());
+                    throw new YAMLException("Set cannot be recursive.");
                 } else {
                     return constructSet(snode);
                 }

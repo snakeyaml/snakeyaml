@@ -25,6 +25,7 @@ public class Blog {
     private String name;
     private Set<Post> posts = new TreeSet<Post>();
     public Set<Integer> numbers = new LinkedHashSet<Integer>();
+    private TreeSet<String> labels = new TreeSet<String>();
 
     public Blog() {
         name = "SuperBlog";
@@ -54,6 +55,14 @@ public class Blog {
         this.posts = posts;
     }
 
+    public TreeSet<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(TreeSet<String> labels) {
+        this.labels = labels;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return name.equals(obj.toString());
@@ -68,5 +77,4 @@ public class Blog {
     public String toString() {
         return "Blog '" + name + "'";
     }
-
 }

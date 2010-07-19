@@ -41,4 +41,24 @@ class Post implements Comparable<Post> {
     public int compareTo(Post o) {
         return title.compareTo(o.title);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Post) {
+            return toString().equals(obj.toString());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Post " + title + " " + text;
+    }
+
 }

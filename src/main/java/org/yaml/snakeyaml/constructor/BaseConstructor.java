@@ -252,8 +252,8 @@ public abstract class BaseConstructor {
     @SuppressWarnings("unchecked")
     protected Set<? extends Object> constructSet(SequenceNode node) {
         Set<Object> result;
-        if (Set.class.isAssignableFrom(node.getType()) && !node.getType().isInterface()) {
-            // the root class may be defined (Vector for instance)
+        if (!node.getType().isInterface()) {
+            // the root class may be defined
             try {
                 result = (Set<Object>) node.getType().newInstance();
             } catch (Exception e) {

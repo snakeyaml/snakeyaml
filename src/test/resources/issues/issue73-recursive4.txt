@@ -1,0 +1,5 @@
+&id001 !!java.util.HashSet
+- aaa
+- !!set { 1, *id001 }
+- ccc
+
