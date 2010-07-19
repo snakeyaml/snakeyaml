@@ -1,0 +1,4 @@
+!!org.yaml.snakeyaml.issues.issue73.Blog
+name: Test Me!
+numbers: !!set {17: null, 19: null}
+

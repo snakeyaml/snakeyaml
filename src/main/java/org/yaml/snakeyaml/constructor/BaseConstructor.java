@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.constructor;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -221,6 +222,10 @@ public abstract class BaseConstructor {
         return new ArrayList<Object>(initSize);
     }
 
+    protected Set<Object> createDefaultSet(int initSize) {
+        return new LinkedHashSet<Object>(initSize);
+    }
+
     @SuppressWarnings("unchecked")
     protected <T> T[] createArray(Class<T> type, int size) {
         return (T[]) Array.newInstance(type.getComponentType(), size);
@@ -244,13 +249,31 @@ public abstract class BaseConstructor {
 
     }
 
+    @SuppressWarnings("unchecked")
+    protected Set<? extends Object> constructSet(SequenceNode node) {
+        Set<Object> result;
+        if (Set.class.isAssignableFrom(node.getType()) && !node.getType().isInterface()) {
+            // the root class may be defined (Vector for instance)
+            try {
+                result = (Set<Object>) node.getType().newInstance();
+            } catch (Exception e) {
+                throw new YAMLException(e);
+            }
+        } else {
+            result = createDefaultSet(node.getValue().size());
+        }
+        constructSequenceStep2(node, result);
+        return result;
+
+    }
+
     protected Object constructArray(SequenceNode node) {
         return constructArrayStep2(node, createArray(node.getType(), node.getValue().size()));
     }
 
-    protected void constructSequenceStep2(SequenceNode node, List<Object> list) {
+    protected void constructSequenceStep2(SequenceNode node, Collection<Object> collection) {
         for (Node child : node.getValue()) {
-            list.add(constructObject(child));
+            collection.add(constructObject(child));
         }
     }
 

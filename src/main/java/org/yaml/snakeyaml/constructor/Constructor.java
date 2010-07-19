@@ -489,7 +489,13 @@ public class Constructor extends SafeConstructor {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             SequenceNode snode = (SequenceNode) node;
-            if (Collection.class.isAssignableFrom(node.getType())) {
+            if (Set.class.isAssignableFrom(node.getType())) {
+                if (node.isTwoStepsConstruction()) {
+                    return createDefaultSet(snode.getValue().size());
+                } else {
+                    return constructSet(snode);
+                }
+            } else if (Collection.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
                     return createDefaultList(snode.getValue().size());
                 } else {
