@@ -40,9 +40,8 @@ public class SetAsSequenceTest extends TestCase {
     }
 
     public void testLoad() {
-        Yaml yaml = new Yaml();
         String doc = Util.getLocalResource("issues/issue73-1.txt");
-        Blog blog = (Blog) yaml.load(doc);
+        Blog blog = (Blog) constructYamlParser().load(doc);
         System.out.println(blog);
     }
 
