@@ -87,8 +87,8 @@ public abstract class Node {
         this.tag = tag;
     }
 
-    /*
-     * It is not allowed to overwrite this method. Two Nodes are never equal.
+    /**
+     * Two Nodes are never equal.
      */
     @Override
     public final boolean equals(Object obj) {
