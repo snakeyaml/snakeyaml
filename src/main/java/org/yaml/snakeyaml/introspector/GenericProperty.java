@@ -54,6 +54,12 @@ abstract public class GenericProperty extends Property {
                 if (componentType instanceof Class<?>) {
                     actualClasses = new Class<?>[] { (Class<?>) componentType };
                 }
+            } else {
+                Class<?> classType = (Class<?>) genType;
+                if (classType.isArray()) {
+                    actualClasses = new Class<?>[1];
+                    actualClasses[0] = getType().getComponentType();
+                }
             }
             actualClassesChecked = true;
         }

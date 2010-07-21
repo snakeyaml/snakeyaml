@@ -1,0 +1,20 @@
+id: ID123
+list:
+- age: 111
+  name: John
+- age: 222
+  name: Tony
+members:
+- age: 21
+  name: Foo
+- age: 23
+  name: Bar
+- age: 25
+  name: Hue Long Hair
+number: 7
+openMembers:
+- age: 1000
+  name: OpenFoo
+- age: 2000
+  name: OpenBar
+

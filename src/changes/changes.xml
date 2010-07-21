@@ -7,6 +7,9 @@
 	</properties>
 	<body>
           <release version="1.7" date="in Mercurial" description="development">
+            <action dev="py4fun" type="fix" issue="74" due-to="Kevin Menard">
+                Do not use redundant tags for arrays which are JavaBean properties. (2010-07-21)
+            </action>
             <action dev="py4fun" type="update">
                 RecursiveSetTest proves that it is possible to construct a recursive set (2010-07-20)
             </action>
