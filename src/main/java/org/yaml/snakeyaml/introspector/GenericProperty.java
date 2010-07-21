@@ -54,7 +54,7 @@ abstract public class GenericProperty extends Property {
                 if (componentType instanceof Class<?>) {
                     actualClasses = new Class<?>[] { (Class<?>) componentType };
                 }
-            } else {
+            } else  if (genType instanceof Class<?>) {//XXX this check is only required for IcedTea6
                 Class<?> classType = (Class<?>) genType;
                 if (classType.isArray()) {
                     actualClasses = new Class<?>[1];
