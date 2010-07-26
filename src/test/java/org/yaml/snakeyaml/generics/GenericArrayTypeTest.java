@@ -16,6 +16,8 @@
 
 package org.yaml.snakeyaml.generics;
 
+import java.beans.IntrospectionException;
+
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
@@ -57,7 +59,7 @@ public class GenericArrayTypeTest extends TestCase {
         }
     }
 
-    public void testClasses() {
+    public void testClasses() throws IntrospectionException {
         GenericArray ga = new GenericArray();
         Yaml yaml = new Yaml();
         String doc = yaml.dump(ga);
@@ -65,15 +67,18 @@ public class GenericArrayTypeTest extends TestCase {
         String etalon = "!!org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray\n"
                 + "home: [1, 2, 3]\n" + "name: Array3\n";
         assertEquals(etalon, doc);
-        try {
+        if (JvmDetector.isProperIntrospection()) {
             GenericArray parsed = (GenericArray) yaml.load(doc);
-            fail("Check GenericArrayType");
             assertEquals("Array3", parsed.getName());
             assertEquals(3, parsed.getHome().length);
-        } catch (Exception e) {
-            // TODO Check GenericArrayType
-            String message = "Cannot create property=home for JavaBean=org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray";
-            assertTrue(e.getMessage(), e.getMessage().contains(message));
+        } else {
+            try {
+                yaml.load(doc);
+            } catch (Exception e) {
+                // TODO Check GenericArrayType
+                String message = "Cannot create property=home for JavaBean=org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray";
+                assertTrue(e.getMessage(), e.getMessage().contains(message));
+            }
         }
     }
 
@@ -99,7 +104,7 @@ public class GenericArrayTypeTest extends TestCase {
         }
     }
 
-    public void testJavaBean() {
+    public void testJavaBean() throws IntrospectionException {
         GenericArray ga = new GenericArray();
         ArrayBean bean = new ArrayBean();
         bean.setId("ID556677");
@@ -110,16 +115,19 @@ public class GenericArrayTypeTest extends TestCase {
         assertEquals(Util.getLocalResource("javabeans/genericArray-1.yaml"), doc);
         //
         JavaBeanLoader<ArrayBean> beanLoader = new JavaBeanLoader<ArrayBean>(ArrayBean.class);
-        try {
+        if (JvmDetector.isProperIntrospection()) {
             ArrayBean loaded = beanLoader.load(doc);
-            fail("Check GenericArrayType");
             assertEquals("ID556677", loaded.getId());
             assertEquals("Array3", loaded.getGa().getName());
             assertEquals(3, loaded.getGa().getHome().length);
-        } catch (Exception e) {
-            // TODO Check GenericArrayType
-            String message = "Cannot create property=home for JavaBean=org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray";
-            assertTrue(e.getMessage(), e.getMessage().contains(message));
+        } else {
+            try {
+                beanLoader.load(doc);
+            } catch (Exception e) {
+                // TODO Check GenericArrayType
+                String message = "Cannot create property=home for JavaBean=org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray";
+                assertTrue(e.getMessage(), e.getMessage().contains(message));
+            }
         }
     }
 
