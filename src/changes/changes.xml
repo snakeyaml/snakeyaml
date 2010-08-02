@@ -7,6 +7,10 @@
 	</properties>
 	<body>
           <release version="1.7" date="in Mercurial" description="development">
+            <action dev="py4fun" type="update" issue="75" due-to="jon.p.hermes">
+                Add examples to create scalars that match custom regular expression:
+                CustomImplicitResolverTest, CustomBeanResolverTest (2010-08-03)
+            </action>
             <action dev="py4fun" type="fix" issue="74" due-to="Kevin Menard">
                 Do not use redundant tags for arrays which are JavaBean properties. (2010-07-21)
             </action>
