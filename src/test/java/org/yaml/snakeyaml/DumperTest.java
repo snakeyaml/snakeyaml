@@ -26,6 +26,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.resolver.Resolver;
+
 public class DumperTest extends TestCase {
 
     public void testDump1() {
@@ -97,8 +99,17 @@ public class DumperTest extends TestCase {
     }
 
     @SuppressWarnings("deprecation")
-    public void testDeprecated() {
+    public void testDeprecated1() {
         Yaml yaml = new Yaml(new Dumper());
         yaml.dump("aaa1234567890");
+    }
+
+    @SuppressWarnings("deprecation")
+    public void testDeprecated2() {
+        DumperOptions options = new DumperOptions();
+        options.setCanonical(true);
+        Yaml yaml = new Yaml(new Loader(), new Dumper(options), new Resolver());
+        String doc = yaml.dump("aaa1234567890");
+        assertEquals("---\n!!str \"aaa1234567890\"\n", doc);
     }
 }

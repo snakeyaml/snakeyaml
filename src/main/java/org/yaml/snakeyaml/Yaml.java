@@ -499,7 +499,7 @@ public class Yaml {
      * @deprecated use with Constructor instead of Loader
      */
     public Yaml(Loader loader, Dumper dumper, Resolver resolver) {
-        this(loader.constructor, dumper.representer, new DumperOptions(), resolver);
+        this(loader.constructor, dumper.representer, dumper.options, resolver);
     }
 
     /**
