@@ -30,7 +30,7 @@ public class JavaBeanParserTest extends TestCase {
         Bean bean = new Bean();
         bean.setId(3);
         bean.setName("Test me.");
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String output = yaml.dump(bean);
         assertEquals("!!org.yaml.snakeyaml.JavaBeanParserTest$Bean {id: 3, name: Test me.}\n",
                 output);
