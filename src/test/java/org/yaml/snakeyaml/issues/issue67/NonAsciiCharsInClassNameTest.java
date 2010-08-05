@@ -18,7 +18,6 @@ package org.yaml.snakeyaml.issues.issue67;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -108,7 +107,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         obj.setName("Foo bar 123");
         Representer repr = new Representer();
         repr.addClassTag(Académico.class, new Tag("!foo"));
-        Yaml yaml = new Yaml(new Dumper(repr));
+        Yaml yaml = new Yaml(repr);
         String result = yaml.dump(obj);
         assertEquals("!foo {id: 123, name: Foo bar 123}\n", result);
     }
@@ -119,7 +118,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         obj.setName("Foo bar 123");
         Representer repr = new Representer();
         repr.addClassTag(Académico.class, new Tag("!Académico"));
-        Yaml yaml = new Yaml(new Dumper(repr));
+        Yaml yaml = new Yaml(repr);
         String result = yaml.dump(obj);
         assertEquals("!Acad%C3%A9mico {id: 123, name: Foo bar 123}\n", result);
     }

@@ -18,7 +18,6 @@ package examples.staticstate;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
@@ -67,7 +66,7 @@ public class StaticFieldsWrapperTest extends TestCase {
         JavaBeanWithStaticState.color = "Violet";
         Representer repr = new Representer();
         repr.addClassTag(Wrapper.class, new Tag("!mybean"));
-        Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
+        Yaml yaml = new Yaml(repr);
         String output = yaml.dump(new Wrapper(bean));
         // System.out.println(output);
         assertEquals("!mybean {age: -47, color: Violet, name: Bahrack, type: Type3}\n", output);

@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
@@ -72,8 +71,7 @@ public class YamlFieldAccessCollectionTest {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
         options.setExplicitRoot(Tag.MAP);
-        Dumper dumper = new Dumper(representer, options);
-        Yaml yaml = new Yaml(dumper);
+        Yaml yaml = new Yaml(representer, options);
         return yaml;
     }
 

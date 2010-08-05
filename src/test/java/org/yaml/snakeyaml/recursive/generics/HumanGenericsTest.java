@@ -30,7 +30,6 @@ import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.TypeDescription;
@@ -224,8 +223,7 @@ public class HumanGenericsTest extends TestCase {
         //
         Representer representer = new Representer();
         representer.addClassTag(HumanGen2.class, Tag.MAP);
-        Dumper dumper = new Dumper(representer, new DumperOptions());
-        Yaml yaml = new Yaml(dumper);
+        Yaml yaml = new Yaml(representer);
         String output = yaml.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/generics/with-children-2.yaml");

@@ -348,8 +348,7 @@ public class DumperOptionsTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setIndent(4);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        Dumper dumper = new Dumper(representer, options);
-        Yaml yaml = new Yaml(dumper);
+        Yaml yaml = new Yaml(representer, options);
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);

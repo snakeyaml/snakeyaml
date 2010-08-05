@@ -21,7 +21,6 @@ import java.util.TreeSet;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -34,7 +33,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
     public void testDumpFlow() {
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        Yaml yaml = new Yaml(new Dumper(new SetRepresenter(), options));
+        Yaml yaml = new Yaml(new SetRepresenter(), options);
         String output = yaml.dump(createBlog());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue73-dump7.txt"), output);
@@ -46,7 +45,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        Yaml yaml = new Yaml(new Dumper(new SetRepresenter(), options));
+        Yaml yaml = new Yaml(new SetRepresenter(), options);
         String output = yaml.dump(createBlog());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue73-dump8.txt"), output);

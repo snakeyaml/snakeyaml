@@ -22,8 +22,6 @@ import junit.framework.TestCase;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.yaml.snakeyaml.Dumper;
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 public class JodaTimeExampleTest extends TestCase {
@@ -31,7 +29,7 @@ public class JodaTimeExampleTest extends TestCase {
 
     public void testDump() throws IOException {
         DateTime time = new DateTime(timestamp, DateTimeZone.UTC);
-        Yaml yaml = new Yaml(new Dumper(new JodaTimeRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new JodaTimeRepresenter());
         String joda = yaml.dump(time);
         String date = new Yaml().dump(new Date(timestamp));
         assertEquals(date, joda);

@@ -95,4 +95,10 @@ public class DumperTest extends TestCase {
         public void write(char[] cbuf, int off, int len) throws IOException {
         }
     }
+
+    @SuppressWarnings("deprecation")
+    public void testDeprecated() {
+        Yaml yaml = new Yaml(new Dumper());
+        yaml.dump("aaa1234567890");
+    }
 }

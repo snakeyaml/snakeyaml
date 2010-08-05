@@ -18,7 +18,6 @@ package org.yaml.snakeyaml.ruby;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.TypeDescription;
@@ -65,7 +64,7 @@ public class RubyTest extends TestCase {
         repr.addClassTag(TestObject.class, new Tag("!ruby/object:Test::Module::Object"));
         repr.addClassTag(Sub1.class, new Tag("!ruby/object:Test::Module::Sub1"));
         repr.addClassTag(Sub2.class, new Tag("!ruby/object:Test::Module::Sub2"));
-        Yaml yaml2 = new Yaml(new Dumper(repr, options));
+        Yaml yaml2 = new Yaml(repr, options);
         String output = yaml2.dump(result);
         // System.out.println(output);
         assertTrue("Tags must be present.", output

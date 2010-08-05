@@ -22,7 +22,6 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -60,7 +59,7 @@ public class StaticFieldsTest extends TestCase {
         bean.setAge(25);
         JavaBeanWithStaticState.setType("Represent");
         JavaBeanWithStaticState.color = "Black";
-        Yaml yaml = new Yaml(new Dumper(new MyRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new MyRepresenter(), new DumperOptions());
         String output = yaml.dump(bean);
         // System.out.println(output);
         assertEquals(

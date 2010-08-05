@@ -23,7 +23,6 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -106,8 +105,7 @@ public class ImplicitTagsTest extends TestCase {
         //
         Representer representer = new Representer();
         representer.addClassTag(Car.class, new Tag("!car"));
-        Dumper dumper = new Dumper(representer, new DumperOptions());
-        yaml = new Yaml(dumper);
+        yaml = new Yaml(representer);
         String carYaml2 = yaml.dump(car);
         assertEquals(Util.getLocalResource("constructor/car-without-tags.yaml"), carYaml2);
     }

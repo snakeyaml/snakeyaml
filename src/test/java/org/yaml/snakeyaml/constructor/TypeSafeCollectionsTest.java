@@ -24,8 +24,6 @@ import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -85,8 +83,7 @@ public class TypeSafeCollectionsTest extends TestCase {
         c.setWheels(wheels);
         Representer representer = new Representer();
         representer.addClassTag(MyWheel.class, Tag.MAP);
-        Dumper dumper = new Dumper(representer, new DumperOptions());
-        Yaml yaml = new Yaml(dumper);
+        Yaml yaml = new Yaml(representer);
         String output = yaml.dump(c);
         assertEquals(Util.getLocalResource("javabeans/mycar-with-global-tag1.yaml"), output);
         // load

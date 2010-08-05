@@ -18,7 +18,6 @@ package org.yaml.snakeyaml.javabeans;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -56,8 +55,7 @@ public class LongTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         Representer repr = new Representer();
         repr.addClassTag(Long.class, new Tag("!!java.lang.Long"));
-        Dumper dumper = new Dumper(repr, options);
-        Yaml yaml = new Yaml(dumper);
+        Yaml yaml = new Yaml(repr, options);
 
         Foo foo = new Foo();
         String output = yaml.dump(foo);

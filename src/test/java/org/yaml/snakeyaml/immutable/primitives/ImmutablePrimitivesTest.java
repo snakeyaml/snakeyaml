@@ -18,16 +18,13 @@ package org.yaml.snakeyaml.immutable.primitives;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class ImmutablePrimitivesTest extends TestCase {
 
     public void testPrimitives() {
-        Yaml yaml = new Yaml(new Dumper(new ImmutablePrimitivesRepresenter(),
-                new DumperOptions()));
+        Yaml yaml = new Yaml(new ImmutablePrimitivesRepresenter());
         BunchOfPrimitives bunch = new BunchOfPrimitives(10, 40.0, true);
         String dump = yaml.dump(bunch);
         assertEquals("!!" + bunch.getClass().getCanonicalName() + " [10, 40.0, true]\n", dump);

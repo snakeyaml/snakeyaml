@@ -22,8 +22,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -43,8 +41,7 @@ public class ClassTagsTest extends TestCase {
             wheels.add(wheel);
         }
         car.setWheels(wheels);
-        assertEquals(Util.getLocalResource("constructor/car-with-tags.yaml"), new Yaml()
-                .dump(car));
+        assertEquals(Util.getLocalResource("constructor/car-with-tags.yaml"), new Yaml().dump(car));
     }
 
     public void testDumpClassTag() throws IOException {
@@ -60,8 +57,7 @@ public class ClassTagsTest extends TestCase {
         Representer representer = new Representer();
         representer.addClassTag(Car.class, new Tag("!car"));
         representer.addClassTag(Wheel.class, Tag.MAP);
-        Dumper dumper = new Dumper(representer, new DumperOptions());
-        Yaml yaml = new Yaml(dumper);
+        Yaml yaml = new Yaml(representer);
         String output = yaml.dump(car);
         assertEquals(Util.getLocalResource("constructor/car-without-tags.yaml"), output);
     }
