@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -48,7 +47,7 @@ public class DiceExampleTest extends TestCase {
         Dice dice = new Dice(3, 6);
         Map<String, Dice> data = new HashMap<String, Dice>();
         data.put("gold", dice);
-        Yaml yaml = new Yaml(new Dumper(new DiceRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new DiceRepresenter(), new DumperOptions());
         String output = yaml.dump(data);
         assertEquals("{gold: !dice '3d6'}\n", output);
     }
@@ -94,8 +93,7 @@ public class DiceExampleTest extends TestCase {
     // the tag must start with a digit
     @SuppressWarnings("unchecked")
     public void testImplicitResolver() throws IOException {
-        Yaml yaml = new Yaml(new DiceConstructor(), new Dumper(new DiceRepresenter(),
-                new DumperOptions()));
+        Yaml yaml = new Yaml(new DiceConstructor(), new DiceRepresenter());
         // the tag must start with a digit
         yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), "123456789");
         // dump
@@ -112,8 +110,7 @@ public class DiceExampleTest extends TestCase {
     // the tag may start with anything
     @SuppressWarnings("unchecked")
     public void testImplicitResolverWithNull() throws IOException {
-        Yaml yaml = new Yaml(new DiceConstructor(), new Dumper(new DiceRepresenter(),
-                new DumperOptions()));
+        Yaml yaml = new Yaml(new DiceConstructor(), new DiceRepresenter());
         // the tag may start with anything
         yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), null);
         // dump

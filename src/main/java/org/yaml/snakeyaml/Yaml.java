@@ -29,6 +29,8 @@ import java.util.regex.Pattern;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.emitter.Emitter;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Node;
@@ -37,16 +39,27 @@ import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
+import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.resolver.Resolver;
+import org.yaml.snakeyaml.serializer.Serializer;
 
 /**
  * Public YAML interface. Each Thread must have its own instance.
  */
 public class Yaml {
-    private final Dumper dumper;
     protected final Resolver resolver;
     private String name;
     protected BaseConstructor constructor;
+    protected Representer representer;
+    protected DumperOptions options;
+
+    /**
+     * Create Yaml instance. It is safe to create a few instances and use them
+     * in different Threads.
+     */
+    public Yaml() {
+        this(new Constructor(), new Representer(), new DumperOptions(), new Resolver());
+    }
 
     /**
      * Create Yaml instance.
@@ -55,18 +68,18 @@ public class Yaml {
      *            DumperOptions to configure outgoing objects
      */
     public Yaml(DumperOptions options) {
-        this(new Constructor(), new Dumper(options));
+        this(new Constructor(), new Representer(), options);
     }
 
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
      * 
-     * @param dumper
-     *            Dumper to emit outgoing objects
+     * @param representer
+     *            Representer to emit outgoing objects
      */
-    public Yaml(Dumper dumper) {
-        this(new Constructor(), dumper);
+    public Yaml(Representer representer) {
+        this(new Constructor(), representer);
     }
 
     /**
@@ -77,7 +90,7 @@ public class Yaml {
      *            BaseConstructor to construct incoming documents
      */
     public Yaml(BaseConstructor constructor) {
-        this(constructor, new Dumper(new DumperOptions()));
+        this(constructor, new Representer());
     }
 
     /**
@@ -86,11 +99,24 @@ public class Yaml {
      * 
      * @param constructor
      *            BaseConstructor to construct incoming documents
-     * @param dumper
-     *            Dumper to emit outgoing objects
+     * @param representer
+     *            Representer to emit outgoing objects
      */
-    public Yaml(BaseConstructor constructor, Dumper dumper) {
-        this(constructor, dumper, new Resolver());
+    public Yaml(BaseConstructor constructor, Representer representer) {
+        this(constructor, representer, new DumperOptions());
+    }
+
+    /**
+     * Create Yaml instance. It is safe to create a few instances and use them
+     * in different Threads.
+     * 
+     * @param representer
+     *            Representer to emit outgoing objects
+     * @param options
+     *            DumperOptions to configure outgoing objects
+     */
+    public Yaml(Representer representer, DumperOptions options) {
+        this(new Constructor(), representer, options, new Resolver());
     }
 
     /**
@@ -99,25 +125,39 @@ public class Yaml {
      * 
      * @param constructor
      *            BaseConstructor to construct incoming documents
-     * @param dumper
-     *            Dumper to emit outgoing objects
+     * @param representer
+     *            Representer to emit outgoing objects
+     * @param options
+     *            DumperOptions to configure outgoing objects
+     */
+    public Yaml(BaseConstructor constructor, Representer representer, DumperOptions options) {
+        this(constructor, representer, options, new Resolver());
+    }
+
+    /**
+     * Create Yaml instance. It is safe to create a few instances and use them
+     * in different Threads.
+     * 
+     * @param constructor
+     *            BaseConstructor to construct incoming documents
+     * @param representer
+     *            Representer to emit outgoing objects
+     * @param options
+     *            DumperOptions to configure outgoing objects
      * @param resolver
      *            Resolver to detect implicit type
      */
-    public Yaml(BaseConstructor constructor, Dumper dumper, Resolver resolver) {
+    public Yaml(BaseConstructor constructor, Representer representer, DumperOptions options,
+            Resolver resolver) {
         this.constructor = constructor;
-        this.dumper = dumper;
-        dumper.setAttached();
+        representer.setDefaultFlowStyle(options.getDefaultFlowStyle());
+        representer.setDefaultScalarStyle(options.getDefaultScalarStyle());
+        representer.getPropertyUtils().setAllowReadOnlyProperties(
+                options.isAllowReadOnlyProperties());
+        this.representer = representer;
+        this.options = options;
         this.resolver = resolver;
         this.name = "Yaml:" + System.identityHashCode(this);
-    }
-
-    /**
-     * Create Yaml instance. It is safe to create a few instances and use them
-     * in different Threads.
-     */
-    public Yaml() {
-        this(new Constructor(), new Dumper(new DumperOptions()));
     }
 
     /**
@@ -169,7 +209,16 @@ public class Yaml {
      *            stream to write to
      */
     public void dumpAll(Iterator<? extends Object> data, Writer output) {
-        dumper.dump(data, output, resolver);
+        Serializer s = new Serializer(new Emitter(output, options), resolver, options);
+        try {
+            s.open();
+            while (data.hasNext()) {
+                representer.represent(s, data.next());
+            }
+            s.close();
+        } catch (java.io.IOException e) {
+            throw new YAMLException(e);
+        }
     }
 
     /**
@@ -450,6 +499,18 @@ public class Yaml {
      * @deprecated use with Constructor instead of Loader
      */
     public Yaml(Loader loader, Dumper dumper, Resolver resolver) {
-        this(loader.constructor, dumper, resolver);
+        this(loader.constructor, dumper.representer, new DumperOptions(), resolver);
+    }
+
+    /**
+     * Create Yaml instance. It is safe to create a few instances and use them
+     * in different Threads.
+     * 
+     * @param dumper
+     *            Dumper to emit outgoing objects
+     */
+    @SuppressWarnings("deprecation")
+    public Yaml(Dumper dumper) {
+        this(new Constructor(), dumper.representer, dumper.options);
     }
 }

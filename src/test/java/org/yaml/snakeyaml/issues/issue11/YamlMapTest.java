@@ -22,8 +22,6 @@ import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -35,8 +33,7 @@ import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlMapTest extends TestCase {
     public void testYaml() throws IOException {
-        Yaml yaml = new Yaml(new ExtendedConstructor(), new Dumper(new ExtendedRepresenter(),
-                new DumperOptions()));
+        Yaml yaml = new Yaml(new ExtendedConstructor(), new ExtendedRepresenter());
         String output = yaml.dump(new Custom(123));
         // System.out.println(output);
         Custom o = (Custom) yaml.load(output);
@@ -48,8 +45,7 @@ public class YamlMapTest extends TestCase {
         Map<String, Object> data = new TreeMap<String, Object>();
         data.put("customTag", new Custom(123));
 
-        Yaml yaml = new Yaml(new ExtendedConstructor(), new Dumper(new ExtendedRepresenter(),
-                new DumperOptions()));
+        Yaml yaml = new Yaml(new ExtendedConstructor(), new ExtendedRepresenter());
         String output = yaml.dump(data);
         // System.out.println(output);
         Object o = yaml.load(output);
@@ -64,8 +60,7 @@ public class YamlMapTest extends TestCase {
         Map<String, Object> data = new TreeMap<String, Object>();
         data.put("knownClass", new Wrapper("test", new Custom(456)));
 
-        Yaml yaml = new Yaml(new ExtendedConstructor(), new Dumper(new ExtendedRepresenter(),
-                new DumperOptions()));
+        Yaml yaml = new Yaml(new ExtendedConstructor(), new ExtendedRepresenter());
         String output = yaml.dump(data);
         // System.out.println(output);
         Object o = yaml.load(output);

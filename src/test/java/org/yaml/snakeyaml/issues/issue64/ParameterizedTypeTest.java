@@ -21,7 +21,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -34,7 +33,7 @@ import org.yaml.snakeyaml.representer.Representer;
 public class ParameterizedTypeTest extends TestCase {
 
     public void testRepresenter() {
-        Yaml yaml = new Yaml(new ClassConstructor(), new Dumper(new ClassRepresenter()));
+        Yaml yaml = new Yaml(new ClassConstructor(), new ClassRepresenter());
 
         String methodName = "testMethod";
         List<Class<?>> argTypes = new LinkedList<Class<?>>();

@@ -26,11 +26,11 @@ import org.yaml.snakeyaml.resolver.Resolver;
 import org.yaml.snakeyaml.serializer.Serializer;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * @deprecated Dumper's functionality was moved to Yaml
  */
 public class Dumper {
-    private final Representer representer;
-    private final DumperOptions options;
+    protected final Representer representer;
+    protected final DumperOptions options;
     private boolean attached = false;
 
     public Dumper(Representer representer, DumperOptions options) {

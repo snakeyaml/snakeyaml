@@ -18,16 +18,13 @@ package org.yaml.snakeyaml;
 
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
-import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
  * Convenience utility to serialize JavaBeans.
@@ -52,15 +49,15 @@ public class JavaBeanDumper {
         this.flowStyle = FlowStyle.BLOCK;
         classTags = new HashSet<Class<? extends Object>>();
     }
-    
+
     public JavaBeanDumper(boolean useGlobalTag) {
         this(useGlobalTag, BeanAccess.DEFAULT);
     }
-    
+
     public JavaBeanDumper(BeanAccess beanAccess) {
         this(false, beanAccess);
     }
-    
+
     /**
      * Create Dumper for JavaBeans. Use "tag:yaml.org,2002:map" as the root tag.
      */
@@ -77,7 +74,8 @@ public class JavaBeanDumper {
         }
         this.options = options;
         this.representer = representer;
-        this.beanAccess = null; // bean access in not used if representer supplied
+        this.beanAccess = null; // bean access in not used if representer
+        // supplied
     }
 
     /**
@@ -109,10 +107,8 @@ public class JavaBeanDumper {
         } else {
             repr = this.representer;
         }
-        Dumper dumper = new Dumper(repr, doptions);
-        List<Object> list = new ArrayList<Object>(1);
-        list.add(data);
-        dumper.dump(list.iterator(), output, new Resolver());
+        Yaml dumper = new Yaml(repr, doptions);
+        dumper.dump(data, output);
     }
 
     /**
@@ -153,5 +149,4 @@ public class JavaBeanDumper {
     public void setMapTagForBean(Class<? extends Object> clazz) {
         classTags.add(clazz);
     }
-    
 }

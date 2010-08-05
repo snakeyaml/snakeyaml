@@ -11,13 +11,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	<bean id="yamlOptions" class="org.yaml.snakeyaml.DumperOptions" scope="prototype">
 		<property name="indent" value="2" />
 	</bean>
-	<bean id="yamlDumper" class="org.yaml.snakeyaml.Dumper" scope="prototype">
-		<constructor-arg ref="yamlRepresenter" />
-		<constructor-arg ref="yamlOptions" />
-	</bean>
 	<bean id="snakeYaml" class="org.yaml.snakeyaml.Yaml" scope="prototype">
 		<constructor-arg ref="yamlConstructor" />
-		<constructor-arg ref="yamlDumper" />
+		<constructor-arg ref="yamlRepresenter" />
+        <constructor-arg ref="yamlOptions" />
 	</bean>
 
 	<!-- for a single JavaBean -->
