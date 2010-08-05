@@ -32,21 +32,21 @@ public class DumperOptionsTest extends TestCase {
 
     public void testDefaultStyle() {
         DumperOptions options = new DumperOptions();
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         assertEquals("abc\n", yaml.dump("abc"));
         // string which looks like integer
         assertEquals("'123'\n", yaml.dump("123"));
         //
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("\"123\"\n", yaml.dump("123"));
         //
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.SINGLE_QUOTED);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("'123'\n", yaml.dump("123"));
         //
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.PLAIN);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("'123'\n", yaml.dump("123"));
         assertEquals("abc\n", yaml.dump("abc"));
         // null check
@@ -59,7 +59,7 @@ public class DumperOptionsTest extends TestCase {
     }
 
     public void testDefaultFlowStyle() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
@@ -69,18 +69,18 @@ public class DumperOptionsTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("[1, 2, 3]\n", yaml.dump(list));
         //
         options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
         options.setPrettyFlow(true);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("[\n  1,\n  2,\n  3]\n", yaml.dump(list));
         //
         options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("- 1\n- 2\n- 3\n", yaml.dump(list));
         // null check
         try {
@@ -92,7 +92,7 @@ public class DumperOptionsTest extends TestCase {
     }
 
     public void testDefaultFlowStyleNested() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
@@ -106,50 +106,50 @@ public class DumperOptionsTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("{a: b, c: [1, 2, 3]}\n", yaml.dump(map));
         //
         options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
         options.setPrettyFlow(true);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         result = yaml.dump(map);
         assertEquals("{\n  a: b,\n  c: [\n    1,\n    2,\n    3]\n  \n}\n", result);
         //
         options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("a: b\nc:\n- 1\n- 2\n- 3\n", yaml.dump(map));
     }
 
     public void testCanonical() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         assertEquals("123\n", yaml.dump(123));
         //
         DumperOptions options = new DumperOptions();
         options = new DumperOptions();
         options.setCanonical(true);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("---\n!!int \"123\"\n", yaml.dump(123));
         //
         options = new DumperOptions();
         options.setCanonical(false);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("123\n", yaml.dump(123));
     }
 
     public void testIndent() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         DumperOptions options = new DumperOptions();
         options.setCanonical(true);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("---\n!!seq [\n  !!int \"1\",\n  !!int \"2\",\n]\n", yaml.dump(list));
         //
         options.setIndent(4);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("---\n!!seq [\n    !!int \"1\",\n    !!int \"2\",\n]\n", yaml.dump(list));
         //
         try {
@@ -177,17 +177,17 @@ public class DumperOptionsTest extends TestCase {
     }
 
     public void testLineBreak() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         DumperOptions options = new DumperOptions();
         options.setCanonical(true);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("---\n!!seq [\n  !!int \"1\",\n  !!int \"2\",\n]\n", yaml.dump(list));
         //
         options.setLineBreak(DumperOptions.LineBreak.WIN);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         String output = yaml.dump(list);
         assertEquals("---\r\n!!seq [\r\n  !!int \"1\",\r\n  !!int \"2\",\r\n]\r\n", output);
         // null check
@@ -204,13 +204,13 @@ public class DumperOptionsTest extends TestCase {
         assertEquals("Line break must match platform's default.", System
                 .getProperty("line.separator"), lineBreak.getString());
         //
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         DumperOptions options = new DumperOptions();
         options.setLineBreak(DumperOptions.LineBreak.getPlatformLineBreak());
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("[1, 2]", yaml.dump(list).trim());
     }
 
@@ -250,7 +250,7 @@ public class DumperOptionsTest extends TestCase {
     }
 
     public void testExplicitStart() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
@@ -260,16 +260,16 @@ public class DumperOptionsTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options = new DumperOptions();
         options.setExplicitStart(true);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("--- [1, 2, 3]\n", yaml.dump(list));
         //
         options.setExplicitEnd(true);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("--- [1, 2, 3]\n...\n", yaml.dump(list));
     }
 
     public void testVersion() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
@@ -279,18 +279,18 @@ public class DumperOptionsTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options = new DumperOptions();
         options.setVersion(DumperOptions.Version.V1_1);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("%YAML 1.1\n--- [1, 2, 3]\n", yaml.dump(list));
         //
         options.setVersion(DumperOptions.Version.V1_0);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("%YAML 1.0\n--- [1, 2, 3]\n", yaml.dump(list));
         //
         assertEquals("Version: 1.1", DumperOptions.Version.V1_1.toString());
     }
 
     public void testTags() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
@@ -302,23 +302,23 @@ public class DumperOptionsTest extends TestCase {
         Map<String, String> tags = new LinkedHashMap<String, String>();
         tags.put("!foo!", "bar");
         options.setTags(tags);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("%TAG !foo! bar\n--- [1, 2, 3]\n", yaml.dump(list));
         //
         options = new DumperOptions();
         tags.put("!yaml!", Tag.PREFIX);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("foo\n", yaml.dump("foo"));
     }
 
     public void testAllowUnicode() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         assertEquals("out: " + yaml.dump("\u00DCber"), "\u00DCber\n", yaml.dump("\u00DCber"));
         //
         DumperOptions options = new DumperOptions();
         options = new DumperOptions();
         options.setAllowUnicode(false);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         assertEquals("\"\\xdcber\"\n", yaml.dump("\u00DCber"));
     }
 
@@ -349,7 +349,7 @@ public class DumperOptionsTest extends TestCase {
         options.setIndent(4);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Dumper dumper = new Dumper(representer, options);
-        SnakeYaml yaml = new SnakeYaml(dumper);
+        Yaml yaml = new Yaml(dumper);
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);

@@ -22,13 +22,13 @@ import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CustomMapExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testMap() throws IOException {
-        SnakeYaml yaml = new SnakeYaml(new CustomConstructor());
+        Yaml yaml = new Yaml(new CustomConstructor());
         Map data = (Map) yaml.load("{2: '222', 1: '111', 3: '333'}");
         assertTrue(data instanceof TreeMap);
         Object[] keys = data.keySet().toArray();

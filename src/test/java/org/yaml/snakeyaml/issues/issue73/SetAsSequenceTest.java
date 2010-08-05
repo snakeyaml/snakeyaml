@@ -26,8 +26,8 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 
 public class SetAsSequenceTest extends TestCase {
@@ -45,14 +45,14 @@ public class SetAsSequenceTest extends TestCase {
         blog.setLabels(labels);
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        SnakeYaml yaml = new SnakeYaml(new Dumper(options));
+        Yaml yaml = new Yaml(new Dumper(options));
         String output = yaml.dump(blog);
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue73-1.txt"), output);
     }
 
     public void testLoad() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         yaml.setBeanAccess(BeanAccess.FIELD);
         String doc = Util.getLocalResource("issues/issue73-1.txt");
         Blog blog = (Blog) yaml.load(doc);
@@ -65,7 +65,7 @@ public class SetAsSequenceTest extends TestCase {
         }
     }
 
-    public void testSnakeYaml() {
+    public void testYaml() {
         String serialized = Util.getLocalResource("issues/issue73-2.txt");
         // System.out.println(serialized);
         JavaBeanLoader<Blog> beanLoader = new JavaBeanLoader<Blog>(Blog.class, BeanAccess.FIELD);
@@ -84,7 +84,7 @@ public class SetAsSequenceTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testLoadRootSet() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String doc = Util.getLocalResource("issues/issue73-3.txt");
         Set<String> strings = (Set<String>) yaml.load(doc);
         // System.out.println(strings);
@@ -97,7 +97,7 @@ public class SetAsSequenceTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testLoadRootSet2() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String doc = "!!java.util.HashSet {aaa: null, bbb: null, ccc: null}";
         Set<String> strings = (Set<String>) yaml.load(doc);
         // System.out.println(strings);
@@ -110,7 +110,7 @@ public class SetAsSequenceTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testLoadRootSet3() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String doc = "!!java.util.TreeSet {aaa: null, bbb: null, ccc: null}";
         Set<String> strings = (Set<String>) yaml.load(doc);
         // System.out.println(strings);
@@ -123,7 +123,7 @@ public class SetAsSequenceTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testLoadRootSet6() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String doc = Util.getLocalResource("issues/issue73-6.txt");
         Set<String> strings = (Set<String>) yaml.load(doc);
         // System.out.println(strings);

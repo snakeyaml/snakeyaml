@@ -28,11 +28,12 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.resolver.Resolver;
 
 public class LoaderTest extends TestCase {
 
     public void testCompose1() {
-        SnakeYaml loader = new SnakeYaml();
+        Yaml loader = new Yaml();
         String yaml = "abc: 3";
         MappingNode node = (MappingNode) loader.compose(new StringReader(yaml));
         List<NodeTuple> nodes = node.getValue();
@@ -52,7 +53,7 @@ public class LoaderTest extends TestCase {
     }
 
     public void testCompose2() {
-        SnakeYaml loader = new SnakeYaml();
+        Yaml loader = new Yaml();
         String yaml = "3";
         ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
         assertEquals(Tag.INT, node.getTag());
@@ -70,7 +71,7 @@ public class LoaderTest extends TestCase {
     }
 
     public void testComposeAll() {
-        SnakeYaml loader = new SnakeYaml();
+        Yaml loader = new Yaml();
         String yaml = "abc: 3\n---\n2\n---\n- qwe\n- asd\n";
         int counter = 0;
         for (Node node : loader.composeAll(new StringReader(yaml))) {
@@ -89,5 +90,15 @@ public class LoaderTest extends TestCase {
                 fail("Unexpected document.");
             }
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    public void testDeprecated() {
+        Yaml yaml = new Yaml(new Loader());
+        yaml.load("123");
+        yaml = new Yaml(new Loader(), new Dumper());
+        yaml.load("123");
+        yaml = new Yaml(new Loader(), new Dumper(), new Resolver());
+        yaml.load("123");
     }
 }

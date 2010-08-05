@@ -19,32 +19,32 @@ package org.yaml.snakeyaml.immutable;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 public class ShapeImmutableTest extends TestCase {
 
     public void testColor() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Color loaded = (Color) yaml.load("!!org.yaml.snakeyaml.immutable.Color BLACK");
         assertEquals("BLACK", loaded.getName());
     }
 
     public void testCode() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Code loaded = (Code) yaml.load("!!org.yaml.snakeyaml.immutable.Code 123");
         assertEquals(new Integer(123), loaded.getCode());
     }
 
     public void testSuperColor() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         SuperColor superColor = (SuperColor) yaml
                 .load("!!org.yaml.snakeyaml.immutable.SuperColor [!!org.yaml.snakeyaml.immutable.Color BLACK]");
         assertEquals("BLACK", superColor.getColor().getName());
     }
 
     public void testSuperColorFail() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.load("!!org.yaml.snakeyaml.immutable.SuperColor BLACK");
             fail("SuperColor requires Color and not a String.");
@@ -56,13 +56,13 @@ public class ShapeImmutableTest extends TestCase {
     }
 
     public void testCode2() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Code2 code2 = (Code2) yaml.load("!!org.yaml.snakeyaml.immutable.Code2 555");
         assertEquals(new Integer(555), code2.getCode());
     }
 
     public void testCode3() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.load("!!org.yaml.snakeyaml.immutable.Code3 777");
             fail("There must be 1 constructor with 1 argument for scalar.");
@@ -74,7 +74,7 @@ public class ShapeImmutableTest extends TestCase {
     }
 
     public void testCode4() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.load("!!org.yaml.snakeyaml.immutable.Code4 777");
             fail("Constructor with String is required.");
@@ -86,21 +86,21 @@ public class ShapeImmutableTest extends TestCase {
     }
 
     public void testPoint() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Point loaded = (Point) yaml.load("!!org.yaml.snakeyaml.immutable.Point [1.17, 3.14]");
         assertEquals(1.17, loaded.getX());
         assertEquals(3.14, loaded.getY());
     }
 
     public void testPointBlock() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Point loaded = (Point) yaml.load("!!org.yaml.snakeyaml.immutable.Point\n- 1.17\n- 3.14");
         assertEquals(1.17, loaded.getX());
         assertEquals(3.14, loaded.getY());
     }
 
     public void testPointOnlyOneArgument() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.load("!!org.yaml.snakeyaml.immutable.Point\n- 1.17");
             fail("Two arguments required.");
@@ -112,21 +112,21 @@ public class ShapeImmutableTest extends TestCase {
     }
 
     public void testPoint2() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Point2 loaded = (Point2) yaml.load("!!org.yaml.snakeyaml.immutable.Point2\n- 1\n- 3");
         assertEquals(new Integer(1), loaded.getX());
         assertEquals(new Integer(3), loaded.getY());
     }
 
     public void testPoint3d() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Point3d loaded = (Point3d) yaml
                 .load("!!org.yaml.snakeyaml.immutable.Point3d [!!org.yaml.snakeyaml.immutable.Point [1.17, 3.14], 345.1]");
         assertEquals(345.1, loaded.getZ());
     }
 
     public void testShape() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String source = Util.getLocalResource("immutable/shape1.yaml");
         Shape loaded = (Shape) yaml.load(source);
         assertEquals(new Integer(123), loaded.getId());

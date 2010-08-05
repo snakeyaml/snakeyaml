@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -43,7 +43,7 @@ public class StaticFieldsTest extends TestCase {
         bean.setAge(-47);
         JavaBeanWithStaticState.setType("Represent");
         JavaBeanWithStaticState.color = "Black";
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(bean);
         // System.out.println(output);
         assertEquals("!!examples.staticstate.JavaBeanWithStaticState {age: -47, name: Bahrack}\n",
@@ -60,7 +60,7 @@ public class StaticFieldsTest extends TestCase {
         bean.setAge(25);
         JavaBeanWithStaticState.setType("Represent");
         JavaBeanWithStaticState.color = "Black";
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new MyRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new Dumper(new MyRepresenter(), new DumperOptions()));
         String output = yaml.dump(bean);
         // System.out.println(output);
         assertEquals(
@@ -69,7 +69,7 @@ public class StaticFieldsTest extends TestCase {
     }
 
     public void testCustomLoad() {
-        SnakeYaml yaml = new SnakeYaml(new MyConstructor());
+        Yaml yaml = new Yaml(new MyConstructor());
         String output = "!!examples.staticstate.JavaBeanWithStaticState {age: 25, name: Lui, color: Oranje,\n  type: King}\n";
         JavaBeanWithStaticState bean2 = (JavaBeanWithStaticState) yaml.load(output);
         assertEquals(25, bean2.getAge());

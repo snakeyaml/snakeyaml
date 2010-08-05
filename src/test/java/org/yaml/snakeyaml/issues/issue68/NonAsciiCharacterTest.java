@@ -25,14 +25,14 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlDocument;
 
 public class NonAsciiCharacterTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testLoad() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Map<String, Map<String, String>> obj = (Map<String, Map<String, String>>) yaml
                 .load("test.string: {en: И}");
         assertEquals(1, obj.size());
@@ -41,7 +41,7 @@ public class NonAsciiCharacterTest extends TestCase {
 
     public void testLoadFromFileWithWrongEncoding() {
         try {
-            SnakeYaml yaml = new SnakeYaml();
+            Yaml yaml = new Yaml();
             Object text = yaml.load(new InputStreamReader(new FileInputStream(
                     "src/test/resources/issues/issue68.txt"), "Cp1252"));
             fail("Invalid UTF-8 must not be aceepted: " + text.toString());
@@ -51,7 +51,7 @@ public class NonAsciiCharacterTest extends TestCase {
     }
 
     public void testLoadFromFile() throws UnsupportedEncodingException, FileNotFoundException {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String text = (String) yaml.load(new InputStreamReader(new FileInputStream(
                 "src/test/resources/issues/issue68.txt"), "UTF-8"));
         assertEquals("И жить торопится и чувствовать спешит...", text);
@@ -63,7 +63,7 @@ public class NonAsciiCharacterTest extends TestCase {
         if (input == null) {
             throw new RuntimeException("Can not find issues/issue68.txt");
         }
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String text = (String) yaml.load(input);// UTF-8 by default
         assertEquals("И жить торопится и чувствовать спешит...", text);
     }

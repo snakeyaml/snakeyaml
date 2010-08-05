@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -41,7 +41,7 @@ public class ResolverTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testAddImplicitResolver() {
         Dumper dumper = new Dumper(new MyRepresenter(), new DumperOptions());
-        SnakeYaml yaml = new SnakeYaml(new MyConstructor(), dumper);
+        Yaml yaml = new Yaml(new MyConstructor(), dumper);
         Pattern regexp = Pattern.compile("\\d\\d-\\d\\d-\\d\\d\\d");
         yaml.addImplicitResolver(new Tag(Tag.PREFIX + "Phone"), regexp, "0123456789");
         Phone phone1 = new Phone("12-34-567");
@@ -63,7 +63,7 @@ public class ResolverTest extends TestCase {
 
     public void testAddImplicitResolver2() {
         Dumper dumper = new Dumper(new PointRepresenter(), new DumperOptions());
-        SnakeYaml yaml = new SnakeYaml(dumper);
+        Yaml yaml = new Yaml(dumper);
         Pattern regexp = Pattern.compile("\\d\\d-\\d\\d-\\d\\d\\d");
         yaml.addImplicitResolver(new Tag(Tag.PREFIX + "Phone"), regexp, "\0");
         Pattern regexp2 = Pattern.compile("x\\d_y\\d");
@@ -156,7 +156,7 @@ public class ResolverTest extends TestCase {
      */
     @SuppressWarnings( { "unchecked", "deprecation" })
     public void testStringResolver() {
-        SnakeYaml yaml = new SnakeYaml(new Constructor(), new Dumper(), new Resolver(false));
+        Yaml yaml = new Yaml(new Constructor(), new Dumper(), new Resolver(false));
         List<Object> output = (List<Object>) yaml.load("[ '1.00', 1.00, !!float '1.00' ]");
         assertEquals("1.00", output.get(0));
         assertEquals("1.00", output.get(1));

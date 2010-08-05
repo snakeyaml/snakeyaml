@@ -21,8 +21,8 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.CollectionNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -35,7 +35,7 @@ import org.yaml.snakeyaml.representer.Representer;
 public class SkipBeanTest extends TestCase {
 
     public void testSkipNull() {
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new SkipNullRepresenter()));
+        Yaml yaml = new Yaml(new Dumper(new SkipNullRepresenter()));
         String output = yaml.dump(getBean());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue60-1.yaml"), output);
@@ -55,7 +55,7 @@ public class SkipBeanTest extends TestCase {
     }
 
     public void testSkipEmptyCollections() {
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new SkipEmptyRepresenter()));
+        Yaml yaml = new Yaml(new Dumper(new SkipEmptyRepresenter()));
         String output = yaml.dump(getBean());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue60-2.yaml"), output);

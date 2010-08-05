@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 
 public class BirdTest extends TestCase {
@@ -36,7 +36,7 @@ public class BirdTest extends TestCase {
         bird.setHome(home);
         DumperOptions options = new DumperOptions();
         options.setExplicitRoot(Tag.MAP);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(bird);
         Bird parsed;
         String javaVendor = System.getProperty("java.vm.name");

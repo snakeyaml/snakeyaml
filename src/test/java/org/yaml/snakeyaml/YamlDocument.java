@@ -36,7 +36,7 @@ public class YamlDocument {
         if (constructor == null) {
             constructor = new Constructor();
         }
-        SnakeYaml yaml = new SnakeYaml(constructor);
+        Yaml yaml = new Yaml(constructor);
         nativeData = yaml.load(input);
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         Charset charset = Charset.forName("UTF-8");

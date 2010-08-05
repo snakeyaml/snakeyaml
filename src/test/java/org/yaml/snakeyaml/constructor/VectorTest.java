@@ -20,7 +20,7 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 public class VectorTest extends TestCase {
 
@@ -33,10 +33,10 @@ public class VectorTest extends TestCase {
         srcVector.add("a");
         srcVector.add("test");
         // System.out.println("Source Vector: " + srcVector);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String instance = yaml.dump(srcVector);
         // System.out.println("YAML String: " + new String(instance));
-        yaml = new SnakeYaml(new Constructor("java.util.Vector"));
+        yaml = new Yaml(new Constructor("java.util.Vector"));
         // If I try to get a Vector I receive a class cast exception.
         Vector<String> vector = (Vector<String>) yaml.load(new String(instance));
         // System.out.println("Vector: " + vector);

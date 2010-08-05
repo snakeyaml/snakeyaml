@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 public class SafeRepresenterTest extends TestCase {
 
@@ -52,7 +52,7 @@ public class SafeRepresenterTest extends TestCase {
         list.add(Double.POSITIVE_INFINITY);
         list.add(Double.NEGATIVE_INFINITY);
         list.add(Double.NaN);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(list);
         assertEquals("[3, 4, 5, 6, 7, .inf, -.inf, .NaN]\n", output);
     }
@@ -68,7 +68,7 @@ public class SafeRepresenterTest extends TestCase {
         list.add(new Date(1229684760000L));
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(list);
         assertEquals(
                 "- 2008-12-19T11:06:01.159Z\n- 2008-12-19T11:06:01.059Z\n- 2008-12-19T11:06:01.009Z\n- 2008-12-19T11:06:01.150Z\n- 2008-12-19T11:06:01.100Z\n- 2008-12-19T11:06:01Z\n- 2008-12-19T11:06:00Z\n",
@@ -76,7 +76,7 @@ public class SafeRepresenterTest extends TestCase {
     }
 
     public void testEmptyArray() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(new String[0]);
         assertEquals("[]\n", output);
     }
@@ -92,7 +92,7 @@ public class SafeRepresenterTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
         assertTrue(output.contains("\"age\": !!int \"5\""));
         assertTrue(output.contains("\"name\": \"Ubuntu\""));
@@ -110,7 +110,7 @@ public class SafeRepresenterTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.SINGLE_QUOTED);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
         assertEquals("{'age': !!int '5', 'name': 'Ubuntu', 'list': [!!int '1', !!int '1']}\n",
                 output);
@@ -128,7 +128,7 @@ public class SafeRepresenterTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.SINGLE_QUOTED);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
         options.setPrettyFlow(true);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
         assertEquals(
                 "{\n  'age': !!int '5',\n  'name': 'Ubuntu',\n  'list': [\n    !!int '1',\n    !!int '1']\n  \n}\n",

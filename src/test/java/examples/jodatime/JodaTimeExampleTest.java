@@ -24,21 +24,21 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 public class JodaTimeExampleTest extends TestCase {
     private static final long timestamp = 1000000000000L;
 
     public void testDump() throws IOException {
         DateTime time = new DateTime(timestamp, DateTimeZone.UTC);
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new JodaTimeRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new Dumper(new JodaTimeRepresenter(), new DumperOptions()));
         String joda = yaml.dump(time);
-        String date = new SnakeYaml().dump(new Date(timestamp));
+        String date = new Yaml().dump(new Date(timestamp));
         assertEquals(date, joda);
     }
 
     public void testLoad() throws IOException {
-        SnakeYaml yaml = new SnakeYaml(new JodaTimeContructor());
+        Yaml yaml = new Yaml(new JodaTimeContructor());
         DateTime time = (DateTime) yaml.load("2001-09-09T01:46:40Z");
         assertEquals(new DateTime(timestamp, DateTimeZone.UTC), time);
     }

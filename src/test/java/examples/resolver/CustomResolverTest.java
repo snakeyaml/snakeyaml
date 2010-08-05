@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CustomResolverTest extends TestCase {
@@ -31,23 +31,23 @@ public class CustomResolverTest extends TestCase {
     public void testResolverToDump() {
         Map<Object, Object> map = new HashMap<Object, Object>();
         map.put("1.0", "2009-01-01");
-        SnakeYaml yaml = new SnakeYaml(new Constructor(), new Dumper(new DumperOptions()),
+        Yaml yaml = new Yaml(new Constructor(), new Dumper(new DumperOptions()),
                 new CustomResolver());
         String output = yaml.dump(map);
         assertEquals("{1.0: 2009-01-01}\n", output);
-        assertEquals("Float and Date must be escaped.", "{'1.0': '2009-01-01'}\n", new SnakeYaml()
+        assertEquals("Float and Date must be escaped.", "{'1.0': '2009-01-01'}\n", new Yaml()
                 .dump(map));
     }
 
     @SuppressWarnings("unchecked")
     public void testResolverToLoad() {
-        SnakeYaml yaml = new SnakeYaml(new Constructor(), new Dumper(new DumperOptions()),
+        Yaml yaml = new Yaml(new Constructor(), new Dumper(new DumperOptions()),
                 new CustomResolver());
         Map<Object, Object> map = (Map<Object, Object>) yaml.load("1.0: 2009-01-01");
         assertEquals(1, map.size());
         assertEquals("2009-01-01", map.get("1.0"));
         //
-        SnakeYaml yaml2 = new SnakeYaml();
+        Yaml yaml2 = new Yaml();
         Map<Object, Object> map2 = (Map<Object, Object>) yaml2.load("1.0: 2009-01-01");
         assertEquals(1, map2.size());
         assertFalse(map2.containsKey("1.0"));

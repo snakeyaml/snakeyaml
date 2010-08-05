@@ -22,14 +22,14 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 public class GenericArrayTypeTest extends TestCase {
 
     public void testPrimitives() {
         GenericPrimitivesArray ga = new GenericPrimitivesArray(3);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.dump(ga);
             fail("Arrays of primitives are not yet fully supported.");
@@ -61,7 +61,7 @@ public class GenericArrayTypeTest extends TestCase {
 
     public void testClasses() throws IntrospectionException {
         GenericArray ga = new GenericArray();
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String doc = yaml.dump(ga);
         // System.out.println(doc);
         String etalon = "!!org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray\n"

@@ -29,7 +29,7 @@ public class YamlComposeTest extends TestCase {
 
     public void testComposeManyDocuments() {
         try {
-            SnakeYaml yaml = new SnakeYaml();
+            Yaml yaml = new Yaml();
             yaml.compose(new StringReader("abc: 56\n---\n123\n---\n456"));
             fail("YAML contans more then one document.");
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class YamlComposeTest extends TestCase {
     }
 
     public void testComposeFromReader() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         MappingNode node = (MappingNode) yaml.compose(new StringReader("abc: 56"));
         ScalarNode node1 = (ScalarNode) node.getValue().get(0).getKeyNode();
         assertEquals("abc", node1.getValue());
@@ -48,7 +48,7 @@ public class YamlComposeTest extends TestCase {
     }
 
     public void testComposeAllFromReader() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         boolean first = true;
         for (Node node : yaml.composeAll(new StringReader("abc: 56\n---\n123\n---\n456"))) {
             if (first) {
@@ -61,7 +61,7 @@ public class YamlComposeTest extends TestCase {
     }
 
     public void testComposeAllOneDocument() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         for (Node node : yaml.composeAll(new StringReader("6"))) {
             assertEquals(NodeId.scalar, node.getNodeId());
         }

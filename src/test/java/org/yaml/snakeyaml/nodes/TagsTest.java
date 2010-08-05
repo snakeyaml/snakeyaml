@@ -19,7 +19,7 @@ package org.yaml.snakeyaml.nodes;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 public class TagsTest extends TestCase {
 
@@ -36,7 +36,7 @@ public class TagsTest extends TestCase {
     public void testLong() {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         Foo foo = new Foo();
         String output = yaml.dump(foo);
         // System.out.println(output);

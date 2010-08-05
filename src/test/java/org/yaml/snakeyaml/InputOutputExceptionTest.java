@@ -27,7 +27,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 public class InputOutputExceptionTest extends TestCase {
     public void testIOExceptionOnLoad() throws Exception {
         try {
-            new SnakeYaml().load(new BrokenInputStream());
+            new Yaml().load(new BrokenInputStream());
             fail("Input must be broken.");
         } catch (YAMLException e) {
             assertTrue(e.getCause() instanceof IOException);
@@ -37,7 +37,7 @@ public class InputOutputExceptionTest extends TestCase {
 
     public void testIOExceptionOnDump() throws Exception {
         try {
-            new SnakeYaml().dump("something", new BrokenWriter());
+            new Yaml().dump("something", new BrokenWriter());
             fail("Output must be broken.");
         } catch (YAMLException e) {
             assertTrue(e.getCause() instanceof IOException);

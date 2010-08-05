@@ -26,8 +26,8 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test different Map implementations as JavaBean properties
@@ -199,7 +199,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
         box.setId("id123");
         box.setSet(set);
         set.add(box);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(set);
         // System.out.println(output);
         // the order may differ on different JVMs
@@ -239,7 +239,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testNoJavaBeanSet() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = Util.getLocalResource("examples/set-bean-4.yaml");
         // System.out.println(output);
         // load
@@ -256,7 +256,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testNoJavaBeanSet2() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = Util.getLocalResource("examples/set-bean-5.yaml");
         // System.out.println(output);
         // load and sort

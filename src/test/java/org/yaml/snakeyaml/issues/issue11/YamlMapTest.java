@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -34,9 +34,9 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlMapTest extends TestCase {
-    public void testSnakeYaml() throws IOException {
-        SnakeYaml yaml = new SnakeYaml(new ExtendedConstructor(), new Dumper(
-                new ExtendedRepresenter(), new DumperOptions()));
+    public void testYaml() throws IOException {
+        Yaml yaml = new Yaml(new ExtendedConstructor(), new Dumper(new ExtendedRepresenter(),
+                new DumperOptions()));
         String output = yaml.dump(new Custom(123));
         // System.out.println(output);
         Custom o = (Custom) yaml.load(output);
@@ -44,12 +44,12 @@ public class YamlMapTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testSnakeYamlMap() throws IOException {
+    public void testYamlMap() throws IOException {
         Map<String, Object> data = new TreeMap<String, Object>();
         data.put("customTag", new Custom(123));
 
-        SnakeYaml yaml = new SnakeYaml(new ExtendedConstructor(), new Dumper(
-                new ExtendedRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new ExtendedConstructor(), new Dumper(new ExtendedRepresenter(),
+                new DumperOptions()));
         String output = yaml.dump(data);
         // System.out.println(output);
         Object o = yaml.load(output);
@@ -60,12 +60,12 @@ public class YamlMapTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testSnakeYamlMapBean() throws IOException {
+    public void testYamlMapBean() throws IOException {
         Map<String, Object> data = new TreeMap<String, Object>();
         data.put("knownClass", new Wrapper("test", new Custom(456)));
 
-        SnakeYaml yaml = new SnakeYaml(new ExtendedConstructor(), new Dumper(
-                new ExtendedRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new ExtendedConstructor(), new Dumper(new ExtendedRepresenter(),
+                new DumperOptions()));
         String output = yaml.dump(data);
         // System.out.println(output);
         Object o = yaml.load(output);

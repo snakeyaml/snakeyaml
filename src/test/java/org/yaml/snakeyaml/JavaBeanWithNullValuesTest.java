@@ -37,7 +37,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     public void testNotNull() throws Exception {
         String dumpStr = dumpJavaBeanWithNullValues(false);
         // System.out.println(dumpStr);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNotNull(parsed.getString());
         assertNotNull(parsed.getBoolean1());
@@ -63,7 +63,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
     public void testNull() throws Exception {
         String dumpStr = dumpJavaBeanWithNullValues(true);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNull(parsed.getString());
         //
@@ -77,7 +77,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new CustomRepresenter(), options));
+        Yaml yaml = new Yaml(new Dumper(new CustomRepresenter(), options));
         javaBeanWithNullValues.setBoolean1(null);
         javaBeanWithNullValues.setDate(new Date(System.currentTimeMillis()));
         javaBeanWithNullValues.setDouble1(1d);
@@ -90,7 +90,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
         String dumpStr = yaml.dump(javaBeanWithNullValues);
         // System.out.println(dumpStr);
-        yaml = new SnakeYaml();
+        yaml = new Yaml();
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
         assertNull(" expect null, got " + parsed.getString(), parsed.getString());
@@ -103,7 +103,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
         options.setExplicitRoot(Tag.MAP);
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new CustomRepresenter(), options));
+        Yaml yaml = new Yaml(new Dumper(new CustomRepresenter(), options));
         javaBeanWithNullValues.setBoolean1(null);
         javaBeanWithNullValues.setDate(new Date(System.currentTimeMillis()));
         javaBeanWithNullValues.setDouble1(1d);
@@ -118,7 +118,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         // System.out.println(dumpStr);
         assertFalse("No explicit root tag must be used.", dumpStr
                 .contains("JavaBeanWithNullValues"));
-        yaml = new SnakeYaml(new Dumper(new CustomRepresenter(), options));
+        yaml = new Yaml(new Dumper(new CustomRepresenter(), options));
         JavaBeanWithNullValues parsed = loader.load(dumpStr);
         assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
         assertNull(" expect null, got " + parsed.getString(), parsed.getString());
@@ -134,7 +134,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new CustomRepresenter(), options));
+        Yaml yaml = new Yaml(new Dumper(new CustomRepresenter(), options));
         if (nullValues) {
             return yaml.dump(javaBeanWithNullValues);
         }

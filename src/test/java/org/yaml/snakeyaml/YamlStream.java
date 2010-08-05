@@ -34,7 +34,7 @@ public class YamlStream {
     public YamlStream(String sourceName) {
         InputStream input = YamlDocument.class.getClassLoader().getResourceAsStream(
                 YamlDocument.ROOT + sourceName);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         for (Object document : yaml.loadAll(input)) {
             nativeData.add(document);
         }

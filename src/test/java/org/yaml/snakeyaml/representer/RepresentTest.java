@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -31,7 +31,7 @@ public class RepresentTest extends TestCase {
 
     public void testCustomRepresenter() {
         Dumper dumper = new Dumper(new MyRepresenter(), new DumperOptions());
-        SnakeYaml yaml = new SnakeYaml(new MyConstructor(), dumper);
+        Yaml yaml = new Yaml(new MyConstructor(), dumper);
         CustomBean etalon = new CustomBean("A", 1);
         String output = yaml.dump(etalon);
         assertEquals("!!Dice 'Ad1'\n", output);

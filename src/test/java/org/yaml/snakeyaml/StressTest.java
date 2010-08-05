@@ -31,19 +31,19 @@ public class StressTest extends TestCase {
 
     public void testPerformance() throws IOException {
         long time1 = System.nanoTime();
-        new SnakeYaml(new Constructor(Invoice.class));
+        new Yaml(new Constructor(Invoice.class));
         long time2 = System.nanoTime();
         float duration = (time2 - time1) / 1000000;
         System.out.println("Init was " + duration + " ms.");
 
-        SnakeYaml yaml = new SnakeYaml(new Constructor(Invoice.class));
+        Yaml yaml = new Yaml(new Constructor(Invoice.class));
         time1 = System.nanoTime();
         yaml.load(doc);
         time2 = System.nanoTime();
         duration = (time2 - time1) / 1000000;
         System.out.println("\nSingle load was " + duration + " ms.");
 
-        yaml = new SnakeYaml(new Constructor(Invoice.class));
+        yaml = new Yaml(new Constructor(Invoice.class));
         int[] range = new int[] { 1000, 2000 };
         System.out.println("\nOne instance.");
         for (int number : range) {
@@ -65,7 +65,7 @@ public class StressTest extends TestCase {
         for (int number : range) {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
-                yaml = new SnakeYaml(new Constructor(Invoice.class));
+                yaml = new Yaml(new Constructor(Invoice.class));
                 yaml.load(doc);
             }
             time2 = System.nanoTime();

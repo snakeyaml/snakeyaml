@@ -24,7 +24,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
@@ -38,7 +38,7 @@ public class FileTest extends TestCase {
     public void test() throws IOException {
         File file = new File("src/test/resources/examples/list-bean-1.yaml");
         assertTrue(file.exists());
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new MyRepresenter()));
+        Yaml yaml = new Yaml(new Dumper(new MyRepresenter()));
         Map<String, File> map = new HashMap<String, File>();
         map.put("one", file);
         String output = yaml.dump(map);

@@ -32,9 +32,9 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -53,7 +53,7 @@ public class HumanTest extends TestCase {
         father.setPartner(mother);
         mother.setPartner(father);
         mother.setBankAccountOwner(father);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(father);
         String etalon = Util.getLocalResource("recursive/no-children-1.yaml");
         assertEquals(etalon, output);
@@ -82,7 +82,7 @@ public class HumanTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setPrettyFlow(true);
         options.setDefaultFlowStyle(FlowStyle.FLOW);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(father);
         String etalon = Util.getLocalResource("recursive/no-children-1-pretty.yaml");
         assertEquals(etalon, output);
@@ -205,7 +205,7 @@ public class HumanTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.FLOW);
         options.setPrettyFlow(true);
-        SnakeYaml beanDumper = new SnakeYaml(options);
+        Yaml beanDumper = new Yaml(options);
         String output = beanDumper.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children-pretty.yaml");
@@ -281,7 +281,7 @@ public class HumanTest extends TestCase {
         humanDescription.putMapPropertyType("children", Human2.class, String.class);
         constructor.addTypeDescription(humanDescription);
 
-        SnakeYaml yaml = new SnakeYaml(constructor);
+        Yaml yaml = new Yaml(constructor);
         String output = yaml.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children-2.yaml");
@@ -348,7 +348,7 @@ public class HumanTest extends TestCase {
         Human3Description.putListPropertyType("children", Human3.class);
         constructor.addTypeDescription(Human3Description);
 
-        SnakeYaml yaml = new SnakeYaml(constructor);
+        Yaml yaml = new Yaml(constructor);
         String output = yaml.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children-3.yaml");
@@ -388,7 +388,7 @@ public class HumanTest extends TestCase {
         humanDescription.putMapPropertyType("children", Human.class, Object.class);
         constructor.addTypeDescription(humanDescription);
 
-        SnakeYaml yaml = new SnakeYaml(constructor);
+        Yaml yaml = new Yaml(constructor);
         Set<Human> children2 = (Set<Human>) yaml.load(etalon);
         assertNotNull(children2);
         assertEquals(2, children2.size());
@@ -425,7 +425,7 @@ public class HumanTest extends TestCase {
         Human2Description.putMapPropertyType("children", Human2.class, String.class);
         constructor.addTypeDescription(Human2Description);
 
-        SnakeYaml yaml = new SnakeYaml(constructor);
+        Yaml yaml = new Yaml(constructor);
         Map<Human2, String> children2 = (Map<Human2, String>) yaml.load(etalon);
         assertNotNull(children2);
         assertEquals(2, children2.size());
@@ -493,7 +493,7 @@ public class HumanTest extends TestCase {
         Human3Description.putListPropertyType("children", Human3.class);
         constructor.addTypeDescription(Human3Description);
 
-        SnakeYaml yaml = new SnakeYaml(constructor);
+        Yaml yaml = new Yaml(constructor);
         String output = yaml.dump(father.getChildren());
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children-as-list.yaml");
@@ -530,7 +530,7 @@ public class HumanTest extends TestCase {
         man2.setBankAccountOwner(man3);
         man3.setBankAccountOwner(man1);
         //
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(man1);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/beanring-3.yaml");
@@ -553,7 +553,7 @@ public class HumanTest extends TestCase {
         // map.put("1", set);
         // //
         // try {
-        // SnakeYaml yaml = new SnakeYaml();
+        // Yaml yaml = new Yaml();
         // String output = yaml.dump(set);
         // // String etalon = Util.getLocalResource("recursive/???.yaml");
         // // assertEquals(etalon, output);

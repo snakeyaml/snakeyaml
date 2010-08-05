@@ -24,7 +24,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
@@ -51,7 +51,7 @@ public class ConstructorSequenceTest extends TestCase {
         List<Integer> l = new ArrayList<Integer>(2);
         l.add(1);
         l.add(2);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String result = yaml.dump(l);
         assertEquals("[1, 2]\n", result);
     }
@@ -60,7 +60,7 @@ public class ConstructorSequenceTest extends TestCase {
         List<Integer> l = new ArrayList<Integer>(2);
         l.add(1);
         l.add(1);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String result = yaml.dump(l);
         assertEquals("[1, 1]\n", result);
     }

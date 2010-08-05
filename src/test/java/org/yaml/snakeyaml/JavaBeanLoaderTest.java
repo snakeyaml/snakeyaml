@@ -31,7 +31,7 @@ public class JavaBeanLoaderTest extends TestCase {
         Bean bean = new Bean();
         bean.setId(3);
         bean.setName("Test me.");
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(bean);
         assertEquals("!!org.yaml.snakeyaml.JavaBeanLoaderTest$Bean {id: 3, name: Test me.}\n",
                 output);

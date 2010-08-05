@@ -33,7 +33,7 @@ public class JavaBeanTimeStampTest extends TestCase {
         javaBeanToDump.setDate(date);
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String dumpStr = yaml.dump(javaBeanToDump);
         assertEquals(
                 "!!org.yaml.snakeyaml.JavaBeanWithSqlTimestamp\ndate: 2001-09-25T00:00:00Z\ntimestamp: 2001-09-09T01:46:40Z\n",
@@ -54,7 +54,7 @@ public class JavaBeanTimeStampTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
         options.setExplicitRoot(Tag.MAP);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String dumpStr = yaml.dump(javaBeanToDump);
         assertEquals("date: 2001-09-25T00:00:00Z\ntimestamp: 2001-09-09T01:46:40Z\n", dumpStr);
         JavaBeanLoader<JavaBeanWithSqlTimestamp> loader = new JavaBeanLoader<JavaBeanWithSqlTimestamp>(

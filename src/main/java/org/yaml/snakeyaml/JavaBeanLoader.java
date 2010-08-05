@@ -23,7 +23,6 @@ import java.io.StringReader;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.reader.UnicodeReader;
-import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
  * Convenience utility to parse JavaBeans. When the YAML document contains a
@@ -33,7 +32,7 @@ import org.yaml.snakeyaml.resolver.Resolver;
  * @see http://www.artima.com/weblogs/viewpost.jsp?thread=208860
  */
 public class JavaBeanLoader<T> {
-    private SnakeYaml loader;
+    private Yaml loader;
 
     public JavaBeanLoader(TypeDescription typeDescription) {
         this(typeDescription, BeanAccess.DEFAULT);
@@ -46,7 +45,7 @@ public class JavaBeanLoader<T> {
         Constructor constructor = new Constructor(typeDescription.getType());
         typeDescription.setRoot(true);
         constructor.addTypeDescription(typeDescription);
-        loader = new SnakeYaml(constructor, new Dumper(), new Resolver());
+        loader = new Yaml(constructor);
         loader.setBeanAccess(beanAccess);
     }
 

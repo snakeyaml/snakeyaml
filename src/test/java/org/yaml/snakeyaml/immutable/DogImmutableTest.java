@@ -18,18 +18,18 @@ package org.yaml.snakeyaml.immutable;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 public class DogImmutableTest extends TestCase {
 
     public void testDog() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Dog loaded = (Dog) yaml.load("!!org.yaml.snakeyaml.immutable.Dog Bulldog");
         assertEquals("Bulldog", loaded.getName());
     }
 
     public void testHouse() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         HouseBean loaded = (HouseBean) yaml
                 .load("!!org.yaml.snakeyaml.immutable.HouseBean\nanimal: !!org.yaml.snakeyaml.immutable.Dog Bulldog");
         assertEquals("Bulldog", loaded.getAnimal().getName());

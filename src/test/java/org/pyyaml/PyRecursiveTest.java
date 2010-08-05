@@ -26,7 +26,7 @@ import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 public class PyRecursiveTest extends TestCase {
@@ -36,7 +36,7 @@ public class PyRecursiveTest extends TestCase {
         Map<AnInstance, AnInstance> value = new HashMap<AnInstance, AnInstance>();
         AnInstance instance = new AnInstance(value, value);
         value.put(instance, instance);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output1 = yaml.dump(value);
         assertTrue(output1.contains("!!org.pyyaml.AnInstance"));
         assertTrue(output1.contains("&id001"));
@@ -59,7 +59,7 @@ public class PyRecursiveTest extends TestCase {
         Map value = new TreeMap();
         value.put("abc", "www");
         value.put("qwerty", value);
-        SnakeYaml yaml = new SnakeYaml(new SafeConstructor());
+        Yaml yaml = new Yaml(new SafeConstructor());
         String output1 = yaml.dump(value);
         assertEquals("&id001\nabc: www\nqwerty: *id001\n", output1);
         Map value2 = (Map) yaml.load(output1);
@@ -77,7 +77,7 @@ public class PyRecursiveTest extends TestCase {
         value.add("test");
         value.add(new Integer(1));
 
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output1 = yaml.dump(value);
         assertEquals("&id001\n- *id001\n- test\n- 1\n", output1);
         List value2 = (List) yaml.load(output1);
@@ -99,7 +99,7 @@ public class PyRecursiveTest extends TestCase {
         value.add("test");
         value.add(new Integer(1));
 
-        SnakeYaml yaml = new SnakeYaml(new SafeConstructor());
+        Yaml yaml = new Yaml(new SafeConstructor());
         String output1 = yaml.dump(value);
         assertEquals("&id001\n- *id001\n- test\n- 1\n", output1);
         List value2 = (List) yaml.load(output1);
@@ -118,7 +118,7 @@ public class PyRecursiveTest extends TestCase {
     public void testSet() {
         Set value = new HashSet();
         value.add(new AnInstance(value, value));
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output1 = yaml.dump(value);
         Set<AnInstance> value2 = (Set<AnInstance>) yaml.load(output1);
 
@@ -134,7 +134,7 @@ public class PyRecursiveTest extends TestCase {
         set.add("aaa");
         set.add(111);
         set.add(set);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.dump(set);
             fail("Java does not allow a recursive set to be a key for a map.");

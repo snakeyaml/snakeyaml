@@ -25,8 +25,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.parser.Parser;
@@ -38,27 +38,27 @@ public abstract class PyImportTest extends TestCase {
     public static final String PATH = "pyyaml";
 
     protected Object load(String data) {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         return yaml.load(data);
     }
 
     protected Object load(Constructor loader, String data) {
-        SnakeYaml yaml = new SnakeYaml(loader);
+        Yaml yaml = new Yaml(loader);
         return yaml.load(data);
     }
 
     protected Iterable<Object> loadAll(InputStream data) {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         return yaml.loadAll(data);
     }
 
     protected Iterable<Object> loadAll(String data) {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         return yaml.loadAll(data);
     }
 
     protected Iterable<Object> loadAll(Constructor loader, String data) {
-        SnakeYaml yaml = new SnakeYaml(loader);
+        Yaml yaml = new Yaml(loader);
         return yaml.loadAll(data);
     }
 

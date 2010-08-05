@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -94,7 +94,7 @@ public class NullTagTest extends AbstractTest {
     }
 
     public void testNullOutAsEmpty() throws IOException {
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new NullRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new Dumper(new NullRepresenter(), new DumperOptions()));
         String output = yaml.dump(null);
         assertEquals("", output);
     }
@@ -103,7 +103,7 @@ public class NullTagTest extends AbstractTest {
      * test flow style
      */
     public void testNullOutAsEmpty2() throws IOException {
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new NullRepresenter()));
+        Yaml yaml = new Yaml(new Dumper(new NullRepresenter()));
         Map<String, String> map = new HashMap<String, String>();
         map.put("aaa", "foo");
         map.put("bbb", null);
@@ -117,7 +117,7 @@ public class NullTagTest extends AbstractTest {
     public void testBoolOutAsEmpty3() throws IOException {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new NullRepresenter(), options));
+        Yaml yaml = new Yaml(new Dumper(new NullRepresenter(), options));
         Map<String, String> map = new HashMap<String, String>();
         map.put("aaa", "foo");
         map.put("bbb", null);

@@ -22,14 +22,14 @@ import java.io.Serializable;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 public class ConstructEmptyBeanTest extends TestCase {
     /**
      * standard Yaml
      */
     public void testEmptyBean() throws IOException {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         EmptyBean bean = (EmptyBean) yaml
                 .load("!!org.yaml.snakeyaml.javabeans.ConstructEmptyBeanTest$EmptyBean {}");
         assertNotNull(bean);

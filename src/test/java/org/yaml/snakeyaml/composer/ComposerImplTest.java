@@ -20,7 +20,7 @@ import java.io.StringReader;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -29,7 +29,7 @@ public class ComposerImplTest extends TestCase {
 
     public void testGetNode() {
         String data = "american:\n  - Boston Red Sox";
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Node node = yaml.compose(new StringReader(data));
         assertNotNull(node);
         assertTrue(node instanceof MappingNode);
@@ -41,7 +41,7 @@ public class ComposerImplTest extends TestCase {
 
     public void testComposeBean() {
         String data = "!!org.yaml.snakeyaml.composer.ComposerImplTest$BeanToCompose {name: Bill, age: 18}";
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Node node = yaml.compose(new StringReader(data));
         assertNotNull(node);
         assertTrue(node instanceof MappingNode);

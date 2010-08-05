@@ -23,8 +23,8 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.representer.Representer;
@@ -34,7 +34,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
     public void testDumpFlow() {
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new SetRepresenter(), options));
+        Yaml yaml = new Yaml(new Dumper(new SetRepresenter(), options));
         String output = yaml.dump(createBlog());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue73-dump7.txt"), output);
@@ -46,7 +46,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new SetRepresenter(), options));
+        Yaml yaml = new Yaml(new Dumper(new SetRepresenter(), options));
         String output = yaml.dump(createBlog());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue73-dump8.txt"), output);
@@ -77,7 +77,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
     }
 
     private void check(String doc) {
-        SnakeYaml yamlLoader = new SnakeYaml();
+        Yaml yamlLoader = new Yaml();
         yamlLoader.setBeanAccess(BeanAccess.FIELD);
         Blog blog = (Blog) yamlLoader.load(doc);
         assertEquals("Test Me!", blog.getName());

@@ -21,9 +21,9 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
@@ -44,7 +44,7 @@ public class RubyTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setExplicitStart(true);
         options.setExplicitRoot(Tag.MAP);
-        SnakeYaml yaml2 = new SnakeYaml(options);
+        Yaml yaml2 = new Yaml(options);
         String output = yaml2.dump(result);
         assertFalse("No tags expected.", output.contains("Sub1"));
         // System.out.println(output);
@@ -65,7 +65,7 @@ public class RubyTest extends TestCase {
         repr.addClassTag(TestObject.class, new Tag("!ruby/object:Test::Module::Object"));
         repr.addClassTag(Sub1.class, new Tag("!ruby/object:Test::Module::Sub1"));
         repr.addClassTag(Sub2.class, new Tag("!ruby/object:Test::Module::Sub2"));
-        SnakeYaml yaml2 = new SnakeYaml(new Dumper(repr, options));
+        Yaml yaml2 = new Yaml(new Dumper(repr, options));
         String output = yaml2.dump(result);
         // System.out.println(output);
         assertTrue("Tags must be present.", output
@@ -88,7 +88,7 @@ public class RubyTest extends TestCase {
         con.addTypeDescription(new TypeDescription(Sub1.class, "!ruby/object:Test::Module::Sub1"));
         con.addTypeDescription(new TypeDescription(Sub2.class, "!ruby/object:Test::Module::Sub2"));
 
-        SnakeYaml yaml = new SnakeYaml(con);
+        Yaml yaml = new Yaml(con);
         return (TestObject) yaml.load(input);
     }
 }

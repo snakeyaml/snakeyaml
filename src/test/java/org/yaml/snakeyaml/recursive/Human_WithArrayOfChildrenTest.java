@@ -21,9 +21,9 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class Human_WithArrayOfChildrenTest extends TestCase {
@@ -125,7 +125,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
                 Human_WithArrayOfChildren.class);
         constructor.addTypeDescription(HumanWithChildrenArrayDescription);
 
-        SnakeYaml yaml = new SnakeYaml(constructor);
+        Yaml yaml = new Yaml(constructor);
         String output = yaml.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-childrenArray.yaml");

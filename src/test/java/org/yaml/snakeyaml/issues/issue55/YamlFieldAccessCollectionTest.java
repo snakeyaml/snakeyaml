@@ -24,8 +24,8 @@ import org.junit.Test;
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -34,9 +34,9 @@ import org.yaml.snakeyaml.representer.Representer;
 public class YamlFieldAccessCollectionTest {
 
     @Test
-    public void testSnakeYaml() {
+    public void testYaml() {
         Blog original = createTestBlog();
-        SnakeYaml yamlDumper = constructSnakeYamlDumper();
+        Yaml yamlDumper = constructYamlDumper();
         String serialized = yamlDumper.dump(original);
         // System.out.println(serialized);
         Assert.assertEquals(Util.getLocalResource("issues/issue55_1.txt"), serialized);
@@ -47,15 +47,15 @@ public class YamlFieldAccessCollectionTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testSnakeYamlWithoutConfiguration() {
-        SnakeYaml yaml = new SnakeYaml();
+    public void testYamlWithoutConfiguration() {
+        Yaml yaml = new Yaml();
         Map<String, Object> map = (Map<String, Object>) yaml.load(Util
                 .getLocalResource("issues/issue55_1.txt"));
         Assert.assertEquals(1, map.size());
     }
 
     @Test
-    public void testSnakeYamlFailure() {
+    public void testYamlFailure() {
         JavaBeanLoader<Blog> beanLoader = new JavaBeanLoader<Blog>(Blog.class);
         try {
             beanLoader.load(Util.getLocalResource("issues/issue55_1.txt"));
@@ -66,19 +66,19 @@ public class YamlFieldAccessCollectionTest {
         }
     }
 
-    protected SnakeYaml constructSnakeYamlDumper() {
+    protected Yaml constructYamlDumper() {
         Representer representer = new Representer();
         representer.getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
         options.setExplicitRoot(Tag.MAP);
         Dumper dumper = new Dumper(representer, options);
-        SnakeYaml yaml = new SnakeYaml(dumper);
+        Yaml yaml = new Yaml(dumper);
         return yaml;
     }
 
-    protected SnakeYaml constructSnakeYamlParser() {
-        SnakeYaml yaml = new SnakeYaml();
+    protected Yaml constructYamlParser() {
+        Yaml yaml = new Yaml();
         yaml.setBeanAccess(BeanAccess.FIELD);
         return yaml;
     }

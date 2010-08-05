@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -28,7 +28,7 @@ public class LongTest extends TestCase {
     public void testLongFail() {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         Foo foo = new Foo();
         String output = yaml.dump(foo);
         // System.out.println(output);
@@ -57,7 +57,7 @@ public class LongTest extends TestCase {
         Representer repr = new Representer();
         repr.addClassTag(Long.class, new Tag("!!java.lang.Long"));
         Dumper dumper = new Dumper(repr, options);
-        SnakeYaml yaml = new SnakeYaml(dumper);
+        Yaml yaml = new Yaml(dumper);
 
         Foo foo = new Foo();
         String output = yaml.dump(foo);
@@ -69,7 +69,7 @@ public class LongTest extends TestCase {
     public void testLongConstructor() {
         String doc = "!!org.yaml.snakeyaml.javabeans.LongTest$Foo\n\"bar\": !!int \"42\"";
         // System.out.println(doc);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         Foo foo2 = (Foo) yaml.load(doc);
         assertEquals(new Long(42L), foo2.getBar());
     }

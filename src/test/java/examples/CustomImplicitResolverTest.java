@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -39,7 +39,7 @@ public class CustomImplicitResolverTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testImplicit() {
-        SnakeYaml yaml = new SnakeYaml(new BigConstructor());
+        Yaml yaml = new Yaml(new BigConstructor());
         yaml.addImplicitResolver(CUSTOM_TAG, CUSTOM_PATTERN, "-0123456789");
         Map<String, Object> obj = (Map<String, Object>) yaml.load("bar: 50%");
         assertEquals("0.5", obj.get("bar").toString());
@@ -47,7 +47,7 @@ public class CustomImplicitResolverTest extends TestCase {
     }
 
     public void testImplicitFailure() {
-        SnakeYaml yaml = new SnakeYaml(new BigConstructor());
+        Yaml yaml = new Yaml(new BigConstructor());
         yaml.addImplicitResolver(CUSTOM_TAG, Pattern.compile("\\d+%"), "-0123456789");
         try {
             yaml.load("bar: !!float 50%");

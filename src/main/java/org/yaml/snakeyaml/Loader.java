@@ -32,7 +32,7 @@ import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
- * @deprecated
+ * @deprecated Loader functionality was moved to Yaml
  */
 public class Loader {
     protected final BaseConstructor constructor;

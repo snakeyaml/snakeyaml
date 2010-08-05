@@ -25,9 +25,9 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -44,10 +44,10 @@ public class ImplicitTagsTest extends TestCase {
         car1.setMap(map);
         car1.setPart(new Wheel(4));
         car1.setYear("2008");
-        String carYaml1 = new SnakeYaml().dump(car1);
+        String carYaml1 = new Yaml().dump(car1);
         assertEquals(Util.getLocalResource("constructor/carwheel-without-tags.yaml"), carYaml1);
-        CarWithWheel car2 = (CarWithWheel) new SnakeYaml().load(carYaml1);
-        String carYaml2 = new SnakeYaml().dump(car2);
+        CarWithWheel car2 = (CarWithWheel) new Yaml().load(carYaml1);
+        String carYaml2 = new Yaml().dump(car2);
         assertEquals(carYaml1, carYaml2);
     }
 
@@ -63,13 +63,13 @@ public class ImplicitTagsTest extends TestCase {
         car1.setYear("2008");
         DumperOptions options = new DumperOptions();
         options.setExplicitRoot(Tag.MAP);
-        String carSnakeYaml1 = new SnakeYaml(options).dump(car1);
-        assertEquals(Util.getLocalResource("constructor/car-without-root-tag.yaml"), carSnakeYaml1);
+        String carYaml1 = new Yaml(options).dump(car1);
+        assertEquals(Util.getLocalResource("constructor/car-without-root-tag.yaml"), carYaml1);
         //
         Constructor contructor = new Constructor(CarWithWheel.class);
-        CarWithWheel car2 = (CarWithWheel) new SnakeYaml(contructor).load(carSnakeYaml1);
-        String carSnakeYaml2 = new SnakeYaml(options).dump(car2);
-        assertEquals(carSnakeYaml1, carSnakeYaml2);
+        CarWithWheel car2 = (CarWithWheel) new Yaml(contructor).load(carYaml1);
+        String carYaml2 = new Yaml(options).dump(car2);
+        assertEquals(carYaml1, carYaml2);
     }
 
     @SuppressWarnings("unchecked")
@@ -82,17 +82,17 @@ public class ImplicitTagsTest extends TestCase {
         Map<String, Integer> map = new HashMap<String, Integer>();
         map.put("id", 3);
         car1.put("map", map);
-        String carSnakeYaml1 = new SnakeYaml().dump(car1);
-        assertEquals(Util.getLocalResource("constructor/carwheel-root-map.yaml"), carSnakeYaml1);
-        Map<Object, Object> car2 = (Map<Object, Object>) new SnakeYaml().load(carSnakeYaml1);
+        String carYaml1 = new Yaml().dump(car1);
+        assertEquals(Util.getLocalResource("constructor/carwheel-root-map.yaml"), carYaml1);
+        Map<Object, Object> car2 = (Map<Object, Object>) new Yaml().load(carYaml1);
         assertEquals(car1, car2);
-        assertEquals(carSnakeYaml1, new SnakeYaml().dump(car2));
+        assertEquals(carYaml1, new Yaml().dump(car2));
     }
 
     public void testLoadClassTag() throws IOException {
         Constructor constructor = new Constructor();
         constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
-        SnakeYaml yaml = new SnakeYaml(constructor);
+        Yaml yaml = new Yaml(constructor);
         Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
         assertEquals("12-XP-F4", car.getPlate());
         List<Wheel> wheels = car.getWheels();
@@ -101,15 +101,15 @@ public class ImplicitTagsTest extends TestCase {
         Wheel w1 = wheels.get(0);
         assertEquals(1, w1.getId());
         //
-        String carSnakeYaml1 = new SnakeYaml().dump(car);
-        assertTrue(carSnakeYaml1.startsWith("!!org.yaml.snakeyaml.constructor.Car"));
+        String carYaml1 = new Yaml().dump(car);
+        assertTrue(carYaml1.startsWith("!!org.yaml.snakeyaml.constructor.Car"));
         //
         Representer representer = new Representer();
         representer.addClassTag(Car.class, new Tag("!car"));
         Dumper dumper = new Dumper(representer, new DumperOptions());
-        yaml = new SnakeYaml(dumper);
-        String carSnakeYaml2 = yaml.dump(car);
-        assertEquals(Util.getLocalResource("constructor/car-without-tags.yaml"), carSnakeYaml2);
+        yaml = new Yaml(dumper);
+        String carYaml2 = yaml.dump(car);
+        assertEquals(Util.getLocalResource("constructor/car-without-tags.yaml"), carYaml2);
     }
 
     public static class CarWithWheel {

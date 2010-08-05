@@ -19,7 +19,7 @@ package org.yaml.snakeyaml.representer;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 
 public class RepresenterTest extends TestCase {
@@ -29,7 +29,7 @@ public class RepresenterTest extends TestCase {
         bean.setName("Gnome");
         bean.setValid(true);
         bean.setPrimitive(true);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         assertEquals(
                 "!!org.yaml.snakeyaml.representer.RepresenterTest$MyBean {name: Gnome, primitive: true}\n",
                 yaml.dump(bean));
@@ -69,7 +69,7 @@ public class RepresenterTest extends TestCase {
         MyBean2 bean = new MyBean2("Gnome", true);
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         assertEquals("!!org.yaml.snakeyaml.representer.RepresenterTest$MyBean2 {valid: true}\n",
                 yaml.dump(bean));
     }
@@ -104,7 +104,7 @@ public class RepresenterTest extends TestCase {
 
     public void testRepresenterGetterWithException() {
         MyBean3 bean = new MyBean3("Gnome", true);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.dump(bean);
             fail("Exception must be reported");
@@ -148,7 +148,7 @@ public class RepresenterTest extends TestCase {
 
     public void testRepresenterEmptyBean() {
         EmptyBean bean = new EmptyBean();
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.dump(bean);
             fail("EmptyBean has empty representation.");

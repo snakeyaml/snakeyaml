@@ -29,8 +29,8 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.immutable.Point;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -52,7 +52,7 @@ public class VelocityTest extends TestCase {
         VelocityContext context = new VelocityContext();
         MyBean bean = createBean();
         context.put("bean", bean);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         context.put("list", yaml.dump(bean.getList()));
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty("file.resource.loader.class", ClasspathResourceLoader.class.getName());

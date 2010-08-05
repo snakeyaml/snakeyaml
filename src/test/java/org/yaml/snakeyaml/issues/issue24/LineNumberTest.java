@@ -20,8 +20,8 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=24
@@ -30,7 +30,7 @@ public class LineNumberTest extends TestCase {
     public void test1() throws IOException {
         String resource = Util.getLocalResource("issues/issue24-1.yaml");
         // System.out.println(resource);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.load(resource);
             fail();

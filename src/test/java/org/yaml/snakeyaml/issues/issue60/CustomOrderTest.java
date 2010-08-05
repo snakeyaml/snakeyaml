@@ -25,15 +25,15 @@ import java.util.TreeSet;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class CustomOrderTest extends TestCase {
 
     public void testReversedOrder() {
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new ReversedRepresenter()));
+        Yaml yaml = new Yaml(new Dumper(new ReversedRepresenter()));
         String output = yaml.dump(getBean());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue59-1.yaml"), output);

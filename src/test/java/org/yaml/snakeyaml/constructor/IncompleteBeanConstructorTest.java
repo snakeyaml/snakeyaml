@@ -21,7 +21,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class IncompleteBeanConstructorTest extends TestCase {
@@ -30,7 +30,7 @@ public class IncompleteBeanConstructorTest extends TestCase {
         IncompleteJavaBean bean = new IncompleteJavaBean();
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(bean);
         String className = this.getClass().getPackage().getName();
         assertEquals("!!" + className + ".IncompleteJavaBean {name: No name}\n", output);
@@ -39,7 +39,7 @@ public class IncompleteBeanConstructorTest extends TestCase {
     public void testConstructor() throws IOException {
         String className = "!!" + this.getClass().getPackage().getName()
                 + ".IncompleteJavaBean {number: 2}";
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         IncompleteJavaBean bean = (IncompleteJavaBean) yaml.load(className);
         assertNotNull(bean);
         assertEquals("No name", bean.getName());
@@ -49,7 +49,7 @@ public class IncompleteBeanConstructorTest extends TestCase {
     public void testConstructor2() throws IOException {
         String className = "!!" + this.getClass().getPackage().getName()
                 + ".IncompleteJavaBean {number: 2, name: Bill}";
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         try {
             yaml.load(className);
             fail("'name' property does not have setter.");

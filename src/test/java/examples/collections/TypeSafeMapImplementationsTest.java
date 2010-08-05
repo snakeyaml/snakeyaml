@@ -27,8 +27,8 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test different Map implementations as JavaBean properties
@@ -116,7 +116,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         props.setProperty("key2", "value2");
         list.add(props);
         list.add("aaa");
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(list);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-bean-2.yaml");
@@ -141,7 +141,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         sortedMap.put("2", "two");
         sortedMap.put("1", "one");
         sortedMap.put("3", sortedMap);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(sortedMap);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-recursive-1.yaml");
@@ -163,7 +163,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         props.setProperty("key2", "value2");
         Map map = props;
         map.put("key3", props);
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(props);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-recursive-2.yaml");
@@ -177,7 +177,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testRecursiveNoJavaBeanMap3() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = Util.getLocalResource("examples/map-recursive-3.yaml");
         // System.out.println(output);
         SortedMap map1 = (SortedMap) yaml.load(output);
@@ -190,7 +190,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
     }
 
     public void testRecursiveNoJavaBeanProperties4() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = Util.getLocalResource("examples/map-recursive-4.yaml");
         // System.out.println(output);
         try {

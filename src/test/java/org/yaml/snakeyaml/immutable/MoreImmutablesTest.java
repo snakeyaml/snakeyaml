@@ -27,12 +27,12 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 public class MoreImmutablesTest extends TestCase {
 
     public void testInsets() {
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
         Insets insets = new Insets(10, 20, 30, 40);
         String dump = yaml.dump(insets);
         assertEquals("!!java.awt.Insets [10, 20, 30, 40]\n", dump);
@@ -41,7 +41,7 @@ public class MoreImmutablesTest extends TestCase {
     }
 
     public void testAwtColor() {
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
         Color color = new Color(10, 20, 30, 40);
         String dump = yaml.dump(color);
         assertEquals("!!java.awt.Color [10, 20, 30, 40]\n", dump);
@@ -50,7 +50,7 @@ public class MoreImmutablesTest extends TestCase {
     }
 
     public void testRectangle() {
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
+        Yaml yaml = new Yaml(new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
         Rectangle rect = new Rectangle(10, 20, 30, 40);
         String dump = yaml.dump(rect);
         assertEquals("!!java.awt.Rectangle [10, 20, 30, 40]\n", dump);
@@ -62,7 +62,7 @@ public class MoreImmutablesTest extends TestCase {
     public void testMatteBorder() {
         DumperOptions options = new DumperOptions();
         options.setWidth(400);
-        SnakeYaml yaml = new SnakeYaml(new Dumper(new ImmutablesRepresenter(), options));
+        Yaml yaml = new Yaml(new Dumper(new ImmutablesRepresenter(), options));
         Insets insets = new Insets(10, 20, 30, 40);
         Color color = new Color(100, 150, 200);
         MatteBorder border = BorderFactory.createMatteBorder(insets.top, insets.left,

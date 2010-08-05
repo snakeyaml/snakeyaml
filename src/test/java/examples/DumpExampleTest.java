@@ -25,7 +25,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 public class DumpExampleTest extends TestCase {
     public void testDump() {
@@ -33,7 +33,7 @@ public class DumpExampleTest extends TestCase {
         data.put("name", "Silenthand Olleander");
         data.put("race", "Human");
         data.put("traits", new String[] { "ONE_HAND", "ONE_EYE" });
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(data);
         assertTrue(output.contains("name: Silenthand Olleander"));
         assertTrue(output.contains("race: Human"));
@@ -45,7 +45,7 @@ public class DumpExampleTest extends TestCase {
         data.put("name", "Silenthand Olleander");
         data.put("race", "Human");
         data.put("traits", new String[] { "ONE_HAND", "ONE_EYE" });
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         StringWriter writer = new StringWriter();
         yaml.dump(data, writer);
         assertTrue(writer.toString().contains("name: Silenthand Olleander"));
@@ -60,7 +60,7 @@ public class DumpExampleTest extends TestCase {
         }
         DumperOptions options = new DumperOptions();
         options.setExplicitStart(true);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String result = yaml.dumpAll(docs.iterator());
         assertNotNull(result);
         assertTrue(result.contains("--- 2"));
@@ -70,7 +70,7 @@ public class DumpExampleTest extends TestCase {
         Hero hero = new Hero("Galain Ysseleg", -3, 2);
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(hero);
         assertEquals("!!examples.Hero {hp: -3, name: Galain Ysseleg, sp: 2}\n", output);
     }
@@ -80,14 +80,14 @@ public class DumpExampleTest extends TestCase {
         for (int i = 0; i < 50; i++) {
             data.add(i);
         }
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(data);
         assertTrue(output.contains("[0, 1, 2, 3, 4, 5, 6, 7, 8"));
         //
         DumperOptions options = new DumperOptions();
         options.setWidth(50);
         options.setIndent(4);
-        yaml = new SnakeYaml(options);
+        yaml = new Yaml(options);
         output = yaml.dump(data);
         assertTrue(output.contains("1, 2"));
     }
@@ -99,7 +99,7 @@ public class DumpExampleTest extends TestCase {
         }
         DumperOptions options = new DumperOptions();
         options.setCanonical(true);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(data);
         assertTrue(output.contains("---"));
         assertTrue(output.contains("!!seq ["));
@@ -113,7 +113,7 @@ public class DumpExampleTest extends TestCase {
         }
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(data);
         assertTrue(output.contains("- 0\n"));
         assertTrue(output.contains("- 1\n"));
@@ -127,7 +127,7 @@ public class DumpExampleTest extends TestCase {
         }
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(data);
         assertTrue(output.contains("- !!int \"0\""));
         assertTrue(output.contains("- !!int \"1\""));

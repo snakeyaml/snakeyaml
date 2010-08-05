@@ -21,13 +21,13 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 public class StringArrayTest extends TestCase {
     public void testStrings() {
         A a = new A();
         a.setNames(new String[] { "aaa", "bbb", "ccc" });
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(a);
         assertEquals("!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [aaa, bbb, ccc]\n",
                 output);
@@ -40,7 +40,7 @@ public class StringArrayTest extends TestCase {
         a.setNames(new String[] { "aaa", "bbb", "ccc" });
         DumperOptions options = new DumperOptions();
         options.setPrettyFlow(true);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String output = yaml.dump(a);
         assertEquals(
                 "!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [\n  aaa,\n  bbb,\n  ccc]\n",

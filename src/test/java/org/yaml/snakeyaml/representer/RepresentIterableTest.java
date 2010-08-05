@@ -20,7 +20,7 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.SnakeYaml;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test {@link issue69 http://code.google.com/p/snakeyaml/issues/detail?id=69}
@@ -28,13 +28,13 @@ import org.yaml.snakeyaml.SnakeYaml;
 public class RepresentIterableTest extends TestCase {
 
     public void testIterable() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(new CounterFactory());
         assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n", output);
     }
 
     public void testIterator() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(new Counter(7));
         assertEquals("[0, 1, 2, 3, 4, 5, 6]\n", output);
     }

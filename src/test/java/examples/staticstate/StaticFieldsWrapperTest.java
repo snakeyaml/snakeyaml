@@ -22,8 +22,8 @@ import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -43,7 +43,7 @@ public class StaticFieldsWrapperTest extends TestCase {
         bean.setAge(-47);
         JavaBeanWithStaticState.setType("Type3");
         JavaBeanWithStaticState.color = "Violet";
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String output = yaml.dump(new Wrapper(bean));
         // System.out.println(output);
         assertEquals(
@@ -67,7 +67,7 @@ public class StaticFieldsWrapperTest extends TestCase {
         JavaBeanWithStaticState.color = "Violet";
         Representer repr = new Representer();
         repr.addClassTag(Wrapper.class, new Tag("!mybean"));
-        SnakeYaml yaml = new SnakeYaml(new Dumper(repr, new DumperOptions()));
+        Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
         String output = yaml.dump(new Wrapper(bean));
         // System.out.println(output);
         assertEquals("!mybean {age: -47, color: Violet, name: Bahrack, type: Type3}\n", output);
@@ -75,7 +75,7 @@ public class StaticFieldsWrapperTest extends TestCase {
         Constructor constr = new Constructor();
         TypeDescription description = new TypeDescription(Wrapper.class, new Tag("!mybean"));
         constr.addTypeDescription(description);
-        yaml = new SnakeYaml(constr);
+        yaml = new Yaml(constr);
         Wrapper wrapper = (Wrapper) yaml.load(output);
         JavaBeanWithStaticState bean2 = wrapper.createBean();
         assertEquals(-47, bean2.getAge());

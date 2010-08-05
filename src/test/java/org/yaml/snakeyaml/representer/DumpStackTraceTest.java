@@ -19,13 +19,13 @@ package org.yaml.snakeyaml.representer;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 public class DumpStackTraceTest extends TestCase {
 
     public void testJavaStackTrace() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String input = Util.getLocalResource("representer/stacktrace1.txt");
         String result = yaml.dump(input);
         // System.out.println(result);
@@ -35,7 +35,7 @@ public class DumpStackTraceTest extends TestCase {
     public void testJavaStackTraceWithNoSpecialCharacters() {
         DumperOptions options = new DumperOptions();
         options.setWidth(50);
-        SnakeYaml yaml = new SnakeYaml(options);
+        Yaml yaml = new Yaml(options);
         String input = Util.getLocalResource("representer/stacktrace2.txt");
         assertEquals(-1, input.indexOf(':'));
         assertEquals(-1, input.indexOf('\t'));
@@ -45,7 +45,7 @@ public class DumpStackTraceTest extends TestCase {
     }
 
     public void testJavaStackTraceWithTabs() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String input = Util.getLocalResource("representer/stacktrace3.txt");
         assertEquals(-1, input.indexOf(':'));
         assertTrue("Tabs must be used.", input.indexOf('\t') > 0);
@@ -55,7 +55,7 @@ public class DumpStackTraceTest extends TestCase {
     }
 
     public void testJavaStackTrace2() {
-        SnakeYaml yaml = new SnakeYaml();
+        Yaml yaml = new Yaml();
         String input = Util.getLocalResource("representer/stacktrace1.txt");
         assertTrue("Double quote must be used.", input.indexOf('"') > 0);
         assertTrue("Colon must be used.", input.indexOf(':') > 0);
