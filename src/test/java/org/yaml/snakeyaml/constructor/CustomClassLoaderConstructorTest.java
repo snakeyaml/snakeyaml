@@ -18,8 +18,7 @@ package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class CustomClassLoaderConstructorTest extends TestCase {
 
@@ -35,7 +34,7 @@ public class CustomClassLoaderConstructorTest extends TestCase {
     public void testGetClassForName() {
         CustomClassLoaderConstructor constr = new CustomClassLoaderConstructor(
                 CustomClassLoaderConstructorTest.class.getClassLoader());
-        Yaml yaml = new Yaml(new Loader(constr));
+        SnakeYaml yaml = new SnakeYaml(constr);
         String s = (String) yaml.load("abc");
         assertEquals("abc", s);
     }
@@ -46,7 +45,7 @@ public class CustomClassLoaderConstructorTest extends TestCase {
                 CustomClassLoaderConstructorTest.class.getClassLoader());
         CustomClassLoaderConstructor constr = new CustomClassLoaderConstructor(clazz,
                 CustomClassLoaderConstructorTest.class.getClassLoader());
-        Yaml yaml = new Yaml(new Loader(constr));
+        SnakeYaml yaml = new SnakeYaml(constr);
         LoaderBean bean = (LoaderBean) yaml.load("{name: Andrey, number: 555}");
         assertEquals("Andrey", bean.getName());
         assertEquals(555, bean.getNumber());
@@ -55,7 +54,7 @@ public class CustomClassLoaderConstructorTest extends TestCase {
     public void testGetClassForNameBean() {
         CustomClassLoaderConstructor constr = new CustomClassLoaderConstructor(
                 CustomClassLoaderConstructorTest.class.getClassLoader());
-        Yaml yaml = new Yaml(new Loader(constr));
+        SnakeYaml yaml = new SnakeYaml(constr);
         LoaderBean bean = (LoaderBean) yaml
                 .load("!!org.yaml.snakeyaml.constructor.CustomClassLoaderConstructorTest$LoaderBean {name: Andrey, number: 555}");
         assertEquals("Andrey", bean.getName());

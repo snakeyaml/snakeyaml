@@ -22,7 +22,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 
 public class EmitterTest extends TestCase {
@@ -34,7 +34,7 @@ public class EmitterTest extends TestCase {
         Map<String, String> map = new LinkedHashMap<String, String>();
         map.put("aaa", folded);
         map.put("bbb", "\nbla-bla\n");
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(map);
         String etalon = "\"aaa\": >-\n  0123456789 0123456789\n\n  0123456789 0123456789\n\"bbb\": >2\n\n  bla-bla\n";
         assertEquals(etalon, output);
@@ -47,7 +47,7 @@ public class EmitterTest extends TestCase {
         Map<String, String> map = new LinkedHashMap<String, String>();
         map.put("aaa", folded);
         map.put("bbb", "\nbla-bla\n");
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(map);
         String etalon = "\"aaa\": |-\n  0123456789 0123456789 0123456789 0123456789\n\"bbb\": |2\n\n  bla-bla\n";
         assertEquals(etalon, output);
@@ -60,7 +60,7 @@ public class EmitterTest extends TestCase {
         Map<String, String> map = new LinkedHashMap<String, String>();
         map.put("aaa", folded);
         map.put("bbb", "\nbla-bla");
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(map);
         String etalon = "{aaa: '0123456789 0123456789\n\n    0123456789 0123456789', bbb: '\n\n    bla-bla'}\n";
         assertEquals(etalon, output);
@@ -76,7 +76,7 @@ public class EmitterTest extends TestCase {
         map.put("aaa", folded);
         map.put("bbb", "\nbla-bla");
 
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(map);
         String etalon = "{\n  aaa: '0123456789 0123456789\n\n    0123456789 0123456789',\n  bbb: '\n\n    bla-bla'\n}\n";
         assertEquals(etalon, output);
@@ -89,7 +89,7 @@ public class EmitterTest extends TestCase {
         Map<String, String> map = new LinkedHashMap<String, String>();
         map.put("aaa", folded);
         map.put("bbb", "\nbla-bla");
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(map);
         String etalon = "'aaa': '0123456789 0123456789\n\n  0123456789 0123456789'\n'bbb': '\n\n  bla-bla'\n";
         assertEquals(etalon, output);
@@ -102,7 +102,7 @@ public class EmitterTest extends TestCase {
         Map<String, String> map = new LinkedHashMap<String, String>();
         map.put("aaa", folded);
         map.put("bbb", "\nbla-bla");
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(map);
         String etalon = "\"aaa\": \"0123456789 0123456789\\n0123456789 0123456789\"\n\"bbb\": \"\\nbla-bla\"\n";
         assertEquals(etalon, output);

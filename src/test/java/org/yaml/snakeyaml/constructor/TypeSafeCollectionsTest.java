@@ -27,10 +27,9 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.Loader;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -41,8 +40,7 @@ public class TypeSafeCollectionsTest extends TestCase {
         TypeDescription carDescription = new TypeDescription(Car.class);
         carDescription.putListPropertyType("wheels", Wheel.class);
         constructor.addTypeDescription(carDescription);
-        Loader loader = new Loader(constructor);
-        Yaml yaml = new Yaml(loader);
+        SnakeYaml yaml = new SnakeYaml(constructor);
         Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
         assertEquals("12-XP-F4", car.getPlate());
         List<Wheel> wheels = car.getWheels();
@@ -58,8 +56,7 @@ public class TypeSafeCollectionsTest extends TestCase {
         TypeDescription carDescription = new TypeDescription(MyCar.class);
         carDescription.putMapPropertyType("wheels", MyWheel.class, Object.class);
         constructor.addTypeDescription(carDescription);
-        Loader loader = new Loader(constructor);
-        Yaml yaml = new Yaml(loader);
+        SnakeYaml yaml = new SnakeYaml(constructor);
         MyCar car = (MyCar) yaml.load(Util
                 .getLocalResource("constructor/car-no-root-class-map.yaml"));
         assertEquals("00-FF-Q2", car.getPlate());
@@ -89,7 +86,7 @@ public class TypeSafeCollectionsTest extends TestCase {
         Representer representer = new Representer();
         representer.addClassTag(MyWheel.class, Tag.MAP);
         Dumper dumper = new Dumper(representer, new DumperOptions());
-        Yaml yaml = new Yaml(dumper);
+        SnakeYaml yaml = new SnakeYaml(dumper);
         String output = yaml.dump(c);
         assertEquals(Util.getLocalResource("javabeans/mycar-with-global-tag1.yaml"), output);
         // load

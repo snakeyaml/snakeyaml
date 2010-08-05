@@ -22,8 +22,8 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
 
 public class RecursiveSetTest extends TestCase {
     @SuppressWarnings("unchecked")
@@ -32,7 +32,7 @@ public class RecursiveSetTest extends TestCase {
         Set set2 = new HashSet();
         set1.add(set2);
         set2.add(set1);
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         try {
             yaml.dump(set1);
             fail("Recursive sets are not supported.");
@@ -44,7 +44,7 @@ public class RecursiveSetTest extends TestCase {
     public void testLoadException() {
         String doc = Util.getLocalResource("issues/issue73-recursive4.txt");
         // System.out.println(doc);
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         try {
             yaml.load(doc);
             fail("Recursive sets are not supported.");
@@ -60,7 +60,7 @@ public class RecursiveSetTest extends TestCase {
     public void testLoadRecursiveTest() {
         String doc = Util.getLocalResource("issues/issue73-recursive5.txt");
         // System.out.println(doc);
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Bean1 obj = (Bean1) yaml.load(doc);
         Set<Object> set = obj.getSet();
         // System.out.println(set);
@@ -90,7 +90,8 @@ public class RecursiveSetTest extends TestCase {
         self.clear();
         assertTrue(self.isEmpty());
         assertTrue(set.isEmpty());
-        assertFalse("Now it should not be recursive any longer (no StackOverflowError).", set.contains(set));
+        assertFalse("Now it should not be recursive any longer (no StackOverflowError).", set
+                .contains(set));
         // 
         set.add("jjj");
         assertEquals(1, set.size());

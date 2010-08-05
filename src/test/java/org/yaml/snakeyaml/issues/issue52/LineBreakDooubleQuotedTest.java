@@ -21,7 +21,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 
 /**
@@ -34,7 +34,7 @@ public class LineBreakDooubleQuotedTest extends TestCase {
         options.setDefaultScalarStyle(ScalarStyle.DOUBLE_QUOTED);
         options.setWidth(20);
         options.setIndent(4);
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String etalon = "12345678901234567890\n\n123  456";
         String output = yaml.dump(etalon);
         // System.out.println(output);

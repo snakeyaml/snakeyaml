@@ -238,12 +238,11 @@ public class Example2_24Test extends TestCase {
     }
 
     public void testExample_2_24() throws IOException {
-        Loader loader = new Loader(new MyConstructor());
-        Yaml yaml = new Yaml(loader);
+        SnakeYaml yaml = new SnakeYaml(new MyConstructor());
         Shape shape = (Shape) yaml.load(Util.getLocalResource("specification/example2_24.yaml"));
         assertNotNull(shape);
         Dumper dumper = new Dumper(new MyRepresenter(), new DumperOptions());
-        yaml = new Yaml(dumper);
+        yaml = new SnakeYaml(dumper);
         String output = yaml.dump(shape);
         String etalon = Util.getLocalResource("specification/example2_24_dumped.yaml");
         assertEquals(etalon, output);

@@ -18,7 +18,7 @@ package org.yaml.snakeyaml.issues.issue50;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 /**
  * test issue 50.
@@ -66,7 +66,7 @@ public class SnakeyamlTest extends TestCase {
 
     public void testIntrospector() throws Exception {
         SomeBean someBean = new SomeBeanImpl("value1", "value2");
-        Yaml dumper = new Yaml();
+        SnakeYaml dumper = new SnakeYaml();
         String output = dumper.dump(someBean);
         // System.out.println(output);
         assertEquals(

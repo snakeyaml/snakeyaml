@@ -26,9 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Loader;
 import org.yaml.snakeyaml.emitter.Emitter;
-import org.yaml.snakeyaml.emitter.EventsLoader;
+import org.yaml.snakeyaml.emitter.EventConstructor;
 import org.yaml.snakeyaml.events.CollectionStartEvent;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.MappingStartEvent;
@@ -224,10 +223,9 @@ public class PyEmitterTest extends PyImportTest {
             // continue;
             // }
             try {
-                Loader loader = new EventsLoader();
                 List<Event> events = new ArrayList<Event>();
                 String content = getResource(file.getName());
-                events = (List<Event>) load(loader, content);
+                events = (List<Event>) load(new EventConstructor(), content);
                 //
                 StringWriter stream = new StringWriter();
                 Emitter emitter = new Emitter(stream, new DumperOptions());

@@ -33,12 +33,12 @@ import org.yaml.snakeyaml.resolver.Resolver;
  * @see http://www.artima.com/weblogs/viewpost.jsp?thread=208860
  */
 public class JavaBeanLoader<T> {
-    private Loader loader;
+    private SnakeYaml loader;
 
     public JavaBeanLoader(TypeDescription typeDescription) {
         this(typeDescription, BeanAccess.DEFAULT);
     }
-    
+
     public JavaBeanLoader(TypeDescription typeDescription, BeanAccess beanAccess) {
         if (typeDescription == null) {
             throw new NullPointerException("TypeDescription must be provided.");
@@ -46,16 +46,14 @@ public class JavaBeanLoader<T> {
         Constructor constructor = new Constructor(typeDescription.getType());
         typeDescription.setRoot(true);
         constructor.addTypeDescription(typeDescription);
-        loader = new Loader(constructor);
+        loader = new SnakeYaml(constructor, new Dumper(), new Resolver());
         loader.setBeanAccess(beanAccess);
-        Resolver resolver = new Resolver();
-        loader.setResolver(resolver);
     }
 
     public <S extends T> JavaBeanLoader(Class<S> clazz, BeanAccess beanAccess) {
         this(new TypeDescription(clazz), beanAccess);
     }
-    
+
     public <S extends T> JavaBeanLoader(Class<S> clazz) {
         this(clazz, BeanAccess.DEFAULT);
     }

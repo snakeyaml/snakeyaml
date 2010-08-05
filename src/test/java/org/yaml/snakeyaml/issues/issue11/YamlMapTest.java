@@ -24,8 +24,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -35,8 +34,8 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlMapTest extends TestCase {
-    public void testYaml() throws IOException {
-        Yaml yaml = new Yaml(new Loader(new ExtendedConstructor()), new Dumper(
+    public void testSnakeYaml() throws IOException {
+        SnakeYaml yaml = new SnakeYaml(new ExtendedConstructor(), new Dumper(
                 new ExtendedRepresenter(), new DumperOptions()));
         String output = yaml.dump(new Custom(123));
         // System.out.println(output);
@@ -45,11 +44,11 @@ public class YamlMapTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testYamlMap() throws IOException {
+    public void testSnakeYamlMap() throws IOException {
         Map<String, Object> data = new TreeMap<String, Object>();
         data.put("customTag", new Custom(123));
 
-        Yaml yaml = new Yaml(new Loader(new ExtendedConstructor()), new Dumper(
+        SnakeYaml yaml = new SnakeYaml(new ExtendedConstructor(), new Dumper(
                 new ExtendedRepresenter(), new DumperOptions()));
         String output = yaml.dump(data);
         // System.out.println(output);
@@ -61,11 +60,11 @@ public class YamlMapTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testYamlMapBean() throws IOException {
+    public void testSnakeYamlMapBean() throws IOException {
         Map<String, Object> data = new TreeMap<String, Object>();
         data.put("knownClass", new Wrapper("test", new Custom(456)));
 
-        Yaml yaml = new Yaml(new Loader(new ExtendedConstructor()), new Dumper(
+        SnakeYaml yaml = new SnakeYaml(new ExtendedConstructor(), new Dumper(
                 new ExtendedRepresenter(), new DumperOptions()));
         String output = yaml.dump(data);
         // System.out.println(output);

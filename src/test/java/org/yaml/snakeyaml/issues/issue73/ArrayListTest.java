@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 /**
  * Test bean when the implementation is defined: ArrayList instead of just the
@@ -35,7 +35,7 @@ public class ArrayListTest extends TestCase {
         list.add("xxx");
         list.add("ccc");
         bean.setList(list);
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String doc = yaml.dump(bean);
         // System.out.println(doc);
         Bean1 loaded = (Bean1) yaml.load(doc);

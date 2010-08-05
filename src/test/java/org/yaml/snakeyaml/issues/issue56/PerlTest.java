@@ -20,10 +20,9 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Loader;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
@@ -34,7 +33,7 @@ public class PerlTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testMaps() {
-        Yaml yaml = new Yaml(new Loader(new CustomConstructor()));
+        SnakeYaml yaml = new SnakeYaml(new CustomConstructor());
         String input = Util.getLocalResource("issues/issue56-1.yaml");
         int counter = 0;
         for (Object obj : yaml.loadAll(input)) {
@@ -62,7 +61,7 @@ public class PerlTest extends TestCase {
         TypeDescription descr = new TypeDescription(CodeBean.class, new Tag(
                 "!de.oddb.org,2007/ODDB::Util::Code"));
         c.addTypeDescription(descr);
-        Yaml yaml = new Yaml(new Loader(c));
+        SnakeYaml yaml = new SnakeYaml(c);
         String input = Util.getLocalResource("issues/issue56-1.yaml");
         int counter = 0;
         for (Object obj : yaml.loadAll(input)) {
@@ -79,7 +78,7 @@ public class PerlTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testJavaBean() {
         Constructor c = new CustomBeanConstructor();
-        Yaml yaml = new Yaml(new Loader(c));
+        SnakeYaml yaml = new SnakeYaml(c);
         String input = Util.getLocalResource("issues/issue56-1.yaml");
         int counter = 0;
         for (Object obj : yaml.loadAll(input)) {

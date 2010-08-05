@@ -18,13 +18,12 @@ package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class FilterClassesConstructorTest extends TestCase {
 
     public void testGetClassForName() {
-        Yaml yaml = new Yaml(new Loader(new FilterConstructor(true)));
+        SnakeYaml yaml = new SnakeYaml(new FilterConstructor(true));
         String input = "!!org.yaml.snakeyaml.constructor.FilterClassesConstructorTest$FilteredBean {name: Andrey, number: 543}";
         try {
             yaml.load(input);
@@ -32,7 +31,7 @@ public class FilterClassesConstructorTest extends TestCase {
         } catch (Exception e) {
             assertTrue(e.getMessage().contains("Filter is applied."));
         }
-        yaml = new Yaml(new Loader(new FilterConstructor(false)));
+        yaml = new SnakeYaml(new FilterConstructor(false));
         FilteredBean s = (FilteredBean) yaml.load(input);
         assertEquals("Andrey", s.getName());
     }

@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class CalendarTest extends TestCase {
     /**
@@ -109,13 +109,13 @@ public class CalendarTest extends TestCase {
         assertEquals(TimeZone.getTimeZone("GMT-5:00").getOffset(calendar.getTime().getTime()),
                 calendar.getTimeZone().getOffset(calendar.getTime().getTime()));
         //
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Date date = (Date) yaml.load("2001-12-14t21:59:43.10-05:00");
         assertEquals(date, calendar.getTime());
     }
 
     public void testLoadWithTag() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         GregorianCalendar calendar = (GregorianCalendar) yaml
                 .load("!!java.util.GregorianCalendar 2001-12-14t21:59:43.10-05:00");
         assertEquals(TimeZone.getTimeZone("GMT-5:00").getOffset(calendar.getTime().getTime()),

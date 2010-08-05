@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.introspector.Property;
 
 public class FilterPropertyToDumpTest extends TestCase {
@@ -44,7 +44,7 @@ public class FilterPropertyToDumpTest extends TestCase {
         BeanToRemoveProperty bean = new BeanToRemoveProperty();
         bean.setNumber(24);
         Dumper dumper = new Dumper(new MyRepresenter(), new DumperOptions());
-        Yaml yaml = new Yaml(dumper);
+        SnakeYaml yaml = new SnakeYaml(dumper);
         String dump = yaml.dump(bean);
         // System.out.println(dump);
         assertEquals(
@@ -53,7 +53,7 @@ public class FilterPropertyToDumpTest extends TestCase {
         // include by default
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        yaml = new Yaml(options);
+        yaml = new SnakeYaml(options);
         dump = yaml.dump(bean);
         // System.out.println(dump);
         assertEquals(

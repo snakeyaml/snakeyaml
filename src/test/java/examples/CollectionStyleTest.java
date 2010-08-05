@@ -19,11 +19,11 @@ package examples;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class CollectionStyleTest extends TestCase {
     public void testNestedStyle() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String document = "  a: 1\n  b:\n    c: 3\n    d: 4\n";
         assertEquals("a: 1\nb: {c: 3, d: 4}\n", yaml.dump(yaml.load(document)));
     }
@@ -31,7 +31,7 @@ public class CollectionStyleTest extends TestCase {
     public void testNestedStyle2() {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String document = "  a: 1\n  b:\n    c: 3\n    d: 4\n";
         assertEquals("a: 1\nb:\n  c: 3\n  d: 4\n", yaml.dump(yaml.load(document)));
     }

@@ -7,9 +7,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 	<!-- the most powerful way -->
 	<bean id="yamlConstructor" class="examples.CustomConstructor" scope="prototype" />
-	<bean id="yamlLoader" class="org.yaml.snakeyaml.Loader" scope="prototype">
-		<constructor-arg ref="yamlConstructor" />
-	</bean>
 	<bean id="yamlRepresenter" class="org.yaml.snakeyaml.representer.Representer" scope="prototype" />
 	<bean id="yamlOptions" class="org.yaml.snakeyaml.DumperOptions" scope="prototype">
 		<property name="indent" value="2" />
@@ -18,8 +15,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<constructor-arg ref="yamlRepresenter" />
 		<constructor-arg ref="yamlOptions" />
 	</bean>
-	<bean id="snakeYaml" class="org.yaml.snakeyaml.Yaml" scope="prototype">
-		<constructor-arg ref="yamlLoader" />
+	<bean id="snakeYaml" class="org.yaml.snakeyaml.SnakeYaml" scope="prototype">
+		<constructor-arg ref="yamlConstructor" />
 		<constructor-arg ref="yamlDumper" />
 	</bean>
 
@@ -27,13 +24,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <bean id="beanConstructor" class="org.yaml.snakeyaml.constructor.Constructor" scope="prototype">
         <constructor-arg value="org.yaml.snakeyaml.Invoice" />
     </bean>
-    <bean id="beanLoader" class="org.yaml.snakeyaml.Loader" scope="prototype">
+    <bean id="javabeanYaml" class="org.yaml.snakeyaml.SnakeYaml" scope="prototype">
         <constructor-arg ref="beanConstructor" />
-    </bean>
-    <bean id="javabeanYaml" class="org.yaml.snakeyaml.Yaml" scope="prototype">
-        <constructor-arg ref="beanLoader" />
     </bean>
 
 	<!-- the simplest way -->
-	<bean id="standardYaml" class="org.yaml.snakeyaml.Yaml" scope="prototype" />
+	<bean id="standardYaml" class="org.yaml.snakeyaml.SnakeYaml" scope="prototype" />
 </beans>

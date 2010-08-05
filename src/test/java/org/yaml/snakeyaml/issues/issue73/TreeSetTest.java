@@ -20,7 +20,7 @@ import java.util.TreeSet;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 /**
  * Test bean when the implementation is defined: TreeSet instead of just the
@@ -35,7 +35,7 @@ public class TreeSetTest extends TestCase {
         list.add("xxx");
         list.add("ccc");
         bean.setSet(list);
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String doc = yaml.dump(bean);
         // System.out.println(doc);
         //

@@ -20,8 +20,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
@@ -35,7 +34,7 @@ public class PrefixConstructorTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void test1() {
-        Yaml yaml = new Yaml(new Loader(new CustomConstructor()));
+        SnakeYaml yaml = new SnakeYaml(new CustomConstructor());
         String input = "- !org.yaml.Foo 123\n- !org.yaml.Bar 456\n- !org.yaml.Exact 789\n- !Immutable [aaa, bbb]";
         List<Extra> list = (List<Extra>) yaml.load(input);
         assertEquals(4, list.size());

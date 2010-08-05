@@ -19,9 +19,8 @@ package org.yaml.snakeyaml.issues.issue67;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
-import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.scanner.ScannerException;
@@ -33,13 +32,13 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         Académico obj = new Académico();
         obj.setId(1);
         obj.setName("Foo bar baz");
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String result = yaml.dump(obj);
         assertEquals(PREFIX + "Acad%C3%A9mico {\n  id: 1, name: Foo bar baz}\n", result);
     }
 
     public void testLoad() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Académico obj = (Académico) yaml.load(PREFIX + "Acad%C3%A9mico {id: 3, name: Foo bar}");
         assertEquals(3, obj.getId());
         assertEquals("Foo bar", obj.getName());
@@ -47,7 +46,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
 
     public void testLoadInvalidPattern() {
         try {
-            Yaml yaml = new Yaml();
+            SnakeYaml yaml = new SnakeYaml();
             yaml.load(PREFIX + "Acad%WZ%A9mico {id: 3, name: Foo bar}");
             fail("Illegal hex characters in escape (%) pattern must not be accepted.");
         } catch (Exception e) {
@@ -59,7 +58,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
 
     public void testLoadInvalidPatternTooShort() {
         try {
-            Yaml yaml = new Yaml();
+            SnakeYaml yaml = new SnakeYaml();
             yaml.load(PREFIX + "Acad%9%A9mico {id: 3, name: Foo bar}");
             fail("Illegal hex characters in escape (%) pattern must not be accepted.");
         } catch (ScannerException e) {
@@ -72,7 +71,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
 
     public void testLoadInvalidUtf8() {
         try {
-            Yaml yaml = new Yaml();
+            SnakeYaml yaml = new SnakeYaml();
             yaml.load(PREFIX + "Acad%C0mico {id: 3, name: Foo bar}");
             fail("Illegal UTF-8 must not be accepted.");
         } catch (ScannerException e) {
@@ -109,7 +108,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         obj.setName("Foo bar 123");
         Representer repr = new Representer();
         repr.addClassTag(Académico.class, new Tag("!foo"));
-        Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
+        SnakeYaml yaml = new SnakeYaml(new Dumper(repr));
         String result = yaml.dump(obj);
         assertEquals("!foo {id: 123, name: Foo bar 123}\n", result);
     }
@@ -120,7 +119,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         obj.setName("Foo bar 123");
         Representer repr = new Representer();
         repr.addClassTag(Académico.class, new Tag("!Académico"));
-        Yaml yaml = new Yaml(new Dumper(repr, new DumperOptions()));
+        SnakeYaml yaml = new SnakeYaml(new Dumper(repr));
         String result = yaml.dump(obj);
         assertEquals("!Acad%C3%A9mico {id: 123, name: Foo bar 123}\n", result);
     }

@@ -28,13 +28,11 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.resolver.Resolver;
 
 public class LoaderTest extends TestCase {
 
     public void testCompose1() {
-        Loader loader = new Loader();
-        loader.setResolver(new Resolver());
+        SnakeYaml loader = new SnakeYaml();
         String yaml = "abc: 3";
         MappingNode node = (MappingNode) loader.compose(new StringReader(yaml));
         List<NodeTuple> nodes = node.getValue();
@@ -54,8 +52,7 @@ public class LoaderTest extends TestCase {
     }
 
     public void testCompose2() {
-        Loader loader = new Loader();
-        loader.setResolver(new Resolver());
+        SnakeYaml loader = new SnakeYaml();
         String yaml = "3";
         ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
         assertEquals(Tag.INT, node.getTag());
@@ -73,8 +70,7 @@ public class LoaderTest extends TestCase {
     }
 
     public void testComposeAll() {
-        Loader loader = new Loader();
-        loader.setResolver(new Resolver());
+        SnakeYaml loader = new SnakeYaml();
         String yaml = "abc: 3\n---\n2\n---\n- qwe\n- asd\n";
         int counter = 0;
         for (Node node : loader.composeAll(new StringReader(yaml))) {

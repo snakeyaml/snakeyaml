@@ -26,12 +26,12 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class LoadExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testLoad() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String document = "\n- Hesperiidae\n- Papilionidae\n- Apatelodidae\n- Epiplemidae";
         List<String> list = (List<String>) yaml.load(document);
         assertEquals("[Hesperiidae, Papilionidae, Apatelodidae, Epiplemidae]", list.toString());
@@ -39,7 +39,7 @@ public class LoadExampleTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testLoadFromString() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String document = "hello: 25";
         Map map = (Map) yaml.load(document);
         assertEquals("{hello=25}", map.toString());
@@ -48,7 +48,7 @@ public class LoadExampleTest extends TestCase {
 
     public void testLoadFromStream() throws FileNotFoundException {
         InputStream input = new FileInputStream(new File("src/test/resources/reader/utf-8.txt"));
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Object data = yaml.load(input);
         assertEquals("test", data);
         //
@@ -59,7 +59,7 @@ public class LoadExampleTest extends TestCase {
     public void testLoadManyDocuments() throws FileNotFoundException {
         InputStream input = new FileInputStream(new File(
                 "src/test/resources/specification/example2_28.yaml"));
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         int counter = 0;
         for (Object data : yaml.loadAll(input)) {
             assertNotNull(data);

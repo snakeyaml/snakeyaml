@@ -37,7 +37,7 @@ public class DumperTest extends TestCase {
         for (int i = 0; i < 3; i++) {
             list.add(i);
         }
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(list);
         assertEquals("---\n- !!int \"0\"\n- !!int \"1\"\n- !!int \"2\"\n...\n", output);
     }
@@ -49,7 +49,7 @@ public class DumperTest extends TestCase {
         for (int i = 0; i < 3; i++) {
             list.add(i);
         }
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(list);
         assertEquals("--- [0, 1, 2]\n", output);
     }
@@ -61,13 +61,13 @@ public class DumperTest extends TestCase {
         for (int i = 0; i < 3; i++) {
             list.add(i);
         }
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(list);
         assertEquals("- !!int '0'\n- !!int '1'\n- !!int '2'\n", output);
     }
 
     public void testDumpException() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Writer writer = new ExceptionWriter1();
         try {
             yaml.dump("aaa1234567890", writer);

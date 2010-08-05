@@ -21,7 +21,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.emitter.ScalarAnalysis;
 
 /**
@@ -29,7 +29,7 @@ import org.yaml.snakeyaml.emitter.ScalarAnalysis;
  */
 public class FlexibleScalarStyleTest extends TestCase {
     public void testLong() throws IOException {
-        Yaml yaml = new Yaml(new MyOptions());
+        SnakeYaml yaml = new SnakeYaml(new MyOptions());
         String result = yaml
                 .dump("qqqqqqqqqqqqqqqqqq qqqqqqqqqqqqqqqqqqqqqqqqq qqqqqqqqqqqqqqqqqqqqqqqq "
                         + "qqqqqqqqqqqqqqqqqqqqqqqq qqqqqqqqqqqqqqqqqqqqqqqq "
@@ -40,7 +40,7 @@ public class FlexibleScalarStyleTest extends TestCase {
     }
 
     public void testShort() throws IOException {
-        Yaml yaml = new Yaml(new MyOptions());
+        SnakeYaml yaml = new SnakeYaml(new MyOptions());
         String result = yaml.dump("qqqqqqqqqqqqqqqqqq");
         // System.out.println(result);
         assertEquals("qqqqqqqqqqqqqqqqqq\n", result);

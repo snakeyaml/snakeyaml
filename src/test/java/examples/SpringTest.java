@@ -20,18 +20,18 @@ import junit.framework.TestCase;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class SpringTest extends TestCase {
     public void testSimple() {
         ApplicationContext context = new ClassPathXmlApplicationContext("examples/spring.xml");
-        Yaml yaml = (Yaml) context.getBean("standardYaml");
+        SnakeYaml yaml = (SnakeYaml) context.getBean("standardYaml");
         assertNotNull(yaml);
         //
-        yaml = (Yaml) context.getBean("javabeanYaml");
+        yaml = (SnakeYaml) context.getBean("javabeanYaml");
         assertNotNull(yaml);
         //
-        yaml = (Yaml) context.getBean("snakeYaml");
+        yaml = (SnakeYaml) context.getBean("snakeYaml");
         assertNotNull(yaml);
     }
 }

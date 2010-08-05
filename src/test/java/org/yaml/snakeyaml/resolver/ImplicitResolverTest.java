@@ -22,9 +22,8 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Loader;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -84,8 +83,7 @@ public class ImplicitResolverTest extends TestCase {
         config.put("user.home", "HOME");
         Constructor constructor = new ConfigurationConstructor(config);
         constructor.addTypeDescription(new TypeDescription(TestBean.class, "!testbean"));
-        Loader loader = new Loader(constructor);
-        Yaml yaml = new Yaml(loader);
+        SnakeYaml yaml = new SnakeYaml(constructor);
         yaml.addImplicitResolver(CFG, Pattern.compile("\\$\\([a-zA-Z\\d\\u002E\\u005F]+\\)"), "$");
         TestBean bean = (TestBean) yaml.load("!testbean {myval: !cfg $(user.home)}");
         // System.out.println(bean.toString());

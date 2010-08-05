@@ -46,7 +46,7 @@ public class Chapter2_3Test extends TestCase {
         String etalon = "Sammy Sosa completed another fine season with great stats.\n\n  63 Home Runs\n  0.288 Batting Average\n\nWhat a year!\n";
         InputStream input = YamlDocument.class.getClassLoader().getResourceAsStream(
                 YamlDocument.ROOT + "example2_15.yaml");
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String data = (String) yaml.load(input);
         assertEquals(etalon, data);
         //

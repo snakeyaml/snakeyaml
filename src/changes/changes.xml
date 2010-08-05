@@ -7,6 +7,9 @@
 	</properties>
 	<body>
           <release version="1.7" date="in Mercurial" description="development">
+            <action dev="py4fun" type="update">
+                Simplify public API: Drop Loader (2010-08-05)
+            </action>
             <action dev="py4fun" type="update" issue="75" due-to="jon.p.hermes">
                 Add examples to create scalars that match custom regular expression:
                 CustomImplicitResolverTest, CustomBeanResolverTest (2010-08-03)

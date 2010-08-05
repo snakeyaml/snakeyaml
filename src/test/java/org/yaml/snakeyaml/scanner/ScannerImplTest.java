@@ -21,7 +21,7 @@ import java.util.LinkedList;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.tokens.BlockEndToken;
@@ -57,7 +57,7 @@ public class ScannerImplTest extends TestCase {
     }
 
     public void testWrongTab() throws IOException {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         try {
             yaml.load("\t  data: 1");
             fail("TAB cannot start a token.");

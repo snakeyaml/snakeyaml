@@ -21,14 +21,14 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 /**
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=8
  */
 public class PrattleRepresenterTest extends TestCase {
     public void test() throws IOException {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Person person = new Person("Alan", "Gutierrez", 9);
         String etalon = "!!org.yaml.snakeyaml.issues.issue8.Person {firstName: Alan, hatSize: 9, lastName: Gutierrez}\n";
         assertEquals(etalon, yaml.dump(person));
@@ -38,7 +38,7 @@ public class PrattleRepresenterTest extends TestCase {
     public void test2beans() throws IOException {
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         Person person = new Person("Alan", "Gutierrez", 9);
         String etalon = "!!org.yaml.snakeyaml.issues.issue8.Person {firstName: Alan, hatSize: 9, lastName: Gutierrez}\n";
         assertEquals(etalon, yaml.dump(person));

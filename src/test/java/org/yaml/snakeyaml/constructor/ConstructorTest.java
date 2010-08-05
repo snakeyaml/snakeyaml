@@ -26,7 +26,7 @@ import java.util.TimeZone;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class ConstructorTest extends TestCase {
 
@@ -110,7 +110,7 @@ public class ConstructorTest extends TestCase {
     }
 
     private Object construct(String data) {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         return yaml.load(data);
     }
 }

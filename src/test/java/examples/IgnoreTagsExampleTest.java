@@ -21,9 +21,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Loader;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -36,7 +35,7 @@ public class IgnoreTagsExampleTest extends TestCase {
     public void testLoad() {
         String input = Util.getLocalResource("examples/unknown-tags-example.yaml");
         // System.out.println(input);
-        Yaml yaml = new Yaml(new Loader(new MyConstructor()));
+        SnakeYaml yaml = new SnakeYaml(new MyConstructor());
         Map<String, Object> result = (Map<String, Object>) yaml.load(input);
         // Check the result
         assertNotNull(result);

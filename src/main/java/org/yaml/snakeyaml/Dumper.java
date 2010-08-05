@@ -37,12 +37,21 @@ public class Dumper {
         this.representer = representer;
         representer.setDefaultFlowStyle(options.getDefaultFlowStyle());
         representer.setDefaultScalarStyle(options.getDefaultScalarStyle());
-        representer.getPropertyUtils().setAllowReadOnlyProperties(options.isAllowReadOnlyProperties());
+        representer.getPropertyUtils().setAllowReadOnlyProperties(
+                options.isAllowReadOnlyProperties());
         this.options = options;
     }
 
     public Dumper(DumperOptions options) {
         this(new Representer(), options);
+    }
+
+    public Dumper(Representer representer) {
+        this(representer, new DumperOptions());
+    }
+
+    public Dumper() {
+        this(new Representer(), new DumperOptions());
     }
 
     public void dump(Iterator<? extends Object> iter, Writer output, Resolver resolver) {

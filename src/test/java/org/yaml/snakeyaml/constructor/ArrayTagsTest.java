@@ -21,10 +21,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Loader;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
 
 public class ArrayTagsTest extends TestCase {
 
@@ -38,15 +37,14 @@ public class ArrayTagsTest extends TestCase {
             wheels[i - 1] = wheel;
         }
         car.setWheels(wheels);
-        assertEquals(Util.getLocalResource("constructor/cararray-with-tags.yaml"), new Yaml()
+        assertEquals(Util.getLocalResource("constructor/cararray-with-tags.yaml"), new SnakeYaml()
                 .dump(car));
     }
 
     public void testLoadClassTag() throws IOException {
         Constructor constructor = new Constructor();
         constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
-        Loader loader = new Loader(constructor);
-        Yaml yaml = new Yaml(loader);
+        SnakeYaml yaml = new SnakeYaml(constructor);
         Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
         assertEquals("12-XP-F4", car.getPlate());
         List<Wheel> wheels = car.getWheels();
@@ -69,8 +67,7 @@ public class ArrayTagsTest extends TestCase {
         TypeDescription carDescription = new TypeDescription(CarWithArray.class);
         carDescription.setRoot(true);
         constructor.addTypeDescription(carDescription);
-        Loader loader = new Loader(constructor);
-        Yaml yaml = new Yaml(loader);
+        SnakeYaml yaml = new SnakeYaml(constructor);
         CarWithArray car = (CarWithArray) yaml.load(Util
                 .getLocalResource("constructor/car-no-root-class.yaml"));
         assertEquals("12-XP-F4", car.getPlate());

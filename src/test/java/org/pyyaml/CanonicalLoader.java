@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
 
-import org.yaml.snakeyaml.Loader;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.error.YAMLException;
 
-public class CanonicalLoader extends Loader {
+public class CanonicalLoader extends SnakeYaml {
     @Override
     public Object load(Reader yaml) {
         try {

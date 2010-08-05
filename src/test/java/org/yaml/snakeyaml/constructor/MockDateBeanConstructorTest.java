@@ -21,13 +21,13 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class MockDateBeanConstructorTest extends TestCase {
 
     public void testConstructor() throws IOException {
         String className = "!!org.yaml.snakeyaml.constructor.MockDateBeanConstructorTest$DateBean {number: 24, date: 2009-07-24}";
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         try {
             yaml.load(className);
             fail("MockDate cannot be constructed.");

@@ -32,7 +32,7 @@ import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
+ * @deprecated
  */
 public class Loader {
     protected final BaseConstructor constructor;
@@ -51,7 +51,7 @@ public class Loader {
     public void setBeanAccess(BeanAccess beanAccess) {
         constructor.getPropertyUtils().setBeanAccess(beanAccess);
     }
-    
+
     public Object load(Reader io) {
         Composer composer = new Composer(new ParserImpl(new StreamReader(io)), resolver);
         constructor.setComposer(composer);

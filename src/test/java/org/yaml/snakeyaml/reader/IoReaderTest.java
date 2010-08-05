@@ -23,13 +23,13 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class IoReaderTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testCheckPrintable() throws IOException {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Reader reader = null;
         reader = new FileReader("src/test/resources/specification/example2_1.yaml");
         List<String> list = (List<String>) yaml.load(reader);

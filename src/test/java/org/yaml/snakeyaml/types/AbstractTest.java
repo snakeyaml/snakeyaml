@@ -20,24 +20,24 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public abstract class AbstractTest extends TestCase {
     @SuppressWarnings("unchecked")
     protected Map<String, Object> getMap(String data) {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Map<String, Object> nativeData = (Map<String, Object>) yaml.load(data);
         return nativeData;
     }
 
     protected Object load(String data) {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Object obj = yaml.load(data);
         return obj;
     }
 
     protected String dump(Object data) {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         return yaml.dump(data);
     }
 

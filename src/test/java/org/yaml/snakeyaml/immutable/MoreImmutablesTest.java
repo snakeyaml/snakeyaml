@@ -23,17 +23,16 @@ import java.awt.Rectangle;
 import javax.swing.BorderFactory;
 import javax.swing.border.MatteBorder;
 
+import junit.framework.TestCase;
+
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
-
-import junit.framework.TestCase;
+import org.yaml.snakeyaml.SnakeYaml;
 
 public class MoreImmutablesTest extends TestCase {
 
     public void testInsets() {
-        Yaml yaml = new Yaml(new Loader(), new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
+        SnakeYaml yaml = new SnakeYaml(new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
         Insets insets = new Insets(10, 20, 30, 40);
         String dump = yaml.dump(insets);
         assertEquals("!!java.awt.Insets [10, 20, 30, 40]\n", dump);
@@ -42,7 +41,7 @@ public class MoreImmutablesTest extends TestCase {
     }
 
     public void testAwtColor() {
-        Yaml yaml = new Yaml(new Loader(), new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
+        SnakeYaml yaml = new SnakeYaml(new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
         Color color = new Color(10, 20, 30, 40);
         String dump = yaml.dump(color);
         assertEquals("!!java.awt.Color [10, 20, 30, 40]\n", dump);
@@ -51,29 +50,32 @@ public class MoreImmutablesTest extends TestCase {
     }
 
     public void testRectangle() {
-        Yaml yaml = new Yaml(new Loader(), new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
+        SnakeYaml yaml = new SnakeYaml(new Dumper(new ImmutablesRepresenter(), new DumperOptions()));
         Rectangle rect = new Rectangle(10, 20, 30, 40);
         String dump = yaml.dump(rect);
         assertEquals("!!java.awt.Rectangle [10, 20, 30, 40]\n", dump);
         Object loaded = yaml.load(dump);
         assertEquals(rect, loaded);
     }
-    
+
     // matteborder - only with color - no icon
     public void testMatteBorder() {
         DumperOptions options = new DumperOptions();
         options.setWidth(400);
-        Yaml yaml = new Yaml(new Loader(), new Dumper(new ImmutablesRepresenter(), options));
+        SnakeYaml yaml = new SnakeYaml(new Dumper(new ImmutablesRepresenter(), options));
         Insets insets = new Insets(10, 20, 30, 40);
         Color color = new Color(100, 150, 200);
-        MatteBorder border = BorderFactory.createMatteBorder(insets.top, insets.left, insets.bottom, insets.right, color);
+        MatteBorder border = BorderFactory.createMatteBorder(insets.top, insets.left,
+                insets.bottom, insets.right, color);
         String dump = yaml.dump(border);
-        assertEquals("!!javax.swing.border.MatteBorder [!!java.awt.Insets [10, 20, 30, 40], !!java.awt.Color [100, 150, 200, 255]]\n", dump);
+        assertEquals(
+                "!!javax.swing.border.MatteBorder [!!java.awt.Insets [10, 20, 30, 40], !!java.awt.Color [100, 150, 200, 255]]\n",
+                dump);
         Object loaded = yaml.load(dump);
         assertTrue(loaded instanceof MatteBorder);
         MatteBorder loadedBorder = (MatteBorder) loaded;
         assertEquals(insets, loadedBorder.getBorderInsets());
         assertEquals(color, loadedBorder.getMatteColor());
     }
-    
+
 }

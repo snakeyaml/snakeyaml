@@ -24,7 +24,7 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 /**
  * @see http://yaml.org/type/str.html
@@ -131,7 +131,7 @@ public class StrTagTest extends AbstractTest {
     public void testDumpUtf16() throws IOException {
         String str = "xxx";
         assertEquals(3, str.toString().length());
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Charset charset = Charset.forName("UTF-16");
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         Writer writer = new OutputStreamWriter(stream, charset);

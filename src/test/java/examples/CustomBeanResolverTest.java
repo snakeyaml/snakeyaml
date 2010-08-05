@@ -21,8 +21,7 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -35,7 +34,7 @@ public class CustomBeanResolverTest extends TestCase {
     private final Pattern CUSTOM_PATTERN = Pattern.compile("\\d+%");
 
     public void testOnlyBigDecimal() {
-        Yaml yaml = new Yaml(new Loader(new BigBeanConstructor()));
+        SnakeYaml yaml = new SnakeYaml(new BigBeanConstructor());
         Foo foo = (Foo) yaml.load("bar: 50\nbaz: 35%\nbas: 1250");
         assertEquals(50.0, foo.bar);
         assertEquals("0.35", foo.baz.toString());
@@ -43,7 +42,7 @@ public class CustomBeanResolverTest extends TestCase {
     }
 
     public void testPrimitive() {
-        Yaml yaml = new Yaml(new Loader(new BigBeanConstructor()));
+        SnakeYaml yaml = new SnakeYaml(new BigBeanConstructor());
         Foo foo = (Foo) yaml.load("bar: 50%\nbaz: 35%\nbas: 1250%\nbaw: 35");
         assertEquals(0.5, foo.bar);
         assertEquals("0.35", foo.baz.toString());

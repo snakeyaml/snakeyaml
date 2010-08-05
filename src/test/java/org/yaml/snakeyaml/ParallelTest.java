@@ -57,8 +57,7 @@ public class ParallelTest extends TestCase {
 
         public void run() {
             System.out.println("Started: " + id);
-            Loader loader = new Loader(new Constructor(Invoice.class));
-            Yaml yaml = new Yaml(loader);
+            SnakeYaml yaml = new SnakeYaml(new Constructor(Invoice.class));
             long time1 = System.nanoTime();
             int cycles = 200;
             for (int i = 0; i < cycles; i++) {
@@ -72,22 +71,11 @@ public class ParallelTest extends TestCase {
         }
     }
 
-    public void testSharedLoader() throws IOException {
-        Loader loader = new Loader(new Constructor(Invoice.class));
-        new Yaml(loader);
-        try {
-            new Yaml(loader);
-            fail("Loader cannot be shared.");
-        } catch (YAMLException e) {
-            assertEquals("Loader cannot be shared.", e.getMessage());
-        }
-    }
-
     public void testSharedDumper() throws IOException {
         Dumper dumper = new Dumper(new DumperOptions());
-        new Yaml(dumper);
+        new SnakeYaml(dumper);
         try {
-            new Yaml(dumper);
+            new SnakeYaml(dumper);
             fail("Dumper cannot be shared.");
         } catch (YAMLException e) {
             assertEquals("Dumper cannot be shared.", e.getMessage());

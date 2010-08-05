@@ -22,7 +22,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 
 /**
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=38
@@ -36,7 +36,7 @@ public class BigNumberIdTest extends TestCase {
             list.add(value);
             list.add(value);
         }
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String output = yaml.dump(list);
         // System.out.println(output);
         //

@@ -21,7 +21,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 
 /**
@@ -30,7 +30,7 @@ import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
  */
 public class UnicodeStyleTest extends TestCase {
     public void testFoldedStyle() throws IOException {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String output = yaml.dump("í");
         // System.out.println(output);
         assertEquals("í\n", output);
@@ -39,7 +39,7 @@ public class UnicodeStyleTest extends TestCase {
     public void testDoubleQuotedStyle() throws IOException {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(ScalarStyle.DOUBLE_QUOTED);
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump("í");
         // System.out.println(output);
         assertEquals("\"í\"\n", output);

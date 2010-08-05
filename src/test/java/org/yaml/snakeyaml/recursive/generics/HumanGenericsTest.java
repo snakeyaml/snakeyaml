@@ -33,10 +33,9 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
-import org.yaml.snakeyaml.Loader;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.generics.JvmDetector;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -60,7 +59,7 @@ public class HumanGenericsTest extends TestCase {
         father.setPartner(mother);
         mother.setPartner(father);
         mother.setBankAccountOwner(father);
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String output = yaml.dump(father);
         String etalon = Util.getLocalResource("recursive/generics/no-children-1.yaml");
         assertEquals(etalon, output);
@@ -96,7 +95,7 @@ public class HumanGenericsTest extends TestCase {
         mother.setBankAccountOwner(father);
         DumperOptions options = new DumperOptions();
         options.setExplicitRoot(Tag.MAP);
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(father);
         String etalon = Util.getLocalResource("recursive/generics/no-children-2.yaml");
         assertEquals(etalon, output);
@@ -156,7 +155,7 @@ public class HumanGenericsTest extends TestCase {
         humanDescription.putMapPropertyType("children", HumanGen.class, Object.class);
         constructor.addTypeDescription(humanDescription);
 
-        Yaml yaml = new Yaml(new Loader(constructor));
+        SnakeYaml yaml = new SnakeYaml(constructor);
         String output = yaml.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/generics/with-children.yaml");
@@ -226,7 +225,7 @@ public class HumanGenericsTest extends TestCase {
         Representer representer = new Representer();
         representer.addClassTag(HumanGen2.class, Tag.MAP);
         Dumper dumper = new Dumper(representer, new DumperOptions());
-        Yaml yaml = new Yaml(dumper);
+        SnakeYaml yaml = new SnakeYaml(dumper);
         String output = yaml.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/generics/with-children-2.yaml");
@@ -299,7 +298,7 @@ public class HumanGenericsTest extends TestCase {
         Human3Description.putListPropertyType("children", HumanGen3.class);
         constructor.addTypeDescription(Human3Description);
 
-        Yaml yaml = new Yaml(new Loader(constructor));
+        SnakeYaml yaml = new SnakeYaml(constructor);
         String output = yaml.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/generics/with-children-3.yaml");
@@ -343,7 +342,7 @@ public class HumanGenericsTest extends TestCase {
         humanDescription.putMapPropertyType("children", HumanGen.class, Object.class);
         constructor.addTypeDescription(humanDescription);
 
-        Yaml yaml = new Yaml(new Loader(constructor));
+        SnakeYaml yaml = new SnakeYaml(constructor);
         Set<HumanGen> children2 = (Set<HumanGen>) yaml.load(etalon);
         assertNotNull(children2);
         assertEquals(2, children2.size());
@@ -381,7 +380,7 @@ public class HumanGenericsTest extends TestCase {
         Human2Description.putMapPropertyType("children", HumanGen2.class, String.class);
         constructor.addTypeDescription(Human2Description);
 
-        Yaml yaml = new Yaml(new Loader(constructor));
+        SnakeYaml yaml = new SnakeYaml(constructor);
         Map<HumanGen2, String> children2 = (Map<HumanGen2, String>) yaml.load(etalon);
         assertNotNull(children2);
         assertEquals(2, children2.size());
@@ -450,7 +449,7 @@ public class HumanGenericsTest extends TestCase {
         Human3Description.putListPropertyType("children", HumanGen3.class);
         constructor.addTypeDescription(Human3Description);
 
-        Yaml yaml = new Yaml(new Loader(constructor));
+        SnakeYaml yaml = new SnakeYaml(constructor);
         String output = yaml.dump(father.getChildren());
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/generics/with-children-as-list.yaml");
@@ -491,7 +490,7 @@ public class HumanGenericsTest extends TestCase {
         man2.setBankAccountOwner(man3);
         man3.setBankAccountOwner(man1);
         //
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String output = yaml.dump(man1);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/generics/beanring-3.yaml");

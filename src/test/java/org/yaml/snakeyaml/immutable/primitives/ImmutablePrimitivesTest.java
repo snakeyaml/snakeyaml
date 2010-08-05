@@ -20,14 +20,13 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class ImmutablePrimitivesTest extends TestCase {
 
     public void testPrimitives() {
-        Yaml yaml = new Yaml(new Loader(), new Dumper(new ImmutablePrimitivesRepresenter(),
+        SnakeYaml yaml = new SnakeYaml(new Dumper(new ImmutablePrimitivesRepresenter(),
                 new DumperOptions()));
         BunchOfPrimitives bunch = new BunchOfPrimitives(10, 40.0, true);
         String dump = yaml.dump(bunch);
@@ -37,7 +36,7 @@ public class ImmutablePrimitivesTest extends TestCase {
     }
 
     public void testPrimitivesLong() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String dump = "!!org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives [10000000000, 40.0, true]";
         BunchOfPrimitives bunch = (BunchOfPrimitives) yaml.load(dump);
         assertEquals("Must be truncated.", new Long(10000000000L).intValue(), bunch
@@ -45,7 +44,7 @@ public class ImmutablePrimitivesTest extends TestCase {
     }
 
     public void testPrimitivesException() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         String dump = "!!org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives [10, 40, true]";
         try {
             yaml.load(dump);

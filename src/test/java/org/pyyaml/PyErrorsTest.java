@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.emitter.EventConstructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -110,10 +108,8 @@ public class PyErrorsTest extends PyImportTest {
         File[] files = getStreamsByExtension(".emitter-error");
         assertTrue("No test files found.", files.length > 0);
         for (int i = 0; i < files.length; i++) {
-            Constructor constructor = new EventConstructor();
-            Loader loader = new Loader(constructor);
             String content = getResource(files[i].getName());
-            List<Event> document = (List<Event>) load(loader, content.trim());
+            List<Event> document = (List<Event>) load(new EventConstructor(), content.trim());
             Writer writer = new StringWriter();
             Emitter emitter = new Emitter(writer, new DumperOptions());
             try {

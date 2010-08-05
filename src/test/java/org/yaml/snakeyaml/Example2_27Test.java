@@ -31,15 +31,14 @@ import org.yaml.snakeyaml.constructor.Constructor;
 public class Example2_27Test extends TestCase {
 
     public void testExample_2_27() throws IOException {
-        Loader loader = new Loader(new Constructor(Invoice.class));
-        Yaml yaml = new Yaml(loader);
+        SnakeYaml yaml = new SnakeYaml(new Constructor(Invoice.class));
         Invoice invoice = (Invoice) yaml.load(Util
                 .getLocalResource("specification/example2_27.yaml"));
         assertNotNull(invoice);
         Person billTo = invoice.billTo;
         assertEquals("Dumars", billTo.family);
         Dumper dumper = new Dumper(new DumperOptions());
-        yaml = new Yaml(dumper);
+        yaml = new SnakeYaml(dumper);
         String output = yaml.dump(invoice);
         String etalon = Util.getLocalResource("specification/example2_27_dumped.yaml");
         assertEquals(etalon, output);

@@ -21,12 +21,12 @@ import junit.framework.TestCase;
 public class YamlTest extends TestCase {
 
     public void testSetNoName() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         assertTrue(yaml.toString().matches("Yaml:\\d+"));
     }
 
     public void testSetName() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         yaml.setName("REST");
         assertEquals("REST", yaml.getName());
         assertEquals("REST", yaml.toString());

@@ -27,7 +27,7 @@ import org.yaml.snakeyaml.events.StreamStartEvent;
 public class YamlParseTest extends TestCase {
 
     public void testParse() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Event e = null;
         int counter = 0;
         for (Event event : yaml.parse(new StringReader("abc: 56"))) {
@@ -42,7 +42,7 @@ public class YamlParseTest extends TestCase {
     }
 
     public void testParseManyDocuments() {
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Event e = null;
         int counter = 0;
         for (Event event : yaml.parse(new StringReader("abc: 56\n---\n4\n---\nqwe\n"))) {

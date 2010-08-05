@@ -25,8 +25,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Dumper;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -40,7 +39,7 @@ public class DiceExampleTest extends TestCase {
         Dice dice = new Dice(3, 6);
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        Yaml yaml = new Yaml(options);
+        SnakeYaml yaml = new SnakeYaml(options);
         String output = yaml.dump(dice);
         assertEquals("!!examples.Dice {a: 3, b: 6}\n", output);
     }
@@ -49,7 +48,7 @@ public class DiceExampleTest extends TestCase {
         Dice dice = new Dice(3, 6);
         Map<String, Dice> data = new HashMap<String, Dice>();
         data.put("gold", dice);
-        Yaml yaml = new Yaml(new Dumper(new DiceRepresenter(), new DumperOptions()));
+        SnakeYaml yaml = new SnakeYaml(new Dumper(new DiceRepresenter(), new DumperOptions()));
         String output = yaml.dump(data);
         assertEquals("{gold: !dice '3d6'}\n", output);
     }
@@ -86,7 +85,7 @@ public class DiceExampleTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testConstructor() throws IOException {
-        Yaml yaml = new Yaml(new Loader(new DiceConstructor()));
+        SnakeYaml yaml = new SnakeYaml(new DiceConstructor());
         Object data = yaml.load("{initial hit points: !dice '8d4'}");
         Map<String, Dice> map = (Map<String, Dice>) data;
         assertEquals(new Dice(8, 4), map.get("initial hit points"));
@@ -95,7 +94,7 @@ public class DiceExampleTest extends TestCase {
     // the tag must start with a digit
     @SuppressWarnings("unchecked")
     public void testImplicitResolver() throws IOException {
-        Yaml yaml = new Yaml(new Loader(new DiceConstructor()), new Dumper(new DiceRepresenter(),
+        SnakeYaml yaml = new SnakeYaml(new DiceConstructor(), new Dumper(new DiceRepresenter(),
                 new DumperOptions()));
         // the tag must start with a digit
         yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), "123456789");
@@ -113,7 +112,7 @@ public class DiceExampleTest extends TestCase {
     // the tag may start with anything
     @SuppressWarnings("unchecked")
     public void testImplicitResolverWithNull() throws IOException {
-        Yaml yaml = new Yaml(new Loader(new DiceConstructor()), new Dumper(new DiceRepresenter(),
+        SnakeYaml yaml = new SnakeYaml(new DiceConstructor(), new Dumper(new DiceRepresenter(),
                 new DumperOptions()));
         // the tag may start with anything
         yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), null);

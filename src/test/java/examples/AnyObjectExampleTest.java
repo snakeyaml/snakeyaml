@@ -22,14 +22,14 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
 
 public class AnyObjectExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testLoad() throws IOException {
         String doc = Util.getLocalResource("examples/any-object-example.yaml");
-        Yaml yaml = new Yaml();
+        SnakeYaml yaml = new SnakeYaml();
         Map<String, Object> object = (Map<String, Object>) yaml.load(doc);
         assertEquals(6, object.size());
         assertEquals("[null, null]", object.get("none").toString());

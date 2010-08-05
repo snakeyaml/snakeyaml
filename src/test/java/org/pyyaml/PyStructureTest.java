@@ -25,8 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.SnakeYaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -203,13 +202,7 @@ public class PyStructureTest extends PyImportTest {
         return documents;
     }
 
-    class MyLoader extends Loader {
-        public MyLoader() {
-            super(new MyConstructor());
-        }
-    }
-
-    class CanonicalLoader extends Loader {
+    class CanonicalLoader extends SnakeYaml {
         public CanonicalLoader() {
             super(new MyConstructor());
         }
@@ -271,8 +264,8 @@ public class PyStructureTest extends PyImportTest {
     public void testConstructor() throws IOException {
         File[] files = getStreamsByExtension(".data", true);
         assertTrue("No test files found.", files.length > 0);
-        Yaml myYaml = new Yaml(new MyLoader());
-        Yaml canonicalYaml = new Yaml(new CanonicalLoader());
+        SnakeYaml myYaml = new SnakeYaml(new MyConstructor());
+        SnakeYaml canonicalYaml = new CanonicalLoader();
         for (File file : files) {
             try {
                 Iterable<Object> documents1 = myYaml.loadAll(new FileInputStream(file));
