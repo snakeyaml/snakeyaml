@@ -15,9 +15,6 @@
  */
 
 // line 1 "RagelMachine.rl"
-/*
- * See LICENSE file in distribution for copyright and licensing information.
- */
 package org.yaml.snakeyaml.resolver;
 
 //Source for Ragel 6.3

@@ -16,9 +16,6 @@
 
 package org.yaml.snakeyaml;
 
-/*
- * See LICENSE file in distribution for copyright and licensing information.
- */
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
