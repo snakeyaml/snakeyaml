@@ -19,8 +19,8 @@ package org.yaml.snakeyaml.issues.issue55;
 import java.util.Collection;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
+import junit.framework.TestCase;
+
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
@@ -30,48 +30,43 @@ import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
-public class YamlFieldAccessCollectionTest {
+public class YamlFieldAccessCollectionTest extends TestCase {
 
-    @Test
     public void testYaml() {
         Blog original = createTestBlog();
         Yaml yamlDumper = constructYamlDumper();
         String serialized = yamlDumper.dump(original);
         // System.out.println(serialized);
-        Assert.assertEquals(Util.getLocalResource("issues/issue55_1.txt"), serialized);
+        assertEquals(Util.getLocalResource("issues/issue55_1.txt"), serialized);
         JavaBeanLoader<Blog> blogLoader = new JavaBeanLoader<Blog>(Blog.class, BeanAccess.FIELD);
         Blog rehydrated = (Blog) blogLoader.load(serialized);
         checkTestBlog(rehydrated);
     }
 
     @SuppressWarnings("unchecked")
-    @Test
     public void testYamlWithoutConfiguration() {
         Yaml yaml = new Yaml();
         Map<String, Object> map = (Map<String, Object>) yaml.load(Util
                 .getLocalResource("issues/issue55_1.txt"));
-        Assert.assertEquals(1, map.size());
+        assertEquals(1, map.size());
     }
 
-    @Test
     public void testYamlFailure() {
         JavaBeanLoader<Blog> beanLoader = new JavaBeanLoader<Blog>(Blog.class);
         try {
             beanLoader.load(Util.getLocalResource("issues/issue55_1.txt"));
-            Assert.fail("BeanAccess.FIELD is required.");
+            fail("BeanAccess.FIELD is required.");
         } catch (Exception e) {
-            Assert.assertTrue(e.getMessage(),
-                    e.getMessage().contains("Unable to find property 'posts'"));
+            assertTrue(e.getMessage(), e.getMessage().contains("Unable to find property 'posts'"));
         }
     }
 
-    @Test
     public void testYamlDefaultWithFeildAccess() {
         Yaml yaml = new Yaml();
         yaml.setBeanAccess(BeanAccess.FIELD);
         Blog original = createTestBlog();
         String serialized = yaml.dump(original);
-        Assert.assertEquals(Util.getLocalResource("issues/issue55_1_rootTag.txt"), serialized);
+        assertEquals(Util.getLocalResource("issues/issue55_1_rootTag.txt"), serialized);
         Blog rehydrated = (Blog) yaml.load(serialized);
         checkTestBlog(rehydrated);
     }
@@ -103,6 +98,6 @@ public class YamlFieldAccessCollectionTest {
 
     protected void checkTestBlog(Blog blog) {
         Collection<Post> posts = blog.getPosts();
-        Assert.assertEquals("Blog contains 2 posts", 2, posts.size());
+        assertEquals("Blog contains 2 posts", 2, posts.size());
     }
 }

@@ -8,6 +8,13 @@
 	<body>
           <release version="1.7" date="in Mercurial" description="Simplify public API (drop Loader and Dumper)">
             <action dev="py4fun" type="update">
+                Eclipse does not run JUnit 4 tests when they are launched for the whole project (2010-08-11)
+            </action>
+            <action dev="maslovalex" type="update" issue="55">
+                Share PropertyUtils if not explicitly set in Constructor or Representer
+                (BeanAccess.FIELD works properly when JavaBean is identified by a root tag) (2010-08-11)
+            </action>
+            <action dev="py4fun" type="update">
                 Create 1.7 Release Candidate 1 (2010-08-11)
             </action>
             <action dev="py4fun" type="update" issue="77">

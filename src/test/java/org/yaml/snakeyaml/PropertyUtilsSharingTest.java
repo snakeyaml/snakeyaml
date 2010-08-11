@@ -16,16 +16,15 @@
 
 package org.yaml.snakeyaml;
 
-import static org.junit.Assert.assertSame;
+import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.representer.Representer;
 
-public class PropertyUtilsSharingTest {
+public class PropertyUtilsSharingTest extends TestCase {
 
-    @Test
     public void testYamlDefaults() {
         Yaml yaml1 = new Yaml();
         assertSame(yaml1.constructor.getPropertyUtils(), yaml1.representer.getPropertyUtils());
@@ -37,7 +36,6 @@ public class PropertyUtilsSharingTest {
         assertSame(yaml3.constructor.getPropertyUtils(), yaml3.representer.getPropertyUtils());
     }
 
-    @Test
     public void testYamlConstructorWithPropertyUtils() {
         Constructor constructor1 = new Constructor();
         PropertyUtils pu = new PropertyUtils();
@@ -47,7 +45,6 @@ public class PropertyUtilsSharingTest {
         assertSame(pu, yaml.representer.getPropertyUtils());
     }
 
-    @Test
     public void testYamlRepresenterWithPropertyUtils() {
         Representer representer2 = new Representer();
         PropertyUtils pu = new PropertyUtils();
@@ -69,5 +66,4 @@ public class PropertyUtilsSharingTest {
         assertSame(pu_c, yaml.constructor.getPropertyUtils());
         assertSame(pu_r, yaml.representer.getPropertyUtils());
     }
-
 }
