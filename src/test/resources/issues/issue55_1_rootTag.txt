@@ -1,0 +1,4 @@
+!!org.yaml.snakeyaml.issues.issue55.Blog
+posts:
+- {text: Dummy, title: Test}
+- {text: Creative, title: Highly}

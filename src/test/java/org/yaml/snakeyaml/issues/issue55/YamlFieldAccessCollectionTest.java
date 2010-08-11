@@ -60,9 +60,20 @@ public class YamlFieldAccessCollectionTest {
             beanLoader.load(Util.getLocalResource("issues/issue55_1.txt"));
             Assert.fail("BeanAccess.FIELD is required.");
         } catch (Exception e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().contains(
-                    "Unable to find property 'posts'"));
+            Assert.assertTrue(e.getMessage(),
+                    e.getMessage().contains("Unable to find property 'posts'"));
         }
+    }
+
+    @Test
+    public void testYamlDefaultWithFeildAccess() {
+        Yaml yaml = new Yaml();
+        yaml.setBeanAccess(BeanAccess.FIELD);
+        Blog original = createTestBlog();
+        String serialized = yaml.dump(original);
+        Assert.assertEquals(Util.getLocalResource("issues/issue55_1_rootTag.txt"), serialized);
+        Blog rehydrated = (Blog) yaml.load(serialized);
+        checkTestBlog(rehydrated);
     }
 
     protected Yaml constructYamlDumper() {
