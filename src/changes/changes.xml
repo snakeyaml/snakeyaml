@@ -6,9 +6,9 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-          <release version="1.7" date="in Mercurial" description="Simplify public API (Loader and Dumper are deprecated)">
+          <release version="1.7" date="in Mercurial" description="Simplify public API (drop Loader and Dumper)">
             <action dev="py4fun" type="update">
-                Create 1.7RC1 (2010-08-11)
+                Create 1.7 Release Candidate 1 (2010-08-11)
             </action>
             <action dev="py4fun" type="update" issue="77">
                 Simplify public API: Drop Dumper (2010-08-06)
