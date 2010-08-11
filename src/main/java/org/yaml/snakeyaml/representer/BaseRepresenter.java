@@ -61,6 +61,7 @@ public abstract class BaseRepresenter {
     private final Set<Object> objectKeeper = new HashSet<Object>();
     protected Object objectToRepresent;
     private PropertyUtils propertyUtils;
+    private boolean explicitPropertyUtils = false;
 
     public void represent(Serializer serializer, Object data) throws IOException {
         Node node = representData(data);
@@ -195,6 +196,7 @@ public abstract class BaseRepresenter {
 
     public void setPropertyUtils(PropertyUtils propertyUtils) {
         this.propertyUtils = propertyUtils;
+        this.explicitPropertyUtils = true;
     }
 
     public final PropertyUtils getPropertyUtils() {
@@ -202,6 +204,10 @@ public abstract class BaseRepresenter {
             propertyUtils = new PropertyUtils();
         }
         return propertyUtils;
+    }
+
+    public final boolean isExplicitPropertyUtils() {
+        return explicitPropertyUtils;
     }
 
 }

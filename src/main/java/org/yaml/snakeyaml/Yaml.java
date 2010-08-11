@@ -149,6 +149,11 @@ public class Yaml {
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions options,
             Resolver resolver) {
+        if(!constructor.isExplicitPropertyUtils()) {
+            constructor.setPropertyUtils(representer.getPropertyUtils());
+        } else if(!representer.isExplicitPropertyUtils()) {
+            representer.setPropertyUtils(constructor.getPropertyUtils());
+        }
         this.constructor = constructor;
         representer.setDefaultFlowStyle(options.getDefaultFlowStyle());
         representer.setDefaultScalarStyle(options.getDefaultScalarStyle());
@@ -478,6 +483,7 @@ public class Yaml {
 
     public void setBeanAccess(BeanAccess beanAccess) {
         constructor.getPropertyUtils().setBeanAccess(beanAccess);
+        representer.getPropertyUtils().setBeanAccess(beanAccess);
     }
 
     // deprecated

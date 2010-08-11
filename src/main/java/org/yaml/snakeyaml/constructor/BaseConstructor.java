@@ -72,6 +72,7 @@ public abstract class BaseConstructor {
 
     protected Tag rootTag;
     private PropertyUtils propertyUtils;
+    private boolean explicitPropertyUtils;
 
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();
@@ -79,6 +80,7 @@ public abstract class BaseConstructor {
         maps2fill = new ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>>();
         sets2fill = new ArrayList<RecursiveTuple<Set<Object>, Object>>();
         rootTag = null;
+        explicitPropertyUtils = false;
     }
 
     public void setComposer(Composer composer) {
@@ -380,6 +382,7 @@ public abstract class BaseConstructor {
 
     public void setPropertyUtils(PropertyUtils propertyUtils) {
         this.propertyUtils = propertyUtils;
+        explicitPropertyUtils = true;
     }
 
     public final PropertyUtils getPropertyUtils() {
@@ -405,5 +408,9 @@ public abstract class BaseConstructor {
         public T _1() {
             return _1;
         }
+    }
+
+    public final boolean isExplicitPropertyUtils() {
+        return explicitPropertyUtils ;
     }
 }
