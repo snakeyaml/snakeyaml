@@ -6,7 +6,7 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-          <release version="1.7" date="in Mercurial" description="Simplify public API (drop Loader and Dumper)">
+          <release version="1.7" date="2010-08-12" description="Simplify public API (drop Loader and Dumper)">
             <action dev="py4fun" type="update">
                 Eclipse does not run JUnit 4 tests when they are launched for the whole project (2010-08-11)
             </action>

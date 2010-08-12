@@ -10,7 +10,7 @@ A new release of SnakeYAML is now available:
 
     http://code.google.com/p/snakeyaml/
 
-This release delivers simplified public API (Loader and Dumper are deprecated, issue 77),
+This release delivers simplified public API (drop Loader and Dumper, issue 77),
 as well as other minor changes and bug fixes.
 
 Changes
@@ -28,7 +28,7 @@ Resources
 SnakeYAML homepage: http://code.google.com/p/snakeyaml/
 SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
 
-JAR package: http://snakeyamlrepo.appspot.com/repository/org/yaml/snakeyaml/1.7/snakeyaml-1.7.jar
+JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.7/snakeyaml-1.7.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/
