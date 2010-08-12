@@ -23,7 +23,8 @@
         </mailingList>
     </mailingLists>
     <scm>
-        <connection>scm:hg:https://snakeyaml.googlecode.com/hg/</connection>
+        <connection>scm:hg:http://snakeyaml.googlecode.com/hg</connection>
+        <developerConnection>scm:hg:https://snakeyaml.googlecode.com/hg</developerConnection>
         <url>http://code.google.com/p/snakeyaml/source/browse/</url>
     </scm>
     <licenses>
