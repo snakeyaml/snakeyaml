@@ -7,9 +7,6 @@
 	</properties>
 	<body>
 	      <release version="1.8-SNAPSHOT" date="in Mercurial" description="development">
-            <action dev="py4fun" type="update">
-                Use oss-parent POM from Sonatype (2010-08-17)
-            </action>
             <action dev="py4fun" type="remove">
                 Cleanup unused code in deprecated Loader and Dumper (2010-08-13)
             </action>
