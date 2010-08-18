@@ -40,25 +40,36 @@ public class StreamReader {
     private final Reader stream;
     private int pointer = 0;
     private boolean eof = true;
+    private boolean putBufferInMark = true;
     private final StringBuilder buffer;
     private int index = 0;
     private int line = 0;
     private int column = 0;
 
     public StreamReader(String stream) {
+        this(stream, true);
+    }
+
+    public StreamReader(String stream, boolean putBufferInMark) {
         this.name = "<string>";
         this.buffer = new StringBuilder();
         checkPrintable(stream);
-        this.buffer.append(stream);
+        this.buffer.append(stream).append('\0');
         this.stream = null;
         this.eof = true;
+        this.putBufferInMark = putBufferInMark;
     }
 
     public StreamReader(Reader reader) {
+        this(reader, true);
+    }
+
+    public StreamReader(Reader reader, boolean putBufferInMark) {
         this.name = "<reader>";
         this.buffer = new StringBuilder();
         this.stream = reader;
         this.eof = false;
+        this.putBufferInMark = putBufferInMark;
     }
 
     void checkPrintable(CharSequence data) {
@@ -71,6 +82,9 @@ public class StreamReader {
     }
 
     public Mark getMark() {
+        if (!putBufferInMark) {
+            return new Mark(name, this.index, this.line, this.column, null, this.pointer);
+        }
         return new Mark(name, this.index, this.line, this.column, this.buffer.toString(),
                 this.pointer);
     }
@@ -131,17 +145,16 @@ public class StreamReader {
         }
         if (this.pointer + length > this.buffer.length()) {
             return this.buffer.substring(this.pointer, this.buffer.length());
-        } else {
-            return this.buffer.substring(this.pointer, this.pointer + length);
         }
+        return this.buffer.substring(this.pointer, this.pointer + length);
     }
 
     private void update(int length) {
-        this.buffer.delete(0, this.pointer);
-        this.pointer = 0;
-        while (this.buffer.length() < length) {
-            String rawData = null;
-            if (!this.eof) {
+        if (!this.eof) {
+            this.buffer.delete(0, this.pointer);
+            this.pointer = 0;
+            do {
+                String rawData = null;
                 char[] data = new char[1024];
                 int converted = -2;
                 try {
@@ -149,20 +162,16 @@ public class StreamReader {
                 } catch (IOException ioe) {
                     throw new YAMLException(ioe);
                 }
-                if (converted == -1) {
-                    this.eof = true;
-                } else {
+                if (converted != -1) {
                     rawData = new String(data, 0, converted);
+                    checkPrintable(rawData);
+                    this.buffer.append(rawData);
+                } else {
+                    this.eof = true;
+                    this.buffer.append('\0');
+                    break;
                 }
-            }
-            if (rawData != null) {
-                checkPrintable(rawData);
-                this.buffer.append(rawData);
-            }
-            if (this.eof) {
-                this.buffer.append('\0');
-                break;
-            }
+            } while (this.buffer.length() < length);
         }
     }
 

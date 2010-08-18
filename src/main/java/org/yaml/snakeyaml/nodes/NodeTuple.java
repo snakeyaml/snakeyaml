@@ -19,7 +19,7 @@ package org.yaml.snakeyaml.nodes;
 /**
  * Stores one key value pair used in a map.
  */
-public class NodeTuple {
+public final class NodeTuple {
 
     private final Node keyNode;
     private final Node valueNode;
@@ -35,7 +35,7 @@ public class NodeTuple {
     /**
      * Key node.
      */
-    public Node getKeyNode() {
+    final public Node getKeyNode() {
         return keyNode;
     }
 
@@ -44,7 +44,7 @@ public class NodeTuple {
      * 
      * @return value
      */
-    public Node getValueNode() {
+    final public Node getValueNode() {
         return valueNode;
     }
 
