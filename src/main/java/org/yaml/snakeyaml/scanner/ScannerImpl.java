@@ -1012,7 +1012,7 @@ public final class ScannerImpl implements Scanner {
         // See the specification for details.
         int length = 0;
         char ch = reader.peek(length);
-        while (Constant.ALPHA.indexOf(ch) != -1) {
+        while (Constant.ALPHA.has(ch)) {
             length++;
             ch = reader.peek(length);
         }
@@ -1148,7 +1148,7 @@ public final class ScannerImpl implements Scanner {
         reader.forward();
         int length = 0;
         char ch = reader.peek(length);
-        while (Constant.ALPHA.indexOf(ch) != -1) {
+        while (Constant.ALPHA.has(ch)) {
             length++;
             ch = reader.peek(length);
         }
@@ -1665,7 +1665,7 @@ public final class ScannerImpl implements Scanner {
         int length = 1;
         ch = reader.peek(length);
         if (ch != ' ') {
-            while (Constant.ALPHA.indexOf(ch) != -1) {
+            while (Constant.ALPHA.has(ch)) {
                 length++;
                 ch = reader.peek(length);
             }

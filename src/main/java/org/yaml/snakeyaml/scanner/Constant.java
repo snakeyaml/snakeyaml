@@ -16,15 +16,17 @@
 
 package org.yaml.snakeyaml.scanner;
 
+import java.util.Arrays;
+
 public final class Constant {
-    final static String ALPHA = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
+    private final static String ALPHA_S = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
 
     private final static String LINEBR_S = "\n\u0085\u2028\u2029";
     private final static String FULL_LINEBR_S = "\r" + LINEBR_S;
     private final static String NULL_OR_LINEBR_S = "\0" + FULL_LINEBR_S;
     private final static String NULL_BL_LINEBR_S = " " + NULL_OR_LINEBR_S;
     private final static String NULL_BL_T_LINEBR_S = "\t" + NULL_BL_LINEBR_S;
-    private final static String URI_CHARS_S = ALPHA + "-;/?:@&=+$,_.!~*\'()[]%";
+    private final static String URI_CHARS_S = ALPHA_S + "-;/?:@&=+$,_.!~*\'()[]%";
 
     public final static Constant LINEBR = new Constant(LINEBR_S);
     public final static Constant FULL_LINEBR = new Constant(FULL_LINEBR_S);
@@ -33,14 +35,30 @@ public final class Constant {
     public final static Constant NULL_BL_T_LINEBR = new Constant(NULL_BL_T_LINEBR_S);
     public final static Constant URI_CHARS = new Constant(URI_CHARS_S);
 
+    public final static Constant ALPHA = new Constant(ALPHA_S);
+
     private String content;
+    boolean[] contains = new boolean[128];
+    boolean noASCII = false;
 
     private Constant(String content) {
-        this.content = content;
+        Arrays.fill(contains, false);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < content.length(); i++) {
+            char ch = content.charAt(i);
+            if (ch < 128)
+                contains[ch] = true;
+            else
+                sb.append(ch);
+        }
+        if (sb.length() > 0) {
+            noASCII = true;
+            this.content = sb.toString();
+        }
     }
 
     public boolean has(char ch) {
-        return content.indexOf(ch) != -1;
+        return (ch < 128) ? contains[ch] : noASCII && content.indexOf(ch) != -1;
     }
 
     public boolean hasNo(char ch) {
@@ -48,7 +66,7 @@ public final class Constant {
     }
 
     public boolean has(char ch, String additional) {
-        return additional.indexOf(ch) != -1 || content.indexOf(ch) != -1;
+        return has(ch) || additional.indexOf(ch) != -1;
     }
 
     public boolean hasNo(char ch, String additional) {
