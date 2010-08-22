@@ -6,7 +6,10 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	      <release version="1.8-SNAPSHOT" date="in Mercurial" description="development">
+	      <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="maslovalex" type="update" issue="79">
+                Context for error reporting consumes a lot of resources (2010-08-21)
+            </action>
             <action dev="py4fun" type="remove">
                 Cleanup unused code in deprecated Loader and Dumper (2010-08-13)
             </action>

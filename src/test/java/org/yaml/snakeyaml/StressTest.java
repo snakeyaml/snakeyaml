@@ -37,6 +37,7 @@ public class StressTest extends TestCase {
         System.out.println("Init was " + duration + " ms.");
 
         Yaml yaml = new Yaml(new Constructor(Invoice.class));
+        yaml.setAttachBufferToMark(false);
         time1 = System.nanoTime();
         yaml.load(doc);
         time2 = System.nanoTime();
@@ -44,6 +45,7 @@ public class StressTest extends TestCase {
         System.out.println("\nSingle load was " + duration + " ms.");
 
         yaml = new Yaml(new Constructor(Invoice.class));
+        yaml.setAttachBufferToMark(false);
         int[] range = new int[] { 1000, 2000 };
         System.out.println("\nOne instance.");
         for (int number : range) {
@@ -66,6 +68,7 @@ public class StressTest extends TestCase {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
                 yaml = new Yaml(new Constructor(Invoice.class));
+                yaml.setAttachBufferToMark(false);
                 yaml.load(doc);
             }
             time2 = System.nanoTime();
