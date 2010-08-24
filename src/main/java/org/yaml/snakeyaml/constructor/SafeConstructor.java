@@ -288,20 +288,18 @@ public class SafeConstructor extends BaseConstructor {
                 String day_s = match.group(3);
                 String hour_s = match.group(4);
                 String min_s = match.group(5);
-                String sec_s = match.group(6);
-                String fract_s = match.group(7);
+                // seconds and milliseconds
+                String seconds = match.group(6);
+                String millis = match.group(7);
+                if (millis != null) {
+                    seconds = seconds + "." + millis;
+                }
+                double fractions = Double.parseDouble(seconds);
+                int sec_s = (int) Math.round(Math.floor(fractions));
+                int usec = (int) Math.round(((fractions - sec_s) * 1000));
+                // timezone
                 String timezoneh_s = match.group(8);
                 String timezonem_s = match.group(9);
-
-                int usec = 0;
-                if (fract_s != null) {
-                    usec = Integer.parseInt(fract_s);
-                    if (usec != 0) {
-                        while (10 * usec < 1000) {
-                            usec *= 10;
-                        }
-                    }
-                }
                 TimeZone timeZone;
                 if (timezoneh_s != null) {
                     String time = timezonem_s != null ? ":" + timezonem_s : "00";
@@ -317,7 +315,7 @@ public class SafeConstructor extends BaseConstructor {
                 calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day_s));
                 calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour_s));
                 calendar.set(Calendar.MINUTE, Integer.parseInt(min_s));
-                calendar.set(Calendar.SECOND, Integer.parseInt(sec_s));
+                calendar.set(Calendar.SECOND, sec_s);
                 calendar.set(Calendar.MILLISECOND, usec);
                 return calendar.getTime();
             }

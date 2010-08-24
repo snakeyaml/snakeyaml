@@ -48,7 +48,15 @@ public class TimestampTagTest extends AbstractTest {
                 "no time zone (Z): 2001-12-15 2:59:43.10", "no time zone (Z)"));
         assertEquals("2002-12-14 at 0:0:0 (0)", getText("date (00:00:00Z): 2002-12-14",
                 "date (00:00:00Z)"));
-        assertEquals("2010-5-16 at 3:6:11 (300)", getText("milliseconds: 2010-05-16 03:06:11.003",
+        assertEquals("2010-5-16 at 3:6:11 (3)", getText("milliseconds: 2010-05-16 03:06:11.003",
+                "milliseconds"));
+        assertEquals("2010-5-16 at 3:6:11 (7)", getText("milliseconds: 2010-05-16 03:06:11.0068",
+                "milliseconds"));
+        assertEquals("2010-5-16 at 3:6:11 (0)", getText("milliseconds: 2010-05-16 03:06:11.0000",
+                "milliseconds"));
+        assertEquals("2010-5-16 at 3:6:11 (0)", getText("milliseconds: 2010-05-16 03:06:11.0004",
+                "milliseconds"));
+        assertEquals("2010-5-16 at 3:6:11 (25)", getText("milliseconds: 2010-05-16 03:06:11.0250",
                 "milliseconds"));
     }
 
