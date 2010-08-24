@@ -48,6 +48,8 @@ public class TimestampTagTest extends AbstractTest {
                 "no time zone (Z): 2001-12-15 2:59:43.10", "no time zone (Z)"));
         assertEquals("2002-12-14 at 0:0:0 (0)", getText("date (00:00:00Z): 2002-12-14",
                 "date (00:00:00Z)"));
+        assertEquals("2010-5-16 at 3:6:11 (300)", getText("milliseconds: 2010-05-16 03:06:11.003",
+                "milliseconds"));
     }
 
     public void testTimestampShorthand() throws IOException {
