@@ -34,5 +34,4 @@ public class MarkTest extends TestCase {
         assertEquals("*The first line.", lines[1].trim());
         assertEquals("^", lines[2].trim());
     }
-
 }

@@ -20,6 +20,10 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
+/**
+ * @see http://bugs.sun.com/view_bug.do?bug_id=6528714
+ */
+// TODO rename the class
 public class JvmDetector {
     /**
      * Check whether the proper class Nest for Bird's property 'home' is
