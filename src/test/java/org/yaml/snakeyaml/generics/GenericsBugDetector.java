@@ -23,8 +23,7 @@ import java.beans.PropertyDescriptor;
 /**
  * @see http://bugs.sun.com/view_bug.do?bug_id=6528714
  */
-// TODO rename the class
-public class JvmDetector {
+public class GenericsBugDetector {
     /**
      * Check whether the proper class Nest for Bird's property 'home' is
      * recognized.

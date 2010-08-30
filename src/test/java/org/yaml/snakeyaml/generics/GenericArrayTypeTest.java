@@ -67,7 +67,7 @@ public class GenericArrayTypeTest extends TestCase {
         String etalon = "!!org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray\n"
                 + "home: [1, 2, 3]\n" + "name: Array3\n";
         assertEquals(etalon, doc);
-        if (JvmDetector.isProperIntrospection()) {
+        if (GenericsBugDetector.isProperIntrospection()) {
             GenericArray parsed = (GenericArray) yaml.load(doc);
             assertEquals("Array3", parsed.getName());
             assertEquals(3, parsed.getHome().length);
@@ -115,7 +115,7 @@ public class GenericArrayTypeTest extends TestCase {
         assertEquals(Util.getLocalResource("javabeans/genericArray-1.yaml"), doc);
         //
         JavaBeanLoader<ArrayBean> beanLoader = new JavaBeanLoader<ArrayBean>(ArrayBean.class);
-        if (JvmDetector.isProperIntrospection()) {
+        if (GenericsBugDetector.isProperIntrospection()) {
             ArrayBean loaded = beanLoader.load(doc);
             assertEquals("ID556677", loaded.getId());
             assertEquals("Array3", loaded.getGa().getName());
