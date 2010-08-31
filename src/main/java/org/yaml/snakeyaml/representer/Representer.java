@@ -74,11 +74,14 @@ public class Representer extends SafeRepresenter {
         tag = customTag != null ? customTag : new Tag(javaBean.getClass());
         // flow style will be chosen by BaseRepresenter
         MappingNode node = new MappingNode(tag, value, null);
-        representedObjects.put(objectToRepresent, node);
+        representedObjects.put(javaBean, node);
         boolean bestStyle = true;
         for (Property property : properties) {
             Object memberValue = property.get(javaBean);
-            NodeTuple tuple = representJavaBeanProperty(javaBean, property, memberValue, customTag);
+            Tag customPropertyTag = memberValue == null ? null : classTags.get(memberValue
+                    .getClass());
+            NodeTuple tuple = representJavaBeanProperty(javaBean, property, memberValue,
+                    customPropertyTag);
             if (tuple == null) {
                 continue;
             }
