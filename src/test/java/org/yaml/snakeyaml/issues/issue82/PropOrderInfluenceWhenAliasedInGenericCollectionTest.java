@@ -25,6 +25,9 @@ import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Yaml;
 
+/**
+ * @see issue 82: property order influence when aliased in generic collection
+ */
 public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCase {
 
     public static interface Account {
@@ -76,12 +79,12 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
 
         Yaml yaml = new Yaml();
         String dump = yaml.dump(customerAB);
-        // System.out.println(dump);
+        System.out.println(dump);
         CustomerAB parsed = (CustomerAB) yaml.load(dump);
 
     }
 
-    public void testAB2() {
+    public void testABwithJavaBeanHelpers() {
         SuperSaverAccount supersaver = new SuperSaverAccount();
         SecretAccount secret = new SecretAccount();
         GeneralAccount generalAccount = new GeneralAccount();
@@ -125,12 +128,14 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
 
         Yaml yaml = new Yaml();
         String dump = yaml.dump(customerBA);
-        // System.out.println(dump);
+        System.out.println(dump);
         //
         CustomerBA parsed = (CustomerBA) yaml.load(dump);
         assertEquals(3, parsed.bAll.size());
         assertEquals(2, parsed.aGeneral.size());
-        assertEquals(GeneralAccount.class, parsed.aGeneral.toArray()[0].getClass());
-        assertEquals(SuperSaverAccount.class, parsed.aGeneral.toArray()[1].getClass());
+        GeneralAccount[] array = parsed.aGeneral.toArray(new GeneralAccount[2]);
+        assertEquals(GeneralAccount.class, array[0].getClass());
+        assertEquals(SuperSaverAccount.class, array[1].getClass());
+        assertEquals("SuperSaverAccount", array[1].name);
     }
 }
