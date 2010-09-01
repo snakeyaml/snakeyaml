@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package org.yaml.snakeyaml.javabeans;
+package org.yaml.snakeyaml.issues.issue82;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
-import org.yaml.snakeyaml.Yaml;
 
 import junit.framework.TestCase;
+
+import org.yaml.snakeyaml.JavaBeanDumper;
+import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.Yaml;
 
 public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCase {
 
@@ -33,17 +34,22 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         public String name = "General";
     }
 
-    public static class SuperSaverAccount extends GeneralAccount {        
+    public static class SuperSaverAccount extends GeneralAccount {
         public String name = "SuperSaver";
     }
 
-    public static class SecretAccount implements Account {        
+    public static class SecretAccount implements Account {
         public String name = "Secret";
     }
 
     public static class CustomerAB {
         public Collection<Account> aAll;
         public Collection<GeneralAccount> bGeneral;
+
+        @Override
+        public String toString() {
+            return "CustomerAB";
+        }
     }
 
     public static class CustomerBA {
@@ -55,7 +61,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         SuperSaverAccount supersaver = new SuperSaverAccount();
         SecretAccount secret = new SecretAccount();
         GeneralAccount generalAccount = new GeneralAccount();
-        
+
         CustomerAB customerAB = new CustomerAB();
         ArrayList<Account> all = new ArrayList<Account>();
         all.add(supersaver);
@@ -64,23 +70,47 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         ArrayList<GeneralAccount> general = new ArrayList<GeneralAccount>();
         general.add(generalAccount);
         general.add(supersaver);
-        
+
         customerAB.aAll = all;
         customerAB.bGeneral = general;
-        
+
         Yaml yaml = new Yaml();
         String dump = yaml.dump(customerAB);
-        //System.out.println(dump);
-        
-        yaml.load(dump);
-        
+        // System.out.println(dump);
+        CustomerAB parsed = (CustomerAB) yaml.load(dump);
+
+    }
+
+    public void testAB2() {
+        SuperSaverAccount supersaver = new SuperSaverAccount();
+        SecretAccount secret = new SecretAccount();
+        GeneralAccount generalAccount = new GeneralAccount();
+
+        CustomerAB customerAB = new CustomerAB();
+        ArrayList<Account> all = new ArrayList<Account>();
+        all.add(supersaver);
+        all.add(secret);
+        all.add(generalAccount);
+        ArrayList<GeneralAccount> general = new ArrayList<GeneralAccount>();
+        general.add(generalAccount);
+        general.add(supersaver);
+
+        customerAB.aAll = all;
+        customerAB.bGeneral = general;
+
+        JavaBeanDumper dumper = new JavaBeanDumper();
+        String dump2 = dumper.dump(customerAB);
+        // System.out.println(dump2);
+        JavaBeanLoader<CustomerAB> loader = new JavaBeanLoader<CustomerAB>(CustomerAB.class);
+        CustomerAB parsed = loader.load(dump2);
+
     }
 
     public void testBA() {
         SuperSaverAccount supersaver = new SuperSaverAccount();
         SecretAccount secret = new SecretAccount();
         GeneralAccount generalAccount = new GeneralAccount();
-        
+
         CustomerBA customerBA = new CustomerBA();
         ArrayList<Account> all = new ArrayList<Account>();
         all.add(supersaver);
@@ -89,13 +119,18 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         ArrayList<GeneralAccount> general = new ArrayList<GeneralAccount>();
         general.add(generalAccount);
         general.add(supersaver);
-        
+
         customerBA.aGeneral = general;
         customerBA.bAll = all;
-        
+
         Yaml yaml = new Yaml();
         String dump = yaml.dump(customerBA);
-        //System.out.println(dump);
-        yaml.load(dump);
+        // System.out.println(dump);
+        //
+        CustomerBA parsed = (CustomerBA) yaml.load(dump);
+        assertEquals(3, parsed.bAll.size());
+        assertEquals(2, parsed.aGeneral.size());
+        assertEquals(GeneralAccount.class, parsed.aGeneral.toArray()[0].getClass());
+        assertEquals(SuperSaverAccount.class, parsed.aGeneral.toArray()[1].getClass());
     }
 }
