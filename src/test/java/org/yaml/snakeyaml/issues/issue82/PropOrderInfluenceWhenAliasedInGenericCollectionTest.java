@@ -38,7 +38,10 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     }
 
     public static class SuperSaverAccount extends GeneralAccount {
-        public String name = "SuperSaver";
+
+        public SuperSaverAccount() {
+            name = "SuperSaver";
+        }
     }
 
     public static class SecretAccount implements Account {
@@ -136,6 +139,6 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         GeneralAccount[] array = parsed.aGeneral.toArray(new GeneralAccount[2]);
         assertEquals(GeneralAccount.class, array[0].getClass());
         assertEquals(SuperSaverAccount.class, array[1].getClass());
-        assertEquals("SuperSaverAccount", array[1].name);
+        assertEquals("SuperSaver", array[1].name);
     }
 }
