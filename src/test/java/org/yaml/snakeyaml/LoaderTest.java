@@ -53,7 +53,9 @@ public class LoaderTest extends TestCase {
     }
 
     public void testCompose2() {
-        Yaml loader = new Yaml(new LoaderOptions(LoaderOptions.Mode.CONTEXT_MARK));
+        LoaderOptions options = new LoaderOptions();
+        options.setMode(LoaderOptions.Mode.CONTEXT_MARK, true);
+        Yaml loader = new Yaml(options);
         String yaml = "3";
         ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
         assertEquals(Tag.INT, node.getTag());

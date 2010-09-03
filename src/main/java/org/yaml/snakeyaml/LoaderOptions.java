@@ -16,52 +16,52 @@
 
 package org.yaml.snakeyaml;
 
+import java.util.BitSet;
+
 public class LoaderOptions {
-    private final Mode mode;
+    private final BitSet set;
 
     public enum Mode {
         /**
          * Store context with a Mark to have a better error message. Loader
          * works 40% slower and it consumes much more memory (default=false)
          */
-        CONTEXT_MARK(1),
+        CONTEXT_MARK(0),
         /**
          * Disable implicit types when JavaBean is loaded (default=true). When
          * this is present then USE_IMPLICIT_TYPES is ignored.
          */
-        DYNAMIC_IMPLICIT_TYPES(2),
+        DYNAMIC_IMPLICIT_TYPES(1),
         /**
          * When DYNAMIC_IMPLICIT_TYPES is 'false' defines whether to apply the
          * regular expressions. When implicit types are not used all the scalars
          * are Strings. Enable this when JavaBean has a property which is a
          * generic collections like Map<String, Integer>
          */
-        USE_IMPLICIT_TYPES(4),
+        USE_IMPLICIT_TYPES(2),
         /**
          * Enable compact format for JavaBeans
          */
-        COMPACT_FORMAT(8);
+        COMPACT_FORMAT(3);
 
-        private final int mask;
+        private final int index;
 
-        private Mode(int mask) {
-            this.mask = mask;
+        private Mode(int index) {
+            this.index = index;
         }
-
-        public boolean hasMode(Mode mode) {
-            return (mode.mask & this.mask) == mode.mask;
-        }
-    }
-
-    public LoaderOptions(Mode mode) {
-        this.mode = mode;
     }
 
     public LoaderOptions() {
-        this(Mode.DYNAMIC_IMPLICIT_TYPES);
+        set = new BitSet(5);
+        set.set(Mode.CONTEXT_MARK.index, false);
+        set.set(Mode.DYNAMIC_IMPLICIT_TYPES.index, true);
+    }
+
+    public void setMode(Mode mode, boolean value) {
+        set.set(mode.index, value);
     }
 
     public boolean hasMode(Mode mode) {
-        return this.mode.hasMode(mode);
+        return set.get(mode.index);
     }
 }
