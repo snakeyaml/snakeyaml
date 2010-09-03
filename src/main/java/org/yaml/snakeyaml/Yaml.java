@@ -51,15 +51,16 @@ public class Yaml {
     private String name;
     protected BaseConstructor constructor;
     protected Representer representer;
-    protected DumperOptions options;
-    protected LoaderOptions loaderOptions = new LoaderOptions();
+    protected DumperOptions dumperOptions;
+    protected LoaderOptions loaderOptions;
 
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
      */
     public Yaml() {
-        this(new Constructor(), new Representer(), new DumperOptions(), new Resolver());
+        this(new Constructor(), new LoaderOptions(), new Representer(), new DumperOptions(),
+                new Resolver());
     }
 
     public Yaml(LoaderOptions loaderOptions) {
@@ -70,11 +71,11 @@ public class Yaml {
     /**
      * Create Yaml instance.
      * 
-     * @param options
+     * @param dumperOptions
      *            DumperOptions to configure outgoing objects
      */
-    public Yaml(DumperOptions options) {
-        this(new Constructor(), new Representer(), options);
+    public Yaml(DumperOptions dumperOptions) {
+        this(new Constructor(), new Representer(), dumperOptions);
     }
 
     /**
@@ -118,11 +119,11 @@ public class Yaml {
      * 
      * @param representer
      *            Representer to emit outgoing objects
-     * @param options
+     * @param dumperOptions
      *            DumperOptions to configure outgoing objects
      */
-    public Yaml(Representer representer, DumperOptions options) {
-        this(new Constructor(), representer, options, new Resolver());
+    public Yaml(Representer representer, DumperOptions dumperOptions) {
+        this(new Constructor(), representer, dumperOptions, new Resolver());
     }
 
     /**
@@ -133,11 +134,11 @@ public class Yaml {
      *            BaseConstructor to construct incoming documents
      * @param representer
      *            Representer to emit outgoing objects
-     * @param options
+     * @param dumperOptions
      *            DumperOptions to configure outgoing objects
      */
-    public Yaml(BaseConstructor constructor, Representer representer, DumperOptions options) {
-        this(constructor, representer, options, new Resolver());
+    public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions) {
+        this(constructor, representer, dumperOptions, new Resolver());
     }
 
     /**
@@ -148,14 +149,14 @@ public class Yaml {
      *            BaseConstructor to construct incoming documents
      * @param representer
      *            Representer to emit outgoing objects
-     * @param options
+     * @param dumperOptions
      *            DumperOptions to configure outgoing objects
      * @param resolver
      *            Resolver to detect implicit type
      */
-    public Yaml(BaseConstructor constructor, Representer representer, DumperOptions options,
+    public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
             Resolver resolver) {
-        this(constructor, new LoaderOptions(), representer, options, resolver);
+        this(constructor, new LoaderOptions(), representer, dumperOptions, resolver);
     }
 
     /**
@@ -168,13 +169,13 @@ public class Yaml {
      *            LoaderOptions to control construction process
      * @param representer
      *            Representer to emit outgoing objects
-     * @param options
+     * @param dumperOptions
      *            DumperOptions to configure outgoing objects
      * @param resolver
      *            Resolver to detect implicit type
      */
     public Yaml(BaseConstructor constructor, LoaderOptions loaderOptions, Representer representer,
-            DumperOptions options, Resolver resolver) {
+            DumperOptions dumperOptions, Resolver resolver) {
         if (!constructor.isExplicitPropertyUtils()) {
             constructor.setPropertyUtils(representer.getPropertyUtils());
         } else if (!representer.isExplicitPropertyUtils()) {
@@ -182,12 +183,12 @@ public class Yaml {
         }
         this.constructor = constructor;
         this.loaderOptions = loaderOptions;
-        representer.setDefaultFlowStyle(options.getDefaultFlowStyle());
-        representer.setDefaultScalarStyle(options.getDefaultScalarStyle());
+        representer.setDefaultFlowStyle(dumperOptions.getDefaultFlowStyle());
+        representer.setDefaultScalarStyle(dumperOptions.getDefaultScalarStyle());
         representer.getPropertyUtils().setAllowReadOnlyProperties(
-                options.isAllowReadOnlyProperties());
+                dumperOptions.isAllowReadOnlyProperties());
         this.representer = representer;
-        this.options = options;
+        this.dumperOptions = dumperOptions;
         this.resolver = resolver;
         this.name = "Yaml:" + System.identityHashCode(this);
     }
@@ -241,7 +242,7 @@ public class Yaml {
      *            stream to write to
      */
     public void dumpAll(Iterator<? extends Object> data, Writer output) {
-        Serializer s = new Serializer(new Emitter(output, options), resolver, options);
+        Serializer s = new Serializer(new Emitter(output, dumperOptions), resolver, dumperOptions);
         try {
             s.open();
             while (data.hasNext()) {
