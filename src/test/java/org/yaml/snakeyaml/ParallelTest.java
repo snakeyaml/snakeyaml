@@ -57,7 +57,6 @@ public class ParallelTest extends TestCase {
         public void run() {
             System.out.println("Started: " + id);
             Yaml yaml = new Yaml(new Constructor(Invoice.class));
-            yaml.setAttachBufferToMark(false);
             long time1 = System.nanoTime();
             int cycles = 200;
             for (int i = 0; i < cycles; i++) {

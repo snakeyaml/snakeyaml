@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.issues.issue67;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -57,7 +58,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
 
     public void testLoadInvalidPatternTooShort() {
         try {
-            Yaml yaml = new Yaml();
+            Yaml yaml = new Yaml(new LoaderOptions(LoaderOptions.Mode.CONTEXT_MARK));
             yaml.load(PREFIX + "Acad%9%A9mico {id: 3, name: Foo bar}");
             fail("Illegal hex characters in escape (%) pattern must not be accepted.");
         } catch (ScannerException e) {
@@ -70,7 +71,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
 
     public void testLoadInvalidUtf8() {
         try {
-            Yaml yaml = new Yaml();
+            Yaml yaml = new Yaml(new LoaderOptions(LoaderOptions.Mode.CONTEXT_MARK));
             yaml.load(PREFIX + "Acad%C0mico {id: 3, name: Foo bar}");
             fail("Illegal UTF-8 must not be accepted.");
         } catch (ScannerException e) {

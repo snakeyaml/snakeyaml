@@ -53,7 +53,7 @@ public class LoaderTest extends TestCase {
     }
 
     public void testCompose2() {
-        Yaml loader = new Yaml();
+        Yaml loader = new Yaml(new LoaderOptions(LoaderOptions.Mode.CONTEXT_MARK));
         String yaml = "3";
         ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
         assertEquals(Tag.INT, node.getTag());
@@ -71,9 +71,7 @@ public class LoaderTest extends TestCase {
     }
 
     public void testCompose3() {
-        Yaml loader = new Yaml();
-        // switch off the context for snippet
-        loader.setAttachBufferToMark(false);
+        Yaml loader = new Yaml();// switch off the context for snippet
         String yaml = "3";
         ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
         Mark mark = node.getStartMark();

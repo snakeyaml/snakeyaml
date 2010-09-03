@@ -52,7 +52,7 @@ public class Yaml {
     protected BaseConstructor constructor;
     protected Representer representer;
     protected DumperOptions options;
-    protected boolean attachBufferToMark = true;
+    protected LoaderOptions loaderOptions = new LoaderOptions();
 
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
@@ -60,6 +60,11 @@ public class Yaml {
      */
     public Yaml() {
         this(new Constructor(), new Representer(), new DumperOptions(), new Resolver());
+    }
+
+    public Yaml(LoaderOptions loaderOptions) {
+        this(new Constructor(), loaderOptions, new Representer(), new DumperOptions(),
+                new Resolver());
     }
 
     /**
@@ -150,12 +155,33 @@ public class Yaml {
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions options,
             Resolver resolver) {
+        this(constructor, new LoaderOptions(), representer, options, resolver);
+    }
+
+    /**
+     * Create Yaml instance. It is safe to create a few instances and use them
+     * in different Threads.
+     * 
+     * @param constructor
+     *            BaseConstructor to construct incoming documents
+     * @param loaderOptions
+     *            LoaderOptions to control construction process
+     * @param representer
+     *            Representer to emit outgoing objects
+     * @param options
+     *            DumperOptions to configure outgoing objects
+     * @param resolver
+     *            Resolver to detect implicit type
+     */
+    public Yaml(BaseConstructor constructor, LoaderOptions loaderOptions, Representer representer,
+            DumperOptions options, Resolver resolver) {
         if (!constructor.isExplicitPropertyUtils()) {
             constructor.setPropertyUtils(representer.getPropertyUtils());
         } else if (!representer.isExplicitPropertyUtils()) {
             representer.setPropertyUtils(constructor.getPropertyUtils());
         }
         this.constructor = constructor;
+        this.loaderOptions = loaderOptions;
         representer.setDefaultFlowStyle(options.getDefaultFlowStyle());
         representer.setDefaultScalarStyle(options.getDefaultScalarStyle());
         representer.getPropertyUtils().setAllowReadOnlyProperties(
@@ -260,8 +286,8 @@ public class Yaml {
      * @return parsed object
      */
     public Object load(Reader io) {
-        Composer composer = new Composer(new ParserImpl(new StreamReader(io, attachBufferToMark)),
-                resolver);
+        Composer composer = new Composer(new ParserImpl(new StreamReader(io, loaderOptions
+                .hasMode(LoaderOptions.Mode.CONTEXT_MARK))), resolver);
         constructor.setComposer(composer);
         return constructor.getSingleData();
     }
@@ -276,8 +302,8 @@ public class Yaml {
      *         sequence
      */
     public Iterable<Object> loadAll(Reader yaml) {
-        Composer composer = new Composer(
-                new ParserImpl(new StreamReader(yaml, attachBufferToMark)), resolver);
+        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml, loaderOptions
+                .hasMode(LoaderOptions.Mode.CONTEXT_MARK))), resolver);
         constructor.setComposer(composer);
         Iterator<Object> result = new Iterator<Object>() {
             public boolean hasNext() {
@@ -343,8 +369,8 @@ public class Yaml {
      * @return parsed root Node for the specified YAML document
      */
     public Node compose(Reader yaml) {
-        Composer composer = new Composer(
-                new ParserImpl(new StreamReader(yaml, attachBufferToMark)), resolver);
+        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml, loaderOptions
+                .hasMode(LoaderOptions.Mode.CONTEXT_MARK))), resolver);
         constructor.setComposer(composer);
         return composer.getSingleNode();
     }
@@ -358,8 +384,8 @@ public class Yaml {
      * @return parsed root Nodes for all the specified YAML documents
      */
     public Iterable<Node> composeAll(Reader yaml) {
-        final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml,
-                attachBufferToMark)), resolver);
+        final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml, loaderOptions
+                .hasMode(LoaderOptions.Mode.CONTEXT_MARK))), resolver);
         constructor.setComposer(composer);
         Iterator<Node> result = new Iterator<Node>() {
             public boolean hasNext() {
@@ -457,7 +483,8 @@ public class Yaml {
      * @return parsed events
      */
     public Iterable<Event> parse(Reader yaml) {
-        final Parser parser = new ParserImpl(new StreamReader(yaml, attachBufferToMark));
+        final Parser parser = new ParserImpl(new StreamReader(yaml, loaderOptions
+                .hasMode(LoaderOptions.Mode.CONTEXT_MARK)));
         Iterator<Event> result = new Iterator<Event>() {
             public boolean hasNext() {
                 return parser.peekEvent() != null;
@@ -489,10 +516,6 @@ public class Yaml {
     public void setBeanAccess(BeanAccess beanAccess) {
         constructor.getPropertyUtils().setBeanAccess(beanAccess);
         representer.getPropertyUtils().setBeanAccess(beanAccess);
-    }
-
-    public void setAttachBufferToMark(boolean attachBufferToMark) {
-        this.attachBufferToMark = attachBufferToMark;
     }
 
     // deprecated
