@@ -209,7 +209,20 @@ public class BeanConstructorTest extends TestCase {
             yaml.load(document);
             fail("ExceptionParent should not be created.");
         } catch (Exception e) {
-            assertTrue(e.getMessage().contains(
+            assertTrue(e.getMessage(), e.getMessage().contains(
+                    "Can't construct a java object for scalar tag:yaml.org,2002:int"));
+        }
+    }
+
+    public void testScalarContructorExceptionNoRegExpMode() throws IOException {
+        //TODO ???
+        Yaml yaml = new Yaml(new Constructor(ExceptionParent.class));
+        String document = "id: 123\nchild: 25";
+        try {
+            yaml.load(document);
+            fail("ExceptionParent should not be created.");
+        } catch (Exception e) {
+            assertTrue(e.getMessage(), e.getMessage().contains(
                     "Can't construct a java object for scalar tag:yaml.org,2002:int"));
         }
     }

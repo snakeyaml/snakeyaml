@@ -25,6 +25,10 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.LoaderOptions.ImplicitMode;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 
 public class ObjectValuesTest extends TestCase {
 
@@ -48,8 +52,10 @@ public class ObjectValuesTest extends TestCase {
 
         JavaBeanDumper dumper = new JavaBeanDumper();
         String dumpedStr = dumper.dump(ov);
-
-        JavaBeanLoader<ObjectValues> loader = new JavaBeanLoader<ObjectValues>(ObjectValues.class);
+        LoaderOptions options = new LoaderOptions(new TypeDescription(ObjectValues.class));
+        options.setImplicitMode(ImplicitMode.ALWAYS_IMPLICIT_TYPES);
+        JavaBeanLoader<ObjectValues> loader = new JavaBeanLoader<ObjectValues>(options,
+                BeanAccess.DEFAULT);
         ObjectValues ov2 = loader.load(dumpedStr);
 
         assertEquals(ov.getObject(), ov2.getObject());
@@ -58,7 +64,6 @@ public class ObjectValuesTest extends TestCase {
         ov.getPossible()[0] = ov2.getPossible()[0];
     }
 
-    @SuppressWarnings("unchecked")
     public void testObjectValuesWithParam() {
         ObjectValuesWithParam<String, Integer> ov = new ObjectValuesWithParam<String, Integer>();
         Integer obj = new Integer(131313);
@@ -80,8 +85,11 @@ public class ObjectValuesTest extends TestCase {
         JavaBeanDumper dumper = new JavaBeanDumper();
         String dumpedStr = dumper.dump(ov);
 
+        LoaderOptions options = new LoaderOptions(new TypeDescription(
+                new ObjectValuesWithParam<String, Integer>().getClass()));
+        options.setImplicitMode(ImplicitMode.ALWAYS_IMPLICIT_TYPES);
         JavaBeanLoader<ObjectValuesWithParam<String, Integer>> loader = new JavaBeanLoader<ObjectValuesWithParam<String, Integer>>(
-                new ObjectValuesWithParam<String, Integer>().getClass());
+                options, BeanAccess.DEFAULT);
         ObjectValuesWithParam<String, Integer> ov2 = loader.load(dumpedStr);
 
         assertEquals(ov.getObject(), ov2.getObject());

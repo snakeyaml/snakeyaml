@@ -23,7 +23,11 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.LoaderOptions.ImplicitMode;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 
 /**
  * Test MapBean->Map<String, Developer> developers <br/>
@@ -166,8 +170,10 @@ public class TypeSafeMapTest extends TestCase {
     public void testLoadMapWithObject() {
         String output = Util.getLocalResource("examples/map-bean-10.yaml");
         // System.out.println(output);
+        LoaderOptions options = new LoaderOptions(new TypeDescription(MapBeanNoGenerics.class));
+        options.setImplicitMode(ImplicitMode.ALWAYS_IMPLICIT_TYPES);
         JavaBeanLoader<MapBeanNoGenerics> beanLoader = new JavaBeanLoader<MapBeanNoGenerics>(
-                MapBeanNoGenerics.class);
+                options, BeanAccess.DEFAULT);
         MapBeanNoGenerics parsed = beanLoader.load(output);
         assertNotNull(parsed);
         Map<String, Integer> data = parsed.getData();

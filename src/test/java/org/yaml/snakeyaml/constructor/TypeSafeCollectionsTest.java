@@ -69,6 +69,26 @@ public class TypeSafeCollectionsTest extends TestCase {
         }
     }
 
+    public void testTypeSafeMapNoRegularExpressionsMode() throws IOException {
+        Constructor constructor = new Constructor(MyCar.class);
+        TypeDescription carDescription = new TypeDescription(MyCar.class);
+        carDescription.putMapPropertyType("wheels", MyWheel.class, Object.class);
+        constructor.addTypeDescription(carDescription);
+        Yaml yaml = new Yaml(constructor);
+        MyCar car = (MyCar) yaml.load(Util
+                .getLocalResource("constructor/car-no-root-class-map.yaml"));
+        assertEquals("00-FF-Q2", car.getPlate());
+        Map<MyWheel, Date> wheels = car.getWheels();
+        assertNotNull(wheels);
+        assertEquals(5, wheels.size());
+        for (MyWheel wheel : wheels.keySet()) {
+            assertTrue(wheel.getId() > 0);
+            Date date = wheels.get(wheel);
+            long time = date.getTime();
+            assertTrue("It must be midnight.", time % 10000 == 0);
+        }
+    }
+
     public void testWithGlobalTag() throws IOException {
         Map<MyWheel, Date> wheels = new TreeMap<MyWheel, Date>();
         long time = 1248212168084L;

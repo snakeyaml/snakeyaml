@@ -18,12 +18,38 @@ package org.yaml.snakeyaml;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.LoaderOptions.ImplicitMode;
+
 public class LoaderOptionsTest extends TestCase {
 
     public void testGetMode() {
         LoaderOptions defaultOptions = new LoaderOptions();
         assertFalse(defaultOptions.isWithMarkContext());
-        assertEquals(LoaderOptions.ImplicitMode.ALWAYS_IMPLICIT_TYPES, defaultOptions
+        assertEquals(LoaderOptions.ImplicitMode.DYNAMIC_IMPLICIT_TYPES, defaultOptions
                 .getImplicitMode());
+    }
+
+    public void testUseImplicitTypes1() {
+        LoaderOptions options = new LoaderOptions();
+        assertTrue(options.useImplicitTypes());
+
+    }
+
+    public void testUseImplicitTypes2() {
+        LoaderOptions options = new LoaderOptions(new TypeDescription(Object.class));
+        assertTrue(options.useImplicitTypes());
+    }
+
+    public void testUseImplicitTypes3() {
+        LoaderOptions options = new LoaderOptions(new TypeDescription(LoaderOptionsTest.class));
+        assertFalse(options.useImplicitTypes());
+    }
+
+    public void testMoImplicitTypes() {
+        LoaderOptions options = new LoaderOptions();
+        options.setImplicitMode(ImplicitMode.NEVER_IMPLICIT_TYPES);
+        Yaml yaml = new Yaml(options);
+        // String number = (String) yaml.load("11");
+        // TODO assertEquals("Integer must not be recognised.", "11", number);
     }
 }

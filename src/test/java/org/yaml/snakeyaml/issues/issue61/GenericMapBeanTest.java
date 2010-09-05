@@ -23,7 +23,11 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.LoaderOptions.ImplicitMode;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 
 public class GenericMapBeanTest extends TestCase {
     @SuppressWarnings("unchecked")
@@ -36,11 +40,36 @@ public class GenericMapBeanTest extends TestCase {
         // System.out.println(s);
         assertEquals("map:\n  foo: 17\n  bar: 19\n", s);
         // parse
-        JavaBeanLoader<MapProvider> loader = new JavaBeanLoader<MapProvider>(MapProvider.class);
+        LoaderOptions options = new LoaderOptions();
+        options.setRootTypeDescription(new TypeDescription(MapProvider.class));
+        options.setImplicitMode(ImplicitMode.ALWAYS_IMPLICIT_TYPES);
+        JavaBeanLoader<MapProvider> loader = new JavaBeanLoader<MapProvider>(options,
+                BeanAccess.DEFAULT);
         MapProvider<String, Integer> listProvider2 = loader.load(s);
         assertEquals(new Integer(17), listProvider2.getMap().get("foo"));
         assertEquals(new Integer(19), listProvider2.getMap().get("bar"));
         assertEquals(listProvider, listProvider2);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testGenericMapNoImplicitTypes() throws Exception {
+        JavaBeanDumper beanDumper = new JavaBeanDumper();
+        MapProvider<String, Integer> listProvider = new MapProvider<String, Integer>();
+        listProvider.getMap().put("foo", 17);
+        listProvider.getMap().put("bar", 19);
+        String s = beanDumper.dump(listProvider);
+        // System.out.println(s);
+        assertEquals("map:\n  foo: 17\n  bar: 19\n", s);
+        // parse
+        LoaderOptions options = new LoaderOptions();
+        options.setRootTypeDescription(new TypeDescription(MapProvider.class));
+        options.setImplicitMode(ImplicitMode.NEVER_IMPLICIT_TYPES);
+        JavaBeanLoader<MapProvider> loader = new JavaBeanLoader<MapProvider>(options,
+                BeanAccess.DEFAULT);
+        MapProvider<String, Integer> listProvider2 = loader.load(s);
+        assertEquals("17", listProvider2.getMap().get("foo"));
+        assertEquals("19", listProvider2.getMap().get("bar"));
+        assertFalse(listProvider.equals(listProvider2));
     }
 
     @SuppressWarnings("unchecked")

@@ -23,6 +23,8 @@ import java.io.StringReader;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.reader.UnicodeReader;
+import org.yaml.snakeyaml.representer.Representer;
+import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
  * Convenience utility to parse JavaBeans. When the YAML document contains a
@@ -38,14 +40,25 @@ public class JavaBeanLoader<T> {
         this(typeDescription, BeanAccess.DEFAULT);
     }
 
+    // TODO should BeanAccess be inside LoaderOptions ???
     public JavaBeanLoader(TypeDescription typeDescription, BeanAccess beanAccess) {
-        if (typeDescription == null) {
+        this(new LoaderOptions(typeDescription), beanAccess);
+    }
+
+    public JavaBeanLoader(LoaderOptions options, BeanAccess beanAccess) {
+        if (options.getRootTypeDescription() == null) {
             throw new NullPointerException("TypeDescription must be provided.");
         }
-        Constructor constructor = new Constructor(typeDescription.getType());
-        typeDescription.setRoot(true);
-        constructor.addTypeDescription(typeDescription);
-        loader = new Yaml(constructor);
+        Constructor constructor = new Constructor(options.getRootTypeDescription().getType());
+        options.getRootTypeDescription().setRoot(true);
+        Resolver resolver;
+        if (options.useImplicitTypes()) {
+            resolver = new Resolver(Resolver.Mode.STANDARD);
+        } else {
+            resolver = new Resolver(Resolver.Mode.JAVABEAN);
+        }
+        constructor.addTypeDescription(options.getRootTypeDescription());
+        loader = new Yaml(constructor, options, new Representer(), new DumperOptions(), resolver);
         loader.setBeanAccess(beanAccess);
     }
 

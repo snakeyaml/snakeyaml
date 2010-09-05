@@ -81,7 +81,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
             CustomerAB parsed = (CustomerAB) yaml.load(dump);
         } catch (Exception e) {
             // TODO fix issue 82
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 
@@ -108,7 +108,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
             CustomerAB parsed = loader.load(dump2);
         } catch (Exception e) {
             // TODO fix issue 82
-            e.printStackTrace();
+            // e.printStackTrace();
         }
 
     }

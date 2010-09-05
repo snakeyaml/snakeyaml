@@ -22,7 +22,16 @@ public class LoaderOptions {
      * 40% slower and it consumes much more memory (default=false)
      */
     private boolean withMarkContext = false;
-    private ImplicitMode implicitMode = ImplicitMode.ALWAYS_IMPLICIT_TYPES;
+    private ImplicitMode implicitMode = ImplicitMode.DYNAMIC_IMPLICIT_TYPES;
+    private TypeDescription rootTypeDescription;
+
+    public LoaderOptions() {
+        this(new TypeDescription(Object.class));
+    }
+
+    public LoaderOptions(TypeDescription rootTypeDescription) {
+        this.rootTypeDescription = rootTypeDescription;
+    }
 
     public enum ImplicitMode {
         /**
@@ -54,5 +63,22 @@ public class LoaderOptions {
 
     public void setImplicitMode(ImplicitMode implicitMode) {
         this.implicitMode = implicitMode;
+    }
+
+    public TypeDescription getRootTypeDescription() {
+        return rootTypeDescription;
+    }
+
+    public void setRootTypeDescription(TypeDescription rootTypeDescription) {
+        this.rootTypeDescription = rootTypeDescription;
+    }
+
+    public boolean useImplicitTypes() {
+        if (implicitMode == ImplicitMode.DYNAMIC_IMPLICIT_TYPES) {
+            Class<?> t = rootTypeDescription.getType();
+            return Object.class.equals(t);
+        } else {
+            return implicitMode == ImplicitMode.ALWAYS_IMPLICIT_TYPES;
+        }
     }
 }

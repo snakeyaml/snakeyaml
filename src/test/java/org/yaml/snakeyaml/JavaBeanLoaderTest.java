@@ -152,6 +152,23 @@ public class JavaBeanLoaderTest extends TestCase {
         assertEquals("Name123", parsed.getName());
     }
 
+    public void testTypeDescription1111() {
+        Bean3 bean3 = new Bean3();
+        bean3.setName("Name123");
+        Bean bean = new Bean();
+        bean.setId(3);
+        bean.setName("Test me.");
+        bean3.setBean(bean);
+        JavaBeanDumper dumper = new JavaBeanDumper();
+        String output = dumper.dump(bean3);
+        assertEquals("bean:\n  id: 3\n  name: Test me.\nlist: null\nname: Name123\n", output);
+        TypeDescription td = new TypeDescription(Bean3.class);
+        td.putListPropertyType("list", Integer.class);
+        JavaBeanLoader<Bean3> loader = new JavaBeanLoader<Bean3>(td);
+        Bean3 parsed = loader.load("bean:\n  id: 3\n  name: Test me.\n\nname: Name123\n");
+        assertEquals("Name123", parsed.getName());
+    }
+
     public void testTypeDescription2() {
         Bean3 bean3 = new Bean3();
         bean3.setName("Name123");

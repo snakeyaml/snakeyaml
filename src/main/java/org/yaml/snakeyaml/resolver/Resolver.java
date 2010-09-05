@@ -48,6 +48,10 @@ public class Resolver {
 
     protected Map<Character, List<ResolverTuple>> yamlImplicitResolvers = new HashMap<Character, List<ResolverTuple>>();
 
+    public enum Mode {
+        STANDARD, JAVABEAN;
+    }
+
     /**
      * Create Resolver
      * 
@@ -78,7 +82,16 @@ public class Resolver {
     }
 
     public Resolver() {
-        this(true);
+        this(Mode.STANDARD);
+    }
+
+    public Resolver(Mode mode) {
+        if (mode == Mode.STANDARD) {
+            addImplicitResolvers();
+        } else {
+            addImplicitResolver(Tag.NULL, NULL, "~nN\0");
+            addImplicitResolver(Tag.NULL, EMPTY, null);
+        }
     }
 
     public void addImplicitResolver(Tag tag, Pattern regexp, String first) {
