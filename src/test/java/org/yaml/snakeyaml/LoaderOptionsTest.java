@@ -22,9 +22,8 @@ public class LoaderOptionsTest extends TestCase {
 
     public void testGetMode() {
         LoaderOptions defaultOptions = new LoaderOptions();
-        assertTrue(defaultOptions.hasMode(LoaderOptions.Mode.DYNAMIC_IMPLICIT_TYPES));
-        assertFalse(defaultOptions.hasMode(LoaderOptions.Mode.CONTEXT_MARK));
-        assertFalse(defaultOptions.hasMode(LoaderOptions.Mode.USE_IMPLICIT_TYPES));
-        assertFalse(defaultOptions.hasMode(LoaderOptions.Mode.COMPACT_FORMAT));
+        assertFalse(defaultOptions.isWithMarkContext());
+        assertEquals(LoaderOptions.ImplicitMode.ALWAYS_IMPLICIT_TYPES, defaultOptions
+                .getImplicitMode());
     }
 }

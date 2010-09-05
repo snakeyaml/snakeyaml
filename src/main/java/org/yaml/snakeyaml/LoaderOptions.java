@@ -16,52 +16,43 @@
 
 package org.yaml.snakeyaml;
 
-import java.util.BitSet;
-
 public class LoaderOptions {
-    private final BitSet set;
+    /**
+     * Store context with a Mark to have a better error message. Loader works
+     * 40% slower and it consumes much more memory (default=false)
+     */
+    private boolean withMarkContext = false;
+    private ImplicitMode implicitMode = ImplicitMode.ALWAYS_IMPLICIT_TYPES;
 
-    public enum Mode {
+    public enum ImplicitMode {
         /**
-         * Store context with a Mark to have a better error message. Loader
-         * works 40% slower and it consumes much more memory (default=false)
+         * Disable implicit types when JavaBean is loaded (default).
          */
-        CONTEXT_MARK(0),
+        DYNAMIC_IMPLICIT_TYPES,
         /**
-         * Disable implicit types when JavaBean is loaded (default=true). When
-         * this is present then USE_IMPLICIT_TYPES is ignored.
+         * Enable this when JavaBean has a property which is a generic
+         * collections like Map<String, Integer>
          */
-        DYNAMIC_IMPLICIT_TYPES(1),
+        ALWAYS_IMPLICIT_TYPES,
         /**
-         * When DYNAMIC_IMPLICIT_TYPES is 'false' defines whether to apply the
-         * regular expressions. When implicit types are not used all the scalars
-         * are Strings. Enable this when JavaBean has a property which is a
-         * generic collections like Map<String, Integer>
+         * When implicit types are not used all the scalars are Strings.
          */
-        USE_IMPLICIT_TYPES(2),
-        /**
-         * Enable compact format for JavaBeans
-         */
-        COMPACT_FORMAT(3);
-
-        private final int index;
-
-        private Mode(int index) {
-            this.index = index;
-        }
+        NEVER_IMPLICIT_TYPES;
     }
 
-    public LoaderOptions() {
-        set = new BitSet(5);
-        set.set(Mode.CONTEXT_MARK.index, false);
-        set.set(Mode.DYNAMIC_IMPLICIT_TYPES.index, true);
+    public boolean isWithMarkContext() {
+        return withMarkContext;
     }
 
-    public void setMode(Mode mode, boolean value) {
-        set.set(mode.index, value);
+    public void setWithMarkContext(boolean useContextMark) {
+        this.withMarkContext = useContextMark;
     }
 
-    public boolean hasMode(Mode mode) {
-        return set.get(mode.index);
+    public ImplicitMode getImplicitMode() {
+        return implicitMode;
+    }
+
+    public void setImplicitMode(ImplicitMode implicitMode) {
+        this.implicitMode = implicitMode;
     }
 }

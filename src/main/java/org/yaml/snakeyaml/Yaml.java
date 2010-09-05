@@ -288,7 +288,7 @@ public class Yaml {
      */
     public Object load(Reader io) {
         Composer composer = new Composer(new ParserImpl(new StreamReader(io, loaderOptions
-                .hasMode(LoaderOptions.Mode.CONTEXT_MARK))), resolver);
+                .isWithMarkContext())), resolver);
         constructor.setComposer(composer);
         return constructor.getSingleData();
     }
@@ -304,7 +304,7 @@ public class Yaml {
      */
     public Iterable<Object> loadAll(Reader yaml) {
         Composer composer = new Composer(new ParserImpl(new StreamReader(yaml, loaderOptions
-                .hasMode(LoaderOptions.Mode.CONTEXT_MARK))), resolver);
+                .isWithMarkContext())), resolver);
         constructor.setComposer(composer);
         Iterator<Object> result = new Iterator<Object>() {
             public boolean hasNext() {
@@ -371,7 +371,7 @@ public class Yaml {
      */
     public Node compose(Reader yaml) {
         Composer composer = new Composer(new ParserImpl(new StreamReader(yaml, loaderOptions
-                .hasMode(LoaderOptions.Mode.CONTEXT_MARK))), resolver);
+                .isWithMarkContext())), resolver);
         constructor.setComposer(composer);
         return composer.getSingleNode();
     }
@@ -386,7 +386,7 @@ public class Yaml {
      */
     public Iterable<Node> composeAll(Reader yaml) {
         final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml, loaderOptions
-                .hasMode(LoaderOptions.Mode.CONTEXT_MARK))), resolver);
+                .isWithMarkContext())), resolver);
         constructor.setComposer(composer);
         Iterator<Node> result = new Iterator<Node>() {
             public boolean hasNext() {
@@ -485,7 +485,7 @@ public class Yaml {
      */
     public Iterable<Event> parse(Reader yaml) {
         final Parser parser = new ParserImpl(new StreamReader(yaml, loaderOptions
-                .hasMode(LoaderOptions.Mode.CONTEXT_MARK)));
+                .isWithMarkContext()));
         Iterator<Event> result = new Iterator<Event>() {
             public boolean hasNext() {
                 return parser.peekEvent() != null;

@@ -54,7 +54,7 @@ public class LoaderTest extends TestCase {
 
     public void testCompose2() {
         LoaderOptions options = new LoaderOptions();
-        options.setMode(LoaderOptions.Mode.CONTEXT_MARK, true);
+        options.setWithMarkContext(true);
         Yaml loader = new Yaml(options);
         String yaml = "3";
         ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
