@@ -36,20 +36,20 @@ public class StressTest extends TestCase {
         float duration = (time2 - time1) / 1000000;
         System.out.println("Init was " + duration + " ms.");
 
-        Yaml yaml = new Yaml(new Constructor(Invoice.class));
+        JavaBeanLoader<Invoice> loader = new JavaBeanLoader<Invoice>(Invoice.class);
         time1 = System.nanoTime();
-        yaml.load(doc);
+        loader.load(doc);
         time2 = System.nanoTime();
         duration = (time2 - time1) / 1000000;
         System.out.println("\nSingle load was " + duration + " ms.");
 
-        yaml = new Yaml(new Constructor(Invoice.class));
+        loader = new JavaBeanLoader<Invoice>(Invoice.class);
         int[] range = new int[] { 1000, 2000 };
         System.out.println("\nOne instance.");
         for (int number : range) {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
-                yaml.load(doc);
+                loader.load(doc);
             }
             time2 = System.nanoTime();
             duration = ((time2 - time1) / 1000000) / (float) number;
@@ -65,8 +65,8 @@ public class StressTest extends TestCase {
         for (int number : range) {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
-                yaml = new Yaml(new Constructor(Invoice.class));
-                yaml.load(doc);
+                loader = new JavaBeanLoader<Invoice>(Invoice.class);
+                loader.load(doc);
             }
             time2 = System.nanoTime();
             duration = ((time2 - time1) / 1000000) / (float) number;

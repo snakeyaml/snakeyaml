@@ -41,6 +41,7 @@ import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.resolver.Resolver;
+import org.yaml.snakeyaml.resolver.Resolver.Mode;
 import org.yaml.snakeyaml.serializer.Serializer;
 
 /**
@@ -65,7 +66,8 @@ public class Yaml {
 
     public Yaml(LoaderOptions loaderOptions) {
         this(new Constructor(), loaderOptions, new Representer(), new DumperOptions(),
-                new Resolver());
+                loaderOptions.useImplicitTypes() ? new Resolver(Mode.STANDARD) : new Resolver(
+                        Mode.JAVABEAN));
     }
 
     /**

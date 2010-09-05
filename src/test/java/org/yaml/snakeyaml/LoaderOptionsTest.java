@@ -49,7 +49,7 @@ public class LoaderOptionsTest extends TestCase {
         LoaderOptions options = new LoaderOptions();
         options.setImplicitMode(ImplicitMode.NEVER_IMPLICIT_TYPES);
         Yaml yaml = new Yaml(options);
-        // String number = (String) yaml.load("11");
-        // TODO assertEquals("Integer must not be recognised.", "11", number);
+        String number = (String) yaml.load("11");
+        assertEquals("Integer must not be recognised.", "11", number);
     }
 }
