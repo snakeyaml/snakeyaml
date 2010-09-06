@@ -19,12 +19,10 @@ package org.yaml.snakeyaml.representer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
@@ -53,12 +51,13 @@ public abstract class BaseRepresenter {
      */
     protected Represent nullRepresenter;
     @SuppressWarnings("unchecked")
-    //the order is important (map can be also a sequence of key-values)
+    // the order is important (map can be also a sequence of key-values)
     protected final Map<Class, Represent> multiRepresenters = new LinkedHashMap<Class, Represent>();
     private Character defaultStyle;
     protected Boolean defaultFlowStyle;
     protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>();
-    private final Set<Object> objectKeeper = new HashSet<Object>();
+    protected final Map<Node, ?> withCheckedTag = new IdentityHashMap<Node, Object>();
+
     protected Object objectToRepresent;
     private PropertyUtils propertyUtils;
     private boolean explicitPropertyUtils = false;
@@ -67,20 +66,21 @@ public abstract class BaseRepresenter {
         Node node = representData(data);
         serializer.serialize(node);
         representedObjects.clear();
-        objectKeeper.clear();
+        withCheckedTag.clear();
         objectToRepresent = null;
     }
 
     @SuppressWarnings("unchecked")
     protected Node representData(Object data) {
         objectToRepresent = data;
-        if (!ignoreAliases(data)) {
-            // check for identity
-            if (representedObjects.containsKey(objectToRepresent)) {
-                Node node = representedObjects.get(objectToRepresent);
-                return node;
-            }
+        // TODO: why to check it. Let's not put Scalars and null there.
+        // if (!ignoreAliases(data)) {
+        // check for identity
+        if (representedObjects.containsKey(objectToRepresent)) {
+            Node node = representedObjects.get(objectToRepresent);
+            return node;
         }
+        // }
         // check for null first
         if (data == null) {
             Node node = nullRepresenter.representData(data);
@@ -122,7 +122,7 @@ public abstract class BaseRepresenter {
             style = this.defaultStyle;
         }
         Node node = new ScalarNode(tag, value, null, null, style);
-        representedObjects.put(objectToRepresent, node);
+        // representedObjects.put(objectToRepresent, node);
         return node;
     }
 
@@ -184,7 +184,7 @@ public abstract class BaseRepresenter {
         return node;
     }
 
-    protected abstract boolean ignoreAliases(Object data);
+    // protected abstract boolean ignoreAliases(Object data);
 
     public void setDefaultScalarStyle(ScalarStyle defaultStyle) {
         this.defaultStyle = defaultStyle.getChar();

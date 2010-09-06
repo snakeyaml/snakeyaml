@@ -18,12 +18,20 @@ package org.yaml.snakeyaml.issues.issue82;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Representer;
 
 /**
  * @see issue 82: property order influence when aliased in generic collection
@@ -59,6 +67,26 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         public Collection<Account> bAll;
     }
 
+    public static class CustomerAB_MapValue {
+        public Collection<Account> aAll;
+        public Map<String, GeneralAccount> bGeneralMap;
+
+        @Override
+        public String toString() {
+            return "CustomerAB_MapValue";
+        }
+    }
+
+    public static class CustomerAB_MapKey {
+        public Collection<Account> aAll;
+        public Map<GeneralAccount, String> bGeneralMap;
+
+        @Override
+        public String toString() {
+            return "CustomerAB_MapKey";
+        }
+    }
+
     public void testAB() {
         SuperSaverAccount supersaver = new SuperSaverAccount();
         GeneralAccount generalAccount = new GeneralAccount();
@@ -77,12 +105,56 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         Yaml yaml = new Yaml();
         String dump = yaml.dump(customerAB);
         // System.out.println(dump);
-        try {
-            CustomerAB parsed = (CustomerAB) yaml.load(dump);
-        } catch (Exception e) {
-            // TODO fix issue 82
-            // e.printStackTrace();
-        }
+        CustomerAB parsed = (CustomerAB) yaml.load(dump);
+    }
+
+    public void testAB_Set() {
+        SuperSaverAccount supersaver = new SuperSaverAccount();
+        GeneralAccount generalAccount = new GeneralAccount();
+
+        CustomerAB customerAB = new CustomerAB();
+        ArrayList<Account> all = new ArrayList<Account>();
+        all.add(supersaver);
+        all.add(generalAccount);
+        Set<GeneralAccount> general = new HashSet<GeneralAccount>();
+        general.add(generalAccount);
+        general.add(supersaver);
+
+        customerAB.aAll = all;
+        customerAB.bGeneral = general;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(customerAB);
+        // System.out.println(dump);
+        CustomerAB parsed = (CustomerAB) yaml.load(dump);
+    }
+
+    public void testABWithCustomTag() {
+        SuperSaverAccount supersaver = new SuperSaverAccount();
+        GeneralAccount generalAccount = new GeneralAccount();
+
+        CustomerAB customerAB = new CustomerAB();
+        ArrayList<Account> all = new ArrayList<Account>();
+        all.add(supersaver);
+        all.add(generalAccount);
+        ArrayList<GeneralAccount> general = new ArrayList<GeneralAccount>();
+        general.add(generalAccount);
+        general.add(supersaver);
+
+        customerAB.aAll = all;
+        customerAB.bGeneral = general;
+
+        Constructor constructor = new Constructor();
+        Representer representer = new Representer();
+        Tag generalAccountTag = new Tag("!GA");
+        constructor
+                .addTypeDescription(new TypeDescription(GeneralAccount.class, generalAccountTag));
+        representer.addClassTag(GeneralAccount.class, generalAccountTag);
+
+        Yaml yaml = new Yaml(constructor, representer);
+        String dump = yaml.dump(customerAB);
+        // System.out.println(dump);
+        CustomerAB parsed = (CustomerAB) yaml.load(dump);
     }
 
     public void testABwithJavaBeanHelpers() {
@@ -104,13 +176,49 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         String dump2 = dumper.dump(customerAB);
         // System.out.println(dump2);
         JavaBeanLoader<CustomerAB> loader = new JavaBeanLoader<CustomerAB>(CustomerAB.class);
-        try {
-            CustomerAB parsed = loader.load(dump2);
-        } catch (Exception e) {
-            // TODO fix issue 82
-            // e.printStackTrace();
-        }
+        CustomerAB parsed = loader.load(dump2);
+    }
 
+    public void testAB_asMapValue() {
+        SuperSaverAccount supersaver = new SuperSaverAccount();
+        GeneralAccount generalAccount = new GeneralAccount();
+
+        CustomerAB_MapValue customerAB_mapValue = new CustomerAB_MapValue();
+        ArrayList<Account> all = new ArrayList<Account>();
+        all.add(supersaver);
+        all.add(generalAccount);
+        Map<String, GeneralAccount> generalMap = new HashMap<String, GeneralAccount>();
+        generalMap.put(generalAccount.name, generalAccount);
+        generalMap.put(supersaver.name, supersaver);
+
+        customerAB_mapValue.aAll = all;
+        customerAB_mapValue.bGeneralMap = generalMap;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(customerAB_mapValue);
+        // System.out.println(dump);
+        CustomerAB_MapValue parsed = (CustomerAB_MapValue) yaml.load(dump);
+    }
+
+    public void testAB_asMapKey() {
+        SuperSaverAccount supersaver = new SuperSaverAccount();
+        GeneralAccount generalAccount = new GeneralAccount();
+
+        CustomerAB_MapKey customerAB_mapKey = new CustomerAB_MapKey();
+        ArrayList<Account> all = new ArrayList<Account>();
+        all.add(supersaver);
+        all.add(generalAccount);
+        Map<GeneralAccount, String> generalMap = new HashMap<GeneralAccount, String>();
+        generalMap.put(generalAccount, generalAccount.name);
+        generalMap.put(supersaver, supersaver.name);
+
+        customerAB_mapKey.aAll = all;
+        customerAB_mapKey.bGeneralMap = generalMap;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(customerAB_mapKey);
+        // System.out.println(dump);
+        CustomerAB_MapKey parsed = (CustomerAB_MapKey) yaml.load(dump);
     }
 
     public void testBA() {

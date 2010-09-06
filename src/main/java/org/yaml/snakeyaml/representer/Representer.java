@@ -119,33 +119,32 @@ public class Representer extends SafeRepresenter {
     protected NodeTuple representJavaBeanProperty(Object javaBean, Property property,
             Object propertyValue, Tag customTag) {
         ScalarNode nodeKey = (ScalarNode) representData(property.getName());
-        boolean hasAlias = false;
-        if (this.representedObjects.containsKey(propertyValue)) {
-            // the first occurrence of the node must keep the tag
-            hasAlias = true;
-        }
+        // the first occurrence of the node must keep the tag
+        boolean hasAlias = this.representedObjects.containsKey(propertyValue);
+
         Node nodeValue = representData(propertyValue);
-        // if possible try to avoid a global tag with a class name
-        if (nodeValue instanceof MappingNode && !hasAlias) {
-            // the node is a map, set or JavaBean
-            if (!Map.class.isAssignableFrom(propertyValue.getClass())) {
-                // the node is set or JavaBean
-                if (customTag == null && !nodeValue.getTag().equals(Tag.SET)) {
-                    // custom tag is not defined, set must keep the '!!set' tag
-                    if (property.getType() == propertyValue.getClass()) {
-                        // we do not need global tag because the property
-                        // Class is the same as the runtime class
-                        nodeValue.setTag(Tag.MAP);
-                    }
+
+        if (propertyValue != null && customTag == null && !hasAlias) {
+            NodeId nodeId = nodeValue.getNodeId();
+            if (nodeId == NodeId.scalar) {
+                if (propertyValue instanceof Enum) {
+                    nodeValue.setTag(Tag.STR);
                 }
+            } else {
+                if (nodeId == NodeId.mapping && !withCheckedTag.containsKey(nodeValue)) {
+                    if (property.getType() == propertyValue.getClass()) {
+                        if (!(propertyValue instanceof Map)) {
+                            if (!nodeValue.getTag().equals(Tag.SET)) {
+                                nodeValue.setTag(Tag.MAP);
+                            }
+                        }
+                    }
+                    withCheckedTag.put(nodeValue, null);
+                }
+                checkGlobalTag(property, nodeValue, propertyValue);
             }
-        } else if (propertyValue != null && Enum.class.isAssignableFrom(propertyValue.getClass())) {
-            nodeValue.setTag(Tag.STR);
         }
-        if (nodeValue.getNodeId() != NodeId.scalar && !hasAlias) {
-            // generic collections
-            checkGlobalTag(property, nodeValue, propertyValue);
-        }
+
         return new NodeTuple(nodeKey, nodeValue);
     }
 
@@ -178,26 +177,36 @@ public class Representer extends SafeRepresenter {
                 Iterator<Object> iter = memberList.iterator();
                 for (Node childNode : snode.getValue()) {
                     Object member = iter.next();
-                    if (member != null && t.equals(member.getClass())
-                            && childNode.getNodeId() == NodeId.mapping) {
-                        childNode.setTag(Tag.MAP);
+                    if (member != null) {
+                        if (t.equals(member.getClass()))
+                            if (childNode.getNodeId() == NodeId.mapping)
+                                if (!withCheckedTag.containsKey(childNode)) {
+                                    childNode.setTag(Tag.MAP);
+                                }
+                        withCheckedTag.put(childNode, null);
                     }
                 }
             } else if (object instanceof Set) {
-                Class t = arguments[0];
+                Class<?> t = arguments[0];
                 MappingNode mnode = (MappingNode) node;
                 Iterator<NodeTuple> iter = mnode.getValue().iterator();
-                Set set = (Set) object;
+                Set<?> set = (Set<?>) object;
                 for (Object member : set) {
                     NodeTuple tuple = iter.next();
-                    if (t.equals(member.getClass())
-                            && tuple.getKeyNode().getNodeId() == NodeId.mapping) {
-                        tuple.getKeyNode().setTag(Tag.MAP);
+                    Node keyNode = tuple.getKeyNode();
+                    if (t.equals(member.getClass())) {
+                        if (keyNode.getNodeId() == NodeId.mapping)
+                            if (!withCheckedTag.containsKey(keyNode)) {
+                                keyNode.setTag(Tag.MAP);
+                            }
                     }
+                    withCheckedTag.put(keyNode, null);
                 }
             } else if (node.getNodeId() == NodeId.mapping) {
-                Class keyType = arguments[0];
-                Class valueType = arguments[1];
+                // TODO: do we really need previous if? only sequence or
+                // mapping end-up into this method
+                Class<?> keyType = arguments[0];
+                Class<?> valueType = arguments[1];
                 MappingNode mnode = (MappingNode) node;
                 for (NodeTuple tuple : mnode.getValue()) {
                     resetTag(keyType, tuple.getKeyNode());
@@ -212,8 +221,9 @@ public class Representer extends SafeRepresenter {
         if (tag.matches(type)) {
             if (Enum.class.isAssignableFrom(type)) {
                 node.setTag(Tag.STR);
-            } else {
+            } else if (!withCheckedTag.containsKey(node)) {
                 node.setTag(Tag.MAP);
+                withCheckedTag.put(node, null);
             }
         }
     }

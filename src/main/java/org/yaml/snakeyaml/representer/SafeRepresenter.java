@@ -70,19 +70,21 @@ class SafeRepresenter extends BaseRepresenter {
         }
     }
 
-    @Override
-    protected boolean ignoreAliases(Object data) {
-        if (data == null) {
-            return true;
-        }
-        if (data instanceof Object[]) {
-            Object[] array = (Object[]) data;
-            return array.length == 0;
-        }
-        return data instanceof String || data instanceof Boolean || data instanceof Integer
-                || data instanceof Long || data instanceof Float || data instanceof Double
-                || data instanceof Enum<?>;
-    }
+    // @Override
+    // protected boolean ignoreAliases(Object data) {
+    // if (data == null) {
+    // return true;
+    // }
+    // if (data instanceof Object[]) {
+    // Object[] array = (Object[]) data;
+    // return array.length == 0;
+    // }
+    // return data.getClass().isPrimitive() || data instanceof String || data
+    // instanceof Boolean || data instanceof Integer
+    // || data instanceof Long || data instanceof Float || data instanceof
+    // Double
+    // || data instanceof Enum<?>;
+    // }
 
     /**
      * Define a tag for the <code>Class</code> to serialize
