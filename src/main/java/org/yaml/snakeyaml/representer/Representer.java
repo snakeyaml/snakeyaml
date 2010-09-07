@@ -131,7 +131,7 @@ public class Representer extends SafeRepresenter {
                     nodeValue.setTag(Tag.STR);
                 }
             } else {
-                if (nodeId == NodeId.mapping && !withCheckedTag.containsKey(nodeValue)) {
+                if (nodeId == NodeId.mapping) {
                     if (property.getType() == propertyValue.getClass()) {
                         if (!(propertyValue instanceof Map)) {
                             if (!nodeValue.getTag().equals(Tag.SET)) {
@@ -202,9 +202,7 @@ public class Representer extends SafeRepresenter {
                     }
                     withCheckedTag.put(keyNode, null);
                 }
-            } else if (node.getNodeId() == NodeId.mapping) {
-                // TODO: do we really need previous if? only sequence or
-                // mapping end-up into this method
+            } else { // NodeId.mapping ends-up here
                 Class<?> keyType = arguments[0];
                 Class<?> valueType = arguments[1];
                 MappingNode mnode = (MappingNode) node;
