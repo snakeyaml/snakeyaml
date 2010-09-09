@@ -20,12 +20,11 @@ import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.error.Mark;
@@ -392,24 +391,15 @@ public final class ScannerImpl implements Scanner {
      */
     private void stalePossibleSimpleKeys() {
         // use toRemove to avoid java.util.ConcurrentModificationException
-        Set<Integer> toRemove = null;
-        for (Integer level : this.possibleSimpleKeys.keySet()) {
-            SimpleKey key = this.possibleSimpleKeys.get(level);
+        for (Iterator<Entry<Integer, SimpleKey>> iterator = this.possibleSimpleKeys.entrySet().iterator() ; iterator.hasNext();) {
+            Entry<Integer, SimpleKey> level = iterator.next();
+            SimpleKey key = level.getValue();
             if ((key.getLine() != reader.getLine()) || (reader.getIndex() - key.getIndex() > 1024)) {
                 if (key.isRequired()) {
                     throw new ScannerException("while scanning a simple key", key.getMark(),
                             "could not found expected ':'", reader.getMark());
-                } else {
-                    if (toRemove == null) {
-                        toRemove = new HashSet<Integer>();
-                    }
-                    toRemove.add(level);
                 }
-            }
-        }
-        if (toRemove != null) {
-            for (Integer level : toRemove) {
-                this.possibleSimpleKeys.remove(level);
+                iterator.remove();
             }
         }
     }
@@ -451,12 +441,11 @@ public final class ScannerImpl implements Scanner {
      * Remove the saved possible key position at the current flow level.
      */
     private void removePossibleSimpleKey() {
-        SimpleKey key = possibleSimpleKeys.get(flowLevel);
+        SimpleKey key = possibleSimpleKeys.remove(flowLevel);
         if (key != null && key.isRequired()) {
             throw new ScannerException("while scanning a simple key", key.getMark(),
                     "could not found expected ':'", reader.getMark());
         }
-        possibleSimpleKeys.remove(flowLevel);
     }
 
     // Indentation functions.
@@ -715,10 +704,9 @@ public final class ScannerImpl implements Scanner {
 
     private void fetchValue() {
         // Do we determine a simple key?
-        if (this.possibleSimpleKeys.keySet().contains(this.flowLevel)) {
+        SimpleKey key = this.possibleSimpleKeys.remove(this.flowLevel);
+        if (key != null) {
             // Add KEY.
-            SimpleKey key = this.possibleSimpleKeys.get(this.flowLevel);
-            this.possibleSimpleKeys.remove(this.flowLevel);
             this.tokens.add(key.getTokenNumber() - this.tokensTaken, new KeyToken(key.getMark(),
                     key.getMark()));
 
