@@ -18,12 +18,22 @@ package org.yaml.snakeyaml;
 
 import java.io.IOException;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class StressTest extends TestCase {
     String doc;
+
+    public static void main(String args[]) {
+        junit.textui.TestRunner.run(suite());
+    }
+
+    public static Test suite() {
+        return new TestSuite(StressTest.class);
+    }
 
     public void setUp() throws IOException {
         doc = Util.getLocalResource("specification/example2_27.yaml");
@@ -44,7 +54,7 @@ public class StressTest extends TestCase {
         System.out.println("\nSingle load was " + duration + " ms.");
 
         loader = new JavaBeanLoader<Invoice>(Invoice.class);
-        int[] range = new int[] { 1000, 2000 };
+        int[] range = new int[] { 1000, 2000 /*, 4000, 8000 */};
         System.out.println("\nOne instance.");
         for (int number : range) {
             time1 = System.nanoTime();
