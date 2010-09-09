@@ -185,9 +185,11 @@ public final class ScannerImpl implements Scanner {
             if (choices.length == 0) {
                 return true;
             }
-            Token first = this.tokens.get(0);
-            for (Token.ID id : choices) {
-                if (first.getTokenId() == id) {
+            // since profiler puts this method on top we should not use
+            // 'foreach' here
+            Token.ID first = this.tokens.get(0).getTokenId();
+            for (int i = 0; i < choices.length; i++) {
+                if (first == choices[i]) {
                     return true;
                 }
             }
