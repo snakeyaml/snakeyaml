@@ -7,10 +7,6 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
-            <action dev="py4fun" type="update" issue="84">
-                JavaBeanLoader does not use regular expressions for implicit types. It is possible
-                to keep the implicit types when it is required. (2010-09-06)
-            </action>
             <action dev="py4fun" type="update" issue="79">
                 Introduce LoaderOptions to be able to specify configuration while loading (2010-09-03)
             </action>

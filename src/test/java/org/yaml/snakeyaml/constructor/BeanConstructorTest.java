@@ -22,7 +22,6 @@ import java.math.BigInteger;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -212,19 +211,6 @@ public class BeanConstructorTest extends TestCase {
         } catch (Exception e) {
             assertTrue(e.getMessage(), e.getMessage().contains(
                     "Can't construct a java object for scalar tag:yaml.org,2002:int"));
-        }
-    }
-
-    public void testScalarContructorExceptionNoImplicitTypesMode() throws IOException {
-        JavaBeanLoader<ExceptionParent> loader = new JavaBeanLoader<ExceptionParent>(
-                ExceptionParent.class);
-        String document = "id: 123\nchild: 25";
-        try {
-            loader.load(document);
-            fail("ExceptionParent should not be created.");
-        } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains(
-                    "Can't construct a java object for scalar tag:yaml.org,2002:str"));
         }
     }
 

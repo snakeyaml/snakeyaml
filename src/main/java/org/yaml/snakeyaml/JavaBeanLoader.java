@@ -40,25 +40,22 @@ public class JavaBeanLoader<T> {
         this(typeDescription, BeanAccess.DEFAULT);
     }
 
-    // TODO should BeanAccess be inside LoaderOptions ???
     public JavaBeanLoader(TypeDescription typeDescription, BeanAccess beanAccess) {
         this(new LoaderOptions(typeDescription), beanAccess);
     }
 
     public JavaBeanLoader(LoaderOptions options, BeanAccess beanAccess) {
+        if (options == null) {
+            throw new NullPointerException("LoaderOptions must be provided.");
+        }
         if (options.getRootTypeDescription() == null) {
             throw new NullPointerException("TypeDescription must be provided.");
         }
         Constructor constructor = new Constructor(options.getRootTypeDescription().getType());
         options.getRootTypeDescription().setRoot(true);
-        Resolver resolver;
-        if (options.useImplicitTypes()) {
-            resolver = new Resolver(Resolver.Mode.STANDARD);
-        } else {
-            resolver = new Resolver(Resolver.Mode.JAVABEAN);
-        }
         constructor.addTypeDescription(options.getRootTypeDescription());
-        loader = new Yaml(constructor, options, new Representer(), new DumperOptions(), resolver);
+        loader = new Yaml(constructor, options, new Representer(), new DumperOptions(),
+                new Resolver());
         loader.setBeanAccess(beanAccess);
     }
 

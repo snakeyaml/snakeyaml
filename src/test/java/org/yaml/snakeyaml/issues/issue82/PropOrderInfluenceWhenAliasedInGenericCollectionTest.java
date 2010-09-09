@@ -106,6 +106,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         String dump = yaml.dump(customerAB);
         // System.out.println(dump);
         CustomerAB parsed = (CustomerAB) yaml.load(dump);
+        assertNotNull(parsed);
     }
 
     public void testAB_Set() {
@@ -127,6 +128,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         String dump = yaml.dump(customerAB);
         // System.out.println(dump);
         CustomerAB parsed = (CustomerAB) yaml.load(dump);
+        assertNotNull(parsed);
     }
 
     public void testABWithCustomTag() {
@@ -155,6 +157,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         String dump = yaml.dump(customerAB);
         // System.out.println(dump);
         CustomerAB parsed = (CustomerAB) yaml.load(dump);
+        assertNotNull(parsed);
     }
 
     public void testABwithJavaBeanHelpers() {
@@ -177,6 +180,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         // System.out.println(dump2);
         JavaBeanLoader<CustomerAB> loader = new JavaBeanLoader<CustomerAB>(CustomerAB.class);
         CustomerAB parsed = loader.load(dump2);
+        assertNotNull(parsed);
     }
 
     public void testAB_asMapValue() {
@@ -198,6 +202,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         String dump = yaml.dump(customerAB_mapValue);
         // System.out.println(dump);
         CustomerAB_MapValue parsed = (CustomerAB_MapValue) yaml.load(dump);
+        assertNotNull(parsed);
     }
 
     public void testAB_asMapKey() {
@@ -219,6 +224,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         String dump = yaml.dump(customerAB_mapKey);
         // System.out.println(dump);
         CustomerAB_MapKey parsed = (CustomerAB_MapKey) yaml.load(dump);
+        assertNotNull(parsed);
     }
 
     public void testBA() {

@@ -22,7 +22,6 @@ public class LoaderOptions {
      * 40% slower and it consumes much more memory (default=false)
      */
     private boolean withMarkContext = false;
-    private ImplicitMode implicitMode = ImplicitMode.DYNAMIC_IMPLICIT_TYPES;
     private TypeDescription rootTypeDescription;
 
     public LoaderOptions() {
@@ -33,22 +32,6 @@ public class LoaderOptions {
         this.rootTypeDescription = rootTypeDescription;
     }
 
-    public enum ImplicitMode {
-        /**
-         * Disable implicit types when JavaBean is loaded (default).
-         */
-        DYNAMIC_IMPLICIT_TYPES,
-        /**
-         * Enable this when JavaBean has a property which is a generic
-         * collections like Map<String, Integer>
-         */
-        ALWAYS_IMPLICIT_TYPES,
-        /**
-         * When implicit types are not used all the scalars are Strings.
-         */
-        NEVER_IMPLICIT_TYPES;
-    }
-
     public boolean isWithMarkContext() {
         return withMarkContext;
     }
@@ -57,28 +40,11 @@ public class LoaderOptions {
         this.withMarkContext = useContextMark;
     }
 
-    public ImplicitMode getImplicitMode() {
-        return implicitMode;
-    }
-
-    public void setImplicitMode(ImplicitMode implicitMode) {
-        this.implicitMode = implicitMode;
-    }
-
     public TypeDescription getRootTypeDescription() {
         return rootTypeDescription;
     }
 
     public void setRootTypeDescription(TypeDescription rootTypeDescription) {
         this.rootTypeDescription = rootTypeDescription;
-    }
-
-    public boolean useImplicitTypes() {
-        if (implicitMode == ImplicitMode.DYNAMIC_IMPLICIT_TYPES) {
-            Class<?> t = rootTypeDescription.getType();
-            return Object.class.equals(t);
-        } else {
-            return implicitMode == ImplicitMode.ALWAYS_IMPLICIT_TYPES;
-        }
     }
 }
