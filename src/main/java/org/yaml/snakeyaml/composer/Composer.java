@@ -150,7 +150,6 @@ public class Composer {
                     this.anchors.get(anchor).getStartMark(), "second occurence", event
                             .getStartMark());
         }
-        // resolver.descendResolver(parent, index);
         Node node = null;
         if (parser.checkEvent(Event.ID.Scalar)) {
             node = composeScalarNode(anchor);

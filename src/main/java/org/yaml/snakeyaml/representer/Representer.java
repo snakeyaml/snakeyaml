@@ -127,13 +127,13 @@ public class Representer extends SafeRepresenter {
         if (propertyValue != null && customTag == null && !hasAlias) {
             NodeId nodeId = nodeValue.getNodeId();
             if (nodeId == NodeId.scalar) {
-                if (propertyValue instanceof Enum) {
+                if (propertyValue instanceof Enum<?>) {
                     nodeValue.setTag(Tag.STR);
                 }
             } else {
                 if (nodeId == NodeId.mapping) {
                     if (property.getType() == propertyValue.getClass()) {
-                        if (!(propertyValue instanceof Map)) {
+                        if (!(propertyValue instanceof Map<?, ?>)) {
                             if (!nodeValue.getTag().equals(Tag.SET)) {
                                 nodeValue.setTag(Tag.MAP);
                             }
