@@ -45,6 +45,7 @@ public class StreamReader {
     private int index = 0;
     private int line = 0;
     private int column = 0;
+    private char[] data;
 
     public StreamReader(String stream) {
         this(stream, true);
@@ -58,6 +59,7 @@ public class StreamReader {
         this.stream = null;
         this.eof = true;
         this.putBufferInMark = putBufferInMark;
+        this.data = null;
     }
 
     public StreamReader(Reader reader) {
@@ -70,6 +72,8 @@ public class StreamReader {
         this.stream = reader;
         this.eof = false;
         this.putBufferInMark = putBufferInMark;
+        this.data = new char[1024];
+        this.update(1);
     }
 
     void checkPrintable(CharSequence data) {
@@ -117,7 +121,7 @@ public class StreamReader {
     }
 
     public char peek() {
-        return peek(0);
+        return this.buffer.charAt(this.pointer);
     }
 
     /**
@@ -144,9 +148,17 @@ public class StreamReader {
             update(length);
         }
         if (this.pointer + length > this.buffer.length()) {
-            return this.buffer.substring(this.pointer, this.buffer.length());
+            return this.buffer.substring(this.pointer);
         }
         return this.buffer.substring(this.pointer, this.pointer + length);
+    }
+
+    public String prefixForward(int length) {
+        final String prefix = prefix(length);
+        this.pointer += length;
+        this.index += length;
+        this.column += length;
+        return prefix;
     }
 
     private void update(int length) {
@@ -155,14 +167,13 @@ public class StreamReader {
             this.pointer = 0;
             do {
                 String rawData = null;
-                char[] data = new char[1024];
                 int converted = -2;
                 try {
                     converted = this.stream.read(data);
                 } catch (IOException ioe) {
                     throw new YAMLException(ioe);
                 }
-                if (converted != -1) {
+                if (converted > 0) {
                     rawData = new String(data, 0, converted);
                     checkPrintable(rawData);
                     this.buffer.append(rawData);
