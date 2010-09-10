@@ -1,0 +1,4 @@
+Container(name=parent, id=123):
+  components:
+      - Component(name=open, id=111)
+      - Component(name=close, id=222)
