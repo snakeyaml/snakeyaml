@@ -16,7 +16,9 @@
 
 package org.yaml.snakeyaml.extensions.compactnotation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,30 +54,36 @@ public class CompactConstructor extends Constructor {
         if (!scalar.endsWith(")")) {
             return null;
         }
-        if (scalar.indexOf('=') < 0 || scalar.indexOf('(') < 0) {
+        if (scalar.indexOf('(') < 0) {
             return null;
         }
         Matcher m = FIRST_PATTERN.matcher(scalar);
         if (m.matches()) {
             String tag = m.group(1);
             String content = m.group(3);
+            CompactData data = new CompactData(tag);
+            if (content.length() == 0)
+                return data;
             String[] names = content.split("\\s*,\\s*");
             if (names.length == 0) {
                 return null;
             }
-            CompactData data = new CompactData(tag);
             for (int i = 0; i < names.length; i++) {
                 String section = names[i];
-                Matcher sm = PROPERTY_NAME_PATTERN.matcher(section);
-                if (sm.matches()) {
-                    String name = sm.group(1);
-                    String value = sm.group(2).trim();
-                    if ("".equals(value)) {
+                if (section.indexOf('=') < 0) {
+                    data.getArguments().add(section);
+                } else {
+                    Matcher sm = PROPERTY_NAME_PATTERN.matcher(section);
+                    if (sm.matches()) {
+                        String name = sm.group(1);
+                        String value = sm.group(2).trim();
+                        if ("".equals(value)) {
+                            return null;
+                        }
+                        data.getProperties().put(name, value);
+                    } else {
                         return null;
                     }
-                    data.getProperties().put(name, value);
-                } else {
-                    return null;
                 }
             }
             return data;
@@ -85,6 +93,7 @@ public class CompactConstructor extends Constructor {
 
     class CompactData {
         private String prefix;
+        private List<String> arguments = new ArrayList<String>();
         private Map<String, String> properties = new HashMap<String, String>();
 
         public CompactData(String prefix) {
@@ -105,6 +114,14 @@ public class CompactConstructor extends Constructor {
 
         public void setProperties(Map<String, String> properties) {
             this.properties = properties;
+        }
+
+        public List<String> getArguments() {
+            return arguments;
+        }
+
+        public void setArguments(List<String> arguments) {
+            this.arguments = arguments;
         }
 
         @Override

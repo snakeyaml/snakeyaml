@@ -24,7 +24,6 @@ public class CompactConstructorTest extends TestCase {
 
     public void testNoCompactData() {
         CompactConstructor flow = new CompactConstructor();
-        assertNull(flow.getCompactData("JFrame()"));
         assertNull(flow.getCompactData("scalar"));
         assertNull(flow.getCompactData("123"));
         assertNull(flow.getCompactData("(name=frame,title=My Frame)"));
@@ -35,7 +34,6 @@ public class CompactConstructorTest extends TestCase {
         assertNull(flow.getCompactData("JFrame(name=frame,title=My Frame) "));
         assertNull(flow.getCompactData("JFrame(name=)"));
         assertNull(flow.getCompactData("JFrame(=name)"));
-        assertNull(flow.getCompactData("JFrame(name)"));
     }
 
     public void testGetCompactData1() {
@@ -69,5 +67,35 @@ public class CompactConstructorTest extends TestCase {
         assertEquals("frame", data.getProperties().get("name"));
         assertEquals("My Frame", data.getProperties().get("title"));
         assertEquals("123", data.getProperties().get("number"));
+    }
+
+    public void testGetCompactData4() {
+        CompactConstructor flow = new CompactConstructor();
+        CompactData data = flow.getCompactData("JFrame(title)");
+        assertNotNull(data);
+        assertEquals("JFrame", data.getPrefix());
+        assertEquals(0, data.getProperties().size());
+        assertEquals(1, data.getArguments().size());
+        assertEquals("title", data.getArguments().get(0));
+    }
+
+    public void testGetCompactData5() {
+        CompactConstructor flow = new CompactConstructor();
+        CompactData data = flow.getCompactData("JFrame(id123, title, name=foo, alignment=center)");
+        assertNotNull(data);
+        assertEquals("JFrame", data.getPrefix());
+        assertEquals(2, data.getProperties().size());
+        assertEquals(2, data.getArguments().size());
+        assertEquals("id123", data.getArguments().get(0));
+        assertEquals("title", data.getArguments().get(1));
+    }
+
+    public void testGetCompactData6() {
+        CompactConstructor flow = new CompactConstructor();
+        CompactData data = flow.getCompactData("JFrame()");
+        assertNotNull(data);
+        assertEquals("JFrame", data.getPrefix());
+        assertEquals(0, data.getProperties().size());
+        assertEquals(0, data.getArguments().size());
     }
 }
