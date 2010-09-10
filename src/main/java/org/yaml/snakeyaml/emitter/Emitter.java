@@ -377,7 +377,7 @@ public final class Emitter {
     }
 
     // Node handlers.
-    
+
     private void expectNode(boolean root, boolean sequence, boolean mapping, boolean simpleKey)
             throws IOException {
         rootContext = root;
@@ -717,7 +717,7 @@ public final class Emitter {
         if (preparedAnchor == null) {
             preparedAnchor = prepareAnchor(ev.getAnchor());
         }
-        if (preparedAnchor != null && !"".equals(preparedAnchor)) {
+        if (preparedAnchor != null && preparedAnchor.length() != 0) {
             writeIndicator(indicator + preparedAnchor, true, false, false);
         }
         preparedAnchor = null;
@@ -754,7 +754,7 @@ public final class Emitter {
         if (preparedTag == null) {
             preparedTag = prepareTag(tag);
         }
-        if (preparedTag != null && !"".equals(preparedTag)) {
+        if (preparedTag != null && preparedTag.length() != 0) {
             writeIndicator(preparedTag, true, false, false);
         }
         preparedTag = null;
@@ -820,7 +820,7 @@ public final class Emitter {
     }
 
     // Analyzers.
-    
+
     private String prepareVersion(Integer[] version) {
         Integer major = version[0];
         Integer minor = version[1];
@@ -833,7 +833,7 @@ public final class Emitter {
     private final static Pattern HANDLE_FORMAT = Pattern.compile("^![-_\\w]*!$");
 
     private String prepareTagHandle(String handle) {
-        if (handle == null || "".equals(handle)) {
+        if (handle == null || handle.length() == 0) {
             throw new EmitterException("tag handle must not be empty");
         } else if (handle.charAt(0) != '!' || handle.charAt(handle.length() - 1) != '!') {
             throw new EmitterException("tag handle must start and end with '!': " + handle);
@@ -844,7 +844,7 @@ public final class Emitter {
     }
 
     private String prepareTagPrefix(String prefix) {
-        if (prefix == null || "".equals(prefix)) {
+        if (prefix == null || prefix.length() == 0) {
             throw new EmitterException("tag prefix must not be empty");
         }
         StringBuilder chunks = new StringBuilder();
@@ -899,7 +899,7 @@ public final class Emitter {
     private final static Pattern ANCHOR_FORMAT = Pattern.compile("^[-_\\w]*$");
 
     static String prepareAnchor(String anchor) {
-        if (anchor == null || "".equals(anchor)) {
+        if (anchor == null || anchor.length() == 0) {
             throw new EmitterException("anchor must not be empty");
         }
         if (!ANCHOR_FORMAT.matcher(anchor).matches()) {
@@ -1140,7 +1140,8 @@ public final class Emitter {
     }
 
     void writeTagDirective(String handleText, String prefixText) throws IOException {
-	 // XXX: not sure 4 invocations better then StringBuilders created by str + str
+        // XXX: not sure 4 invocations better then StringBuilders created by str
+        // + str
         stream.write("%TAG ");
         stream.write(handleText);
         stream.write(SPACE);

@@ -7,6 +7,9 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="maslovalex" type="update">
+                Minor refactorings in Emitter to improve performance: create less Strings [r9185e0b3] (2010-09-10)
+            </action>
             <action dev="py4fun" type="update" issue="79">
                 Introduce LoaderOptions to be able to specify configuration while loading (2010-09-03)
             </action>

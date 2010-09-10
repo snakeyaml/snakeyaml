@@ -434,8 +434,8 @@ public final class ScannerImpl implements Scanner {
         if (this.allowSimpleKey) {
             removePossibleSimpleKey();
             int tokenNumber = this.tokensTaken + this.tokens.size();
-            SimpleKey key = new SimpleKey(tokenNumber, required, reader.getIndex(),
-                    reader.getLine(), this.reader.getColumn(), this.reader.getMark());
+            SimpleKey key = new SimpleKey(tokenNumber, required, reader.getIndex(), reader
+                    .getLine(), this.reader.getColumn(), this.reader.getMark());
             this.possibleSimpleKeys.put(this.flowLevel, key);
         }
     }
@@ -682,8 +682,8 @@ public final class ScannerImpl implements Scanner {
         if (this.flowLevel == 0) {
             // Are we allowed to start a key (not necessary a simple)?
             if (!this.allowSimpleKey) {
-                throw new ScannerException(null, null, "mapping keys are not allowed here",
-                        reader.getMark());
+                throw new ScannerException(null, null, "mapping keys are not allowed here", reader
+                        .getMark());
             }
             // We may need to add BLOCK-MAPPING-START.
             if (addIndent(this.reader.getColumn())) {
@@ -1143,8 +1143,8 @@ public final class ScannerImpl implements Scanner {
         }
         if (length == 0) {
             throw new ScannerException("while scanning an " + name, startMark,
-                    "expected alphabetic or numeric character, but found but found " + ch,
-                    reader.getMark());
+                    "expected alphabetic or numeric character, but found but found " + ch, reader
+                            .getMark());
         }
         String value = reader.prefixForward(length);
         ch = reader.peek();
@@ -1311,8 +1311,8 @@ public final class ScannerImpl implements Scanner {
                 increment = Integer.parseInt(String.valueOf(ch));
                 if (increment == 0) {
                     throw new ScannerException("while scanning a block scalar", startMark,
-                            "expected indentation indicator in the range 1-9, but found 0",
-                            reader.getMark());
+                            "expected indentation indicator in the range 1-9, but found 0", reader
+                                    .getMark());
                 }
                 reader.forward();
             }
@@ -1320,8 +1320,8 @@ public final class ScannerImpl implements Scanner {
             increment = Integer.parseInt(String.valueOf(ch));
             if (increment == 0) {
                 throw new ScannerException("while scanning a block scalar", startMark,
-                        "expected indentation indicator in the range 1-9, but found 0",
-                        reader.getMark());
+                        "expected indentation indicator in the range 1-9, but found 0", reader
+                                .getMark());
             }
             reader.forward();
             ch = reader.peek();
@@ -1337,8 +1337,8 @@ public final class ScannerImpl implements Scanner {
         ch = reader.peek();
         if (Constant.NULL_BL_LINEBR.hasNo(ch)) {
             throw new ScannerException("while scanning a block scalar", startMark,
-                    "expected chomping or indentation indicators, but found " + ch,
-                    reader.getMark());
+                    "expected chomping or indentation indicators, but found " + ch, reader
+                            .getMark());
         }
         return new Chomping(chomping, increment);
     }
@@ -1459,8 +1459,8 @@ public final class ScannerImpl implements Scanner {
                     if (NOT_HEXA.matcher(hex).find()) {
                         throw new ScannerException("while scanning a double-quoted scalar",
                                 startMark, "expected escape sequence of " + length
-                                        + " hexadecimal numbers, but found: " + hex,
-                                reader.getMark());
+                                        + " hexadecimal numbers, but found: " + hex, reader
+                                        .getMark());
                     }
                     char unicode = (char) Integer.parseInt(hex, 16);
                     chunks.append(unicode);
@@ -1470,8 +1470,8 @@ public final class ScannerImpl implements Scanner {
                     chunks.append(scanFlowScalarBreaks(startMark));
                 } else {
                     throw new ScannerException("while scanning a double-quoted scalar", startMark,
-                            "found unknown escape character " + ch + "(" + ((int) ch) + ")",
-                            reader.getMark());
+                            "found unknown escape character " + ch + "(" + ((int) ch) + ")", reader
+                                    .getMark());
                 }
             } else {
                 return chunks.toString();
@@ -1576,7 +1576,7 @@ public final class ScannerImpl implements Scanner {
             chunks.append(reader.prefixForward(length));
             endMark = reader.getMark();
             spaces = scanPlainSpaces();
-            if ("".equals(spaces) || reader.peek() == '#'
+            if (spaces.length() == 0 || reader.peek() == '#'
                     || (this.flowLevel == 0 && this.reader.getColumn() < indent)) {
                 break;
             }
@@ -1706,8 +1706,8 @@ public final class ScannerImpl implements Scanner {
                 throw new ScannerException("while scanning a " + name, startMark,
                         "expected URI escape sequence of 2 hexadecimal numbers, but found "
                                 + reader.peek() + "(" + ((int) reader.peek()) + ") and "
-                                + reader.peek(1) + "(" + ((int) reader.peek(1)) + ")",
-                        reader.getMark());
+                                + reader.peek(1) + "(" + ((int) reader.peek(1)) + ")", reader
+                                .getMark());
             }
             reader.forward(2);
         }

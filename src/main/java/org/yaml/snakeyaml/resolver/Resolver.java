@@ -110,7 +110,7 @@ public class Resolver {
     public Tag resolve(NodeId kind, String value, boolean implicit) {
         if (kind == NodeId.scalar && implicit) {
             List<ResolverTuple> resolvers = null;
-            if ("".equals(value)) {
+            if (value.length() == 0) {
                 resolvers = yamlImplicitResolvers.get('\0');
             } else {
                 resolvers = yamlImplicitResolvers.get(value.charAt(0));
