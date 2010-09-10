@@ -92,6 +92,7 @@ public class DumperTest extends TestCase {
 
         @Override
         public void write(char[] cbuf, int off, int len) throws IOException {
+            throw new IOException("write test failure.");
         }
     }
 

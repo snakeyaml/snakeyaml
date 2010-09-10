@@ -66,6 +66,8 @@ public final class Emitter {
     public static final int MIN_INDENT = 1;
     public static final int MAX_INDENT = 10;
 
+    public static final char[] SPACE = { ' ' };
+
     static {
         ESCAPE_REPLACEMENTS.put(new Character('\0'), "0");
         ESCAPE_REPLACEMENTS.put(new Character('\u0007'), "a");
@@ -136,7 +138,7 @@ public final class Emitter {
     private boolean allowUnicode;
     private int bestIndent;
     private int bestWidth;
-    private String bestLineBreak;
+    private char[] bestLineBreak;
 
     // Tag prefixes.
     private Map<String, String> tagPrefixes;
@@ -194,7 +196,7 @@ public final class Emitter {
         if (opts.getWidth() > this.bestIndent * 2) {
             this.bestWidth = opts.getWidth();
         }
-        this.bestLineBreak = opts.getLineBreak().getString();
+        this.bestLineBreak = opts.getLineBreak().getString().toCharArray();
 
         // Tag prefixes.
         this.tagPrefixes = new LinkedHashMap<String, String>();
@@ -375,7 +377,7 @@ public final class Emitter {
     }
 
     // Node handlers.
-
+    
     private void expectNode(boolean root, boolean sequence, boolean mapping, boolean simpleKey)
             throws IOException {
         rootContext = root;
@@ -669,9 +671,8 @@ public final class Emitter {
             ScalarEvent e = (ScalarEvent) event;
             return (e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && e
                     .getValue() == "");
-        } else {
-            return false;
         }
+        return false;
     }
 
     private boolean checkSimpleKey() {
@@ -819,7 +820,7 @@ public final class Emitter {
     }
 
     // Analyzers.
-
+    
     private String prepareVersion(Integer[] version) {
         Integer major = version[0];
         Integer minor = version[1];
@@ -862,7 +863,7 @@ public final class Emitter {
     }
 
     private String prepareTag(String tag) {
-        if (tag == null || "".equals(tag)) {
+        if (tag == null || tag.length() == 0) {
             throw new EmitterException("tag must not be empty");
         }
         if ("!".equals(tag)) {
@@ -878,25 +879,21 @@ public final class Emitter {
         String suffix = tag;
         for (String prefix : tagPrefixes.keySet()) {
             if (tag.startsWith(prefix) && ("!".equals(prefix) || prefix.length() < tag.length())) {
-                handle = tagPrefixes.get(prefix);
-                suffix = tag.substring(prefix.length());
+                handle = prefix;
             }
         }
-        StringBuilder chunks = new StringBuilder();
-        int start = 0;
-        int end = 0;
-        while (end < suffix.length()) {
-            end++;
+        if (handle != null) {
+            suffix = tag.substring(handle.length());
+            handle = tagPrefixes.get(handle);
         }
-        if (start < end) {
-            chunks.append(suffix.substring(start, end));
-        }
-        String suffixText = chunks.toString();
+
+        int end = suffix.length();
+        String suffixText = end > 0 ? suffix.substring(0, end) : "";
+
         if (handle != null) {
             return handle + suffixText;
-        } else {
-            return "!<" + suffixText + ">";
         }
+        return "!<" + suffixText + ">";
     }
 
     private final static Pattern ANCHOR_FORMAT = Pattern.compile("^[-_\\w]*$");
@@ -913,7 +910,7 @@ public final class Emitter {
 
     private ScalarAnalysis analyzeScalar(String scalar) {
         // Empty scalar is a special case.
-        if (scalar == null || "".equals(scalar)) {
+        if (scalar == null || scalar.length() == 0) {
             return new ScalarAnalysis(scalar, true, false, false, true, true, true, false);
         }
         // Indicators and special characters.
@@ -1091,17 +1088,15 @@ public final class Emitter {
 
     void writeIndicator(String indicator, boolean needWhitespace, boolean whitespace,
             boolean indentation) throws IOException {
-        String data = null;
-        if (this.whitespace || !needWhitespace) {
-            data = indicator;
-        } else {
-            data = " " + indicator;
+        if (!this.whitespace && needWhitespace) {
+            this.column++;
+            stream.write(SPACE);
         }
         this.whitespace = whitespace;
         this.indention = this.indention && indentation;
-        this.column += data.length();
+        this.column += indicator.length();
         openEnded = false;
-        stream.write(data);
+        stream.write(indicator);
     }
 
     void writeIndent() throws IOException {
@@ -1118,32 +1113,38 @@ public final class Emitter {
 
         if (this.column < indent) {
             this.whitespace = true;
-            StringBuilder data = new StringBuilder();
-            for (int i = 0; i < indent - this.column; i++) {
-                data.append(" ");
+            char[] data = new char[indent - this.column];
+            for (int i = 0; i < data.length; i++) {
+                data[i] = ' ';
             }
             this.column = indent;
-            stream.write(data.toString());
+            stream.write(data);
         }
     }
 
     private void writeLineBreak(String data) throws IOException {
-        if (data == null) {
-            data = this.bestLineBreak;
-        }
         this.whitespace = true;
         this.indention = true;
         this.column = 0;
-        stream.write(data);
+        if (data == null) {
+            stream.write(this.bestLineBreak);
+        } else {
+            stream.write(data);
+        }
     }
 
     void writeVersionDirective(String versionText) throws IOException {
-        stream.write("%YAML " + versionText);
+        stream.write("%YAML ");
+        stream.write(versionText);
         writeLineBreak(null);
     }
 
     void writeTagDirective(String handleText, String prefixText) throws IOException {
-        stream.write("%TAG " + handleText + " " + prefixText);
+	 // XXX: not sure 4 invocations better then StringBuilders created by str + str
+        stream.write("%TAG ");
+        stream.write(handleText);
+        stream.write(SPACE);
+        stream.write(prefixText);
         writeLineBreak(null);
     }
 
@@ -1165,9 +1166,9 @@ public final class Emitter {
                             && end != text.length()) {
                         writeIndent();
                     } else {
-                        String data = text.substring(start, end);
-                        this.column += data.length();
-                        stream.write(data);
+                        int len = end - start;
+                        this.column += len;
+                        stream.write(text, start, len);
                     }
                     start = end;
                 }
@@ -1190,17 +1191,16 @@ public final class Emitter {
             } else {
                 if (Constant.LINEBR.has(ch, "\0 \'")) {
                     if (start < end) {
-                        String data = text.substring(start, end);
-                        this.column += data.length();
-                        stream.write(data);
+                        int len = end - start;
+                        this.column += len;
+                        stream.write(text, start, len);
                         start = end;
                     }
                 }
             }
             if (ch == '\'') {
-                String data = "''";
                 this.column += 2;
-                stream.write(data);
+                stream.write("''");
                 start = end + 1;
             }
             if (ch != 0) {
@@ -1224,9 +1224,9 @@ public final class Emitter {
             if (ch == null || "\"\\\u0085\u2028\u2029\uFEFF".indexOf(ch) != -1
                     || !('\u0020' <= ch && ch <= '\u007E')) {
                 if (start < end) {
-                    String data = text.substring(start, end);
-                    this.column += data.length();
-                    stream.write(data);
+                    int len = end - start;
+                    this.column += len;
+                    stream.write(text, start, len);
                     start = end;
                 }
                 if (ch != null) {
@@ -1334,17 +1334,17 @@ public final class Emitter {
                     if (start + 1 == end && this.column > this.bestWidth) {
                         writeIndent();
                     } else {
-                        String data = text.substring(start, end);
-                        this.column += data.length();
-                        stream.write(data);
+                        int len = end - start;
+                        this.column += len;
+                        stream.write(text, start, len);
                     }
                     start = end;
                 }
             } else {
                 if (Constant.LINEBR.has(ch, "\0 ")) {
-                    String data = text.substring(start, end);
-                    this.column += data.length();
-                    stream.write(data);
+                    int len = end - start;
+                    this.column += len;
+                    stream.write(text, start, len);
                     if (ch == 0) {
                         writeLineBreak(null);
                     }
@@ -1390,8 +1390,7 @@ public final class Emitter {
                 }
             } else {
                 if (ch == 0 || Constant.LINEBR.has(ch)) {
-                    String data = text.substring(start, end);
-                    stream.write(data);
+                    stream.write(text, start, end - start);
                     if (ch == 0) {
                         writeLineBreak(null);
                     }
@@ -1409,13 +1408,12 @@ public final class Emitter {
         if (rootContext) {
             openEnded = true;
         }
-        if (text == null || "".equals(text)) {
+        if (text == null || text.length() == 0) {
             return;
         }
         if (!this.whitespace) {
-            String data = " ";
-            this.column += data.length();
-            stream.write(data);
+            this.column++;
+            stream.write(SPACE);
         }
         this.whitespace = false;
         this.indention = false;
@@ -1434,9 +1432,9 @@ public final class Emitter {
                         this.whitespace = false;
                         this.indention = false;
                     } else {
-                        String data = text.substring(start, end);
-                        this.column += data.length();
-                        stream.write(data);
+                        int len = end - start;
+                        this.column += len;
+                        stream.write(text, start, len);
                     }
                     start = end;
                 }
@@ -1460,9 +1458,9 @@ public final class Emitter {
                 }
             } else {
                 if (ch == 0 || Constant.LINEBR.has(ch)) {
-                    String data = text.substring(start, end);
-                    this.column += data.length();
-                    stream.write(data);
+                    int len = end - start;
+                    this.column += len;
+                    stream.write(text, start, len);
                     start = end;
                 }
             }
