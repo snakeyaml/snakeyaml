@@ -717,9 +717,7 @@ public final class Emitter {
         if (preparedAnchor == null) {
             preparedAnchor = prepareAnchor(ev.getAnchor());
         }
-        if (preparedAnchor != null && preparedAnchor.length() != 0) {
-            writeIndicator(indicator + preparedAnchor, true, false, false);
-        }
+        writeIndicator(indicator + preparedAnchor, true, false, false);
         preparedAnchor = null;
     }
 
@@ -754,9 +752,7 @@ public final class Emitter {
         if (preparedTag == null) {
             preparedTag = prepareTag(tag);
         }
-        if (preparedTag != null && preparedTag.length() != 0) {
-            writeIndicator(preparedTag, true, false, false);
-        }
+        writeIndicator(preparedTag, true, false, false);
         preparedTag = null;
     }
 
@@ -833,7 +829,7 @@ public final class Emitter {
     private final static Pattern HANDLE_FORMAT = Pattern.compile("^![-_\\w]*!$");
 
     private String prepareTagHandle(String handle) {
-        if (handle == null || handle.length() == 0) {
+        if (handle.length() == 0) {
             throw new EmitterException("tag handle must not be empty");
         } else if (handle.charAt(0) != '!' || handle.charAt(handle.length() - 1) != '!') {
             throw new EmitterException("tag handle must start and end with '!': " + handle);
@@ -844,7 +840,7 @@ public final class Emitter {
     }
 
     private String prepareTagPrefix(String prefix) {
-        if (prefix == null || prefix.length() == 0) {
+        if (prefix.length() == 0) {
             throw new EmitterException("tag prefix must not be empty");
         }
         StringBuilder chunks = new StringBuilder();
@@ -863,7 +859,7 @@ public final class Emitter {
     }
 
     private String prepareTag(String tag) {
-        if (tag == null || tag.length() == 0) {
+        if (tag.length() == 0) {
             throw new EmitterException("tag must not be empty");
         }
         if ("!".equals(tag)) {
@@ -872,6 +868,8 @@ public final class Emitter {
         for (int i = 0; i < tag.length(); i++) {
             char ch = tag.charAt(i);
             if (Constant.URI_CHARS.hasNo(ch)) {
+                // TODO Tag (URI) may not contain non-ASCII characters
+                // (it seems that resources do not use proper encoding)
                 throw new YAMLException("Tag (URI) may not contain non-ASCII characters.");
             }
         }
@@ -899,7 +897,7 @@ public final class Emitter {
     private final static Pattern ANCHOR_FORMAT = Pattern.compile("^[-_\\w]*$");
 
     static String prepareAnchor(String anchor) {
-        if (anchor == null || anchor.length() == 0) {
+        if (anchor.length() == 0) {
             throw new EmitterException("anchor must not be empty");
         }
         if (!ANCHOR_FORMAT.matcher(anchor).matches()) {
@@ -910,7 +908,7 @@ public final class Emitter {
 
     private ScalarAnalysis analyzeScalar(String scalar) {
         // Empty scalar is a special case.
-        if (scalar == null || scalar.length() == 0) {
+        if (scalar.length() == 0) {
             return new ScalarAnalysis(scalar, true, false, false, true, true, true, false);
         }
         // Indicators and special characters.
@@ -1281,16 +1279,14 @@ public final class Emitter {
 
     private String determineBlockHints(String text) {
         StringBuilder hints = new StringBuilder();
-        if (text != null && text.length() > 0) {
-            if (Constant.LINEBR.has(text.charAt(0), " ")) {
-                hints.append(bestIndent);
-            }
-            char ch1 = text.charAt(text.length() - 1);
-            if (Constant.LINEBR.hasNo(ch1)) {
-                hints.append("-");
-            } else if (text.length() == 1 || Constant.LINEBR.has(text.charAt(text.length() - 2))) {
-                hints.append("+");
-            }
+        if (Constant.LINEBR.has(text.charAt(0), " ")) {
+            hints.append(bestIndent);
+        }
+        char ch1 = text.charAt(text.length() - 1);
+        if (Constant.LINEBR.hasNo(ch1)) {
+            hints.append("-");
+        } else if (text.length() == 1 || Constant.LINEBR.has(text.charAt(text.length() - 2))) {
+            hints.append("+");
         }
         return hints.toString();
     }
@@ -1409,7 +1405,7 @@ public final class Emitter {
         if (rootContext) {
             openEnded = true;
         }
-        if (text == null || text.length() == 0) {
+        if (text.length() == 0) {
             return;
         }
         if (!this.whitespace) {

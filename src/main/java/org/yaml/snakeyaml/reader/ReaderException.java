@@ -33,7 +33,8 @@ public class ReaderException extends YAMLException {
 
     @Override
     public String toString() {
-        return "unacceptable character #" + Integer.toHexString((int) character).toUpperCase()
-                + " " + getMessage() + "\nin \"" + name + "\", position " + position;
+        return "unacceptable character '" + character + "' (0x"
+                + Integer.toHexString((int) character).toUpperCase() + ") " + getMessage()
+                + "\nin \"" + name + "\", position " + position;
     }
 }
