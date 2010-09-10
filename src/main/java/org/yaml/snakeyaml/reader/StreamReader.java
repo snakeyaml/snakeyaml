@@ -153,10 +153,14 @@ public class StreamReader {
         return this.buffer.substring(this.pointer, this.pointer + length);
     }
 
+    /**
+     * prefix(length) immediately followed by forward(length)
+     */
     public String prefixForward(int length) {
         final String prefix = prefix(length);
         this.pointer += length;
         this.index += length;
+        // prefix never contains new line characters
         this.column += length;
         return prefix;
     }
