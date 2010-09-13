@@ -16,9 +16,12 @@
 
 package org.yaml.snakeyaml.extensions.compactnotation;
 
+import java.beans.IntrospectionException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,7 +83,12 @@ public class CompactConstructor extends Constructor {
         }
         for (String key : data.keySet()) {
             Property property = getPropertyUtils().getProperty(bean.getClass(), key);
-            property.set(bean, data.get(key));
+            try {
+                property.set(bean, data.get(key));
+            } catch (IllegalArgumentException e) {
+                throw new YAMLException("Cannot set property='" + key + "' with value='"
+                        + data.get(key) + "' (" + data.get(key).getClass() + ") in " + bean);
+            }
         }
     }
 
@@ -144,19 +152,52 @@ public class CompactConstructor extends Constructor {
         public Object construct(Node node) {
             Map<Object, Object> map = constructMapping((MappingNode) node);
             // Compact Object Notation may contain only one entry
-            if (map.size() != 1) {
-                throw new YAMLException("Compact Object Notation may contain only one entry: "
-                        + map.size());
-            }
             Map.Entry<Object, Object> entry = map.entrySet().iterator().next();
             Object result = entry.getKey();
-            Map<String, Object> properties = (Map<String, Object>) entry.getValue();
-            try {
-                setProperties(result, properties);
-            } catch (Exception e) {
-                throw new YAMLException(e);
+            Object value = entry.getValue();
+            if (value instanceof Map) {
+                Map<String, Object> properties = (Map<String, Object>) value;
+                try {
+                    setProperties(result, properties);
+                } catch (Exception e) {
+                    throw new YAMLException(e);
+                }
+            } else {
+                // value is a list
+                try {
+                    Property property = getPropertyUtils().getProperty(result.getClass(),
+                            getSequencePropertyName(result.getClass()));
+                    property.set(result, (List<?>) value);
+                } catch (Exception e) {
+                    throw new YAMLException(e);
+                }
             }
             return result;
         }
+    }
+
+    /**
+     * Provide the name of the property which is used when the entries form a
+     * sequence. The property must be a List.
+     * 
+     * @throws IntrospectionException
+     */
+    protected String getSequencePropertyName(Class<?> bean) throws IntrospectionException {
+        Set<Property> properties = getPropertyUtils().getProperties(bean);
+        for (Iterator<Property> iterator = properties.iterator(); iterator.hasNext();) {
+            Property property = iterator.next();
+            if (!List.class.isAssignableFrom(property.getType())) {
+                iterator.remove();
+            }
+        }
+        if (properties.size() == 0) {
+            throw new YAMLException("No list property found in " + bean);
+        } else if (properties.size() > 1) {
+            throw new YAMLException(
+                    "Many list properties found in "
+                            + bean
+                            + "; Please override getSequencePropertyName() to specify which property to use.");
+        }
+        return properties.iterator().next().getName();
     }
 }

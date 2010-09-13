@@ -16,6 +16,7 @@
 
 package org.yaml.snakeyaml.extensions.compactnotation;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,30 +28,27 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CompactConstructorExampleTest extends TestCase {
 
-    public void test1() {
+    private Object load(String fileName) {
         CompactConstructor compact = new CompactConstructor();
         Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container1.yaml");
+        String doc = Util.getLocalResource("compactnotation/" + fileName);
         Object obj = yaml.load(doc);
         assertNotNull(obj);
+        return obj;
+    }
+
+    public void test1() {
+        Object obj = load("example1.yaml");
         assertEquals(new Container(), obj);
     }
 
     public void test2() {
-        CompactConstructor compact = new CompactConstructor();
-        Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container2.yaml");
-        Object obj = yaml.load(doc);
-        assertNotNull(obj);
+        Object obj = load("example2.yaml");
         assertEquals(new Container("title"), obj);
     }
 
     public void test3() {
-        CompactConstructor compact = new CompactConstructor();
-        Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container3.yaml");
-        Container obj = (Container) yaml.load(doc);
-        assertNotNull(obj);
+        Container obj = (Container) load("example3.yaml");
         assertEquals(new Container("title3"), obj);
         assertEquals("title3", obj.getTitle());
         assertEquals("parent", obj.getName());
@@ -58,10 +56,7 @@ public class CompactConstructorExampleTest extends TestCase {
     }
 
     public void test4() {
-        CompactConstructor compact = new CompactConstructor();
-        Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container4.yaml");
-        Object obj = yaml.load(doc);
+        Object obj = load("example4.yaml");
         // System.out.println(obj);
         Container container = (Container) obj;
         assertNotNull(obj);
@@ -72,10 +67,7 @@ public class CompactConstructorExampleTest extends TestCase {
     }
 
     public void test5() {
-        CompactConstructor compact = new CompactConstructor();
-        Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container5.yaml");
-        Object obj = yaml.load(doc);
+        Object obj = load("example5.yaml");
         // System.out.println(obj);
         Container container = (Container) obj;
         assertNotNull(obj);
@@ -86,10 +78,7 @@ public class CompactConstructorExampleTest extends TestCase {
     }
 
     public void test6() {
-        CompactConstructor compact = new CompactConstructor();
-        Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container6.yaml");
-        Object obj = yaml.load(doc);
+        Object obj = load("example6.yaml");
         // System.out.println(obj);
         Container container = (Container) obj;
         assertNotNull(obj);
@@ -100,10 +89,7 @@ public class CompactConstructorExampleTest extends TestCase {
     }
 
     public void test7() {
-        CompactConstructor compact = new CompactConstructor();
-        Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container7.yaml");
-        Object obj = yaml.load(doc);
+        Object obj = load("example7.yaml");
         // System.out.println(obj);
         Container container = (Container) obj;
         assertNotNull(obj);
@@ -113,27 +99,10 @@ public class CompactConstructorExampleTest extends TestCase {
         assertEquals("id7", container.getId());
     }
 
-    public void test8() {
-        CompactConstructor compact = new CompactConstructor();
-        Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container8.yaml");
-        try {
-            yaml.load(doc);
-            fail();
-        } catch (Exception e) {
-            assertEquals(
-                    "org.yaml.snakeyaml.error.YAMLException: Unable to find property 'nonsense' on class: org.yaml.snakeyaml.extensions.compactnotation.Container",
-                    e.getMessage());
-        }
-    }
-
     @SuppressWarnings("unchecked")
     // TODO it is unclear how the result should look like for CON
     public void test9() {
-        CompactConstructor compact = new CompactConstructor();
-        Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container9.yaml");
-        Map<String, Object> map = (Map<String, Object>) yaml.load(doc);
+        Map<String, Object> map = (Map<String, Object>) load("example9.yaml");
         assertEquals(1, map.size());
         Map<Container, Map<String, String>> containers = (Map<Container, Map<String, String>>) map
                 .get("something");
@@ -147,10 +116,7 @@ public class CompactConstructorExampleTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void test10() {
-        CompactConstructor compact = new CompactConstructor();
-        Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container10.yaml");
-        Map<String, Object> map = (Map<String, Object>) yaml.load(doc);
+        Map<String, Object> map = (Map<String, Object>) load("example10.yaml");
         assertEquals(1, map.size());
         List<Container> containers = (List<Container>) map.get("something");
         // System.out.println(obj);
@@ -163,10 +129,10 @@ public class CompactConstructorExampleTest extends TestCase {
     }
 
     public void test11withoutPackageNames() {
-        Constructor compact = new CustomCompactConstructor(
+        Constructor compact = new PackageCompactConstructor(
                 "org.yaml.snakeyaml.extensions.compactnotation");
         Yaml yaml = new Yaml(compact);
-        String doc = Util.getLocalResource("compactnotation/container11.yaml");
+        String doc = Util.getLocalResource("compactnotation/example11.yaml");
         Box box = (Box) yaml.load(doc);
         assertNotNull(box);
         assertEquals("id11", box.getId());
@@ -179,5 +145,37 @@ public class CompactConstructorExampleTest extends TestCase {
         assertEquals("id004", bottom.getId());
         assertEquals("3.5", bottom.getPrice());
         assertEquals("sweet", bottom.getName());
+    }
+
+    public void test12withList() {
+        Constructor compact = new TableCompactConstructor(
+                "org.yaml.snakeyaml.extensions.compactnotation");
+        Yaml yaml = new Yaml(compact);
+        String doc = Util.getLocalResource("compactnotation/example12.yaml");
+        Table table = (Table) yaml.load(doc);
+        assertNotNull(table);
+        assertEquals("id12", table.getId());
+        assertEquals("A table", table.getName());
+        List<Row> rows = table.getRows();
+        assertEquals(3, rows.size());
+        Iterator<Row> iter = rows.iterator();
+        Row first = iter.next();
+        assertEquals("id111", first.getId());
+        assertEquals("I think; therefore I am.", first.getDescription());
+        assertEquals(0.125, first.getRatio(), 0.000000001);
+        assertEquals(15, first.getSize());
+        Row second = iter.next();
+        assertEquals("id222", second.getId());
+        assertEquals("We do not need new lines here, just replace them all with spaces\n", second
+                .getDescription());
+        assertEquals(0.333, second.getRatio(), 0.000000001);
+        assertEquals(17, second.getSize());
+        Row third = iter.next();
+        assertEquals("id333", third.getId());
+        assertEquals(
+                "Please preserve all\nthe lines because they may be\nimportant, but do not include the last one !!!",
+                third.getDescription());
+        assertEquals(0.88, third.getRatio(), 0.000000001);
+        assertEquals(52, third.getSize());
     }
 }

@@ -16,23 +16,34 @@
 
 package org.yaml.snakeyaml.extensions.compactnotation;
 
-public class CustomCompactConstructor extends CompactConstructor {
-    private String packageName;
+import java.util.List;
 
-    public CustomCompactConstructor(String packageName) {
-        this.packageName = packageName;
+public class ManyListsTable {
+    private String id;
+    private List<Row> rows;
+    private List<String> names;
+
+    public ManyListsTable(String id) {
+        this.id = id;
     }
 
-    @Override
-    protected Class<?> getClassForName(String name) throws ClassNotFoundException {
-        if (name.indexOf('.') < 0) {
-            try {
-                Class<?> clazz = Class.forName(packageName + "." + name);
-                return clazz;
-            } catch (ClassNotFoundException e) {
-                // use super implementation
-            }
-        }
-        return super.getClassForName(name);
+    public List<Row> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<Row> rows) {
+        this.rows = rows;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public List<String> getNames() {
+        return names;
+    }
+
+    public void setNames(List<String> names) {
+        this.names = names;
     }
 }
