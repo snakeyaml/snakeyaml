@@ -29,6 +29,16 @@ public class CompactConstructorExampleTest extends TestCase {
         String doc = Util.getLocalResource("compactnotation/container1.yaml");
         Object obj = yaml.load(doc);
         assertNotNull(obj);
+        assertEquals(new Container(), obj);
+    }
+
+    public void test2() {
+        CompactConstructor flow = new CompactConstructor();
+        Yaml yaml = new Yaml(flow);
+        String doc = Util.getLocalResource("compactnotation/container2.yaml");
+        Object obj = yaml.load(doc);
+        assertNotNull(obj);
+        assertEquals(new Container("title"), obj);
     }
 
 }

@@ -18,8 +18,6 @@ package org.yaml.snakeyaml.extensions.compactnotation;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.extensions.compactnotation.CompactConstructor.CompactData;
-
 public class CompactConstructorTest extends TestCase {
 
     public void testNoCompactData() {
@@ -96,6 +94,15 @@ public class CompactConstructorTest extends TestCase {
         assertNotNull(data);
         assertEquals("JFrame", data.getPrefix());
         assertEquals(0, data.getProperties().size());
+        assertEquals(0, data.getArguments().size());
+    }
+
+    public void testGetCompactData7() {
+        CompactConstructor flow = new CompactConstructor();
+        CompactData data = flow.getCompactData("package.Container(name=parent, id=123)");
+        assertNotNull(data);
+        assertEquals("package.Container", data.getPrefix());
+        assertEquals(2, data.getProperties().size());
         assertEquals(0, data.getArguments().size());
     }
 }

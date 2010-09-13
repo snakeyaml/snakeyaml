@@ -16,22 +16,19 @@
 
 package org.yaml.snakeyaml.extensions.compactnotation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 /**
- * Construct a custom Java instance out of a compact format.
+ * Construct a custom Java instance out of a compact object notation format.
  */
 public class CompactConstructor extends Constructor {
-    private static final Pattern FIRST_PATTERN = Pattern
-            .compile("(\\p{Alpha}\\w*)(\\s*)\\((.*?)\\)");
+    private static final Pattern FIRST_PATTERN = Pattern.compile("(\\p{Alpha}.*)(\\s*)\\((.*?)\\)");
     private static final Pattern PROPERTY_NAME_PATTERN = Pattern
             .compile("\\s*(\\p{Alpha}\\w*)\\s*=(.+)");
 
@@ -46,8 +43,28 @@ public class CompactConstructor extends Constructor {
     }
 
     protected Object constructCompactFormat(ScalarNode node, CompactData data) {
-        System.out.println("TODO: " + data);
-        return super.constructScalar(node);
+        Object obj = createInstance(node, data);
+        setProperties(obj, data.getProperties());
+        return obj;
+    }
+
+    protected Object createInstance(ScalarNode node, CompactData data) {
+        try {
+            Class<?> clazz = getClassForName(data.getPrefix());
+            Class<?>[] args = new Class[data.getArguments().size()];
+            for (int i = 0; i < args.length; i++) {
+                // assume all the arguments are Strings
+                args[i] = String.class;
+            }
+            java.lang.reflect.Constructor<?> c = clazz.getDeclaredConstructor(args);
+            c.setAccessible(true);
+            return c.newInstance(data.getArguments().toArray());
+        } catch (Exception e) {
+            throw new YAMLException(e);
+        }
+    }
+
+    protected void setProperties(Object bean, Map<String, String> data) {
     }
 
     public CompactData getCompactData(String scalar) {
@@ -59,15 +76,12 @@ public class CompactConstructor extends Constructor {
         }
         Matcher m = FIRST_PATTERN.matcher(scalar);
         if (m.matches()) {
-            String tag = m.group(1);
+            String tag = m.group(1).trim();
             String content = m.group(3);
             CompactData data = new CompactData(tag);
             if (content.length() == 0)
                 return data;
             String[] names = content.split("\\s*,\\s*");
-            if (names.length == 0) {
-                return null;
-            }
             for (int i = 0; i < names.length; i++) {
                 String section = names[i];
                 if (section.indexOf('=') < 0) {
@@ -77,9 +91,6 @@ public class CompactConstructor extends Constructor {
                     if (sm.matches()) {
                         String name = sm.group(1);
                         String value = sm.group(2).trim();
-                        if ("".equals(value)) {
-                            return null;
-                        }
                         data.getProperties().put(name, value);
                     } else {
                         return null;
@@ -89,44 +100,5 @@ public class CompactConstructor extends Constructor {
             return data;
         }
         return null;
-    }
-
-    class CompactData {
-        private String prefix;
-        private List<String> arguments = new ArrayList<String>();
-        private Map<String, String> properties = new HashMap<String, String>();
-
-        public CompactData(String prefix) {
-            this.prefix = prefix;
-        }
-
-        public String getPrefix() {
-            return prefix;
-        }
-
-        public void setPrefix(String prefix) {
-            this.prefix = prefix;
-        }
-
-        public Map<String, String> getProperties() {
-            return properties;
-        }
-
-        public void setProperties(Map<String, String> properties) {
-            this.properties = properties;
-        }
-
-        public List<String> getArguments() {
-            return arguments;
-        }
-
-        public void setArguments(List<String> arguments) {
-            this.arguments = arguments;
-        }
-
-        @Override
-        public String toString() {
-            return "CompactData: " + prefix + " " + properties;
-        }
     }
 }
