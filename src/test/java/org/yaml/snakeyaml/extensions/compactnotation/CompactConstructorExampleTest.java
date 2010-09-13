@@ -16,6 +16,7 @@
 
 package org.yaml.snakeyaml.extensions.compactnotation;
 
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -132,12 +133,25 @@ public class CompactConstructorExampleTest extends TestCase {
         String doc = Util.getLocalResource("compactnotation/container9.yaml");
         Map<String, Object> map = (Map<String, Object>) yaml.load(doc);
         assertEquals(1, map.size());
-        Map<String, Container> containers = (Map<String, Container>) map.get("something");
+        Map<Container, Map<String, String>> containers = (Map<Container, Map<String, String>>) map
+                .get("something");
         // System.out.println(obj);
-        // TODO
-        // assertEquals(2, containers.size());
-        // for (Container c : containers.values()) {
-        // assertTrue(c.getId().matches("id\\d"));
-        // }
+        assertEquals(2, containers.size());
+        for (Container c : containers.keySet()) {
+            assertTrue(c.getId().matches("id\\d"));
+            assertEquals(1, containers.get(c).size());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void test10() {
+        CompactConstructor compact = new CompactConstructor();
+        Yaml yaml = new Yaml(compact);
+        String doc = Util.getLocalResource("compactnotation/container10.yaml");
+        Map<String, Object> map = (Map<String, Object>) yaml.load(doc);
+        assertEquals(1, map.size());
+        List<Container> containers = (List<Container>) map.get("something");
+        // System.out.println(obj);
+        assertEquals(3, containers.size());
     }
 }

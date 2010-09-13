@@ -33,6 +33,12 @@ public class Container {
     public boolean equals(Object obj) {
         if (obj instanceof Container) {
             Container c = (Container) obj;
+            if (name != null && !name.equals(c.name)) {
+                return false;
+            }
+            if (id != null && !id.equals(c.id)) {
+                return false;
+            }
             return title.equals(c.title);
         } else {
             return false;
