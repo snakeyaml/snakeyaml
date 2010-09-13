@@ -16,23 +16,25 @@
 
 package examples.jodatime;
 
-import java.util.Date;
-
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.Tag;
 
-public class JodaTimeContructor extends Constructor {
-    public JodaTimeContructor() {
-        this.yamlConstructors.put(Tag.TIMESTAMP, new ConstructJodaTimestamp());
+public class MyBean {
+    private String id;
+    private DateTime date;
+
+    public String getId() {
+        return id;
     }
 
-    private class ConstructJodaTimestamp extends ConstructYamlTimestamp {
-        public Object construct(Node node) {
-            Date date = (Date) super.construct(node);
-            return new DateTime(date, DateTimeZone.UTC);
-        }
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public DateTime getDate() {
+        return date;
+    }
+
+    public void setDate(DateTime date) {
+        this.date = date;
     }
 }

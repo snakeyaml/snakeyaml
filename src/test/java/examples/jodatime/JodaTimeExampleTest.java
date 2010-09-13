@@ -40,4 +40,17 @@ public class JodaTimeExampleTest extends TestCase {
         DateTime time = (DateTime) yaml.load("2001-09-09T01:46:40Z");
         assertEquals(new DateTime(timestamp, DateTimeZone.UTC), time);
     }
+
+    public void testLoadBean() throws IOException {
+        MyBean bean = new MyBean();
+        bean.setId("id123");
+        DateTime etalon = new DateTime(timestamp, DateTimeZone.UTC);
+        bean.setDate(etalon);
+        Yaml dumper = new Yaml(new JodaTimeRepresenter());
+        String doc = dumper.dump(bean);
+        // System.out.println(doc);
+        Yaml loader = new Yaml(new JodaTimeContructor());
+        MyBean parsed = (MyBean) loader.load(doc);
+        assertEquals(etalon, parsed.getDate());
+    }
 }
