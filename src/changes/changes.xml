@@ -7,6 +7,9 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="update">
+                Minor refactoring in Emitter to improve performance: save calls to Constant.has() (2010-09-13)
+            </action>
             <action dev="maslovalex" type="update">
                 Minor refactorings in Emitter to improve performance: create less Strings [r9185e0b3] (2010-09-10)
             </action>

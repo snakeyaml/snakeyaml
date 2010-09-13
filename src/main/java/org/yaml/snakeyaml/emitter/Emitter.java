@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
-import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.CollectionEndEvent;
 import org.yaml.snakeyaml.events.CollectionStartEvent;
@@ -865,14 +864,6 @@ public final class Emitter {
         if ("!".equals(tag)) {
             return tag;
         }
-        for (int i = 0; i < tag.length(); i++) {
-            char ch = tag.charAt(i);
-            if (Constant.URI_CHARS.hasNo(ch)) {
-                // TODO Tag (URI) may not contain non-ASCII characters
-                // (it seems that resources do not use proper encoding)
-                throw new YAMLException("Tag (URI) may not contain non-ASCII characters.");
-            }
-        }
         String handle = null;
         String suffix = tag;
         for (String prefix : tagPrefixes.keySet()) {
@@ -978,7 +969,8 @@ public final class Emitter {
                 }
             }
             // Check for line breaks, special, and unicode characters.
-            if (Constant.LINEBR.has(ch)) {
+            boolean isLineBreak = Constant.LINEBR.has(ch);
+            if (isLineBreak) {
                 lineBreaks = true;
             }
             if (!(ch == '\n' || ('\u0020' <= ch && ch <= '\u007E'))) {
@@ -1005,7 +997,7 @@ public final class Emitter {
                 }
                 previousSpace = true;
                 previousBreak = false;
-            } else if (Constant.LINEBR.has(ch)) {
+            } else if (isLineBreak) {
                 if (index == 0) {
                     leadingBreak = true;
                 }
@@ -1024,9 +1016,9 @@ public final class Emitter {
 
             // Prepare for the next character.
             index++;
-            preceededByWhitespace = Constant.NULL_BL_T_LINEBR.has(ch);
-            followedByWhitespace = (index + 1 >= scalar.length() || Constant.NULL_BL_T_LINEBR
-                    .has(scalar.charAt(index + 1)));
+            preceededByWhitespace = Constant.NULL_BL_T.has(ch) || isLineBreak;
+            followedByWhitespace = (index + 1 >= scalar.length()
+                    || (Constant.NULL_BL_T.has(scalar.charAt(index + 1))) || isLineBreak);
         }
         // Let's decide what styles are allowed.
         boolean allowFlowPlain = true;
