@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 /**
@@ -43,28 +44,33 @@ public class CompactConstructor extends Constructor {
     }
 
     protected Object constructCompactFormat(ScalarNode node, CompactData data) {
-        Object obj = createInstance(node, data);
-        setProperties(obj, data.getProperties());
-        return obj;
-    }
-
-    protected Object createInstance(ScalarNode node, CompactData data) {
         try {
-            Class<?> clazz = getClassForName(data.getPrefix());
-            Class<?>[] args = new Class[data.getArguments().size()];
-            for (int i = 0; i < args.length; i++) {
-                // assume all the arguments are Strings
-                args[i] = String.class;
-            }
-            java.lang.reflect.Constructor<?> c = clazz.getDeclaredConstructor(args);
-            c.setAccessible(true);
-            return c.newInstance(data.getArguments().toArray());
+            Object obj = createInstance(node, data);
+            setProperties(obj, data.getProperties());
+            return obj;
         } catch (Exception e) {
             throw new YAMLException(e);
         }
     }
 
-    protected void setProperties(Object bean, Map<String, String> data) {
+    protected Object createInstance(ScalarNode node, CompactData data) throws Exception {
+        Class<?> clazz = getClassForName(data.getPrefix());
+        Class<?>[] args = new Class[data.getArguments().size()];
+        for (int i = 0; i < args.length; i++) {
+            // assume all the arguments are Strings
+            args[i] = String.class;
+        }
+        java.lang.reflect.Constructor<?> c = clazz.getDeclaredConstructor(args);
+        c.setAccessible(true);
+        return c.newInstance(data.getArguments().toArray());
+
+    }
+
+    protected void setProperties(Object bean, Map<String, String> data) throws Exception {
+        for (String key : data.keySet()) {
+            Property property = getPropertyUtils().getProperty(bean.getClass(), key);
+            property.set(bean, data.get(key));
+        }
     }
 
     public CompactData getCompactData(String scalar) {

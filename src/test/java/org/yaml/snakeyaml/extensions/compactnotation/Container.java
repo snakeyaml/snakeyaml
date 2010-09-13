@@ -18,6 +18,8 @@ package org.yaml.snakeyaml.extensions.compactnotation;
 
 public class Container {
     private String title;
+    private String name;
+    private String id;
 
     public Container() {
         this("no title");
@@ -47,4 +49,23 @@ public class Container {
         return "Container=" + title;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }

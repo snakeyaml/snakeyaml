@@ -41,4 +41,15 @@ public class CompactConstructorExampleTest extends TestCase {
         assertEquals(new Container("title"), obj);
     }
 
+    public void test3() {
+        CompactConstructor flow = new CompactConstructor();
+        Yaml yaml = new Yaml(flow);
+        String doc = Util.getLocalResource("compactnotation/container3.yaml");
+        Container obj = (Container) yaml.load(doc);
+        assertNotNull(obj);
+        assertEquals(new Container("title3"), obj);
+        assertEquals("title3", obj.getTitle());
+        assertEquals("parent", obj.getName());
+        assertEquals("123", obj.getId());
+    }
 }
