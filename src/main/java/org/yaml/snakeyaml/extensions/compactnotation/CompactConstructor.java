@@ -16,13 +16,20 @@
 
 package org.yaml.snakeyaml.extensions.compactnotation;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
+import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.nodes.MappingNode;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 /**
@@ -46,7 +53,8 @@ public class CompactConstructor extends Constructor {
     protected Object constructCompactFormat(ScalarNode node, CompactData data) {
         try {
             Object obj = createInstance(node, data);
-            setProperties(obj, data.getProperties());
+            Map<String, Object> properties = new HashMap<String, Object>(data.getProperties());
+            setProperties(obj, properties);
             return obj;
         } catch (Exception e) {
             throw new YAMLException(e);
@@ -66,7 +74,10 @@ public class CompactConstructor extends Constructor {
 
     }
 
-    protected void setProperties(Object bean, Map<String, String> data) throws Exception {
+    protected void setProperties(Object bean, Map<String, Object> data) throws Exception {
+        if (data == null) {
+            throw new NullPointerException("Data for Compact Object Notation cannot be null.");
+        }
         for (String key : data.keySet()) {
             Property property = getPropertyUtils().getProperty(bean.getClass(), key);
             property.set(bean, data.get(key));
@@ -106,5 +117,46 @@ public class CompactConstructor extends Constructor {
             return data;
         }
         return null;
+    }
+
+    @Override
+    protected Construct getConstructor(Node node) {
+        if (node instanceof MappingNode) {
+            MappingNode mnode = (MappingNode) node;
+            List<NodeTuple> list = mnode.getValue();
+            if (list.size() == 1) {
+                NodeTuple tuple = list.get(0);
+                Node key = tuple.getKeyNode();
+                if (key instanceof ScalarNode) {
+                    ScalarNode scalar = (ScalarNode) key;
+                    CompactData data = getCompactData(scalar.getValue());
+                    if (data != null) {
+                        return new ConstructCompactObject();
+                    }
+                }
+            }
+        }
+        return super.getConstructor(node);
+    }
+
+    public class ConstructCompactObject extends AbstractConstruct {
+        @SuppressWarnings("unchecked")
+        public Object construct(Node node) {
+            Map<Object, Object> map = constructMapping((MappingNode) node);
+            // Compact Object Notation may contain only one entry
+            if (map.size() != 1) {
+                throw new YAMLException("Compact Object Notation may contain only one entry: "
+                        + map.size());
+            }
+            Map.Entry<Object, Object> entry = map.entrySet().iterator().next();
+            Object result = entry.getKey();
+            Map<String, Object> properties = (Map<String, Object>) entry.getValue();
+            try {
+                setProperties(result, properties);
+            } catch (Exception e) {
+                throw new YAMLException(e);
+            }
+            return result;
+        }
     }
 }

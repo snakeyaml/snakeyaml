@@ -105,4 +105,9 @@ public class CompactConstructorTest extends TestCase {
         assertEquals(2, data.getProperties().size());
         assertEquals(0, data.getArguments().size());
     }
+
+    public void testCompactDataToString() {
+        CompactData data = new CompactData("foo");
+        assertEquals("CompactData: foo {}", data.toString());
+    }
 }

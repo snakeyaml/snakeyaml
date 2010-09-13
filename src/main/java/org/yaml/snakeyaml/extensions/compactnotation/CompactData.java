@@ -34,24 +34,12 @@ public class CompactData {
         return prefix;
     }
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
     public Map<String, String> getProperties() {
         return properties;
     }
 
-    public void setProperties(Map<String, String> properties) {
-        this.properties = properties;
-    }
-
     public List<String> getArguments() {
         return arguments;
-    }
-
-    public void setArguments(List<String> arguments) {
-        this.arguments = arguments;
     }
 
     @Override
