@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CompactConstructorExampleTest extends TestCase {
 
@@ -127,6 +128,7 @@ public class CompactConstructorExampleTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
+    // TODO it is unclear how the result should look like for CON
     public void test9() {
         CompactConstructor compact = new CompactConstructor();
         Yaml yaml = new Yaml(compact);
@@ -153,5 +155,29 @@ public class CompactConstructorExampleTest extends TestCase {
         List<Container> containers = (List<Container>) map.get("something");
         // System.out.println(obj);
         assertEquals(3, containers.size());
+        for (Container c : containers) {
+            assertTrue(c.toString(), c.getId().matches("id\\d+"));
+            assertTrue(c.toString(), c.getName().matches("child\\d+"));
+            // System.out.println(c);
+        }
+    }
+
+    public void test11withoutPackageNames() {
+        Constructor compact = new CustomCompactConstructor(
+                "org.yaml.snakeyaml.extensions.compactnotation");
+        Yaml yaml = new Yaml(compact);
+        String doc = Util.getLocalResource("compactnotation/container11.yaml");
+        Box box = (Box) yaml.load(doc);
+        assertNotNull(box);
+        assertEquals("id11", box.getId());
+        assertEquals("Main box", box.getName());
+        Item top = box.getTop();
+        assertEquals("id003", top.getId());
+        assertEquals("25.0", top.getPrice());
+        assertEquals("parrot", top.getName());
+        Item bottom = box.getBottom();
+        assertEquals("id004", bottom.getId());
+        assertEquals("3.5", bottom.getPrice());
+        assertEquals("sweet", bottom.getName());
     }
 }
