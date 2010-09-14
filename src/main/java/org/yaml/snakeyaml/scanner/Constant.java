@@ -60,7 +60,7 @@ public final class Constant {
     }
 
     public boolean has(char ch) {
-        return (ch < 128) ? contains[ch] : noASCII && content.indexOf(ch) != -1;
+        return (ch < 128) ? contains[ch] : noASCII && content.indexOf(ch, 0) != -1;
     }
 
     public boolean hasNo(char ch) {
@@ -68,7 +68,7 @@ public final class Constant {
     }
 
     public boolean has(char ch, String additional) {
-        return has(ch) || additional.indexOf(ch) != -1;
+        return has(ch) || additional.indexOf(ch, 0) != -1;
     }
 
     public boolean hasNo(char ch, String additional) {
