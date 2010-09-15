@@ -48,12 +48,10 @@ class SafeRepresenter extends BaseRepresenter {
         this.representers.put(Boolean.class, new RepresentBoolean());
         this.representers.put(Character.class, new RepresentString());
         this.representers.put(byte[].class, new RepresentByteArray());
-        this.multiRepresenters.put(Map.class, new RepresentMap());
         this.multiRepresenters.put(Number.class, new RepresentNumber());
+        this.multiRepresenters.put(List.class, new RepresentList());
+        this.multiRepresenters.put(Map.class, new RepresentMap());
         this.multiRepresenters.put(Set.class, new RepresentSet());
-        // iterator must go after other collections since otherwise maps and
-        // sets will be represented as sequences
-        this.multiRepresenters.put(Iterable.class, new RepresentIterable());
         this.multiRepresenters.put(Iterator.class, new RepresentIterator());
         this.multiRepresenters.put(new Object[0].getClass(), new RepresentArray());
         this.multiRepresenters.put(Date.class, new RepresentDate());
@@ -69,22 +67,6 @@ class SafeRepresenter extends BaseRepresenter {
             return defaultTag;
         }
     }
-
-    // @Override
-    // protected boolean ignoreAliases(Object data) {
-    // if (data == null) {
-    // return true;
-    // }
-    // if (data instanceof Object[]) {
-    // Object[] array = (Object[]) data;
-    // return array.length == 0;
-    // }
-    // return data.getClass().isPrimitive() || data instanceof String || data
-    // instanceof Boolean || data instanceof Integer
-    // || data instanceof Long || data instanceof Float || data instanceof
-    // Double
-    // || data instanceof Enum<?>;
-    // }
 
     /**
      * Define a tag for the <code>Class</code> to serialize
@@ -179,11 +161,10 @@ class SafeRepresenter extends BaseRepresenter {
         }
     }
 
-    protected class RepresentIterable implements Represent {
+    protected class RepresentList implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representSequence(getTag(data.getClass(), Tag.SEQ), (Iterable<Object>) data,
-                    null);
+            return representSequence(getTag(data.getClass(), Tag.SEQ), (List<Object>) data, null);
         }
     }
 

@@ -29,8 +29,14 @@ public class RepresentIterableTest extends TestCase {
 
     public void testIterable() {
         Yaml yaml = new Yaml();
-        String output = yaml.dump(new CounterFactory());
-        assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n", output);
+        try {
+            yaml.dump(new CounterFactory());
+            fail("Iterable should not be treated as sequence by default.");
+        } catch (Exception e) {
+            assertEquals(
+                    "No JavaBean properties found in org.yaml.snakeyaml.representer.RepresentIterableTest$CounterFactory",
+                    e.getMessage());
+        }
     }
 
     public void testIterator() {

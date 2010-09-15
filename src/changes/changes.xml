@@ -7,8 +7,11 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="fix" issue="69">
+                Iterable should not be serialised as sequence (2010-09-16)
+            </action>
             <action dev="py4fun" type="update">
-                Introduce 'nostress' Maven profile to quickly build cobertura reports (2010-09-15)
+                Introduce 'fast' Maven profile to quickly build cobertura reports (2010-09-16)
             </action>
             <action dev="py4fun" type="update" issue="89">
                 Fix: Specify plugin versions in POM (2010-09-15)

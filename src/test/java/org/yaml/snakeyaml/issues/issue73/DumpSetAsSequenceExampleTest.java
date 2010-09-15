@@ -26,6 +26,9 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.introspector.BeanAccess;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class DumpSetAsSequenceExampleTest extends TestCase {
@@ -55,9 +58,16 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
 
     private class SetRepresenter extends Representer {
         public SetRepresenter() {
-            // when representer for Set is removed sets will be treated as
-            // collections (!!seq)
-            this.multiRepresenters.remove(Set.class);
+            this.multiRepresenters.put(Set.class, new RepresentIterable());
+        }
+
+        private class RepresentIterable implements Represent {
+            @SuppressWarnings("unchecked")
+            public Node representData(Object data) {
+                return representSequence(getTag(data.getClass(), Tag.SEQ), (Iterable<Object>) data,
+                        null);
+
+            }
         }
     }
 
