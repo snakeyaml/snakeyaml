@@ -7,6 +7,9 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="update" issue="89">
+                Fix: Specify plugin versions in POM (2010-09-15)
+            </action>
             <action dev="maslovalex" type="fix" issue="88">
                 Fix: Custom tag erased when referenced from generic collection (2010-09-15)
             </action>
