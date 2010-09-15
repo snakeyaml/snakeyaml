@@ -164,7 +164,6 @@ public final class Serializer {
             this.emitter.emit(new AliasEvent(tAlias, null, null));
         } else {
             this.serializedNodes.add(node);
-            // this.resolver.descendResolver(parent, index);
             switch (node.getNodeId()) {
             case scalar:
                 ScalarNode scalarNode = (ScalarNode) node;

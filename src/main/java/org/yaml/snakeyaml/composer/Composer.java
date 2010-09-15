@@ -158,7 +158,6 @@ public class Composer {
         } else {
             node = composeMappingNode(anchor);
         }
-        // resolver.ascendResolver();
         recursiveNodes.remove(parent);
         return node;
     }
