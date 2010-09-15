@@ -124,24 +124,28 @@ public class Representer extends SafeRepresenter {
 
         Node nodeValue = representData(propertyValue);
 
-        if (propertyValue != null && customTag == null && !hasAlias) {
+        if (propertyValue != null && !hasAlias) {
             NodeId nodeId = nodeValue.getNodeId();
-            if (nodeId == NodeId.scalar) {
-                if (propertyValue instanceof Enum<?>) {
-                    nodeValue.setTag(Tag.STR);
-                }
-            } else {
-                if (nodeId == NodeId.mapping) {
-                    if (property.getType() == propertyValue.getClass()) {
-                        if (!(propertyValue instanceof Map<?, ?>)) {
-                            if (!nodeValue.getTag().equals(Tag.SET)) {
-                                nodeValue.setTag(Tag.MAP);
+            if (customTag == null) {
+                if (nodeId == NodeId.scalar) {
+                    if (propertyValue instanceof Enum<?>) {
+                        nodeValue.setTag(Tag.STR);
+                    }
+                } else {
+                    if (nodeId == NodeId.mapping) {
+                        if (property.getType() == propertyValue.getClass()) {
+                            if (!(propertyValue instanceof Map<?, ?>)) {
+                                if (!nodeValue.getTag().equals(Tag.SET)) {
+                                    nodeValue.setTag(Tag.MAP);
+                                }
                             }
                         }
+                        withCheckedTag.put(nodeValue, null);
                     }
-                    withCheckedTag.put(nodeValue, null);
+                    checkGlobalTag(property, nodeValue, propertyValue);
                 }
-                checkGlobalTag(property, nodeValue, propertyValue);
+            } else if (nodeId == NodeId.mapping) {
+                withCheckedTag.put(nodeValue, null);
             }
         }
 
