@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-package org.yaml.snakeyaml;
+package org.yaml.snakeyaml.stress;
 
 import java.io.IOException;
+
+import org.yaml.snakeyaml.Invoice;
+import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.Util;
 
 import junit.framework.TestCase;
 

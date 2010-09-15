@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.yaml.snakeyaml;
+package org.yaml.snakeyaml.stress;
 
 import java.io.IOException;
 
@@ -22,52 +22,69 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class StressEmitterTest extends TestCase {
+import org.yaml.snakeyaml.Invoice;
+import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+
+public class StressTest extends TestCase {
+    String doc;
 
     public static void main(String args[]) {
         junit.textui.TestRunner.run(suite());
     }
 
     public static Test suite() {
-        return new TestSuite(StressEmitterTest.class);
+        return new TestSuite(StressTest.class);
+    }
+
+    public void setUp() throws IOException {
+        doc = Util.getLocalResource("specification/example2_27.yaml");
     }
 
     public void testPerformance() throws IOException {
-        JavaBeanLoader<Invoice> loader = new JavaBeanLoader<Invoice>(Invoice.class);
-        Invoice invoice = loader.load(Util.getLocalResource("specification/example2_27.yaml"));
-        JavaBeanDumper dumper = new JavaBeanDumper();
         long time1 = System.nanoTime();
-        dumper.dump(invoice);
+        new Yaml(new Constructor(Invoice.class));
         long time2 = System.nanoTime();
         float duration = (time2 - time1) / 1000000;
-        System.out.println("\nSingle dump was " + duration + " ms.");
+        System.out.println("Init was " + duration + " ms.");
 
-        int[] range = new int[] { 1000, 2000 /* , 8000 */};
+        JavaBeanLoader<Invoice> loader = new JavaBeanLoader<Invoice>(Invoice.class);
+        time1 = System.nanoTime();
+        loader.load(doc);
+        time2 = System.nanoTime();
+        duration = (time2 - time1) / 1000000;
+        System.out.println("\nSingle load was " + duration + " ms.");
+
+        loader = new JavaBeanLoader<Invoice>(Invoice.class);
+        int[] range = new int[] { 1000, 2000 /*, 4000, 8000 */};
         System.out.println("\nOne instance.");
         for (int number : range) {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
-                dumper.dump(invoice);
+                loader.load(doc);
             }
             time2 = System.nanoTime();
             duration = ((time2 - time1) / 1000000) / (float) number;
-            System.out.println("Duration for r=" + number + " was " + duration + " ms/dump.");
+            System.out.println("Duration for r=" + number + " was " + duration + " ms/load.");
             // cobertura may make it very slow
             if (duration > 3) {
                 System.err.println("!!!!!! Too long. Expected <1 but was " + duration);
             }
+            // assertTrue("duration=" + duration, duration < 3);
         }
 
         System.out.println("\nMany instances.");
         for (int number : range) {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
-                dumper = new JavaBeanDumper();
-                dumper.dump(invoice);
+                loader = new JavaBeanLoader<Invoice>(Invoice.class);
+                loader.load(doc);
             }
             time2 = System.nanoTime();
             duration = ((time2 - time1) / 1000000) / (float) number;
-            System.out.println("Duration for r=" + number + " was " + duration + " ms/dump.");
+            System.out.println("Duration for r=" + number + " was " + duration + " ms/load.");
             // cobertura may make it very slow
             if (duration > 3) {
                 System.err.println("!!!!!! Too long. Expected <1 but was " + duration);
