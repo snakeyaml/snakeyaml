@@ -309,7 +309,7 @@
             </distributionManagement>
         </profile>
         <profile>
-            <id>nostress</id>
+            <id>fast</id>
             <build>
                 <plugins>
                      <plugin>
