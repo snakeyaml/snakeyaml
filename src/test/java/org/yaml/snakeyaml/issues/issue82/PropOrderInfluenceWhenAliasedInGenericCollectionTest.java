@@ -87,6 +87,16 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         }
     }
 
+    public static class CustomerAB_Property {
+        public Account acc;
+        public Collection<GeneralAccount> bGeneral;
+
+        @Override
+        public String toString() {
+            return "CustomerAB_Property";
+        }
+    }
+
     public void testAB() {
         SuperSaverAccount supersaver = new SuperSaverAccount();
         GeneralAccount generalAccount = new GeneralAccount();
@@ -157,6 +167,61 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         String dump = yaml.dump(customerAB);
         // System.out.println(dump);
         CustomerAB parsed = (CustomerAB) yaml.load(dump);
+        assertNotNull(parsed);
+    }
+
+    public void testABProperty() {
+        SuperSaverAccount supersaver = new SuperSaverAccount();
+        GeneralAccount generalAccount = new GeneralAccount();
+
+        CustomerAB_Property customerAB_property = new CustomerAB_Property();
+        ArrayList<Account> all = new ArrayList<Account>();
+        all.add(supersaver);
+        all.add(generalAccount);
+        ArrayList<GeneralAccount> general = new ArrayList<GeneralAccount>();
+        general.add(generalAccount);
+        general.add(supersaver);
+
+        customerAB_property.acc = generalAccount;
+        customerAB_property.bGeneral = general;
+
+        Constructor constructor = new Constructor();
+        Representer representer = new Representer();
+
+        Yaml yaml = new Yaml(constructor, representer);
+        String dump = yaml.dump(customerAB_property);
+        // System.out.println(dump);
+        CustomerAB_Property parsed = (CustomerAB_Property) yaml.load(dump);
+        assertNotNull(parsed);
+    }
+
+    public void testABPropertyWithCustomTag() {
+        SuperSaverAccount supersaver = new SuperSaverAccount();
+        GeneralAccount generalAccount = new GeneralAccount();
+
+        CustomerAB_Property customerAB_property = new CustomerAB_Property();
+        ArrayList<Account> all = new ArrayList<Account>();
+        all.add(supersaver);
+        all.add(generalAccount);
+        ArrayList<GeneralAccount> general = new ArrayList<GeneralAccount>();
+        general.add(generalAccount);
+        general.add(supersaver);
+
+        customerAB_property.acc = generalAccount;
+        customerAB_property.bGeneral = general;
+
+        Constructor constructor = new Constructor();
+        Representer representer = new Representer();
+
+        Tag generalAccountTag = new Tag("!GA");
+        constructor
+                .addTypeDescription(new TypeDescription(GeneralAccount.class, generalAccountTag));
+        representer.addClassTag(GeneralAccount.class, generalAccountTag);
+
+        Yaml yaml = new Yaml(constructor, representer);
+        String dump = yaml.dump(customerAB_property);
+        // System.out.println(dump);
+        CustomerAB_Property parsed = (CustomerAB_Property) yaml.load(dump);
         assertNotNull(parsed);
     }
 
