@@ -73,8 +73,6 @@ public abstract class BaseRepresenter {
     @SuppressWarnings("unchecked")
     protected Node representData(Object data) {
         objectToRepresent = data;
-        // TODO: why to check it. Let's not put Scalars and null there.
-        // if (!ignoreAliases(data)) {
         // check for identity
         if (representedObjects.containsKey(objectToRepresent)) {
             Node node = representedObjects.get(objectToRepresent);
