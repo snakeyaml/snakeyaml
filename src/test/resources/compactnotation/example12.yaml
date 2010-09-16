@@ -1,0 +1,17 @@
+Table(id12, A table): 
+  - Row(id111, description = I think; therefore I am.): {size: 15, ratio: 0.125}
+  - Row(id222):
+      size: 17
+      ratio: 0.333
+      description: >
+        We do not need new lines
+        here, just replace them
+        all with spaces
+  - Row(id333):
+      size: 52
+      ratio: 0.88
+      description: |-
+        Please preserve all
+        the lines because they may be
+        important, but do not include the last one !!!
+

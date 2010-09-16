@@ -90,6 +90,10 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
+                    <excludes>
+                        <exclude>**/StressTest.java</exclude>
+                        <exclude>**/ParallelTest.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>

@@ -1,0 +1,11 @@
+Table(id12, table): 
+  - Row(id222):
+    size: 17
+    ratio: 0.333
+    description: >
+        We do not need new lines
+        here, just replace them
+        all with spaces
+
+
+

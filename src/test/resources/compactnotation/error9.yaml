@@ -1,0 +1,11 @@
+ManyListsTable(id12): 
+  - Row(id111, description = text)
+  - Row(id222):
+      size: 17
+      ratio: 0.333
+      description: >
+        We do not need new lines
+        here, just replace them
+        all with spaces
+
+

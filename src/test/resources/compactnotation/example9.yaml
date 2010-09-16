@@ -1,0 +1,4 @@
+something:
+ org.yaml.snakeyaml.extensions.compactnotation.Container(t7, id=id7): { name: child7 }
+ org.yaml.snakeyaml.extensions.compactnotation.Container(t9, id=id9): { name: child9 }
+

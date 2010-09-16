@@ -409,7 +409,7 @@ public class SafeConstructor extends BaseConstructor {
 
     public class ConstructYamlStr extends AbstractConstruct {
         public Object construct(Node node) {
-            return (String) constructScalar((ScalarNode) node);
+            return constructScalar((ScalarNode) node);
         }
     }
 
