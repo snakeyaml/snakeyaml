@@ -164,15 +164,19 @@ public class CompactConstructor extends Constructor {
                 }
             } else {
                 // value is a list
-                try {
-                    Property property = getPropertyUtils().getProperty(result.getClass(),
-                            getSequencePropertyName(result.getClass()));
-                    property.set(result, (List<?>) value);
-                } catch (Exception e) {
-                    throw new YAMLException(e);
-                }
+                applySequence(result, (List<?>) value);
             }
             return result;
+        }
+    }
+
+    protected void applySequence(Object bean, List<?> value) {
+        try {
+            Property property = getPropertyUtils().getProperty(bean.getClass(),
+                    getSequencePropertyName(bean.getClass()));
+            property.set(bean, value);
+        } catch (Exception e) {
+            throw new YAMLException(e);
         }
     }
 
