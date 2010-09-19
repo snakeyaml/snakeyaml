@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * to test http://www.snakeyaml.org/issues/detail?id=38
+ * to test http://code.google.com/p/snakeyaml/issues/detail?id=38
  */
 public class BigNumberIdTest extends TestCase {
     @SuppressWarnings("unchecked")

@@ -10,10 +10,10 @@
     <name>SnakeYAML</name>
     <description>YAML 1.1 parser and emitter for Java</description>
     <inceptionYear>2008</inceptionYear>
-    <url>http://www.snakeyaml.org/</url>
+    <url>http://www.snakeyaml.org</url>
     <issueManagement>
         <system>Google Code</system>
-        <url>http://www.snakeyaml.org/issues/list</url>
+        <url>http://code.google.com/p/snakeyaml/issues/list</url>
     </issueManagement>
     <mailingLists>
         <mailingList>
@@ -24,7 +24,7 @@
     <scm>
         <connection>scm:hg:http://snakeyaml.googlecode.com/hg</connection>
         <developerConnection>scm:hg:https://snakeyaml.googlecode.com/hg</developerConnection>
-        <url>http://www.snakeyaml.org/source/browse/</url>
+        <url>http://code.google.com/p/snakeyaml/source/browse/</url>
     </scm>
     <licenses>
         <license>
@@ -218,7 +218,7 @@
                 <artifactId>maven-changes-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
-                    <issueLinkTemplate>http://www.snakeyaml.org/issues/detail?id=%ISSUE%</issueLinkTemplate>
+                    <issueLinkTemplate>http://code.google.com/p/snakeyaml/issues/detail?id=%ISSUE%</issueLinkTemplate>
                 </configuration>
                 <reportSets>
                     <reportSet>

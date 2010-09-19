@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 
 /**
  * @see <a
- *      href="http://www.snakeyaml.org/issues/detail?id=51">Issue</a>
+ *      href="http://code.google.com/p/snakeyaml/issues/detail?id=51">Issue</a>
  */
 public class UnicodeStyleTest extends TestCase {
     public void testFoldedStyle() throws IOException {

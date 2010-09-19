@@ -31,7 +31,7 @@ public class TagsTest extends TestCase {
 
     /**
      * test fix for issue 18 -
-     * http://www.snakeyaml.org/issues/detail?id=18
+     * http://code.google.com/p/snakeyaml/issues/detail?id=18
      */
     public void testLong() {
         DumperOptions options = new DumperOptions();

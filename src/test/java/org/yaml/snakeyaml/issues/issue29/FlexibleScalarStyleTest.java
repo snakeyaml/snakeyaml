@@ -25,7 +25,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.emitter.ScalarAnalysis;
 
 /**
- * to test http://www.snakeyaml.org/issues/detail?id=29
+ * to test http://code.google.com/p/snakeyaml/issues/detail?id=29
  */
 public class FlexibleScalarStyleTest extends TestCase {
     public void testLong() throws IOException {

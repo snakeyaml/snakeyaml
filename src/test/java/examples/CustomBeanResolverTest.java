@@ -28,7 +28,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 /**
- * http://www.snakeyaml.org/issues/detail?id=75
+ * http://code.google.com/p/snakeyaml/issues/detail?id=75
  */
 public class CustomBeanResolverTest extends TestCase {
     private final Pattern CUSTOM_PATTERN = Pattern.compile("\\d+%");

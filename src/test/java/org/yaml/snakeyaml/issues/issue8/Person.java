@@ -19,7 +19,7 @@ package org.yaml.snakeyaml.issues.issue8;
 import java.io.Serializable;
 
 /**
- * to test http://www.snakeyaml.org/issues/detail?id=8
+ * to test http://code.google.com/p/snakeyaml/issues/detail?id=8
  */
 public class Person implements Serializable {
     private static final long serialVersionUID = 1L;

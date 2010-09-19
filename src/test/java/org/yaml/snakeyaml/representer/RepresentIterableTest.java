@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * Test {@link issue69 http://www.snakeyaml.org/issues/detail?id=69}
+ * Test {@link issue69 http://code.google.com/p/snakeyaml/issues/detail?id=69}
  */
 public class RepresentIterableTest extends TestCase {
 

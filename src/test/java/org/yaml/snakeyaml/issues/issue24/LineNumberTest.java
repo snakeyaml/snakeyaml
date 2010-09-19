@@ -24,7 +24,7 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * to test http://www.snakeyaml.org/issues/detail?id=24
+ * to test http://code.google.com/p/snakeyaml/issues/detail?id=24
  */
 public class LineNumberTest extends TestCase {
     public void test1() throws IOException {

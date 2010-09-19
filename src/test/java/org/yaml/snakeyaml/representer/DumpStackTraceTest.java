@@ -65,7 +65,7 @@ public class DumpStackTraceTest extends TestCase {
         String etalon = Util.getLocalResource("representer/stacktrace1.yaml");
         assertFalse(etalon.equals(result));
         // TODO stacktrace serialisation can be improved
-        // http://www.snakeyaml.org/issues/detail?id=66)
+        // http://code.google.com/p/snakeyaml/issues/detail?id=66)
         // assertEquals(etalon, result);
     }
 }

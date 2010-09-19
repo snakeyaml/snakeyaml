@@ -31,7 +31,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Use custom implicit resolver when the runtime class is not defined.
- * http://www.snakeyaml.org/issues/detail?id=75
+ * http://code.google.com/p/snakeyaml/issues/detail?id=75
  */
 public class CustomImplicitResolverTest extends TestCase {
     private final Tag CUSTOM_TAG = new Tag("!BigDecimalDividedBy100");
