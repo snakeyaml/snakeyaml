@@ -1,6 +1,9 @@
 /**
  * Copyright 2003-2010 Christian d'Heureuse, Inventec Informatik AG, Zurich, Switzerland
  * www.source-code.biz, www.inventec.ch/chdh
+ * 
+ * Modified: the source does not contain methods of original source 
+ * which are not used in SnakeYAML 
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
