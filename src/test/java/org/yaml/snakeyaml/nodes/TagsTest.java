@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010, http://code.google.com/p/snakeyaml/
+ * Copyright (c) 2008-2010, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public class TagsTest extends TestCase {
 
     /**
      * test fix for issue 18 -
-     * http://code.google.com/p/snakeyaml/issues/detail?id=18
+     * http://www.snakeyaml.org/issues/detail?id=18
      */
     public void testLong() {
         DumperOptions options = new DumperOptions();

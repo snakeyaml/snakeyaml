@@ -8,7 +8,7 @@ Subject: [ANN] SnakeYAML-1.7 final is available
 
 A new release of SnakeYAML is now available:
 
-    http://code.google.com/p/snakeyaml/
+    http://www.snakeyaml.org/
 
 This release delivers simplified public API (drop Loader and Dumper, issue 77),
 as well as other minor changes and bug fixes.
@@ -25,14 +25,14 @@ The complete list of changes is here: http://snakeyamlrepo.appspot.com/releases/
 Resources
 ==========
 
-SnakeYAML homepage: http://code.google.com/p/snakeyaml/
-SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
+SnakeYAML homepage: http://www.snakeyaml.org/
+SnakeYAML documentation: http://www.snakeyaml.org/wiki/Documentation
 
 JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.7/snakeyaml-1.7.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/
-Submit a bug report: http://code.google.com/p/snakeyaml/issues/entry
+Submit a bug report: http://www.snakeyaml.org/issues/entry
 
 YAML homepage: http://yaml.org/
 YAML-core mailing list: http://lists.sourceforge.net/lists/listinfo/yaml-core

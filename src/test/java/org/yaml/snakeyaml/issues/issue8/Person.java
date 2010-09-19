@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010, http://code.google.com/p/snakeyaml/
+ * Copyright (c) 2008-2010, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package org.yaml.snakeyaml.issues.issue8;
 import java.io.Serializable;
 
 /**
- * to test http://code.google.com/p/snakeyaml/issues/detail?id=8
+ * to test http://www.snakeyaml.org/issues/detail?id=8
  */
 public class Person implements Serializable {
     private static final long serialVersionUID = 1L;

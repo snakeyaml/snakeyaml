@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010, http://code.google.com/p/snakeyaml/
+ * Copyright (c) 2008-2010, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * to test http://code.google.com/p/snakeyaml/issues/detail?id=24
+ * to test http://www.snakeyaml.org/issues/detail?id=24
  */
 public class LineNumberTest extends TestCase {
     public void test1() throws IOException {

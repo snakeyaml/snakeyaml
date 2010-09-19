@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010, http://code.google.com/p/snakeyaml/
+ * Copyright (c) 2008-2010, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ public class DumpStackTraceTest extends TestCase {
         String etalon = Util.getLocalResource("representer/stacktrace1.yaml");
         assertFalse(etalon.equals(result));
         // TODO stacktrace serialisation can be improved
-        // http://code.google.com/p/snakeyaml/issues/detail?id=66)
+        // http://www.snakeyaml.org/issues/detail?id=66)
         // assertEquals(etalon, result);
     }
 }
