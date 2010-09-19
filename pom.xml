@@ -193,6 +193,7 @@
                     </includes>
                     <excludes>
                         <exclude>src/main/java/com/google/**</exclude>
+                        <exclude>src/main/java/biz/source_code/**</exclude>
                     </excludes>
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <useDefaultMapping>true</useDefaultMapping>

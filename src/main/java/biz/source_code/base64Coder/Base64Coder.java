@@ -1,5 +1,6 @@
 /**
- * Copyright (c) 2008-2010, http://code.google.com/p/snakeyaml/
+ * Copyright 2003-2010 Christian d'Heureuse, Inventec Informatik AG, Zurich, Switzerland
+ * www.source-code.biz, www.inventec.ch/chdh
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.yaml.snakeyaml.util;
+package biz.source_code.base64Coder;
 
 import org.yaml.snakeyaml.error.YAMLException;
 

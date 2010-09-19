@@ -31,7 +31,8 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.util.Base64Coder;
+
+import biz.source_code.base64Coder.Base64Coder;
 
 /**
  * Represent standard Java classes
