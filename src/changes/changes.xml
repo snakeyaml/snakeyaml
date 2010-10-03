@@ -7,6 +7,10 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="update">
+                Inner objects in Constructor become protected to be more flexible when Constructor
+                is expended (2010-10-03)
+            </action>
             <action dev="py4fun" type="update" issue="91">
                 Apply www.snakeyaml.org domain name (2010-09-20)
             </action>

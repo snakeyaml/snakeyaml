@@ -124,9 +124,9 @@ public class Constructor extends SafeConstructor {
 
     /**
      * Construct mapping instance (Map, JavaBean) when the runtime class is
-     * known. TODO make protected
+     * known.
      */
-    private class ConstructMapping implements Construct {
+    protected class ConstructMapping implements Construct {
 
         /**
          * Construct JavaBean. If type safe collections are used please look at
@@ -305,9 +305,9 @@ public class Constructor extends SafeConstructor {
      * Construct an instance when the runtime class is not known but a global
      * tag with a class name is defined. It delegates the construction to the
      * appropriate constructor based on the node kind (scalar, sequence,
-     * mapping) TODO make protected
+     * mapping)
      */
-    private class ConstructYamlObject implements Construct {
+    protected class ConstructYamlObject implements Construct {
 
         @SuppressWarnings("unchecked")
         private Construct getConstructor(Node node) {
@@ -484,9 +484,9 @@ public class Constructor extends SafeConstructor {
 
     /**
      * Construct sequence (List, Array, or immutable object) when the runtime
-     * class is known. TODO make protected
+     * class is known.
      */
-    private class ConstructSequence implements Construct {
+    protected class ConstructSequence implements Construct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
             SequenceNode snode = (SequenceNode) node;
