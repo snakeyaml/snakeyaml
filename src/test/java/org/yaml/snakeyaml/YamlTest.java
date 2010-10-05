@@ -16,6 +16,8 @@
 
 package org.yaml.snakeyaml;
 
+import java.util.Iterator;
+
 import junit.framework.TestCase;
 
 public class YamlTest extends TestCase {
@@ -30,5 +32,25 @@ public class YamlTest extends TestCase {
         yaml.setName("REST");
         assertEquals("REST", yaml.getName());
         assertEquals("REST", yaml.toString());
+    }
+
+    /**
+     * Check that documents are parsed only when they are asked to be loaded.
+     */
+    public void testOneDocument() {
+        Yaml yaml = new Yaml();
+        String doc = "--- a\n--- [:]";
+        Iterator<Object> loaded = yaml.loadAll(doc).iterator();
+        assertTrue(loaded.hasNext());
+        Object obj1 = loaded.next();
+        assertEquals("a", obj1);
+        assertTrue(loaded.hasNext());
+        try {
+            loaded.next();
+            fail("Second document is invalid");
+        } catch (Exception e) {
+            assertEquals("while parsing a flow node; expected the node content, but found Value", e
+                    .getMessage());
+        }
     }
 }
