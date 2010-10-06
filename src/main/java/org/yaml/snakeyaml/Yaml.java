@@ -255,7 +255,7 @@ public class Yaml {
     }
 
     /**
-     * Parse the first YAML document in a String and produce the corresponding
+     * Parse the only YAML document in a String and produce the corresponding
      * Java object. (Because the encoding in known BOM is not respected.)
      * 
      * @param yaml
@@ -267,7 +267,7 @@ public class Yaml {
     }
 
     /**
-     * Parse the first YAML document in a stream and produce the corresponding
+     * Parse the only YAML document in a stream and produce the corresponding
      * Java object.
      * 
      * @param io
@@ -279,7 +279,7 @@ public class Yaml {
     }
 
     /**
-     * Parse the first YAML document in a stream and produce the corresponding
+     * Parse the only YAML document in a stream and produce the corresponding
      * Java object.
      * 
      * @param io
@@ -295,7 +295,7 @@ public class Yaml {
 
     /**
      * Parse all YAML documents in a String and produce corresponding Java
-     * objects.
+     * objects. The documents are parsed only when the iterator is invoked.
      * 
      * @param yaml
      *            YAML data to load from (BOM must not be present)
@@ -337,7 +337,8 @@ public class Yaml {
 
     /**
      * Parse all YAML documents in a String and produce corresponding Java
-     * objects. (Because the encoding in known BOM is not respected.)
+     * objects. (Because the encoding in known BOM is not respected.) The
+     * documents are parsed only when the iterator is invoked.
      * 
      * @param yaml
      *            YAML data to load from (BOM must not be present)
@@ -350,7 +351,7 @@ public class Yaml {
 
     /**
      * Parse all YAML documents in a stream and produce corresponding Java
-     * objects.
+     * objects. The documents are parsed only when the iterator is invoked.
      * 
      * @param yaml
      *            YAML data to load from (BOM is respected and ignored)
