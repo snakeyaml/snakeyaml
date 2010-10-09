@@ -20,6 +20,8 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.error.YAMLException;
+
 public class YamlTest extends TestCase {
 
     public void testSetNoName() {
@@ -50,6 +52,18 @@ public class YamlTest extends TestCase {
             fail("Second document is invalid");
         } catch (Exception e) {
             assertEquals("while parsing a flow node; expected the node content, but found Value", e
+                    .getMessage());
+        }
+    }
+
+    public void testOnlyOneDocument() {
+        Yaml yaml = new Yaml();
+        String doc = "--- a\n--- b";
+        try {
+            yaml.load(doc);
+            fail("It must be only one document.");
+        } catch (YAMLException e) {
+            assertEquals("expected a single document in the stream; but found another document", e
                     .getMessage());
         }
     }
