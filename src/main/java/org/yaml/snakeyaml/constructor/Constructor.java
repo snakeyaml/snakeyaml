@@ -192,7 +192,7 @@ public class Constructor extends SafeConstructor {
             }
         }
 
-        private Object createEmptyJavaBean(MappingNode node) {
+        protected Object createEmptyJavaBean(MappingNode node) {
             try {
                 Class<? extends Object> type = node.getType();
                 if (Modifier.isAbstract(type.getModifiers())) {
@@ -215,7 +215,7 @@ public class Constructor extends SafeConstructor {
         }
 
         @SuppressWarnings("unchecked")
-        private Object constructJavaBean2ndStep(MappingNode node, Object object) {
+        protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
             Class<? extends Object> beanType = node.getType();
             List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
             for (NodeTuple tuple : nodeValue) {
@@ -295,7 +295,7 @@ public class Constructor extends SafeConstructor {
             return object;
         }
 
-        private Property getProperty(Class<? extends Object> type, String name)
+        protected Property getProperty(Class<? extends Object> type, String name)
                 throws IntrospectionException {
             return getPropertyUtils().getProperty(type, name);
         }
