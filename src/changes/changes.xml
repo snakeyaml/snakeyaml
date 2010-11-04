@@ -7,6 +7,9 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="update" issue="94">
+                Add ChangeRuntimeClassTest as an example how to change a class for a global tag (2010-11-05)
+            </action>
             <action dev="py4fun" type="update">
                 Inner objects in Constructor become protected to be more flexible when Constructor
                 is expended (2010-10-03)
