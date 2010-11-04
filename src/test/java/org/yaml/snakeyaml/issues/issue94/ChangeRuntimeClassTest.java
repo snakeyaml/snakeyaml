@@ -49,6 +49,7 @@ public class ChangeRuntimeClassTest {
         // the artifical subclass and
         // performed the calculation.
         assertEquals("JJ-Java", loadedEntity.getNickName());
+        assertEquals(EntityLoadingProxy.class, loadedEntity.getClass());
     }
 
     public void testNoTag() {

@@ -35,5 +35,4 @@ public class Entity {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
-
 }

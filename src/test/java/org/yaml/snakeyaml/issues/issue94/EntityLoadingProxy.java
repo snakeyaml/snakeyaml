@@ -18,11 +18,10 @@ package org.yaml.snakeyaml.issues.issue94;
 
 public class EntityLoadingProxy extends Entity {
 
-	@Override
-	public void setNickName(String nickName) {
-		if (nickName.startsWith("J"))
-			nickName = "JJ-" + nickName; 
-		super.setNickName(nickName);
-	}
-	
+    @Override
+    public void setNickName(String nickName) {
+        if (nickName.startsWith("J"))
+            nickName = "JJ-" + nickName;
+        super.setNickName(nickName);
+    }
 }
