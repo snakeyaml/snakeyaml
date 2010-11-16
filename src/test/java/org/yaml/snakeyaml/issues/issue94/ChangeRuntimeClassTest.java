@@ -52,6 +52,7 @@ public class ChangeRuntimeClassTest {
         assertEquals(EntityLoadingProxy.class, loadedEntity.getClass());
     }
 
+    @Test
     public void testNoTag() {
         String yamlText = "name: Matt\n" + "nickName: Java\n";
         Yaml yaml = new Yaml(new MyConstructor(Entity.class));
