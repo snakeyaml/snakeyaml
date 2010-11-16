@@ -16,6 +16,7 @@
 
 package org.yaml.snakeyaml.introspector;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -43,6 +44,16 @@ abstract public class GenericProperty extends Property {
                     for (int i = 0; i < actualTypeArguments.length; i++) {
                         if (actualTypeArguments[i] instanceof Class<?>) {
                             actualClasses[i] = (Class<?>) actualTypeArguments[i];
+                        } else if (actualTypeArguments[i] instanceof GenericArrayType) {
+                            Type componentType = ((GenericArrayType) actualTypeArguments[i])
+                                    .getGenericComponentType();
+                            if (componentType instanceof Class<?>) {
+                                actualClasses[i] = Array.newInstance((Class<?>) componentType, 0)
+                                        .getClass();
+                            } else {
+                                actualClasses = null;
+                                break;
+                            }
                         } else {
                             actualClasses = null;
                             break;
@@ -54,7 +65,8 @@ abstract public class GenericProperty extends Property {
                 if (componentType instanceof Class<?>) {
                     actualClasses = new Class<?>[] { (Class<?>) componentType };
                 }
-            } else  if (genType instanceof Class<?>) {//XXX this check is only required for IcedTea6
+            } else if (genType instanceof Class<?>) {// XXX this check is only
+                                                     // required for IcedTea6
                 Class<?> classType = (Class<?>) genType;
                 if (classType.isArray()) {
                     actualClasses = new Class<?>[1];
