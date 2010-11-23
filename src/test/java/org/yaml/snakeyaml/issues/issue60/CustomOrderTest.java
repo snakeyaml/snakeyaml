@@ -32,6 +32,7 @@ import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.representer.Representer;
 
+//issue 59
 public class CustomOrderTest extends TestCase {
 
     public void testReversedOrder() {
@@ -59,16 +60,16 @@ public class CustomOrderTest extends TestCase {
         Yaml yaml = new Yaml(repr);
         String output = yaml.dump(getBean());
         // System.out.println(output);
-        assertEquals(Util.getLocalResource("issues/issue60-3.yaml"), output);
+        assertEquals(Util.getLocalResource("issues/issue59-2.yaml"), output);
     }
 
     private class UnsortedPropertyUtils extends PropertyUtils {
         @Override
         protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess)
                 throws IntrospectionException {
-            Set<Property> result = new LinkedHashSet<Property>(getPropertiesMap(type, bAccess)
-                    .values());
-            result.remove(result.iterator().next());// drop 'empty' property
+            Set<Property> result = new LinkedHashSet<Property>(getPropertiesMap(type,
+                    BeanAccess.FIELD).values());
+            result.remove(result.iterator().next());// drop 'listInt' property
             return result;
         }
     }
