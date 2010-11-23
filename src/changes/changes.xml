@@ -7,6 +7,11 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="update" issue="60">
+                Simplify the way how the order of JavaBean properties is specified. Introduce 
+                PropertyUtils.createPropertySet() method to be overridden when a specific order
+                is expected (2010-11-23)
+            </action>
             <action dev="maslovalex" type="fix" issue="95">
                 Fix: Loading of generic collections with Array parameter(s). (2010-11-16)
             </action>

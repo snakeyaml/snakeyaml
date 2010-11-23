@@ -19,6 +19,7 @@ package org.yaml.snakeyaml.issues.issue60;
 import java.beans.IntrospectionException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -26,24 +27,48 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class CustomOrderTest extends TestCase {
 
     public void testReversedOrder() {
-        Yaml yaml = new Yaml(new ReversedRepresenter());
+        Representer repr = new Representer();
+        repr.setPropertyUtils(new ReversedPropertyUtils());
+        Yaml yaml = new Yaml(repr);
         String output = yaml.dump(getBean());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue59-1.yaml"), output);
     }
 
-    private class ReversedRepresenter extends Representer {
+    private class ReversedPropertyUtils extends PropertyUtils {
         @Override
-        protected Set<Property> getProperties(Class<? extends Object> type)
+        protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess)
                 throws IntrospectionException {
             Set<Property> result = new TreeSet<Property>(Collections.reverseOrder());
-            result.addAll(super.getProperties(type));
+            result.addAll(super.createPropertySet(type, bAccess));
+            return result;
+        }
+    }
+
+    public void testUnsorted() {
+        Representer repr = new Representer();
+        repr.setPropertyUtils(new UnsortedPropertyUtils());
+        Yaml yaml = new Yaml(repr);
+        String output = yaml.dump(getBean());
+        // System.out.println(output);
+        assertEquals(Util.getLocalResource("issues/issue60-3.yaml"), output);
+    }
+
+    private class UnsortedPropertyUtils extends PropertyUtils {
+        @Override
+        protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess)
+                throws IntrospectionException {
+            Set<Property> result = new LinkedHashSet<Property>(getPropertiesMap(type, bAccess)
+                    .values());
+            result.remove(result.iterator().next());// drop 'empty' property
             return result;
         }
     }
