@@ -159,6 +159,9 @@ public class CanonicalParser implements Parser {
         return events.remove(0);
     }
 
+    /**
+     * Check the type of the next event.
+     */
     public boolean checkEvent(Event.ID choice) {
         if (!parsed) {
             parse();
@@ -171,6 +174,9 @@ public class CanonicalParser implements Parser {
         return false;
     }
 
+    /**
+     * Get the next event.
+     */
     public Event peekEvent() {
         if (!parsed) {
             parse();
@@ -181,5 +187,4 @@ public class CanonicalParser implements Parser {
             return events.get(0);
         }
     }
-
 }

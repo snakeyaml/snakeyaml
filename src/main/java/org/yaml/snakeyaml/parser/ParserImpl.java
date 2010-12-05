@@ -154,7 +154,7 @@ public final class ParserImpl implements Parser {
         return false;
     }
 
-    /*
+    /**
      * Get the next event.
      */
     public Event peekEvent() {
@@ -166,7 +166,7 @@ public final class ParserImpl implements Parser {
         return currentEvent;
     }
 
-    /*
+    /**
      * Get the next event and proceed further.
      */
     public Event getEvent() {

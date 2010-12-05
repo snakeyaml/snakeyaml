@@ -37,7 +37,7 @@ public class YamlSortedSetTest extends TestCase {
         String serialized = "!!org.yaml.snakeyaml.issues.issue97.Blog\n" + "posts:\n"
                 + "  - text: Dummy\n" + "    title: Test\n" + "  - text: Creative\n"
                 + "    title: Highly\n";
-
+        // System.out.println(serialized);
         Yaml yaml2 = constructYamlParser();
         Blog rehydrated = (Blog) yaml2.load(serialized);
         checkTestBlog(rehydrated);
