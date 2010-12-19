@@ -120,6 +120,7 @@
                     <instrumentation>
                         <excludes>
                             <exclude>com/google/**</exclude>
+                            <exclude>biz/source_code/base64Coder/**</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>

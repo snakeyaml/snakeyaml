@@ -30,7 +30,8 @@
                 Apply www.snakeyaml.org domain name (2010-09-20)
             </action>
             <action dev="py4fun" type="fix" issue="90">
-                Move Base64Coder into another package to keep a separate copyright statement (2010-09-19)
+                Move Base64Coder into another package to keep a separate copyright statement.
+                Base64Coder is left unchanged (2010-09-19)
             </action>
             <action dev="py4fun" type="fix" issue="69">
                 Iterable should not be serialised as sequence (2010-09-16)
