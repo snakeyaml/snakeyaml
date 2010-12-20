@@ -128,8 +128,10 @@ public class Representer extends SafeRepresenter {
             NodeId nodeId = nodeValue.getNodeId();
             if (customTag == null) {
                 if (nodeId == NodeId.scalar) {
-                    if (propertyValue instanceof Enum<?>) {
-                        nodeValue.setTag(Tag.STR);
+                    if (property.getType() == propertyValue.getClass()) {
+                        if (propertyValue instanceof Enum<?>) {
+                            nodeValue.setTag(Tag.STR);
+                        }
                     }
                 } else {
                     if (nodeId == NodeId.mapping) {
@@ -206,7 +208,7 @@ public class Representer extends SafeRepresenter {
                     }
                     withCheckedTag.put(keyNode, null);
                 }
-            } else { // NodeId.mapping ends-up here
+            } else if (object instanceof Map) { // NodeId.mapping ends-up here
                 Class<?> keyType = arguments[0];
                 Class<?> valueType = arguments[1];
                 MappingNode mnode = (MappingNode) node;
