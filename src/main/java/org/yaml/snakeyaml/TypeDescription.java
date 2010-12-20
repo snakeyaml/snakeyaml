@@ -16,29 +16,41 @@
 
 package org.yaml.snakeyaml;
 
+import java.beans.IntrospectionException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.introspector.ArtificialProperty;
+import org.yaml.snakeyaml.introspector.BeanAccess;
+import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Provides additional runtime information necessary to create a custom Java
  * instance.
  */
-public final class TypeDescription {
+public class TypeDescription {
+    public static final Object FAKE_INSTANCE = new Object();
+
     private final Class<? extends Object> type;
     private Tag tag;
     private boolean root;
-    private Map<String, Class<? extends Object>> listProperties;
-    private Map<String, Class<? extends Object>> keyProperties;
-    private Map<String, Class<? extends Object>> valueProperties;
+
+    transient private Constructor constructor;
+    transient private boolean delegatesChecked = false;
+
+    private Map<String, ArtificialProperty> props = Collections.emptyMap();
+    protected BeanAccess beanAccess;
 
     public TypeDescription(Class<? extends Object> clazz, Tag tag) {
         this.type = clazz;
         this.tag = tag;
-        listProperties = new HashMap<String, Class<? extends Object>>();
-        keyProperties = new HashMap<String, Class<? extends Object>>();
-        valueProperties = new HashMap<String, Class<? extends Object>>();
+        beanAccess = null;
     }
 
     public TypeDescription(Class<? extends Object> clazz, String tag) {
@@ -111,7 +123,12 @@ public final class TypeDescription {
      *            class of List values
      */
     public void putListPropertyType(String property, Class<? extends Object> type) {
-        listProperties.put(property, type);
+        if (props.containsKey(property)) {
+            ArtificialProperty pr = props.get(property);
+            pr.setActualTypeArguments(type);
+        } else {
+            addPropertyMock(property, null, null, null, type);
+        }
     }
 
     /**
@@ -122,7 +139,13 @@ public final class TypeDescription {
      * @return class of List values
      */
     public Class<? extends Object> getListPropertyType(String property) {
-        return listProperties.get(property);
+        if (props.containsKey(property)) {
+            Class<?>[] typeArguments = props.get(property).getActualTypeArguments();
+            if (typeArguments != null && typeArguments.length > 0) {
+                return typeArguments[0];
+            }
+        }
+        return null;
     }
 
     /**
@@ -137,8 +160,12 @@ public final class TypeDescription {
      */
     public void putMapPropertyType(String property, Class<? extends Object> key,
             Class<? extends Object> value) {
-        keyProperties.put(property, key);
-        valueProperties.put(property, value);
+        if (props.containsKey(property)) {
+            ArtificialProperty pr = props.get(property);
+            pr.setActualTypeArguments(key, value);
+        } else {
+            addPropertyMock(property, null, null, null, key, value);
+        }
     }
 
     /**
@@ -149,7 +176,13 @@ public final class TypeDescription {
      * @return class of keys in the Map
      */
     public Class<? extends Object> getMapKeyType(String property) {
-        return keyProperties.get(property);
+        if (props.containsKey(property)) {
+            Class<?>[] typeArguments = props.get(property).getActualTypeArguments();
+            if (typeArguments != null && typeArguments.length > 0) {
+                return typeArguments[0];
+            }
+        }
+        return null;
     }
 
     /**
@@ -160,11 +193,90 @@ public final class TypeDescription {
      * @return class of values in the Map
      */
     public Class<? extends Object> getMapValueType(String property) {
-        return valueProperties.get(property);
+        if (props.containsKey(property)) {
+            Class<?>[] typeArguments = props.get(property).getActualTypeArguments();
+            if (typeArguments != null && typeArguments.length > 1) {
+                return typeArguments[1];
+            }
+        }
+        return null;
     }
 
     @Override
     public String toString() {
         return "TypeDescription for " + getType() + " (tag='" + getTag() + "')";
+    }
+
+    public Property getProperty(String name) {
+        if (!delegatesChecked) {
+            Collection<ArtificialProperty> values = props.values();
+            for (ArtificialProperty p : values) {
+                try {
+                    p.setDelegate(discoverProperty(p.getName()));
+                } catch (YAMLException e) {
+                }
+            }
+            delegatesChecked = true;
+        }
+        return props.containsKey(name) ? props.get(name) : discoverProperty(name);
+    }
+
+    private Property discoverProperty(String name) {
+        if (constructor != null) {
+            try {
+                if (beanAccess == null) {
+                    return constructor.getPropertyUtils().getProperty(type, name);
+                } else {
+                    return constructor.getPropertyUtils().getProperty(type, name, beanAccess);
+                }
+            } catch (IntrospectionException e) {
+                throw new YAMLException(e);
+            }
+        }
+        return null;
+    }
+
+    public void setConstructor(Constructor constructor) {
+        this.constructor = constructor;
+    }
+
+    public void addPropertyMock(String pName, Class<?> pType, String getter, String setter,
+            Class<?>... argParams) {
+        addPropertyMock(new ArtificialProperty(pName, pType, getter, setter, argParams));
+    }
+
+    public void addPropertyMock(ArtificialProperty pMock) {
+        if (Collections.EMPTY_MAP == props) {
+            props = new HashMap<String, ArtificialProperty>();
+        }
+        pMock.setTargetType(type);
+        props.put(pMock.getName(), pMock);
+    }
+
+    /*------------ Maybe something useful to override :) ---------*/
+
+    public boolean setupPropertyType(String key, Node valueNode) {
+        return false;
+    }
+
+    /**
+     * 
+     * @param targetBean
+     * @param propertyName
+     * @param value
+     * @return true - if property has been set
+     * @throws Exception
+     */
+    public boolean setProperty(Object targetBean, String propertyName, Object value)
+            throws Exception {
+        return false;
+    }
+
+    public Object newInstance(Node node) {
+        return FAKE_INSTANCE;
+    }
+
+    public Object newInstance(String propertyName, Node node) {
+        return FAKE_INSTANCE;
     }
 }

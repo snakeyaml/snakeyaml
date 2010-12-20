@@ -65,7 +65,7 @@ public abstract class BaseConstructor {
     protected final Map<String, Construct> yamlMultiConstructors = new HashMap<String, Construct>();
 
     private Composer composer;
-    private final Map<Node, Object> constructedObjects;
+    final Map<Node, Object> constructedObjects;
     private final Set<Node> recursiveObjects;
     private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>> maps2fill;
     private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
@@ -175,9 +175,13 @@ public abstract class BaseConstructor {
         if (constructedObjects.containsKey(node)) {
             return constructedObjects.get(node);
         }
+        return constructObjectNoCheck(node);
+    }
+
+    protected Object constructObjectNoCheck(Node node) {
         if (recursiveObjects.contains(node)) {
-            throw new ConstructorException(null, null, "found unconstructable recursive node", node
-                    .getStartMark());
+            throw new ConstructorException(null, null, "found unconstructable recursive node",
+                    node.getStartMark());
         }
         recursiveObjects.add(node);
         Construct constructor = getConstructor(node);
@@ -298,19 +302,21 @@ public abstract class BaseConstructor {
     }
 
     protected Set<Object> constructSet(MappingNode node) {
-        Set<Object> set = createDefaultSet();
+        Set<Object> set = (Set<Object>) (constructedObjects.containsKey(node) ? constructedObjects
+                .get(node) : createDefaultSet());
         constructSet2ndStep(node, set);
         return set;
     }
 
     protected Map<Object, Object> constructMapping(MappingNode node) {
-        Map<Object, Object> mapping = createDefaultMap();
+        Map<Object, Object> mapping = (Map<Object, Object>) (constructedObjects.containsKey(node) ? constructedObjects
+                .get(node) : createDefaultMap());
         constructMapping2ndStep(node, mapping);
         return mapping;
     }
 
     protected void constructMapping2ndStep(MappingNode node, Map<Object, Object> mapping) {
-        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+        List<NodeTuple> nodeValue = node.getValue();
         for (NodeTuple tuple : nodeValue) {
             Node keyNode = tuple.getKeyNode();
             Node valueNode = tuple.getValueNode();
@@ -319,9 +325,9 @@ public abstract class BaseConstructor {
                 try {
                     key.hashCode();// check circular dependencies
                 } catch (Exception e) {
-                    throw new ConstructorException("while constructing a mapping", node
-                            .getStartMark(), "found unacceptable key " + key, tuple.getKeyNode()
-                            .getStartMark(), e);
+                    throw new ConstructorException("while constructing a mapping",
+                            node.getStartMark(), "found unacceptable key " + key, tuple
+                                    .getKeyNode().getStartMark(), e);
                 }
             }
             Object value = constructObject(valueNode);
@@ -342,7 +348,7 @@ public abstract class BaseConstructor {
     }
 
     protected void constructSet2ndStep(MappingNode node, Set<Object> set) {
-        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+        List<NodeTuple> nodeValue = node.getValue();
         for (NodeTuple tuple : nodeValue) {
             Node keyNode = tuple.getKeyNode();
             Object key = constructObject(keyNode);
@@ -411,6 +417,6 @@ public abstract class BaseConstructor {
     }
 
     public final boolean isExplicitPropertyUtils() {
-        return explicitPropertyUtils ;
+        return explicitPropertyUtils;
     }
 }

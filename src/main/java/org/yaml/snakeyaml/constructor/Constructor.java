@@ -119,6 +119,7 @@ public class Constructor extends SafeConstructor {
         }
         Tag tag = definition.getTag();
         typeTags.put(tag, definition.getType());
+        definition.setConstructor(this);
         return typeDefinitions.put(definition.getType(), definition);
     }
 
@@ -140,27 +141,30 @@ public class Constructor extends SafeConstructor {
         public Object construct(Node node) {
             MappingNode mnode = (MappingNode) node;
             if (Properties.class.isAssignableFrom(node.getType())) {
-                Properties properties = new Properties();
+                Properties properties = (Properties) (isConstructed(node) ? getConstructed(node)
+                        : new Properties());
                 if (!node.isTwoStepsConstruction()) {
-                    constructMapping2ndStep(mnode, (Map<Object, Object>) properties);
+                    constructMapping2ndStep(mnode, properties);
                 } else {
                     throw new YAMLException("Properties must not be recursive.");
                 }
                 return properties;
             } else if (SortedMap.class.isAssignableFrom(node.getType())) {
-                SortedMap<Object, Object> map = new TreeMap<Object, Object>();
+                SortedMap<Object, Object> map = (SortedMap<Object, Object>) (isConstructed(node) ? getConstructed(node)
+                        : new TreeMap<Object, Object>());
                 if (!node.isTwoStepsConstruction()) {
                     constructMapping2ndStep(mnode, map);
                 }
                 return map;
             } else if (Map.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
-                    return createDefaultMap();
+                    return ((isConstructed(node) ? getConstructed(node) : createDefaultMap()));
                 } else {
                     return constructMapping(mnode);
                 }
             } else if (SortedSet.class.isAssignableFrom(node.getType())) {
-                SortedSet<Object> set = new TreeSet<Object>();
+                Set<Object> set = (Set<Object>) (isConstructed(node) ? getConstructed(node)
+                        : new TreeSet<Object>());
                 // XXX why this is not used ?
                 // if (!node.isTwoStepsConstruction()) {
                 constructSet2ndStep(mnode, set);
@@ -168,17 +172,27 @@ public class Constructor extends SafeConstructor {
                 return set;
             } else if (Collection.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
-                    return createDefaultSet();
+                    return ((isConstructed(node) ? getConstructed(node) : createDefaultSet()));
                 } else {
                     return constructSet(mnode);
                 }
             } else {
+                Object obj = isConstructed(node) ? getConstructed(node)
+                        : createEmptyJavaBean(mnode);
                 if (node.isTwoStepsConstruction()) {
-                    return createEmptyJavaBean(mnode);
+                    return obj;
                 } else {
-                    return constructJavaBean2ndStep(mnode, createEmptyJavaBean(mnode));
+                    return constructJavaBean2ndStep(mnode, obj);
                 }
             }
+        }
+
+        private boolean isConstructed(Node node) {
+            return constructedObjects.containsKey(node);
+        }
+
+        private Object getConstructed(Node node) {
+            return constructedObjects.get(node);
         }
 
         @SuppressWarnings("unchecked")
@@ -197,6 +211,13 @@ public class Constructor extends SafeConstructor {
                 Class<? extends Object> type = node.getType();
                 if (Modifier.isAbstract(type.getModifiers())) {
                     node.setType(getClassForNode(node));
+                }
+                TypeDescription typeDescr = typeDefinitions.get(type);
+                if (typeDescr != null) {
+                    Object instance = typeDescr.newInstance(node);
+                    if (TypeDescription.FAKE_INSTANCE != instance) {
+                        return instance;
+                    }
                 }
                 /**
                  * Using only default constructor. Everything else will be
@@ -217,7 +238,7 @@ public class Constructor extends SafeConstructor {
         @SuppressWarnings("unchecked")
         protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
             Class<? extends Object> beanType = node.getType();
-            List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+            List<NodeTuple> nodeValue = node.getValue();
             for (NodeTuple tuple : nodeValue) {
                 ScalarNode keyNode;
                 if (tuple.getKeyNode() instanceof ScalarNode) {
@@ -231,47 +252,24 @@ public class Constructor extends SafeConstructor {
                 keyNode.setType(String.class);
                 String key = (String) constructObject(keyNode);
                 try {
-                    Property property = getProperty(beanType, key);
-                    valueNode.setType(property.getType());
                     TypeDescription memberDescription = typeDefinitions.get(beanType);
-                    boolean typeDetected = false;
-                    if (memberDescription != null) {
-                        switch (valueNode.getNodeId()) {
-                        case sequence:
-                            SequenceNode snode = (SequenceNode) valueNode;
-                            Class<? extends Object> memberType = memberDescription
-                                    .getListPropertyType(key);
-                            if (memberType != null) {
-                                snode.setListType(memberType);
-                                typeDetected = true;
-                            } else if (property.getType().isArray()) {
-                                snode.setListType(property.getType().getComponentType());
-                                typeDetected = true;
-                            }
-                            break;
-                        case mapping:
-                            MappingNode mnode = (MappingNode) valueNode;
-                            Class<? extends Object> keyType = memberDescription.getMapKeyType(key);
-                            if (keyType != null) {
-                                mnode.setKeyType(keyType);
-                                mnode.setValueType(memberDescription.getMapValueType(key));
-                                typeDetected = true;
-                            }
-                            break;
-                        }
-                    }
+                    Property property = memberDescription == null ? getProperty(beanType, key)
+                            : memberDescription.getProperty(key);
+                    valueNode.setType(property.getType());
+                    final boolean typeDetected = (memberDescription != null) ? memberDescription
+                            .setupPropertyType(key, valueNode) : false;
                     if (!typeDetected && valueNode.getNodeId() != NodeId.scalar) {
                         // only if there is no explicit TypeDescription
-                        Class[] arguments = property.getActualTypeArguments();
+                        Class<?>[] arguments = property.getActualTypeArguments();
                         if (arguments != null) {
                             // type safe (generic) collection may contain the
                             // proper class
                             if (valueNode.getNodeId() == NodeId.sequence) {
-                                Class t = arguments[0];
+                                Class<?> t = arguments[0];
                                 SequenceNode snode = (SequenceNode) valueNode;
                                 snode.setListType(t);
                             } else if (valueNode.getTag().equals(Tag.SET)) {
-                                Class t = arguments[0];
+                                Class<?> t = arguments[0];
                                 MappingNode mnode = (MappingNode) valueNode;
                                 mnode.setKeyType(t);
                                 mnode.setUseClassConstructor(true);
@@ -285,14 +283,28 @@ public class Constructor extends SafeConstructor {
                             }
                         }
                     }
-                    Object value = constructObject(valueNode);
-                    property.set(object, value);
+
+                    Object value = (memberDescription != null) ? newInstance(memberDescription,
+                            key, valueNode) : constructObject(valueNode);
+                    if (memberDescription == null
+                            || !memberDescription.setProperty(object, key, value)) {
+                        property.set(object, value);
+                    }
                 } catch (Exception e) {
                     throw new YAMLException("Cannot create property=" + key + " for JavaBean="
                             + object + "; " + e.getMessage(), e);
                 }
             }
             return object;
+        }
+
+        private Object newInstance(TypeDescription memberDescription, String propertyName, Node node) {
+            Object newInstance = memberDescription.newInstance(propertyName, node);
+            if (newInstance != TypeDescription.FAKE_INSTANCE) {
+                constructedObjects.put(node, newInstance);
+                return constructObjectNoCheck(node);
+            }
+            return constructObject(node);
         }
 
         protected Property getProperty(Class<? extends Object> type, String name)
@@ -407,13 +419,13 @@ public class Constructor extends SafeConstructor {
             Object result;
             if (type == String.class) {
                 Construct stringConstructor = yamlConstructors.get(Tag.STR);
-                result = stringConstructor.construct((ScalarNode) node);
+                result = stringConstructor.construct(node);
             } else if (type == Boolean.class || type == Boolean.TYPE) {
                 Construct boolConstructor = yamlConstructors.get(Tag.BOOL);
-                result = boolConstructor.construct((ScalarNode) node);
+                result = boolConstructor.construct(node);
             } else if (type == Character.class || type == Character.TYPE) {
                 Construct charConstructor = yamlConstructors.get(Tag.STR);
-                String ch = (String) charConstructor.construct((ScalarNode) node);
+                String ch = (String) charConstructor.construct(node);
                 if (ch.length() == 0) {
                     result = null;
                 } else if (ch.length() != 1) {
@@ -424,7 +436,7 @@ public class Constructor extends SafeConstructor {
                 }
             } else if (Date.class.isAssignableFrom(type)) {
                 Construct dateConstructor = yamlConstructors.get(Tag.TIMESTAMP);
-                Date date = (Date) dateConstructor.construct((ScalarNode) node);
+                Date date = (Date) dateConstructor.construct(node);
                 if (type == Date.class) {
                     result = date;
                 } else {
@@ -635,4 +647,5 @@ public class Constructor extends SafeConstructor {
     protected Class<?> getClassForName(String name) throws ClassNotFoundException {
         return Class.forName(name);
     }
+
 }
