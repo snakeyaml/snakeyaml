@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.introspector.ArtificialProperty;
 
 public class EnumBeanGenTest extends TestCase {
     // Dumping
@@ -59,7 +60,13 @@ public class EnumBeanGenTest extends TestCase {
     }
 
     public void testLoadNoTag4GenEnumProperty() {
-        Yaml yaml = new Yaml();
+        TypeDescription td = new TypeDescription(EnumBeanGen.class);
+        td.addPropertyMock("suit", Suit.class, null, null);
+
+        Constructor constructor = new Constructor();
+        constructor.addTypeDescription(td);
+        Yaml yaml = new Yaml(constructor);
+
         @SuppressWarnings("unchecked")
         EnumBeanGen<Suit> bean = (EnumBeanGen<Suit>) yaml
                 .load("!!org.yaml.snakeyaml.EnumBeanGen\nid: 174\nmap:\n  !!org.yaml.snakeyaml.Suit 'CLUBS': 1\n  !!org.yaml.snakeyaml.Suit 'DIAMONDS': 2\nsuit: CLUBS");
@@ -76,7 +83,9 @@ public class EnumBeanGenTest extends TestCase {
     public void testLoadNoTags() {
         Constructor c = new Constructor();
         TypeDescription td = new TypeDescription(EnumBeanGen.class);
-        td.putMapPropertyType("map", Suit.class, Object.class);
+        td.addPropertyMock("suit", Suit.class, null, null);
+        td.addPropertyMock(new ArtificialProperty("map", null, Suit.class, Object.class));
+
         c.addTypeDescription(td);
         Yaml yaml = new Yaml(c);
         @SuppressWarnings("unchecked")
