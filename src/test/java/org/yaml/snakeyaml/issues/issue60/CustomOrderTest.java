@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.issues.issue60;
 
-import java.beans.IntrospectionException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -46,8 +45,7 @@ public class CustomOrderTest extends TestCase {
 
     private class ReversedPropertyUtils extends PropertyUtils {
         @Override
-        protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess)
-                throws IntrospectionException {
+        protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess) {
             Set<Property> result = new TreeSet<Property>(Collections.reverseOrder());
             result.addAll(super.createPropertySet(type, bAccess));
             return result;
@@ -65,8 +63,7 @@ public class CustomOrderTest extends TestCase {
 
     private class UnsortedPropertyUtils extends PropertyUtils {
         @Override
-        protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess)
-                throws IntrospectionException {
+        protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess) {
             Set<Property> result = new LinkedHashSet<Property>(getPropertiesMap(type,
                     BeanAccess.FIELD).values());
             result.remove(result.iterator().next());// drop 'listInt' property

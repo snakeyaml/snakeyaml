@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml;
 
-import java.beans.IntrospectionException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -223,15 +222,10 @@ public class TypeDescription {
 
     private Property discoverProperty(String name) {
         if (constructor != null) {
-            try {
-                if (beanAccess == null) {
-                    return constructor.getPropertyUtils().getProperty(type, name);
-                } else {
-                    return constructor.getPropertyUtils().getProperty(type, name, beanAccess);
-                }
-            } catch (IntrospectionException e) {
-                throw new YAMLException(e);
+            if (beanAccess == null) {
+                return constructor.getPropertyUtils().getProperty(type, name);
             }
+            return constructor.getPropertyUtils().getProperty(type, name, beanAccess);
         }
         return null;
     }

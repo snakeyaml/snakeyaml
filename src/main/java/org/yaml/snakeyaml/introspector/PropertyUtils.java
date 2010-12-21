@@ -38,8 +38,7 @@ public class PropertyUtils {
     private BeanAccess beanAccess = BeanAccess.DEFAULT;
     private boolean allowReadOnlyProperties = false;
 
-    protected Map<String, Property> getPropertiesMap(Class<?> type, BeanAccess bAccess)
-            throws IntrospectionException {
+    protected Map<String, Property> getPropertiesMap(Class<?> type, BeanAccess bAccess) {
         if (propertiesCache.containsKey(type)) {
             return propertiesCache.get(type);
         }
@@ -59,12 +58,16 @@ public class PropertyUtils {
             break;
         default:
             // add JavaBean properties
-            for (PropertyDescriptor property : Introspector.getBeanInfo(type)
-                    .getPropertyDescriptors()) {
-                Method readMethod = property.getReadMethod();
-                if (readMethod == null || !readMethod.getName().equals("getClass")) {
-                    properties.put(property.getName(), new MethodProperty(property));
+            try {
+                for (PropertyDescriptor property : Introspector.getBeanInfo(type)
+                        .getPropertyDescriptors()) {
+                    Method readMethod = property.getReadMethod();
+                    if (readMethod == null || !readMethod.getName().equals("getClass")) {
+                        properties.put(property.getName(), new MethodProperty(property));
+                    }
                 }
+            } catch (IntrospectionException e) {
+                throw new YAMLException(e);
             }
 
             // add public fields
@@ -83,12 +86,11 @@ public class PropertyUtils {
         return properties;
     }
 
-    public Set<Property> getProperties(Class<? extends Object> type) throws IntrospectionException {
+    public Set<Property> getProperties(Class<? extends Object> type) {
         return getProperties(type, beanAccess);
     }
 
-    public Set<Property> getProperties(Class<? extends Object> type, BeanAccess bAccess)
-            throws IntrospectionException {
+    public Set<Property> getProperties(Class<? extends Object> type, BeanAccess bAccess) {
         if (readableProperties.containsKey(type)) {
             return readableProperties.get(type);
         }
@@ -100,8 +102,7 @@ public class PropertyUtils {
         return properties;
     }
 
-    protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess)
-            throws IntrospectionException {
+    protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess) {
         Set<Property> properties = new TreeSet<Property>();
         Collection<Property> props = getPropertiesMap(type, bAccess).values();
         for (Property property : props) {
@@ -112,13 +113,11 @@ public class PropertyUtils {
         return properties;
     }
 
-    public Property getProperty(Class<? extends Object> type, String name)
-            throws IntrospectionException {
+    public Property getProperty(Class<? extends Object> type, String name) {
         return getProperty(type, name, beanAccess);
     }
 
-    public Property getProperty(Class<? extends Object> type, String name, BeanAccess bAccess)
-            throws IntrospectionException {
+    public Property getProperty(Class<? extends Object> type, String name, BeanAccess bAccess) {
         Map<String, Property> properties = getPropertiesMap(type, bAccess);
         Property property = properties.get(name);
         if (property == null || !property.isWritable()) {

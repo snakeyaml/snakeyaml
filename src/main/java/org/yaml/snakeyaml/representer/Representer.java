@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.representer;
 
-import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -45,11 +44,7 @@ public class Representer extends SafeRepresenter {
 
     protected class RepresentJavaBean implements Represent {
         public Node representData(Object data) {
-            try {
-                return representJavaBean(getProperties(data.getClass()), data);
-            } catch (IntrospectionException e) {
-                throw new YAMLException(e);
-            }
+            return representJavaBean(getProperties(data.getClass()), data);
         }
     }
 
@@ -240,9 +235,7 @@ public class Representer extends SafeRepresenter {
      *            - JavaBean to inspect the properties
      * @return properties to serialise
      */
-    protected Set<Property> getProperties(Class<? extends Object> type)
-            throws IntrospectionException {
+    protected Set<Property> getProperties(Class<? extends Object> type) {
         return getPropertyUtils().getProperties(type);
     }
-
 }
