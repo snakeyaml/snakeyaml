@@ -255,6 +255,12 @@ public class Constructor extends SafeConstructor {
                     TypeDescription memberDescription = typeDefinitions.get(beanType);
                     Property property = memberDescription == null ? getProperty(beanType, key)
                             : memberDescription.getProperty(key);
+
+                    if (!property.isWritable()) {
+                        throw new YAMLException("No writable property '" + key + "' on class: "
+                                + beanType.getName());
+                    }
+
                     valueNode.setType(property.getType());
                     final boolean typeDetected = (memberDescription != null) ? memberDescription
                             .setupPropertyType(key, valueNode) : false;

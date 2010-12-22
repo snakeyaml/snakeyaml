@@ -30,7 +30,7 @@ public class JavaBeanListTest extends TestCase {
     public void testYaml() {
         JavaBeanLoader<BlogBean> beanLoader = new JavaBeanLoader<BlogBean>(BlogBean.class,
                 BeanAccess.FIELD);
-        BlogBean rehydrated = (BlogBean) beanLoader.load(Util
+        BlogBean rehydrated = beanLoader.load(Util
                 .getLocalResource("issues/issue55_2.txt"));
         assertEquals(4, rehydrated.getPosts().size());
     }
@@ -41,7 +41,7 @@ public class JavaBeanListTest extends TestCase {
             beanLoader.load(Util.getLocalResource("issues/issue55_2.txt"));
             fail("Private field must not be available");
         } catch (Exception e) {
-            assertTrue(e.getMessage().contains("Unable to find property 'posts'"));
+            assertTrue(e.getMessage().contains("No writable property 'posts'"));
         }
     }
 

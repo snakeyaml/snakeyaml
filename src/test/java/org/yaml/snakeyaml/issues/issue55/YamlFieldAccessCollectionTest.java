@@ -39,7 +39,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
         // System.out.println(serialized);
         assertEquals(Util.getLocalResource("issues/issue55_1.txt"), serialized);
         JavaBeanLoader<Blog> blogLoader = new JavaBeanLoader<Blog>(Blog.class, BeanAccess.FIELD);
-        Blog rehydrated = (Blog) blogLoader.load(serialized);
+        Blog rehydrated = blogLoader.load(serialized);
         checkTestBlog(rehydrated);
     }
 
@@ -57,7 +57,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
             beanLoader.load(Util.getLocalResource("issues/issue55_1.txt"));
             fail("BeanAccess.FIELD is required.");
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains("Unable to find property 'posts'"));
+            assertTrue(e.getMessage(), e.getMessage().contains("No writable property 'posts'"));
         }
     }
 

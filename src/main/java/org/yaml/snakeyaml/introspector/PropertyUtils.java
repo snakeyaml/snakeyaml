@@ -120,7 +120,7 @@ public class PropertyUtils {
     public Property getProperty(Class<? extends Object> type, String name, BeanAccess bAccess) {
         Map<String, Property> properties = getPropertiesMap(type, bAccess);
         Property property = properties.get(name);
-        if (property == null || !property.isWritable()) {
+        if (property == null) {
             throw new YAMLException("Unable to find property '" + name + "' on class: "
                     + type.getName());
         }
