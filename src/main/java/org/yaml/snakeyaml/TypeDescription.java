@@ -16,16 +16,20 @@
 
 package org.yaml.snakeyaml;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.ArtificialProperty;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 
@@ -40,10 +44,14 @@ public class TypeDescription {
     private Tag tag;
     private boolean root;
 
-    transient private Constructor constructor;
+    transient private Set<Property> dumpProperties = null;
+    transient private PropertyUtils propertyUtils;
     transient private boolean delegatesChecked = false;
 
-    private Map<String, ArtificialProperty> props = Collections.emptyMap();
+    private Map<String, ArtificialProperty> properties = Collections.emptyMap();
+
+    protected Set<String> excludes = Collections.emptySet();
+    protected String[] includes = null;
     protected BeanAccess beanAccess;
 
     public TypeDescription(Class<? extends Object> clazz, Tag tag) {
@@ -122,8 +130,8 @@ public class TypeDescription {
      *            class of List values
      */
     public void putListPropertyType(String property, Class<? extends Object> type) {
-        if (props.containsKey(property)) {
-            ArtificialProperty pr = props.get(property);
+        if (properties.containsKey(property)) {
+            ArtificialProperty pr = properties.get(property);
             pr.setActualTypeArguments(type);
         } else {
             addPropertyMock(property, null, null, null, type);
@@ -138,8 +146,8 @@ public class TypeDescription {
      * @return class of List values
      */
     public Class<? extends Object> getListPropertyType(String property) {
-        if (props.containsKey(property)) {
-            Class<?>[] typeArguments = props.get(property).getActualTypeArguments();
+        if (properties.containsKey(property)) {
+            Class<?>[] typeArguments = properties.get(property).getActualTypeArguments();
             if (typeArguments != null && typeArguments.length > 0) {
                 return typeArguments[0];
             }
@@ -159,8 +167,8 @@ public class TypeDescription {
      */
     public void putMapPropertyType(String property, Class<? extends Object> key,
             Class<? extends Object> value) {
-        if (props.containsKey(property)) {
-            ArtificialProperty pr = props.get(property);
+        if (properties.containsKey(property)) {
+            ArtificialProperty pr = properties.get(property);
             pr.setActualTypeArguments(key, value);
         } else {
             addPropertyMock(property, null, null, null, key, value);
@@ -175,8 +183,8 @@ public class TypeDescription {
      * @return class of keys in the Map
      */
     public Class<? extends Object> getMapKeyType(String property) {
-        if (props.containsKey(property)) {
-            Class<?>[] typeArguments = props.get(property).getActualTypeArguments();
+        if (properties.containsKey(property)) {
+            Class<?>[] typeArguments = properties.get(property).getActualTypeArguments();
             if (typeArguments != null && typeArguments.length > 0) {
                 return typeArguments[0];
             }
@@ -192,8 +200,8 @@ public class TypeDescription {
      * @return class of values in the Map
      */
     public Class<? extends Object> getMapValueType(String property) {
-        if (props.containsKey(property)) {
-            Class<?>[] typeArguments = props.get(property).getActualTypeArguments();
+        if (properties.containsKey(property)) {
+            Class<?>[] typeArguments = properties.get(property).getActualTypeArguments();
             if (typeArguments != null && typeArguments.length > 1) {
                 return typeArguments[1];
             }
@@ -206,32 +214,32 @@ public class TypeDescription {
         return "TypeDescription for " + getType() + " (tag='" + getTag() + "')";
     }
 
-    public Property getProperty(String name) {
-        if (!delegatesChecked) {
-            Collection<ArtificialProperty> values = props.values();
-            for (ArtificialProperty p : values) {
-                try {
-                    p.setDelegate(discoverProperty(p.getName()));
-                } catch (YAMLException e) {
-                }
+    private void checkDelegates() {
+        Collection<ArtificialProperty> values = properties.values();
+        for (ArtificialProperty p : values) {
+            try {
+                p.setDelegate(discoverProperty(p.getName()));
+            } catch (YAMLException e) {
             }
-            delegatesChecked = true;
         }
-        return props.containsKey(name) ? props.get(name) : discoverProperty(name);
+        delegatesChecked = true;
     }
 
     private Property discoverProperty(String name) {
-        if (constructor != null) {
+        if (propertyUtils != null) {
             if (beanAccess == null) {
-                return constructor.getPropertyUtils().getProperty(type, name);
+                return propertyUtils.getProperty(type, name);
             }
-            return constructor.getPropertyUtils().getProperty(type, name, beanAccess);
+            return propertyUtils.getProperty(type, name, beanAccess);
         }
         return null;
     }
 
-    public void setConstructor(Constructor constructor) {
-        this.constructor = constructor;
+    public Property getProperty(String name) {
+        if (!delegatesChecked) {
+            checkDelegates();
+        }
+        return properties.containsKey(name) ? properties.get(name) : discoverProperty(name);
     }
 
     public void addPropertyMock(String pName, Class<?> pType, String getter, String setter,
@@ -240,12 +248,85 @@ public class TypeDescription {
     }
 
     public void addPropertyMock(ArtificialProperty pMock) {
-        if (Collections.EMPTY_MAP == props) {
-            props = new HashMap<String, ArtificialProperty>();
+        if (Collections.EMPTY_MAP == properties) {
+            properties = new HashMap<String, ArtificialProperty>();
         }
         pMock.setTargetType(type);
-        props.put(pMock.getName(), pMock);
+        properties.put(pMock.getName(), pMock);
     }
+
+    public void setPropertyUtils(PropertyUtils propertyUtils) {
+        this.propertyUtils = propertyUtils;
+    }
+
+    /* begin: Representer */
+    public void setIncludes(String... propNames) {
+        this.includes = (propNames != null && propNames.length > 1) ? propNames : null;
+    }
+
+    public void setExcludes(String... propNames) {
+        if (propNames != null && propNames.length > 0) {
+            excludes = new HashSet<String>();
+            for (String name : propNames) {
+                excludes.add(name);
+            }
+        } else {
+            excludes = Collections.emptySet();
+        }
+    }
+
+    public Set<Property> getProperties() {
+        if (dumpProperties != null) {
+            return dumpProperties;
+        }
+
+        if (propertyUtils != null) {
+            if (includes != null) {
+                dumpProperties = new LinkedHashSet<Property>();
+                for (String propertyName : includes) {
+                    if (!excludes.contains(propertyName)) {
+                        dumpProperties.add(getProperty(propertyName));
+                    }
+                }
+                return dumpProperties;
+            }
+
+            final Set<Property> readableProps = (beanAccess != null) ? dumpProperties = propertyUtils
+                    .getProperties(type) : propertyUtils.getProperties(type, beanAccess);
+
+            if (properties.isEmpty()) {
+                if (excludes.isEmpty()) {
+                    return dumpProperties = readableProps;
+                }
+                dumpProperties = new LinkedHashSet<Property>();
+                for (Property property : readableProps) {
+                    if (!excludes.contains(property.getName())) {
+                        dumpProperties.add(property);
+                    }
+                }
+                return dumpProperties;
+            }
+
+            if (!delegatesChecked) {
+                checkDelegates();
+            }
+
+            dumpProperties = new LinkedHashSet<Property>();
+            for (Property property : readableProps) {
+                if (!excludes.contains(property.getName())) {
+                    if (properties.containsKey(property.getName())) {
+                        dumpProperties.add(properties.get(property.getName()));
+                    } else {
+                        dumpProperties.add(property);
+                    }
+                }
+            }
+            return dumpProperties;
+        }
+        return null;
+    }
+
+    /* end: Representer */
 
     /*------------ Maybe something useful to override :) ---------*/
 

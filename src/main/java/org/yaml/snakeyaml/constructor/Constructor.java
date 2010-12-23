@@ -37,6 +37,7 @@ import java.util.TreeSet;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -119,8 +120,17 @@ public class Constructor extends SafeConstructor {
         }
         Tag tag = definition.getTag();
         typeTags.put(tag, definition.getType());
-        definition.setConstructor(this);
+        definition.setPropertyUtils(getPropertyUtils());
         return typeDefinitions.put(definition.getType(), definition);
+    }
+
+    @Override
+    public void setPropertyUtils(PropertyUtils propertyUtils) {
+        super.setPropertyUtils(propertyUtils);
+        Collection<TypeDescription> tds = typeDefinitions.values();
+        for (TypeDescription typeDescription : tds) {
+            typeDescription.setPropertyUtils(propertyUtils);
+        }
     }
 
     /**

@@ -74,6 +74,7 @@ public class ArtificialProperty extends Property {
         } else {
             log.warning("No setter/delegate for '" + getName() + "' on object " + object);
         }
+        // TODO: maybe throw YAMLException here
     }
 
     @Override
