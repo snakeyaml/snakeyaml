@@ -16,8 +16,13 @@
 
 package org.yaml.snakeyaml.introspector;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +46,12 @@ public class ArtificialProperty extends Property {
         super(name, type);
         this.readMethod = readMethod;
         this.writeMethod = writeMethod;
-        this.parameters = params;
+        if (params != null && params.length > 0) {
+            this.parameters = params;
+        } else {
+            this.parameters = null;
+        }
+        this.filler = false;
     }
 
     public ArtificialProperty(String name, Class<?> type, Class<?>... params) {
@@ -50,6 +60,8 @@ public class ArtificialProperty extends Property {
 
     protected Class<?>[] parameters;
     private Property delegate;
+
+    private boolean filler;
 
     @Override
     public Class<?>[] getActualTypeArguments() {
@@ -60,13 +72,39 @@ public class ArtificialProperty extends Property {
     }
 
     public void setActualTypeArguments(Class<?>... args) {
-        parameters = args;
+        if (args != null && args.length > 0) {
+            parameters = args;
+        } else {
+            parameters = null;
+        }
     }
 
     @Override
     public void set(Object object, Object value) throws Exception {
         if (write != null) {
-            write.invoke(object, value);
+            if (!filler) {
+                write.invoke(object, value);
+            } else if (value != null) {
+                if (value instanceof Collection<?>) {
+                    Collection<?> collection = (Collection<?>) value;
+                    for (Object val : collection) {
+                        write.invoke(object, val);
+                    }
+                } else if (value instanceof Map<?, ?>) {
+                    Map<?, ?> map = (Map<?, ?>) value;
+                    for (Entry<?, ?> entry : map.entrySet()) {
+                        write.invoke(object, entry.getKey(), entry.getValue());
+                    }
+                } else if (value.getClass().isArray()) { // TODO: maybe arrays
+                                                         // need 2 fillers like
+                                                         // SET(index, value)
+                                                         // add ADD(value)
+                    int len = Array.getLength(value);
+                    for (int i = 0; i < len; i++) {
+                        write.invoke(object, Array.get(value, i));
+                    }
+                }
+            }
         } else if (field != null) {
             field.set(object, value);
         } else if (delegate != null) {
@@ -102,8 +140,19 @@ public class ArtificialProperty extends Property {
             this.targetType = targetType;
 
             try {
-                field = targetType.getDeclaredField(getName());
-                field.setAccessible(true);
+                final String name = getName();
+                for (Class<?> c = targetType; c != null; c = c.getSuperclass()) {
+                    for (Field f : c.getDeclaredFields()) {
+                        if (f.getName().equals(name)) {
+                            int modifiers = f.getModifiers();
+                            if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)) {
+                                f.setAccessible(true);
+                                field = f;
+                            }
+                            break;
+                        }
+                    }
+                }
             } catch (Exception e) {
                 if (log.isLoggable(Level.FINE)) {
                     log.fine(targetType.getName() + "." + getName() + " : "
@@ -116,34 +165,45 @@ public class ArtificialProperty extends Property {
 
             // Retrieve needed info
             if (readMethod != null) {
-                try {
-                    read = targetType.getDeclaredMethod(readMethod);
-                    read.setAccessible(true);
-                } catch (Exception e) {
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine(targetType.getName() + "." + getName() + " : "
-                                + e.getClass().getName());
-                        if (log.isLoggable(Level.FINEST)) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+                read = discoverMethod(targetType, readMethod);
             }
             if (writeMethod != null) {
-                try {
-                    write = targetType.getDeclaredMethod(writeMethod, getType());
-                    write.setAccessible(true);
-                } catch (Exception e) {
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine(targetType.getName() + "." + getName() + " : "
-                                + e.getClass().getName());
-                        if (log.isLoggable(Level.FINEST)) {
-                            e.printStackTrace();
+                filler = false;
+                write = discoverMethod(targetType, writeMethod, getType());
+                if (write == null && parameters != null) {
+                    filler = true;
+                    write = discoverMethod(targetType, writeMethod, parameters);
+                }
+            }
+        }
+    }
+
+    private Method discoverMethod(Class<?> type, String name, Class<?>... params) {
+        for (Class<?> c = type; c != null; c = c.getSuperclass()) {
+            for (Method method : c.getDeclaredMethods()) {
+                if (name.equals(method.getName())) {
+                    Class<?>[] parameterTypes = method.getParameterTypes();
+                    if (parameterTypes.length != params.length) {
+                        continue;
+                    }
+                    boolean found = true;
+                    for (int i = 0; i < parameterTypes.length; i++) {
+                        if (!parameterTypes[i].isAssignableFrom(params[i])) {
+                            found = false;
                         }
+                    }
+                    if (found) {
+                        method.setAccessible(true);
+                        return method;
                     }
                 }
             }
         }
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format("Failed to find [%s(%d args)] for %s.%s", name, params.length,
+                    targetType.getName(), getName()));
+        }
+        return null;
     }
 
     @Override
@@ -176,6 +236,9 @@ public class ArtificialProperty extends Property {
 
     public void setDelegate(Property delegate) {
         this.delegate = delegate;
+        if (writeMethod != null && write == null && !filler) {
+            filler = true;
+            write = discoverMethod(targetType, writeMethod, getActualTypeArguments());
+        }
     }
-
 }

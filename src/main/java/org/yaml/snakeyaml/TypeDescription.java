@@ -291,7 +291,7 @@ public class TypeDescription {
                 return dumpProperties;
             }
 
-            final Set<Property> readableProps = (beanAccess != null) ? dumpProperties = propertyUtils
+            final Set<Property> readableProps = (beanAccess == null) ? propertyUtils
                     .getProperties(type) : propertyUtils.getProperties(type, beanAccess);
 
             if (properties.isEmpty()) {
