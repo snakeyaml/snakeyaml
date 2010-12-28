@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.error.Mark;
  * A map is a collection of unsorted key-value pairs.
  * </p>
  */
-public class MappingNode extends CollectionNode {
+public class MappingNode extends CollectionNode<NodeTuple> {
     private Class<? extends Object> keyType;
     private Class<? extends Object> valueType;
     private List<NodeTuple> value;

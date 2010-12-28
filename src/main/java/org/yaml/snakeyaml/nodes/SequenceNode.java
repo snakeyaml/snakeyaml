@@ -26,8 +26,8 @@ import org.yaml.snakeyaml.error.Mark;
  * A sequence is a ordered collection of nodes.
  * </p>
  */
-public class SequenceNode extends CollectionNode {
-    private Class<? extends Object> listType;
+public class SequenceNode extends CollectionNode<Node> {
+
     private List<Node> value;
 
     public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,
@@ -37,7 +37,6 @@ public class SequenceNode extends CollectionNode {
             throw new NullPointerException("value in a Node is required.");
         }
         this.value = value;
-        listType = Object.class;
         this.resolved = resolved;
     }
 
@@ -56,14 +55,13 @@ public class SequenceNode extends CollectionNode {
      * @return Nodes in the specified order.
      */
     public List<Node> getValue() {
-        for (Node node : value) {
-            node.setType(listType);
-        }
         return value;
     }
 
     public void setListType(Class<? extends Object> listType) {
-        this.listType = listType;
+        for (Node node : value) {
+            node.setType(listType);
+        }
     }
 
     public String toString() {
