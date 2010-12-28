@@ -139,28 +139,22 @@ public class ArtificialProperty extends Property {
         if (this.targetType != targetType) {
             this.targetType = targetType;
 
-            try {
-                final String name = getName();
-                for (Class<?> c = targetType; c != null; c = c.getSuperclass()) {
-                    for (Field f : c.getDeclaredFields()) {
-                        if (f.getName().equals(name)) {
-                            int modifiers = f.getModifiers();
-                            if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)) {
-                                f.setAccessible(true);
-                                field = f;
-                            }
-                            break;
+            final String name = getName();
+            for (Class<?> c = targetType; c != null; c = c.getSuperclass()) {
+                for (Field f : c.getDeclaredFields()) {
+                    if (f.getName().equals(name)) {
+                        int modifiers = f.getModifiers();
+                        if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)) {
+                            f.setAccessible(true);
+                            field = f;
                         }
+                        break;
                     }
                 }
-            } catch (Exception e) {
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine(targetType.getName() + "." + getName() + " : "
-                            + e.getClass().getName());
-                    if (log.isLoggable(Level.FINEST)) {
-                        e.printStackTrace();
-                    }
-                }
+            }
+            if (field == null && log.isLoggable(Level.FINE)) {
+                log.fine(String.format("Failed to find field for %s.%s", targetType.getName(),
+                        getName()));
             }
 
             // Retrieve needed info
