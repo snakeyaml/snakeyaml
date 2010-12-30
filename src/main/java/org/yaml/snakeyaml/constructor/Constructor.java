@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -37,7 +36,6 @@ import java.util.TreeSet;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -50,8 +48,6 @@ import org.yaml.snakeyaml.nodes.Tag;
  * Construct a custom Java instance.
  */
 public class Constructor extends SafeConstructor {
-    private final Map<Tag, Class<? extends Object>> typeTags;
-    private final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
 
     public Constructor() {
         this(Object.class);
@@ -71,8 +67,6 @@ public class Constructor extends SafeConstructor {
         if (!Object.class.equals(theRoot)) {
             rootTag = new Tag(theRoot);
         }
-        typeTags = new HashMap<Tag, Class<? extends Object>>();
-        typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
         yamlClassConstructors.put(NodeId.scalar, new ConstructScalar());
         yamlClassConstructors.put(NodeId.mapping, new ConstructMapping());
         yamlClassConstructors.put(NodeId.sequence, new ConstructSequence());
@@ -99,38 +93,6 @@ public class Constructor extends SafeConstructor {
             throw new YAMLException("Root type must be provided.");
         }
         return s;
-    }
-
-    /**
-     * Make YAML aware how to parse a custom Class. If there is no root Class
-     * assigned in constructor then the 'root' property of this definition is
-     * respected.
-     * 
-     * @param definition
-     *            to be added to the Constructor
-     * @return the previous value associated with <tt>definition</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>definition</tt>.
-     */
-    public TypeDescription addTypeDescription(TypeDescription definition) {
-        if (definition == null) {
-            throw new NullPointerException("TypeDescription is required.");
-        }
-        if (rootTag == null && definition.isRoot()) {
-            rootTag = new Tag(definition.getType());
-        }
-        Tag tag = definition.getTag();
-        typeTags.put(tag, definition.getType());
-        definition.setPropertyUtils(getPropertyUtils());
-        return typeDefinitions.put(definition.getType(), definition);
-    }
-
-    @Override
-    public void setPropertyUtils(PropertyUtils propertyUtils) {
-        super.setPropertyUtils(propertyUtils);
-        Collection<TypeDescription> tds = typeDefinitions.values();
-        for (TypeDescription typeDescription : tds) {
-            typeDescription.setPropertyUtils(propertyUtils);
-        }
     }
 
     /**
@@ -526,7 +488,7 @@ public class Constructor extends SafeConstructor {
                 }
             } else if (Collection.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
-                    return createDefaultList(snode.getValue().size());
+                    return newList(snode);
                 } else {
                     return constructSequence(snode);
                 }

@@ -71,7 +71,7 @@ public class SafeConstructor extends BaseConstructor {
     private void flattenMapping(MappingNode node) {
         List<NodeTuple> merge = new ArrayList<NodeTuple>();
         int index = 0;
-        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+        List<NodeTuple> nodeValue = node.getValue();
         while (index < nodeValue.size()) {
             Node keyNode = nodeValue.get(index).getKeyNode();
             Node valueNode = nodeValue.get(index).getValueNode();
@@ -89,9 +89,10 @@ public class SafeConstructor extends BaseConstructor {
                     List<Node> vals = sn.getValue();
                     for (Node subnode : vals) {
                         if (!(subnode instanceof MappingNode)) {
-                            throw new ConstructorException("while constructing a mapping", node
-                                    .getStartMark(), "expected a mapping for merging, but found "
-                                    + subnode.getNodeId(), subnode.getStartMark());
+                            throw new ConstructorException("while constructing a mapping",
+                                    node.getStartMark(),
+                                    "expected a mapping for merging, but found "
+                                            + subnode.getNodeId(), subnode.getStartMark());
                         }
                         MappingNode mnode = (MappingNode) subnode;
                         flattenMapping(mnode);
@@ -103,8 +104,8 @@ public class SafeConstructor extends BaseConstructor {
                     }
                     break;
                 default:
-                    throw new ConstructorException("while constructing a mapping", node
-                            .getStartMark(),
+                    throw new ConstructorException("while constructing a mapping",
+                            node.getStartMark(),
                             "expected a mapping or list of mappings for merging, but found "
                                     + valueNode.getNodeId(), valueNode.getStartMark());
                 }
@@ -117,7 +118,7 @@ public class SafeConstructor extends BaseConstructor {
         }
         if (!merge.isEmpty()) {
             merge.addAll(nodeValue);
-            ((MappingNode) node).setValue(merge);
+            (node).setValue(merge);
         }
     }
 
@@ -329,22 +330,22 @@ public class SafeConstructor extends BaseConstructor {
             // CPU-expensive.
             Map<Object, Object> omap = new LinkedHashMap<Object, Object>();
             if (!(node instanceof SequenceNode)) {
-                throw new ConstructorException("while constructing an ordered map", node
-                        .getStartMark(), "expected a sequence, but found " + node.getNodeId(), node
-                        .getStartMark());
+                throw new ConstructorException("while constructing an ordered map",
+                        node.getStartMark(), "expected a sequence, but found " + node.getNodeId(),
+                        node.getStartMark());
             }
             SequenceNode snode = (SequenceNode) node;
             for (Node subnode : snode.getValue()) {
                 if (!(subnode instanceof MappingNode)) {
-                    throw new ConstructorException("while constructing an ordered map", node
-                            .getStartMark(), "expected a mapping of length 1, but found "
-                            + subnode.getNodeId(), subnode.getStartMark());
+                    throw new ConstructorException("while constructing an ordered map",
+                            node.getStartMark(), "expected a mapping of length 1, but found "
+                                    + subnode.getNodeId(), subnode.getStartMark());
                 }
                 MappingNode mnode = (MappingNode) subnode;
                 if (mnode.getValue().size() != 1) {
-                    throw new ConstructorException("while constructing an ordered map", node
-                            .getStartMark(), "expected a single mapping item, but found "
-                            + mnode.getValue().size() + " items", mnode.getStartMark());
+                    throw new ConstructorException("while constructing an ordered map",
+                            node.getStartMark(), "expected a single mapping item, but found "
+                                    + mnode.getValue().size() + " items", mnode.getStartMark());
                 }
                 Node keyNode = mnode.getValue().get(0).getKeyNode();
                 Node valueNode = mnode.getValue().get(0).getValueNode();
@@ -392,7 +393,8 @@ public class SafeConstructor extends BaseConstructor {
     public class ConstructYamlSet implements Construct {
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
-                return createDefaultSet();
+                return (constructedObjects.containsKey(node) ? constructedObjects.get(node)
+                        : createDefaultSet());
             } else {
                 return constructSet((MappingNode) node);
             }
@@ -418,7 +420,7 @@ public class SafeConstructor extends BaseConstructor {
         public Object construct(Node node) {
             SequenceNode seqNode = (SequenceNode) node;
             if (node.isTwoStepsConstruction()) {
-                return createDefaultList((seqNode.getValue()).size());
+                return newList(seqNode);
             } else {
                 return constructSequence(seqNode);
             }
@@ -456,8 +458,8 @@ public class SafeConstructor extends BaseConstructor {
     public static final class ConstructUndefined extends AbstractConstruct {
         public Object construct(Node node) {
             throw new ConstructorException(null, null,
-                    "could not determine a constructor for the tag " + node.getTag(), node
-                            .getStartMark());
+                    "could not determine a constructor for the tag " + node.getTag(),
+                    node.getStartMark());
         }
     }
 }
