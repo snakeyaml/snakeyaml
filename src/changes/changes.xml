@@ -7,6 +7,9 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="update" issue="99">
+                Add an example for escaping line breaks in binary content (2011-01-03)
+            </action>
             <action dev="py4fun" type="update" issue="97">
                 Propose a solution for JavaBeans to support SortedSet property when it is encoded 
                 as a sequence (2010-11-24)
