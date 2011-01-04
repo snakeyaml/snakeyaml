@@ -126,4 +126,29 @@ public class YamlBase64Test extends TestCase {
             }
         }
     }
+
+    @SuppressWarnings("unchecked")
+    public void testLocalBinaryTag() throws IOException {
+        Yaml yaml = new Yaml(new LocalTagContructor());
+        InputStream inputStream = YamlBase64Test.class
+                .getResourceAsStream("/issues/issue99-base64_literal_custom_tag.yaml");
+        Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
+        byte[] jpeg = (byte[]) bean.get("jpegPhoto");
+        checkBytes(jpeg);
+    }
+
+    private class LocalTagContructor extends Constructor {
+        public LocalTagContructor() {
+            this.yamlConstructors.put(new Tag("!beautiful"), new MyBinaryConstructor());
+        }
+
+        private class MyBinaryConstructor extends AbstractConstruct {
+            public Object construct(Node node) {
+                String contentWithNewLines = constructScalar((ScalarNode) node).toString();
+                String noNewLines = contentWithNewLines.replaceAll("\\s", "");
+                byte[] decoded = Base64Coder.decode(noNewLines.toCharArray());
+                return decoded;
+            }
+        }
+    }
 }
