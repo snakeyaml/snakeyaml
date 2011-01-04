@@ -26,6 +26,11 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlDocument;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tag;
 
 import biz.source_code.base64Coder.Base64Coder;
 
@@ -90,6 +95,35 @@ public class YamlBase64Test extends TestCase {
         } catch (Exception e) {
             assertEquals("Length of Base64 encoded input string is not a multiple of 4.", e
                     .getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testRedefineBinaryTag() throws IOException {
+        Yaml yaml = new Yaml(new SpecialContructor());
+        InputStream inputStream = YamlBase64Test.class
+                .getResourceAsStream("/issues/issue99-base64_literal.yaml");
+        Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
+        byte[] jpeg = (byte[]) bean.get("jpegPhoto");
+        checkBytes(jpeg);
+    }
+
+    /**
+     * Redefine the !!binary global tag in a way that it ignores all the white
+     * spaces
+     */
+    private class SpecialContructor extends Constructor {
+        public SpecialContructor() {
+            this.yamlConstructors.put(Tag.BINARY, new MyBinaryConstructor());
+        }
+
+        private class MyBinaryConstructor extends AbstractConstruct {
+            public Object construct(Node node) {
+                String contentWithNewLines = constructScalar((ScalarNode) node).toString();
+                String noNewLines = contentWithNewLines.replaceAll("\\s", "");
+                byte[] decoded = Base64Coder.decode(noNewLines.toCharArray());
+                return decoded;
+            }
         }
     }
 }
