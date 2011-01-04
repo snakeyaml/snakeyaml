@@ -35,7 +35,9 @@ import org.yaml.snakeyaml.nodes.Tag;
 import biz.source_code.base64Coder.Base64Coder;
 
 /**
- * issue 99
+ * Example for issue 99
+ * 
+ * @see http://code.google.com/p/snakeyaml/issues/detail?id=99
  */
 public class YamlBase64Test extends TestCase {
 
@@ -91,16 +93,20 @@ public class YamlBase64Test extends TestCase {
                 .getResourceAsStream("/issues/issue99-base64_literal.yaml");
         try {
             yaml.load(inputStream);
-            fail();
+            fail("In the literal scalar all the line breaks are significant");
         } catch (Exception e) {
             assertEquals("Length of Base64 encoded input string is not a multiple of 4.", e
                     .getMessage());
         }
     }
 
+    /**
+     * Redefine the !!binary global tag in a way that it ignores all the white
+     * spaces to be able to use literal scalar
+     */
     @SuppressWarnings("unchecked")
     public void testRedefineBinaryTag() throws IOException {
-        Yaml yaml = new Yaml(new SpecialContructor());
+        Yaml yaml = new Yaml(new SpecialContructor(Tag.BINARY));
         InputStream inputStream = YamlBase64Test.class
                 .getResourceAsStream("/issues/issue99-base64_literal.yaml");
         Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
@@ -108,13 +114,9 @@ public class YamlBase64Test extends TestCase {
         checkBytes(jpeg);
     }
 
-    /**
-     * Redefine the !!binary global tag in a way that it ignores all the white
-     * spaces
-     */
     private class SpecialContructor extends Constructor {
-        public SpecialContructor() {
-            this.yamlConstructors.put(Tag.BINARY, new MyBinaryConstructor());
+        public SpecialContructor(Tag tag) {
+            this.yamlConstructors.put(tag, new MyBinaryConstructor());
         }
 
         private class MyBinaryConstructor extends AbstractConstruct {
@@ -127,28 +129,17 @@ public class YamlBase64Test extends TestCase {
         }
     }
 
+    /**
+     * Define a local tag to ignore all the white spaces to be able to use
+     * literal scalar
+     */
     @SuppressWarnings("unchecked")
     public void testLocalBinaryTag() throws IOException {
-        Yaml yaml = new Yaml(new LocalTagContructor());
+        Yaml yaml = new Yaml(new SpecialContructor(new Tag("!beautiful")));
         InputStream inputStream = YamlBase64Test.class
                 .getResourceAsStream("/issues/issue99-base64_literal_custom_tag.yaml");
         Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
         byte[] jpeg = (byte[]) bean.get("jpegPhoto");
         checkBytes(jpeg);
-    }
-
-    private class LocalTagContructor extends Constructor {
-        public LocalTagContructor() {
-            this.yamlConstructors.put(new Tag("!beautiful"), new MyBinaryConstructor());
-        }
-
-        private class MyBinaryConstructor extends AbstractConstruct {
-            public Object construct(Node node) {
-                String contentWithNewLines = constructScalar((ScalarNode) node).toString();
-                String noNewLines = contentWithNewLines.replaceAll("\\s", "");
-                byte[] decoded = Base64Coder.decode(noNewLines.toCharArray());
-                return decoded;
-            }
-        }
     }
 }
