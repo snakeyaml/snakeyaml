@@ -54,6 +54,7 @@ public class MergeJavaBeanTest extends TestCase {
             }
         } catch (Exception e) {
             // TODO issue 100
+            System.out.println(e.getMessage());
         }
     }
 
@@ -73,6 +74,43 @@ public class MergeJavaBeanTest extends TestCase {
             assertEquals("IDs must be different", 2, ids.size());
         } catch (Exception e) {
             // TODO issue 100
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * <pre>
+     * Test that the merge-override works correctly in the case of custom classes / data types.
+     * Two base objects are specified:
+     *    id001 refers to Data ( 11, "id123" )
+     *    id002 refers to Data ( 37, null )  with a literal null value
+     * The third object is specified as having the properties of id001, with the properties of
+     * id002 overriding where they conflict.
+     *    Data ( 37, "id123" )
+     * </pre>
+     */
+    @SuppressWarnings("unchecked")
+    public void testMergeAndDeviateOverride() throws IOException {
+        String input = "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- &id002 !!org.yaml.snakeyaml.issues.issue100.Data {age: 37}\n- <<: [ *id002, *id001 ]";
+        System.out.println(input);
+        Yaml yaml = new Yaml();
+        try {
+            List<Data> list = (List<Data>) yaml.load(input);
+
+            // First object: Data ( 11, "id123" )
+            assertEquals(11, list.get(0).getAge());
+            assertEquals("id123", list.get(0).getId());
+
+            // Second object: Data ( 37, null )
+            assertEquals(37, list.get(1).getAge());
+            assertEquals(null, list.get(1).getId());
+
+            // Third object: Data ( 37, "id123" )
+            assertEquals(37, list.get(2).getAge());
+            assertEquals("id123", list.get(2).getId());
+        } catch (Exception e) {
+            // TODO issue 100
+            System.out.println(e.getMessage());
         }
     }
 }

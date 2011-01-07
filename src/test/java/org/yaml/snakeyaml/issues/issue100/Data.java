@@ -21,7 +21,7 @@ public class Data {
     private int age;
 
     public Data() {
-        this.id = "noname";
+        this.id = null;
         this.age = 999;
     }
 
