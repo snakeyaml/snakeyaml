@@ -13,6 +13,7 @@
 - !!org.yaml.snakeyaml.issues.issue100.DataMore
  <<: *id001 
  age: 30
+ complete: true
 - &id004
  age: 100
 - !!org.yaml.snakeyaml.issues.issue100.DataMore

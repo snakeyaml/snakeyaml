@@ -50,4 +50,17 @@ public class Data {
     public String toString() {
         return "Data [age=" + age + ", id=" + id + "]";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Data) {
+            return toString().equals(obj.toString());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

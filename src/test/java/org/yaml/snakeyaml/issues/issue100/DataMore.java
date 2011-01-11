@@ -17,8 +17,23 @@
 package org.yaml.snakeyaml.issues.issue100;
 
 public class DataMore extends Data {
+    private boolean complete;
+
     public DataMore() {
         setId("-1");
         setAge(-1);
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
+    @Override
+    public String toString() {
+        return "DataMore [complete=" + complete + ", toString()=" + super.toString() + "]";
     }
 }

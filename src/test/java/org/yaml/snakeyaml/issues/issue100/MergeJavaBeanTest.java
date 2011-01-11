@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.issues.issue100;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,7 @@ import org.yaml.snakeyaml.Yaml;
 public class MergeJavaBeanTest extends TestCase {
 
     @SuppressWarnings("unchecked")
-    public void testNoMerge() throws IOException {
+    public void testNoMerge() {
         String input = "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- *id001";
         // System.out.println(input);
         Yaml yaml = new Yaml();
@@ -43,10 +42,11 @@ public class MergeJavaBeanTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testMergeWithTags() throws IOException {
+    public void testMergeWithTags() {
         String input = Util.getLocalResource("issues/issue100-1.yaml");
         // System.out.println(input);
         Yaml yaml = new Yaml();
+
         List<?> list = (List<?>) yaml.load(input);
         // First object: Data ( 11, "id123" )
         assertEquals(list.get(0).getClass(), Data.class);
@@ -67,6 +67,7 @@ public class MergeJavaBeanTest extends TestCase {
         assertEquals(list.get(3).getClass(), DataMore.class);
         assertEquals(30, ((DataMore) list.get(3)).getAge());
         assertEquals("id123", ((DataMore) list.get(3)).getId());
+        assertTrue(((DataMore) list.get(3)).isComplete());
 
         // 5th object: Map ( age: 100 )
         assertTrue(list.get(4) instanceof Map);
@@ -78,10 +79,19 @@ public class MergeJavaBeanTest extends TestCase {
         assertEquals(list.get(5).getClass(), DataMore.class);
         assertEquals(100, ((DataMore) list.get(5)).getAge());
         assertEquals("id789", ((DataMore) list.get(5)).getId());
+        assertFalse(((DataMore) list.get(5)).isComplete());
+        // All instances except the last Map must be different Data instances
+        Set<Data> dataSet = new HashSet<Data>();
+        for (Object data : list) {
+            if (data instanceof Data) {
+                dataSet.add((Data) data);
+            }
+        }
+        assertEquals("Must be all but one Data instances.", list.size() - 1, dataSet.size());
     }
 
     @SuppressWarnings("unchecked")
-    public void testMergeToIdenticalInstances() throws IOException {
+    public void testMergeToIdenticalInstances() {
         String input = "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- << : *id001";
         System.out.println(input);
         Yaml yaml = new Yaml();
@@ -95,14 +105,16 @@ public class MergeJavaBeanTest extends TestCase {
                 assertTrue(identity == data);
             }
             fail("issue 100");
-        } catch (Exception e) {
+        } catch (ClassCastException e) {
             // TODO issue 100
-            // System.out.println(e.getMessage());
+            assertEquals(
+                    "java.util.LinkedHashMap cannot be cast to org.yaml.snakeyaml.issues.issue100.Data",
+                    e.getMessage());
         }
     }
 
     @SuppressWarnings("unchecked")
-    public void testMergeAndDeviate() throws IOException {
+    public void testMergeAndDeviate() {
         String input = "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- <<: *id001\n  id: id456";
         System.out.println(input);
         Yaml yaml = new Yaml();
@@ -116,9 +128,11 @@ public class MergeJavaBeanTest extends TestCase {
             }
             assertEquals("IDs must be different", 2, ids.size());
             fail("issue 100");
-        } catch (Exception e) {
+        } catch (ClassCastException e) {
             // TODO issue 100
-            System.out.println(e.getMessage());
+            assertEquals(
+                    "java.util.LinkedHashMap cannot be cast to org.yaml.snakeyaml.issues.issue100.Data",
+                    e.getMessage());
         }
     }
 
@@ -134,7 +148,7 @@ public class MergeJavaBeanTest extends TestCase {
      * </pre>
      */
     @SuppressWarnings("unchecked")
-    public void testMergeAndDeviateOverride() throws IOException {
+    public void testMergeAndDeviateOverride() {
         String input = "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- &id002 !!org.yaml.snakeyaml.issues.issue100.Data {age: 37}\n- <<: [ *id002, *id001 ]";
         System.out.println(input);
         Yaml yaml = new Yaml();
@@ -153,9 +167,11 @@ public class MergeJavaBeanTest extends TestCase {
             assertEquals(37, list.get(2).getAge());
             assertEquals("id123", list.get(2).getId());
             fail("issue 100");
-        } catch (Exception e) {
+        } catch (ClassCastException e) {
             // TODO issue 100
-            System.out.println(e.getMessage());
+            assertEquals(
+                    "java.util.LinkedHashMap cannot be cast to org.yaml.snakeyaml.issues.issue100.Data",
+                    e.getMessage());
         }
     }
 }
