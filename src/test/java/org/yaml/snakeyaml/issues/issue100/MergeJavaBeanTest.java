@@ -23,6 +23,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class MergeJavaBeanTest extends TestCase {
@@ -31,6 +32,19 @@ public class MergeJavaBeanTest extends TestCase {
     public void testNoMerge() throws IOException {
         String input = "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- *id001";
         // System.out.println(input);
+        Yaml yaml = new Yaml();
+        List<Data> list = (List<Data>) yaml.load(input);
+        for (Data data : list) {
+            // System.out.println(data);
+            assertEquals("id123", data.getId());
+            assertEquals(11, data.getAge());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testMergeWithTags() throws IOException {
+        String input = Util.getLocalResource("issues/issue100-1.yaml");
+        System.out.println(input);
         Yaml yaml = new Yaml();
         List<Data> list = (List<Data>) yaml.load(input);
         for (Data data : list) {
@@ -54,7 +68,7 @@ public class MergeJavaBeanTest extends TestCase {
             }
         } catch (Exception e) {
             // TODO issue 100
-            System.out.println(e.getMessage());
+            // System.out.println(e.getMessage());
         }
     }
 

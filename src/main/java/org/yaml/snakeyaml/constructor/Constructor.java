@@ -142,7 +142,7 @@ public class Constructor extends SafeConstructor {
             if (Properties.class.isAssignableFrom(node.getType())) {
                 Properties properties = new Properties();
                 if (!node.isTwoStepsConstruction()) {
-                    constructMapping2ndStep(mnode, (Map<Object, Object>) properties);
+                    constructMapping2ndStep(mnode, properties);
                 } else {
                     throw new YAMLException("Properties must not be recursive.");
                 }
@@ -216,8 +216,9 @@ public class Constructor extends SafeConstructor {
 
         @SuppressWarnings("unchecked")
         protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
+            flattenMapping(node);
             Class<? extends Object> beanType = node.getType();
-            List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+            List<NodeTuple> nodeValue = node.getValue();
             for (NodeTuple tuple : nodeValue) {
                 ScalarNode keyNode;
                 if (tuple.getKeyNode() instanceof ScalarNode) {
@@ -407,13 +408,13 @@ public class Constructor extends SafeConstructor {
             Object result;
             if (type == String.class) {
                 Construct stringConstructor = yamlConstructors.get(Tag.STR);
-                result = stringConstructor.construct((ScalarNode) node);
+                result = stringConstructor.construct(node);
             } else if (type == Boolean.class || type == Boolean.TYPE) {
                 Construct boolConstructor = yamlConstructors.get(Tag.BOOL);
-                result = boolConstructor.construct((ScalarNode) node);
+                result = boolConstructor.construct(node);
             } else if (type == Character.class || type == Character.TYPE) {
                 Construct charConstructor = yamlConstructors.get(Tag.STR);
-                String ch = (String) charConstructor.construct((ScalarNode) node);
+                String ch = (String) charConstructor.construct(node);
                 if (ch.length() == 0) {
                     result = null;
                 } else if (ch.length() != 1) {
@@ -424,7 +425,7 @@ public class Constructor extends SafeConstructor {
                 }
             } else if (Date.class.isAssignableFrom(type)) {
                 Construct dateConstructor = yamlConstructors.get(Tag.TIMESTAMP);
-                Date date = (Date) dateConstructor.construct((ScalarNode) node);
+                Date date = (Date) dateConstructor.construct(node);
                 if (type == Date.class) {
                     result = date;
                 } else {

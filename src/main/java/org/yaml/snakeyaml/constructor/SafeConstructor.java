@@ -68,7 +68,7 @@ public class SafeConstructor extends BaseConstructor {
         this.yamlClassConstructors.put(NodeId.mapping, undefinedConstructor);
     }
 
-    private void flattenMapping(MappingNode node) {
+    protected void flattenMapping(MappingNode node) {
         List<NodeTuple> merge = new ArrayList<NodeTuple>();
         int index = 0;
         List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
