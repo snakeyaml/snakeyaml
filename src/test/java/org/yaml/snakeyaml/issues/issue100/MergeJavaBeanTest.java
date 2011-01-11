@@ -44,14 +44,20 @@ public class MergeJavaBeanTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testMergeWithTags() throws IOException {
         String input = Util.getLocalResource("issues/issue100-1.yaml");
-        System.out.println(input);
+        //System.out.println(input);
         Yaml yaml = new Yaml();
         List<Data> list = (List<Data>) yaml.load(input);
-        for (Data data : list) {
-            // System.out.println(data);
-            assertEquals("id123", data.getId());
-            assertEquals(11, data.getAge());
-        }
+        // First object: Data ( 11, "id123" )
+        assertEquals(11, list.get(0).getAge());
+        assertEquals("id123", list.get(0).getId());
+
+        // Second object: Data ( 13, "id456" )
+        assertEquals(13, list.get(1).getAge());
+        assertEquals("id456", list.get(1).getId());
+
+        // Third object: Data ( 11, "id789" )
+        assertEquals(11, list.get(2).getAge());
+        assertEquals("id789", list.get(2).getId());
     }
 
     @SuppressWarnings("unchecked")
@@ -61,11 +67,14 @@ public class MergeJavaBeanTest extends TestCase {
         Yaml yaml = new Yaml();
         try {
             List<Data> list = (List<Data>) yaml.load(input);
+            Data identity = list.iterator().next();
             for (Data data : list) {
                 // System.out.println(data);
                 assertEquals("id123", data.getId());
                 assertEquals(11, data.getAge());
+                assertTrue(identity == data);
             }
+            fail("issue 100");
         } catch (Exception e) {
             // TODO issue 100
             // System.out.println(e.getMessage());
@@ -86,6 +95,7 @@ public class MergeJavaBeanTest extends TestCase {
                 ids.add(data.getId());
             }
             assertEquals("IDs must be different", 2, ids.size());
+            fail("issue 100");
         } catch (Exception e) {
             // TODO issue 100
             System.out.println(e.getMessage());
@@ -122,6 +132,7 @@ public class MergeJavaBeanTest extends TestCase {
             // Third object: Data ( 37, "id123" )
             assertEquals(37, list.get(2).getAge());
             assertEquals("id123", list.get(2).getId());
+            fail("issue 100");
         } catch (Exception e) {
             // TODO issue 100
             System.out.println(e.getMessage());
