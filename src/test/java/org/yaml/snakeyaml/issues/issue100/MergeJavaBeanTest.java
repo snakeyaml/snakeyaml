@@ -19,6 +19,7 @@ package org.yaml.snakeyaml.issues.issue100;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -44,20 +45,39 @@ public class MergeJavaBeanTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testMergeWithTags() throws IOException {
         String input = Util.getLocalResource("issues/issue100-1.yaml");
-        //System.out.println(input);
+        // System.out.println(input);
         Yaml yaml = new Yaml();
-        List<Data> list = (List<Data>) yaml.load(input);
+        List<?> list = (List<?>) yaml.load(input);
         // First object: Data ( 11, "id123" )
-        assertEquals(11, list.get(0).getAge());
-        assertEquals("id123", list.get(0).getId());
+        assertEquals(list.get(0).getClass(), Data.class);
+        assertEquals(11, ((Data) list.get(0)).getAge());
+        assertEquals("id123", ((Data) list.get(0)).getId());
 
         // Second object: Data ( 13, "id456" )
-        assertEquals(13, list.get(1).getAge());
-        assertEquals("id456", list.get(1).getId());
+        assertEquals(list.get(1).getClass(), Data.class);
+        assertEquals(13, ((Data) list.get(1)).getAge());
+        assertEquals("id456", ((Data) list.get(1)).getId());
 
         // Third object: Data ( 11, "id789" )
-        assertEquals(11, list.get(2).getAge());
-        assertEquals("id789", list.get(2).getId());
+        assertEquals(list.get(2).getClass(), Data.class);
+        assertEquals(11, ((Data) list.get(2)).getAge());
+        assertEquals("id789", ((Data) list.get(2)).getId());
+
+        // 4th object: DataMore ( 30, "id123" )
+        assertEquals(list.get(3).getClass(), DataMore.class);
+        assertEquals(30, ((DataMore) list.get(3)).getAge());
+        assertEquals("id123", ((DataMore) list.get(3)).getId());
+
+        // 5th object: Map ( age: 100 )
+        assertTrue(list.get(4) instanceof Map);
+        assertEquals(1, ((Map<?, ?>) list.get(4)).size());
+        assertTrue(((Map<?, ?>) list.get(4)).containsKey("age"));
+        assertEquals(100, ((Map<?, ?>) list.get(4)).get("age"));
+
+        // 6th object: DataMore ( 100, "id789" )
+        assertEquals(list.get(5).getClass(), DataMore.class);
+        assertEquals(100, ((DataMore) list.get(5)).getAge());
+        assertEquals("id789", ((DataMore) list.get(5)).getId());
     }
 
     @SuppressWarnings("unchecked")
