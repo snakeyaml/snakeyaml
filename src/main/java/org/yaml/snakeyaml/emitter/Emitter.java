@@ -57,8 +57,6 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * sequence ::= SEQUENCE-START node* SEQUENCE-END
  * mapping ::= MAPPING-START (node node)* MAPPING-END
  * </pre>
- * 
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public final class Emitter {
     private static final Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();

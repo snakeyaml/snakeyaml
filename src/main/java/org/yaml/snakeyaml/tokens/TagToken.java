@@ -18,9 +18,6 @@ package org.yaml.snakeyaml.tokens;
 
 import org.yaml.snakeyaml.error.Mark;
 
-/**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
- */
 public final class TagToken extends Token {
     private final TagTuple value;
 

@@ -19,9 +19,6 @@ package org.yaml.snakeyaml.tokens;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 
-/**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
- */
 public abstract class Token {
     public enum ID {
         Alias, Anchor, BlockEnd, BlockEntry, BlockMappingStart, BlockSequenceStart, Directive, DocumentEnd, DocumentStart, FlowEntry, FlowMappingEnd, FlowMappingStart, FlowSequenceEnd, FlowSequenceStart, Key, Scalar, StreamEnd, StreamStart, Tag, Value

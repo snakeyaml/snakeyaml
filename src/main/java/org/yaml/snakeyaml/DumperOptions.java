@@ -23,9 +23,6 @@ import org.yaml.snakeyaml.emitter.ScalarAnalysis;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Tag;
 
-/**
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
- */
 public class DumperOptions {
     /**
      * YAML provides a rich set of scalar styles. Block scalar styles include

@@ -28,8 +28,6 @@ import org.yaml.snakeyaml.scanner.Constant;
 
 /**
  * Reader: checks if characters are in allowed range, adds '\0' to the end.
- * 
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public class StreamReader {
     // NON_PRINTABLE changed from PyYAML: \uFFFD excluded because Java returns

@@ -42,8 +42,6 @@ import biz.source_code.base64Coder.Base64Coder;
 
 /**
  * Construct standard Java classes
- * 
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public class SafeConstructor extends BaseConstructor {
 
