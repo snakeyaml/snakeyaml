@@ -175,4 +175,26 @@ public class MergeJavaBeanTest extends TestCase {
         assertEquals("more003", bean.getMore().getId());
         assertTrue(bean.getMore().isComplete());
     }
+
+    /**
+     * Merge map to JavaBean
+     */
+    @SuppressWarnings("unchecked")
+    public void testMergeMapToJavaBean() {
+        String input = "- &id001 { age: 11, id: id123 }\n- !!org.yaml.snakeyaml.issues.issue100.Data\n  <<: *id001\n  id: id456";
+        // System.out.println(input);
+        Yaml yaml = new Yaml(new Constructor());
+        List<Object> objects = (List<Object>) yaml.load(input);
+        assertEquals(2, objects.size());
+        // Check first type
+        Object first = objects.get(0);
+        Map firstMap = (Map) first;
+        // Check first contents
+        assertEquals(11, firstMap.get("age"));
+        assertEquals("id123", firstMap.get("id"));
+        // Check second contents
+        Data secondData = (Data) objects.get(1);
+        assertEquals(11, secondData.getAge());
+        assertEquals("id456", secondData.getId());
+    }
 }
