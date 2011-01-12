@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class MergeJavaBeanTest extends TestCase {
 
@@ -156,5 +157,22 @@ public class MergeJavaBeanTest extends TestCase {
         Map<?, ?> third = (Map<?, ?>) list.get(2);
         assertEquals(37, third.get("age"));
         assertEquals("id123", third.get("id"));
+    }
+
+    /**
+     * When the merged JavaBean is itself a JavaBean property then explicit tag
+     * is not required
+     */
+    public void testMergeBeanProperty() {
+        String input = Util.getLocalResource("issues/issue100-3.yaml");
+        // System.out.println(input);
+        Yaml yaml = new Yaml(new Constructor(DataBean.class));
+        DataBean bean = (DataBean) yaml.load(input);
+        assertEquals("id001", bean.getId());
+        assertEquals("id002", bean.getData().getId());
+        assertEquals(17, bean.getData().getAge());
+        assertEquals(17, bean.getMore().getAge());
+        assertEquals("more003", bean.getMore().getId());
+        assertTrue(bean.getMore().isComplete());
     }
 }

@@ -24,6 +24,11 @@ public class DataMore extends Data {
         setAge(-1);
     }
 
+    public DataMore(String id, int age, boolean complete) {
+        super(id, age);
+        this.complete = complete;
+    }
+
     public boolean isComplete() {
         return complete;
     }

@@ -1,0 +1,4 @@
+data: &001 {age: 17, id: id002}
+id: id001
+more: {<<: *001, id: more003, complete: true}
+
