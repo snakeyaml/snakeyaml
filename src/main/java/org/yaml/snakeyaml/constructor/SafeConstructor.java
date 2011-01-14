@@ -42,8 +42,6 @@ import biz.source_code.base64Coder.Base64Coder;
 
 /**
  * Construct standard Java classes
- * 
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public class SafeConstructor extends BaseConstructor {
 
@@ -68,7 +66,7 @@ public class SafeConstructor extends BaseConstructor {
         this.yamlClassConstructors.put(NodeId.mapping, undefinedConstructor);
     }
 
-    private void flattenMapping(MappingNode node) {
+    protected void flattenMapping(MappingNode node) {
         List<NodeTuple> merge = new ArrayList<NodeTuple>();
         int index = 0;
         List<NodeTuple> nodeValue = node.getValue();

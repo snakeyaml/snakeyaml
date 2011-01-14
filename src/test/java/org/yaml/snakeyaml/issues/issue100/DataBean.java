@@ -14,13 +14,35 @@
  * limitations under the License.
  */
 
-package org.yaml.snakeyaml.emitter;
+package org.yaml.snakeyaml.issues.issue100;
 
-import java.io.IOException;
+public class DataBean {
+    private String id;
+    private Data data;
+    private DataMore more;
 
-/**
- * Python's methods are first class object. Java needs a class.
- */
-interface EmitterState {
-    void expect() throws IOException;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+
+    public DataMore getMore() {
+        return more;
+    }
+
+    public void setMore(DataMore more) {
+        this.more = more;
+    }
+
 }

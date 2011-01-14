@@ -22,7 +22,6 @@ package org.yaml.snakeyaml.events;
  * style correspondingly.
  * 
  * @see http://pyyaml.org/wiki/PyYAMLDocumentation#Events
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public class ImplicitTuple {
     private final boolean plain;

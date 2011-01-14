@@ -38,8 +38,6 @@ import org.yaml.snakeyaml.serializer.Serializer;
 
 /**
  * Represent basic YAML structures: scalar, sequence, mapping
- * 
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public abstract class BaseRepresenter {
     @SuppressWarnings("unchecked")

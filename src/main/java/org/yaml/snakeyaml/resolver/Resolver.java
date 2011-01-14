@@ -28,8 +28,6 @@ import org.yaml.snakeyaml.nodes.Tag;
 /**
  * Resolver tries to detect a type by scalars's content (when the type is
  * implicit)
- * 
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public class Resolver {
     public static final Pattern BOOL = Pattern

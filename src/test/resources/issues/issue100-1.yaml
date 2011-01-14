@@ -1,0 +1,20 @@
+- !!org.yaml.snakeyaml.issues.issue100.Data 
+ &id001 
+ id: id123 
+ age: 11
+- !!org.yaml.snakeyaml.issues.issue100.Data
+ <<: *id001
+ id: id456
+ age: 13 
+- !!org.yaml.snakeyaml.issues.issue100.Data
+ &id003
+ <<: *id001 
+ id: id789
+- !!org.yaml.snakeyaml.issues.issue100.DataMore
+ <<: *id001 
+ age: 30
+ complete: true
+- &id004
+ age: 100
+- !!org.yaml.snakeyaml.issues.issue100.DataMore
+ <<: [*id004, *id003]

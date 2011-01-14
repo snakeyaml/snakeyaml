@@ -14,29 +14,31 @@
  * limitations under the License.
  */
 
-package org.yaml.snakeyaml.tokens;
+package org.yaml.snakeyaml.issues.issue100;
 
-import org.yaml.snakeyaml.error.Mark;
+public class DataMore extends Data {
+    private boolean complete;
 
-public final class TagToken extends Token {
-    private final TagTuple value;
-
-    public TagToken(TagTuple value, Mark startMark, Mark endMark) {
-        super(startMark, endMark);
-        this.value = value;
+    public DataMore() {
+        setId("-1");
+        setAge(-1);
     }
 
-    public TagTuple getValue() {
-        return this.value;
+    public DataMore(String id, int age, boolean complete) {
+        super(id, age);
+        this.complete = complete;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
     }
 
     @Override
-    protected String getArguments() {
-        return "value=[" + value.getHandle() + ", " + value.getSuffix() + "]";
-    }
-
-    @Override
-    public Token.ID getTokenId() {
-        return ID.Tag;
+    public String toString() {
+        return "DataMore [complete=" + complete + ", toString()=" + super.toString() + "]";
     }
 }

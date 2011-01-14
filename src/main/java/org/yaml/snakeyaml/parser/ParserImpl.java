@@ -113,8 +113,6 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * 
  * Since writing a recursive-descendant parser is a straightforward task, we do
  * not give many comments here.
- * 
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 public final class ParserImpl implements Parser {
     private static final Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();

@@ -36,8 +36,6 @@ import biz.source_code.base64Coder.Base64Coder;
 
 /**
  * Represent standard Java classes
- * 
- * @see <a href="http://pyyaml.org/wiki/PyYAML">PyYAML</a> for more information
  */
 class SafeRepresenter extends BaseRepresenter {
 

@@ -209,6 +209,7 @@ public class Constructor extends SafeConstructor {
 
         @SuppressWarnings("unchecked")
         protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
+            flattenMapping(node);
             Class<? extends Object> beanType = node.getType();
             List<NodeTuple> nodeValue = node.getValue();
             for (NodeTuple tuple : nodeValue) {
