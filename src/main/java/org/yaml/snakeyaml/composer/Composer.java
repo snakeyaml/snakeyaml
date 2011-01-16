@@ -83,7 +83,7 @@ public class Composer {
         if (!parser.checkEvent(Event.ID.StreamEnd)) {
             return composeDocument();
         } else {
-            return (Node) null;
+            return null;
         }
     }
 
@@ -107,8 +107,8 @@ public class Composer {
         // Ensure that the stream contains no more documents.
         if (!parser.checkEvent(Event.ID.StreamEnd)) {
             Event event = parser.getEvent();
-            throw new ComposerException("expected a single document in the stream", document
-                    .getStartMark(), "but found another document", event.getStartMark());
+            throw new ComposerException("expected a single document in the stream",
+                    document.getStartMark(), "but found another document", event.getStartMark());
         }
         // Drop the STREAM-END event.
         parser.getEvent();
@@ -133,10 +133,10 @@ public class Composer {
             AliasEvent event = (AliasEvent) parser.getEvent();
             String anchor = event.getAnchor();
             if (!anchors.containsKey(anchor)) {
-                throw new ComposerException(null, null, "found undefined alias " + anchor, event
-                        .getStartMark());
+                throw new ComposerException(null, null, "found undefined alias " + anchor,
+                        event.getStartMark());
             }
-            Node result = (Node) anchors.get(anchor);
+            Node result = anchors.get(anchor);
             if (recursiveNodes.remove(result)) {
                 result.setTwoStepsConstruction(true);
             }
@@ -147,8 +147,8 @@ public class Composer {
         anchor = event.getAnchor();
         if (anchor != null && anchors.containsKey(anchor)) {
             throw new ComposerException("found duplicate anchor " + anchor + "; first occurence",
-                    this.anchors.get(anchor).getStartMark(), "second occurence", event
-                            .getStartMark());
+                    this.anchors.get(anchor).getStartMark(), "second occurence",
+                    event.getStartMark());
         }
         Node node = null;
         if (parser.checkEvent(Event.ID.Scalar)) {
@@ -173,8 +173,8 @@ public class Composer {
         } else {
             nodeTag = new Tag(tag);
         }
-        Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(), ev
-                .getEndMark(), ev.getStyle());
+        Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(),
+                ev.getEndMark(), ev.getStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
@@ -192,8 +192,8 @@ public class Composer {
         } else {
             nodeTag = new Tag(tag);
         }
-        SequenceNode node = new SequenceNode(nodeTag, resolved, new ArrayList<Node>(), startEvent
-                .getStartMark(), null, startEvent.getFlowStyle());
+        SequenceNode node = new SequenceNode(nodeTag, resolved, new ArrayList<Node>(),
+                startEvent.getStartMark(), null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
@@ -225,6 +225,11 @@ public class Composer {
         }
         while (!parser.checkEvent(Event.ID.MappingEnd)) {
             Node itemKey = composeNode(node, null);
+            if (itemKey.getTag().equals(Tag.MERGE)) {
+                node.setMerged(true);
+            } else if (itemKey.getTag().equals(Tag.VALUE)) {
+                itemKey.setTag(Tag.STR);
+            }
             Node itemValue = composeNode(node, itemKey);
             node.getValue().add(new NodeTuple(itemKey, itemValue));
         }

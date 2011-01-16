@@ -18,7 +18,6 @@ package org.yaml.snakeyaml.issues.issue103;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -28,16 +27,16 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 public class MergingTest extends TestCase {
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testMergeWithDefaultMap() {
         String input = Util.getLocalResource("issues/issue103.yaml");
         // System.out.println(input);
         Yaml yaml = new Yaml();
 
-        Map map = (Map) yaml.load(input);
-
-        check(map);
+        check((Map) yaml.load(input));
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void testMergeWithFakeMap() {
         String input = Util.getLocalResource("issues/issue103.yaml");
         // System.out.println(input);
@@ -49,44 +48,42 @@ public class MergingTest extends TestCase {
 
         Yaml yaml = new Yaml(c);
 
-        FakeMap map = (FakeMap) yaml.load(input);
-
-        check(map);
+        check((FakeMap) yaml.load(input));
     }
 
-    private void check(Map map) {
+    private void check(Map<String, List<Map<Object, Object>>> map) {
 
         assertEquals(2, map.size());
         assertTrue(map.containsKey("input"));
         assertTrue(map.containsKey("result"));
 
         // input: ...
-        List<Map<?, ?>> inputList = (List<Map<?, ?>>) map.get("input");
+        List<Map<Object, Object>> inputList = map.get("input");
         assertEquals(4, inputList.size());
 
-        Map<?, ?> center = inputList.get(0);
+        Map<Object, Object> center = inputList.get(0);
         assertEquals(2, center.size());
         assertEquals(Integer.valueOf(1), center.get("x"));
         assertEquals(Integer.valueOf(2), center.get("y"));
 
-        Map<?, ?> left = inputList.get(1);
+        Map<Object, Object> left = inputList.get(1);
         assertEquals(2, left.size());
         assertEquals(Integer.valueOf(0), left.get("x"));
         assertEquals(Integer.valueOf(2), left.get("y"));
 
-        Map<?, ?> big = inputList.get(2);
+        Map<Object, Object> big = inputList.get(2);
         assertEquals(1, big.size());
         assertEquals(Integer.valueOf(10), big.get("r"));
 
-        Map<?, ?> small = inputList.get(3);
+        Map<Object, Object> small = inputList.get(3);
         assertEquals(1, small.size());
         assertEquals(Integer.valueOf(1), small.get("r"));
 
         // result : ...
-        List<Map<?, ?>> resultList = (List<Map<?, ?>>) map.get("result");
+        List<Map<Object, Object>> resultList = map.get("result");
         assertEquals(5, resultList.size());
 
-        Map<?, ?> explicitKeys = resultList.get(0);
+        Map<Object, Object> explicitKeys = resultList.get(0);
         assertEquals(4, explicitKeys.size());
         assertEquals(Integer.valueOf(1), explicitKeys.get("x"));
         assertEquals(Integer.valueOf(2), explicitKeys.get("y"));

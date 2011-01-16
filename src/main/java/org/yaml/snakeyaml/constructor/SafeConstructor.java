@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,56 +69,77 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     protected void flattenMapping(MappingNode node) {
-        List<NodeTuple> merge = new ArrayList<NodeTuple>();
-        int index = 0;
-        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
-        while (index < nodeValue.size()) {
-            Node keyNode = nodeValue.get(index).getKeyNode();
-            Node valueNode = nodeValue.get(index).getValueNode();
+        // perform merging only on nodes containing merge node(s)
+        if (node.isMerged()) {
+            node.setValue(mergeNode(node, true, new HashMap<Object, Integer>(),
+                    new ArrayList<NodeTuple>()));
+        }
+    }
+
+    /**
+     * Does merge for supplied mapping node.
+     * 
+     * @param node
+     *            where to merge
+     * @param isPreffered
+     *            true if keys of node should take precedence over others...
+     * @param key2index
+     *            maps already merged keys to index from values
+     * @param values
+     *            collects merged NodeTuple
+     * @return list of the merged NodeTuple (to be set as value for the
+     *         MappingNode)
+     */
+    private List<NodeTuple> mergeNode(MappingNode node, boolean isPreffered,
+            Map<Object, Integer> key2index, List<NodeTuple> values) {
+        List<NodeTuple> nodeValue = node.getValue();
+        for (Iterator<NodeTuple> iter = nodeValue.iterator(); iter.hasNext();) {
+            final NodeTuple nodeTuple = iter.next();
+            final Node keyNode = nodeTuple.getKeyNode();
+            final Node valueNode = nodeTuple.getValueNode();
             if (keyNode.getTag().equals(Tag.MERGE)) {
-                nodeValue.remove(index);
+                iter.remove();
                 switch (valueNode.getNodeId()) {
                 case mapping:
                     MappingNode mn = (MappingNode) valueNode;
-                    flattenMapping(mn);
-                    merge.addAll(mn.getValue());
+                    mergeNode(mn, false, key2index, values);
                     break;
                 case sequence:
-                    List<List<NodeTuple>> submerge = new ArrayList<List<NodeTuple>>();
                     SequenceNode sn = (SequenceNode) valueNode;
                     List<Node> vals = sn.getValue();
                     for (Node subnode : vals) {
                         if (!(subnode instanceof MappingNode)) {
-                            throw new ConstructorException("while constructing a mapping", node
-                                    .getStartMark(), "expected a mapping for merging, but found "
-                                    + subnode.getNodeId(), subnode.getStartMark());
+                            throw new ConstructorException("while constructing a mapping",
+                                    node.getStartMark(),
+                                    "expected a mapping for merging, but found "
+                                            + subnode.getNodeId(), subnode.getStartMark());
                         }
                         MappingNode mnode = (MappingNode) subnode;
-                        flattenMapping(mnode);
-                        submerge.add(mnode.getValue());
-                    }
-                    Collections.reverse(submerge);
-                    for (List<NodeTuple> value : submerge) {
-                        merge.addAll(value);
+                        mergeNode(mnode, false, key2index, values);
                     }
                     break;
                 default:
-                    throw new ConstructorException("while constructing a mapping", node
-                            .getStartMark(),
+                    throw new ConstructorException("while constructing a mapping",
+                            node.getStartMark(),
                             "expected a mapping or list of mappings for merging, but found "
                                     + valueNode.getNodeId(), valueNode.getStartMark());
                 }
-            } else if (keyNode.getTag().equals(Tag.VALUE)) {
-                keyNode.setTag(Tag.STR);
-                index++;
             } else {
-                index++;
+                // we need to construct keys to avoid duplications
+                Object key = constructObject(keyNode);
+                if (!key2index.containsKey(key)) { // 1st time merging key
+                    if (values.add(nodeTuple)) {
+                        // keep track where tuple for the key is
+                        key2index.put(key, values.size() - 1);
+                    }
+                } else if (isPreffered) { // there is value for the key, but we
+                                          // need to override it
+                    // change value for the key using saved position
+                    values.set(key2index.get(key), nodeTuple);
+                }
             }
         }
-        if (!merge.isEmpty()) {
-            merge.addAll(nodeValue);
-            ((MappingNode) node).setValue(merge);
-        }
+        return values;
     }
 
     protected void constructMapping2ndStep(MappingNode node, Map<Object, Object> mapping) {
@@ -327,22 +350,22 @@ public class SafeConstructor extends BaseConstructor {
             // CPU-expensive.
             Map<Object, Object> omap = new LinkedHashMap<Object, Object>();
             if (!(node instanceof SequenceNode)) {
-                throw new ConstructorException("while constructing an ordered map", node
-                        .getStartMark(), "expected a sequence, but found " + node.getNodeId(), node
-                        .getStartMark());
+                throw new ConstructorException("while constructing an ordered map",
+                        node.getStartMark(), "expected a sequence, but found " + node.getNodeId(),
+                        node.getStartMark());
             }
             SequenceNode snode = (SequenceNode) node;
             for (Node subnode : snode.getValue()) {
                 if (!(subnode instanceof MappingNode)) {
-                    throw new ConstructorException("while constructing an ordered map", node
-                            .getStartMark(), "expected a mapping of length 1, but found "
-                            + subnode.getNodeId(), subnode.getStartMark());
+                    throw new ConstructorException("while constructing an ordered map",
+                            node.getStartMark(), "expected a mapping of length 1, but found "
+                                    + subnode.getNodeId(), subnode.getStartMark());
                 }
                 MappingNode mnode = (MappingNode) subnode;
                 if (mnode.getValue().size() != 1) {
-                    throw new ConstructorException("while constructing an ordered map", node
-                            .getStartMark(), "expected a single mapping item, but found "
-                            + mnode.getValue().size() + " items", mnode.getStartMark());
+                    throw new ConstructorException("while constructing an ordered map",
+                            node.getStartMark(), "expected a single mapping item, but found "
+                                    + mnode.getValue().size() + " items", mnode.getStartMark());
                 }
                 Node keyNode = mnode.getValue().get(0).getKeyNode();
                 Node valueNode = mnode.getValue().get(0).getValueNode();
@@ -454,8 +477,8 @@ public class SafeConstructor extends BaseConstructor {
     public static final class ConstructUndefined extends AbstractConstruct {
         public Object construct(Node node) {
             throw new ConstructorException(null, null,
-                    "could not determine a constructor for the tag " + node.getTag(), node
-                            .getStartMark());
+                    "could not determine a constructor for the tag " + node.getTag(),
+                    node.getStartMark());
         }
     }
 }

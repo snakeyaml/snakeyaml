@@ -32,6 +32,8 @@ public class MappingNode extends CollectionNode {
     private List<NodeTuple> value;
     private boolean need2setTypes = true;
 
+    private boolean merged = false;
+
     public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark,
             Mark endMark, Boolean flowStyle) {
         super(tag, startMark, endMark, flowStyle);
@@ -102,5 +104,20 @@ public class MappingNode extends CollectionNode {
         }
         values = buf.toString();
         return "<" + this.getClass().getName() + " (tag=" + getTag() + ", values=" + values + ")>";
+    }
+
+    /**
+     * @param merged
+     *            - true if map contains merge node
+     */
+    public void setMerged(boolean merged) {
+        this.merged = merged;
+    }
+
+    /**
+     * @return true if map contains merge node
+     */
+    public boolean isMerged() {
+        return merged;
     }
 }
