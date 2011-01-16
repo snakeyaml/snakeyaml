@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2010, http://www.snakeyaml.org
+ * Copyright (c) 2008-2011, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ public class MappingNode extends CollectionNode<NodeTuple> {
     private Class<? extends Object> valueType;
     private List<NodeTuple> value;
     private boolean need2setTypes = true;
+
+    private boolean merged = false;
 
     public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark,
             Mark endMark, Boolean flowStyle) {
@@ -102,5 +104,20 @@ public class MappingNode extends CollectionNode<NodeTuple> {
         }
         values = buf.toString();
         return "<" + this.getClass().getName() + " (tag=" + getTag() + ", values=" + values + ")>";
+    }
+
+    /**
+     * @param merged
+     *            - true if map contains merge node
+     */
+    public void setMerged(boolean merged) {
+        this.merged = merged;
+    }
+
+    /**
+     * @return true if map contains merge node
+     */
+    public boolean isMerged() {
+        return merged;
     }
 }
