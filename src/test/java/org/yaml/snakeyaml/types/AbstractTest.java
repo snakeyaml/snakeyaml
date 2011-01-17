@@ -41,7 +41,6 @@ public abstract class AbstractTest extends TestCase {
         return yaml.dump(data);
     }
 
-    @SuppressWarnings("unchecked")
     protected Object getMapValue(String data, String key) {
         Map nativeData = getMap(data);
         return nativeData.get(key);

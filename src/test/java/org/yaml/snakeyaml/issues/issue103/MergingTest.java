@@ -43,7 +43,7 @@ public class MergingTest extends TestCase {
         Constructor c = new Constructor() {
             protected java.util.Map<Object, Object> createDefaultMap() {
                 return new FakeMap<Object, Object>();
-            };
+            }
         };
 
         Yaml yaml = new Yaml(c);
@@ -117,7 +117,5 @@ public class MergingTest extends TestCase {
         assertEquals(Integer.valueOf(2), merge_big_left_small_override.get("y"));
         assertEquals(Integer.valueOf(10), merge_big_left_small_override.get("r"));
         assertEquals("center/big", merge_big_left_small_override.get("label"));
-
     }
-
 }

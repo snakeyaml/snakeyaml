@@ -30,7 +30,6 @@ import junit.framework.AssertionFailedError;
 public class YamlStream {
     private List<Object> nativeData = new ArrayList<Object>();
 
-    @SuppressWarnings("unchecked")
     public YamlStream(String sourceName) {
         InputStream input = YamlDocument.class.getClassLoader().getResourceAsStream(
                 YamlDocument.ROOT + sourceName);
@@ -71,7 +70,7 @@ public class YamlStream {
                             + map2.keySet());
                 }
                 for (Iterator iterator = map1.keySet().iterator(); iterator.hasNext();) {
-                    Object key = (Object) iterator.next();
+                    Object key = iterator.next();
                     Object o1 = map1.get(key);
                     Object o2 = map2.get(key);
                     if (!o1.equals(o2)) {

@@ -135,7 +135,6 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         assertEquals("aaa", list.get(2));
     }
 
-    @SuppressWarnings("unchecked")
     public void testRecursiveNoJavaBeanMap1() {
         SortedMap<String, Object> sortedMap = new TreeMap<String, Object>();
         sortedMap.put("2", "two");
@@ -175,7 +174,6 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         assertEquals("value2", map2.get("key2"));
     }
 
-    @SuppressWarnings("unchecked")
     public void testRecursiveNoJavaBeanMap3() {
         Yaml yaml = new Yaml();
         String output = Util.getLocalResource("examples/map-recursive-3.yaml");
