@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.scanner.Constant;
  */
 public final class Mark {
     private String name;
+    private int index;
     private int line;
     private int column;
     private String buffer;
@@ -32,6 +33,7 @@ public final class Mark {
     public Mark(String name, int index, int line, int column, String buffer, int pointer) {
         super();
         this.name = name;
+        this.index = index;
         this.line = line;
         this.column = column;
         this.buffer = buffer;
@@ -119,6 +121,13 @@ public final class Mark {
      */
     public int getColumn() {
         return column;
+    }
+    
+    /**
+     * starts with 0
+     */
+    public int getIndex() {
+      return index;
     }
 
 }
