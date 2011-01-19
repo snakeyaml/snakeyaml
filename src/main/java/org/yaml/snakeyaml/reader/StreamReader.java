@@ -38,7 +38,6 @@ public class StreamReader {
     private final Reader stream;
     private int pointer = 0;
     private boolean eof = true;
-    private boolean putBufferInMark = true;
     private String buffer;
     private int index = 0;
     private int line = 0;
@@ -46,30 +45,20 @@ public class StreamReader {
     private char[] data;
 
     public StreamReader(String stream) {
-        this(stream, true);
-    }
-
-    public StreamReader(String stream, boolean putBufferInMark) {
         this.name = "<string>";
         this.buffer = "";
         checkPrintable(stream);
         this.buffer = stream + "\0";
         this.stream = null;
         this.eof = true;
-        this.putBufferInMark = putBufferInMark;
         this.data = null;
     }
 
     public StreamReader(Reader reader) {
-        this(reader, true);
-    }
-
-    public StreamReader(Reader reader, boolean putBufferInMark) {
         this.name = "<reader>";
         this.buffer = "";
         this.stream = reader;
         this.eof = false;
-        this.putBufferInMark = putBufferInMark;
         this.data = new char[1024];
         this.update(1);
     }
@@ -84,11 +73,7 @@ public class StreamReader {
     }
 
     public Mark getMark() {
-        if (!putBufferInMark) {
-            return new Mark(name, this.index, this.line, this.column, null, this.pointer);
-        }
-        return new Mark(name, this.index, this.line, this.column, this.buffer.toString(),
-                this.pointer);
+        return new Mark(name, this.index, this.line, this.column, this.buffer, this.pointer);
     }
 
     public void forward() {

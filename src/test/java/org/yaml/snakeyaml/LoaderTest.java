@@ -54,7 +54,6 @@ public class LoaderTest extends TestCase {
 
     public void testCompose2() {
         LoaderOptions options = new LoaderOptions();
-        options.setWithMarkContext(true);
         Yaml loader = new Yaml(options);
         String yaml = "3";
         ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
@@ -68,19 +67,6 @@ public class LoaderTest extends TestCase {
         assertEquals(0, mark.getLine());
         assertEquals("<reader>", mark.getName());
         assertEquals("    3\n    ^", mark.get_snippet());
-        assertEquals("<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:int, value=3)>",
-                node.toString());
-    }
-
-    public void testCompose3() {
-        Yaml loader = new Yaml();// switch off the context for snippet
-        String yaml = "3";
-        ScalarNode node = (ScalarNode) loader.compose(new StringReader(yaml));
-        Mark mark = node.getStartMark();
-        assertEquals(0, mark.getColumn());
-        assertEquals(0, mark.getLine());
-        assertEquals("<reader>", mark.getName());
-        assertNull("Context for snippet is not avaialable.", mark.get_snippet());
         assertEquals("<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:int, value=3)>",
                 node.toString());
     }

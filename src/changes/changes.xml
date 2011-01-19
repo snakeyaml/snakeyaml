@@ -7,6 +7,10 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="fix" issue="106">
+                Immutable data structures in StreamReader allow to share the same buffer for all
+                the Mark instances. It makes 'withMarkContext' setting redundant (2011-01-19)
+            </action>
             <action dev="maslovalex" type="update" issue="100">
                 Merge JavaBean properties when an explicit tag is provided (2011-01-11)
             </action>

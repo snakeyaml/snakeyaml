@@ -59,7 +59,6 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
     public void testLoadInvalidPatternTooShort() {
         try {
             LoaderOptions options = new LoaderOptions();
-            options.setWithMarkContext(true);
             Yaml yaml = new Yaml(options);
             yaml.load(PREFIX + "Acad%9%A9mico {id: 3, name: Foo bar}");
             fail("Illegal hex characters in escape (%) pattern must not be accepted.");
@@ -74,13 +73,12 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
     public void testLoadInvalidUtf8() {
         try {
             LoaderOptions options = new LoaderOptions();
-            options.setWithMarkContext(true);
             Yaml yaml = new Yaml(options);
             yaml.load(PREFIX + "Acad%C0mico {id: 3, name: Foo bar}");
             fail("Illegal UTF-8 must not be accepted.");
         } catch (ScannerException e) {
-            assertEquals("while scanning a tag; expected URI in UTF-8: Input length = 1", e
-                    .getMessage());
+            assertEquals("while scanning a tag; expected URI in UTF-8: Input length = 1",
+                    e.getMessage());
             assertEquals(Util.getLocalResource("issues/issue67-error2.txt"), e.toString());
         }
     }
