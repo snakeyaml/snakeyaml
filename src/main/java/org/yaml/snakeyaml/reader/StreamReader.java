@@ -39,7 +39,7 @@ public class StreamReader {
     private int pointer = 0;
     private boolean eof = true;
     private boolean putBufferInMark = true;
-    private final StringBuilder buffer;
+    private String buffer;
     private int index = 0;
     private int line = 0;
     private int column = 0;
@@ -51,9 +51,9 @@ public class StreamReader {
 
     public StreamReader(String stream, boolean putBufferInMark) {
         this.name = "<string>";
-        this.buffer = new StringBuilder();
+        this.buffer = "";
         checkPrintable(stream);
-        this.buffer.append(stream).append('\0');
+        this.buffer = stream + "\0";
         this.stream = null;
         this.eof = true;
         this.putBufferInMark = putBufferInMark;
@@ -66,7 +66,7 @@ public class StreamReader {
 
     public StreamReader(Reader reader, boolean putBufferInMark) {
         this.name = "<reader>";
-        this.buffer = new StringBuilder();
+        this.buffer = "";
         this.stream = reader;
         this.eof = false;
         this.putBufferInMark = putBufferInMark;
@@ -165,7 +165,7 @@ public class StreamReader {
 
     private void update(int length) {
         if (!this.eof) {
-            this.buffer.delete(0, this.pointer);
+            this.buffer = buffer.substring(this.pointer);
             this.pointer = 0;
             do {
                 String rawData = null;
@@ -178,10 +178,10 @@ public class StreamReader {
                 if (converted > 0) {
                     rawData = new String(data, 0, converted);
                     checkPrintable(rawData);
-                    this.buffer.append(rawData);
+                    this.buffer += rawData;
                 } else {
                     this.eof = true;
-                    this.buffer.append('\0');
+                    this.buffer += "\0";
                     break;
                 }
             } while (this.buffer.length() < length);
