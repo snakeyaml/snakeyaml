@@ -60,7 +60,7 @@ public class StreamReader {
         this.stream = reader;
         this.eof = false;
         this.data = new char[1024];
-        this.update(1);
+        this.update();
     }
 
     void checkPrintable(CharSequence data) {
@@ -87,7 +87,7 @@ public class StreamReader {
      */
     public void forward(int length) {
         if (this.pointer + length + 1 >= this.buffer.length()) {
-            update(length + 1);
+            update();
         }
         char ch = 0;
         for (int i = 0; i < length; i++) {
@@ -115,7 +115,7 @@ public class StreamReader {
      */
     public char peek(int index) {
         if (this.pointer + index + 1 > this.buffer.length()) {
-            update(index + 1);
+            update();
         }
         return this.buffer.charAt(this.pointer + index);
     }
@@ -128,7 +128,7 @@ public class StreamReader {
      */
     public String prefix(int length) {
         if (this.pointer + length >= this.buffer.length()) {
-            update(length);
+            update();
         }
         if (this.pointer + length > this.buffer.length()) {
             return this.buffer.substring(this.pointer);
@@ -148,28 +148,25 @@ public class StreamReader {
         return prefix;
     }
 
-    private void update(int length) {
+    private void update() {
         if (!this.eof) {
             this.buffer = buffer.substring(this.pointer);
             this.pointer = 0;
-            do {
-                String rawData = null;
-                int converted = -2;
-                try {
-                    converted = this.stream.read(data);
-                } catch (IOException ioe) {
-                    throw new YAMLException(ioe);
-                }
-                if (converted > 0) {
-                    rawData = new String(data, 0, converted);
-                    checkPrintable(rawData);
-                    this.buffer += rawData;
-                } else {
-                    this.eof = true;
-                    this.buffer += "\0";
-                    break;
-                }
-            } while (this.buffer.length() < length);
+            String rawData = null;
+            int converted = -2;
+            try {
+                converted = this.stream.read(data);
+            } catch (IOException ioe) {
+                throw new YAMLException(ioe);
+            }
+            if (converted > 0) {
+                rawData = new String(data, 0, converted);
+                checkPrintable(rawData);
+                this.buffer += rawData;
+            } else {
+                this.eof = true;
+                this.buffer += "\0";
+            }
         }
     }
 
