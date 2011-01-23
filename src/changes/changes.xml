@@ -7,6 +7,10 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="update">
+                When the YAML document to be loaded is provided as String parse it directly
+                without making a Reader first (2011-01-23)
+            </action>
             <action dev="py4fun" type="fix" issue="106">
                 Immutable data structures in StreamReader allow to share the same buffer for all
                 the Mark instances. It makes 'withMarkContext' setting redundant (2011-01-19)

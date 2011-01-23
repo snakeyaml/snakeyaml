@@ -16,6 +16,7 @@
 
 package org.yaml.snakeyaml.issues.issue102;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,12 +32,19 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class BigDataLoadTest extends TestCase {
+    private static final int SIZE = 5000;
 
-    public void testBigData() {
-        int size = 7000;
+    public void testBigStringData() {
         Yaml yaml = new Yaml();
-        List<?> loaded = (List<?>) yaml.load(getLongYamlDocument(size));
-        assertEquals(size, loaded.size());
+        List<?> loaded = (List<?>) yaml.load(getLongYamlDocument(SIZE));
+        assertEquals(SIZE, loaded.size());
+    }
+
+    public void testBigStreamData() {
+        Yaml yaml = new Yaml();
+        StringReader buffer = new StringReader(getLongYamlDocument(SIZE));
+        List<?> loaded = (List<?>) yaml.load(buffer);
+        assertEquals(SIZE, loaded.size());
     }
 
     private String getLongYamlDocument(int size) {

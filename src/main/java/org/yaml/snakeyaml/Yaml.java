@@ -263,7 +263,7 @@ public class Yaml {
      * @return parsed object
      */
     public Object load(String yaml) {
-        return load(new StringReader(yaml));
+        return loadFromReader(new StreamReader(yaml));
     }
 
     /**
@@ -275,7 +275,7 @@ public class Yaml {
      * @return parsed object
      */
     public Object load(InputStream io) {
-        return load(new UnicodeReader(io));
+        return loadFromReader(new StreamReader(new UnicodeReader(io)));
     }
 
     /**
@@ -287,7 +287,11 @@ public class Yaml {
      * @return parsed object
      */
     public Object load(Reader io) {
-        Composer composer = new Composer(new ParserImpl(new StreamReader(io)), resolver);
+        return loadFromReader(new StreamReader(io));
+    }
+
+    private Object loadFromReader(StreamReader sreader) {
+        Composer composer = new Composer(new ParserImpl(sreader), resolver);
         constructor.setComposer(composer);
         return constructor.getSingleData();
     }
