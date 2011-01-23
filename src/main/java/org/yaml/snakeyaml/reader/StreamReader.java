@@ -48,7 +48,7 @@ public class StreamReader {
         this.name = "<string>";
         this.buffer = "";
         checkPrintable(stream);
-        this.buffer = stream + "\0";
+        this.buffer = stream.concat("\0");
         this.stream = null;
         this.eof = true;
         this.data = null;
@@ -162,10 +162,10 @@ public class StreamReader {
             if (converted > 0) {
                 rawData = new String(data, 0, converted);
                 checkPrintable(rawData);
-                this.buffer += rawData;
+                this.buffer = this.buffer.concat(rawData);
             } else {
                 this.eof = true;
-                this.buffer += "\0";
+                this.buffer = this.buffer.concat("\0");
             }
         }
     }

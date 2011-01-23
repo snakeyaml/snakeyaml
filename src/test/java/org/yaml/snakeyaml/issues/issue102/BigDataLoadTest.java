@@ -33,7 +33,7 @@ import org.yaml.snakeyaml.representer.Representer;
 public class BigDataLoadTest extends TestCase {
 
     public void testBigData() {
-        int size = 7000;
+        int size = 5000;
         Yaml yaml = new Yaml();
         List<?> loaded = (List<?>) yaml.load(getLongYamlDocument(size));
         assertEquals(size, loaded.size());
