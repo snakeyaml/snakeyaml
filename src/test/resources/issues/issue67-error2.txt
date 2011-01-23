@@ -1,8 +1,8 @@
 while scanning a tag
- in "<string>", line 1, column 1:
+ in "<reader>", line 1, column 1:
     !!org.yaml.snakeyaml.issues.issu ... 
     ^
 expected URI in UTF-8: Input length = 1
- in "<string>", line 1, column 70:
+ in "<reader>", line 1, column 70:
      ... onAsciiCharsInClassNameTest$Acad%C0mico {id: 3, name: Foo bar}
                                          ^

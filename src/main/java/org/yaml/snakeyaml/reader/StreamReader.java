@@ -87,7 +87,6 @@ public class StreamReader {
         if (!putBufferInMark) {
             return new Mark(name, this.index, this.line, this.column, null, this.pointer);
         }
-        // TODO buffer.toString() creates a lot of useless Strings
         return new Mark(name, this.index, this.line, this.column, this.buffer.toString(),
                 this.pointer);
     }
