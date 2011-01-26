@@ -49,6 +49,33 @@ public class ReaderStringTest extends TestCase {
         }
     }
 
+    /**
+     * test that regular expression and array check work the same
+     */
+    public void testCheckAll() {
+        StreamReader streamReader = new StreamReader("");
+        for (char i = 0; i < 256 * 256 - 1; i++) {
+            char[] chars = new char[1];
+            chars[0] = i;
+            String str = new String(chars);
+            Matcher matcher = StreamReader.NON_PRINTABLE.matcher(str);
+            boolean regularExpressionResult = !matcher.find();
+
+            boolean charsArrayResult = true;
+            try {
+                streamReader.checkPrintable(chars, 0, 1);
+            } catch (Exception e) {
+                String error = e.getMessage();
+                assertTrue(
+                        error,
+                        error.startsWith("unacceptable character")
+                                || error.equals("special characters are not allowed"));
+                charsArrayResult = false;
+            }
+            assertEquals("Failed for #" + i, regularExpressionResult, charsArrayResult);
+        }
+    }
+
     public void testForward() {
         StreamReader reader = new StreamReader("test");
         while (reader.peek() != '\u0000') {
