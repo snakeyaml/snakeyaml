@@ -72,9 +72,21 @@ public class StreamReader {
         }
     }
 
-    void checkPrintable(char[] cs, int start, int length) {
-        for (int i = start; i < length; i++) {
-            final char c = cs[i];
+    /**
+     * Checks <code>chars</chars> for the non-printable characters.
+     * 
+     * @param chars
+     *            the array where to search.
+     * @param begin
+     *            the beginning index, inclusive.
+     * @param end
+     *            the ending index, exclusive.
+     * @throws ReaderException
+     *             if <code>chars</code> contains non-printable character(s).
+     */
+    void checkPrintable(final char[] chars, final int begin, final int end) {
+        for (int i = begin; i < end; i++) {
+            final char c = chars[i];
 
             if ((c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
                     || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
@@ -170,6 +182,12 @@ public class StreamReader {
             try {
                 int converted = this.stream.read(data);
                 if (converted > 0) {
+                    /*
+                     * Let's create StringBuilder manually. Anyway str1 + str2
+                     * generates new StringBuilder(str1).append(str2).toSting()
+                     * Giving correct capacity to the constructor prevents
+                     * unnecessary operations in appends.
+                     */
                     checkPrintable(data, 0, converted);
                     this.buffer = new StringBuilder(buffer.length() + converted).append(buffer)
                             .append(data, 0, converted).toString();
