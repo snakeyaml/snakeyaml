@@ -72,6 +72,21 @@ public class StreamReader {
         }
     }
 
+    void checkPrintable(char[] cs, int start, int length) {
+        for (int i = start; i < length; i++) {
+            final char c = cs[i];
+
+            if ((c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
+                    || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
+                    || (c >= '\uE000' && c <= '\uFFFC')) {
+                continue;
+            }
+
+            int position = this.index + this.buffer.length() - this.pointer + i;
+            throw new ReaderException(name, position, c, "special characters are not allowed");
+        }
+    }
+
     public Mark getMark() {
         return new Mark(name, this.index, this.line, this.column, this.buffer, this.pointer);
     }
@@ -152,20 +167,18 @@ public class StreamReader {
         if (!this.eof) {
             this.buffer = buffer.substring(this.pointer);
             this.pointer = 0;
-            String rawData = null;
-            int converted = -2;
             try {
-                converted = this.stream.read(data);
+                int converted = this.stream.read(data);
+                if (converted > 0) {
+                    checkPrintable(data, 0, converted);
+                    this.buffer = new StringBuilder(buffer.length() + converted).append(buffer)
+                            .append(data, 0, converted).toString();
+                } else {
+                    this.eof = true;
+                    this.buffer += "\0";
+                }
             } catch (IOException ioe) {
                 throw new YAMLException(ioe);
-            }
-            if (converted > 0) {
-                rawData = new String(data, 0, converted);
-                checkPrintable(rawData);
-                this.buffer += rawData;
-            } else {
-                this.eof = true;
-                this.buffer += "\0";
             }
         }
     }

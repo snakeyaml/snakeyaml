@@ -27,6 +27,13 @@ public class ReaderStringTest extends TestCase {
         reader.checkPrintable("test");
         Matcher matcher = StreamReader.NON_PRINTABLE.matcher("test");
         assertFalse(matcher.find());
+
+        try {
+            reader.checkPrintable("test".toCharArray(), 0, 4);
+        } catch (ReaderException e) {
+            fail();
+        }
+
     }
 
     public void testCheckNonPrintable() {
