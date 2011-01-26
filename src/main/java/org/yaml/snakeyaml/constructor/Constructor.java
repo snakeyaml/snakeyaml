@@ -254,8 +254,7 @@ public class Constructor extends SafeConstructor {
                             MappingNode mnode = (MappingNode) valueNode;
                             Class<? extends Object> keyType = memberDescription.getMapKeyType(key);
                             if (keyType != null) {
-                                mnode.setKeyType(keyType);
-                                mnode.setValueType(memberDescription.getMapValueType(key));
+                                mnode.setTypes(keyType, memberDescription.getMapValueType(key));
                                 typeDetected = true;
                             }
                             break;
@@ -274,14 +273,13 @@ public class Constructor extends SafeConstructor {
                             } else if (valueNode.getTag().equals(Tag.SET)) {
                                 Class t = arguments[0];
                                 MappingNode mnode = (MappingNode) valueNode;
-                                mnode.setKeyType(t);
+                                mnode.setOnlyKeyType(t);
                                 mnode.setUseClassConstructor(true);
                             } else if (valueNode.getNodeId() == NodeId.mapping) {
                                 Class ketType = arguments[0];
                                 Class valueType = arguments[1];
                                 MappingNode mnode = (MappingNode) valueNode;
-                                mnode.setKeyType(ketType);
-                                mnode.setValueType(valueType);
+                                mnode.setTypes(ketType, valueType);
                                 mnode.setUseClassConstructor(true);
                             }
                         }

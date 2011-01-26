@@ -27,11 +27,7 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public class MappingNode extends CollectionNode {
-    private Class<? extends Object> keyType;
-    private Class<? extends Object> valueType;
     private List<NodeTuple> value;
-    private boolean need2setTypes = true;
-
     private boolean merged = false;
 
     public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark,
@@ -41,8 +37,6 @@ public class MappingNode extends CollectionNode {
             throw new NullPointerException("value in a Node is required.");
         }
         this.value = value;
-        keyType = Object.class;
-        valueType = Object.class;
         this.resolved = resolved;
     }
 
@@ -61,29 +55,24 @@ public class MappingNode extends CollectionNode {
      * @return List of entries.
      */
     public List<NodeTuple> getValue() {
-        if (need2setTypes) {
-            for (NodeTuple nodes : value) {
-                nodes.getKeyNode().setType(keyType);
-                nodes.getValueNode().setType(valueType);
-            }
-            need2setTypes = false;
-        }
         return value;
     }
 
     public void setValue(List<NodeTuple> merge) {
         value = merge;
-        need2setTypes = true;
     }
 
-    public void setKeyType(Class<? extends Object> keyType) {
-        this.keyType = keyType;
-        need2setTypes = true;
+    public void setOnlyKeyType(Class<? extends Object> keyType) {
+        for (NodeTuple nodes : value) {
+            nodes.getKeyNode().setType(keyType);
+        }
     }
 
-    public void setValueType(Class<? extends Object> valueType) {
-        this.valueType = valueType;
-        need2setTypes = true;
+    public void setTypes(Class<? extends Object> keyType, Class<? extends Object> valueType) {
+        for (NodeTuple nodes : value) {
+            nodes.getValueNode().setType(valueType);
+            nodes.getKeyNode().setType(keyType);
+        }
     }
 
     @Override
