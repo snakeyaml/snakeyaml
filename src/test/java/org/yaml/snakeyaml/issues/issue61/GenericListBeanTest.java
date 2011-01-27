@@ -43,7 +43,6 @@ public class GenericListBeanTest extends TestCase {
         assertEquals(listProvider, listProvider2);
     }
 
-    @SuppressWarnings("unchecked")
     public void testGenericBean() throws Exception {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         ListProvider<Bean> listProvider = new ListProvider<Bean>();
@@ -80,7 +79,6 @@ public class GenericListBeanTest extends TestCase {
             this.list = list;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof ListProvider) {

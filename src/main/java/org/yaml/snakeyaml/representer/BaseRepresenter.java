@@ -40,7 +40,6 @@ import org.yaml.snakeyaml.serializer.Serializer;
  * Represent basic YAML structures: scalar, sequence, mapping
  */
 public abstract class BaseRepresenter {
-    @SuppressWarnings("unchecked")
     protected final Map<Class, Represent> representers = new HashMap<Class, Represent>();
     /**
      * in Java 'null' is not a type. So we have to keep the null representer
@@ -48,7 +47,6 @@ public abstract class BaseRepresenter {
      * is stored with the key null.
      */
     protected Represent nullRepresenter;
-    @SuppressWarnings("unchecked")
     // the order is important (map can be also a sequence of key-values)
     protected final Map<Class, Represent> multiRepresenters = new LinkedHashMap<Class, Represent>();
     private Character defaultStyle;
@@ -68,7 +66,6 @@ public abstract class BaseRepresenter {
         objectToRepresent = null;
     }
 
-    @SuppressWarnings("unchecked")
     protected Node representData(Object data) {
         objectToRepresent = data;
         // check for identity

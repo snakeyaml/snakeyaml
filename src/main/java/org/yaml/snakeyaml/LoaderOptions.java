@@ -17,11 +17,6 @@
 package org.yaml.snakeyaml;
 
 public class LoaderOptions {
-    /**
-     * Store context with a Mark to have a better error message. Loader works
-     * 40% slower and it consumes much more memory (default=false)
-     */
-    private boolean withMarkContext = false;
     private TypeDescription rootTypeDescription;
 
     public LoaderOptions() {
@@ -30,14 +25,6 @@ public class LoaderOptions {
 
     public LoaderOptions(TypeDescription rootTypeDescription) {
         this.rootTypeDescription = rootTypeDescription;
-    }
-
-    public boolean isWithMarkContext() {
-        return withMarkContext;
-    }
-
-    public void setWithMarkContext(boolean useContextMark) {
-        this.withMarkContext = useContextMark;
     }
 
     public TypeDescription getRootTypeDescription() {

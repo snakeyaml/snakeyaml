@@ -250,14 +250,13 @@ public class Constructor extends SafeConstructor {
                             } else if (valueNode.getTag().equals(Tag.SET)) {
                                 Class<?> t = arguments[0];
                                 MappingNode mnode = (MappingNode) valueNode;
-                                mnode.setKeyType(t);
+                                mnode.setOnlyKeyType(t);
                                 mnode.setUseClassConstructor(true);
                             } else if (Map.class.isAssignableFrom(valueNode.getType())) {
                                 Class<?> ketType = arguments[0];
                                 Class<?> valueType = arguments[1];
                                 MappingNode mnode = (MappingNode) valueNode;
-                                mnode.setKeyType(ketType);
-                                mnode.setValueType(valueType);
+                                mnode.setTypes(ketType, valueType);
                                 mnode.setUseClassConstructor(true);
                             }
                         }

@@ -42,7 +42,6 @@ public class MergeJavaBeanTest extends TestCase {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public void testMergeWithTags() {
         String input = Util.getLocalResource("issues/issue100-1.yaml");
         // System.out.println(input);

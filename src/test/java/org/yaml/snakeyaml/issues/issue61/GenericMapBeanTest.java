@@ -43,7 +43,6 @@ public class GenericMapBeanTest extends TestCase {
         assertEquals(listProvider, listProvider2);
     }
 
-    @SuppressWarnings("unchecked")
     public void testGenericBean() throws Exception {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         MapProvider<String, Bean> listProvider = new MapProvider<String, Bean>();
@@ -80,7 +79,6 @@ public class GenericMapBeanTest extends TestCase {
             this.map = map;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof MapProvider) {

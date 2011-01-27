@@ -28,7 +28,6 @@ import java.util.Set;
  * procedure.
  * 
  * @see issue100 & issue103
- * 
  */
 public class FakeMap<K, V> implements Map<K, V> {
 
@@ -127,5 +126,4 @@ public class FakeMap<K, V> implements Map<K, V> {
     public Collection<V> values() {
         throw new UnsupportedOperationException();
     }
-
 }

@@ -55,7 +55,6 @@ import org.yaml.snakeyaml.tokens.ValueToken;
  */
 public class PyTokensTest extends PyImportTest {
 
-    @SuppressWarnings("unchecked")
     public void testTokens() throws FileNotFoundException {
         Map<Class, String> replaces = new HashMap<Class, String>();
         replaces.put(DirectiveToken.class, "%");

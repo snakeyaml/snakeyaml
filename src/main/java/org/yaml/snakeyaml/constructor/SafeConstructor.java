@@ -19,9 +19,7 @@ package org.yaml.snakeyaml.constructor;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -128,10 +126,9 @@ public class SafeConstructor extends BaseConstructor {
                 // we need to construct keys to avoid duplications
                 Object key = constructObject(keyNode);
                 if (!key2index.containsKey(key)) { // 1st time merging key
-                    if (values.add(nodeTuple)) {
-                        // keep track where tuple for the key is
-                        key2index.put(key, values.size() - 1);
-                    }
+                    values.add(nodeTuple);
+                    // keep track where tuple for the key is
+                    key2index.put(key, values.size() - 1);
                 } else if (isPreffered) { // there is value for the key, but we
                                           // need to override it
                     // change value for the key using saved position

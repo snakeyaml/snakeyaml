@@ -10,15 +10,17 @@ A new release of SnakeYAML is now available:
 
     http://www.snakeyaml.org
 
-This release delivers a significant performance improvement, Compact Object Notation
-as well as other minor changes and bug fixes.
+This release delivers a significant performance improvement
+as well as other changes and bug fixes.
 
 Changes
 ========
+ * fix for issue 100: merge maps and JavaBeans
+ * implement Compact Object Notation (http://code.google.com/p/snakeyaml/wiki/CompactObjectNotation)
  * fix for issue 88: Custom tag erased when referenced from generic collection
  * fix for issue 80: Timestamp is not parsed properly when milliseconds start with 0
 
-The complete list of changes is here: http://snakeyamlrepo.appspot.com/releases/1.7/site/changes-report.html 
+The complete list of changes is here: http://code.google.com/p/snakeyaml/wiki/changes 
 
 Resources
 ==========
@@ -26,7 +28,7 @@ Resources
 SnakeYAML homepage: http://www.snakeyaml.org
 SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
 
-JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.7/snakeyaml-1.7.jar
+JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.8/snakeyaml-1.8.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/

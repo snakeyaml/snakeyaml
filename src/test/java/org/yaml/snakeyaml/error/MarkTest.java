@@ -34,4 +34,11 @@ public class MarkTest extends TestCase {
         assertEquals("*The first line.", lines[1].trim());
         assertEquals("^", lines[2].trim());
     }
+    
+    public void testPosition() {
+        Mark mark = new Mark("test1", 17, 29, 213, "*The first line.\nThe last line.", 0);
+        assertEquals(17, mark.getIndex());
+        assertEquals(29, mark.getLine());
+        assertEquals(213, mark.getColumn());
+    }
 }

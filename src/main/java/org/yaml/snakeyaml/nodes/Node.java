@@ -100,7 +100,9 @@ public abstract class Node {
     }
 
     public void setType(Class<? extends Object> type) {
-        this.type = type;
+        if (!type.isAssignableFrom(this.type)) {
+            this.type = type;
+        }
     }
 
     public void setTwoStepsConstruction(boolean twoStepsConstruction) {

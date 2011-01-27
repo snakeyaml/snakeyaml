@@ -19,6 +19,7 @@ package org.yaml.snakeyaml.composer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -192,14 +193,15 @@ public class Composer {
         } else {
             nodeTag = new Tag(tag);
         }
-        SequenceNode node = new SequenceNode(nodeTag, resolved, new ArrayList<Node>(),
+        final ArrayList<Node> children = new ArrayList<Node>();
+        SequenceNode node = new SequenceNode(nodeTag, resolved, children,
                 startEvent.getStartMark(), null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
         int index = 0;
         while (!parser.checkEvent(Event.ID.SequenceEnd)) {
-            (node.getValue()).add(composeNode(node, index));
+            children.add(composeNode(node, index));
             index++;
         }
         Event endEvent = parser.getEvent();
@@ -218,8 +220,10 @@ public class Composer {
         } else {
             nodeTag = new Tag(tag);
         }
-        MappingNode node = new MappingNode(nodeTag, resolved, new ArrayList<NodeTuple>(),
-                startEvent.getStartMark(), null, startEvent.getFlowStyle());
+
+        final List<NodeTuple> children = new ArrayList<NodeTuple>();
+        MappingNode node = new MappingNode(nodeTag, resolved, children, startEvent.getStartMark(),
+                null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
@@ -231,7 +235,7 @@ public class Composer {
                 itemKey.setTag(Tag.STR);
             }
             Node itemValue = composeNode(node, itemKey);
-            node.getValue().add(new NodeTuple(itemKey, itemValue));
+            children.add(new NodeTuple(itemKey, itemValue));
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());

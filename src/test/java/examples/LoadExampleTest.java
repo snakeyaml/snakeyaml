@@ -37,7 +37,6 @@ public class LoadExampleTest extends TestCase {
         assertEquals("[Hesperiidae, Papilionidae, Apatelodidae, Epiplemidae]", list.toString());
     }
 
-    @SuppressWarnings("unchecked")
     public void testLoadFromString() {
         Yaml yaml = new Yaml();
         String document = "hello: 25";

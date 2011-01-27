@@ -27,8 +27,7 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public class SequenceNode extends CollectionNode<Node> {
-
-    private List<Node> value;
+    final private List<Node> value;
 
     public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,
             Boolean flowStyle) {

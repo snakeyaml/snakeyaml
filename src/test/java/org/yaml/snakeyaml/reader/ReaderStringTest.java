@@ -27,6 +27,13 @@ public class ReaderStringTest extends TestCase {
         reader.checkPrintable("test");
         Matcher matcher = StreamReader.NON_PRINTABLE.matcher("test");
         assertFalse(matcher.find());
+
+        try {
+            reader.checkPrintable("test".toCharArray(), 0, 4);
+        } catch (ReaderException e) {
+            fail();
+        }
+
     }
 
     public void testCheckNonPrintable() {
@@ -39,6 +46,33 @@ public class ReaderStringTest extends TestCase {
             assertEquals(
                     "unacceptable character '' (0x5) special characters are not allowed\nin \"<string>\", position 4",
                     e.toString());
+        }
+    }
+
+    /**
+     * test that regular expression and array check work the same
+     */
+    public void testCheckAll() {
+        StreamReader streamReader = new StreamReader("");
+        for (char i = 0; i < 256 * 256 - 1; i++) {
+            char[] chars = new char[1];
+            chars[0] = i;
+            String str = new String(chars);
+            Matcher matcher = StreamReader.NON_PRINTABLE.matcher(str);
+            boolean regularExpressionResult = !matcher.find();
+
+            boolean charsArrayResult = true;
+            try {
+                streamReader.checkPrintable(chars, 0, 1);
+            } catch (Exception e) {
+                String error = e.getMessage();
+                assertTrue(
+                        error,
+                        error.startsWith("unacceptable character")
+                                || error.equals("special characters are not allowed"));
+                charsArrayResult = false;
+            }
+            assertEquals("Failed for #" + i, regularExpressionResult, charsArrayResult);
         }
     }
 

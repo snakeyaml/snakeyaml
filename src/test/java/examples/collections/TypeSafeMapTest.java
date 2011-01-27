@@ -186,22 +186,18 @@ public class TypeSafeMapTest extends TestCase {
     }
 
     public static class MapBeanNoGenerics {
-        @SuppressWarnings("unchecked")
         private Map data;
         private String name;
-        @SuppressWarnings("unchecked")
         private Map developers;
 
         public MapBeanNoGenerics() {
             name = "Bean123";
         }
 
-        @SuppressWarnings("unchecked")
         public Map getData() {
             return data;
         }
 
-        @SuppressWarnings("unchecked")
         public void setData(Map data) {
             this.data = data;
         }
@@ -214,12 +210,10 @@ public class TypeSafeMapTest extends TestCase {
             this.name = name;
         }
 
-        @SuppressWarnings("unchecked")
         public Map getDevelopers() {
             return developers;
         }
 
-        @SuppressWarnings("unchecked")
         public void setDevelopers(Map developers) {
             this.developers = developers;
         }

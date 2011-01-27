@@ -67,22 +67,18 @@ public class TypeSafeListNoGerericsTest extends TestCase {
     }
 
     public static class ListBean {
-        @SuppressWarnings("unchecked")
         private List children;
         private String name;
-        @SuppressWarnings("unchecked")
         private List developers;
 
         public ListBean() {
             name = "Bean123";
         }
 
-        @SuppressWarnings("unchecked")
         public List getChildren() {
             return children;
         }
 
-        @SuppressWarnings("unchecked")
         public void setChildren(List children) {
             this.children = children;
         }
@@ -95,12 +91,10 @@ public class TypeSafeListNoGerericsTest extends TestCase {
             this.name = name;
         }
 
-        @SuppressWarnings("unchecked")
         public List getDevelopers() {
             return developers;
         }
 
-        @SuppressWarnings("unchecked")
         public void setDevelopers(List developers) {
             this.developers = developers;
         }
