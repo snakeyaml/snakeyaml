@@ -7,6 +7,10 @@
 	</properties>
 	<body>
           <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+            <action dev="py4fun" type="add">
+                Add example to howto Wiki:
+                How_to_substitute_object_in_YAML_document_with_a_custom_object (2011-01-27)
+            </action>
             <action dev="py4fun" type="update">
                 When the YAML document to be loaded is provided as String parse it directly
                 without making a Reader first (2011-01-23)
