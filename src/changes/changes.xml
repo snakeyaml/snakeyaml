@@ -6,7 +6,12 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-          <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="add">
+                Deploy 1.9-SNAPSHOT (2011-02-15)
+            </action>
+        </release>
+        <release version="1.8" date="2011-02-15" description="Performance improvement">
             <action dev="py4fun" type="add">
                 Add example to howto Wiki:
                 How_to_substitute_object_in_YAML_document_with_a_custom_object (2011-01-27)
@@ -88,8 +93,8 @@
             <action dev="py4fun" type="remove">
                 Cleanup unused code in deprecated Loader and Dumper (2010-08-13)
             </action>
-          </release>
-          <release version="1.7" date="2010-08-12" description="Simplify public API (drop Loader and Dumper)">
+        </release>
+        <release version="1.7" date="2010-08-12" description="Simplify public API (drop Loader and Dumper)">
             <action dev="py4fun" type="update">
                 Eclipse does not run JUnit 4 tests when they are launched for the whole project (2010-08-11)
             </action>
