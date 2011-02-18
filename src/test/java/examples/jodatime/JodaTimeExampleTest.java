@@ -21,6 +21,7 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.yaml.snakeyaml.Yaml;
@@ -54,4 +55,18 @@ public class JodaTimeExampleTest extends TestCase {
         MyBean parsed = (MyBean) loader.load(doc);
         assertEquals(etalon, parsed.getDate());
     }
+
+    /**
+     * test issue 109
+     */
+    public void test109() throws IOException {
+        Date someDate = new DateMidnight(9, 2, 21).toDate();
+        Yaml yaml = new Yaml();
+        String timestamp = yaml.dump(someDate);
+        assertEquals("0009-02-22T23:40:28Z\n", timestamp);
+        // System.out.println(timestamp);
+        Object o = yaml.load(timestamp);
+        assert o.equals(someDate);
+    }
+
 }
