@@ -17,7 +17,6 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.beans.IntrospectionException;
-import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -194,10 +193,6 @@ public class Constructor extends SafeConstructor {
 
         protected Object createEmptyJavaBean(MappingNode node) {
             try {
-                Class<? extends Object> type = node.getType();
-                if (Modifier.isAbstract(type.getModifiers())) {
-                    node.setType(getClassForNode(node));
-                }
                 /**
                  * Using only default constructor. Everything else will be
                  * initialized on 2nd step. If we do here some partial

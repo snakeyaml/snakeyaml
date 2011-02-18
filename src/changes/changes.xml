@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="remove" due-to="JordanAngold">
+                Remove unused code in Constructor: Modifier.isAbstract() is not needed any more (2011-02-18)
+            </action>
             <action dev="JordanAngold" type="fix" issue="108">
                 Enum's name property shall be dumped instead of the 'toString()' output (2011-02-16)
             </action>
