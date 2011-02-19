@@ -60,7 +60,7 @@ public class JodaTimeExampleTest extends TestCase {
      * test issue 109
      */
     public void test109() throws IOException {
-        Date someDate = new DateMidnight(9, 2, 21).toDate();
+        Date someDate = new DateMidnight(9, 2, 21, DateTimeZone.forID("Europe/Amsterdam")).toDate();
         Yaml yaml = new Yaml();
         String timestamp = yaml.dump(someDate);
         assertEquals("0009-02-22T23:40:28Z\n", timestamp);
