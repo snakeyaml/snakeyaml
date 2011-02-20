@@ -66,7 +66,6 @@ public class JodaTimeExampleTest extends TestCase {
         assertEquals("0009-02-22T23:40:28Z\n", timestamp);
         // System.out.println(timestamp);
         Object o = yaml.load(timestamp);
-        assert o.equals(someDate);
+        assertEquals(someDate, o);
     }
-
 }
