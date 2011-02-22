@@ -3,7 +3,7 @@
     <groupId>org.yaml</groupId>
     <artifactId>snakeyaml</artifactId>
     <version>1.9-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -210,50 +210,18 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-			  <artifactId>maven-jar-plugin</artifactId>
-			  <configuration>
-			    <archive>  
-			      <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-			    </archive> 
-			  </configuration>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.3.4</version>
+				<extensions>true</extensions>
+				<configuration>
+				  <instructions>
+				    <Export-Package>org.yaml.snakeyaml.*</Export-Package>
+				             <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
+				  </instructions>
+				</configuration>
 			</plugin>
-             <plugin>
-			    <groupId>org.apache.felix</groupId>
-			    <artifactId>maven-bundle-plugin</artifactId>
-			    <extensions>true</extensions>
-			    <configuration>
-			      <instructions>
-			        <Export-Package>org.yaml.snakeyaml</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.composer</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.constructor</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.emitter</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.error</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.events</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.extensions.compactnotation</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.introspector</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.nodes</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.parser</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.reader</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.representer</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.resolver</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.resolver</Export-Package>
-			        <Export-Package>org.yaml.snakeyaml.serializer</Export-Package>
-			        <Private-Package>biz.source_code.base64Coder</Private-Package>
-			        <Private-Package>com.google.gdata.util.common.base</Private-Package>
-			        <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
-			      </instructions>
-			    </configuration>
-			     <executions>
-				    <execution>
-				      <id>bundle-manifest</id>
-				      <phase>process-classes</phase>
-				      <goals>    
-				        <goal>manifest</goal>
-				      </goals>   
-				    </execution>
-				  </executions>
-			  </plugin>
         </plugins>
     </build>
     <reporting>
