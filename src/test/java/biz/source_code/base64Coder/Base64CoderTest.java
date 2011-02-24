@@ -20,6 +20,8 @@ import java.io.UnsupportedEncodingException;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml_external.biz.base64Coder.Base64Coder;
+
 public class Base64CoderTest extends TestCase {
 
     public void testDecode() throws UnsupportedEncodingException {
@@ -35,8 +37,8 @@ public class Base64CoderTest extends TestCase {
             Base64Coder.decode("YQ=".toCharArray());
             fail();
         } catch (Exception e) {
-            assertEquals("Length of Base64 encoded input string is not a multiple of 4.", e
-                    .getMessage());
+            assertEquals("Length of Base64 encoded input string is not a multiple of 4.",
+                    e.getMessage());
         }
     }
 

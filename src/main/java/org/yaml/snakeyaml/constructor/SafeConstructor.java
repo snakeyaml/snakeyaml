@@ -37,8 +37,7 @@ import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
-
-import biz.source_code.base64Coder.Base64Coder;
+import org.yaml.snakeyaml_external.biz.base64Coder.Base64Coder;
 
 /**
  * Construct standard Java classes

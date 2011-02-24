@@ -13,23 +13,24 @@
  * limitations under the License.
  */
 
-
-package com.google.gdata.util.common.base;
+package org.yaml.snakeyaml_external.google.gdata.util.common.base;
 
 /**
- * A {@code UnicodeEscaper} that escapes some set of Java characters using
- * the URI percent encoding scheme. The set of safe characters (those which
- * remain unescaped) can be specified on construction.
- *
- * <p>For details on escaping URIs for use in web pages, see section 2.4 of
- * <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>.
- *
- * <p>In most cases this class should not need to be used directly. If you
- * have no special requirements for escaping your URIs, you should use either
- * {@link CharEscapers#uriEscaper()} or
- * {@link CharEscapers#uriEscaper(boolean)}.
- *
- * <p>When encoding a String, the following rules apply:
+ * A {@code UnicodeEscaper} that escapes some set of Java characters using the
+ * URI percent encoding scheme. The set of safe characters (those which remain
+ * unescaped) can be specified on construction.
+ * 
+ * <p>
+ * For details on escaping URIs for use in web pages, see section 2.4 of <a
+ * href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>.
+ * 
+ * <p>
+ * In most cases this class should not need to be used directly. If you have no
+ * special requirements for escaping your URIs, you should use either
+ * {@link CharEscapers#uriEscaper()} or {@link CharEscapers#uriEscaper(boolean)}.
+ * 
+ * <p>
+ * When encoding a String, the following rules apply:
  * <ul>
  * <li>The alphanumeric characters "a" through "z", "A" through "Z" and "0"
  * through "9" remain the same.
@@ -37,33 +38,37 @@ package com.google.gdata.util.common.base;
  * <li>If {@code plusForSpace} was specified, the space character " " is
  * converted into a plus sign "+".
  * <li>All other characters are converted into one or more bytes using UTF-8
- *     encoding and each byte is then represented by the 3-character string
- *     "%XY", where "XY" is the two-digit, uppercase, hexadecimal representation
- *     of the byte value.
+ * encoding and each byte is then represented by the 3-character string "%XY",
+ * where "XY" is the two-digit, uppercase, hexadecimal representation of the
+ * byte value.
  * </ul>
- *
- * <p>RFC 2396 specifies the set of unreserved characters as "-", "_", ".", "!",
+ * 
+ * <p>
+ * RFC 2396 specifies the set of unreserved characters as "-", "_", ".", "!",
  * "~", "*", "'", "(" and ")". It goes on to state:
- *
- * <p><i>Unreserved characters can be escaped without changing the semantics
- * of the URI, but this should not be done unless the URI is being used
- * in a context that does not allow the unescaped character to appear.</i>
- *
- * <p>For performance reasons the only currently supported character encoding of
+ * 
+ * <p>
+ * <i>Unreserved characters can be escaped without changing the semantics of the
+ * URI, but this should not be done unless the URI is being used in a context
+ * that does not allow the unescaped character to appear.</i>
+ * 
+ * <p>
+ * For performance reasons the only currently supported character encoding of
  * this class is UTF-8.
- *
- * <p><b>Note</b>: This escaper produces uppercase hexidecimal sequences. From
- * <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:<br>
- * <i>"URI producers and normalizers should use uppercase hexadecimal digits
- * for all percent-encodings."</i>
- *
- *
+ * 
+ * <p>
+ * <b>Note</b>: This escaper produces uppercase hexidecimal sequences. From <a
+ * href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:<br>
+ * <i>"URI producers and normalizers should use uppercase hexadecimal digits for
+ * all percent-encodings."</i>
+ * 
+ * 
  */
 public class PercentEscaper extends UnicodeEscaper {
     /**
      * A string of safe characters that mimics the behavior of
      * {@link java.net.URLEncoder}.
-     *
+     * 
      */
     public static final String SAFECHARS_URLENCODER = "-_.*";
 
@@ -79,14 +84,12 @@ public class PercentEscaper extends UnicodeEscaper {
      * query strings, as specified in RFC 3986. Note that some of these
      * characters do need to be escaped when used in other parts of the URI.
      */
-    public static final String SAFEQUERYSTRINGCHARS_URLENCODER
-        = "-_.!~*'()@:$,;/?:";
+    public static final String SAFEQUERYSTRINGCHARS_URLENCODER = "-_.!~*'()@:$,;/?:";
 
     // In some uri escapers spaces are escaped to '+'
     private static final char[] URI_ESCAPED_SPACE = { '+' };
 
-    private static final char[] UPPER_HEX_DIGITS =
-        "0123456789ABCDEF".toCharArray();
+    private static final char[] UPPER_HEX_DIGITS = "0123456789ABCDEF".toCharArray();
 
     /**
      * If true we should convert space to the {@code +} character.
@@ -94,8 +97,8 @@ public class PercentEscaper extends UnicodeEscaper {
     private final boolean plusForSpace;
 
     /**
-     * An array of flags where for any {@code char c} if {@code safeOctets[c]} is
-     * true then {@code c} should remain unmodified in the output. If
+     * An array of flags where for any {@code char c} if {@code safeOctets[c]}
+     * is true then {@code c} should remain unmodified in the output. If
      * {@code c > safeOctets.length} then it should be escaped.
      */
     private final boolean[] safeOctets;
@@ -103,30 +106,32 @@ public class PercentEscaper extends UnicodeEscaper {
     /**
      * Constructs a URI escaper with the specified safe characters and optional
      * handling of the space character.
-     *
-     * @param safeChars a non null string specifying additional safe characters
-     *        for this escaper (the ranges 0..9, a..z and A..Z are always safe and
-     *        should not be specified here)
-     * @param plusForSpace true if ASCII space should be escaped to {@code +}
-     *        rather than {@code %20}
-     * @throws IllegalArgumentException if any of the parameters were invalid
+     * 
+     * @param safeChars
+     *            a non null string specifying additional safe characters for
+     *            this escaper (the ranges 0..9, a..z and A..Z are always safe
+     *            and should not be specified here)
+     * @param plusForSpace
+     *            true if ASCII space should be escaped to {@code +} rather than
+     *            {@code %20}
+     * @throws IllegalArgumentException
+     *             if any of the parameters were invalid
      */
     public PercentEscaper(String safeChars, boolean plusForSpace) {
         // Avoid any misunderstandings about the behavior of this escaper
         if (safeChars.matches(".*[0-9A-Za-z].*")) {
             throw new IllegalArgumentException(
-                                               "Alphanumeric characters are always 'safe' and should not be " +
-                                               "explicitly specified");
+                    "Alphanumeric characters are always 'safe' and should not be "
+                            + "explicitly specified");
         }
         // Avoid ambiguous parameters. Safe characters are never modified so if
         // space is a safe character then setting plusForSpace is meaningless.
         if (plusForSpace && safeChars.contains(" ")) {
             throw new IllegalArgumentException(
-                                               "plusForSpace cannot be specified when space is a 'safe' character");
+                    "plusForSpace cannot be specified when space is a 'safe' character");
         }
         if (safeChars.contains("%")) {
-            throw new IllegalArgumentException(
-                                               "The '%' character cannot be specified as 'safe'");
+            throw new IllegalArgumentException("The '%' character cannot be specified as 'safe'");
         }
         this.plusForSpace = plusForSpace;
         this.safeOctets = createSafeOctets(safeChars);
@@ -165,7 +170,7 @@ public class PercentEscaper extends UnicodeEscaper {
      * {@link CharEscapersBenchmark}.
      */
     @Override
-        protected int nextEscapeIndex(CharSequence csq, int index, int end) {
+    protected int nextEscapeIndex(CharSequence csq, int index, int end) {
         for (; index < end; index++) {
             char c = csq.charAt(index);
             if (c >= safeOctets.length || !safeOctets[c]) {
@@ -196,8 +201,9 @@ public class PercentEscaper extends UnicodeEscaper {
      * Escapes the given Unicode code point in UTF-8.
      */
     @Override
-        protected char[] escape(int cp) {
-        // We should never get negative values here but if we do it will throw an
+    protected char[] escape(int cp) {
+        // We should never get negative values here but if we do it will throw
+        // an
         // IndexOutOfBoundsException, so at least it will get spotted.
         if (cp < safeOctets.length && safeOctets[cp]) {
             return null;
@@ -267,9 +273,9 @@ public class PercentEscaper extends UnicodeEscaper {
             dest[2] = UPPER_HEX_DIGITS[cp & 0x7];
             return dest;
         } else {
-            // If this ever happens it is due to bug in UnicodeEscaper, not bad input.
-            throw new IllegalArgumentException(
-                                               "Invalid unicode character value " + cp);
+            // If this ever happens it is due to bug in UnicodeEscaper, not bad
+            // input.
+            throw new IllegalArgumentException("Invalid unicode character value " + cp);
         }
     }
 }

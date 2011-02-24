@@ -119,8 +119,7 @@
                     </formats>
                     <instrumentation>
                         <excludes>
-                            <exclude>com/google/**</exclude>
-                            <exclude>biz/source_code/base64Coder/**</exclude>
+                            <exclude>org/yaml/snakeyaml_external/**</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>
@@ -193,8 +192,7 @@
                         <include>src/**/*.java</include>
                     </includes>
                     <excludes>
-                        <exclude>src/main/java/com/google/**</exclude>
-                        <exclude>src/main/java/biz/source_code/**</exclude>
+                        <exclude>src/main/java/org/yaml/snakeyaml_external/**</exclude>
                     </excludes>
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <useDefaultMapping>true</useDefaultMapping>
@@ -218,7 +216,8 @@
 				<configuration>
 				  <instructions>
 				    <Export-Package>org.yaml.snakeyaml.*</Export-Package>
-				             <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
+				    <Private-Package>org.yaml.snakeyaml_external.*</Private-Package>
+                    <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
 				  </instructions>
 				</configuration>
 			</plugin>

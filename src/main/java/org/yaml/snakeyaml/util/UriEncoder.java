@@ -26,9 +26,8 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 
 import org.yaml.snakeyaml.error.YAMLException;
-
-import com.google.gdata.util.common.base.Escaper;
-import com.google.gdata.util.common.base.PercentEscaper;
+import org.yaml.snakeyaml_external.google.gdata.util.common.base.Escaper;
+import org.yaml.snakeyaml_external.google.gdata.util.common.base.PercentEscaper;
 
 public abstract class UriEncoder {
     private static final CharsetDecoder UTF8Decoder = Charset.forName("UTF-8").newDecoder()

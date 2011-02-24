@@ -31,8 +31,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
-
-import biz.source_code.base64Coder.Base64Coder;
+import org.yaml.snakeyaml_external.biz.base64Coder.Base64Coder;
 
 /**
  * Example for issue 99
@@ -95,8 +94,8 @@ public class YamlBase64Test extends TestCase {
             yaml.load(inputStream);
             fail("In the literal scalar all the line breaks are significant");
         } catch (Exception e) {
-            assertEquals("Length of Base64 encoded input string is not a multiple of 4.", e
-                    .getMessage());
+            assertEquals("Length of Base64 encoded input string is not a multiple of 4.",
+                    e.getMessage());
         }
     }
 
