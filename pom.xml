@@ -119,7 +119,7 @@
                     </formats>
                     <instrumentation>
                         <excludes>
-                            <exclude>org/yaml/snakeyaml_external/**</exclude>
+                            <exclude>org/yaml/snakeyaml/external/**</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>
@@ -192,7 +192,7 @@
                         <include>src/**/*.java</include>
                     </includes>
                     <excludes>
-                        <exclude>src/main/java/org/yaml/snakeyaml_external/**</exclude>
+                        <exclude>src/main/java/org/yaml/snakeyaml/external/**</exclude>
                     </excludes>
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <useDefaultMapping>true</useDefaultMapping>
@@ -216,7 +216,6 @@
 				<configuration>
 				  <instructions>
 				    <Export-Package>org.yaml.snakeyaml.*</Export-Package>
-				    <Private-Package>org.yaml.snakeyaml_external.*</Private-Package>
                     <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
 				  </instructions>
 				</configuration>

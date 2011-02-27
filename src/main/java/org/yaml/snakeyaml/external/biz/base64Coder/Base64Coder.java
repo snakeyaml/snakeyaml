@@ -13,7 +13,7 @@
 // Please contact the author if you need another license.
 // This module is provided "as is", without warranties of any kind.
 
-package org.yaml.snakeyaml_external.biz.base64Coder;
+package org.yaml.snakeyaml.external.biz.base64Coder;
 
 /**
  * A Base64 encoder/decoder.

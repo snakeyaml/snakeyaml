@@ -29,9 +29,9 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml_external.biz.base64Coder.Base64Coder;
 
 /**
  * Represent standard Java classes

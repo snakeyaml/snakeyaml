@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.yaml.snakeyaml_external.google.gdata.util.common.base;
+package org.yaml.snakeyaml.external.com.google.gdata.util.common.base;
 
 /**
  * A {@code UnicodeEscaper} that escapes some set of Java characters using the

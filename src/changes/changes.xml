@@ -9,7 +9,7 @@
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
             <action dev="py4fun" type="fix" issue="110" due-to="dmitry.s.mamonov">
                 Fix: introduce a package for external libraries and move there the 64Coder 
-                and the google URL encoder (2011-02-24)
+                and the Google's URL encoder (2011-02-24)
             </action>
             <action dev="py4fun" type="fix" issue="109" due-to="cjalmeida">
                 Fix: ancient years must be dumped with leading zeros (2011-02-19)

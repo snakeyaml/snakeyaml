@@ -20,7 +20,7 @@ import java.io.UnsupportedEncodingException;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml_external.biz.base64Coder.Base64Coder;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 public class Base64CoderTest extends TestCase {
 

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.yaml.snakeyaml_external.google.gdata.util.common.base;
+package org.yaml.snakeyaml.external.com.google.gdata.util.common.base;
 
 import java.io.IOException;
 

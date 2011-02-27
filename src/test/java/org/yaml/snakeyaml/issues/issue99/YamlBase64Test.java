@@ -28,10 +28,10 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlDocument;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml_external.biz.base64Coder.Base64Coder;
 
 /**
  * Example for issue 99
