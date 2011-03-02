@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="fix" issue="111" due-to="JordanAngold">
+                Fix: Long escaped tag URI sequences throw BufferOverflowException (2011-03-03)
+            </action>
             <action dev="py4fun" type="fix" issue="110" due-to="dmitry.s.mamonov">
                 Fix: introduce a package for external libraries and move there the 64Coder 
                 and the Google's URL encoder (2011-02-24)
