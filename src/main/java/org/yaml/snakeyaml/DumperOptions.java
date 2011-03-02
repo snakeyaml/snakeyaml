@@ -311,8 +311,8 @@ public class DumperOptions {
 
     /**
      * Specify the line break to separate the lines. It is platform specific:
-     * Windows - "\r\n", MacOS - "\r", Linux - "\n". The default value is the
-     * one for Linux.
+     * Windows - "\r\n", old MacOS - "\r", Unix - "\n". The default value is the
+     * one for Unix.
      */
     public void setLineBreak(LineBreak lineBreak) {
         if (lineBreak == null) {
