@@ -151,7 +151,7 @@ public class ResolverTest extends TestCase {
     /**
      * Parse scalars as Strings
      */
-    @SuppressWarnings( { "unchecked", "deprecation" })
+    @SuppressWarnings({ "unchecked", "deprecation" })
     public void testStringResolver() {
         Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
                 new Resolver(false));

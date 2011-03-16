@@ -21,18 +21,20 @@ import java.beans.PropertyDescriptor;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class MethodProperty extends GenericProperty {
-	
+
     private final PropertyDescriptor property;
     private final boolean readable;
     private final boolean writable;
 
     public MethodProperty(PropertyDescriptor property) {
-        super(property.getName(), property.getPropertyType(), property.getReadMethod() == null ? null : property.getReadMethod().getGenericReturnType());
+        super(property.getName(), property.getPropertyType(),
+                property.getReadMethod() == null ? null : property.getReadMethod()
+                        .getGenericReturnType());
         this.property = property;
         this.readable = property.getReadMethod() != null;
         this.writable = property.getWriteMethod() != null;
     }
-   
+
     @Override
     public void set(Object object, Object value) throws Exception {
         property.getWriteMethod().invoke(object, value);
@@ -53,10 +55,10 @@ public class MethodProperty extends GenericProperty {
     public boolean isWritable() {
         return writable;
     }
-    
+
     @Override
     public boolean isReadable() {
         return readable;
     }
-    
+
 }

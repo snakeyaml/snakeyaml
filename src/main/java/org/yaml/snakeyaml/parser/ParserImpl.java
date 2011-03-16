@@ -301,15 +301,15 @@ public final class ParserImpl implements Parser {
             DirectiveToken token = (DirectiveToken) scanner.getToken();
             if (token.getName().equals("YAML")) {
                 if (yamlVersion != null) {
-                    throw new ParserException(null, null, "found duplicate YAML directive", token
-                            .getStartMark());
+                    throw new ParserException(null, null, "found duplicate YAML directive",
+                            token.getStartMark());
                 }
                 List<Integer> value = (List<Integer>) token.getValue();
                 Integer major = value.get(0);
                 if (major != 1) {
                     throw new ParserException(null, null,
-                            "found incompatible YAML document (version 1.* is required)", token
-                                    .getStartMark());
+                            "found incompatible YAML document (version 1.* is required)",
+                            token.getStartMark());
                 }
                 yamlVersion = (List<Integer>) token.getValue();
             } else if (token.getName().equals("TAG")) {
@@ -317,8 +317,8 @@ public final class ParserImpl implements Parser {
                 String handle = value.get(0);
                 String prefix = value.get(1);
                 if (tagHandles.containsKey(handle)) {
-                    throw new ParserException(null, null, "duplicate tag handle " + handle, token
-                            .getStartMark());
+                    throw new ParserException(null, null, "duplicate tag handle " + handle,
+                            token.getStartMark());
                 }
                 tagHandles.put(handle, prefix);
             }
@@ -482,8 +482,8 @@ public final class ParserImpl implements Parser {
                     }
                     Token token = scanner.peekToken();
                     throw new ParserException("while parsing a " + node + " node", startMark,
-                            "expected the node content, but found " + token.getTokenId(), token
-                                    .getStartMark());
+                            "expected the node content, but found " + token.getTokenId(),
+                            token.getStartMark());
                 }
             }
         }
@@ -516,8 +516,8 @@ public final class ParserImpl implements Parser {
             if (!scanner.checkToken(Token.ID.BlockEnd)) {
                 Token token = scanner.peekToken();
                 throw new ParserException("while parsing a block collection", marks.pop(),
-                        "expected <block end>, but found " + token.getTokenId(), token
-                                .getStartMark());
+                        "expected <block end>, but found " + token.getTokenId(),
+                        token.getStartMark());
             }
             Token token = scanner.getToken();
             Event event = new SequenceEndEvent(token.getStartMark(), token.getEndMark());
@@ -572,8 +572,8 @@ public final class ParserImpl implements Parser {
             if (!scanner.checkToken(Token.ID.BlockEnd)) {
                 Token token = scanner.peekToken();
                 throw new ParserException("while parsing a block mapping", marks.pop(),
-                        "expected <block end>, but found " + token.getTokenId(), token
-                                .getStartMark());
+                        "expected <block end>, but found " + token.getTokenId(),
+                        token.getStartMark());
             }
             Token token = scanner.getToken();
             Event event = new MappingEndEvent(token.getStartMark(), token.getEndMark());
@@ -637,8 +637,8 @@ public final class ParserImpl implements Parser {
                     } else {
                         Token token = scanner.peekToken();
                         throw new ParserException("while parsing a flow sequence", marks.pop(),
-                                "expected ',' or ']', but got " + token.getTokenId(), token
-                                        .getStartMark());
+                                "expected ',' or ']', but got " + token.getTokenId(),
+                                token.getStartMark());
                     }
                 }
                 if (scanner.checkToken(Token.ID.Key)) {
@@ -732,8 +732,8 @@ public final class ParserImpl implements Parser {
                     } else {
                         Token token = scanner.peekToken();
                         throw new ParserException("while parsing a flow mapping", marks.pop(),
-                                "expected ',' or '}', but got " + token.getTokenId(), token
-                                        .getStartMark());
+                                "expected ',' or '}', but got " + token.getTokenId(),
+                                token.getStartMark());
                     }
                 }
                 if (scanner.checkToken(Token.ID.Key)) {

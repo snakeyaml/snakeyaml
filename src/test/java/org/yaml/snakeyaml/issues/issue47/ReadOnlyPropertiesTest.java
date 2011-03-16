@@ -60,8 +60,7 @@ public class ReadOnlyPropertiesTest extends TestCase {
             String message = e.getMessage();
             assertTrue(
                     message,
-                    message
-                            .contains("Unable to find property 'id' on class: org.yaml.snakeyaml.issues.issue47.IncompleteBean"));
+                    message.contains("Unable to find property 'id' on class: org.yaml.snakeyaml.issues.issue47.IncompleteBean"));
         }
     }
 

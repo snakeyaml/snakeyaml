@@ -87,8 +87,8 @@ public class Chapter2_4Test extends TestCase {
         YamlDocument document = new YamlDocument("example2_22.yaml");
         Map<String, Object> map = (Map<String, Object>) document.getNativeData();
         assertEquals(4, map.size());
-        assertEquals("Expect '2001-12-15T02:59:43.1Z' to be a Date.", Date.class, map.get(
-                "canonical").getClass());
+        assertEquals("Expect '2001-12-15T02:59:43.1Z' to be a Date.", Date.class,
+                map.get("canonical").getClass());
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.clear();
         cal.set(Calendar.YEAR, 2001);
@@ -100,10 +100,10 @@ public class Chapter2_4Test extends TestCase {
         cal.set(Calendar.MILLISECOND, 100);
         Date date = cal.getTime();
         assertEquals(date, map.get("canonical"));
-        assertEquals("Expect '2001-12-14t21:59:43.10-05:00' to be a Date.", Date.class, map.get(
-                "iso8601").getClass());
-        assertEquals("Expect '2001-12-14 21:59:43.10 -5' to be a Date.", Date.class, map.get(
-                "spaced").getClass());
+        assertEquals("Expect '2001-12-14t21:59:43.10-05:00' to be a Date.", Date.class,
+                map.get("iso8601").getClass());
+        assertEquals("Expect '2001-12-14 21:59:43.10 -5' to be a Date.", Date.class,
+                map.get("spaced").getClass());
         assertEquals("Expect '2002-12-14' to be a Date.", Date.class, map.get("date").getClass());
     }
 

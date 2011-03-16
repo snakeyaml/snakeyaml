@@ -122,12 +122,12 @@ public final class Mark {
     public int getColumn() {
         return column;
     }
-    
+
     /**
      * starts with 0
      */
     public int getIndex() {
-      return index;
+        return index;
     }
 
 }

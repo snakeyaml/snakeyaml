@@ -47,8 +47,8 @@ public class BeanConstructorTest extends TestCase {
         assertTrue(result.isBooleanPrimitive());
         assertEquals(new Character('2'), result.getCharClass());
         assertEquals('#', result.getCharPrimitive());
-        assertEquals(new BigInteger("1234567890123456789012345678901234567890"), result
-                .getBigInteger());
+        assertEquals(new BigInteger("1234567890123456789012345678901234567890"),
+                result.getBigInteger());
         assertEquals(new Float(2), result.getFloatClass());
         assertEquals(new Float(3.1416), result.getFloatPrimitive());
         assertEquals(new Double(4), result.getDoubleClass());
@@ -100,8 +100,8 @@ public class BeanConstructorTest extends TestCase {
             yaml.load(document);
             fail("Only one char must be allowed.");
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains(
-                    "Invalid node Character: 'id'; length: 2"));
+            assertTrue(e.getMessage(),
+                    e.getMessage().contains("Invalid node Character: 'id'; length: 2"));
         }
         document = "charClass: #";
         TestBean1 bean = (TestBean1) yaml.load(document);
@@ -176,8 +176,8 @@ public class BeanConstructorTest extends TestCase {
             yaml.load(document);
             fail("Non-existing property must fail.");
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains(
-                    "Unable to find property 'something'"));
+            assertTrue(e.getMessage(),
+                    e.getMessage().contains("Unable to find property 'something'"));
         }
     }
 
@@ -188,8 +188,8 @@ public class BeanConstructorTest extends TestCase {
             yaml.load(document);
             fail("Staic variables must not be used.");
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains(
-                    "Unable to find property 'staticInteger'"));
+            assertTrue(e.getMessage(),
+                    e.getMessage().contains("Unable to find property 'staticInteger'"));
         }
     }
 
@@ -209,8 +209,10 @@ public class BeanConstructorTest extends TestCase {
             yaml.load(document);
             fail("ExceptionParent should not be created.");
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains(
-                    "Can't construct a java object for scalar tag:yaml.org,2002:int"));
+            assertTrue(
+                    e.getMessage(),
+                    e.getMessage().contains(
+                            "Can't construct a java object for scalar tag:yaml.org,2002:int"));
         }
     }
 

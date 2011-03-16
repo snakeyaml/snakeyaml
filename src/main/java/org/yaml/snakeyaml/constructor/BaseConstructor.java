@@ -173,8 +173,8 @@ public abstract class BaseConstructor {
             return constructedObjects.get(node);
         }
         if (recursiveObjects.contains(node)) {
-            throw new ConstructorException(null, null, "found unconstructable recursive node", node
-                    .getStartMark());
+            throw new ConstructorException(null, null, "found unconstructable recursive node",
+                    node.getStartMark());
         }
         recursiveObjects.add(node);
         Construct constructor = getConstructor(node);
@@ -316,9 +316,9 @@ public abstract class BaseConstructor {
                 try {
                     key.hashCode();// check circular dependencies
                 } catch (Exception e) {
-                    throw new ConstructorException("while constructing a mapping", node
-                            .getStartMark(), "found unacceptable key " + key, tuple.getKeyNode()
-                            .getStartMark(), e);
+                    throw new ConstructorException("while constructing a mapping",
+                            node.getStartMark(), "found unacceptable key " + key, tuple
+                                    .getKeyNode().getStartMark(), e);
                 }
             }
             Object value = constructObject(valueNode);

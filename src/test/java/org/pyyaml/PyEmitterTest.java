@@ -140,19 +140,19 @@ public class PyEmitterTest extends PyImportTest {
                         for (Event event : events) {
                             if (event instanceof ScalarEvent) {
                                 ScalarEvent scalar = (ScalarEvent) event;
-                                event = new ScalarEvent(scalar.getAnchor(), scalar.getTag(), scalar
-                                        .getImplicit(), scalar.getValue(), scalar.getStartMark(),
-                                        scalar.getEndMark(), style.getChar());
+                                event = new ScalarEvent(scalar.getAnchor(), scalar.getTag(),
+                                        scalar.getImplicit(), scalar.getValue(),
+                                        scalar.getStartMark(), scalar.getEndMark(), style.getChar());
                             } else if (event instanceof SequenceStartEvent) {
                                 SequenceStartEvent seqStart = (SequenceStartEvent) event;
-                                event = new SequenceStartEvent(seqStart.getAnchor(), seqStart
-                                        .getTag(), seqStart.getImplicit(), seqStart.getStartMark(),
-                                        seqStart.getEndMark(), flowStyle);
+                                event = new SequenceStartEvent(seqStart.getAnchor(),
+                                        seqStart.getTag(), seqStart.getImplicit(),
+                                        seqStart.getStartMark(), seqStart.getEndMark(), flowStyle);
                             } else if (event instanceof MappingStartEvent) {
                                 MappingStartEvent mapStart = (MappingStartEvent) event;
-                                event = new MappingStartEvent(mapStart.getAnchor(), mapStart
-                                        .getTag(), mapStart.getImplicit(), mapStart.getStartMark(),
-                                        mapStart.getEndMark(), flowStyle);
+                                event = new MappingStartEvent(mapStart.getAnchor(),
+                                        mapStart.getTag(), mapStart.getImplicit(),
+                                        mapStart.getStartMark(), mapStart.getEndMark(), flowStyle);
                             }
                             styledEvents.add(event);
                         }

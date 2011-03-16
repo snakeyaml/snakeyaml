@@ -41,9 +41,10 @@ public class ImmutablesRepresenter extends Representer {
 
         public Node representData(Object data) {
             Insets insets = (Insets) data;
-            return representSequence(getTag(data.getClass(), new Tag(data.getClass())), Arrays
-                    .asList(new Object[] { insets.top, insets.left, insets.bottom, insets.right }),
-                    true);
+            return representSequence(
+                    getTag(data.getClass(), new Tag(data.getClass())),
+                    Arrays.asList(new Object[] { insets.top, insets.left, insets.bottom,
+                            insets.right }), true);
         }
 
     }
@@ -52,8 +53,8 @@ public class ImmutablesRepresenter extends Representer {
 
         public Node representData(Object data) {
             Rectangle rect = (Rectangle) data;
-            return representSequence(getTag(data.getClass(), new Tag(data.getClass())), Arrays
-                    .asList(new Object[] { rect.x, rect.y, rect.width, rect.height }), true);
+            return representSequence(getTag(data.getClass(), new Tag(data.getClass())),
+                    Arrays.asList(new Object[] { rect.x, rect.y, rect.width, rect.height }), true);
         }
 
     }
@@ -62,9 +63,8 @@ public class ImmutablesRepresenter extends Representer {
 
         public Node representData(Object data) {
             MatteBorder mb = (MatteBorder) data;
-            return representSequence(getTag(data.getClass(), new Tag(data.getClass())), Arrays
-                    .asList(new Object[] { mb.getBorderInsets(),
-                            mb.getMatteColor() }), true);
+            return representSequence(getTag(data.getClass(), new Tag(data.getClass())),
+                    Arrays.asList(new Object[] { mb.getBorderInsets(), mb.getMatteColor() }), true);
         }
 
     }
@@ -73,9 +73,10 @@ public class ImmutablesRepresenter extends Representer {
 
         public Node representData(Object data) {
             java.awt.Color color = (java.awt.Color) data;
-            return representSequence(getTag(data.getClass(), new Tag(data.getClass())), Arrays
-                    .asList(new Integer[] { color.getRed(), color.getGreen(), color.getBlue(),
-                            color.getAlpha() }), true);
+            return representSequence(
+                    getTag(data.getClass(), new Tag(data.getClass())),
+                    Arrays.asList(new Integer[] { color.getRed(), color.getGreen(),
+                            color.getBlue(), color.getAlpha() }), true);
         }
 
     }

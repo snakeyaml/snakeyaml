@@ -33,8 +33,8 @@ public class IntTagTest extends AbstractTest {
         assertEquals(new Integer(-685230), getMapValue("number: -685230", "number"));
         assertEquals(new Integer(685230), getMapValue("octal: 02472256", "octal"));
         assertEquals(new Integer(685230), getMapValue("hexadecimal: 0x_0A_74_AE", "hexadecimal"));
-        assertEquals(new Integer(685230), getMapValue("binary: 0b1010_0111_0100_1010_1110",
-                "binary"));
+        assertEquals(new Integer(685230),
+                getMapValue("binary: 0b1010_0111_0100_1010_1110", "binary"));
         assertEquals(new Integer(685230), getMapValue("sexagesimal: 190:20:30", "sexagesimal"));
         assertEquals(new Integer(0), load("0"));
         assertEquals(new Integer(0), load("-0"));

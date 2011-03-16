@@ -65,8 +65,8 @@ public class Example2_24Test extends TestCase {
             public Object construct(Node node) {
                 MappingNode mnode = (MappingNode) node;
                 Map values = (Map) constructMapping(mnode);
-                Circle circle = new Circle((Map) values.get("center"), (Integer) values
-                        .get("radius"));
+                Circle circle = new Circle((Map) values.get("center"),
+                        (Integer) values.get("radius"));
                 return circle;
             }
         }

@@ -37,8 +37,8 @@ public class ArrayTagsTest extends TestCase {
             wheels[i - 1] = wheel;
         }
         car.setWheels(wheels);
-        assertEquals(Util.getLocalResource("constructor/cararray-with-tags.yaml"), new Yaml()
-                .dump(car));
+        assertEquals(Util.getLocalResource("constructor/cararray-with-tags.yaml"),
+                new Yaml().dump(car));
     }
 
     public void testLoadClassTag() throws IOException {

@@ -25,8 +25,8 @@ public class UriEncoderTest extends TestCase {
 
     public void testEncode() {
         assertEquals("Acad%C3%A9mico", UriEncoder.encode("Académico"));
-        assertEquals("Check http://yaml.org/spec/1.1/#escaping%20in%20URI/", "[]", UriEncoder
-                .encode("[]"));
+        assertEquals("Check http://yaml.org/spec/1.1/#escaping%20in%20URI/", "[]",
+                UriEncoder.encode("[]"));
     }
 
     public void testDecode() throws CharacterCodingException {

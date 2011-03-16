@@ -63,15 +63,13 @@ public class CompactConstructorErrorsTest extends TestCase {
     }
 
     public void test2() {
-        check(
-                "error2.yaml",
+        check("error2.yaml",
                 "No single argument constructor provided.",
                 "java.lang.NoSuchMethodException: org.yaml.snakeyaml.extensions.compactnotation.Table.<init>(java.lang.String)");
     }
 
     public void test3() {
-        check(
-                "error3.yaml",
+        check("error3.yaml",
                 "In-line parameters can only be Strings.",
                 "org.yaml.snakeyaml.error.YAMLException: Cannot set property='size' with value='17' (class java.lang.String) in Row id=id111");
     }
@@ -108,29 +106,25 @@ public class CompactConstructorErrorsTest extends TestCase {
     }
 
     public void test6() {
-        check(
-                "error6.yaml",
+        check("error6.yaml",
                 "Invalid property.",
                 "org.yaml.snakeyaml.error.YAMLException: Unable to find property 'foo' on class: org.yaml.snakeyaml.extensions.compactnotation.Table");
     }
 
     public void test7() {
-        check(
-                "error7.yaml",
+        check("error7.yaml",
                 "Invalid property.",
                 "org.yaml.snakeyaml.error.YAMLException: Unable to find property 'foo' on class: org.yaml.snakeyaml.extensions.compactnotation.Table");
     }
 
     public void test8() {
-        check(
-                "error8.yaml",
+        check("error8.yaml",
                 "No list property",
                 "org.yaml.snakeyaml.error.YAMLException: No list property found in class org.yaml.snakeyaml.extensions.compactnotation.Row");
     }
 
     public void test9() {
-        check(
-                "error9.yaml",
+        check("error9.yaml",
                 "Many list properties found",
                 "org.yaml.snakeyaml.error.YAMLException: Many list properties found in class org.yaml.snakeyaml.extensions.compactnotation.ManyListsTable; Please override getSequencePropertyName() to specify which property to use.");
     }

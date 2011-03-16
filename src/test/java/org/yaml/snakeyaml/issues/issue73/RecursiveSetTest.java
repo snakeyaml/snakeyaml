@@ -90,9 +90,9 @@ public class RecursiveSetTest extends TestCase {
         self.clear();
         assertTrue(self.isEmpty());
         assertTrue(set.isEmpty());
-        assertFalse("Now it should not be recursive any longer (no StackOverflowError).", set
-                .contains(set));
-        // 
+        assertFalse("Now it should not be recursive any longer (no StackOverflowError).",
+                set.contains(set));
+        //
         set.add("jjj");
         assertEquals(1, set.size());
         assertEquals(1, self.size());

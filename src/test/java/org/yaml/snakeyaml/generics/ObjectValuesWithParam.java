@@ -27,11 +27,11 @@ public class ObjectValuesWithParam<T, S> {
     public Object getObject() {
         return object;
     }
-    
+
     public void setObject(Object object) {
         this.object = object;
     }
-    
+
     public void setValues(Map<T, Map<S, Object>> values) {
         this.values = values;
     }
@@ -43,9 +43,9 @@ public class ObjectValuesWithParam<T, S> {
     public void setPossible(T[] possible) {
         this.possible = possible;
     }
-    
+
     public T[] getPossible() {
         return possible;
     }
-    
+
 }

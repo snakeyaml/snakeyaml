@@ -166,8 +166,8 @@ public class CompactConstructorExampleTest extends TestCase {
         assertEquals(15, first.getSize());
         Row second = iter.next();
         assertEquals("id222", second.getId());
-        assertEquals("We do not need new lines here, just replace them all with spaces\n", second
-                .getDescription());
+        assertEquals("We do not need new lines here, just replace them all with spaces\n",
+                second.getDescription());
         assertEquals(0.333, second.getRatio(), 0.000000001);
         assertEquals(17, second.getSize());
         Row third = iter.next();

@@ -27,13 +27,13 @@ public class FloatTagTest extends AbstractTest {
 
     public void testFloat() throws IOException {
         assertEquals(new Double(6.8523015e+5), getMapValue("canonical: 6.8523015e+5", "canonical"));
-        assertEquals(new Double(6.8523015e+5), getMapValue("exponentioal: 685.230_15e+03",
-                "exponentioal"));
+        assertEquals(new Double(6.8523015e+5),
+                getMapValue("exponentioal: 685.230_15e+03", "exponentioal"));
         assertEquals(new Double(6.8523015e+5), getMapValue("fixed: 685_230.15", "fixed"));
-        assertEquals(new Double(6.8523015e+5), getMapValue("sexagesimal: 190:20:30.15",
-                "sexagesimal"));
-        assertEquals(Double.NEGATIVE_INFINITY, getMapValue("negative infinity: -.inf",
-                "negative infinity"));
+        assertEquals(new Double(6.8523015e+5),
+                getMapValue("sexagesimal: 190:20:30.15", "sexagesimal"));
+        assertEquals(Double.NEGATIVE_INFINITY,
+                getMapValue("negative infinity: -.inf", "negative infinity"));
         assertEquals(Double.NaN, getMapValue("not a number: .NaN", "not a number"));
     }
 

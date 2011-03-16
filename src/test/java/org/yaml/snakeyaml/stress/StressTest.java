@@ -58,7 +58,7 @@ public class StressTest extends TestCase {
         System.out.println("\nSingle load was " + duration + " ms.");
 
         loader = new JavaBeanLoader<Invoice>(Invoice.class);
-        int[] range = new int[] { 1000, 2000 /*, 4000, 8000 */};
+        int[] range = new int[] { 1000, 2000 /* , 4000, 8000 */};
         System.out.println("\nOne instance.");
         for (int number : range) {
             time1 = System.nanoTime();
