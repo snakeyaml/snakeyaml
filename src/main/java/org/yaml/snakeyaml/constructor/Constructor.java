@@ -112,59 +112,26 @@ public class Constructor extends SafeConstructor {
          */
         public Object construct(Node node) {
             MappingNode mnode = (MappingNode) node;
-            if (Properties.class.isAssignableFrom(node.getType())) {
-                Properties properties = (Properties) (isConstructed(node) ? getConstructed(node)
-                        : new Properties());
-                if (!node.isTwoStepsConstruction()) {
-                    constructMapping2ndStep(mnode, properties);
-                } else {
-                    throw new YAMLException("Properties must not be recursive.");
-                }
-                return properties;
-            } else if (SortedMap.class.isAssignableFrom(node.getType())) {
-                SortedMap<Object, Object> map = (SortedMap<Object, Object>) (isConstructed(node) ? getConstructed(node)
-                        : new TreeMap<Object, Object>());
-                if (!node.isTwoStepsConstruction()) {
-                    constructMapping2ndStep(mnode, map);
-                }
-                return map;
-            } else if (Map.class.isAssignableFrom(node.getType())) {
+            if (Map.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
-                    return ((isConstructed(node) ? getConstructed(node) : createDefaultMap()));
+                    return newMap(mnode);
                 } else {
                     return constructMapping(mnode);
                 }
-            } else if (SortedSet.class.isAssignableFrom(node.getType())) {
-                Set<Object> set = (Set<Object>) (isConstructed(node) ? getConstructed(node)
-                        : new TreeSet<Object>());
-                // XXX why this is not used ?
-                // if (!node.isTwoStepsConstruction()) {
-                constructSet2ndStep(mnode, set);
-                // }
-                return set;
             } else if (Collection.class.isAssignableFrom(node.getType())) {
                 if (node.isTwoStepsConstruction()) {
-                    return ((isConstructed(node) ? getConstructed(node) : createDefaultSet()));
+                    return newSet(mnode);
                 } else {
                     return constructSet(mnode);
                 }
             } else {
-                Object obj = isConstructed(node) ? getConstructed(node)
-                        : createEmptyJavaBean(mnode);
+                Object obj = Constructor.this.newInstance(mnode);
                 if (node.isTwoStepsConstruction()) {
                     return obj;
                 } else {
                     return constructJavaBean2ndStep(mnode, obj);
                 }
             }
-        }
-
-        private boolean isConstructed(Node node) {
-            return constructedObjects.containsKey(node);
-        }
-
-        private Object getConstructed(Node node) {
-            return constructedObjects.get(node);
         }
 
         @SuppressWarnings("unchecked")
@@ -178,34 +145,29 @@ public class Constructor extends SafeConstructor {
             }
         }
 
-        protected Object createEmptyJavaBean(MappingNode node) {
-            try {
-                Class<? extends Object> type = node.getType();
-                if (Modifier.isAbstract(type.getModifiers())) {
-                    node.setType(getClassForNode(node));
-                }
-                TypeDescription typeDescr = typeDefinitions.get(type);
-                if (typeDescr != null) {
-                    Object instance = typeDescr.newInstance(node);
-                    if (TypeDescription.FAKE_INSTANCE != instance) {
-                        return instance;
-                    }
-                }
-                /**
-                 * Using only default constructor. Everything else will be
-                 * initialized on 2nd step. If we do here some partial
-                 * initialization, how do we then track what need to be done on
-                 * 2nd step? I think it is better to get only object here (to
-                 * have it as reference for recursion) and do all other thing on
-                 * 2nd step.
-                 */
-                java.lang.reflect.Constructor<?> c = node.getType().getDeclaredConstructor();
-                c.setAccessible(true);
-                return c.newInstance();
-            } catch (Exception e) {
-                throw new YAMLException(e);
-            }
-        }
+        // protected Object createEmptyJavaBean(MappingNode node) {
+        // try {
+        // Object instance = Constructor.this.newInstance(node);
+        // if (instance != null) {
+        // return instance;
+        // }
+        //
+        // /**
+        // * Using only default constructor. Everything else will be
+        // * initialized on 2nd step. If we do here some partial
+        // * initialization, how do we then track what need to be done on
+        // * 2nd step? I think it is better to get only object here (to
+        // * have it as reference for recursion) and do all other thing on
+        // * 2nd step.
+        // */
+        // java.lang.reflect.Constructor<?> c =
+        // node.getType().getDeclaredConstructor();
+        // c.setAccessible(true);
+        // return c.newInstance();
+        // } catch (Exception e) {
+        // throw new YAMLException(e);
+        // }
+        // }
 
         @SuppressWarnings("unchecked")
         protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
@@ -278,7 +240,7 @@ public class Constructor extends SafeConstructor {
 
         private Object newInstance(TypeDescription memberDescription, String propertyName, Node node) {
             Object newInstance = memberDescription.newInstance(propertyName, node);
-            if (newInstance != TypeDescription.FAKE_INSTANCE) {
+            if (newInstance != null) {
                 constructedObjects.put(node, newInstance);
                 return constructObjectNoCheck(node);
             }

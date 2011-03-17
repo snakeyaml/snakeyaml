@@ -28,6 +28,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.composer.Composer;
@@ -87,6 +91,11 @@ public abstract class BaseConstructor {
 
         rootTag = null;
         explicitPropertyUtils = false;
+
+        typeDefinitions.put(SortedMap.class, new TypeDescription(SortedMap.class, Tag.OMAP,
+                TreeMap.class));
+        typeDefinitions.put(SortedSet.class, new TypeDescription(SortedSet.class, Tag.SET,
+                TreeSet.class));
     }
 
     public void setComposer(Composer composer) {
@@ -181,13 +190,6 @@ public abstract class BaseConstructor {
         if (constructedObjects.containsKey(node)) {
             return constructedObjects.get(node);
         }
-        if (typeDefinitions.containsKey(node.getType())) {
-            TypeDescription td = typeDefinitions.get(node.getType());
-            Object instance = td.newInstance(node);
-            if (instance != TypeDescription.FAKE_INSTANCE) {
-                constructedObjects.put(node, instance);
-            }
-        }
         return constructObjectNoCheck(node);
     }
 
@@ -264,46 +266,55 @@ public abstract class BaseConstructor {
     // <<<< DEFAULTS <<<<
 
     // >>>> NEW instance
-    @SuppressWarnings("unchecked")
-    protected Set<Object> newSet(CollectionNode<?> node) {
-        if (constructedObjects.containsKey(node))
-            return (Set<Object>) constructedObjects.get(node);
+    protected Object newInstance(Node node) {
+        return newInstance(Object.class, node);
+    }
 
-        if (Set.class.isAssignableFrom(node.getType())
-                && !Modifier.isAbstract(node.getType().getModifiers())) {
-            // the root class may be defined
+    protected Object newInstance(Class<?> ancestor, Node node) {
+        final Class<? extends Object> type = node.getType();
+        if (typeDefinitions.containsKey(type)) {
+            TypeDescription td = typeDefinitions.get(type);
+            final Object instance = td.newInstance(node);
+            if (instance != null) {
+                return instance;
+            }
+        }
+        if (ancestor.isAssignableFrom(type) && !Modifier.isAbstract(type.getModifiers())) {
             try {
-                return (Set<Object>) node.getType().newInstance();
+                java.lang.reflect.Constructor<?> c = type.getDeclaredConstructor();
+                c.setAccessible(true);
+                return c.newInstance();
             } catch (Exception e) {
                 throw new YAMLException(e);
             }
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Set<Object> newSet(CollectionNode<?> node) {
+        final Set<Object> object = (Set<Object>) newInstance(Set.class, node);
+        if (object != null) {
+            return object;
         }
         return createDefaultSet(node.getValue().size());
     }
 
     @SuppressWarnings("unchecked")
     protected List<Object> newList(SequenceNode node) {
-        if (constructedObjects.containsKey(node))
-            return (List<Object>) constructedObjects.get(node);
-
-        if (List.class.isAssignableFrom(node.getType())
-                && !Modifier.isAbstract(node.getType().getModifiers())) {
-            // the root class may be defined (Vector for instance)
-            try {
-                return (List<Object>) node.getType().newInstance();
-            } catch (Exception e) {
-                throw new YAMLException(e);
-            }
+        final List<Object> object = (List<Object>) newInstance(List.class, node);
+        if (object != null) {
+            return object;
         }
         return createDefaultList(node.getValue().size());
     }
 
     @SuppressWarnings("unchecked")
     protected Map<Object, Object> newMap(MappingNode node) {
-        if (constructedObjects.containsKey(node))
-            return (Map<Object, Object>) constructedObjects.get(node);
-
-        // TODO: maybe create newInstance if class provided
+        final Map<Object, Object> object = (Map<Object, Object>) newInstance(Map.class, node);
+        if (object != null) {
+            return object;
+        }
         return createDefaultMap();
     }
 

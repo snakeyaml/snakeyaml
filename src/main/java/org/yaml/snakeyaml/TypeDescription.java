@@ -37,9 +37,10 @@ import org.yaml.snakeyaml.nodes.Tag;
  * instance.
  */
 public class TypeDescription {
-    public static final Object FAKE_INSTANCE = new Object();
 
     private final Class<? extends Object> type;
+    private Class<?> impl;
+
     private Tag tag;
     private boolean root;
 
@@ -54,17 +55,26 @@ public class TypeDescription {
     protected BeanAccess beanAccess;
 
     public TypeDescription(Class<? extends Object> clazz, Tag tag) {
+        this(clazz, tag, null);
+    }
+
+    public TypeDescription(Class<? extends Object> clazz, Tag tag, Class<?> impl) {
         this.type = clazz;
         this.tag = tag;
+        this.impl = impl;
         beanAccess = null;
     }
 
     public TypeDescription(Class<? extends Object> clazz, String tag) {
-        this(clazz, new Tag(tag));
+        this(clazz, new Tag(tag), null);
     }
 
     public TypeDescription(Class<? extends Object> clazz) {
-        this(clazz, (Tag) null);
+        this(clazz, (Tag) null, null);
+    }
+
+    public TypeDescription(Class<? extends Object> clazz, Class<?> impl) {
+        this(clazz, null, impl);
     }
 
     /**
@@ -344,10 +354,20 @@ public class TypeDescription {
     }
 
     public Object newInstance(Node node) {
-        return FAKE_INSTANCE;
+        if (impl != null) {
+            try {
+                java.lang.reflect.Constructor<?> c = impl.getDeclaredConstructor();
+                c.setAccessible(true);
+                return c.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+                impl = null;
+            }
+        }
+        return null;
     }
 
     public Object newInstance(String propertyName, Node node) {
-        return FAKE_INSTANCE;
+        return null;
     }
 }
