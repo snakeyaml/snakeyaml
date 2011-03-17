@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -129,6 +128,7 @@ public class TypeDescription {
      * @param type
      *            class of List values
      */
+    @Deprecated
     public void putListPropertyType(String property, Class<? extends Object> type) {
         if (properties.containsKey(property)) {
             ArtificialProperty pr = properties.get(property);
@@ -145,6 +145,7 @@ public class TypeDescription {
      *            property name
      * @return class of List values
      */
+    @Deprecated
     public Class<? extends Object> getListPropertyType(String property) {
         if (properties.containsKey(property)) {
             Class<?>[] typeArguments = properties.get(property).getActualTypeArguments();
@@ -165,6 +166,7 @@ public class TypeDescription {
      * @param value
      *            class of values in Map
      */
+    @Deprecated
     public void putMapPropertyType(String property, Class<? extends Object> key,
             Class<? extends Object> value) {
         if (properties.containsKey(property)) {
@@ -182,6 +184,7 @@ public class TypeDescription {
      *            property name of this JavaBean
      * @return class of keys in the Map
      */
+    @Deprecated
     public Class<? extends Object> getMapKeyType(String property) {
         if (properties.containsKey(property)) {
             Class<?>[] typeArguments = properties.get(property).getActualTypeArguments();
@@ -199,6 +202,7 @@ public class TypeDescription {
      *            property name of this JavaBean
      * @return class of values in the Map
      */
+    @Deprecated
     public Class<? extends Object> getMapValueType(String property) {
         if (properties.containsKey(property)) {
             Class<?>[] typeArguments = properties.get(property).getActualTypeArguments();
@@ -334,14 +338,6 @@ public class TypeDescription {
         return false;
     }
 
-    /**
-     * 
-     * @param targetBean
-     * @param propertyName
-     * @param value
-     * @return true - if property has been set
-     * @throws Exception
-     */
     public boolean setProperty(Object targetBean, String propertyName, Object value)
             throws Exception {
         return false;
