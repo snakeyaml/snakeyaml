@@ -1735,12 +1735,18 @@ public final class ScannerImpl implements Scanner {
     }
 
     private String scanUriEscapes(String name, Mark startMark) {
+        // First, look ahead to see how many URI-escaped characters we should
+        // expect, so we can use the correct buffer size.
+        int length = 1;
+        while (reader.peek(length * 3) == '%') {
+            length++;
+        }
         // See the specification for details.
         // URIs containing 16 and 32 bit Unicode characters are
         // encoded in UTF-8, and then each octet is written as a
         // separate character.
         Mark beginningMark = reader.getMark();
-        ByteBuffer buff = ByteBuffer.allocate(256);
+        ByteBuffer buff = ByteBuffer.allocate(length);
         while (reader.peek() == '%') {
             reader.forward();
             try {

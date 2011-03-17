@@ -18,14 +18,14 @@ package org.yaml.snakeyaml.stress;
 
 import java.io.IOException;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
 import org.yaml.snakeyaml.Invoice;
 import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class StressEmitterTest extends TestCase {
 

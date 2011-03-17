@@ -6,7 +6,29 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-          <release version="1.8-SNAPSHOT" date="in Mercurial" description="Performance improvement">
+	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="fix" issue="111" due-to="JordanAngold">
+                Fix: Long escaped tag URI sequences throw BufferOverflowException (2011-03-03)
+            </action>
+            <action dev="py4fun" type="fix" issue="110" due-to="dmitry.s.mamonov">
+                Fix: introduce a package for external libraries and move there the 64Coder 
+                and the Google's URL encoder (2011-02-24)
+            </action>
+            <action dev="py4fun" type="fix" issue="109" due-to="cjalmeida">
+                Fix: ancient years must be dumped with leading zeros (2011-02-19)
+            </action>
+            <action dev="py4fun" type="remove" due-to="JordanAngold">
+                Remove unused code in Constructor: Modifier.isAbstract() is not needed any more (2011-02-18)
+            </action>
+            <action dev="JordanAngold" type="fix" issue="108">
+                Enum's name property shall be dumped instead of the 'toString()' output (2011-02-16)
+            </action>
+        </release>
+        <release version="1.8" date="2011-02-15" description="Performance improvement">
+            <action dev="py4fun" type="add">
+                Add example to howto Wiki:
+                How_to_substitute_object_in_YAML_document_with_a_custom_object (2011-01-27)
+            </action>
             <action dev="py4fun" type="update">
                 When the YAML document to be loaded is provided as String parse it directly
                 without making a Reader first (2011-01-23)
@@ -84,8 +106,8 @@
             <action dev="py4fun" type="remove">
                 Cleanup unused code in deprecated Loader and Dumper (2010-08-13)
             </action>
-          </release>
-          <release version="1.7" date="2010-08-12" description="Simplify public API (drop Loader and Dumper)">
+        </release>
+        <release version="1.7" date="2010-08-12" description="Simplify public API (drop Loader and Dumper)">
             <action dev="py4fun" type="update">
                 Eclipse does not run JUnit 4 tests when they are launched for the whole project (2010-08-11)
             </action>
