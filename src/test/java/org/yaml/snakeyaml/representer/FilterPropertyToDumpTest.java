@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.representer;
 
 import java.beans.IntrospectionException;
 import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.TestCase;
 
@@ -28,9 +29,10 @@ import org.yaml.snakeyaml.introspector.Property;
 
 public class FilterPropertyToDumpTest extends TestCase {
 
-    public void testFilterProperty() {
+    public void testFilterPropertyInJavaBeanDumper() {
         BeanToRemoveProperty bean = new BeanToRemoveProperty();
         bean.setNumber(24);
+        bean.setId("ID124");
         JavaBeanDumper d = new JavaBeanDumper(new MyRepresenter(), new DumperOptions());
         String dump = d.dump(bean);
         // System.out.println(dump);
@@ -39,30 +41,37 @@ public class FilterPropertyToDumpTest extends TestCase {
                 dump);
     }
 
-    public void testFilterProperty2() {
+    public void testFilterPropertyInYaml() {
         BeanToRemoveProperty bean = new BeanToRemoveProperty();
-        bean.setNumber(24);
+        bean.setNumber(25);
+        bean.setId("ID125");
         Yaml yaml = new Yaml(new MyRepresenter());
         String dump = yaml.dump(bean);
         // System.out.println(dump);
         assertEquals(
-                "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {number: 24}\n",
+                "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {number: 25}\n",
                 dump);
-        // include by default
+    }
+
+    public void testDoNotFilterPropertyIncludeReadOnly() {
+        BeanToRemoveProperty bean = new BeanToRemoveProperty();
+        bean.setNumber(26);
+        bean.setId("ID126");
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
-        yaml = new Yaml(options);
-        dump = yaml.dump(bean);
+        Yaml yaml = new Yaml(options);
+        String dump = yaml.dump(bean);
         // System.out.println(dump);
         assertEquals(
-                "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {number: 24,\n  setTestCase: true}\n",
+                "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {id: ID126,\n  number: 26, something: true}\n",
                 dump);
     }
 
     public class BeanToRemoveProperty {
         private int number;
+        private String id;
 
-        public boolean isSetTestCase() {
+        public boolean isSomething() {
             return true;
         }
 
@@ -73,6 +82,14 @@ public class FilterPropertyToDumpTest extends TestCase {
         public void setNumber(int number) {
             this.number = number;
         }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
     }
 
     private class MyRepresenter extends Representer {
@@ -80,16 +97,17 @@ public class FilterPropertyToDumpTest extends TestCase {
         protected Set<Property> getProperties(Class<? extends Object> type)
                 throws IntrospectionException {
             Set<Property> set = super.getProperties(type);
+            Set<Property> filtered = new TreeSet<Property>();
             if (type.equals(BeanToRemoveProperty.class)) {
-                // drop setTestCase property
+                // filter properties
                 for (Property prop : set) {
-                    if (prop.getName().equals("setTestCase")) {
-                        set.remove(prop);
-                        break;
+                    String name = prop.getName();
+                    if (!name.equals("id")) {
+                        filtered.add(prop);
                     }
                 }
             }
-            return set;
+            return filtered;
         }
     }
 }
