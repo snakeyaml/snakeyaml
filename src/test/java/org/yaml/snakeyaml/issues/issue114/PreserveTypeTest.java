@@ -70,7 +70,6 @@ public class PreserveTypeTest extends TestCase {
     }
 
     private void check(String doc) {
-        System.err.println(doc);
         Yaml yaml = new Yaml();
         @SuppressWarnings("unchecked")
         Map<String, Object> loaded = (Map<String, Object>) yaml.load(doc);
@@ -87,6 +86,6 @@ public class PreserveTypeTest extends TestCase {
     public void testPreserveType2() {
         Yaml yaml = new Yaml();
         String s = yaml.dump(createData(false));
-        // TODO issue 114 check(s);
+        check(s);
     }
 }

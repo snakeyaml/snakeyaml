@@ -28,6 +28,7 @@ import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
+import org.yaml.snakeyaml.nodes.AnchorNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -51,7 +52,11 @@ public abstract class BaseRepresenter {
     protected final Map<Class, Represent> multiRepresenters = new LinkedHashMap<Class, Represent>();
     private Character defaultStyle;
     protected Boolean defaultFlowStyle;
-    protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>();
+    protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>() {
+        public Node put(Object key, Node value) {
+            return super.put(key, new AnchorNode(value));
+        };
+    };
     protected final Map<Node, ?> withCheckedTag = new IdentityHashMap<Node, Object>();
 
     protected Object objectToRepresent;

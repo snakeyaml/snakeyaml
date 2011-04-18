@@ -1,4 +1,4 @@
-&id002 !!org.yaml.snakeyaml.recursive.Human {
+&id002 {
   bankAccountOwner: &id001 {
     bankAccountOwner: *id001,
     birthPlace: Leningrad,
