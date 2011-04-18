@@ -37,7 +37,6 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class HumanTest extends TestCase {
 
@@ -628,11 +627,7 @@ public class HumanTest extends TestCase {
         father.setChildren(children);
         mother.setChildren(children);
         //
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(FlowStyle.FLOW);
-        options.setPrettyFlow(true);
-        options.setExplicitRoot(Tag.MAP);
-        Yaml beanDumper = new Yaml(options);
+        JavaBeanDumper beanDumper = new JavaBeanDumper();
         String output = beanDumper.dump(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children-no-root-tag.yaml");
