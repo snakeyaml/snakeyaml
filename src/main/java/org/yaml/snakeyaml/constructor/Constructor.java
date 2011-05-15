@@ -397,7 +397,8 @@ public class Constructor extends SafeConstructor {
         }
 
         @SuppressWarnings("unchecked")
-        private Object constructStandardJavaInstance(Class type, ScalarNode node) {
+        private Object constructStandardJavaInstance(@SuppressWarnings("rawtypes") Class type,
+                ScalarNode node) {
             Object result;
             if (type == String.class) {
                 Construct stringConstructor = yamlConstructors.get(Tag.STR);

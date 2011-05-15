@@ -298,6 +298,7 @@ public final class ParserImpl implements Parser {
         yamlVersion = null;
         tagHandles = new HashMap<String, String>();
         while (scanner.checkToken(Token.ID.Directive)) {
+            @SuppressWarnings("rawtypes")
             DirectiveToken token = (DirectiveToken) scanner.getToken();
             if (token.getName().equals("YAML")) {
                 if (yamlVersion != null) {

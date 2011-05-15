@@ -981,7 +981,7 @@ public final class ScannerImpl implements Scanner {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private Token scanDirective() {
         // See the specification for details.
         Mark startMark = reader.getMark();
