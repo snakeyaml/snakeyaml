@@ -276,8 +276,8 @@ public class Constructor extends SafeConstructor {
                                 mnode.setTypes(ketType, valueType);
                                 mnode.setUseClassConstructor(true);
                             } else {
-                                // this is no collection but parameterized
-                                // JavaBean
+                                // the type for collection entries cannot be
+                                // detected
                             }
                         }
                     }

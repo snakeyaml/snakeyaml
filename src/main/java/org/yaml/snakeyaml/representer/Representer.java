@@ -215,7 +215,8 @@ public class Representer extends SafeRepresenter {
                     resetTag(valueType, tuple.getValueNode());
                 }
             } else {
-                // this is no collection but parameterized JavaBean
+                // the type for collection entries cannot be
+                // detected
             }
         }
     }
