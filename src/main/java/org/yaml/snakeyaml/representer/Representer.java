@@ -206,7 +206,7 @@ public class Representer extends SafeRepresenter {
                     }
                     withCheckedTag.put(keyNode, null);
                 }
-            } else { // NodeId.mapping ends-up here
+            } else if (object instanceof Map) {
                 Class<?> keyType = arguments[0];
                 Class<?> valueType = arguments[1];
                 MappingNode mnode = (MappingNode) node;
@@ -214,6 +214,8 @@ public class Representer extends SafeRepresenter {
                     resetTag(keyType, tuple.getKeyNode());
                     resetTag(valueType, tuple.getValueNode());
                 }
+            } else {
+                // this is no collection but parameterized JavaBean
             }
         }
     }

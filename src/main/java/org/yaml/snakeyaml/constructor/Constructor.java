@@ -257,7 +257,7 @@ public class Constructor extends SafeConstructor {
                     }
                     if (!typeDetected && valueNode.getNodeId() != NodeId.scalar) {
                         // only if there is no explicit TypeDescription
-                        Class[] arguments = property.getActualTypeArguments();
+                        Class<?>[] arguments = property.getActualTypeArguments();
                         if (arguments != null) {
                             // type safe (generic) collection may contain the
                             // proper class
@@ -270,12 +270,16 @@ public class Constructor extends SafeConstructor {
                                 MappingNode mnode = (MappingNode) valueNode;
                                 mnode.setOnlyKeyType(t);
                                 mnode.setUseClassConstructor(true);
-                            } else if (valueNode.getNodeId() == NodeId.mapping) {
+                            } else if (valueNode.getNodeId() == NodeId.mapping
+                                    && property.getType().isAssignableFrom(Map.class)) {
                                 Class ketType = arguments[0];
                                 Class valueType = arguments[1];
                                 MappingNode mnode = (MappingNode) valueNode;
                                 mnode.setTypes(ketType, valueType);
                                 mnode.setUseClassConstructor(true);
+                            } else {
+                                // this is no collection but parameterized
+                                // JavaBean
                             }
                         }
                     }
