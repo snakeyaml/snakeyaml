@@ -31,32 +31,26 @@ public class ParameterizedJavaBeanTest extends TestCase {
         assertEquals("!!org.yaml.snakeyaml.issues.issue115.ParameterizedBean {k: 13, v: ID47}\n",
                 result);
         // load
-        // @SuppressWarnings("unchecked")
-        // ParameterizedBean<Integer, String> beanParsed =
-        // (ParameterizedBean<Integer, String>) yaml
-        // .load(result);
-        // assertEquals(new Integer(13), beanParsed.getK());
-        // assertEquals("ID47", beanParsed.getV());
-    }
-}
-
-class ParameterizedBean<K, V> {
-    private K k;
-    private V v;
-
-    public K getK() {
-        return k;
+        @SuppressWarnings("unchecked")
+        ParameterizedBean<Integer, String> beanParsed = (ParameterizedBean<Integer, String>) yaml
+                .load(result);
+        assertEquals(new Integer(13), beanParsed.getK());
+        assertEquals("ID47", beanParsed.getV());
     }
 
-    public void setK(K k) {
-        this.k = k;
-    }
-
-    public V getV() {
-        return v;
-    }
-
-    public void setV(V v) {
-        this.v = v;
+    public void testAsJavaBeanProperty() {
+        Yaml yaml = new Yaml();
+        IssueBean issue = new IssueBean();
+        ParameterizedBean<Integer, String> bean = new ParameterizedBean<Integer, String>();
+        bean.setK(432);
+        bean.setV("Val432");
+        issue.setBean(bean);
+        String result = yaml.dump(issue);
+        assertEquals("!!org.yaml.snakeyaml.issues.issue115.IssueBean\nbean: {k: 432, v: Val432}\n",
+                result);
+        // load
+        IssueBean issueParsed = (IssueBean) yaml.load(result);
+        assertEquals(new Integer(432), issueParsed.getBean().getK());
+        assertEquals("Val432", issueParsed.getBean().getV());
     }
 }
