@@ -41,7 +41,7 @@ import org.yaml.snakeyaml.serializer.Serializer;
  * Represent basic YAML structures: scalar, sequence, mapping
  */
 public abstract class BaseRepresenter {
-    protected final Map<Class, Represent> representers = new HashMap<Class, Represent>();
+    protected final Map<Class<?>, Represent> representers = new HashMap<Class<?>, Represent>();
     /**
      * in Java 'null' is not a type. So we have to keep the null representer
      * separately otherwise it will coincide with the default representer which
@@ -49,10 +49,12 @@ public abstract class BaseRepresenter {
      */
     protected Represent nullRepresenter;
     // the order is important (map can be also a sequence of key-values)
-    protected final Map<Class, Represent> multiRepresenters = new LinkedHashMap<Class, Represent>();
+    protected final Map<Class<?>, Represent> multiRepresenters = new LinkedHashMap<Class<?>, Represent>();
     private Character defaultStyle;
     protected Boolean defaultFlowStyle;
     protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>() {
+        private static final long serialVersionUID = -5576159264232131854L;
+
         public Node put(Object key, Node value) {
             return super.put(key, new AnchorNode(value));
         };
@@ -86,13 +88,13 @@ public abstract class BaseRepresenter {
         }
         // check the same class
         Node node;
-        Class clazz = data.getClass();
+        Class<?> clazz = data.getClass();
         if (representers.containsKey(clazz)) {
             Represent representer = representers.get(clazz);
             node = representer.representData(data);
         } else {
             // check the parents
-            for (Class repr : multiRepresenters.keySet()) {
+            for (Class<?> repr : multiRepresenters.keySet()) {
                 if (repr.isInstance(data)) {
                     Represent representer = multiRepresenters.get(repr);
                     node = representer.representData(data);
