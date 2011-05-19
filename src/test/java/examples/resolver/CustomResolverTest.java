@@ -46,7 +46,8 @@ public class CustomResolverTest extends TestCase {
         Map<Object, Object> map = (Map<Object, Object>) yaml.load("1.0: 2009-01-01");
         assertEquals(1, map.size());
         assertEquals("2009-01-01", map.get("1.0"));
-        //
+        // the default Resolver shall create Date and Double from the same YAML
+        // document
         Yaml yaml2 = new Yaml();
         Map<Object, Object> map2 = (Map<Object, Object>) yaml2.load("1.0: 2009-01-01");
         assertEquals(1, map2.size());
