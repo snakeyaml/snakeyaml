@@ -56,7 +56,7 @@ import org.yaml.snakeyaml.tokens.ValueToken;
 public class PyTokensTest extends PyImportTest {
 
     public void testTokens() throws FileNotFoundException {
-        Map<Class, String> replaces = new HashMap<Class, String>();
+        Map<Class<?>, String> replaces = new HashMap<Class<?>, String>();
         replaces.put(DirectiveToken.class, "%");
         replaces.put(DocumentStartToken.class, "---");
         replaces.put(DocumentEndToken.class, "...");

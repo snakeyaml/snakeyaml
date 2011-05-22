@@ -96,18 +96,18 @@ public class Chapter2_2Test extends TestCase {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public void testExample_2_12() {
         YamlDocument document = new YamlDocument("example2_12.yaml");
+        @SuppressWarnings("unchecked")
         List<Map<Object, Object>> list = (List<Map<Object, Object>>) document.getNativeData();
         assertEquals(3, list.size());
-        Map map1 = (Map) list.get(0);
+        Map<Object, Object> map1 = (Map<Object, Object>) list.get(0);
         assertEquals(2, map1.size());
         assertEquals("Super Hoop", map1.get("item"));
-        Map map2 = (Map) list.get(1);
+        Map<Object, Object> map2 = (Map<Object, Object>) list.get(1);
         assertEquals(2, map2.size());
         assertEquals("Basketball", map2.get("item"));
-        Map map3 = (Map) list.get(2);
+        Map<Object, Object> map3 = (Map<Object, Object>) list.get(2);
         assertEquals(2, map3.size());
         assertEquals("Big Shoes", map3.get("item"));
     }

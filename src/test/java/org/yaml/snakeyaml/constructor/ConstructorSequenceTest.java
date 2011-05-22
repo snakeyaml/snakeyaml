@@ -73,7 +73,7 @@ public class ConstructorSequenceTest extends TestCase {
         Resolver resolver = new Resolver();
         Composer composer = new Composer(parser, resolver);
         constructor.setComposer(composer);
-        List result = (List) constructor.getSingleData();
+        List<Object> result = (List<Object>) constructor.getSingleData();
         return result;
     }
 

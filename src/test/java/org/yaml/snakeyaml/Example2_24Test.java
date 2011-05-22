@@ -64,8 +64,8 @@ public class Example2_24Test extends TestCase {
             @SuppressWarnings("unchecked")
             public Object construct(Node node) {
                 MappingNode mnode = (MappingNode) node;
-                Map values = (Map) constructMapping(mnode);
-                Circle circle = new Circle((Map) values.get("center"),
+                Map<Object, Object> values = constructMapping(mnode);
+                Circle circle = new Circle((Map<String, Integer>) values.get("center"),
                         (Integer) values.get("radius"));
                 return circle;
             }
@@ -75,8 +75,9 @@ public class Example2_24Test extends TestCase {
             @SuppressWarnings("unchecked")
             public Object construct(Node node) {
                 MappingNode mnode = (MappingNode) node;
-                Map values = (Map) constructMapping(mnode);
-                Line line = new Line((Map) values.get("start"), (Map) values.get("finish"));
+                Map<Object, Object> values = constructMapping(mnode);
+                Line line = new Line((Map<String, Integer>) values.get("start"),
+                        (Map<String, Integer>) values.get("finish"));
                 return line;
             }
         }
@@ -85,9 +86,9 @@ public class Example2_24Test extends TestCase {
             @SuppressWarnings("unchecked")
             public Object construct(Node node) {
                 MappingNode mnode = (MappingNode) node;
-                Map values = (Map) constructMapping(mnode);
-                Label label = new Label((Map) values.get("start"), (Integer) values.get("color"),
-                        (String) values.get("text"));
+                Map<Object, Object> values = constructMapping(mnode);
+                Label label = new Label((Map<String, Integer>) values.get("start"),
+                        (Integer) values.get("color"), (String) values.get("text"));
                 return label;
             }
         }

@@ -26,9 +26,8 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class RecursiveSortedSetTest extends TestCase {
-    @SuppressWarnings("unchecked")
     public void testDumpException() {
-        SortedSet set = new TreeSet();
+        SortedSet<Object> set = new TreeSet<Object>();
         Bean11 bean = new Bean11();
         bean.setId("ID555");
         bean.setSet(set);

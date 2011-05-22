@@ -67,7 +67,7 @@ public class TypeSafeListNoGerericsTest extends TestCase {
     }
 
     public static class ListBean {
-        private List children;
+        private List<String> children;
         private String name;
         private List developers;
 
@@ -75,11 +75,11 @@ public class TypeSafeListNoGerericsTest extends TestCase {
             name = "Bean123";
         }
 
-        public List getChildren() {
+        public List<String> getChildren() {
             return children;
         }
 
-        public void setChildren(List children) {
+        public void setChildren(List<String> children) {
             this.children = children;
         }
 

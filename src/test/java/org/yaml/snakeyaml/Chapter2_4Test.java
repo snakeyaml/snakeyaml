@@ -174,7 +174,7 @@ public class Chapter2_4Test extends TestCase {
         assertEquals(new Integer(65), map.get("Mark McGwire"));
         assertEquals(new Integer(63), map.get("Sammy Sosa"));
         assertEquals(new Integer(58), map.get("Ken Griffy"));
-        List list = new ArrayList();
+        List<String> list = new ArrayList<String>();
         for (String key : map.keySet()) {
             list.add(key);
         }

@@ -57,19 +57,21 @@ public class YamlStream {
         if (nativeData.size() != parsedNativeData.size()) {
             throw new AssertionFailedError("Different size.");
         }
-        Iterator piterator = parsedNativeData.iterator();
-        Iterator niterator = nativeData.iterator();
+        Iterator<Object> piterator = parsedNativeData.iterator();
+        Iterator<Object> niterator = nativeData.iterator();
         while (piterator.hasNext()) {
             Object obj1 = niterator.next();
             Object obj2 = piterator.next();
             if (obj1 instanceof Map) {
-                Map map1 = (Map) obj1;
-                Map map2 = (Map) obj2;
+                @SuppressWarnings("unchecked")
+                Map<Object, Object> map1 = (Map<Object, Object>) obj1;
+                @SuppressWarnings("unchecked")
+                Map<Object, Object> map2 = (Map<Object, Object>) obj2;
                 if (!map1.keySet().equals(map2.keySet())) {
                     throw new AssertionFailedError("Keyset: " + map1.keySet() + "; but was: "
                             + map2.keySet());
                 }
-                for (Iterator iterator = map1.keySet().iterator(); iterator.hasNext();) {
+                for (Iterator<Object> iterator = map1.keySet().iterator(); iterator.hasNext();) {
                     Object key = iterator.next();
                     Object o1 = map1.get(key);
                     Object o2 = map2.get(key);

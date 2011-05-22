@@ -42,7 +42,7 @@ public abstract class AbstractTest extends TestCase {
     }
 
     protected Object getMapValue(String data, String key) {
-        Map nativeData = getMap(data);
+        Map<String, Object> nativeData = getMap(data);
         return nativeData.get(key);
     }
 }

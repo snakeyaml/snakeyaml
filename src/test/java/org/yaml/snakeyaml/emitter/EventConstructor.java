@@ -48,9 +48,9 @@ public class EventConstructor extends Constructor {
 
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
-            Map mapping;
+            Map<Object, Object> mapping;
             if (node instanceof ScalarNode) {
-                mapping = new HashMap();
+                mapping = new HashMap<Object, Object>();
             } else {
                 mapping = constructMapping((MappingNode) node);
             }
@@ -64,7 +64,7 @@ public class EventConstructor extends Constructor {
                 if (v == null) {
                     v = "";
                 }
-                List implicitList = (List) mapping.get("implicit");
+                List<Boolean> implicitList = (List<Boolean>) mapping.get("implicit");
                 ImplicitTuple implicit;
                 if (implicitList == null) {
                     implicit = new ImplicitTuple(false, true);

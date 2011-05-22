@@ -40,10 +40,10 @@ public class SelectiveConstructorTest extends TestCase {
         class MyPersistentObjectConstruct extends Constructor.ConstructMapping {
             @Override
             protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
-                Class type = node.getType();
+                Class<?> type = node.getType();
                 if (type.equals(MyPersistentObject.class)) {
                     // create a map
-                    Map map = constructMapping(node);
+                    Map<Object, Object> map = constructMapping(node);
                     String id = (String) map.get("id");
                     return new MyPersistentObject(id, 17);
                 } else {

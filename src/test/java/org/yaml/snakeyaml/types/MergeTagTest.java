@@ -30,7 +30,7 @@ public class MergeTagTest extends AbstractTest {
     @SuppressWarnings("unchecked")
     public void testMerge() throws IOException {
         YamlDocument document = new YamlDocument("types/merge.yaml");
-        List list = (List) document.getNativeData();
+        List<Object> list = (List<Object>) document.getNativeData();
         assertEquals(8, list.size());
         Map<Object, Object> center = (Map<Object, Object>) list.get(0);
         assertEquals(2, center.size());

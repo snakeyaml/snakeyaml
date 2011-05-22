@@ -40,7 +40,8 @@ public class LoadExampleTest extends TestCase {
     public void testLoadFromString() {
         Yaml yaml = new Yaml();
         String document = "hello: 25";
-        Map map = (Map) yaml.load(document);
+        @SuppressWarnings("unchecked")
+        Map<String, Integer> map = (Map<String, Integer>) yaml.load(document);
         assertEquals("{hello=25}", map.toString());
         assertEquals(new Integer(25), map.get("hello"));
     }

@@ -116,13 +116,12 @@ public class PyEmitterTest extends PyImportTest {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public void testEmitterStyles() throws IOException {
         File[] canonicalFiles = getStreamsByExtension(".canonical", false);
         assertTrue("No test files found.", canonicalFiles.length > 0);
         File[] dataFiles = getStreamsByExtension(".data", true);
         assertTrue("No test files found.", dataFiles.length > 0);
-        List<File> allFiles = new ArrayList(Arrays.asList(canonicalFiles));
+        List<File> allFiles = new ArrayList<File>(Arrays.asList(canonicalFiles));
         allFiles.addAll(Arrays.asList(dataFiles));
         for (File file : allFiles) {
             try {

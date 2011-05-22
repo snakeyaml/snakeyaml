@@ -26,10 +26,9 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class RecursiveSetTest extends TestCase {
-    @SuppressWarnings("unchecked")
     public void testDumpException() {
-        Set set1 = new HashSet();
-        Set set2 = new HashSet();
+        Set<Object> set1 = new HashSet<Object>();
+        Set<Object> set2 = new HashSet<Object>();
         set1.add(set2);
         set2.add(set1);
         Yaml yaml = new Yaml();
