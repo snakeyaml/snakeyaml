@@ -7,6 +7,12 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="fix" issue="115" due-to="elkniwt">
+                Fix: parameterised JavaBeans fail to load and dump because they are treated as Maps (2011-05-16)
+            </action>
+            <action dev="py4fun" type="fix" issue="114" due-to="gileadis">
+                Fix: Do not remove root tags of JavaBeans when it is not explicitly requested (2011-04-20)
+            </action>
             <action dev="py4fun" type="fix" issue="111" due-to="JordanAngold">
                 Fix: Long escaped tag URI sequences throw BufferOverflowException (2011-03-03)
             </action>
