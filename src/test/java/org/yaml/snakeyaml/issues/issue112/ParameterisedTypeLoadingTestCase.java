@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Yaml;
 
 public class ParameterisedTypeLoadingTestCase {
@@ -37,6 +38,17 @@ public class ParameterisedTypeLoadingTestCase {
 
         for (Object thing : obj.getThings()) {
             assertEquals(MyClass.class, thing.getClass());
+            // @SuppressWarnings("unchecked")
+            // MyClass<Object> mclass = (MyClass<Object>) thing;
+            // assertTrue(mclass.getName().toString() + " must not be empty.",
+            // mclass.getName()
+            // .toString().length() > 0);
         }
+
+        // dump the object
+        JavaBeanDumper dumper = new JavaBeanDumper();
+        String output = dumper.dump(obj);
+        // assertEquals(output,
+        // Util.getLocalResource("issues/issue112-1.yaml"));
     }
 }
