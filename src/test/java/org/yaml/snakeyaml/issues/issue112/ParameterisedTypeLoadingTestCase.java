@@ -18,12 +18,13 @@ package org.yaml.snakeyaml.issues.issue112;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.JavaBeanDumper;
+import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -34,22 +35,39 @@ public class ParameterisedTypeLoadingTestCase {
     public void testParameterisedTypeLoading() throws IOException {
         Yaml yamlParser = new Yaml(new Constructor(MyCompositeObject.class));
 
-        MyCompositeObject obj = (MyCompositeObject) yamlParser.load(this.getClass()
-                .getClassLoader().getResource("issues/issue112-1.yaml").openStream());
+        MyCompositeObject obj = (MyCompositeObject) yamlParser.load(getInput());
 
-        assertNotNull(obj);
-
-        for (Object thing : obj.getThings()) {
-            assertEquals(MyClass.class, thing.getClass());
-            @SuppressWarnings("unchecked")
-            MyClass<Object> mclass = (MyClass<Object>) thing;
-            assertNotNull("The 'name' property must be set.", mclass.getName());
-            assertTrue("'name' must not be empty.", mclass.getName().toString().length() > 0);
-        }
+        check(obj);
 
         // dump the object
         JavaBeanDumper dumper = new JavaBeanDumper();
         String output = dumper.dump(obj);
         assertEquals(Util.getLocalResource("issues/issue112-2.yaml"), output);
+    }
+
+    @Test
+    public void testJavaBeanLoader() throws IOException {
+        JavaBeanLoader<MyCompositeObject> yamlParser = new JavaBeanLoader<MyCompositeObject>(
+                MyCompositeObject.class);
+
+        MyCompositeObject obj = yamlParser.load(getInput());
+
+        check(obj);
+    }
+
+    private void check(MyCompositeObject obj) {
+        Object[] values = { 1, "two", 3, "four", "!!!" };
+        assertNotNull(obj);
+        assertEquals(5, obj.getThings().size());
+        int i = 0;
+        for (MyClass<? extends Object> thing : obj.getThings()) {
+            assertEquals(MyClass.class, thing.getClass());
+            assertNotNull("The 'name' property must be set.", thing.getName());
+            assertEquals(values[i++], thing.getName());
+        }
+    }
+
+    private InputStream getInput() throws IOException {
+        return this.getClass().getClassLoader().getResource("issues/issue112-1.yaml").openStream();
     }
 }
