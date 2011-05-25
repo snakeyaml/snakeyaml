@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="fix" issue="112" due-to="Lethargish">
+                Fix: Improved support for parameterised types in collections (2011-05-25)
+            </action>
             <action dev="py4fun" type="fix" issue="115" due-to="elkniwt">
                 Fix: parameterised JavaBeans fail to load and dump because they are treated as Maps (2011-05-16)
             </action>
