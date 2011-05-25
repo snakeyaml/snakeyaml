@@ -18,18 +18,21 @@ package org.yaml.snakeyaml.issues.issue112;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.JavaBeanDumper;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class ParameterisedTypeLoadingTestCase {
 
     @Test
     public void testParameterisedTypeLoading() throws IOException {
-        Yaml yamlParser = new Yaml(new MyYAMLConstructor(MyCompositeObject.class));
+        Yaml yamlParser = new Yaml(new Constructor(MyCompositeObject.class));
 
         MyCompositeObject obj = (MyCompositeObject) yamlParser.load(this.getClass()
                 .getClassLoader().getResource("issues/issue112-1.yaml").openStream());
@@ -40,16 +43,13 @@ public class ParameterisedTypeLoadingTestCase {
             assertEquals(MyClass.class, thing.getClass());
             @SuppressWarnings("unchecked")
             MyClass<Object> mclass = (MyClass<Object>) thing;
-            // assertNotNull("The 'name' property must be set.",
-            // mclass.getName());
-            // assertTrue("'name' must not be empty.",
-            // mclass.getName().toString().length() > 0);
+            assertNotNull("The 'name' property must be set.", mclass.getName());
+            assertTrue("'name' must not be empty.", mclass.getName().toString().length() > 0);
         }
 
         // dump the object
         JavaBeanDumper dumper = new JavaBeanDumper();
         String output = dumper.dump(obj);
-        // assertEquals(Util.getLocalResource("issues/issue112-1.yaml"),
-        // output);
+        assertEquals(Util.getLocalResource("issues/issue112-2.yaml"), output);
     }
 }

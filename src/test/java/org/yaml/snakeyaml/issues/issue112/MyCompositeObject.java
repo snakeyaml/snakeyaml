@@ -28,5 +28,4 @@ public class MyCompositeObject {
     public void setThings(Collection<MyClass<? extends Object>> things) {
         this.things = things;
     }
-
 }
