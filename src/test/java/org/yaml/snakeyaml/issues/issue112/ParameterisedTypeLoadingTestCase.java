@@ -38,17 +38,18 @@ public class ParameterisedTypeLoadingTestCase {
 
         for (Object thing : obj.getThings()) {
             assertEquals(MyClass.class, thing.getClass());
-            // @SuppressWarnings("unchecked")
-            // MyClass<Object> mclass = (MyClass<Object>) thing;
-            // assertTrue(mclass.getName().toString() + " must not be empty.",
-            // mclass.getName()
-            // .toString().length() > 0);
+            @SuppressWarnings("unchecked")
+            MyClass<Object> mclass = (MyClass<Object>) thing;
+            // assertNotNull("The 'name' property must be set.",
+            // mclass.getName());
+            // assertTrue("'name' must not be empty.",
+            // mclass.getName().toString().length() > 0);
         }
 
         // dump the object
         JavaBeanDumper dumper = new JavaBeanDumper();
         String output = dumper.dump(obj);
-        // assertEquals(output,
-        // Util.getLocalResource("issues/issue112-1.yaml"));
+        // assertEquals(Util.getLocalResource("issues/issue112-1.yaml"),
+        // output);
     }
 }
