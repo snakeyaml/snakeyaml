@@ -103,14 +103,22 @@ public class RepresenterTest extends TestCase {
     }
 
     public void testRepresenterGetterWithException() {
-        MyBean3 bean = new MyBean3("Gnome", true);
-        Yaml yaml = new Yaml();
+        MyBean3 bean = new MyBean3("Gnome", false);
+        DumperOptions options = new DumperOptions();
+        options.setAllowReadOnlyProperties(true);
+        Yaml yaml = new Yaml(options);
         try {
             String str = yaml.dump(bean);
             fail("Exception must be reported: " + str);
         } catch (Exception e) {
             assertTrue(true);
         }
+        // no exception
+        MyBean3 bean2 = new MyBean3("Gnome", true);
+        String str = yaml.dump(bean2);
+        // FIXME isValid property is lost
+        assertEquals("!!org.yaml.snakeyaml.representer.RepresenterTest$MyBean3 {name: Gnome}\n",
+                str);
     }
 
     public static class MyBean3 {
@@ -123,7 +131,11 @@ public class RepresenterTest extends TestCase {
         }
 
         public String getName() {
-            throw new UnsupportedOperationException("Test.");
+            if (valid) {
+                return name;
+            } else {
+                throw new UnsupportedOperationException("Test.");
+            }
         }
 
         public Boolean isValid() {
@@ -132,7 +144,7 @@ public class RepresenterTest extends TestCase {
 
         @Override
         public String toString() {
-            return name + " " + isValid();
+            return "MyBean3<" + name + ", " + isValid() + ">";
         }
     }
 
