@@ -63,17 +63,4 @@ public class ReadOnlyPropertiesTest extends TestCase {
                     message.contains("Unable to find property 'id' on class: org.yaml.snakeyaml.issues.issue47.IncompleteBean"));
         }
     }
-
-    public void testBeanWithNoProperties() {
-        BeanWithNoProperties bean = new BeanWithNoProperties();
-        JavaBeanDumper yaml = new JavaBeanDumper();
-        try {
-            yaml.dump(bean);
-            fail("No properties must be reported.");
-        } catch (YAMLException e) {
-            assertEquals(
-                    "No JavaBean properties found in org.yaml.snakeyaml.issues.issue47.BeanWithNoProperties",
-                    e.getMessage());
-        }
-    }
 }

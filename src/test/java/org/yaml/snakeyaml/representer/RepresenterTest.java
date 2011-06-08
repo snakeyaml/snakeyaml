@@ -106,8 +106,8 @@ public class RepresenterTest extends TestCase {
         MyBean3 bean = new MyBean3("Gnome", true);
         Yaml yaml = new Yaml();
         try {
-            yaml.dump(bean);
-            fail("Exception must be reported");
+            String str = yaml.dump(bean);
+            fail("Exception must be reported: " + str);
         } catch (Exception e) {
             assertTrue(true);
         }
