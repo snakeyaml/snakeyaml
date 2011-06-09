@@ -76,6 +76,7 @@ public class ReaderBomTest extends TestCase {
         reader.forward(1);
         assertEquals('\u0000', reader.peek());
         assertEquals(Charset.forName("UTF-8"), reader.getEncoding());
+        input.close();
     }
 
     public void testUnicodeLeBom() throws IOException {
@@ -93,6 +94,7 @@ public class ReaderBomTest extends TestCase {
         reader.forward(1);
         assertEquals('\u0000', reader.peek());
         assertEquals(Charset.forName("UTF-16LE"), reader.getEncoding());
+        input.close();
     }
 
     public void testUnicodeBeBom() throws IOException {
@@ -110,6 +112,6 @@ public class ReaderBomTest extends TestCase {
         reader.forward(1);
         assertEquals('\u0000', reader.peek());
         assertEquals(Charset.forName("UTF-16BE"), reader.getEncoding());
+        input.close();
     }
-
 }
