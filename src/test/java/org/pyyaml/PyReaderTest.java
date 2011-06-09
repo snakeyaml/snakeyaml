@@ -19,6 +19,7 @@ package org.pyyaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.yaml.snakeyaml.reader.ReaderException;
 import org.yaml.snakeyaml.reader.StreamReader;
@@ -32,8 +33,8 @@ public class PyReaderTest extends PyImportTest {
     public void testReaderUnicodeErrors() throws IOException {
         File[] inputs = getStreamsByExtension(".stream-error");
         for (int i = 0; i < inputs.length; i++) {
-            StreamReader stream = new StreamReader(
-                    new UnicodeReader(new FileInputStream(inputs[i])));
+            InputStream input = new FileInputStream(inputs[i]);
+            StreamReader stream = new StreamReader(new UnicodeReader(input));
             try {
                 while (stream.peek() != '\u0000') {
                     stream.forward();
@@ -43,8 +44,9 @@ public class PyReaderTest extends PyImportTest {
             } catch (ReaderException e) {
                 assertTrue(e.toString(),
                         e.toString().contains(" special characters are not allowed"));
+            } finally {
+                input.close();
             }
         }
     }
-
 }

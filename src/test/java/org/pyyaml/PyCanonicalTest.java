@@ -35,7 +35,9 @@ public class PyCanonicalTest extends PyImportTest {
         File[] files = getStreamsByExtension(".canonical");
         assertTrue("No test files found.", files.length > 0);
         for (int i = 0; i < files.length; i++) {
-            List<Token> tokens = canonicalScan(new FileInputStream(files[i]));
+            InputStream input = new FileInputStream(files[i]);
+            List<Token> tokens = canonicalScan(input);
+            input.close();
             assertFalse(tokens.isEmpty());
         }
     }
@@ -59,7 +61,9 @@ public class PyCanonicalTest extends PyImportTest {
         File[] files = getStreamsByExtension(".canonical");
         assertTrue("No test files found.", files.length > 0);
         for (int i = 0; i < files.length; i++) {
-            List<Event> tokens = canonicalParse(new FileInputStream(files[i]));
+            InputStream input = new FileInputStream(files[i]);
+            List<Event> tokens = canonicalParse(input);
+            input.close();
             assertFalse(tokens.isEmpty());
         }
     }

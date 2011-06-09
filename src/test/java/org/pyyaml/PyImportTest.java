@@ -98,6 +98,7 @@ public abstract class PyImportTest extends TestCase {
         while (parser.peekEvent() != null) {
             result.add(parser.getEvent());
         }
+        input2.close();
         return result;
     }
 
@@ -108,6 +109,7 @@ public abstract class PyImportTest extends TestCase {
         while (parser.peekEvent() != null) {
             result.add(parser.getEvent());
         }
+        input.close();
         return result;
     }
 

@@ -19,6 +19,7 @@ package org.pyyaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +64,9 @@ public class PyEmitterTest extends PyImportTest {
             // continue;
             // }
             try {
-                List<Event> events = parse(new FileInputStream(file));
+                InputStream input = new FileInputStream(file);
+                List<Event> events = parse(input);
+                input.close();
                 //
                 StringWriter stream = new StringWriter();
                 DumperOptions options = new DumperOptions();
@@ -126,12 +129,14 @@ public class PyEmitterTest extends PyImportTest {
         for (File file : allFiles) {
             try {
                 List<Event> events = new ArrayList<Event>();
-                StreamReader reader = new StreamReader(new UnicodeReader(new FileInputStream(file)));
+                InputStream input = new FileInputStream(file);
+                StreamReader reader = new StreamReader(new UnicodeReader(input));
                 Parser parser = new ParserImpl(reader);
                 while (parser.peekEvent() != null) {
                     Event event = parser.getEvent();
                     events.add(event);
                 }
+                input.close();
                 //
                 for (Boolean flowStyle : new Boolean[] { Boolean.FALSE, Boolean.TRUE }) {
                     for (DumperOptions.ScalarStyle style : DumperOptions.ScalarStyle.values()) {

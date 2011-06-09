@@ -43,5 +43,4 @@ public class AnInstance {
     public void setBar(Object bar) {
         this.bar = bar;
     }
-
 }

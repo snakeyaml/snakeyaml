@@ -19,6 +19,7 @@ package org.pyyaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -54,9 +55,11 @@ public class PyErrorsTest extends PyImportTest {
                 continue;
             }
             try {
-                for (Object document : loadAll(new FileInputStream(files[i]))) {
+                InputStream input = new FileInputStream(files[i]);
+                for (Object document : loadAll(input)) {
                     assertNotNull("File " + files[i], document);
                 }
+                input.close();
                 fail("Loading must fail for " + files[i].getAbsolutePath());
                 // System.err.println("Loading must fail for " +
                 // files[i].getAbsolutePath());

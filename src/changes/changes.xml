@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="fix" issue="121" due-to="Jaromir">
+                Fix: close files in tests to avoid a possible file handle limit (2011-06-09)
+            </action>
             <action dev="py4fun" type="fix" issue="116" due-to="Jim Peterson">
                 Fix: Improved support for empty JavaBeans (2011-06-09)
             </action>
