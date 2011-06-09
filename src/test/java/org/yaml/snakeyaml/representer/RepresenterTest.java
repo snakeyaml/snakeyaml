@@ -116,18 +116,22 @@ public class RepresenterTest extends TestCase {
         // no exception
         MyBean3 bean2 = new MyBean3("Gnome", true);
         String str = yaml.dump(bean2);
-        // FIXME isValid property is lost
-        assertEquals("!!org.yaml.snakeyaml.representer.RepresenterTest$MyBean3 {name: Gnome}\n",
+        // isValid is no JavaBean property (it must be a primitive then)
+        assertEquals(
+                "isValid property must not be dumped.",
+                "!!org.yaml.snakeyaml.representer.RepresenterTest$MyBean3 {boolProperty: true, name: Gnome}\n",
                 str);
     }
 
     public static class MyBean3 {
         private String name;
         private Boolean valid;
+        private boolean boolProperty;
 
         public MyBean3(String name, Boolean valid) {
             this.name = name;
             this.valid = valid;
+            boolProperty = true;
         }
 
         public String getName() {
@@ -140,6 +144,10 @@ public class RepresenterTest extends TestCase {
 
         public Boolean isValid() {
             return valid;
+        }
+
+        public boolean isBoolProperty() {
+            return boolProperty;
         }
 
         @Override
