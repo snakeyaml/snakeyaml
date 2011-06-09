@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 
 public class GenericListBeanTest extends TestCase {
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void testGenericList() throws Exception {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         ListProvider<String> listProvider = new ListProvider<String>();
@@ -43,6 +43,7 @@ public class GenericListBeanTest extends TestCase {
         assertEquals(listProvider, listProvider2);
     }
 
+    @SuppressWarnings("rawtypes")
     public void testGenericBean() throws Exception {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         ListProvider<Bean> listProvider = new ListProvider<Bean>();
@@ -79,6 +80,7 @@ public class GenericListBeanTest extends TestCase {
             this.list = list;
         }
 
+        @SuppressWarnings("rawtypes")
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof ListProvider) {

@@ -66,6 +66,7 @@ public class TypeSafeListNoGerericsTest extends TestCase {
         assertEquals("creator", fred.get("role"));
     }
 
+    @SuppressWarnings("rawtypes")
     public static class ListBean {
         private List<String> children;
         private String name;

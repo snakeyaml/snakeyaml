@@ -54,7 +54,7 @@ public class PyRecursiveTest extends TestCase {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void testDictSafeConstructor() {
         Map value = new TreeMap();
         value.put("abc", "www");
@@ -70,7 +70,7 @@ public class PyRecursiveTest extends TestCase {
         assertTrue(value3.get("qwerty") instanceof Map);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void testList() {
         List value = new ArrayList();
         value.add(value);
@@ -92,7 +92,7 @@ public class PyRecursiveTest extends TestCase {
         assertEquals(value, value2);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void testListSafeConstructor() {
         List value = new ArrayList();
         value.add(value);
@@ -114,7 +114,7 @@ public class PyRecursiveTest extends TestCase {
         assertEquals(value, value2);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void testSet() {
         Set value = new HashSet();
         value.add(new AnInstance(value, value));
