@@ -44,6 +44,9 @@ abstract public class GenericProperty extends Property {
                     for (int i = 0; i < actualTypeArguments.length; i++) {
                         if (actualTypeArguments[i] instanceof Class<?>) {
                             actualClasses[i] = (Class<?>) actualTypeArguments[i];
+                        } else if (actualTypeArguments[i] instanceof ParameterizedType) {
+                            actualClasses[i] = (Class<?>) ((ParameterizedType) actualTypeArguments[i])
+                                    .getRawType();
                         } else if (actualTypeArguments[i] instanceof GenericArrayType) {
                             Type componentType = ((GenericArrayType) actualTypeArguments[i])
                                     .getGenericComponentType();

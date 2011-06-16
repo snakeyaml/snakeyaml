@@ -64,6 +64,7 @@ public class YamlBase64Test extends TestCase {
         Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
         byte[] jpeg = (byte[]) bean.get("jpegPhoto");
         checkBytes(jpeg);
+        inputStream.close();
     }
 
     private void checkBytes(byte[] jpeg) throws IOException {
@@ -85,8 +86,10 @@ public class YamlBase64Test extends TestCase {
 
     /**
      * In the literal scalar all the line breaks are significant
+     * 
+     * @throws IOException
      */
-    public void testYamlBase64LoadingLiteral() {
+    public void testYamlBase64LoadingLiteral() throws IOException {
         Yaml yaml = new Yaml();
         InputStream inputStream = YamlBase64Test.class
                 .getResourceAsStream("/issues/issue99-base64_literal.yaml");
@@ -96,6 +99,8 @@ public class YamlBase64Test extends TestCase {
         } catch (Exception e) {
             assertEquals("Length of Base64 encoded input string is not a multiple of 4.",
                     e.getMessage());
+        } finally {
+            inputStream.close();
         }
     }
 
@@ -111,6 +116,7 @@ public class YamlBase64Test extends TestCase {
         Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
         byte[] jpeg = (byte[]) bean.get("jpegPhoto");
         checkBytes(jpeg);
+        inputStream.close();
     }
 
     private class SpecialContructor extends Constructor {
@@ -140,5 +146,6 @@ public class YamlBase64Test extends TestCase {
         Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
         byte[] jpeg = (byte[]) bean.get("jpegPhoto");
         checkBytes(jpeg);
+        inputStream.close();
     }
 }

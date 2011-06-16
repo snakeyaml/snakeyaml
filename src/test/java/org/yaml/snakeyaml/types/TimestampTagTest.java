@@ -29,35 +29,35 @@ import java.util.TimeZone;
 public class TimestampTagTest extends AbstractTest {
 
     public void testTimestamp() throws IOException {
-        assertEquals("2001-12-15 at 2:59:43 (100)", getText("canonical: 2001-12-15T02:59:43.1Z",
-                "canonical"));
+        assertEquals("2001-12-15 at 2:59:43 (100)",
+                getText("canonical: 2001-12-15T02:59:43.1Z", "canonical"));
         // zero miliseconds
-        assertEquals("2001-12-15 at 2:59:43 (0)", getText("canonical: 2001-12-15T02:59:43.000Z",
-                "canonical"));
-        assertEquals("2001-12-15 at 2:59:43 (100)", getText(
-                "valid iso8601:    2001-12-14t21:59:43.10-05:00", "valid iso8601"));
+        assertEquals("2001-12-15 at 2:59:43 (0)",
+                getText("canonical: 2001-12-15T02:59:43.000Z", "canonical"));
+        assertEquals("2001-12-15 at 2:59:43 (100)",
+                getText("valid iso8601:    2001-12-14t21:59:43.10-05:00", "valid iso8601"));
         // half hour time zone
-        assertEquals("2001-12-14 at 22:29:43 (100)", getText(
-                "valid iso8601:    2001-12-14t21:59:43.10-0:30", "valid iso8601"));
+        assertEquals("2001-12-14 at 22:29:43 (100)",
+                getText("valid iso8601:    2001-12-14t21:59:43.10-0:30", "valid iso8601"));
         // + time zone
-        assertEquals("2001-12-14 at 19:59:43 (100)", getText(
-                "valid iso8601:    2001-12-14t21:59:43.10+2:00", "valid iso8601"));
-        assertEquals("2001-12-15 at 2:59:43 (100)", getText(
-                "space separated:  2001-12-14 21:59:43.10 -5", "space separated"));
-        assertEquals("2001-12-15 at 2:59:43 (100)", getText(
-                "no time zone (Z): 2001-12-15 2:59:43.10", "no time zone (Z)"));
-        assertEquals("2002-12-14 at 0:0:0 (0)", getText("date (00:00:00Z): 2002-12-14",
-                "date (00:00:00Z)"));
-        assertEquals("2010-5-16 at 3:6:11 (3)", getText("milliseconds: 2010-05-16 03:06:11.003",
-                "milliseconds"));
-        assertEquals("2010-5-16 at 3:6:11 (7)", getText("milliseconds: 2010-05-16 03:06:11.0068",
-                "milliseconds"));
-        assertEquals("2010-5-16 at 3:6:11 (0)", getText("milliseconds: 2010-05-16 03:06:11.0000",
-                "milliseconds"));
-        assertEquals("2010-5-16 at 3:6:11 (0)", getText("milliseconds: 2010-05-16 03:06:11.0004",
-                "milliseconds"));
-        assertEquals("2010-5-16 at 3:6:11 (25)", getText("milliseconds: 2010-05-16 03:06:11.0250",
-                "milliseconds"));
+        assertEquals("2001-12-14 at 19:59:43 (100)",
+                getText("valid iso8601:    2001-12-14t21:59:43.10+2:00", "valid iso8601"));
+        assertEquals("2001-12-15 at 2:59:43 (100)",
+                getText("space separated:  2001-12-14 21:59:43.10 -5", "space separated"));
+        assertEquals("2001-12-15 at 2:59:43 (100)",
+                getText("no time zone (Z): 2001-12-15 2:59:43.10", "no time zone (Z)"));
+        assertEquals("2002-12-14 at 0:0:0 (0)",
+                getText("date (00:00:00Z): 2002-12-14", "date (00:00:00Z)"));
+        assertEquals("2010-5-16 at 3:6:11 (3)",
+                getText("milliseconds: 2010-05-16 03:06:11.003", "milliseconds"));
+        assertEquals("2010-5-16 at 3:6:11 (7)",
+                getText("milliseconds: 2010-05-16 03:06:11.0068", "milliseconds"));
+        assertEquals("2010-5-16 at 3:6:11 (0)",
+                getText("milliseconds: 2010-05-16 03:06:11.0000", "milliseconds"));
+        assertEquals("2010-5-16 at 3:6:11 (0)",
+                getText("milliseconds: 2010-05-16 03:06:11.0004", "milliseconds"));
+        assertEquals("2010-5-16 at 3:6:11 (25)",
+                getText("milliseconds: 2010-05-16 03:06:11.0250", "milliseconds"));
     }
 
     public void testTimestampShorthand() throws IOException {

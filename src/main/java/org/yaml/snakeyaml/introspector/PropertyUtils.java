@@ -44,6 +44,7 @@ public class PropertyUtils {
         }
 
         Map<String, Property> properties = new LinkedHashMap<String, Property>();
+        boolean inaccessableFieldsExist = false;
         switch (bAccess) {
         case FIELD:
             for (Class<?> c = type; c != null; c = c.getSuperclass()) {
@@ -71,15 +72,21 @@ public class PropertyUtils {
             }
 
             // add public fields
-            for (Field field : type.getFields()) {
-                int modifiers = field.getModifiers();
-                if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)) {
-                    properties.put(field.getName(), new FieldProperty(field));
+            for (Class<?> c = type; c != null; c = c.getSuperclass()) {
+                for (Field field : c.getDeclaredFields()) {
+                    int modifiers = field.getModifiers();
+                    if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)) {
+                        if (Modifier.isPublic(modifiers)) {
+                            properties.put(field.getName(), new FieldProperty(field));
+                        } else {
+                            inaccessableFieldsExist = true;
+                        }
+                    }
                 }
             }
             break;
         }
-        if (properties.isEmpty()) {
+        if (properties.isEmpty() && inaccessableFieldsExist) {
             throw new YAMLException("No JavaBean properties found in " + type.getName());
         }
         propertiesCache.put(type, properties);
@@ -95,9 +102,6 @@ public class PropertyUtils {
             return readableProperties.get(type);
         }
         Set<Property> properties = createPropertySet(type, bAccess);
-        if (properties.isEmpty()) {
-            throw new YAMLException("No JavaBean properties found in " + type.getName());
-        }
         readableProperties.put(type, properties);
         return properties;
     }

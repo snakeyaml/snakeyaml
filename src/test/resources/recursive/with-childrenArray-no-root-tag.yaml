@@ -1,0 +1,34 @@
+&id002
+bankAccountOwner: &id001
+  bankAccountOwner: *id001
+  birthPlace: Leningrad
+  birthday: 1970-01-12T13:46:40Z
+  children: &id003
+  - *id002
+  - bankAccountOwner: *id001
+    birthPlace: New York
+    birthday: 1983-04-24T02:40:00Z
+    children: []
+    father: *id001
+    mother: &id004
+      bankAccountOwner: *id001
+      birthPlace: Saint-Petersburg
+      birthday: 1973-03-03T09:46:40Z
+      children: *id003
+      father: null
+      mother: null
+      name: Mother
+      partner: *id001
+    name: Daughter
+    partner: null
+  father: null
+  mother: null
+  name: Father
+  partner: *id004
+birthPlace: Munich
+birthday: 1979-10-28T23:06:40Z
+children: []
+father: *id001
+mother: *id004
+name: Son
+partner: null

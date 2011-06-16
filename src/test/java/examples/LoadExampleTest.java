@@ -19,7 +19,7 @@ package examples;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -40,12 +40,13 @@ public class LoadExampleTest extends TestCase {
     public void testLoadFromString() {
         Yaml yaml = new Yaml();
         String document = "hello: 25";
-        Map map = (Map) yaml.load(document);
+        @SuppressWarnings("unchecked")
+        Map<String, Integer> map = (Map<String, Integer>) yaml.load(document);
         assertEquals("{hello=25}", map.toString());
         assertEquals(new Integer(25), map.get("hello"));
     }
 
-    public void testLoadFromStream() throws FileNotFoundException {
+    public void testLoadFromStream() throws IOException {
         InputStream input = new FileInputStream(new File("src/test/resources/reader/utf-8.txt"));
         Yaml yaml = new Yaml();
         Object data = yaml.load(input);
@@ -53,9 +54,10 @@ public class LoadExampleTest extends TestCase {
         //
         data = yaml.load(new ByteArrayInputStream("test2".getBytes()));
         assertEquals("test2", data);
+        input.close();
     }
 
-    public void testLoadManyDocuments() throws FileNotFoundException {
+    public void testLoadManyDocuments() throws IOException {
         InputStream input = new FileInputStream(new File(
                 "src/test/resources/specification/example2_28.yaml"));
         Yaml yaml = new Yaml();
@@ -66,5 +68,6 @@ public class LoadExampleTest extends TestCase {
             counter++;
         }
         assertEquals(3, counter);
+        input.close();
     }
 }

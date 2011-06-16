@@ -33,20 +33,20 @@ public class AnyObjectExampleTest extends TestCase {
         Map<String, Object> object = (Map<String, Object>) yaml.load(doc);
         assertEquals(6, object.size());
         assertEquals("[null, null]", object.get("none").toString());
-        List list1 = (List) object.get("none");
+        List<?> list1 = (List<?>) object.get("none");
         assertEquals(2, list1.size());
         for (Object object2 : list1) {
             assertNull(object2);
         }
         //
         assertEquals("[true, false, true, false]", object.get("bool").toString());
-        assertEquals(4, ((List) object.get("bool")).size());
+        assertEquals(4, ((List<?>) object.get("bool")).size());
         //
         assertEquals(new Integer(42), object.get("int"));
         assertEquals(new Double(3.14159), object.get("float"));
         //
         assertEquals("[LITE, RES_ACID, SUS_DEXT]", object.get("list").toString());
-        List list2 = (List) object.get("list");
+        List<?> list2 = (List<?>) object.get("list");
         assertEquals(3, list2.size());
         for (Object object2 : list2) {
             assertEquals(object2.toString(), object2.toString().toUpperCase());

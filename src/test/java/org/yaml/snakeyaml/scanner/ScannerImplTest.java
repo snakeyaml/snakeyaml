@@ -52,8 +52,8 @@ public class ScannerImplTest extends TestCase {
         while (!etalonTokens.isEmpty() && scanner.checkToken(etalonTokens.get(0).getTokenId())) {
             assertEquals(etalonTokens.removeFirst(), scanner.getToken());
         }
-        assertFalse("Must contain no more tokens: " + scanner.getToken(), scanner
-                .checkToken(new Token.ID[0]));
+        assertFalse("Must contain no more tokens: " + scanner.getToken(),
+                scanner.checkToken(new Token.ID[0]));
     }
 
     public void testWrongTab() throws IOException {

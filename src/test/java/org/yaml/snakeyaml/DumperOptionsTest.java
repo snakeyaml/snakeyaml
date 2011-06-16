@@ -201,8 +201,8 @@ public class DumperOptionsTest extends TestCase {
 
     public void testLineBreakForPlatform() {
         DumperOptions.LineBreak lineBreak = DumperOptions.LineBreak.getPlatformLineBreak();
-        assertEquals("Line break must match platform's default.", System
-                .getProperty("line.separator"), lineBreak.getString());
+        assertEquals("Line break must match platform's default.",
+                System.getProperty("line.separator"), lineBreak.getString());
         //
         Yaml yaml = new Yaml();
         List<Integer> list = new ArrayList<Integer>();
@@ -218,8 +218,8 @@ public class DumperOptionsTest extends TestCase {
         System.setProperty("line.separator", "\n");
         assertEquals("\n", System.getProperty("line.separator"));
         DumperOptions.LineBreak lineBreak = DumperOptions.LineBreak.getPlatformLineBreak();
-        assertEquals("Line break must match platform's default.", System
-                .getProperty("line.separator"), lineBreak.getString());
+        assertEquals("Line break must match platform's default.",
+                System.getProperty("line.separator"), lineBreak.getString());
         assertEquals("Unknown Line break must match UNIX line break.", "\n", lineBreak.getString());
     }
 
@@ -227,8 +227,8 @@ public class DumperOptionsTest extends TestCase {
         System.setProperty("line.separator", "\r");
         assertEquals("\r", System.getProperty("line.separator"));
         DumperOptions.LineBreak lineBreak = DumperOptions.LineBreak.getPlatformLineBreak();
-        assertEquals("Line break must match platform's default.", System
-                .getProperty("line.separator"), lineBreak.getString());
+        assertEquals("Line break must match platform's default.",
+                System.getProperty("line.separator"), lineBreak.getString());
         assertEquals("Unknown Line break must match UNIX line break.", "\r", lineBreak.getString());
     }
 
@@ -236,10 +236,10 @@ public class DumperOptionsTest extends TestCase {
         System.setProperty("line.separator", "\r\n");
         assertEquals("\r\n", System.getProperty("line.separator"));
         DumperOptions.LineBreak lineBreak = DumperOptions.LineBreak.getPlatformLineBreak();
-        assertEquals("Line break must match platform's default.", System
-                .getProperty("line.separator"), lineBreak.getString());
-        assertEquals("Unknown Line break must match UNIX line break.", "\r\n", lineBreak
-                .getString());
+        assertEquals("Line break must match platform's default.",
+                System.getProperty("line.separator"), lineBreak.getString());
+        assertEquals("Unknown Line break must match UNIX line break.", "\r\n",
+                lineBreak.getString());
     }
 
     public void testLineBreakForPlatformUnknown() {

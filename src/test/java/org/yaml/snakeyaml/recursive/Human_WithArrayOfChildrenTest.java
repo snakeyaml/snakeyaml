@@ -21,10 +21,12 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class Human_WithArrayOfChildrenTest extends TestCase {
 
@@ -82,7 +84,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
 
     }
 
-    public void testChildrenArray() throws IOException {
+    private Human_WithArrayOfChildren createSon() {
         Human_WithArrayOfChildren father = new Human_WithArrayOfChildren();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -117,30 +119,19 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
         father.setChildren(children);
         mother.setChildren(children);
         //
+        return son;
+    }
 
-        Constructor constructor = new Constructor(Human_WithArrayOfChildren.class);
-        TypeDescription HumanWithChildrenArrayDescription = new TypeDescription(
-                Human_WithArrayOfChildren.class);
-        HumanWithChildrenArrayDescription.putListPropertyType("children",
-                Human_WithArrayOfChildren.class);
-        constructor.addTypeDescription(HumanWithChildrenArrayDescription);
-
-        Yaml yaml = new Yaml(constructor);
-        String output = yaml.dump(son);
-        // System.out.println(output);
-        String etalon = Util.getLocalResource("recursive/with-childrenArray.yaml");
-        assertEquals(etalon, output);
-        //
-        Human_WithArrayOfChildren son2 = (Human_WithArrayOfChildren) yaml.load(output);
-        assertNotNull(son2);
+    private void checkSon(Human_WithArrayOfChildren son) {
+        assertNotNull(son);
         assertEquals("Son", son.getName());
 
-        Human_WithArrayOfChildren father2 = son2.getFather();
+        Human_WithArrayOfChildren father2 = son.getFather();
         assertEquals("Father", father2.getName());
-        assertEquals("Mother", son2.getMother().getName());
+        assertEquals("Mother", son.getMother().getName());
         assertSame(father2, father2.getBankAccountOwner());
-        assertSame(father2.getPartner(), son2.getMother());
-        assertSame(father2, son2.getMother().getPartner());
+        assertSame(father2.getPartner(), son.getMother());
+        assertSame(father2, son.getMother().getPartner());
 
         Human_WithArrayOfChildren[] fathersChildren = father2.getChildren();
         assertEquals(2, fathersChildren.length);
@@ -152,5 +143,47 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
             // check if type descriptor was correct
             assertSame(Human_WithArrayOfChildren.class, child.getClass());
         }
+    }
+
+    public void testChildrenArray() throws IOException {
+        Constructor constructor = new Constructor(Human_WithArrayOfChildren.class);
+        TypeDescription HumanWithChildrenArrayDescription = new TypeDescription(
+                Human_WithArrayOfChildren.class);
+        HumanWithChildrenArrayDescription.putListPropertyType("children",
+                Human_WithArrayOfChildren.class);
+        constructor.addTypeDescription(HumanWithChildrenArrayDescription);
+        Human_WithArrayOfChildren son = createSon();
+        Yaml yaml = new Yaml(constructor);
+        String output = yaml.dump(son);
+        // System.out.println(output);
+        String etalon = Util.getLocalResource("recursive/with-childrenArray.yaml");
+        assertEquals(etalon, output);
+        //
+        Human_WithArrayOfChildren son2 = (Human_WithArrayOfChildren) yaml.load(output);
+        checkSon(son2);
+    }
+
+    public void testDumpChildrenArrayWithoutRootTag() throws IOException {
+        DumperOptions options = new DumperOptions();
+        options.setExplicitRoot(Tag.MAP);
+        Yaml yaml = new Yaml(options);
+        Human_WithArrayOfChildren son = createSon();
+        String output = yaml.dump(son);
+        // System.out.println(output);
+        String etalon = Util.getLocalResource("recursive/with-childrenArray-no-root-tag.yaml");
+        assertEquals(etalon, output);
+    }
+
+    public void testParseChildrenArrayWithoutRootTag() throws IOException {
+        Constructor constructor = new Constructor(Human_WithArrayOfChildren.class);
+        TypeDescription HumanWithChildrenArrayDescription = new TypeDescription(
+                Human_WithArrayOfChildren.class);
+        HumanWithChildrenArrayDescription.putListPropertyType("children",
+                Human_WithArrayOfChildren.class);
+        constructor.addTypeDescription(HumanWithChildrenArrayDescription);
+        Yaml yaml = new Yaml(constructor);
+        String doc = Util.getLocalResource("recursive/with-childrenArray-no-root-tag.yaml");
+        Human_WithArrayOfChildren son2 = (Human_WithArrayOfChildren) yaml.load(doc);
+        checkSon(son2);
     }
 }

@@ -19,6 +19,7 @@ package org.pyyaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +64,9 @@ public class PyEmitterTest extends PyImportTest {
             // continue;
             // }
             try {
-                List<Event> events = parse(new FileInputStream(file));
+                InputStream input = new FileInputStream(file);
+                List<Event> events = parse(input);
+                input.close();
                 //
                 StringWriter stream = new StringWriter();
                 DumperOptions options = new DumperOptions();
@@ -116,23 +119,24 @@ public class PyEmitterTest extends PyImportTest {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public void testEmitterStyles() throws IOException {
         File[] canonicalFiles = getStreamsByExtension(".canonical", false);
         assertTrue("No test files found.", canonicalFiles.length > 0);
         File[] dataFiles = getStreamsByExtension(".data", true);
         assertTrue("No test files found.", dataFiles.length > 0);
-        List<File> allFiles = new ArrayList(Arrays.asList(canonicalFiles));
+        List<File> allFiles = new ArrayList<File>(Arrays.asList(canonicalFiles));
         allFiles.addAll(Arrays.asList(dataFiles));
         for (File file : allFiles) {
             try {
                 List<Event> events = new ArrayList<Event>();
-                StreamReader reader = new StreamReader(new UnicodeReader(new FileInputStream(file)));
+                InputStream input = new FileInputStream(file);
+                StreamReader reader = new StreamReader(new UnicodeReader(input));
                 Parser parser = new ParserImpl(reader);
                 while (parser.peekEvent() != null) {
                     Event event = parser.getEvent();
                     events.add(event);
                 }
+                input.close();
                 //
                 for (Boolean flowStyle : new Boolean[] { Boolean.FALSE, Boolean.TRUE }) {
                     for (DumperOptions.ScalarStyle style : DumperOptions.ScalarStyle.values()) {
@@ -140,19 +144,19 @@ public class PyEmitterTest extends PyImportTest {
                         for (Event event : events) {
                             if (event instanceof ScalarEvent) {
                                 ScalarEvent scalar = (ScalarEvent) event;
-                                event = new ScalarEvent(scalar.getAnchor(), scalar.getTag(), scalar
-                                        .getImplicit(), scalar.getValue(), scalar.getStartMark(),
-                                        scalar.getEndMark(), style.getChar());
+                                event = new ScalarEvent(scalar.getAnchor(), scalar.getTag(),
+                                        scalar.getImplicit(), scalar.getValue(),
+                                        scalar.getStartMark(), scalar.getEndMark(), style.getChar());
                             } else if (event instanceof SequenceStartEvent) {
                                 SequenceStartEvent seqStart = (SequenceStartEvent) event;
-                                event = new SequenceStartEvent(seqStart.getAnchor(), seqStart
-                                        .getTag(), seqStart.getImplicit(), seqStart.getStartMark(),
-                                        seqStart.getEndMark(), flowStyle);
+                                event = new SequenceStartEvent(seqStart.getAnchor(),
+                                        seqStart.getTag(), seqStart.getImplicit(),
+                                        seqStart.getStartMark(), seqStart.getEndMark(), flowStyle);
                             } else if (event instanceof MappingStartEvent) {
                                 MappingStartEvent mapStart = (MappingStartEvent) event;
-                                event = new MappingStartEvent(mapStart.getAnchor(), mapStart
-                                        .getTag(), mapStart.getImplicit(), mapStart.getStartMark(),
-                                        mapStart.getEndMark(), flowStyle);
+                                event = new MappingStartEvent(mapStart.getAnchor(),
+                                        mapStart.getTag(), mapStart.getImplicit(),
+                                        mapStart.getStartMark(), mapStart.getEndMark(), flowStyle);
                             }
                             styledEvents.add(event);
                         }

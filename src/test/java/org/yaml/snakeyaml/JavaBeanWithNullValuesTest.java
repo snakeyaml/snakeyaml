@@ -116,8 +116,8 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
         String dumpStr = yaml.dump(javaBeanWithNullValues);
         // System.out.println(dumpStr);
-        assertFalse("No explicit root tag must be used.", dumpStr
-                .contains("JavaBeanWithNullValues"));
+        assertFalse("No explicit root tag must be used.",
+                dumpStr.contains("JavaBeanWithNullValues"));
         yaml = new Yaml(new CustomRepresenter(), options);
         JavaBeanWithNullValues parsed = loader.load(dumpStr);
         assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
@@ -160,15 +160,15 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
         private class RepresentFloat implements Represent {
             public Node representData(Object data) {
-                return representScalar(new Tag(Tag.PREFIX + "java.lang.Float"), ((Float) data)
-                        .toString());
+                return representScalar(new Tag(Tag.PREFIX + "java.lang.Float"),
+                        ((Float) data).toString());
             }
         }
 
         private class RepresentLong implements Represent {
             public Node representData(Object data) {
-                return representScalar(new Tag(Tag.PREFIX + "java.lang.Long"), ((Long) data)
-                        .toString());
+                return representScalar(new Tag(Tag.PREFIX + "java.lang.Long"),
+                        ((Long) data).toString());
             }
         }
 

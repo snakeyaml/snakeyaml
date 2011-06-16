@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.issues.issue68;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -42,9 +43,10 @@ public class NonAsciiCharacterTest extends TestCase {
     public void testLoadFromFileWithWrongEncoding() {
         try {
             Yaml yaml = new Yaml();
-            Object text = yaml.load(new InputStreamReader(new FileInputStream(
-                    "src/test/resources/issues/issue68.txt"), "Cp1252"));
-            fail("Invalid UTF-8 must not be aceepted: " + text.toString());
+            InputStream input = new FileInputStream("src/test/resources/issues/issue68.txt");
+            Object text = yaml.load(new InputStreamReader(input, "Cp1252"));
+            input.close();
+            fail("Invalid UTF-8 must not be accepted: " + text.toString());
         } catch (Exception e) {
             assertEquals("special characters are not allowed", e.getMessage());
         }
@@ -52,12 +54,12 @@ public class NonAsciiCharacterTest extends TestCase {
 
     public void testLoadFromFile() throws UnsupportedEncodingException, FileNotFoundException {
         Yaml yaml = new Yaml();
-        String text = (String) yaml.load(new InputStreamReader(new FileInputStream(
-                "src/test/resources/issues/issue68.txt"), "UTF-8"));
+        InputStream input = new FileInputStream("src/test/resources/issues/issue68.txt");
+        String text = (String) yaml.load(new InputStreamReader(input, "UTF-8"));
         assertEquals("И жить торопится и чувствовать спешит...", text);
     }
 
-    public void testLoadFromInputStream() {
+    public void testLoadFromInputStream() throws IOException {
         InputStream input;
         input = YamlDocument.class.getClassLoader().getResourceAsStream("issues/issue68.txt");
         if (input == null) {
@@ -66,5 +68,6 @@ public class NonAsciiCharacterTest extends TestCase {
         Yaml yaml = new Yaml();
         String text = (String) yaml.load(input);// UTF-8 by default
         assertEquals("И жить торопится и чувствовать спешит...", text);
+        input.close();
     }
 }

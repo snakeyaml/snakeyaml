@@ -28,7 +28,9 @@ import org.yaml.snakeyaml.constructor.Constructor;
 public class CustomMapExampleTest extends TestCase {
     public void testMap() throws IOException {
         Yaml yaml = new Yaml(new CustomConstructor());
-        Map data = (Map) yaml.load("{2: '222', 1: '111', 3: '333'}");
+        @SuppressWarnings("unchecked")
+        Map<Integer, String> data = (Map<Integer, String>) yaml
+                .load("{2: '222', 1: '111', 3: '333'}");
         assertTrue(data instanceof TreeMap);
         Object[] keys = data.keySet().toArray();
         // must be sorted

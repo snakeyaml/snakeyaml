@@ -66,11 +66,11 @@ public class RubyTest extends TestCase {
         repr.addClassTag(Sub2.class, new Tag("!ruby/object:Test::Module::Sub2"));
         Yaml yaml2 = new Yaml(repr, options);
         String output = yaml2.dump(result);
-        //System.out.println(output);
-        assertTrue("Tags must be present.", output
-                .startsWith("--- !ruby/object:Test::Module::Object"));
-        assertTrue("Tags must be present: " + output, output
-                .contains("!ruby/object:Test::Module::Sub1"));
+        // System.out.println(output);
+        assertTrue("Tags must be present.",
+                output.startsWith("--- !ruby/object:Test::Module::Object"));
+        assertTrue("Tags must be present: " + output,
+                output.contains("!ruby/object:Test::Module::Sub1"));
         assertTrue("Tags must be present.", output.contains("!ruby/object:Test::Module::Sub2"));
         // parse back.
         TestObject result2 = parseObject(output);
@@ -89,11 +89,11 @@ public class RubyTest extends TestCase {
         repr.addClassTag(Sub2.class, new Tag("!ruby/object:Test::Module::Sub2"));
         Yaml yaml2 = new Yaml(repr, options);
         String output = yaml2.dump(result);
-        //System.out.println(output);
-        assertTrue("Tags must be present.", output
-                .startsWith("--- !!org.yaml.snakeyaml.ruby.TestObject"));
-        assertTrue("Tags must be present: " + output, output
-                .contains("!ruby/object:Test::Module::Sub1"));
+        // System.out.println(output);
+        assertTrue("Tags must be present.",
+                output.startsWith("--- !!org.yaml.snakeyaml.ruby.TestObject"));
+        assertTrue("Tags must be present: " + output,
+                output.contains("!ruby/object:Test::Module::Sub1"));
         assertTrue("Tags must be present.", output.contains("!ruby/object:Test::Module::Sub2"));
         // parse back.
         TestObject result2 = parseObject(output);

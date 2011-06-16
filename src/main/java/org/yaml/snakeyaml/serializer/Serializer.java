@@ -37,6 +37,7 @@ import org.yaml.snakeyaml.events.SequenceEndEvent;
 import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
+import org.yaml.snakeyaml.nodes.AnchorNode;
 import org.yaml.snakeyaml.nodes.CollectionNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
@@ -116,6 +117,9 @@ public final class Serializer {
     }
 
     private void anchorNode(Node node) {
+        if (node.getNodeId() == NodeId.anchor) {
+            node = ((AnchorNode) node).getRealNode();
+        }
         if (this.anchors.containsKey(node)) {
             String anchor = this.anchors.get(node);
             if (null == anchor) {
@@ -156,6 +160,9 @@ public final class Serializer {
     }
 
     private void serializeNode(Node node, Node parent, Object index) throws IOException {
+        if (node.getNodeId() == NodeId.anchor) {
+            node = ((AnchorNode) node).getRealNode();
+        }
         String tAlias = this.anchors.get(node);
         if (this.serializedNodes.contains(node)) {
             this.emitter.emit(new AliasEvent(tAlias, null, null));

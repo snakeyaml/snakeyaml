@@ -187,7 +187,7 @@ public class MergeJavaBeanTest extends TestCase {
         assertEquals(2, objects.size());
         // Check first type
         Object first = objects.get(0);
-        Map firstMap = (Map) first;
+        Map<Object, Object> firstMap = (Map<Object, Object>) first;
         // Check first contents
         assertEquals(11, firstMap.get("age"));
         assertEquals("id123", firstMap.get("id"));

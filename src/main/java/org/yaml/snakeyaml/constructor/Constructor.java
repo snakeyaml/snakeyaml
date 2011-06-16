@@ -587,5 +587,4 @@ public class Constructor extends SafeConstructor {
     protected Class<?> getClassForName(String name) throws ClassNotFoundException {
         return Class.forName(name);
     }
-
 }

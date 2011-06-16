@@ -32,9 +32,10 @@ public class ImmutablePrimitivesRepresenter extends Representer {
     class RepresentPrimitives implements Represent {
         public Node representData(Object data) {
             BunchOfPrimitives bunch = (BunchOfPrimitives) data;
-            return representSequence(getTag(data.getClass(), new Tag(data.getClass())), Arrays
-                    .asList(new Object[] { bunch.getPrimitiveInt(), bunch.getPrimitiveDouble(),
-                            bunch.primitiveBoolean }), true);
+            return representSequence(
+                    getTag(data.getClass(), new Tag(data.getClass())),
+                    Arrays.asList(new Object[] { bunch.getPrimitiveInt(),
+                            bunch.getPrimitiveDouble(), bunch.primitiveBoolean }), true);
         }
     }
 }

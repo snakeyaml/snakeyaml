@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package org.yaml.snakeyaml.issues.issue47;
+package org.yaml.snakeyaml.nodes;
 
-public class BeanWithNoProperties {
-    private int id;
-    private String name;
+public class AnchorNode extends Node {
 
-    public BeanWithNoProperties() {
-        this(3, "empty3");
+    private Node realNode;
+
+    public AnchorNode(Node realNode) {
+        super(realNode.getTag(), realNode.getStartMark(), realNode.getEndMark());
+        this.realNode = realNode;
     }
 
-    public BeanWithNoProperties(int i, String s) {
-        id = i;
-        name = s;
+    @Override
+    public NodeId getNodeId() {
+        return NodeId.anchor;
     }
 
-    public String getName() {
-        return name;
+    public Node getRealNode() {
+        return realNode;
     }
 
-    public int getId() {
-        return id;
-    }
 }

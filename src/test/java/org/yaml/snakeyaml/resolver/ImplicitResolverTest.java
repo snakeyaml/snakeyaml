@@ -32,7 +32,8 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * Custom implicit resolver does not apply inside JavaBean declaration <a href="http://groups.google.com/group/snakeyaml-core/browse_frm/thread/c75c35a3d9cfcaba"
+ * Custom implicit resolver does not apply inside JavaBean declaration <a href=
+ * "http://groups.google.com/group/snakeyaml-core/browse_frm/thread/c75c35a3d9cfcaba"
  * >mailing list</a> for more information
  */
 public class ImplicitResolverTest extends TestCase {

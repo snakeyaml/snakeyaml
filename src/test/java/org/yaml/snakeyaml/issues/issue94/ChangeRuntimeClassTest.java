@@ -71,16 +71,14 @@ public class ChangeRuntimeClassTest {
             this.yamlConstructors.put(null, new ConstructProxy());
         }
 
-        @SuppressWarnings("unchecked")
-        public MyConstructor(Class clazz) {
+        public MyConstructor(Class<?> clazz) {
             super(clazz);
             this.yamlConstructors.put(null, new ConstructProxy());
         }
 
         private class ConstructProxy extends AbstractConstruct {
-            @SuppressWarnings("unchecked")
             private Construct getConstructor(Node node) {
-                Class cl = getClassForNode(node);
+                Class<?> cl = getClassForNode(node);
                 if (cl.equals(Entity.class) && true) {
                     // today's temperature is high :)
                     cl = EntityLoadingProxy.class;

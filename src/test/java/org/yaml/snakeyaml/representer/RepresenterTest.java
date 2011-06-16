@@ -103,36 +103,56 @@ public class RepresenterTest extends TestCase {
     }
 
     public void testRepresenterGetterWithException() {
-        MyBean3 bean = new MyBean3("Gnome", true);
-        Yaml yaml = new Yaml();
+        MyBean3 bean = new MyBean3("Gnome", false);
+        DumperOptions options = new DumperOptions();
+        options.setAllowReadOnlyProperties(true);
+        Yaml yaml = new Yaml(options);
         try {
-            yaml.dump(bean);
-            fail("Exception must be reported");
+            String str = yaml.dump(bean);
+            fail("Exception must be reported: " + str);
         } catch (Exception e) {
             assertTrue(true);
         }
+        // no exception
+        MyBean3 bean2 = new MyBean3("Gnome", true);
+        String str = yaml.dump(bean2);
+        // isValid is no JavaBean property (it must be a primitive then)
+        assertEquals(
+                "isValid property must not be dumped.",
+                "!!org.yaml.snakeyaml.representer.RepresenterTest$MyBean3 {boolProperty: true, name: Gnome}\n",
+                str);
     }
 
     public static class MyBean3 {
         private String name;
         private Boolean valid;
+        private boolean boolProperty;
 
         public MyBean3(String name, Boolean valid) {
             this.name = name;
             this.valid = valid;
+            boolProperty = true;
         }
 
         public String getName() {
-            throw new UnsupportedOperationException("Test.");
+            if (valid) {
+                return name;
+            } else {
+                throw new UnsupportedOperationException("Test.");
+            }
         }
 
         public Boolean isValid() {
             return valid;
         }
 
+        public boolean isBoolProperty() {
+            return boolProperty;
+        }
+
         @Override
         public String toString() {
-            return name + " " + isValid();
+            return "MyBean3<" + name + ", " + isValid() + ">";
         }
     }
 

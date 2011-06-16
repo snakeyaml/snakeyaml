@@ -238,6 +238,9 @@ public class Representer extends SafeRepresenter {
                     resetTag(keyType, tuple.getKeyNode());
                     resetTag(valueType, tuple.getValueNode());
                 }
+            } else {
+                // the type for collection entries cannot be
+                // detected
             }
         }
     }

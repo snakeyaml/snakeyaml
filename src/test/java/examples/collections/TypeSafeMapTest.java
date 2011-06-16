@@ -162,7 +162,7 @@ public class TypeSafeMapTest extends TestCase {
     /*
      * No generic collection
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void testLoadMapWithObject() {
         String output = Util.getLocalResource("examples/map-bean-10.yaml");
         // System.out.println(output);
@@ -185,6 +185,7 @@ public class TypeSafeMapTest extends TestCase {
         assertEquals("creator", developer.get("role"));
     }
 
+    @SuppressWarnings("rawtypes")
     public static class MapBeanNoGenerics {
         private Map data;
         private String name;

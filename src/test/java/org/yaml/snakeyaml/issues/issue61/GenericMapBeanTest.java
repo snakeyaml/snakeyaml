@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 
 public class GenericMapBeanTest extends TestCase {
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void testGenericMap() throws Exception {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         MapProvider<String, Integer> listProvider = new MapProvider<String, Integer>();
@@ -43,6 +43,7 @@ public class GenericMapBeanTest extends TestCase {
         assertEquals(listProvider, listProvider2);
     }
 
+    @SuppressWarnings("rawtypes")
     public void testGenericBean() throws Exception {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         MapProvider<String, Bean> listProvider = new MapProvider<String, Bean>();
@@ -79,6 +80,7 @@ public class GenericMapBeanTest extends TestCase {
             this.map = map;
         }
 
+        @SuppressWarnings("rawtypes")
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof MapProvider) {

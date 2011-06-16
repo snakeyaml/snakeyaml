@@ -61,8 +61,8 @@ public class Chapter2_3Test extends TestCase {
         Map<String, String> map = (Map<String, String>) document.getNativeData();
         assertEquals(map.toString(), 3, map.size());
         assertEquals("Mark McGwire", map.get("name"));
-        assertEquals("Mark set a major league home run record in 1998.\n", map
-                .get("accomplishment"));
+        assertEquals("Mark set a major league home run record in 1998.\n",
+                map.get("accomplishment"));
         assertEquals("65 Home Runs\n0.278 Batting Average\n", map.get("stats"));
 
     }
