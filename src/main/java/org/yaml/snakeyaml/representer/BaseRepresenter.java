@@ -59,7 +59,6 @@ public abstract class BaseRepresenter {
             return super.put(key, new AnchorNode(value));
         };
     };
-    protected final Map<Node, ?> withCheckedTag = new IdentityHashMap<Node, Object>();
 
     protected Object objectToRepresent;
     private PropertyUtils propertyUtils;
@@ -69,7 +68,6 @@ public abstract class BaseRepresenter {
         Node node = representData(data);
         serializer.serialize(node);
         representedObjects.clear();
-        withCheckedTag.clear();
         objectToRepresent = null;
     }
 
