@@ -140,12 +140,9 @@ public class Representer extends SafeRepresenter {
                                 }
                             }
                         }
-                        withCheckedTag.put(nodeValue, null);
                     }
                     checkGlobalTag(property, nodeValue, propertyValue);
                 }
-            } else if (nodeId == NodeId.mapping) {
-                withCheckedTag.put(nodeValue, null);
             }
         }
 
@@ -183,11 +180,9 @@ public class Representer extends SafeRepresenter {
                     Object member = iter.next();
                     if (member != null) {
                         if (t.equals(member.getClass()))
-                            if (childNode.getNodeId() == NodeId.mapping)
-                                if (!withCheckedTag.containsKey(childNode)) {
+                            if (childNode.getNodeId() == NodeId.mapping) {
                                     childNode.setTag(Tag.MAP);
                                 }
-                        withCheckedTag.put(childNode, null);
                     }
                 }
             } else if (object instanceof Set) {
@@ -199,12 +194,10 @@ public class Representer extends SafeRepresenter {
                     NodeTuple tuple = iter.next();
                     Node keyNode = tuple.getKeyNode();
                     if (t.equals(member.getClass())) {
-                        if (keyNode.getNodeId() == NodeId.mapping)
-                            if (!withCheckedTag.containsKey(keyNode)) {
+                        if (keyNode.getNodeId() == NodeId.mapping) {
                                 keyNode.setTag(Tag.MAP);
                             }
                     }
-                    withCheckedTag.put(keyNode, null);
                 }
             } else if (object instanceof Map) {
                 Class<?> keyType = arguments[0];
@@ -226,9 +219,8 @@ public class Representer extends SafeRepresenter {
         if (tag.matches(type)) {
             if (Enum.class.isAssignableFrom(type)) {
                 node.setTag(Tag.STR);
-            } else if (!withCheckedTag.containsKey(node)) {
+            } else {
                 node.setTag(Tag.MAP);
-                withCheckedTag.put(node, null);
             }
         }
     }
