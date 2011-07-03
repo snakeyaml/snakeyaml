@@ -72,7 +72,7 @@ public class JavaBeanLoaderTest extends TestCase {
             new JavaBeanLoader<Bean>((Class<Bean>) null);
             fail();
         } catch (NullPointerException e) {
-            assertEquals("Root type must be provided.", e.getMessage());
+            assertEquals("Class for tag must be provided.", e.getMessage());
         }
     }
 

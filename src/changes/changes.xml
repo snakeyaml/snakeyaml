@@ -7,6 +7,11 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="remove" issue="124">
+                Remove TypeDescription.root property to prepare issue 124. This is a minor backwards incompatible change.
+                Now instead of setting as root, the TypeDescription must be passed to the Contructor's constructor
+                to be taken as the root definition (2011-07-03)
+            </action>
             <action dev="py4fun" type="fix" issue="121" due-to="Jaromir">
                 Fix: close files in tests to avoid a possible file handle limit (2011-06-09)
             </action>

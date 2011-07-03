@@ -28,7 +28,6 @@ import org.yaml.snakeyaml.nodes.Tag;
 public final class TypeDescription {
     private final Class<? extends Object> type;
     private Tag tag;
-    private boolean root;
     private Map<String, Class<? extends Object>> listProperties;
     private Map<String, Class<? extends Object>> keyProperties;
     private Map<String, Class<? extends Object>> valueProperties;
@@ -80,26 +79,6 @@ public final class TypeDescription {
      */
     public Class<? extends Object> getType() {
         return type;
-    }
-
-    /**
-     * Defines whether this type (class) is the root of the YAML document
-     * 
-     * @return true if this type shall be used as a root of object hierarchy.
-     */
-    public boolean isRoot() {
-        return root;
-    }
-
-    /**
-     * Specify whether this type (class) should be serve as the root of the YAML
-     * document
-     * 
-     * @param root
-     *            true if this type shall be used as a root of object hierarchy.
-     */
-    public void setRoot(boolean root) {
-        this.root = root;
     }
 
     /**

@@ -51,9 +51,7 @@ public class JavaBeanLoader<T> {
         if (options.getRootTypeDescription() == null) {
             throw new NullPointerException("TypeDescription must be provided.");
         }
-        Constructor constructor = new Constructor(options.getRootTypeDescription().getType());
-        options.getRootTypeDescription().setRoot(true);
-        constructor.addTypeDescription(options.getRootTypeDescription());
+        Constructor constructor = new Constructor(options.getRootTypeDescription());
         loader = new Yaml(constructor, options, new Representer(), new DumperOptions(),
                 new Resolver());
         loader.setBeanAccess(beanAccess);

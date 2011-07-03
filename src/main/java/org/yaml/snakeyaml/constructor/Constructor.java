@@ -62,18 +62,33 @@ public class Constructor extends SafeConstructor {
      *            - the class (usually JavaBean) to be constructed
      */
     public Constructor(Class<? extends Object> theRoot) {
+        this(new TypeDescription(checkRoot(theRoot)));
+    }
+
+    /**
+     * Ugly Java way to check the argument in the constructor
+     */
+    private static Class<? extends Object> checkRoot(Class<? extends Object> theRoot) {
+        if (theRoot == null) {
+            throw new NullPointerException("Root class must be provided.");
+        } else
+            return theRoot;
+    }
+
+    public Constructor(TypeDescription theRoot) {
         if (theRoot == null) {
             throw new NullPointerException("Root type must be provided.");
         }
         this.yamlConstructors.put(null, new ConstructYamlObject());
-        if (!Object.class.equals(theRoot)) {
-            rootTag = new Tag(theRoot);
+        if (!Object.class.equals(theRoot.getType())) {
+            rootTag = new Tag(theRoot.getType());
         }
         typeTags = new HashMap<Tag, Class<? extends Object>>();
         typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
         yamlClassConstructors.put(NodeId.scalar, new ConstructScalar());
         yamlClassConstructors.put(NodeId.mapping, new ConstructMapping());
         yamlClassConstructors.put(NodeId.sequence, new ConstructSequence());
+        addTypeDescription(theRoot);
     }
 
     /**
@@ -112,9 +127,6 @@ public class Constructor extends SafeConstructor {
     public TypeDescription addTypeDescription(TypeDescription definition) {
         if (definition == null) {
             throw new NullPointerException("TypeDescription is required.");
-        }
-        if (rootTag == null && definition.isRoot()) {
-            rootTag = new Tag(definition.getType());
         }
         Tag tag = definition.getTag();
         typeTags.put(tag, definition.getType());
