@@ -85,7 +85,6 @@ public class HouseTest extends TestCase {
         house.setNumber(1);
         house.setStreet("Wall Street");
         JavaBeanDumper beanDumper = new JavaBeanDumper();
-        beanDumper.setMapTagForBean(Room.class);
         String yaml = beanDumper.dump(house);
         String etalon = Util.getLocalResource("javabeans/house-dump3.yaml");
         assertEquals(etalon, yaml);
