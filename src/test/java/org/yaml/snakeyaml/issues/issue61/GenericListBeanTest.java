@@ -22,11 +22,11 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 public class GenericListBeanTest extends TestCase {
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings("unchecked")
     public void testGenericList() throws Exception {
         JavaBeanDumper beanDumper = new JavaBeanDumper();
         ListProvider<String> listProvider = new ListProvider<String>();
@@ -36,8 +36,8 @@ public class GenericListBeanTest extends TestCase {
         // System.out.println(s);
         assertEquals("list:\n- foo\n- bar\n", s);
         // parse
-        JavaBeanLoader<ListProvider> loader = new JavaBeanLoader<ListProvider>(ListProvider.class);
-        ListProvider<String> listProvider2 = loader.load(s);
+        Yaml loader = new Yaml();
+        ListProvider<String> listProvider2 = loader.loadAs(s, ListProvider.class);
         assertEquals("foo", listProvider2.getList().get(0));
         assertEquals("bar", listProvider2.getList().get(1));
         assertEquals(listProvider, listProvider2);
@@ -59,8 +59,8 @@ public class GenericListBeanTest extends TestCase {
         String etalon = Util.getLocalResource("issues/issue61-1.yaml");
         assertEquals(etalon, s);
         // parse
-        JavaBeanLoader<ListProvider> loader = new JavaBeanLoader<ListProvider>(ListProvider.class);
-        ListProvider listProvider2 = loader.load(s);
+        Yaml loader = new Yaml();
+        ListProvider listProvider2 = loader.loadAs(s, ListProvider.class);
         Bean foo2 = (Bean) listProvider2.getList().get(0);
         assertEquals("foo", foo2.getName());
         assertEquals(0, foo2.getNumber());

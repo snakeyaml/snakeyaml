@@ -24,7 +24,6 @@ import java.util.TimeZone;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Yaml;
 
 public class CalendarTest extends TestCase {
@@ -43,8 +42,8 @@ public class CalendarTest extends TestCase {
         // System.out.println(output);
         assertEquals("calendar: 2001-09-08T17:46:40-8:00\nname: lunch\n", output);
         //
-        JavaBeanLoader<CalendarBean> loader = new JavaBeanLoader<CalendarBean>(CalendarBean.class);
-        CalendarBean parsed = loader.load(output);
+        Yaml loader = new Yaml();
+        CalendarBean parsed = loader.loadAs(output, CalendarBean.class);
         assertEquals(bean.getCalendar(), parsed.getCalendar());
     }
 
@@ -93,17 +92,16 @@ public class CalendarTest extends TestCase {
         // System.out.println(output);
         assertEquals(warning, "calendar: " + etalon + "\nname: lunch\n", output);
         //
-        JavaBeanLoader<CalendarBean> loader = new JavaBeanLoader<CalendarBean>(CalendarBean.class);
-        CalendarBean parsed = loader.load(output);
+        Yaml loader = new Yaml();
+        CalendarBean parsed = loader.loadAs(output, CalendarBean.class);
         assertFalse("TimeZone must deviate.", bean.getCalendar().equals(parsed.getCalendar()));
         assertEquals(bean.getCalendar().getTimeInMillis(), parsed.getCalendar().getTimeInMillis());
     }
 
     public void testLoadBean() {
-        JavaBeanLoader<CalendarBean> beanLoader = new JavaBeanLoader<CalendarBean>(
-                CalendarBean.class);
-        CalendarBean bean = beanLoader
-                .load("calendar:  2001-12-14t21:59:43.10-05:00\nname: dinner");
+        Yaml beanLoader = new Yaml();
+        CalendarBean bean = beanLoader.loadAs(
+                "calendar:  2001-12-14t21:59:43.10-05:00\nname: dinner", CalendarBean.class);
         assertEquals("dinner", bean.getName());
         Calendar calendar = bean.getCalendar();
         assertEquals(TimeZone.getTimeZone("GMT-5:00").getOffset(calendar.getTime().getTime()),

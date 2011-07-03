@@ -25,7 +25,6 @@ import java.util.TreeSet;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -73,8 +72,8 @@ public class TypeSafeSetImplementationsTest extends TestCase {
     public void testLoadSet() {
         String output = Util.getLocalResource("examples/set-bean-1.yaml");
         // System.out.println(output);
-        JavaBeanLoader<SetBean> beanLoader = new JavaBeanLoader<SetBean>(SetBean.class);
-        SetBean parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        SetBean parsed = beanLoader.loadAs(output, SetBean.class);
         assertNotNull(parsed);
         SortedSet<String> sortedMap = parsed.getSorted();
         assertEquals(3, sortedMap.size());
@@ -93,8 +92,8 @@ public class TypeSafeSetImplementationsTest extends TestCase {
     public void testLoadSetReversed() {
         String output = Util.getLocalResource("examples/set-bean-2.yaml");
         // System.out.println(output);
-        JavaBeanLoader<SetBean> beanLoader = new JavaBeanLoader<SetBean>(SetBean.class);
-        SetBean parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        SetBean parsed = beanLoader.loadAs(output, SetBean.class);
         assertNotNull(parsed);
         SortedSet<String> sortedMap = parsed.getSorted();
         assertEquals(3, sortedMap.size());

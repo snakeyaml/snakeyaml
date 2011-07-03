@@ -21,24 +21,24 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 
 public class JavaBeanListTest extends TestCase {
 
     public void testYaml() {
-        JavaBeanLoader<BlogBean> beanLoader = new JavaBeanLoader<BlogBean>(BlogBean.class,
-                BeanAccess.FIELD);
-        BlogBean rehydrated = (BlogBean) beanLoader.load(Util
-                .getLocalResource("issues/issue55_2.txt"));
+        Yaml beanLoader = new Yaml();
+        beanLoader.setBeanAccess(BeanAccess.FIELD);
+        BlogBean rehydrated = (BlogBean) beanLoader.loadAs(
+                Util.getLocalResource("issues/issue55_2.txt"), BlogBean.class);
         assertEquals(4, rehydrated.getPosts().size());
     }
 
     public void testFailureWithoutFieldAccess() {
-        JavaBeanLoader<BlogBean> beanLoader = new JavaBeanLoader<BlogBean>(BlogBean.class);
+        Yaml beanLoader = new Yaml();
         try {
-            beanLoader.load(Util.getLocalResource("issues/issue55_2.txt"));
+            beanLoader.loadAs(Util.getLocalResource("issues/issue55_2.txt"), BlogBean.class);
             fail("Private field must not be available");
         } catch (Exception e) {
             assertTrue(e.getMessage().contains("Unable to find property 'posts'"));

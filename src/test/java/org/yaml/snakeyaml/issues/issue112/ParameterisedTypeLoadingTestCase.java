@@ -24,7 +24,6 @@ import java.io.InputStream;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -34,9 +33,7 @@ public class ParameterisedTypeLoadingTestCase {
     @Test
     public void testParameterisedTypeLoading() throws IOException {
         Yaml yamlParser = new Yaml(new Constructor(MyCompositeObject.class));
-
         MyCompositeObject obj = (MyCompositeObject) yamlParser.load(getInput());
-
         check(obj);
 
         // dump the object
@@ -47,11 +44,8 @@ public class ParameterisedTypeLoadingTestCase {
 
     @Test
     public void testJavaBeanLoader() throws IOException {
-        JavaBeanLoader<MyCompositeObject> yamlParser = new JavaBeanLoader<MyCompositeObject>(
-                MyCompositeObject.class);
-
-        MyCompositeObject obj = yamlParser.load(getInput());
-
+        Yaml yamlParser = new Yaml();
+        MyCompositeObject obj = yamlParser.loadAs(getInput(), MyCompositeObject.class);
         check(obj);
     }
 

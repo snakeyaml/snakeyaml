@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Yaml;
 
 public class DogFoodBeanTest extends TestCase {
@@ -56,8 +55,8 @@ public class DogFoodBeanTest extends TestCase {
         String text = dumper.dump(input);
         // System.out.println(text);
         assertEquals("decimal: 5.123\n", text);
-        JavaBeanLoader<DogFoodBean> loader = new JavaBeanLoader<DogFoodBean>(DogFoodBean.class);
-        DogFoodBean output = loader.load(text);
+        Yaml loader = new Yaml();
+        DogFoodBean output = loader.loadAs(text, DogFoodBean.class);
         assertEquals(input.getDecimal(), output.getDecimal());
     }
 

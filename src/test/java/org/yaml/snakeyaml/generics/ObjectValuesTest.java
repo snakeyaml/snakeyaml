@@ -24,7 +24,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.Yaml;
 
 public class ObjectValuesTest extends TestCase {
 
@@ -48,9 +48,8 @@ public class ObjectValuesTest extends TestCase {
 
         JavaBeanDumper dumper = new JavaBeanDumper();
         String dumpedStr = dumper.dump(ov);
-
-        JavaBeanLoader<ObjectValues> loader = new JavaBeanLoader<ObjectValues>(ObjectValues.class);
-        ObjectValues ov2 = loader.load(dumpedStr);
+        Yaml loader = new Yaml();
+        ObjectValues ov2 = loader.loadAs(dumpedStr, ObjectValues.class);
 
         assertEquals(ov.getObject(), ov2.getObject());
         assertEquals(ov.getValues(), ov2.getValues());
@@ -79,10 +78,9 @@ public class ObjectValuesTest extends TestCase {
 
         JavaBeanDumper dumper = new JavaBeanDumper();
         String dumpedStr = dumper.dump(ov);
-
-        JavaBeanLoader<ObjectValuesWithParam<String, Integer>> loader = new JavaBeanLoader<ObjectValuesWithParam<String, Integer>>(
+        Yaml loader = new Yaml();
+        ObjectValuesWithParam<String, Integer> ov2 = loader.loadAs(dumpedStr,
                 new ObjectValuesWithParam<String, Integer>().getClass());
-        ObjectValuesWithParam<String, Integer> ov2 = loader.load(dumpedStr);
 
         assertEquals(ov.getObject(), ov2.getObject());
         assertEquals(ov.getValues(), ov2.getValues());

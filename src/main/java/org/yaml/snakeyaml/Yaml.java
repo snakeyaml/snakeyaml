@@ -263,7 +263,7 @@ public class Yaml {
      * @return parsed object
      */
     public Object load(String yaml) {
-        return loadFromReader(new StreamReader(yaml));
+        return loadFromReader(new StreamReader(yaml), Object.class);
     }
 
     /**
@@ -275,7 +275,7 @@ public class Yaml {
      * @return parsed object
      */
     public Object load(InputStream io) {
-        return loadFromReader(new StreamReader(new UnicodeReader(io)));
+        return loadFromReader(new StreamReader(new UnicodeReader(io)), Object.class);
     }
 
     /**
@@ -287,13 +287,64 @@ public class Yaml {
      * @return parsed object
      */
     public Object load(Reader io) {
-        return loadFromReader(new StreamReader(io));
+        return loadFromReader(new StreamReader(io), Object.class);
     }
 
-    private Object loadFromReader(StreamReader sreader) {
+    /**
+     * Parse the only YAML document in a stream and produce the corresponding
+     * Java object.
+     * 
+     * @param <T>
+     *            Class is defined by the second argument
+     * @param io
+     *            data to load from (BOM must not be present)
+     * @param type
+     *            Class of the object to be created
+     * @return parsed object
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T loadAs(Reader io, Class<T> type) {
+        return (T) loadFromReader(new StreamReader(io), type);
+    }
+
+    /**
+     * Parse the only YAML document in a String and produce the corresponding
+     * Java object. (Because the encoding in known BOM is not respected.)
+     * 
+     * @param <T>
+     *            Class is defined by the second argument
+     * @param yaml
+     *            YAML data to load from (BOM must not be present)
+     * @param type
+     *            Class of the object to be created
+     * @return parsed object
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T loadAs(String yaml, Class<T> type) {
+        return (T) loadFromReader(new StreamReader(yaml), type);
+    }
+
+    /**
+     * Parse the only YAML document in a stream and produce the corresponding
+     * Java object.
+     * 
+     * @param <T>
+     *            Class is defined by the second argument
+     * @param input
+     *            data to load from (BOM is respected and removed)
+     * @param type
+     *            Class of the object to be created
+     * @return parsed object
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T loadAs(InputStream input, Class<T> type) {
+        return (T) loadFromReader(new StreamReader(new UnicodeReader(input)), type);
+    }
+
+    private Object loadFromReader(StreamReader sreader, Class<?> type) {
         Composer composer = new Composer(new ParserImpl(sreader), resolver);
         constructor.setComposer(composer);
-        return constructor.getSingleData();
+        return constructor.getSingleData(type);
     }
 
     /**

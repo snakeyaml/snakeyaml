@@ -23,8 +23,8 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test MapBean->Map<Enum, Developer> developers <br/>
@@ -66,8 +66,8 @@ public class TypeSafeMap2Test extends TestCase {
         String etalon = Util.getLocalResource("examples/map-bean-13.yaml");
         assertEquals(etalon, output);
         // load
-        JavaBeanLoader<MapBean2> beanLoader = new JavaBeanLoader<MapBean2>(MapBean2.class);
-        MapBean2 parsed = beanLoader.load(etalon);
+        Yaml beanLoader = new Yaml();
+        MapBean2 parsed = beanLoader.loadAs(etalon, MapBean2.class);
         assertNotNull(parsed);
         Map<Developer2, Color> parsedData = parsed.getData();
         assertEquals(3, parsedData.size());
@@ -82,8 +82,8 @@ public class TypeSafeMap2Test extends TestCase {
     public void testLoadMap() {
         String output = Util.getLocalResource("examples/map-bean-12.yaml");
         // System.out.println(output);
-        JavaBeanLoader<MapBean2> beanLoader = new JavaBeanLoader<MapBean2>(MapBean2.class);
-        MapBean2 parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        MapBean2 parsed = beanLoader.loadAs(output, MapBean2.class);
         assertNotNull(parsed);
         Map<Developer2, Color> data = parsed.getData();
         assertEquals(2, data.size());

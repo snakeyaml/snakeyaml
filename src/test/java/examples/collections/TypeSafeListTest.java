@@ -22,8 +22,8 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test ListBean->List<Developer> developers <br/>
@@ -50,8 +50,8 @@ public class TypeSafeListTest extends TestCase {
     public void testLoadList() {
         String output = Util.getLocalResource("examples/list-bean-1.yaml");
         // System.out.println(output);
-        JavaBeanLoader<ListBean1> beanLoader = new JavaBeanLoader<ListBean1>(ListBean1.class);
-        ListBean1 parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        ListBean1 parsed = beanLoader.loadAs(output, ListBean1.class);
         assertNotNull(parsed);
         List<String> list2 = parsed.getChildren();
         assertEquals(2, list2.size());

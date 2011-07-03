@@ -24,7 +24,6 @@ import java.util.TreeSet;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -67,8 +66,9 @@ public class SetAsSequenceTest extends TestCase {
     public void testYaml() {
         String serialized = Util.getLocalResource("issues/issue73-2.txt");
         // System.out.println(serialized);
-        JavaBeanLoader<Blog> beanLoader = new JavaBeanLoader<Blog>(Blog.class, BeanAccess.FIELD);
-        Blog rehydrated = beanLoader.load(serialized);
+        Yaml beanLoader = new Yaml();
+        beanLoader.setBeanAccess(BeanAccess.FIELD);
+        Blog rehydrated = beanLoader.loadAs(serialized, Blog.class);
         checkTestBlog(rehydrated);
     }
 

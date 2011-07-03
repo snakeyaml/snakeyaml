@@ -31,6 +31,7 @@ import org.yaml.snakeyaml.resolver.Resolver;
  * global tag with the class definition like '!!com.package.MyBean' it is
  * ignored in favour of the runtime class <code>T</code>.
  * 
+ * @deprecated use Yaml.loadAs() methods instead
  * @see http://www.artima.com/weblogs/viewpost.jsp?thread=208860
  */
 public class JavaBeanLoader<T> {

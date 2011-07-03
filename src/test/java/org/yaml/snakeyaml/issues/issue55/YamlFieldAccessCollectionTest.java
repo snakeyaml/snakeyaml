@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -38,8 +37,9 @@ public class YamlFieldAccessCollectionTest extends TestCase {
         String serialized = yamlDumper.dump(original);
         // System.out.println(serialized);
         assertEquals(Util.getLocalResource("issues/issue55_1.txt"), serialized);
-        JavaBeanLoader<Blog> blogLoader = new JavaBeanLoader<Blog>(Blog.class, BeanAccess.FIELD);
-        Blog rehydrated = (Blog) blogLoader.load(serialized);
+        Yaml blogLoader = new Yaml();
+        blogLoader.setBeanAccess(BeanAccess.FIELD);
+        Blog rehydrated = blogLoader.loadAs(serialized, Blog.class);
         checkTestBlog(rehydrated);
     }
 
@@ -52,9 +52,9 @@ public class YamlFieldAccessCollectionTest extends TestCase {
     }
 
     public void testYamlFailure() {
-        JavaBeanLoader<Blog> beanLoader = new JavaBeanLoader<Blog>(Blog.class);
+        Yaml beanLoader = new Yaml();
         try {
-            beanLoader.load(Util.getLocalResource("issues/issue55_1.txt"));
+            beanLoader.loadAs(Util.getLocalResource("issues/issue55_1.txt"), Blog.class);
             fail("BeanAccess.FIELD is required.");
         } catch (Exception e) {
             assertTrue(e.getMessage(), e.getMessage().contains("Unable to find property 'posts'"));

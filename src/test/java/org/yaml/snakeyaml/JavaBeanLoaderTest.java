@@ -25,6 +25,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 
 public class JavaBeanLoaderTest extends TestCase {
@@ -37,13 +38,12 @@ public class JavaBeanLoaderTest extends TestCase {
         String output = yaml.dump(bean);
         assertEquals("!!org.yaml.snakeyaml.JavaBeanLoaderTest$Bean {id: 3, name: Test me.}\n",
                 output);
-        JavaBeanLoader<Bean> loader = new JavaBeanLoader<Bean>(Bean.class);
-        Bean parsed = loader.load(output);
+        Yaml loader = new Yaml();
+        Bean parsed = loader.loadAs(output, Bean.class);
         assertEquals(3, parsed.getId());
         assertEquals("Test me.", parsed.getName());
         // Runtime definition is more important
-        JavaBeanLoader<Bean2> loader2 = new JavaBeanLoader<Bean2>(Bean2.class);
-        Bean2 parsed2 = loader2.load(output);
+        Bean2 parsed2 = loader.loadAs(output, Bean2.class);
         assertEquals(3, parsed2.getId());
         assertEquals("Test me.", parsed2.getName());
         assertFalse(parsed2.isValid());
@@ -52,8 +52,8 @@ public class JavaBeanLoaderTest extends TestCase {
     public void testLoadInputStream() {
         String yaml = "!!org.yaml.snakeyaml.JavaBeanParserTest$Bean {id: 3, name: Test me.}\n";
         InputStream input = new ByteArrayInputStream(yaml.getBytes());
-        JavaBeanLoader<Bean> loader = new JavaBeanLoader<Bean>(Bean.class);
-        Bean parsed = loader.load(input);
+        Yaml loader = new Yaml();
+        Bean parsed = loader.loadAs(input, Bean.class);
         assertEquals(3, parsed.getId());
         assertEquals("Test me.", parsed.getName());
     }
@@ -61,12 +61,13 @@ public class JavaBeanLoaderTest extends TestCase {
     public void testLoadReader() {
         String yaml = "!!org.yaml.snakeyaml.JavaBeanParserTest$Bean {id: 3, name: Test me.}\n";
         Reader input = new StringReader(yaml);
-        JavaBeanLoader<Bean> loader = new JavaBeanLoader<Bean>(Bean.class);
-        Bean parsed = loader.load(input);
+        Yaml loader = new Yaml();
+        Bean parsed = loader.loadAs(input, Bean.class);
         assertEquals(3, parsed.getId());
         assertEquals("Test me.", parsed.getName());
     }
 
+    @SuppressWarnings("deprecation")
     public void testLoaderNullClass() {
         try {
             new JavaBeanLoader<Bean>((Class<Bean>) null);
@@ -76,6 +77,7 @@ public class JavaBeanLoaderTest extends TestCase {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public void testLoaderNullTypeDescription() {
         try {
             new JavaBeanLoader<Bean>((TypeDescription) null);
@@ -85,6 +87,17 @@ public class JavaBeanLoaderTest extends TestCase {
         }
     }
 
+    public void testLoaderNullRootClass() {
+        try {
+            Yaml loader = new Yaml();
+            loader.loadAs("123", null);
+            fail();
+        } catch (NullPointerException e) {
+            assertEquals("Class for tag must be provided.", e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("deprecation")
     public void testLoaderNullOptions() {
         try {
             new JavaBeanLoader<Bean>((LoaderOptions) null, BeanAccess.DEFAULT);
@@ -157,8 +170,8 @@ public class JavaBeanLoaderTest extends TestCase {
         assertEquals("bean:\n  id: 3\n  name: Test me.\nlist: null\nname: Name123\n", output);
         TypeDescription td = new TypeDescription(Bean3.class);
         td.putListPropertyType("list", Integer.class);
-        JavaBeanLoader<Bean3> loader = new JavaBeanLoader<Bean3>(td);
-        Bean3 parsed = loader.load(output);
+        Yaml loader = new Yaml(new Constructor(td));
+        Bean3 parsed = (Bean3) loader.load(output);
         assertEquals("Name123", parsed.getName());
     }
 
@@ -178,11 +191,27 @@ public class JavaBeanLoaderTest extends TestCase {
         assertEquals("bean:\n  id: 3\n  name: Test me.\nlist:\n- 13\n- 17\nname: Name123\n", output);
         TypeDescription td = new TypeDescription(Bean3.class);
         td.putListPropertyType("list", Integer.class);
-        JavaBeanLoader<Bean3> loader = new JavaBeanLoader<Bean3>(td);
-        Bean3 parsed = loader.load(output);
+        Yaml loader = new Yaml(new Constructor(td));
+        Bean3 parsed = (Bean3) loader.load(output);
         assertEquals("Name123", parsed.getName());
         List<Integer> parsedList = parsed.getList();
         assertEquals(2, parsedList.size());
+    }
+
+    public void testTypeDescription3() {
+        Bean3 bean3 = new Bean3();
+        bean3.setName("Name123");
+        Bean bean = new Bean();
+        bean.setId(3);
+        bean.setName("Test me.");
+        bean3.setBean(bean);
+        JavaBeanDumper dumper = new JavaBeanDumper();
+        String output = dumper.dump(bean3);
+        assertEquals("bean:\n  id: 3\n  name: Test me.\nlist: null\nname: Name123\n", output);
+        TypeDescription td = new TypeDescription(Bean2.class);
+        Yaml loader = new Yaml(new Constructor(td));
+        Bean3 parsed = loader.loadAs(output, Bean3.class);// Bean3 must be taken
+        assertEquals("Name123", parsed.getName());
     }
 
     public static class Bean3 {

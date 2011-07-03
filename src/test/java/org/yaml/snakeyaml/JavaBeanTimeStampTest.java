@@ -38,9 +38,9 @@ public class JavaBeanTimeStampTest extends TestCase {
         assertEquals(
                 "!!org.yaml.snakeyaml.JavaBeanWithSqlTimestamp\ndate: 2001-09-25T00:00:00Z\ntimestamp: 2001-09-09T01:46:40Z\n",
                 dumpStr);
-        JavaBeanLoader<JavaBeanWithSqlTimestamp> loader = new JavaBeanLoader<JavaBeanWithSqlTimestamp>(
+        Yaml loader = new Yaml();
+        JavaBeanWithSqlTimestamp javaBeanToLoad = loader.loadAs(dumpStr,
                 JavaBeanWithSqlTimestamp.class);
-        JavaBeanWithSqlTimestamp javaBeanToLoad = loader.load(dumpStr);
         assertEquals(stamp, javaBeanToLoad.getTimestamp());
         assertEquals(date, javaBeanToLoad.getDate());
     }
@@ -57,9 +57,9 @@ public class JavaBeanTimeStampTest extends TestCase {
         Yaml yaml = new Yaml(options);
         String dumpStr = yaml.dump(javaBeanToDump);
         assertEquals("date: 2001-09-25T00:00:00Z\ntimestamp: 2001-09-09T01:46:40Z\n", dumpStr);
-        JavaBeanLoader<JavaBeanWithSqlTimestamp> loader = new JavaBeanLoader<JavaBeanWithSqlTimestamp>(
+        Yaml loader = new Yaml();
+        JavaBeanWithSqlTimestamp javaBeanToLoad = loader.loadAs(dumpStr,
                 JavaBeanWithSqlTimestamp.class);
-        JavaBeanWithSqlTimestamp javaBeanToLoad = loader.load(dumpStr);
         assertEquals(stamp, javaBeanToLoad.getTimestamp());
         assertEquals(date, javaBeanToLoad.getDate());
     }

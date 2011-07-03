@@ -19,7 +19,7 @@ package org.yaml.snakeyaml.javabeans;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.Yaml;
 
 public class TriangleBeanTest extends TestCase {
 
@@ -34,9 +34,8 @@ public class TriangleBeanTest extends TestCase {
         assertEquals(
                 "name: Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle\n  name: Triangle25\n",
                 output);
-        JavaBeanLoader<TriangleBean> beanLoader = new JavaBeanLoader<TriangleBean>(
-                TriangleBean.class);
-        TriangleBean loadedBean = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        TriangleBean loadedBean = beanLoader.loadAs(output, TriangleBean.class);
         assertNotNull(loadedBean);
         assertEquals("Bean25", loadedBean.getName());
         assertEquals(7, loadedBean.getShape().process());
@@ -44,10 +43,9 @@ public class TriangleBeanTest extends TestCase {
 
     public void testClassNotFound() {
         String output = "name: Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle777\n  name: Triangle25\n";
-        JavaBeanLoader<TriangleBean> beanLoader = new JavaBeanLoader<TriangleBean>(
-                TriangleBean.class);
+        Yaml beanLoader = new Yaml();
         try {
-            beanLoader.load(output);
+            beanLoader.loadAs(output, TriangleBean.class);
             fail("Class not found expected.");
         } catch (Exception e) {
             assertEquals(
@@ -61,10 +59,9 @@ public class TriangleBeanTest extends TestCase {
      */
     public void testClassAndTag() {
         String output = "name: !!whatever Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle\n  name: Triangle25\n";
-        JavaBeanLoader<TriangleBean> beanLoader = new JavaBeanLoader<TriangleBean>(
-                TriangleBean.class);
+        Yaml beanLoader = new Yaml();
         try {
-            beanLoader.load(output);
+            beanLoader.loadAs(output, TriangleBean.class);
             fail("Runtime class has less priority then an explicit tag");
         } catch (Exception e) {
             assertEquals(

@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
@@ -34,9 +34,8 @@ public class ReadOnlyPropertiesTest extends TestCase {
         // System.out.println(output);
         assertEquals("name: lunch\n", output);
         //
-        JavaBeanLoader<IncompleteBean> loader = new JavaBeanLoader<IncompleteBean>(
-                IncompleteBean.class);
-        IncompleteBean parsed = loader.load(output);
+        Yaml loader = new Yaml();
+        IncompleteBean parsed = loader.loadAs(output, IncompleteBean.class);
         assertEquals(bean.getName(), parsed.getName());
     }
 
@@ -51,10 +50,9 @@ public class ReadOnlyPropertiesTest extends TestCase {
         // System.out.println(output);
         assertEquals("{id: 10, name: lunch}\n", output);
         //
-        JavaBeanLoader<IncompleteBean> loader = new JavaBeanLoader<IncompleteBean>(
-                IncompleteBean.class);
+        Yaml loader = new Yaml();
         try {
-            loader.load(output);
+            loader.loadAs(output, IncompleteBean.class);
             fail("Setter is missing.");
         } catch (YAMLException e) {
             String message = e.getMessage();

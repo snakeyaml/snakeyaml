@@ -26,7 +26,6 @@ import java.util.TreeMap;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -54,8 +53,8 @@ public class TypeSafeMapImplementationsTest extends TestCase {
     public void testLoadMap() {
         String output = Util.getLocalResource("examples/map-bean-1.yaml");
         // System.out.println(output);
-        JavaBeanLoader<MapBean> beanLoader = new JavaBeanLoader<MapBean>(MapBean.class);
-        MapBean parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        MapBean parsed = beanLoader.loadAs(output, MapBean.class);
         assertNotNull(parsed);
         SortedMap<String, String> sortedMap = parsed.getSorted();
         assertEquals(2, sortedMap.size());

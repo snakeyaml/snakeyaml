@@ -24,9 +24,10 @@ import java.util.TreeMap;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class HouseTest extends TestCase {
     /**
@@ -56,8 +57,8 @@ public class HouseTest extends TestCase {
         String output2 = beanDumper.dump(house);
         assertEquals(etalon, output2);
         // load
-        JavaBeanLoader<House> beanLoader = new JavaBeanLoader<House>(House.class);
-        House loadedHouse = beanLoader.load(yaml);
+        Yaml beanLoader = new Yaml();
+        House loadedHouse = beanLoader.loadAs(yaml, House.class);
         assertNotNull(loadedHouse);
         assertEquals("Wall Street", loadedHouse.getStreet());
         // dump again
@@ -91,11 +92,14 @@ public class HouseTest extends TestCase {
         // load
         TypeDescription description = new TypeDescription(House.class);
         description.putListPropertyType("rooms", Room.class);
-        JavaBeanLoader<House> beanLoader = new JavaBeanLoader<House>(description);
-        House loadedHouse = beanLoader.load(yaml);
+        Yaml beanLoader = new Yaml(new Constructor(description));
+        House loadedHouse = (House) beanLoader.load(yaml);
+        House loadedHouse2 = (House) beanLoader.loadAs(yaml, House.class);
         assertNotNull(loadedHouse);
+        assertFalse(loadedHouse == loadedHouse2);
         assertEquals("Wall Street", loadedHouse.getStreet());
         assertEquals(1, loadedHouse.getNumber());
+        assertEquals(1, loadedHouse2.getNumber());
         FrontDoor fdoor = loadedHouse.getFrontDoor();
         assertEquals(frontDoor.getId(), fdoor.getId());
         assertEquals(frontDoor.getHeight(), fdoor.getHeight());
@@ -132,8 +136,8 @@ public class HouseTest extends TestCase {
         String etalon = Util.getLocalResource("javabeans/house-dump2.yaml");
         assertEquals(etalon, yaml);
         // load
-        JavaBeanLoader<House> beanLoader = new JavaBeanLoader<House>(House.class);
-        House loadedHouse = beanLoader.load(yaml);
+        Yaml beanLoader = new Yaml();
+        House loadedHouse = beanLoader.loadAs(yaml, House.class);
         assertNotNull(loadedHouse);
         assertEquals("Wall Street", loadedHouse.getStreet());
         // dump again

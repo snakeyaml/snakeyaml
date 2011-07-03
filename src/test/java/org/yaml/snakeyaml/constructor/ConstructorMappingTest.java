@@ -56,7 +56,7 @@ public class ConstructorMappingTest extends TestCase {
         Resolver resolver = new Resolver();
         Composer composer = new Composer(parser, resolver);
         constructor.setComposer(composer);
-        return constructor.getSingleData();
+        return constructor.getSingleData(Object.class);
     }
 
     class CustomConstructor extends Constructor {

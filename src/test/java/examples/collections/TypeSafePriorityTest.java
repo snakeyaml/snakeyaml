@@ -20,9 +20,10 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 /**
  * Test ListBean->List<Human> developers <br/>
@@ -39,8 +40,8 @@ public class TypeSafePriorityTest extends TestCase {
         // System.out.println(output);
         TypeDescription descr = new TypeDescription(ListBean.class);
         descr.putListPropertyType("developers", Developer.class);
-        JavaBeanLoader<ListBean> beanLoader = new JavaBeanLoader<ListBean>(descr);
-        ListBean parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml(new Constructor(descr));
+        ListBean parsed = beanLoader.loadAs(output, ListBean.class);
         assertNotNull(parsed);
         List<Human> developers = parsed.getDevelopers();
         assertEquals(2, developers.size());

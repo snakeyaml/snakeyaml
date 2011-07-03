@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.yaml.snakeyaml.Invoice;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -50,20 +49,20 @@ public class StressTest extends TestCase {
         float duration = (time2 - time1) / 1000000;
         System.out.println("Init was " + duration + " ms.");
 
-        JavaBeanLoader<Invoice> loader = new JavaBeanLoader<Invoice>(Invoice.class);
+        Yaml loader = new Yaml();
         time1 = System.nanoTime();
-        loader.load(doc);
+        loader.loadAs(doc, Invoice.class);
         time2 = System.nanoTime();
         duration = (time2 - time1) / 1000000;
         System.out.println("\nSingle load was " + duration + " ms.");
 
-        loader = new JavaBeanLoader<Invoice>(Invoice.class);
+        loader = new Yaml();
         int[] range = new int[] { 1000, 2000 /* , 4000, 8000 */};
         System.out.println("\nOne instance.");
         for (int number : range) {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
-                loader.load(doc);
+                loader.loadAs(doc, Invoice.class);
             }
             time2 = System.nanoTime();
             duration = ((time2 - time1) / 1000000) / (float) number;
@@ -79,8 +78,8 @@ public class StressTest extends TestCase {
         for (int number : range) {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
-                loader = new JavaBeanLoader<Invoice>(Invoice.class);
-                loader.load(doc);
+                loader = new Yaml();
+                loader.loadAs(doc, Invoice.class);
             }
             time2 = System.nanoTime();
             duration = ((time2 - time1) / 1000000) / (float) number;

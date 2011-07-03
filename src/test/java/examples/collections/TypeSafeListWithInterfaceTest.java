@@ -22,8 +22,8 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test ListBean->List<Human> developers <br/>
@@ -50,9 +50,9 @@ public class TypeSafeListWithInterfaceTest extends TestCase {
     public void testLoadWrongList() {
         String output = Util.getLocalResource("examples/list-bean-1.yaml");
         // System.out.println(output);
-        JavaBeanLoader<ListBean> beanLoader = new JavaBeanLoader<ListBean>(ListBean.class);
+        Yaml beanLoader = new Yaml();
         try {
-            beanLoader.load(output);
+            beanLoader.loadAs(output, ListBean.class);
             fail("Global tags are required since Human is an interface.");
         } catch (Exception e) {
             assertTrue(e.getMessage(), e.getMessage().contains("Cannot create property=developers"));
@@ -62,8 +62,8 @@ public class TypeSafeListWithInterfaceTest extends TestCase {
     public void testLoadList() {
         String output = Util.getLocalResource("examples/list-bean-2.yaml");
         // System.out.println(output);
-        JavaBeanLoader<ListBean> beanLoader = new JavaBeanLoader<ListBean>(ListBean.class);
-        ListBean parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        ListBean parsed = beanLoader.loadAs(output, ListBean.class);
         assertNotNull(parsed);
         List<String> list2 = parsed.getChildren();
         assertEquals(2, list2.size());

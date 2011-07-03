@@ -29,7 +29,6 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.immutable.Point;
@@ -66,8 +65,8 @@ public class VelocityTest extends TestCase {
         assertEquals(etalon.length(), output.length());
         assertEquals(etalon, output);
         // parse the YAML document
-        JavaBeanLoader<MyBean> loader = new JavaBeanLoader<MyBean>(MyBean.class);
-        MyBean parsedBean = loader.load(output);
+        Yaml loader = new Yaml();
+        MyBean parsedBean = loader.loadAs(output, MyBean.class);
         assertEquals(bean, parsedBean);
     }
 

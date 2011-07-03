@@ -22,8 +22,8 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 public class ArrayBeanTest extends TestCase {
 
@@ -46,8 +46,8 @@ public class ArrayBeanTest extends TestCase {
         String output = beanDumper.dump(bean);
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue74-array1.txt"), output);
-        JavaBeanLoader<ArrayBean> beanLoader = new JavaBeanLoader<ArrayBean>(ArrayBean.class);
-        ArrayBean parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        ArrayBean parsed = beanLoader.loadAs(output, ArrayBean.class);
         // System.out.println(parsed);
         assertEquals(3, parsed.getMembers().length);
         assertEquals(2, parsed.openMembers.length);
