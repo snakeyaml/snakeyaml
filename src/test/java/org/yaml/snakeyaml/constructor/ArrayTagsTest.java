@@ -63,10 +63,7 @@ public class ArrayTagsTest extends TestCase {
     }
 
     public void testLoadClassNoRoot() throws IOException {
-        Constructor constructor = new Constructor();
-        TypeDescription carDescription = new TypeDescription(CarWithArray.class);
-        carDescription.setRoot(true);
-        constructor.addTypeDescription(carDescription);
+        Constructor constructor = new Constructor(new TypeDescription(CarWithArray.class));
         Yaml yaml = new Yaml(constructor);
         CarWithArray car = (CarWithArray) yaml.load(Util
                 .getLocalResource("constructor/car-no-root-class.yaml"));

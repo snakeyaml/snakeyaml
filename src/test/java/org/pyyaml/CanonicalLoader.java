@@ -36,7 +36,7 @@ public class CanonicalLoader extends Yaml {
             }
             Composer composer = new Composer(new CanonicalParser(buffer.toString()), resolver);
             constructor.setComposer(composer);
-            return constructor.getSingleData();
+            return constructor.getSingleData(Object.class);
         } catch (IOException e) {
             throw new YAMLException(e);
         }

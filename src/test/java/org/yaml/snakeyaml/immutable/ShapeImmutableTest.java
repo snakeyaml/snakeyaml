@@ -18,7 +18,6 @@ package org.yaml.snakeyaml.immutable;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -134,8 +133,8 @@ public class ShapeImmutableTest extends TestCase {
 
     public void testShapeNoTags() {
         String source = Util.getLocalResource("immutable/shapeNoTags.yaml");
-        JavaBeanLoader<Shape> beanLoader = new JavaBeanLoader<Shape>(Shape.class);
-        Shape loaded = beanLoader.load(source);
+        Yaml beanLoader = new Yaml();
+        Shape loaded = beanLoader.loadAs(source, Shape.class);
         assertEquals(new Integer(123), loaded.getId());
         assertEquals("BLACK", loaded.getColor().getName());
         assertEquals(1.17, loaded.getPoint().getX());

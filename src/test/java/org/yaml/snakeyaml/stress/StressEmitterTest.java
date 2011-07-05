@@ -24,8 +24,8 @@ import junit.framework.TestSuite;
 
 import org.yaml.snakeyaml.Invoice;
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 public class StressEmitterTest extends TestCase {
 
@@ -38,8 +38,9 @@ public class StressEmitterTest extends TestCase {
     }
 
     public void testPerformance() throws IOException {
-        JavaBeanLoader<Invoice> loader = new JavaBeanLoader<Invoice>(Invoice.class);
-        Invoice invoice = loader.load(Util.getLocalResource("specification/example2_27.yaml"));
+        Yaml loader = new Yaml();
+        Invoice invoice = loader.loadAs(Util.getLocalResource("specification/example2_27.yaml"),
+                Invoice.class);
         JavaBeanDumper dumper = new JavaBeanDumper();
         long time1 = System.nanoTime();
         dumper.dump(invoice);

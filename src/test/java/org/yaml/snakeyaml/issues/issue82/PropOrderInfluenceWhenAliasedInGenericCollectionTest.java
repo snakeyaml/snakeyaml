@@ -26,7 +26,6 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -243,8 +242,8 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         JavaBeanDumper dumper = new JavaBeanDumper();
         String dump2 = dumper.dump(customerAB);
         // System.out.println(dump2);
-        JavaBeanLoader<CustomerAB> loader = new JavaBeanLoader<CustomerAB>(CustomerAB.class);
-        CustomerAB parsed = loader.load(dump2);
+        Yaml loader = new Yaml();
+        CustomerAB parsed = loader.loadAs(dump2, CustomerAB.class);
         assertNotNull(parsed);
     }
 

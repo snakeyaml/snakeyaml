@@ -23,7 +23,7 @@ import java.util.HashSet;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
+import org.yaml.snakeyaml.Yaml;
 
 public class CollectionTest extends TestCase {
 
@@ -32,9 +32,8 @@ public class CollectionTest extends TestCase {
         JavaBeanDumper dumper = new JavaBeanDumper();
         String doc = dumper.dump(bean);
         // System.out.println(doc);
-        JavaBeanLoader<CollectionList> beanLoader = new JavaBeanLoader<CollectionList>(
-                CollectionList.class);
-        CollectionList parsed = beanLoader.load(doc);
+        Yaml beanLoader = new Yaml();
+        CollectionList parsed = beanLoader.loadAs(doc, CollectionList.class);
         assertTrue(parsed.getNames().contains("aaa"));
         assertTrue(parsed.getNames().contains("bbb"));
         assertEquals(2, parsed.getNames().size());
@@ -63,9 +62,8 @@ public class CollectionTest extends TestCase {
         JavaBeanDumper dumper = new JavaBeanDumper();
         String doc = dumper.dump(bean);
         // System.out.println(doc);
-        JavaBeanLoader<CollectionSet> beanLoader = new JavaBeanLoader<CollectionSet>(
-                CollectionSet.class);
-        CollectionSet parsed = beanLoader.load(doc);
+        Yaml beanLoader = new Yaml();
+        CollectionSet parsed = beanLoader.loadAs(doc, CollectionSet.class);
         assertTrue(parsed.getRoles().contains(11));
         assertTrue(parsed.getRoles().contains(13));
         assertEquals(2, parsed.getRoles().size());
@@ -88,5 +86,4 @@ public class CollectionTest extends TestCase {
             this.roles = roles;
         }
     }
-
 }

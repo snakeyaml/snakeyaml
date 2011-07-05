@@ -24,7 +24,6 @@ import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -87,8 +86,8 @@ public class TypeSafeCollectionsTest extends TestCase {
         String output = yaml.dump(c);
         assertEquals(Util.getLocalResource("javabeans/mycar-with-global-tag1.yaml"), output);
         // load
-        JavaBeanLoader<MyCar> beanLoader = new JavaBeanLoader<MyCar>(MyCar.class);
-        MyCar car = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        MyCar car = beanLoader.loadAs(output, MyCar.class);
         assertNotNull(car);
         assertEquals("00-FF-Q2", car.getPlate());
         assertEquals(5, car.getWheels().size());

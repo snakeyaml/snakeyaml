@@ -31,6 +31,7 @@ import org.yaml.snakeyaml.resolver.Resolver;
  * global tag with the class definition like '!!com.package.MyBean' it is
  * ignored in favour of the runtime class <code>T</code>.
  * 
+ * @deprecated use Yaml.loadAs() methods instead
  * @see http://www.artima.com/weblogs/viewpost.jsp?thread=208860
  */
 public class JavaBeanLoader<T> {
@@ -51,9 +52,7 @@ public class JavaBeanLoader<T> {
         if (options.getRootTypeDescription() == null) {
             throw new NullPointerException("TypeDescription must be provided.");
         }
-        Constructor constructor = new Constructor(options.getRootTypeDescription().getType());
-        options.getRootTypeDescription().setRoot(true);
-        constructor.addTypeDescription(options.getRootTypeDescription());
+        Constructor constructor = new Constructor(options.getRootTypeDescription());
         loader = new Yaml(constructor, options, new Representer(), new DumperOptions(),
                 new Resolver());
         loader.setBeanAccess(beanAccess);

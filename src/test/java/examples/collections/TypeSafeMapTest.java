@@ -22,8 +22,8 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test MapBean->Map<String, Developer> developers <br/>
@@ -69,8 +69,8 @@ public class TypeSafeMapTest extends TestCase {
     public void testLoadMap() {
         String output = Util.getLocalResource("examples/map-bean-10.yaml");
         // System.out.println(output);
-        JavaBeanLoader<MapBean> beanLoader = new JavaBeanLoader<MapBean>(MapBean.class);
-        MapBean parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        MapBean parsed = beanLoader.loadAs(output, MapBean.class);
         assertNotNull(parsed);
         Map<String, Integer> data = parsed.getData();
         assertEquals(3, data.size());
@@ -166,9 +166,8 @@ public class TypeSafeMapTest extends TestCase {
     public void testLoadMapWithObject() {
         String output = Util.getLocalResource("examples/map-bean-10.yaml");
         // System.out.println(output);
-        JavaBeanLoader<MapBeanNoGenerics> beanLoader = new JavaBeanLoader<MapBeanNoGenerics>(
-                MapBeanNoGenerics.class);
-        MapBeanNoGenerics parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        MapBeanNoGenerics parsed = beanLoader.loadAs(output, MapBeanNoGenerics.class);
         assertNotNull(parsed);
         Map<String, Integer> data = parsed.getData();
         assertEquals(3, data.size());

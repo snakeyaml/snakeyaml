@@ -60,16 +60,31 @@ public class Constructor extends SafeConstructor {
      *            - the class (usually JavaBean) to be constructed
      */
     public Constructor(Class<? extends Object> theRoot) {
+        this(new TypeDescription(checkRoot(theRoot)));
+    }
+
+    /**
+     * Ugly Java way to check the argument in the constructor
+     */
+    private static Class<? extends Object> checkRoot(Class<? extends Object> theRoot) {
+        if (theRoot == null) {
+            throw new NullPointerException("Root class must be provided.");
+        } else
+            return theRoot;
+    }
+
+    public Constructor(TypeDescription theRoot) {
         if (theRoot == null) {
             throw new NullPointerException("Root type must be provided.");
         }
         this.yamlConstructors.put(null, new ConstructYamlObject());
-        if (!Object.class.equals(theRoot)) {
-            rootTag = new Tag(theRoot);
+        if (!Object.class.equals(theRoot.getType())) {
+            rootTag = new Tag(theRoot.getType());
         }
         yamlClassConstructors.put(NodeId.scalar, new ConstructScalar());
         yamlClassConstructors.put(NodeId.mapping, new ConstructMapping());
         yamlClassConstructors.put(NodeId.sequence, new ConstructSequence());
+        addTypeDescription(theRoot);
     }
 
     /**

@@ -21,8 +21,8 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Invoice;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test that Yaml instances are independent and can be used in multiple threads.
@@ -58,11 +58,11 @@ public class ParallelTest extends TestCase {
 
         public void run() {
             System.out.println("Started: " + id);
-            JavaBeanLoader<Invoice> loader = new JavaBeanLoader<Invoice>(Invoice.class);
+            Yaml loader = new Yaml();
             long time1 = System.nanoTime();
             int cycles = 200;
             for (int i = 0; i < cycles; i++) {
-                Invoice invoice = loader.load(doc);
+                Invoice invoice = loader.loadAs(doc, Invoice.class);
                 assertNotNull(invoice);
             }
             long time2 = System.nanoTime();

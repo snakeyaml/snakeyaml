@@ -21,7 +21,6 @@ import java.beans.IntrospectionException;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -114,9 +113,9 @@ public class GenericArrayTypeTest extends TestCase {
         // System.out.println(doc);
         assertEquals(Util.getLocalResource("javabeans/genericArray-1.yaml"), doc);
         //
-        JavaBeanLoader<ArrayBean> beanLoader = new JavaBeanLoader<ArrayBean>(ArrayBean.class);
+        Yaml beanLoader = new Yaml();
         if (GenericsBugDetector.isProperIntrospection()) {
-            ArrayBean loaded = beanLoader.load(doc);
+            ArrayBean loaded = beanLoader.loadAs(doc, ArrayBean.class);
             assertEquals("ID556677", loaded.getId());
             assertEquals("Array3", loaded.getGa().getName());
             assertEquals(3, loaded.getGa().getHome().length);

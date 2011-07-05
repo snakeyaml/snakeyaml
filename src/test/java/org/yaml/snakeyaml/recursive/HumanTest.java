@@ -32,7 +32,6 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -139,9 +138,9 @@ public class HumanTest extends TestCase {
         assertEquals(etalon, output);
         TypeDescription humanDescription = new TypeDescription(Human.class);
         humanDescription.putMapPropertyType("children", Human.class, Object.class);
-        JavaBeanLoader<Human> beanLoader = new JavaBeanLoader<Human>(humanDescription);
+        Yaml beanLoader = new Yaml(new Constructor(humanDescription));
         //
-        Human son2 = beanLoader.load(output);
+        Human son2 = beanLoader.loadAs(output, Human.class);
         assertNotNull(son2);
         assertEquals("Son", son.getName());
 
@@ -212,9 +211,9 @@ public class HumanTest extends TestCase {
         assertEquals(etalon, output);
         TypeDescription humanDescription = new TypeDescription(Human.class);
         humanDescription.putMapPropertyType("children", Human.class, Object.class);
-        JavaBeanLoader<Human> beanLoader = new JavaBeanLoader<Human>(humanDescription);
+        Yaml beanLoader = new Yaml(new Constructor(humanDescription));
         //
-        Human son2 = beanLoader.load(output);
+        Human son2 = beanLoader.loadAs(output, Human.class);
         assertNotNull(son2);
         assertEquals("Son", son.getName());
 
@@ -634,9 +633,9 @@ public class HumanTest extends TestCase {
         assertEquals(etalon, output);
         TypeDescription humanDescription = new TypeDescription(Human.class);
         humanDescription.putMapPropertyType("children", Human.class, Object.class);
-        JavaBeanLoader<Human> beanLoader = new JavaBeanLoader<Human>(humanDescription);
+        Yaml beanLoader = new Yaml(new Constructor(humanDescription));
         //
-        Human son2 = beanLoader.load(output);
+        Human son2 = beanLoader.loadAs(output, Human.class);
         assertNotNull(son2);
         assertEquals("Son", son.getName());
 
@@ -659,5 +658,4 @@ public class HumanTest extends TestCase {
         // check if hashCode is correct
         validateSet(children2);
     }
-
 }

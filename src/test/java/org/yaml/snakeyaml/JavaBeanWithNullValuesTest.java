@@ -27,11 +27,11 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class JavaBeanWithNullValuesTest extends TestCase {
-    private JavaBeanLoader<JavaBeanWithNullValues> loader;
+    private Yaml loader;
 
     @Override
     protected void setUp() throws Exception {
-        loader = new JavaBeanLoader<JavaBeanWithNullValues>(JavaBeanWithNullValues.class);
+        loader = new Yaml();
     }
 
     public void testNotNull() throws Exception {
@@ -49,7 +49,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         assertNotNull(parsed.getSqlDate());
         assertNotNull(parsed.getTimestamp());
         //
-        parsed = loader.load(dumpStr);
+        parsed = loader.loadAs(dumpStr, JavaBeanWithNullValues.class);
         assertNotNull(parsed.getString());
         assertNotNull(parsed.getBoolean1());
         assertNotNull(parsed.getDate());
@@ -67,7 +67,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
         assertNull(parsed.getString());
         //
-        parsed = loader.load(dumpStr);
+        parsed = loader.loadAs(dumpStr, JavaBeanWithNullValues.class);
         assertNull(parsed.getString());
     }
 
@@ -119,7 +119,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         assertFalse("No explicit root tag must be used.",
                 dumpStr.contains("JavaBeanWithNullValues"));
         yaml = new Yaml(new CustomRepresenter(), options);
-        JavaBeanWithNullValues parsed = loader.load(dumpStr);
+        JavaBeanWithNullValues parsed = loader.loadAs(dumpStr, JavaBeanWithNullValues.class);
         assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
         assertNull(" expect null, got " + parsed.getString(), parsed.getString());
         assertEquals(1d, parsed.getDouble1());

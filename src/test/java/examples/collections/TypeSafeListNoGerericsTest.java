@@ -23,8 +23,8 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.JavaBeanDumper;
-import org.yaml.snakeyaml.JavaBeanLoader;
 import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test ListBean->List developers <br/>
@@ -52,8 +52,8 @@ public class TypeSafeListNoGerericsTest extends TestCase {
     public void testLoadList() {
         String output = Util.getLocalResource("examples/list-bean-1.yaml");
         // System.out.println(output);
-        JavaBeanLoader<ListBean> beanLoader = new JavaBeanLoader<ListBean>(ListBean.class);
-        ListBean parsed = beanLoader.load(output);
+        Yaml beanLoader = new Yaml();
+        ListBean parsed = beanLoader.loadAs(output, ListBean.class);
         assertNotNull(parsed);
         List<String> list2 = parsed.getChildren();
         assertEquals(2, list2.size());

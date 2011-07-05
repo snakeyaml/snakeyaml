@@ -96,10 +96,7 @@ public class ClassTagsTest extends TestCase {
     }
 
     public void testLoadClassNoRoot() throws IOException {
-        Constructor constructor = new Constructor();
-        TypeDescription carDescription = new TypeDescription(Car.class);
-        carDescription.setRoot(true);
-        constructor.addTypeDescription(carDescription);
+        Constructor constructor = new Constructor(new TypeDescription(Car.class));
         Yaml yaml = new Yaml(constructor);
         Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
         assertEquals("12-XP-F4", car.getPlate());

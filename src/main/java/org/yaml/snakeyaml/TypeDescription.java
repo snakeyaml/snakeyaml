@@ -42,7 +42,6 @@ public class TypeDescription {
     private Class<?> impl;
 
     private Tag tag;
-    private boolean root;
 
     transient private Set<Property> dumpProperties = null;
     transient private PropertyUtils propertyUtils;
@@ -108,26 +107,6 @@ public class TypeDescription {
      */
     public Class<? extends Object> getType() {
         return type;
-    }
-
-    /**
-     * Defines whether this type (class) is the root of the YAML document
-     * 
-     * @return true if this type shall be used as a root of object hierarchy.
-     */
-    public boolean isRoot() {
-        return root;
-    }
-
-    /**
-     * Specify whether this type (class) should be serve as the root of the YAML
-     * document
-     * 
-     * @param root
-     *            true if this type shall be used as a root of object hierarchy.
-     */
-    public void setRoot(boolean root) {
-        this.root = root;
     }
 
     /**

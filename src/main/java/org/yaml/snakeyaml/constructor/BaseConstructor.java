@@ -134,11 +134,13 @@ public abstract class BaseConstructor {
      * @throws ComposerException
      *             in case there are more documents in the stream
      */
-    public Object getSingleData() {
+    public Object getSingleData(Class<?> type) {
         // Ensure that the stream contains a single document and construct it
         Node node = composer.getSingleNode();
         if (node != null) {
-            if (rootTag != null) {
+            if (Object.class != type) {
+                node.setTag(new Tag(type));
+            } else if (rootTag != null) {
                 node.setTag(rootTag);
             }
             return constructDocument(node);
@@ -465,9 +467,6 @@ public abstract class BaseConstructor {
     public TypeDescription addTypeDescription(TypeDescription definition) {
         if (definition == null) {
             throw new NullPointerException("TypeDescription is required.");
-        }
-        if (rootTag == null && definition.isRoot()) {
-            rootTag = new Tag(definition.getType());
         }
         Tag tag = definition.getTag();
         typeTags.put(tag, definition.getType());
