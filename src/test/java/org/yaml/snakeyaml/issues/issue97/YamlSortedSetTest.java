@@ -54,6 +54,27 @@ public class YamlSortedSetTest extends TestCase {
         checkTestBlog(rehydrated);
     }
 
+    public void testYaml3() {
+        String serialized = "!!org.yaml.snakeyaml.issues.issue97.Blog\n" + "posts:\n"
+                + "  - text: Dummy\n" + "    title: Test\n" + "  - text: Creative\n"
+                + "    title: Highly\n";
+        // System.out.println(serialized);
+        Yaml yaml3 = constructYamlParser3();
+        Blog rehydrated = yaml3.loadAs(serialized, Blog.class);
+        checkTestBlog(rehydrated);
+    }
+
+    public void testYamlDefault() {
+        String serialized = "!!org.yaml.snakeyaml.issues.issue97.Blog\n" + "posts:\n"
+                + "  - text: Dummy\n" + "    title: Test\n" + "  - text: Creative\n"
+                + "    title: Highly\n";
+        // System.out.println(serialized);
+        Yaml yaml = new Yaml();
+        yaml.setBeanAccess(BeanAccess.FIELD);
+        Blog rehydrated = yaml.loadAs(serialized, Blog.class);
+        checkTestBlog(rehydrated);
+    }
+
     protected Yaml constructYamlParser2() {
         Yaml yaml = new Yaml();
         yaml.addTypeDescription(new TypeDescription(SortedSet.class) {
@@ -63,6 +84,13 @@ public class YamlSortedSetTest extends TestCase {
             }
         });
         yaml.setBeanAccess(BeanAccess.FIELD);
+        return yaml;
+    }
+
+    protected Yaml constructYamlParser3() {
+        Yaml yaml = new Yaml();
+        yaml.setBeanAccess(BeanAccess.FIELD);
+        yaml.addTypeDescription(new TypeDescription(SortedSet.class, TreeSet.class));
         return yaml;
     }
 
