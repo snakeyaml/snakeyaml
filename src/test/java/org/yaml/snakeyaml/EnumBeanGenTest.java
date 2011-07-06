@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.introspector.ArtificialProperty;
+import org.yaml.snakeyaml.introspector.PropertySubstitute;
 
 public class EnumBeanGenTest extends TestCase {
     // Dumping
@@ -61,7 +61,7 @@ public class EnumBeanGenTest extends TestCase {
 
     public void testLoadNoTag4GenEnumProperty() {
         TypeDescription td = new TypeDescription(EnumBeanGen.class);
-        td.addPropertyMock("suit", Suit.class, null, null);
+        td.substituteProperty("suit", Suit.class, null, null);
 
         Constructor constructor = new Constructor();
         constructor.addTypeDescription(td);
@@ -83,8 +83,8 @@ public class EnumBeanGenTest extends TestCase {
     public void testLoadNoTags() {
         Constructor c = new Constructor();
         TypeDescription td = new TypeDescription(EnumBeanGen.class);
-        td.addPropertyMock("suit", Suit.class, null, null);
-        td.addPropertyMock(new ArtificialProperty("map", null, Suit.class, Object.class));
+        td.substituteProperty("suit", Suit.class, null, null);
+        td.substituteProperty(new PropertySubstitute("map", null, Suit.class, Object.class));
 
         c.addTypeDescription(td);
         Yaml yaml = new Yaml(c);

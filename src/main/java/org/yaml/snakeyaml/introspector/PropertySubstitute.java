@@ -29,9 +29,9 @@ import java.util.logging.Logger;
 import org.yaml.snakeyaml.error.YAMLException;
 
 // TODO: decide priorities for get/set Read/Field/Delegate Write/Field/Delegate - is FIELD on the correct place ?
-public class ArtificialProperty extends Property {
+public class PropertySubstitute extends Property {
 
-    final private static Logger log = Logger.getLogger(ArtificialProperty.class.getPackage()
+    final private static Logger log = Logger.getLogger(PropertySubstitute.class.getPackage()
             .getName());
 
     protected Class<?> targetType;
@@ -41,7 +41,7 @@ public class ArtificialProperty extends Property {
     transient private Method write;
     private Field field;
 
-    public ArtificialProperty(String name, Class<?> type, String readMethod, String writeMethod,
+    public PropertySubstitute(String name, Class<?> type, String readMethod, String writeMethod,
             Class<?>... params) {
         super(name, type);
         this.readMethod = readMethod;
@@ -54,7 +54,7 @@ public class ArtificialProperty extends Property {
         this.filler = false;
     }
 
-    public ArtificialProperty(String name, Class<?> type, Class<?>... params) {
+    public PropertySubstitute(String name, Class<?> type, Class<?>... params) {
         this(name, type, null, null, params);
     }
 

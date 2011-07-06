@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.introspector.ArtificialProperty;
+import org.yaml.snakeyaml.introspector.PropertySubstitute;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
@@ -47,7 +47,7 @@ public class TypeDescription {
     transient private PropertyUtils propertyUtils;
     transient private boolean delegatesChecked = false;
 
-    private Map<String, ArtificialProperty> properties = Collections.emptyMap();
+    private Map<String, PropertySubstitute> properties = Collections.emptyMap();
 
     protected Set<String> excludes = Collections.emptySet();
     protected String[] includes = null;
@@ -119,12 +119,7 @@ public class TypeDescription {
      */
     @Deprecated
     public void putListPropertyType(String property, Class<? extends Object> type) {
-        if (properties.containsKey(property)) {
-            ArtificialProperty pr = properties.get(property);
-            pr.setActualTypeArguments(type);
-        } else {
-            addPropertyMock(property, null, null, null, type);
-        }
+        addPropertyParameters(property, type);
     }
 
     /**
@@ -158,12 +153,7 @@ public class TypeDescription {
     @Deprecated
     public void putMapPropertyType(String property, Class<? extends Object> key,
             Class<? extends Object> value) {
-        if (properties.containsKey(property)) {
-            ArtificialProperty pr = properties.get(property);
-            pr.setActualTypeArguments(key, value);
-        } else {
-            addPropertyMock(property, null, null, null, key, value);
-        }
+        addPropertyParameters(property, key, value);
     }
 
     /**
@@ -202,14 +192,33 @@ public class TypeDescription {
         return null;
     }
 
+    /**
+     * Adds new substitute for property <code>pName</code> parameterized by
+     * <code>classes</classes> to this <code>TypeDescription</code>. If
+     * <code>pName</code> has been added before - updates parameters with
+     * <code>classes</code>.
+     * 
+     * @param pName
+     * @param classes
+     */
+    public void addPropertyParameters(String pName, Class<?>... classes) {
+        if (!properties.containsKey(pName)) {
+            substituteProperty(pName, null, null, null, classes);
+        } else {
+            PropertySubstitute pr = properties.get(pName);
+            pr.setActualTypeArguments(classes);
+        }
+
+    }
+
     @Override
     public String toString() {
         return "TypeDescription for " + getType() + " (tag='" + getTag() + "')";
     }
 
     private void checkDelegates() {
-        Collection<ArtificialProperty> values = properties.values();
-        for (ArtificialProperty p : values) {
+        Collection<PropertySubstitute> values = properties.values();
+        for (PropertySubstitute p : values) {
             try {
                 p.setDelegate(discoverProperty(p.getName()));
             } catch (YAMLException e) {
@@ -235,17 +244,31 @@ public class TypeDescription {
         return properties.containsKey(name) ? properties.get(name) : discoverProperty(name);
     }
 
-    public void addPropertyMock(String pName, Class<?> pType, String getter, String setter,
+    /**
+     * Adds property substitute for <code>pName</code>
+     * 
+     * @param pName
+     *            property name
+     * @param pType
+     *            property type
+     * @param getter
+     *            method name for getter
+     * @param setter
+     *            method name for setter
+     * @param argParams
+     *            actual types for parameterized type (List<?>, Map<?>)
+     */
+    public void substituteProperty(String pName, Class<?> pType, String getter, String setter,
             Class<?>... argParams) {
-        addPropertyMock(new ArtificialProperty(pName, pType, getter, setter, argParams));
+        substituteProperty(new PropertySubstitute(pName, pType, getter, setter, argParams));
     }
 
-    public void addPropertyMock(ArtificialProperty pMock) {
+    public void substituteProperty(PropertySubstitute substitute) {
         if (Collections.EMPTY_MAP == properties) {
-            properties = new HashMap<String, ArtificialProperty>();
+            properties = new HashMap<String, PropertySubstitute>();
         }
-        pMock.setTargetType(type);
-        properties.put(pMock.getName(), pMock);
+        substitute.setTargetType(type);
+        properties.put(substitute.getName(), substitute);
     }
 
     public void setPropertyUtils(PropertyUtils propertyUtils) {
