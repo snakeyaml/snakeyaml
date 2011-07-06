@@ -254,7 +254,7 @@ public class TypeDescription {
 
     /* begin: Representer */
     public void setIncludes(String... propNames) {
-        this.includes = (propNames != null && propNames.length > 1) ? propNames : null;
+        this.includes = (propNames != null && propNames.length > 0) ? propNames : null;
     }
 
     public void setExcludes(String... propNames) {
