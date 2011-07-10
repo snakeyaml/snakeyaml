@@ -7,9 +7,6 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
-            <action dev="py4fun" type="update" issue="126">
-                Update maven-changes-plugin. 'issueLinkTemplate' property has become redundant (2011-07-10)
-            </action>
             <action dev="py4fun" type="remove" issue="124">
                 Remove deprecated JavaBeanParser (2011-07-05)
             </action>
