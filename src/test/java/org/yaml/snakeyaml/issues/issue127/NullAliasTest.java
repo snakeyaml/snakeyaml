@@ -20,11 +20,10 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class NullAliasTest extends TestCase {
@@ -39,6 +38,7 @@ public class NullAliasTest extends TestCase {
             @Override
             public Node representData(Object data) {
                 if (data instanceof Bean) {
+                    objectToRepresent = data;// this line is important !!!
                     Bean bean = (Bean) data;
                     Map<String, Object> fields = new LinkedHashMap<String, Object>(2);
                     fields.put("a", bean.getA());
@@ -53,16 +53,28 @@ public class NullAliasTest extends TestCase {
         assertEquals("!<tag:example.com,2011:bean>\na: a\nb: null\n", output);
     }
 
-    public void testEasyWay() {
+    public void testRespresenter() {
         Bean bean = new Bean();
 
         bean.setA("a"); // leave b null
+        Yaml yaml = new Yaml(new BeanRepresenter());
+        String output = yaml.dump(bean);
+        assertEquals("!<tag:example.com,2011:bean>\na: a\nb: null\n", output);
+    }
 
-        DumperOptions options = new DumperOptions();
-        options.setExplicitRoot(MY_TAG);
-        options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        Yaml yaml = new Yaml(options);
+    class BeanRepresenter extends Representer {
+        public BeanRepresenter() {
+            this.representers.put(Bean.class, new RepresentBean());
+        }
 
-        // System.out.println(yaml.dump(bean));
+        private class RepresentBean implements Represent {
+            public Node representData(Object data) {
+                Bean bean = (Bean) data;
+                Map<String, Object> fields = new LinkedHashMap<String, Object>(2);
+                fields.put("a", bean.getA());
+                fields.put("b", bean.getB());
+                return representMapping(MY_TAG, fields, false);
+            }
+        }
     }
 }
