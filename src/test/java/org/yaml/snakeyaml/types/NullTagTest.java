@@ -17,6 +17,7 @@
 package org.yaml.snakeyaml.types;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,5 +139,16 @@ public class NullTagTest extends AbstractTest {
                 return representScalar(Tag.NULL, "");
             }
         }
+    }
+
+    public void testNoAnchors() {
+        List<String> list = new ArrayList<String>(3);
+        list.add(null);
+        list.add("value");
+        list.add(null);
+        Yaml yaml = new Yaml();
+        String output = yaml.dump(list);
+        assertEquals("Null values must not get anchors and aliases.", "[null, value, null]\n",
+                output);
     }
 }
