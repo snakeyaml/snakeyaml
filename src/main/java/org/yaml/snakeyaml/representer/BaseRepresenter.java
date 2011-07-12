@@ -182,8 +182,6 @@ public abstract class BaseRepresenter {
         return node;
     }
 
-    // protected abstract boolean ignoreAliases(Object data);
-
     public void setDefaultScalarStyle(ScalarStyle defaultStyle) {
         this.defaultStyle = defaultStyle.getChar();
     }
@@ -207,5 +205,4 @@ public abstract class BaseRepresenter {
     public final boolean isExplicitPropertyUtils() {
         return explicitPropertyUtils;
     }
-
 }
