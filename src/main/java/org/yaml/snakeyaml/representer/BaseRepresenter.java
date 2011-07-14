@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.representer;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
@@ -35,7 +34,6 @@ import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.serializer.Serializer;
 
 /**
  * Represent basic YAML structures: scalar, sequence, mapping
@@ -57,18 +55,18 @@ public abstract class BaseRepresenter {
 
         public Node put(Object key, Node value) {
             return super.put(key, new AnchorNode(value));
-        };
+        }
     };
 
     protected Object objectToRepresent;
     private PropertyUtils propertyUtils;
     private boolean explicitPropertyUtils = false;
 
-    public void represent(Serializer serializer, Object data) throws IOException {
+    public Node represent(Object data) {
         Node node = representData(data);
-        serializer.serialize(node);
         representedObjects.clear();
         objectToRepresent = null;
+        return node;
     }
 
     protected Node representData(Object data) {

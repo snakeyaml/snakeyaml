@@ -207,6 +207,18 @@ public class Yaml {
     }
 
     /**
+     * Produce the corresponding representation tree for a given Object.
+     * 
+     * @see http://yaml.org/spec/1.1/#id859333
+     * @param data
+     *            instance to build the representation tree for
+     * @return representation tree
+     */
+    public Node represent(Object data) {
+        return representer.represent(data);
+    }
+
+    /**
      * Serialize a sequence of Java objects into a YAML String.
      * 
      * @param data
@@ -242,13 +254,15 @@ public class Yaml {
      *            stream to write to
      */
     public void dumpAll(Iterator<? extends Object> data, Writer output) {
-        Serializer s = new Serializer(new Emitter(output, dumperOptions), resolver, dumperOptions);
+        Serializer serializer = new Serializer(new Emitter(output, dumperOptions), resolver,
+                dumperOptions);
         try {
-            s.open();
+            serializer.open();
             while (data.hasNext()) {
-                representer.represent(s, data.next());
+                Node node = representer.represent(data.next());
+                serializer.serialize(node);
             }
-            s.close();
+            serializer.close();
         } catch (java.io.IOException e) {
             throw new YAMLException(e);
         }
@@ -417,8 +431,9 @@ public class Yaml {
 
     /**
      * Parse the first YAML document in a stream and produce the corresponding
-     * representation tree.
+     * representation tree. (This is the opposite of the represent() method)
      * 
+     * @see http://yaml.org/spec/1.1/#id859333
      * @param yaml
      *            YAML document
      * @return parsed root Node for the specified YAML document
@@ -433,6 +448,7 @@ public class Yaml {
      * Parse all YAML documents in a stream and produce corresponding
      * representation trees.
      * 
+     * @see http://yaml.org/spec/1.1/#id859333
      * @param yaml
      *            stream of YAML documents
      * @return parsed root Nodes for all the specified YAML documents
@@ -531,6 +547,7 @@ public class Yaml {
     /**
      * Parse a YAML stream and produce parsing events.
      * 
+     * @see http://yaml.org/spec/1.1/#id859333
      * @param yaml
      *            YAML document(s)
      * @return parsed events
