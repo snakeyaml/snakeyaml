@@ -16,6 +16,7 @@
 
 package org.yaml.snakeyaml;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
@@ -29,6 +30,7 @@ import java.util.regex.Pattern;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.Event;
@@ -265,6 +267,39 @@ public class Yaml {
             serializer.close();
         } catch (java.io.IOException e) {
             throw new YAMLException(e);
+        }
+    }
+
+    /**
+     * Serialize the representation tree into Events.
+     * 
+     * @see http://yaml.org/spec/1.1/#id859333
+     * @param data
+     *            representation tree
+     * @return Event list
+     */
+    public List<Event> serialize(Node data) {
+        SilentEmitter emitter = new SilentEmitter();
+        Serializer serializer = new Serializer(emitter, resolver, dumperOptions);
+        try {
+            serializer.open();
+            serializer.serialize(data);
+            serializer.close();
+        } catch (java.io.IOException e) {
+            throw new YAMLException(e);
+        }
+        return emitter.getEvents();
+    }
+
+    private class SilentEmitter implements Emitable {
+        private List<Event> events = new ArrayList<Event>(100);
+
+        public List<Event> getEvents() {
+            return events;
+        }
+
+        public void emit(Event event) throws IOException {
+            events.add(event);
         }
     }
 

@@ -58,7 +58,7 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * mapping ::= MAPPING-START (node node)* MAPPING-END
  * </pre>
  */
-public final class Emitter {
+public final class Emitter implements Emitable {
     private static final Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
     public static final int MIN_INDENT = 1;
     public static final int MAX_INDENT = 10;

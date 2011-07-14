@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.emitter.Emitter;
+import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
@@ -49,7 +49,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 public final class Serializer {
-    private final Emitter emitter;
+    private final Emitable emitter;
     private final Resolver resolver;
     private boolean explicitStart;
     private boolean explicitEnd;
@@ -61,7 +61,7 @@ public final class Serializer {
     private Boolean closed;
     private Tag explicitRoot;
 
-    public Serializer(Emitter emitter, Resolver resolver, DumperOptions opts) {
+    public Serializer(Emitable emitter, Resolver resolver, DumperOptions opts) {
         this.emitter = emitter;
         this.resolver = resolver;
         this.explicitStart = opts.isExplicitStart();
