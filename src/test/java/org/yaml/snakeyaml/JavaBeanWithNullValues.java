@@ -104,5 +104,4 @@ public class JavaBeanWithNullValues {
     public void setBoolean1(Boolean boolean1) {
         this.boolean1 = boolean1;
     }
-
 }

@@ -143,5 +143,4 @@ public class ShapeImmutableTest extends TestCase {
         assertEquals(1.96, loaded.getPoint3d().getPoint().getX());
         assertEquals(1.78, loaded.getPoint3d().getPoint().getY());
     }
-
 }

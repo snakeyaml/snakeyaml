@@ -47,5 +47,4 @@ public class ObjectValues {
     public String[] getPossible() {
         return possible;
     }
-
 }

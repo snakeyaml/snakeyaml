@@ -47,5 +47,4 @@ public class ObjectValuesWithParam<T, S> {
     public T[] getPossible() {
         return possible;
     }
-
 }

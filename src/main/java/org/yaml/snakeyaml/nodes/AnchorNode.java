@@ -33,5 +33,4 @@ public class AnchorNode extends Node {
     public Node getRealNode() {
         return realNode;
     }
-
 }

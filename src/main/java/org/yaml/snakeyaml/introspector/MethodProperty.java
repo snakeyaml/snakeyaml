@@ -60,5 +60,4 @@ public class MethodProperty extends GenericProperty {
     public boolean isReadable() {
         return readable;
     }
-
 }

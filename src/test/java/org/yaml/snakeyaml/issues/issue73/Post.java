@@ -60,5 +60,4 @@ class Post implements Comparable<Post> {
     public String toString() {
         return "Post " + title + " " + text;
     }
-
 }

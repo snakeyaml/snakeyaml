@@ -181,8 +181,8 @@ public class Representer extends SafeRepresenter {
                     if (member != null) {
                         if (t.equals(member.getClass()))
                             if (childNode.getNodeId() == NodeId.mapping) {
-                                    childNode.setTag(Tag.MAP);
-                                }
+                                childNode.setTag(Tag.MAP);
+                            }
                     }
                 }
             } else if (object instanceof Set) {
@@ -195,8 +195,8 @@ public class Representer extends SafeRepresenter {
                     Node keyNode = tuple.getKeyNode();
                     if (t.equals(member.getClass())) {
                         if (keyNode.getNodeId() == NodeId.mapping) {
-                                keyNode.setTag(Tag.MAP);
-                            }
+                            keyNode.setTag(Tag.MAP);
+                        }
                     }
                 }
             } else if (object instanceof Map) {
@@ -237,5 +237,4 @@ public class Representer extends SafeRepresenter {
             throws IntrospectionException {
         return getPropertyUtils().getProperties(type);
     }
-
 }
