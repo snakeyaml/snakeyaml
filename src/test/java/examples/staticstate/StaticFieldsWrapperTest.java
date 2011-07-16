@@ -18,9 +18,6 @@ package examples.staticstate;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -89,13 +86,10 @@ public class StaticFieldsWrapperTest extends TestCase {
         bean.setAge(-47);
         JavaBeanWithStaticState.setType("Type3");
         JavaBeanWithStaticState.color = "Violet";
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(FlowStyle.FLOW);
-        options.setExplicitRoot(Tag.MAP);
-        JavaBeanDumper dumper = new JavaBeanDumper(new Representer(), options);
-        String output = dumper.dump(new Wrapper(bean));
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(new Wrapper(bean), Tag.MAP);
         // System.out.println(output);
-        assertEquals("{age: -47, color: Violet, name: Bahrack, type: Type3}\n", output);
+        assertEquals("age: -47\ncolor: Violet\nname: Bahrack\ntype: Type3\n", output);
         // parse back to instance
         Yaml loader = new Yaml();
         Wrapper wrapper = loader.loadAs(output, Wrapper.class);

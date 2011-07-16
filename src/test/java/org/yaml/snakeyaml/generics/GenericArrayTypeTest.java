@@ -20,9 +20,9 @@ import java.beans.IntrospectionException;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class GenericArrayTypeTest extends TestCase {
 
@@ -108,8 +108,8 @@ public class GenericArrayTypeTest extends TestCase {
         ArrayBean bean = new ArrayBean();
         bean.setId("ID556677");
         bean.setGa(ga);
-        JavaBeanDumper dumper = new JavaBeanDumper();
-        String doc = dumper.dump(bean);
+        Yaml dumper = new Yaml();
+        String doc = dumper.dumpAs(bean, Tag.MAP);
         // System.out.println(doc);
         assertEquals(Util.getLocalResource("javabeans/genericArray-1.yaml"), doc);
         //

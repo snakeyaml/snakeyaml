@@ -22,15 +22,15 @@ import java.util.HashSet;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class CollectionTest extends TestCase {
 
     public void testCollectionList() {
         CollectionList bean = new CollectionList();
-        JavaBeanDumper dumper = new JavaBeanDumper();
-        String doc = dumper.dump(bean);
+        Yaml yaml = new Yaml();
+        String doc = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(doc);
         Yaml beanLoader = new Yaml();
         CollectionList parsed = beanLoader.loadAs(doc, CollectionList.class);
@@ -59,8 +59,8 @@ public class CollectionTest extends TestCase {
 
     public void testCollectionSet() {
         CollectionSet bean = new CollectionSet();
-        JavaBeanDumper dumper = new JavaBeanDumper();
-        String doc = dumper.dump(bean);
+        Yaml yaml = new Yaml();
+        String doc = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(doc);
         Yaml beanLoader = new Yaml();
         CollectionSet parsed = beanLoader.loadAs(doc, CollectionSet.class);

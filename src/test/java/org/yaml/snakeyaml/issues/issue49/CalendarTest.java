@@ -23,8 +23,8 @@ import java.util.TimeZone;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class CalendarTest extends TestCase {
     /**
@@ -37,8 +37,8 @@ public class CalendarTest extends TestCase {
         cal.setTime(new Date(1000000000000L));
         cal.setTimeZone(TimeZone.getTimeZone("GMT-8:00"));
         bean.setCalendar(cal);
-        JavaBeanDumper yaml = new JavaBeanDumper();
-        String output = yaml.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(output);
         assertEquals("calendar: 2001-09-08T17:46:40-8:00\nname: lunch\n", output);
         //
@@ -87,8 +87,8 @@ public class CalendarTest extends TestCase {
         cal.setTime(new Date(time));
         cal.setTimeZone(TimeZone.getTimeZone(timeZone));
         bean.setCalendar(cal);
-        JavaBeanDumper yaml = new JavaBeanDumper();
-        String output = yaml.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(output);
         assertEquals(warning, "calendar: " + etalon + "\nname: lunch\n", output);
         //

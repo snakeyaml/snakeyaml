@@ -20,8 +20,8 @@ import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class DogFoodBeanTest extends TestCase {
 
@@ -51,8 +51,8 @@ public class DogFoodBeanTest extends TestCase {
     public void testBigDecimalNoRootTag() {
         DogFoodBean input = new DogFoodBean();
         input.setDecimal(new BigDecimal("5.123"));
-        JavaBeanDumper dumper = new JavaBeanDumper();
-        String text = dumper.dump(input);
+        Yaml yaml = new Yaml();
+        String text = yaml.dumpAs(input, Tag.MAP);
         // System.out.println(text);
         assertEquals("decimal: 5.123\n", text);
         Yaml loader = new Yaml();

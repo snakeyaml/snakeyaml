@@ -22,9 +22,9 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Test MapBean->Map<Enum, Developer> developers <br/>
@@ -41,8 +41,8 @@ public class TypeSafeMap2Test extends TestCase {
         developers.put(Color.WHITE, new Developer2("Fred", "creator"));
         developers.put(Color.BLACK, new Developer2("John", "committer"));
         bean.setDevelopers(developers);
-        JavaBeanDumper dumper = new JavaBeanDumper(false);
-        String output = dumper.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-bean-12.yaml");
         assertEquals(etalon, output);
@@ -60,8 +60,8 @@ public class TypeSafeMap2Test extends TestCase {
         developers.put(Color.RED, new SuperMan("Jason", "contributor", true));
         developers.put(Color.BLACK, new Developer2("John", "committer"));
         bean.setDevelopers(developers);
-        JavaBeanDumper dumper = new JavaBeanDumper(false);
-        String output = dumper.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-bean-13.yaml");
         assertEquals(etalon, output);

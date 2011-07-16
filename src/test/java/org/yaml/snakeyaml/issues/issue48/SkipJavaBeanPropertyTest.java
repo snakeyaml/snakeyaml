@@ -20,8 +20,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.JavaBeanDumper;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -31,8 +30,8 @@ public class SkipJavaBeanPropertyTest extends TestCase {
     public void testWithNull() throws IOException {
         Bean bean = new Bean();
         bean.setValue(3);
-        JavaBeanDumper yaml = new JavaBeanDumper();
-        String output = yaml.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(output);
         assertEquals("name: null\nvalue: 3\n", output);
     }
@@ -40,10 +39,10 @@ public class SkipJavaBeanPropertyTest extends TestCase {
     public void testWithoutNull() throws IOException {
         Bean bean = new Bean();
         bean.setValue(5);
-        JavaBeanDumper yaml = new JavaBeanDumper(new MyRepresenter(), new DumperOptions());
-        String output = yaml.dump(bean);
+        Yaml yaml = new Yaml(new MyRepresenter());
+        String output = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(output);
-        assertEquals("!!org.yaml.snakeyaml.issues.issue48.Bean {value: 5}\n", output);
+        assertEquals("value: 5\n", output);
     }
 
     private class MyRepresenter extends Representer {
