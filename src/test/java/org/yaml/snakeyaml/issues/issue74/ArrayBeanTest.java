@@ -21,9 +21,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class ArrayBeanTest extends TestCase {
 
@@ -42,8 +42,8 @@ public class ArrayBeanTest extends TestCase {
         list.add(new ArrayMember("John", 111));
         list.add(new ArrayMember("Tony", 222));
         bean.setList(list);
-        JavaBeanDumper beanDumper = new JavaBeanDumper();
-        String output = beanDumper.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue74-array1.txt"), output);
         Yaml beanLoader = new Yaml();

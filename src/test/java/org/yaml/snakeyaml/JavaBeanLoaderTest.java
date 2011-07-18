@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class JavaBeanLoaderTest extends TestCase {
 
@@ -165,8 +166,8 @@ public class JavaBeanLoaderTest extends TestCase {
         bean.setId(3);
         bean.setName("Test me.");
         bean3.setBean(bean);
-        JavaBeanDumper dumper = new JavaBeanDumper();
-        String output = dumper.dump(bean3);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean3, Tag.MAP);
         assertEquals("bean:\n  id: 3\n  name: Test me.\nlist: null\nname: Name123\n", output);
         TypeDescription td = new TypeDescription(Bean3.class);
         td.putListPropertyType("list", Integer.class);
@@ -186,8 +187,8 @@ public class JavaBeanLoaderTest extends TestCase {
         list.add(13);
         list.add(17);
         bean3.setList(list);
-        JavaBeanDumper dumper = new JavaBeanDumper();
-        String output = dumper.dump(bean3);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean3, Tag.MAP);
         assertEquals("bean:\n  id: 3\n  name: Test me.\nlist:\n- 13\n- 17\nname: Name123\n", output);
         TypeDescription td = new TypeDescription(Bean3.class);
         td.putListPropertyType("list", Integer.class);
@@ -205,8 +206,8 @@ public class JavaBeanLoaderTest extends TestCase {
         bean.setId(3);
         bean.setName("Test me.");
         bean3.setBean(bean);
-        JavaBeanDumper dumper = new JavaBeanDumper();
-        String output = dumper.dump(bean3);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean3, Tag.MAP);
         assertEquals("bean:\n  id: 3\n  name: Test me.\nlist: null\nname: Name123\n", output);
         TypeDescription td = new TypeDescription(Bean2.class);
         Yaml loader = new Yaml(new Constructor(td));

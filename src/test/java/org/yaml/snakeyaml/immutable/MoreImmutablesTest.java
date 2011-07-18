@@ -76,5 +76,4 @@ public class MoreImmutablesTest extends TestCase {
         assertEquals(insets, loadedBorder.getBorderInsets());
         assertEquals(color, loadedBorder.getMatteColor());
     }
-
 }

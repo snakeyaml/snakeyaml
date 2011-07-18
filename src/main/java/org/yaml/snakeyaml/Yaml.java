@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -237,7 +238,7 @@ public class Yaml {
      * Serialize a Java object into a YAML stream.
      * 
      * @param data
-     *            Java object to be Serialized to YAML
+     *            Java object to be serialized to YAML
      * @param output
      *            stream to write to
      */
@@ -268,6 +269,22 @@ public class Yaml {
         } catch (java.io.IOException e) {
             throw new YAMLException(e);
         }
+    }
+
+    /**
+     * Serialize a Java object into a YAML string.
+     * 
+     * @param data
+     *            Java object to be Serialized to YAML
+     * @param rootTag
+     *            the tag for the whole YAML document. The tag must be Tag.MAP
+     *            for a JavaBean.
+     * @return YAML String
+     */
+    public String dumpAs(Object data, Tag rootTag) {
+        dumperOptions.setExplicitRoot(rootTag);
+        representer.setDefaultFlowStyle(FlowStyle.BLOCK);
+        return dump(data);
     }
 
     /**

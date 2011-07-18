@@ -21,9 +21,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Test public field ListBean->List<Developer> developers <br/>
@@ -41,8 +41,8 @@ public class ListFileldBeanTest extends TestCase {
         developers.add(new Developer("John", "committer"));
         bean.developers = developers;
         bean.setName("Bean123");
-        JavaBeanDumper dumper = new JavaBeanDumper(false);
-        String output = dumper.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(bean, Tag.MAP);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-1.yaml");
         assertEquals(etalon, output);

@@ -21,18 +21,18 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class GenericListBeanTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testGenericList() throws Exception {
-        JavaBeanDumper beanDumper = new JavaBeanDumper();
+        Yaml yaml = new Yaml();
         ListProvider<String> listProvider = new ListProvider<String>();
         listProvider.getList().add("foo");
         listProvider.getList().add("bar");
-        String s = beanDumper.dump(listProvider);
+        String s = yaml.dumpAs(listProvider, Tag.MAP);
         // System.out.println(s);
         assertEquals("list:\n- foo\n- bar\n", s);
         // parse
@@ -45,7 +45,7 @@ public class GenericListBeanTest extends TestCase {
 
     @SuppressWarnings("rawtypes")
     public void testGenericBean() throws Exception {
-        JavaBeanDumper beanDumper = new JavaBeanDumper();
+        Yaml yaml = new Yaml();
         ListProvider<Bean> listProvider = new ListProvider<Bean>();
         Bean foo = new Bean();
         foo.setName("foo");
@@ -54,7 +54,7 @@ public class GenericListBeanTest extends TestCase {
         bar.setName("bar");
         bar.setNumber(3);
         listProvider.getList().add(bar);
-        String s = beanDumper.dump(listProvider);
+        String s = yaml.dumpAs(listProvider, Tag.MAP);
         // System.out.println(s);
         String etalon = Util.getLocalResource("issues/issue61-1.yaml");
         assertEquals(etalon, s);

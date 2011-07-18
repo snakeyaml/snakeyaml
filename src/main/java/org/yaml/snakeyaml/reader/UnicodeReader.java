@@ -114,5 +114,4 @@ public class UnicodeReader extends Reader {
         init();
         return internalIn2.read(cbuf, off, len);
     }
-
 }
