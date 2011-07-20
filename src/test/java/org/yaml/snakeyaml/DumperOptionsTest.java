@@ -322,6 +322,7 @@ public class DumperOptionsTest extends TestCase {
         assertEquals("\"\\xdcber\"\n", yaml.dump("\u00DCber"));
     }
 
+    @SuppressWarnings("deprecation")
     public void testSetRootTag() {
         DumperOptions options = new DumperOptions();
         try {

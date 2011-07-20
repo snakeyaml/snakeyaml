@@ -256,9 +256,14 @@ public class Yaml {
      * @param output
      *            stream to write to
      */
+    @SuppressWarnings("deprecation")
     public void dumpAll(Iterator<? extends Object> data, Writer output) {
+        dumpAll(data, output, dumperOptions.getExplicitRoot());
+    }
+
+    private void dumpAll(Iterator<? extends Object> data, Writer output, Tag rootTag) {
         Serializer serializer = new Serializer(new Emitter(output, dumperOptions), resolver,
-                dumperOptions);
+                dumperOptions, rootTag);
         try {
             serializer.open();
             while (data.hasNext()) {
@@ -309,9 +314,12 @@ public class Yaml {
      * @return YAML String
      */
     public String dumpAs(Object data, Tag rootTag) {
-        dumperOptions.setExplicitRoot(rootTag);
         representer.setDefaultFlowStyle(FlowStyle.BLOCK);
-        return dump(data);
+        List<Object> list = new ArrayList<Object>(1);
+        list.add(data);
+        StringWriter buffer = new StringWriter();
+        dumpAll(list.iterator(), buffer, rootTag);
+        return buffer.toString();
     }
 
     /**
@@ -324,7 +332,9 @@ public class Yaml {
      */
     public List<Event> serialize(Node data) {
         SilentEmitter emitter = new SilentEmitter();
-        Serializer serializer = new Serializer(emitter, resolver, dumperOptions);
+        @SuppressWarnings("deprecation")
+        Serializer serializer = new Serializer(emitter, resolver, dumperOptions,
+                dumperOptions.getExplicitRoot());
         try {
             serializer.open();
             serializer.serialize(data);

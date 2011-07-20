@@ -61,7 +61,7 @@ public final class Serializer {
     private Boolean closed;
     private Tag explicitRoot;
 
-    public Serializer(Emitable emitter, Resolver resolver, DumperOptions opts) {
+    public Serializer(Emitable emitter, Resolver resolver, DumperOptions opts, Tag rootTag) {
         this.emitter = emitter;
         this.resolver = resolver;
         this.explicitStart = opts.isExplicitStart();
@@ -74,7 +74,7 @@ public final class Serializer {
         this.anchors = new HashMap<Node, String>();
         this.lastAnchorId = 0;
         this.closed = null;
-        this.explicitRoot = opts.getExplicitRoot();
+        this.explicitRoot = rootTag;
     }
 
     public void open() throws IOException {

@@ -30,7 +30,6 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -91,10 +90,8 @@ public class HumanGenericsTest extends TestCase {
         father.setPartner(mother);
         mother.setPartner(father);
         mother.setBankAccountOwner(father);
-        DumperOptions options = new DumperOptions();
-        options.setExplicitRoot(Tag.MAP);
-        Yaml yaml = new Yaml(options);
-        String output = yaml.dump(father);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAs(father, Tag.MAP);
         String etalon = Util.getLocalResource("recursive/generics/no-children-2.yaml");
         assertEquals(etalon, output);
         //

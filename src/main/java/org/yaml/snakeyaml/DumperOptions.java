@@ -161,6 +161,10 @@ public class DumperOptions {
     private LineBreak lineBreak = LineBreak.UNIX;
     private boolean explicitStart = false;
     private boolean explicitEnd = false;
+
+    /**
+     * @deprecated do not use explicit root Tag
+     */
     private Tag explicitRoot = null;
     private Version version = null;
     private Map<String, String> tags = null;
@@ -283,6 +287,9 @@ public class DumperOptions {
         return defaultFlowStyle;
     }
 
+    /**
+     * @deprecated do not use explicit root Tag
+     */
     public Tag getExplicitRoot() {
         return explicitRoot;
     }
@@ -301,6 +308,7 @@ public class DumperOptions {
      * @param expRoot
      *            tag to be used for the root node. (JavaBeans may use
      *            Tag.MAP="tag:yaml.org,2002:map")
+     * @deprecated do not use explicit root Tag
      */
     public void setExplicitRoot(Tag expRoot) {
         if (expRoot == null) {

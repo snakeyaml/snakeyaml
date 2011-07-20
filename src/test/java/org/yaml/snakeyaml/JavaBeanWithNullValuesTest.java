@@ -102,7 +102,6 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setExplicitStart(true);
         options.setExplicitEnd(true);
-        options.setExplicitRoot(Tag.MAP);
         Yaml yaml = new Yaml(new CustomRepresenter(), options);
         javaBeanWithNullValues.setBoolean1(null);
         javaBeanWithNullValues.setDate(new Date(System.currentTimeMillis()));
@@ -114,7 +113,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         javaBeanWithNullValues.setString(null); // ok
         javaBeanWithNullValues.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
-        String dumpStr = yaml.dump(javaBeanWithNullValues);
+        String dumpStr = yaml.dumpAs(javaBeanWithNullValues, Tag.MAP);
         // System.out.println(dumpStr);
         assertFalse("No explicit root tag must be used.",
                 dumpStr.contains("JavaBeanWithNullValues"));

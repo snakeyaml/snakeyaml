@@ -21,8 +21,6 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -34,7 +32,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
     public void testYaml() {
         Blog original = createTestBlog();
         Yaml yamlDumper = constructYamlDumper();
-        String serialized = yamlDumper.dump(original);
+        String serialized = yamlDumper.dumpAs(original, Tag.MAP);
         // System.out.println(serialized);
         assertEquals(Util.getLocalResource("issues/issue55_1.txt"), serialized);
         Yaml blogLoader = new Yaml();
@@ -74,10 +72,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
     protected Yaml constructYamlDumper() {
         Representer representer = new Representer();
         representer.getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        options.setExplicitRoot(Tag.MAP);
-        Yaml yaml = new Yaml(representer, options);
+        Yaml yaml = new Yaml(representer);
         return yaml;
     }
 

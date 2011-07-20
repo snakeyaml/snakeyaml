@@ -60,7 +60,7 @@ public class HouseTest extends TestCase {
         assertNotNull(loadedHouse);
         assertEquals("Wall Street", loadedHouse.getStreet());
         // dump again
-        String yaml3 = beanDumper.dump(loadedHouse);
+        String yaml3 = beanDumper.dumpAs(loadedHouse, Tag.MAP);
         assertEquals(yaml, yaml3);
     }
 
@@ -106,7 +106,7 @@ public class HouseTest extends TestCase {
         List<Room> loadedRooms = loadedHouse.getRooms();
         assertEquals(rooms, loadedRooms);
         // dump again
-        String yaml3 = beanDumper.dump(loadedHouse);
+        String yaml3 = beanDumper.dumpAs(loadedHouse, Tag.MAP);
         assertEquals(yaml, yaml3);
     }
 

@@ -41,9 +41,8 @@ public class RubyTest extends TestCase {
         TestObject result = parseObject(Util.getLocalResource("ruby/ruby1.yaml"));
         DumperOptions options = new DumperOptions();
         options.setExplicitStart(true);
-        options.setExplicitRoot(Tag.MAP);
         Yaml yaml2 = new Yaml(options);
-        String output = yaml2.dump(result);
+        String output = yaml2.dumpAs(result, Tag.MAP);
         assertFalse("No tags expected.", output.contains("Sub1"));
         // System.out.println(output);
         // parse back. Without tags it shall still work
