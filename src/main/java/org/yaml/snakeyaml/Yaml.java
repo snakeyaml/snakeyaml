@@ -272,13 +272,40 @@ public class Yaml {
     }
 
     /**
-     * Serialize a Java object into a YAML string.
+     * <p>
+     * Serialize a Java object into a YAML string. Override the default root tag
+     * with <code>rootTag</code>.
+     * </p>
+     * 
+     * <p>
+     * This method is similar to <code>Yaml.dump(data)</code> except that the
+     * root tag for the whole document is replaced with the given tag. This has
+     * two main uses.
+     * </p>
+     * 
+     * <p>
+     * First, if the root tag is replaced with a standard YAML tag, such as
+     * <code>Tag.MAP</code>, then the object will be dumped as a map. The root
+     * tag will appear as <code>!!map</code>, or blank (implicit !!map).
+     * </p>
+     * 
+     * <p>
+     * Second, if the root tag is replaced by a different custom tag, then the
+     * document appears to be a different type when loaded. For example, if an
+     * instance of MyClass is dumped with the tag !!YourClass, then it will be
+     * handled as an instance of YourClass when loaded.
+     * </p>
      * 
      * @param data
-     *            Java object to be Serialized to YAML
+     *            Java object to be serialized to YAML
      * @param rootTag
-     *            the tag for the whole YAML document. The tag must be Tag.MAP
-     *            for a JavaBean.
+     *            the tag for the whole YAML document. The tag should be Tag.MAP
+     *            for a JavaBean to make the tag disappear (to use implicit tag
+     *            !!map)
+     * 
+     * @see Yaml.loadAs(String, Tag)
+     * @see Tag
+     * 
      * @return YAML String
      */
     public String dumpAs(Object data, Tag rootTag) {
