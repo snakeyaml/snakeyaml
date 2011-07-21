@@ -26,6 +26,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.junit.Assert;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -138,7 +139,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
         Yaml yaml2dump = new Yaml();
         yaml2dump.setBeanAccess(BeanAccess.FIELD);
         B data = createB();
-        String dump = yaml2dump.dumpAs(data, Tag.MAP);
+        String dump = yaml2dump.dumpAs(data, Tag.MAP, FlowStyle.AUTO);
         // System.out.println(dump);
         assertEquals("meta:\n- [whatever]\n- [something, something else]\n", dump);
         //

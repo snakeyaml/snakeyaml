@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class BasicDumpTest extends TestCase {
 
@@ -65,7 +64,7 @@ public class BasicDumpTest extends TestCase {
         ds.setDataSources(dataSources);
 
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(ds, Tag.MAP);
+        String output = yaml.dumpAs(ds);
 
         String etalon = Util.getLocalResource("javabeans/issue10-2.yaml");
         assertEquals(etalon.trim(), output.trim());
@@ -87,7 +86,7 @@ public class BasicDumpTest extends TestCase {
         ds.setDataSources(dataSources);
 
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(ds, Tag.MAP);
+        String output = yaml.dumpAs(ds);
 
         String etalon = Util.getLocalResource("javabeans/issue10-3.yaml");
         assertEquals(etalon.trim(), output.trim());

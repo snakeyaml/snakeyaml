@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class DogFoodBeanTest extends TestCase {
 
@@ -52,7 +51,7 @@ public class DogFoodBeanTest extends TestCase {
         DogFoodBean input = new DogFoodBean();
         input.setDecimal(new BigDecimal("5.123"));
         Yaml yaml = new Yaml();
-        String text = yaml.dumpAs(input, Tag.MAP);
+        String text = yaml.dumpAs(input);
         // System.out.println(text);
         assertEquals("decimal: 5.123\n", text);
         Yaml loader = new Yaml();

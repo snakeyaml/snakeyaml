@@ -307,19 +307,44 @@ public class Yaml {
      *            the tag for the whole YAML document. The tag should be Tag.MAP
      *            for a JavaBean to make the tag disappear (to use implicit tag
      *            !!map)
-     * 
-     * @see Yaml.loadAs(String, Tag)
-     * @see Tag
+     * @param flowStyle
+     *            flow style for the whole document. See Chapter 10. Collection
+     *            Styles http://yaml.org/spec/1.1/#id930798
      * 
      * @return YAML String
      */
-    public String dumpAs(Object data, Tag rootTag) {
-        representer.setDefaultFlowStyle(FlowStyle.BLOCK);
+    public String dumpAs(Object data, Tag rootTag, FlowStyle flowStyle) {
+        FlowStyle oldStyle = representer.getDefaultFlowStyle();
+        representer.setDefaultFlowStyle(flowStyle);
         List<Object> list = new ArrayList<Object>(1);
         list.add(data);
         StringWriter buffer = new StringWriter();
         dumpAll(list.iterator(), buffer, rootTag);
+        representer.setDefaultFlowStyle(oldStyle);
         return buffer.toString();
+    }
+
+    /**
+     * <p>
+     * Serialize a Java object into a YAML string. Override the default root tag
+     * with <code>Tag.MAP</code>.
+     * </p>
+     * <p>
+     * This method is similar to <code>Yaml.dump(data)</code> except that the
+     * root tag for the whole document is replaced with <code>Tag.MAP</code> tag
+     * (implicit !!map).
+     * </p>
+     * <p>
+     * Block Mapping is used as the collection style. See 10.2.2. Block Mappings
+     * (http://yaml.org/spec/1.1/#id934537)
+     * </p>
+     * 
+     * @param data
+     *            Java object to be serialized to YAML
+     * @return YAML String
+     */
+    public String dumpAs(Object data) {
+        return dumpAs(data, Tag.MAP, FlowStyle.BLOCK);
     }
 
     /**

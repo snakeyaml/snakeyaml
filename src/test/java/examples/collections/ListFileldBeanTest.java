@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Test public field ListBean->List<Developer> developers <br/>
@@ -42,7 +41,7 @@ public class ListFileldBeanTest extends TestCase {
         bean.developers = developers;
         bean.setName("Bean123");
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean, Tag.MAP);
+        String output = yaml.dumpAs(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-1.yaml");
         assertEquals(etalon, output);

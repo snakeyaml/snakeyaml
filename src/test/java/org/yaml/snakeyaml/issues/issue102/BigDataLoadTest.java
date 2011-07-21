@@ -25,7 +25,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class BigDataLoadTest extends TestCase {
     private static final int SIZE = 5000;
@@ -61,7 +60,7 @@ public class BigDataLoadTest extends TestCase {
             bean.setList(list);
             bean.setMap(map);
             beans.add(bean);
-            String ooo = yaml.dumpAs(bean, Tag.MAP);
+            String ooo = yaml.dumpAs(bean);
             String[] lines = ooo.split("\n");
             builder.append("-\n");
             for (int j = 0; j < lines.length; j++) {

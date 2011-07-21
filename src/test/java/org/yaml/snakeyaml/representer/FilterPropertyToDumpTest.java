@@ -25,7 +25,6 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class FilterPropertyToDumpTest extends TestCase {
 
@@ -34,7 +33,7 @@ public class FilterPropertyToDumpTest extends TestCase {
         bean.setNumber(24);
         bean.setId("ID124");
         Yaml d = new Yaml();
-        String dump = d.dumpAs(bean, Tag.MAP);
+        String dump = d.dumpAs(bean);
         // System.out.println(dump);
         assertEquals("id: ID124\nnumber: 24\n", dump);
     }
@@ -44,7 +43,7 @@ public class FilterPropertyToDumpTest extends TestCase {
         bean.setNumber(25);
         bean.setId("ID125");
         Yaml yaml = new Yaml(new MyRepresenter());
-        String dump = yaml.dumpAs(bean, Tag.MAP);
+        String dump = yaml.dumpAs(bean);
         // System.out.println(dump);
         assertEquals("number: 25\n", dump);
     }

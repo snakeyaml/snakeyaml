@@ -21,7 +21,6 @@ import java.beans.IntrospectionException;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class BirdTest extends TestCase {
 
@@ -33,7 +32,7 @@ public class BirdTest extends TestCase {
         home.setHeight(3);
         bird.setHome(home);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bird, Tag.MAP);
+        String output = yaml.dumpAs(bird);
         Bird parsed;
         String javaVendor = System.getProperty("java.vm.name");
         Yaml loader = new Yaml();

@@ -49,7 +49,7 @@ public abstract class BaseRepresenter {
     // the order is important (map can be also a sequence of key-values)
     protected final Map<Class<?>, Represent> multiRepresenters = new LinkedHashMap<Class<?>, Represent>();
     private Character defaultStyle;
-    protected Boolean defaultFlowStyle;
+    protected FlowStyle defaultFlowStyle = FlowStyle.AUTO;
     protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>() {
         private static final long serialVersionUID = -5576159264232131854L;
 
@@ -143,8 +143,8 @@ public abstract class BaseRepresenter {
             value.add(nodeItem);
         }
         if (flowStyle == null) {
-            if (defaultFlowStyle != null) {
-                node.setFlowStyle(defaultFlowStyle);
+            if (defaultFlowStyle != FlowStyle.AUTO) {
+                node.setFlowStyle(defaultFlowStyle.getStyleBoolean());
             } else {
                 node.setFlowStyle(bestStyle);
             }
@@ -171,8 +171,8 @@ public abstract class BaseRepresenter {
             value.add(new NodeTuple(nodeKey, nodeValue));
         }
         if (flowStyle == null) {
-            if (defaultFlowStyle != null) {
-                node.setFlowStyle(defaultFlowStyle);
+            if (defaultFlowStyle != FlowStyle.AUTO) {
+                node.setFlowStyle(defaultFlowStyle.getStyleBoolean());
             } else {
                 node.setFlowStyle(bestStyle);
             }
@@ -185,7 +185,11 @@ public abstract class BaseRepresenter {
     }
 
     public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {
-        this.defaultFlowStyle = defaultFlowStyle.getStyleBoolean();
+        this.defaultFlowStyle = defaultFlowStyle;
+    }
+
+    public FlowStyle getDefaultFlowStyle() {
+        return this.defaultFlowStyle;
     }
 
     public void setPropertyUtils(PropertyUtils propertyUtils) {

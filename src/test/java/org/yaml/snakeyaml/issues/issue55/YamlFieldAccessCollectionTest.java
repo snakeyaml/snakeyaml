@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
-import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlFieldAccessCollectionTest extends TestCase {
@@ -32,7 +31,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
     public void testYaml() {
         Blog original = createTestBlog();
         Yaml yamlDumper = constructYamlDumper();
-        String serialized = yamlDumper.dumpAs(original, Tag.MAP);
+        String serialized = yamlDumper.dumpAs(original);
         // System.out.println(serialized);
         assertEquals(Util.getLocalResource("issues/issue55_1.txt"), serialized);
         Yaml blogLoader = new Yaml();

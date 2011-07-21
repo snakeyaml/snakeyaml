@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class GenericArrayTypeTest extends TestCase {
 
@@ -109,7 +108,7 @@ public class GenericArrayTypeTest extends TestCase {
         bean.setId("ID556677");
         bean.setGa(ga);
         Yaml dumper = new Yaml();
-        String doc = dumper.dumpAs(bean, Tag.MAP);
+        String doc = dumper.dumpAs(bean);
         // System.out.println(doc);
         assertEquals(Util.getLocalResource("javabeans/genericArray-1.yaml"), doc);
         //

@@ -30,14 +30,13 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.immutable.Point;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class VelocityTest extends TestCase {
     public void testNoTemplate() {
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
         Yaml yaml = new Yaml(options);
-        String output = yaml.dumpAs(createBean(), Tag.MAP);
+        String output = yaml.dumpAs(createBean());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("template/etalon1.yaml"), output);
     }

@@ -42,7 +42,7 @@ public class RubyTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setExplicitStart(true);
         Yaml yaml2 = new Yaml(options);
-        String output = yaml2.dumpAs(result, Tag.MAP);
+        String output = yaml2.dumpAs(result);
         assertFalse("No tags expected.", output.contains("Sub1"));
         // System.out.println(output);
         // parse back. Without tags it shall still work

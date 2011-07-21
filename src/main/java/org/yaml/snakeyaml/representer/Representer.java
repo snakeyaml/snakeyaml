@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -94,8 +95,8 @@ public class Representer extends SafeRepresenter {
             }
             value.add(tuple);
         }
-        if (defaultFlowStyle != null) {
-            node.setFlowStyle(defaultFlowStyle);
+        if (defaultFlowStyle != FlowStyle.AUTO) {
+            node.setFlowStyle(defaultFlowStyle.getStyleBoolean());
         } else {
             node.setFlowStyle(bestStyle);
         }

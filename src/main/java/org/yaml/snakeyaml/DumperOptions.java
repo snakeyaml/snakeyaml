@@ -76,7 +76,7 @@ public class DumperOptions {
      * document. In contrast, flow styles rely on explicit indicators to denote
      * nesting and scope.
      * 
-     * @see 3.2.3.1. Node Styles (http://yaml.org/spec/1.1)
+     * @see See Chapter 10. Collection Styles http://yaml.org/spec/1.1/#id930798
      */
     public enum FlowStyle {
         FLOW(Boolean.TRUE), BLOCK(Boolean.FALSE), AUTO(null);

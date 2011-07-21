@@ -26,7 +26,6 @@ import org.junit.Test;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class ParameterisedTypeLoadingTestCase {
 
@@ -38,7 +37,7 @@ public class ParameterisedTypeLoadingTestCase {
 
         // dump the object
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(obj, Tag.MAP);
+        String output = yaml.dumpAs(obj);
         assertEquals(Util.getLocalResource("issues/issue112-2.yaml"), output);
     }
 

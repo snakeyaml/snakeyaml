@@ -21,14 +21,13 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class ReadOnlyPropertiesTest extends TestCase {
     public void testBean1() {
         IncompleteBean bean = new IncompleteBean();
         bean.setName("lunch");
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean, Tag.MAP);
+        String output = yaml.dumpAs(bean);
         // System.out.println(output);
         assertEquals("name: lunch\n", output);
         //
@@ -43,7 +42,7 @@ public class ReadOnlyPropertiesTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
         Yaml yaml = new Yaml(options);
-        String output = yaml.dumpAs(bean, Tag.MAP);
+        String output = yaml.dumpAs(bean);
         // System.out.println(output);
         assertEquals("id: 10\nname: lunch\n", output);
         //

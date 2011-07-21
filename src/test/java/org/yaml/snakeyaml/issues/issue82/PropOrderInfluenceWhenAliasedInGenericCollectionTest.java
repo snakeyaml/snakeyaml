@@ -239,7 +239,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
         customerAB.bGeneral = general;
 
         Yaml yaml = new Yaml();
-        String dump2 = yaml.dumpAs(customerAB, Tag.MAP);
+        String dump2 = yaml.dumpAs(customerAB);
         // System.out.println(dump2);
         Yaml loader = new Yaml();
         CustomerAB parsed = loader.loadAs(dump2, CustomerAB.class);

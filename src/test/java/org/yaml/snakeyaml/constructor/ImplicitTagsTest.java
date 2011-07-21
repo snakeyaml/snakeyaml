@@ -23,6 +23,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -59,12 +60,12 @@ public class ImplicitTagsTest extends TestCase {
         map.put("id", 3);
         car1.setMap(map);
         car1.setYear("2008");
-        String carYaml1 = new Yaml().dumpAs(car1, Tag.MAP);
+        String carYaml1 = new Yaml().dumpAs(car1, Tag.MAP, FlowStyle.AUTO);
         assertEquals(Util.getLocalResource("constructor/car-without-root-tag.yaml"), carYaml1);
         //
         Constructor contructor = new Constructor(CarWithWheel.class);
         CarWithWheel car2 = (CarWithWheel) new Yaml(contructor).load(carYaml1);
-        String carYaml2 = new Yaml().dumpAs(car2, Tag.MAP);
+        String carYaml2 = new Yaml().dumpAs(car2, Tag.MAP, FlowStyle.AUTO);
         assertEquals(carYaml1, carYaml2);
     }
 

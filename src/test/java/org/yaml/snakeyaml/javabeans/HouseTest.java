@@ -29,7 +29,6 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class HouseTest extends TestCase {
     /**
@@ -51,7 +50,7 @@ public class HouseTest extends TestCase {
         house.setNumber(1);
         house.setStreet("Wall Street");
         Yaml beanDumper = new Yaml();
-        String yaml = beanDumper.dumpAs(house, Tag.MAP);
+        String yaml = beanDumper.dumpAs(house);
         String etalon = Util.getLocalResource("javabeans/house-dump1.yaml");
         assertEquals(etalon, yaml);
         // load
@@ -60,7 +59,7 @@ public class HouseTest extends TestCase {
         assertNotNull(loadedHouse);
         assertEquals("Wall Street", loadedHouse.getStreet());
         // dump again
-        String yaml3 = beanDumper.dumpAs(loadedHouse, Tag.MAP);
+        String yaml3 = beanDumper.dumpAs(loadedHouse);
         assertEquals(yaml, yaml3);
     }
 
@@ -83,7 +82,7 @@ public class HouseTest extends TestCase {
         house.setNumber(1);
         house.setStreet("Wall Street");
         Yaml beanDumper = new Yaml();
-        String yaml = beanDumper.dumpAs(house, Tag.MAP);
+        String yaml = beanDumper.dumpAs(house);
         String etalon = Util.getLocalResource("javabeans/house-dump3.yaml");
         assertEquals(etalon, yaml);
         // load
@@ -106,7 +105,7 @@ public class HouseTest extends TestCase {
         List<Room> loadedRooms = loadedHouse.getRooms();
         assertEquals(rooms, loadedRooms);
         // dump again
-        String yaml3 = beanDumper.dumpAs(loadedHouse, Tag.MAP);
+        String yaml3 = beanDumper.dumpAs(loadedHouse);
         assertEquals(yaml, yaml3);
     }
 

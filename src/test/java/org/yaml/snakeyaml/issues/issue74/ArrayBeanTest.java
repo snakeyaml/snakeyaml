@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class ArrayBeanTest extends TestCase {
 
@@ -43,7 +42,7 @@ public class ArrayBeanTest extends TestCase {
         list.add(new ArrayMember("Tony", 222));
         bean.setList(list);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean, Tag.MAP);
+        String output = yaml.dumpAs(bean);
         // System.out.println(output);
         assertEquals(Util.getLocalResource("issues/issue74-array1.txt"), output);
         Yaml beanLoader = new Yaml();

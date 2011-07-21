@@ -35,7 +35,6 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class HumanTest extends TestCase {
 
@@ -132,7 +131,7 @@ public class HumanTest extends TestCase {
         mother.setChildren(children);
         //
         Yaml beanDumper = new Yaml();
-        String output = beanDumper.dumpAs(son, Tag.MAP);
+        String output = beanDumper.dumpAs(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children.yaml");
         assertEquals(etalon, output);
@@ -627,7 +626,7 @@ public class HumanTest extends TestCase {
         mother.setChildren(children);
         //
         Yaml beanDumper = new Yaml();
-        String output = beanDumper.dumpAs(son, Tag.MAP);
+        String output = beanDumper.dumpAs(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children-no-root-tag.yaml");
         assertEquals(etalon, output);

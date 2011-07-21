@@ -113,7 +113,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         javaBeanWithNullValues.setString(null); // ok
         javaBeanWithNullValues.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
-        String dumpStr = yaml.dumpAs(javaBeanWithNullValues, Tag.MAP);
+        String dumpStr = yaml.dumpAs(javaBeanWithNullValues);
         // System.out.println(dumpStr);
         assertFalse("No explicit root tag must be used.",
                 dumpStr.contains("JavaBeanWithNullValues"));

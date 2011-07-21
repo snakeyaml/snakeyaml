@@ -25,7 +25,6 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class Human_WithArrayOfChildrenTest extends TestCase {
 
@@ -165,7 +164,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
     public void testDumpChildrenArrayWithoutRootTag() throws IOException {
         Yaml yaml = new Yaml();
         Human_WithArrayOfChildren son = createSon();
-        String output = yaml.dumpAs(son, Tag.MAP);
+        String output = yaml.dumpAs(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-childrenArray-no-root-tag.yaml");
         assertEquals(etalon, output);

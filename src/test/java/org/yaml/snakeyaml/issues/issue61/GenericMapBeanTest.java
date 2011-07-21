@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class GenericMapBeanTest extends TestCase {
     @SuppressWarnings("unchecked")
@@ -32,7 +31,7 @@ public class GenericMapBeanTest extends TestCase {
         MapProvider<String, Integer> listProvider = new MapProvider<String, Integer>();
         listProvider.getMap().put("foo", 17);
         listProvider.getMap().put("bar", 19);
-        String s = yaml.dumpAs(listProvider, Tag.MAP);
+        String s = yaml.dumpAs(listProvider);
         // System.out.println(s);
         assertEquals("map:\n  foo: 17\n  bar: 19\n", s);
         // parse
@@ -54,7 +53,7 @@ public class GenericMapBeanTest extends TestCase {
         bar.setName("bar");
         bar.setNumber(3);
         listProvider.getMap().put("bar", bar);
-        String s = yaml.dumpAs(listProvider, Tag.MAP);
+        String s = yaml.dumpAs(listProvider);
         // System.out.println(s);
         String etalon = Util.getLocalResource("issues/issue61-2.yaml");
         assertEquals(etalon, s);

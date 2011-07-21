@@ -18,7 +18,6 @@ package org.yaml.snakeyaml.issues.issue124;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class DumpSideEffectsTest extends TestCase {
 
@@ -30,7 +29,7 @@ public class DumpSideEffectsTest extends TestCase {
         String output0 = yaml.dump(bean);
         // System.out.println(output0);
         assertEquals("!!org.yaml.snakeyaml.issues.issue124.Bean124 {a: aaa, b: bbb}\n", output0);
-        String output1 = yaml.dumpAs(bean, Tag.MAP);
+        String output1 = yaml.dumpAs(bean);
         // System.out.println(output1);
         assertEquals("a: aaa\nb: bbb\n", output1);
         String output2 = yaml.dump(bean);

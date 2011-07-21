@@ -19,7 +19,6 @@ package org.yaml.snakeyaml.javabeans;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class TriangleBeanTest extends TestCase {
 
@@ -30,7 +29,7 @@ public class TriangleBeanTest extends TestCase {
         bean.setShape(triangle);
         bean.setName("Bean25");
         Yaml beanDumper = new Yaml();
-        String output = beanDumper.dumpAs(bean, Tag.MAP);
+        String output = beanDumper.dumpAs(bean);
         assertEquals(
                 "name: Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle\n  name: Triangle25\n",
                 output);

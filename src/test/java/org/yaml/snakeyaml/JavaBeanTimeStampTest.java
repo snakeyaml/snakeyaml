@@ -22,7 +22,6 @@ import java.sql.Timestamp;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class JavaBeanTimeStampTest extends TestCase {
     public void testLoadDefaultJavaSqlTimestamp() throws Exception {
@@ -52,7 +51,7 @@ public class JavaBeanTimeStampTest extends TestCase {
         Date date = new Date(1001376000000L);
         javaBeanToDump.setDate(date);
         Yaml yaml = new Yaml();
-        String dumpStr = yaml.dumpAs(javaBeanToDump, Tag.MAP);
+        String dumpStr = yaml.dumpAs(javaBeanToDump);
         assertEquals("date: 2001-09-25T00:00:00Z\ntimestamp: 2001-09-09T01:46:40Z\n", dumpStr);
         Yaml loader = new Yaml();
         JavaBeanWithSqlTimestamp javaBeanToLoad = loader.loadAs(dumpStr,

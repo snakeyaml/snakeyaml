@@ -26,7 +26,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Test different Map implementations as JavaBean properties
@@ -44,7 +43,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
         developers.add(new Developer("Karl", "user"));
         bean.setDevelopers(developers);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean, Tag.MAP);
+        String output = yaml.dumpAs(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/set-bean-1.yaml");
         assertEquals(etalon, output);
@@ -63,7 +62,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
         developers.add(new SuperDeveloper("Bill", "super"));
         bean.setDevelopers(developers);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean, Tag.MAP);
+        String output = yaml.dumpAs(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/set-bean-6.yaml");
         assertEquals(etalon, output);

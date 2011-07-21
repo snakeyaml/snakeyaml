@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class GenericListBeanTest extends TestCase {
     @SuppressWarnings("unchecked")
@@ -32,7 +31,7 @@ public class GenericListBeanTest extends TestCase {
         ListProvider<String> listProvider = new ListProvider<String>();
         listProvider.getList().add("foo");
         listProvider.getList().add("bar");
-        String s = yaml.dumpAs(listProvider, Tag.MAP);
+        String s = yaml.dumpAs(listProvider);
         // System.out.println(s);
         assertEquals("list:\n- foo\n- bar\n", s);
         // parse
@@ -54,7 +53,7 @@ public class GenericListBeanTest extends TestCase {
         bar.setName("bar");
         bar.setNumber(3);
         listProvider.getList().add(bar);
-        String s = yaml.dumpAs(listProvider, Tag.MAP);
+        String s = yaml.dumpAs(listProvider);
         // System.out.println(s);
         String etalon = Util.getLocalResource("issues/issue61-1.yaml");
         assertEquals(etalon, s);

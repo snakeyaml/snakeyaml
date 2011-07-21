@@ -31,7 +31,7 @@ public class SkipJavaBeanPropertyTest extends TestCase {
         Bean bean = new Bean();
         bean.setValue(3);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean, Tag.MAP);
+        String output = yaml.dumpAs(bean);
         // System.out.println(output);
         assertEquals("name: null\nvalue: 3\n", output);
     }
@@ -40,7 +40,7 @@ public class SkipJavaBeanPropertyTest extends TestCase {
         Bean bean = new Bean();
         bean.setValue(5);
         Yaml yaml = new Yaml(new MyRepresenter());
-        String output = yaml.dumpAs(bean, Tag.MAP);
+        String output = yaml.dumpAs(bean);
         // System.out.println(output);
         assertEquals("value: 5\n", output);
     }

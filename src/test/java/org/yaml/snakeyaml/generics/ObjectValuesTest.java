@@ -24,7 +24,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class ObjectValuesTest extends TestCase {
 
@@ -47,7 +46,7 @@ public class ObjectValuesTest extends TestCase {
         ov.setPossible(props);
 
         Yaml dumper = new Yaml();
-        String dumpedStr = dumper.dumpAs(ov, Tag.MAP);
+        String dumpedStr = dumper.dumpAs(ov);
         Yaml loader = new Yaml();
         ObjectValues ov2 = loader.loadAs(dumpedStr, ObjectValues.class);
 
@@ -77,7 +76,7 @@ public class ObjectValuesTest extends TestCase {
         ov.setPossible(props);
 
         Yaml dumper = new Yaml();
-        String dumpedStr = dumper.dumpAs(ov, Tag.MAP);
+        String dumpedStr = dumper.dumpAs(ov);
         Yaml loader = new Yaml();
         ObjectValuesWithParam<String, Integer> ov2 = loader.loadAs(dumpedStr,
                 new ObjectValuesWithParam<String, Integer>().getClass());
