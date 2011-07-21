@@ -39,7 +39,7 @@ public class BirdTest extends TestCase {
         if (GenericsBugDetector.isProperIntrospection()) {
             // no global tags
             System.out.println("java.vm.name: " + javaVendor);
-            assertEquals("no global tags must be emitted.", "home: {height: 3}\nname: Eagle\n",
+            assertEquals("no global tags must be emitted.", "home:\n  height: 3\nname: Eagle\n",
                     output);
             parsed = loader.loadAs(output, Bird.class);
 
