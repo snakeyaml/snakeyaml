@@ -91,7 +91,7 @@ public class HumanGenericsTest extends TestCase {
         mother.setPartner(father);
         mother.setBankAccountOwner(father);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(father);
+        String output = yaml.dumpAsMap(father);
         String etalon = Util.getLocalResource("recursive/generics/no-children-2.yaml");
         assertEquals(etalon, output);
         //

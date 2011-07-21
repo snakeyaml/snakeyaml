@@ -42,7 +42,7 @@ public class NullValueDumperTest extends TestCase {
         foo.bar.add("A");
         foo.bar.add(3.14);
         Yaml yaml = new Yaml();
-        assertEquals("bar:\n- 1\n- A\n- 3.14\n", yaml.dumpAs(foo));
+        assertEquals("bar:\n- 1\n- A\n- 3.14\n", yaml.dumpAsMap(foo));
     }
 
     public void testNullListElement() {
@@ -53,7 +53,7 @@ public class NullValueDumperTest extends TestCase {
         foo.bar.add(null);
         foo.bar.add(3.14);
         Yaml yaml = new Yaml();
-        assertEquals("bar:\n- 1\n- A\n- null\n- 3.14\n", yaml.dumpAs(foo));
+        assertEquals("bar:\n- 1\n- A\n- null\n- 3.14\n", yaml.dumpAsMap(foo));
         assertEquals(
                 "!!org.yaml.snakeyaml.issues.issue58.NullValueDumperTest$Foo\nbar: [1, A, null, 3.14]\n",
                 new Yaml().dump(foo));

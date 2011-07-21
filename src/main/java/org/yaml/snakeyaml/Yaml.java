@@ -306,16 +306,21 @@ public class Yaml {
      * @param rootTag
      *            the tag for the whole YAML document. The tag should be Tag.MAP
      *            for a JavaBean to make the tag disappear (to use implicit tag
-     *            !!map)
+     *            !!map). If <code>null</code> is provided then the standard tag
+     *            with the full class name is used.
      * @param flowStyle
      *            flow style for the whole document. See Chapter 10. Collection
-     *            Styles http://yaml.org/spec/1.1/#id930798
+     *            Styles http://yaml.org/spec/1.1/#id930798. If
+     *            <code>null</code> is provided then the flow style from
+     *            DumperOptions is used.
      * 
      * @return YAML String
      */
     public String dumpAs(Object data, Tag rootTag, FlowStyle flowStyle) {
         FlowStyle oldStyle = representer.getDefaultFlowStyle();
-        representer.setDefaultFlowStyle(flowStyle);
+        if (flowStyle != null) {
+            representer.setDefaultFlowStyle(flowStyle);
+        }
         List<Object> list = new ArrayList<Object>(1);
         list.add(data);
         StringWriter buffer = new StringWriter();
@@ -343,7 +348,7 @@ public class Yaml {
      *            Java object to be serialized to YAML
      * @return YAML String
      */
-    public String dumpAs(Object data) {
+    public String dumpAsMap(Object data) {
         return dumpAs(data, Tag.MAP, FlowStyle.BLOCK);
     }
 

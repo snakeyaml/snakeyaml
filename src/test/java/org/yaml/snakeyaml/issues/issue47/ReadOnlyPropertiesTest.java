@@ -27,7 +27,7 @@ public class ReadOnlyPropertiesTest extends TestCase {
         IncompleteBean bean = new IncompleteBean();
         bean.setName("lunch");
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         assertEquals("name: lunch\n", output);
         //
@@ -42,7 +42,7 @@ public class ReadOnlyPropertiesTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
         Yaml yaml = new Yaml(options);
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         assertEquals("id: 10\nname: lunch\n", output);
         //

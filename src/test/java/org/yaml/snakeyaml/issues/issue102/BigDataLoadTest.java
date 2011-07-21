@@ -60,7 +60,7 @@ public class BigDataLoadTest extends TestCase {
             bean.setList(list);
             bean.setMap(map);
             beans.add(bean);
-            String ooo = yaml.dumpAs(bean);
+            String ooo = yaml.dumpAsMap(bean);
             String[] lines = ooo.split("\n");
             builder.append("-\n");
             for (int j = 0; j < lines.length; j++) {

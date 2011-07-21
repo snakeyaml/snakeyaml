@@ -15,9 +15,26 @@
  */
 package org.yaml.snakeyaml.issues.issue124;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bean124 {
     private String a;
-    private String b;
+    private List<Integer> numbers;
+
+    public Bean124() {
+        this.a = "aaa";
+        this.numbers = new ArrayList<Integer>(3);
+        numbers.add(1);
+        numbers.add(2);
+        numbers.add(3);
+    }
+
+    public Bean124(String a, List<Integer> numbers) {
+        super();
+        this.a = a;
+        this.numbers = numbers;
+    }
 
     public String getA() {
         return a;
@@ -27,11 +44,11 @@ public class Bean124 {
         this.a = a;
     }
 
-    public String getB() {
-        return b;
+    public List<Integer> getNumbers() {
+        return numbers;
     }
 
-    public void setB(String b) {
-        this.b = b;
+    public void setNumbers(List<Integer> numbers) {
+        this.numbers = numbers;
     }
 }

@@ -37,7 +37,7 @@ public class ParameterisedTypeLoadingTestCase {
 
         // dump the object
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(obj);
+        String output = yaml.dumpAsMap(obj);
         assertEquals(Util.getLocalResource("issues/issue112-2.yaml"), output);
     }
 

@@ -42,7 +42,7 @@ public class StressEmitterTest extends TestCase {
                 Invoice.class);
         Yaml dumper = new Yaml();
         long time1 = System.nanoTime();
-        dumper.dumpAs(invoice);
+        dumper.dumpAsMap(invoice);
         long time2 = System.nanoTime();
         float duration = (time2 - time1) / 1000000;
         System.out.println("\nSingle dump was " + duration + " ms.");
@@ -68,7 +68,7 @@ public class StressEmitterTest extends TestCase {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
                 dumper = new Yaml();
-                dumper.dumpAs(invoice);
+                dumper.dumpAsMap(invoice);
             }
             time2 = System.nanoTime();
             duration = ((time2 - time1) / 1000000) / (float) number;

@@ -108,7 +108,7 @@ public class GenericArrayTypeTest extends TestCase {
         bean.setId("ID556677");
         bean.setGa(ga);
         Yaml dumper = new Yaml();
-        String doc = dumper.dumpAs(bean);
+        String doc = dumper.dumpAsMap(bean);
         // System.out.println(doc);
         assertEquals(Util.getLocalResource("javabeans/genericArray-1.yaml"), doc);
         //

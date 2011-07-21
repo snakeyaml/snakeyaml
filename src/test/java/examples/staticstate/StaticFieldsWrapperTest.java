@@ -87,7 +87,7 @@ public class StaticFieldsWrapperTest extends TestCase {
         JavaBeanWithStaticState.setType("Type3");
         JavaBeanWithStaticState.color = "Violet";
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(new Wrapper(bean));
+        String output = yaml.dumpAsMap(new Wrapper(bean));
         // System.out.println(output);
         assertEquals("age: -47\ncolor: Violet\nname: Bahrack\ntype: Type3\n", output);
         // parse back to instance

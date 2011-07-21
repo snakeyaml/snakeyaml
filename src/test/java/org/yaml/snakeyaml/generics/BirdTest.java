@@ -32,7 +32,7 @@ public class BirdTest extends TestCase {
         home.setHeight(3);
         bird.setHome(home);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bird);
+        String output = yaml.dumpAsMap(bird);
         Bird parsed;
         String javaVendor = System.getProperty("java.vm.name");
         Yaml loader = new Yaml();

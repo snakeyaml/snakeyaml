@@ -33,7 +33,7 @@ public class FilterPropertyToDumpTest extends TestCase {
         bean.setNumber(24);
         bean.setId("ID124");
         Yaml d = new Yaml();
-        String dump = d.dumpAs(bean);
+        String dump = d.dumpAsMap(bean);
         // System.out.println(dump);
         assertEquals("id: ID124\nnumber: 24\n", dump);
     }
@@ -43,7 +43,7 @@ public class FilterPropertyToDumpTest extends TestCase {
         bean.setNumber(25);
         bean.setId("ID125");
         Yaml yaml = new Yaml(new MyRepresenter());
-        String dump = yaml.dumpAs(bean);
+        String dump = yaml.dumpAsMap(bean);
         // System.out.println(dump);
         assertEquals("number: 25\n", dump);
     }

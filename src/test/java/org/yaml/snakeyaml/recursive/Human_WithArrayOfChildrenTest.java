@@ -164,7 +164,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
     public void testDumpChildrenArrayWithoutRootTag() throws IOException {
         Yaml yaml = new Yaml();
         Human_WithArrayOfChildren son = createSon();
-        String output = yaml.dumpAs(son);
+        String output = yaml.dumpAsMap(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-childrenArray-no-root-tag.yaml");
         assertEquals(etalon, output);

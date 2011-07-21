@@ -31,7 +31,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
     public void testYaml() {
         Blog original = createTestBlog();
         Yaml yamlDumper = constructYamlDumper();
-        String serialized = yamlDumper.dumpAs(original);
+        String serialized = yamlDumper.dumpAsMap(original);
         // System.out.println(serialized);
         assertEquals(Util.getLocalResource("issues/issue55_1.txt"), serialized);
         Yaml blogLoader = new Yaml();

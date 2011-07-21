@@ -51,7 +51,7 @@ public class DogFoodBeanTest extends TestCase {
         DogFoodBean input = new DogFoodBean();
         input.setDecimal(new BigDecimal("5.123"));
         Yaml yaml = new Yaml();
-        String text = yaml.dumpAs(input);
+        String text = yaml.dumpAsMap(input);
         // System.out.println(text);
         assertEquals("decimal: 5.123\n", text);
         Yaml loader = new Yaml();

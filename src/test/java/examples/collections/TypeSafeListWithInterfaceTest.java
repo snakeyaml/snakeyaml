@@ -40,7 +40,7 @@ public class TypeSafeListWithInterfaceTest extends TestCase {
         developers.add(new Committer("John", "committer", 34));
         bean.setDevelopers(developers);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-2.yaml");
         assertEquals(etalon, output);

@@ -41,7 +41,7 @@ public class TypeSafeMap2Test extends TestCase {
         developers.put(Color.BLACK, new Developer2("John", "committer"));
         bean.setDevelopers(developers);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-bean-12.yaml");
         assertEquals(etalon, output);
@@ -60,7 +60,7 @@ public class TypeSafeMap2Test extends TestCase {
         developers.put(Color.BLACK, new Developer2("John", "committer"));
         bean.setDevelopers(developers);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-bean-13.yaml");
         assertEquals(etalon, output);

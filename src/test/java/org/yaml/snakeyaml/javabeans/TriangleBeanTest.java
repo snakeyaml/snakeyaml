@@ -29,7 +29,7 @@ public class TriangleBeanTest extends TestCase {
         bean.setShape(triangle);
         bean.setName("Bean25");
         Yaml beanDumper = new Yaml();
-        String output = beanDumper.dumpAs(bean);
+        String output = beanDumper.dumpAsMap(bean);
         assertEquals(
                 "name: Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle\n  name: Triangle25\n",
                 output);

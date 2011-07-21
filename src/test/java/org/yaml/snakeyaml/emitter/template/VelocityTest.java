@@ -36,7 +36,7 @@ public class VelocityTest extends TestCase {
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
         Yaml yaml = new Yaml(options);
-        String output = yaml.dumpAs(createBean());
+        String output = yaml.dumpAsMap(createBean());
         // System.out.println(output);
         assertEquals(Util.getLocalResource("template/etalon1.yaml"), output);
     }

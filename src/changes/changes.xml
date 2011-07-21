@@ -11,7 +11,7 @@
                 Deprecate DumperOptions.explicitRoot (2011-07-20)
             </action>
             <action dev="py4fun" type="add" issue="124">
-                Add Yaml.dumpAs(Object, Tag.MAP, FlowStyle) and Yaml.dumpAs(Object) methods. JavaBeanDumper is marked as deprecated (2011-07-16)
+                Add Yaml.dumpAs(Object, Tag.MAP, FlowStyle) and Yaml.dumpAsMap(Object) methods. JavaBeanDumper is marked as deprecated (2011-07-16)
             </action>
             <action dev="py4fun" type="add" issue="127">
                 Add example to show how to dump a custom class (2011-07-12)

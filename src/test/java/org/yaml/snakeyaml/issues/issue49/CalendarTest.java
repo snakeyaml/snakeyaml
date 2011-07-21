@@ -37,7 +37,7 @@ public class CalendarTest extends TestCase {
         cal.setTimeZone(TimeZone.getTimeZone("GMT-8:00"));
         bean.setCalendar(cal);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         assertEquals("calendar: 2001-09-08T17:46:40-8:00\nname: lunch\n", output);
         //
@@ -87,7 +87,7 @@ public class CalendarTest extends TestCase {
         cal.setTimeZone(TimeZone.getTimeZone(timeZone));
         bean.setCalendar(cal);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         assertEquals(warning, "calendar: " + etalon + "\nname: lunch\n", output);
         //

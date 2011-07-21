@@ -43,7 +43,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
         developers.add(new Developer("Karl", "user"));
         bean.setDevelopers(developers);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/set-bean-1.yaml");
         assertEquals(etalon, output);
@@ -62,7 +62,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
         developers.add(new SuperDeveloper("Bill", "super"));
         bean.setDevelopers(developers);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/set-bean-6.yaml");
         assertEquals(etalon, output);

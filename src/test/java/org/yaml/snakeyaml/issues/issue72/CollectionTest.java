@@ -29,7 +29,7 @@ public class CollectionTest extends TestCase {
     public void testCollectionList() {
         CollectionList bean = new CollectionList();
         Yaml yaml = new Yaml();
-        String doc = yaml.dumpAs(bean);
+        String doc = yaml.dumpAsMap(bean);
         // System.out.println(doc);
         Yaml beanLoader = new Yaml();
         CollectionList parsed = beanLoader.loadAs(doc, CollectionList.class);
@@ -59,7 +59,7 @@ public class CollectionTest extends TestCase {
     public void testCollectionSet() {
         CollectionSet bean = new CollectionSet();
         Yaml yaml = new Yaml();
-        String doc = yaml.dumpAs(bean);
+        String doc = yaml.dumpAsMap(bean);
         // System.out.println(doc);
         Yaml beanLoader = new Yaml();
         CollectionSet parsed = beanLoader.loadAs(doc, CollectionSet.class);

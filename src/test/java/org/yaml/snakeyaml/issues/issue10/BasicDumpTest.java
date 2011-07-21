@@ -64,7 +64,7 @@ public class BasicDumpTest extends TestCase {
         ds.setDataSources(dataSources);
 
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(ds);
+        String output = yaml.dumpAsMap(ds);
 
         String etalon = Util.getLocalResource("javabeans/issue10-2.yaml");
         assertEquals(etalon.trim(), output.trim());
@@ -86,7 +86,7 @@ public class BasicDumpTest extends TestCase {
         ds.setDataSources(dataSources);
 
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(ds);
+        String output = yaml.dumpAsMap(ds);
 
         String etalon = Util.getLocalResource("javabeans/issue10-3.yaml");
         assertEquals(etalon.trim(), output.trim());

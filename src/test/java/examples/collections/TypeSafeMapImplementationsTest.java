@@ -43,7 +43,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         props.setProperty("key2", "value2");
         bean.setProperties(props);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-bean-1.yaml");
         assertEquals(etalon, output);

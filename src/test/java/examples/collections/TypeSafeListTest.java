@@ -40,7 +40,7 @@ public class TypeSafeListTest extends TestCase {
         developers.add(new Developer("John", "committer"));
         bean.setDevelopers(developers);
         Yaml yaml = new Yaml();
-        String output = yaml.dumpAs(bean);
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-1.yaml");
         assertEquals(etalon, output);

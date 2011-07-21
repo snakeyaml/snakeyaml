@@ -131,7 +131,7 @@ public class HumanTest extends TestCase {
         mother.setChildren(children);
         //
         Yaml beanDumper = new Yaml();
-        String output = beanDumper.dumpAs(son);
+        String output = beanDumper.dumpAsMap(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children.yaml");
         assertEquals(etalon, output);
@@ -626,7 +626,7 @@ public class HumanTest extends TestCase {
         mother.setChildren(children);
         //
         Yaml beanDumper = new Yaml();
-        String output = beanDumper.dumpAs(son);
+        String output = beanDumper.dumpAsMap(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children-no-root-tag.yaml");
         assertEquals(etalon, output);
