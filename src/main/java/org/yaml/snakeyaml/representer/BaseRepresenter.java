@@ -69,7 +69,7 @@ public abstract class BaseRepresenter {
         return node;
     }
 
-    protected Node representData(Object data) {
+    protected final Node representData(Object data) {
         objectToRepresent = data;
         // check for identity
         if (representedObjects.containsKey(objectToRepresent)) {

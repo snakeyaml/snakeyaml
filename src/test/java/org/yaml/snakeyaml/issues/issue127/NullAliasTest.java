@@ -53,31 +53,4 @@ public class NullAliasTest extends TestCase {
             }
         }
     }
-
-    public void testNullAnchor() {
-        Bean bean = new Bean();
-
-        bean.setA("a"); // leave b null
-
-        Yaml yaml = new Yaml(new Representer() {
-            /**
-             * This way is not recommended !
-             */
-            @Override
-            public Node representData(Object data) {
-                if (data instanceof Bean) {
-                    objectToRepresent = data;// this line is important !!!
-                    Bean bean = (Bean) data;
-                    Map<String, Object> fields = new LinkedHashMap<String, Object>(2);
-                    fields.put("a", bean.getA());
-                    fields.put("b", bean.getB());
-                    return representMapping(MY_TAG, fields, false);
-                } else {
-                    return super.representData(data);
-                }
-            }
-        });
-        String output = yaml.dump(bean);
-        assertEquals("!<tag:example.com,2011:bean>\na: a\nb: null\n", output);
-    }
 }
