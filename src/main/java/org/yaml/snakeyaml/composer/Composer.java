@@ -169,7 +169,7 @@ public class Composer {
         boolean resolved = false;
         Tag nodeTag;
         if (tag == null || tag.equals("!")) {
-            nodeTag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit().isFirst());
+            nodeTag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit().canOmitTagInPlainScalar());
             resolved = true;
         } else {
             nodeTag = new Tag(tag);

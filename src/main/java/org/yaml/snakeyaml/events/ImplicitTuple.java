@@ -36,7 +36,7 @@ public class ImplicitTuple {
      * @return true when tag may be omitted when the scalar is emitted in a
      *         plain style.
      */
-    public boolean isFirst() {
+    public boolean canOmitTagInPlainScalar() {
         return plain;
     }
 
@@ -44,7 +44,7 @@ public class ImplicitTuple {
      * @return true when tag may be omitted when the scalar is emitted in a
      *         non-plain style.
      */
-    public boolean isSecond() {
+    public boolean canOmitTagInNonPlainScalar() {
         return nonPlain;
     }
 

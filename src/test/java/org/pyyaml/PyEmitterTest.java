@@ -266,8 +266,8 @@ public class PyEmitterTest extends PyImportTest {
                     if (event instanceof ScalarEvent) {
                         ScalarEvent e1 = (ScalarEvent) event;
                         ScalarEvent e2 = (ScalarEvent) newEvent;
-                        if (e1.getImplicit().isFirst() == e2.getImplicit().isFirst()
-                                && e1.getImplicit().isSecond() == e2.getImplicit().isSecond()) {
+                        if (e1.getImplicit().canOmitTagInPlainScalar() == e2.getImplicit().canOmitTagInPlainScalar()
+                                && e1.getImplicit().canOmitTagInNonPlainScalar() == e2.getImplicit().canOmitTagInNonPlainScalar()) {
 
                         } else {
                             if ((e1.getTag() == null || e2.getTag() == null)
