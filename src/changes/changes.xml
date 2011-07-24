@@ -7,6 +7,10 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="fix" issue="130">
+                Fix scientific notation inconsistency in the YAML 1.1 specification: 
+                scalar '8e-06' should be parsed as a Double (2011-07-24)
+            </action>
             <action dev="py4fun" type="remove" issue="127">
                 Do not allow to override BaseRepresenter.representData(Object data) because 
                 users should instead implement Represent interface (2011-07-21)
