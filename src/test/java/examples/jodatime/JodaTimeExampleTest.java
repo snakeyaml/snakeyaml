@@ -16,7 +16,6 @@
 
 package examples.jodatime;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -28,14 +27,18 @@ import org.joda.time.DateTimeZone;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.ScalarEvent;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class JodaTimeExampleTest extends TestCase {
     private static final long timestamp = 1000000000000L;
 
-    public void testDump() throws IOException {
+    public void testDump() {
         DateTime time = new DateTime(timestamp, DateTimeZone.UTC);
         Yaml yaml = new Yaml(new JodaTimeRepresenter());
         String joda = yaml.dump(time);
@@ -44,7 +47,7 @@ public class JodaTimeExampleTest extends TestCase {
         assertEquals("2001-09-09T01:46:40Z\n", joda);
     }
 
-    public void testLoad() throws IOException {
+    public void testLoad() {
         Yaml yaml = new Yaml(new JodaTimeContructor());
         DateTime time = (DateTime) yaml.load("2001-09-09T01:46:40Z");
         assertEquals(new DateTime(timestamp, DateTimeZone.UTC), time);
@@ -53,8 +56,7 @@ public class JodaTimeExampleTest extends TestCase {
     /**
      * @see http://code.google.com/p/snakeyaml/issues/detail?id=128
      */
- // FIXME issue 128
-    public void qqqtestLoadBeanWithBlockFlow() {
+    public void testLoadBeanWithBlockFlow() {
         MyBean bean = new MyBean();
         bean.setId("id123");
         DateTime etalon = new DateTime(timestamp, DateTimeZone.UTC);
@@ -79,12 +81,10 @@ public class JodaTimeExampleTest extends TestCase {
             if (etalonEvent instanceof ScalarEvent) {
                 ScalarEvent scalar = (ScalarEvent) etalonEvent;
                 if (scalar.getValue().equals("2001-09-09T01:46:40Z")) {
-                    assertFalse("The tag cannot be omitted even in the plain scalar style.", scalar
-                            .getImplicit().canOmitTagInPlainScalar());
+                    assertTrue(scalar.getImplicit().canOmitTagInPlainScalar());
                     assertFalse(scalar.getImplicit().canOmitTagInNonPlainScalar());
                 }
             }
-            System.out.println(etalonEvent);
         }
         // Nodes and Events are the same. Only emitter may influence the output.
         String doc1 = dumper.dump(bean);
@@ -96,11 +96,26 @@ public class JodaTimeExampleTest extends TestCase {
          * Since this constructor does not exist for JodaTime an exception will
          * be thrown.
          */
-        assertEquals(
-                "!!examples.jodatime.MyBean\ndate: !!timestamp 2001-09-09T01:46:40Z\nid: id123\n",
-                doc1);
+        assertEquals("!!examples.jodatime.MyBean\ndate: 2001-09-09T01:46:40Z\nid: id123\n", doc1);
+        /*
+         * provided JodaTimeContructor will be ignored because 'date' is a
+         * JavaBean property and its class gets more priority then the implicit
+         * '!!timestamp' tag.
+         */
         Yaml loader = new Yaml(new JodaTimeContructor());
-        MyBean parsed = (MyBean) loader.load(doc1);
+        try {
+            loader.load(doc1);
+        } catch (Exception e) {
+            assertTrue(
+                    "The error must indicate that JodaTime cannot be created from the scalar value.",
+                    e.getMessage()
+                            .contains(
+                                    "No String constructor found. Exception=org.joda.time.DateTime.<init>(java.lang.String)"));
+        }
+        // we have to provide a special way to create JodaTime instances from
+        // scalars
+        Yaml loader2 = new Yaml(new JodaPropertyConstructor());
+        MyBean parsed = (MyBean) loader2.load(doc1);
         assertEquals(etalon, parsed.getDate());
     }
 
@@ -116,7 +131,7 @@ public class JodaTimeExampleTest extends TestCase {
      * @see http://code.google.com/p/snakeyaml/issues/detail?id=128
      * 
      */
-    public void testLoadBeanWithAutoFlow() throws IOException {
+    public void testLoadBeanWithAutoFlow() {
         MyBean bean = new MyBean();
         bean.setId("id123");
         DateTime etalon = new DateTime(timestamp, DateTimeZone.UTC);
@@ -125,7 +140,7 @@ public class JodaTimeExampleTest extends TestCase {
         options.setDefaultFlowStyle(FlowStyle.AUTO);
         Yaml dumper = new Yaml(new JodaTimeRepresenter(), options);
         String doc = dumper.dump(bean);
-        System.out.println(doc);
+        //System.out.println(doc);
         assertEquals(
                 "!!examples.jodatime.MyBean {date: !!timestamp '2001-09-09T01:46:40Z', id: id123}\n",
                 doc);
@@ -137,7 +152,7 @@ public class JodaTimeExampleTest extends TestCase {
     /**
      * test issue 109
      */
-    public void test109() throws IOException {
+    public void test109() {
         Date someDate = new DateMidnight(9, 2, 21, DateTimeZone.forID("Europe/Amsterdam")).toDate();
         Yaml yaml = new Yaml();
         String timestamp = yaml.dump(someDate);
@@ -145,5 +160,25 @@ public class JodaTimeExampleTest extends TestCase {
         // System.out.println(timestamp);
         Object o = yaml.load(timestamp);
         assertEquals(someDate, o);
+    }
+
+    class JodaPropertyConstructor extends Constructor {
+        public JodaPropertyConstructor() {
+            yamlClassConstructors.put(NodeId.scalar, new TimeStampConstruct());
+        }
+
+        class TimeStampConstruct extends Constructor.ConstructScalar {
+            @Override
+            public Object construct(Node nnode) {
+                if (nnode.getTag().equals("tag:yaml.org,2002:timestamp")) {
+                    Construct dateConstructor = yamlConstructors.get(Tag.TIMESTAMP);
+                    Date date = (Date) dateConstructor.construct(nnode);
+                    return new DateTime(date, DateTimeZone.UTC);
+                } else {
+                    return super.construct(nnode);
+                }
+            }
+
+        }
     }
 }

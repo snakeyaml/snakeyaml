@@ -7,6 +7,12 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="fix" issue="128">
+                Since timestamp contains ':' characters it is dumped with single quoted scalar style 
+                in the flow context. The single quoted scalar style causes to dump the explicit tag. 
+                In the block context the plain scalar can be used and the tag is not required. It may cause
+                unpredictable behaviour if the tag is required. See the comments in JodaTimeExampleTest (2011-07-25)
+            </action>
             <action dev="py4fun" type="fix" issue="130">
                 Fix scientific notation inconsistency in the YAML 1.1 specification: 
                 scalar '8e-06' should be parsed as a Double (2011-07-24)
