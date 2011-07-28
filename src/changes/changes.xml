@@ -7,6 +7,10 @@
 	</properties>
 	<body>
 	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+            <action dev="py4fun" type="update">
+                Add a test to prove that SnakeYAML is not affected by the problem reported for libyaml
+                at http://pyyaml.org/ticket/196 (2011-07-28)
+            </action>
             <action dev="py4fun" type="fix" issue="128">
                 Since timestamp contains ':' characters it is dumped with single quoted scalar style 
                 in the flow context. The single quoted scalar style causes to dump the explicit tag. 
