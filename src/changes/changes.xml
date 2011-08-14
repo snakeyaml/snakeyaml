@@ -6,7 +6,12 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+        <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+             <action dev="py4fun" type="update">
+                Finish 1.9 release (2011-08-15)
+             </action>
+        </release>
+	    <release version="1.9" date="2011-08-15" description="Introduce Yaml.loadAs() and Yaml.dumpAs() methods">
             <action dev="py4fun" type="update">
                 Add a test to prove that SnakeYAML is not affected by the problem reported for libyaml
                 at http://pyyaml.org/ticket/196 (2011-07-28)
