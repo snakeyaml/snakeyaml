@@ -21,6 +21,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -37,8 +39,24 @@ public class ArrayTagsTest extends TestCase {
             wheels[i - 1] = wheel;
         }
         car.setWheels(wheels);
-        assertEquals(Util.getLocalResource("constructor/cararray-with-tags.yaml"),
+        assertEquals(Util.getLocalResource("constructor/cararray-with-tags-flow-auto.yaml"),
                 new Yaml().dump(car));
+    }
+
+    public void testFlowBlock() throws IOException {
+        CarWithArray car = new CarWithArray();
+        car.setPlate("12-XP-F4");
+        Wheel[] wheels = new Wheel[5];
+        for (int i = 1; i < 6; i++) {
+            Wheel wheel = new Wheel();
+            wheel.setId(i);
+            wheels[i - 1] = wheel;
+        }
+        car.setWheels(wheels);
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(FlowStyle.BLOCK);
+        Yaml yaml = new Yaml(options);
+        assertEquals(Util.getLocalResource("constructor/cararray-with-tags.yaml"), yaml.dump(car));
     }
 
     public void testLoadClassTag() throws IOException {

@@ -21,12 +21,10 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class Human_WithArrayOfChildrenTest extends TestCase {
 
@@ -164,11 +162,9 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
     }
 
     public void testDumpChildrenArrayWithoutRootTag() throws IOException {
-        DumperOptions options = new DumperOptions();
-        options.setExplicitRoot(Tag.MAP);
-        Yaml yaml = new Yaml(options);
+        Yaml yaml = new Yaml();
         Human_WithArrayOfChildren son = createSon();
-        String output = yaml.dump(son);
+        String output = yaml.dumpAsMap(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-childrenArray-no-root-tag.yaml");
         assertEquals(etalon, output);

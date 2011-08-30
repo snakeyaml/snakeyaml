@@ -65,4 +65,15 @@ public class FloatTagTest extends AbstractTest {
     public void testDump() {
         assertEquals("1.0\n", dump(1.0));
     }
+
+    /**
+     * to test http://code.google.com/p/snakeyaml/issues/detail?id=130
+     */
+    public void testScientificFloatWithoutDecimalDot() throws IOException {
+        assertEquals(new Double(8e-06), load("8e-06"));
+        assertEquals(new Double(8e06), load("8e06"));
+        assertEquals(new Double(8e06), load("8e+06"));
+        assertEquals(new Double(8000e06), load("8_000e06"));
+        assertEquals(new Double(123e-06), load("123e-06"));
+    }
 }

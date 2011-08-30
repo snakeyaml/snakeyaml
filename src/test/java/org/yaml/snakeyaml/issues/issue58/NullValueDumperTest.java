@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Yaml;
 
 public class NullValueDumperTest extends TestCase {
@@ -42,8 +41,8 @@ public class NullValueDumperTest extends TestCase {
         foo.bar.add(1);
         foo.bar.add("A");
         foo.bar.add(3.14);
-
-        assertEquals("bar:\n- 1\n- A\n- 3.14\n", new JavaBeanDumper().dump(foo));
+        Yaml yaml = new Yaml();
+        assertEquals("bar:\n- 1\n- A\n- 3.14\n", yaml.dumpAsMap(foo));
     }
 
     public void testNullListElement() {
@@ -53,7 +52,8 @@ public class NullValueDumperTest extends TestCase {
         foo.bar.add("A");
         foo.bar.add(null);
         foo.bar.add(3.14);
-        assertEquals("bar:\n- 1\n- A\n- null\n- 3.14\n", new JavaBeanDumper().dump(foo));
+        Yaml yaml = new Yaml();
+        assertEquals("bar:\n- 1\n- A\n- null\n- 3.14\n", yaml.dumpAsMap(foo));
         assertEquals(
                 "!!org.yaml.snakeyaml.issues.issue58.NullValueDumperTest$Foo\nbar: [1, A, null, 3.14]\n",
                 new Yaml().dump(foo));

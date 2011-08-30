@@ -21,7 +21,6 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -64,8 +63,8 @@ public class BasicDumpTest extends TestCase {
         DataSources ds = new DataSources();
         ds.setDataSources(dataSources);
 
-        JavaBeanDumper yaml = new JavaBeanDumper();
-        String output = yaml.dump(ds);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAsMap(ds);
 
         String etalon = Util.getLocalResource("javabeans/issue10-2.yaml");
         assertEquals(etalon.trim(), output.trim());
@@ -86,8 +85,8 @@ public class BasicDumpTest extends TestCase {
         DataSources ds = new DataSources();
         ds.setDataSources(dataSources);
 
-        JavaBeanDumper yaml = new JavaBeanDumper();
-        String output = yaml.dump(ds);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAsMap(ds);
 
         String etalon = Util.getLocalResource("javabeans/issue10-3.yaml");
         assertEquals(etalon.trim(), output.trim());

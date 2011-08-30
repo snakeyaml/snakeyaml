@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -37,8 +36,8 @@ public class ParameterisedTypeLoadingTestCase {
         check(obj);
 
         // dump the object
-        JavaBeanDumper dumper = new JavaBeanDumper();
-        String output = dumper.dump(obj);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAsMap(obj);
         assertEquals(Util.getLocalResource("issues/issue112-2.yaml"), output);
     }
 

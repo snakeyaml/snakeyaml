@@ -31,7 +31,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -131,8 +130,8 @@ public class HumanTest extends TestCase {
         father.setChildren(children);
         mother.setChildren(children);
         //
-        JavaBeanDumper beanDumper = new JavaBeanDumper();
-        String output = beanDumper.dump(son);
+        Yaml beanDumper = new Yaml();
+        String output = beanDumper.dumpAsMap(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children.yaml");
         assertEquals(etalon, output);
@@ -626,8 +625,8 @@ public class HumanTest extends TestCase {
         father.setChildren(children);
         mother.setChildren(children);
         //
-        JavaBeanDumper beanDumper = new JavaBeanDumper();
-        String output = beanDumper.dump(son);
+        Yaml beanDumper = new Yaml();
+        String output = beanDumper.dumpAsMap(son);
         // System.out.println(output);
         String etalon = Util.getLocalResource("recursive/with-children-no-root-tag.yaml");
         assertEquals(etalon, output);

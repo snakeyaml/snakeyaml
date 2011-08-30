@@ -1,24 +1,26 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.8 final is available
+Subject: [ANN] SnakeYAML-1.9 final is available
 
 ==========================
- Announcing SnakeYAML-1.8
+ Announcing SnakeYAML-1.9
 ==========================
 
 A new release of SnakeYAML is now available:
 
     http://www.snakeyaml.org
 
-This release delivers a significant performance improvement
-as well as other changes and bug fixes.
+This release delivers a public API changes as well as other changes and bug fixes.
 
 Changes
 ========
- * fix for issue 100: merge maps and JavaBeans
- * implement Compact Object Notation (http://code.google.com/p/snakeyaml/wiki/CompactObjectNotation)
- * fix for issue 88: Custom tag erased when referenced from generic collection
- * fix for issue 80: Timestamp is not parsed properly when milliseconds start with 0
+ * Update public API: Introduce Yaml.loadAs(), Yaml.dumpAs() and Yaml.dumpAsMap() methods. JavaBeanLoader and JavaBeanDumper are deprecated
+ 
+ * apply regular expression for !!float from YAML 1.2 specification
+ * Provide low level methods from objects to Nodes and Events (represent(Object), serialize(Node))
+ * Improved support for empty JavaBeans
+ * Do not remove root tags of JavaBeans when it is not explicitly requested 
+ * Generate OSGi bundle
 
 The complete list of changes is here: http://code.google.com/p/snakeyaml/wiki/changes 
 
@@ -28,7 +30,7 @@ Resources
 SnakeYAML homepage: http://www.snakeyaml.org
 SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
 
-JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.8/snakeyaml-1.8.jar
+JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.9/snakeyaml-1.9.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/

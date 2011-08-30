@@ -22,7 +22,6 @@ import java.util.TreeSet;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
@@ -33,12 +32,10 @@ public class FilterPropertyToDumpTest extends TestCase {
         BeanToRemoveProperty bean = new BeanToRemoveProperty();
         bean.setNumber(24);
         bean.setId("ID124");
-        JavaBeanDumper d = new JavaBeanDumper(new MyRepresenter(), new DumperOptions());
-        String dump = d.dump(bean);
+        Yaml d = new Yaml();
+        String dump = d.dumpAsMap(bean);
         // System.out.println(dump);
-        assertEquals(
-                "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {number: 24}\n",
-                dump);
+        assertEquals("id: ID124\nnumber: 24\n", dump);
     }
 
     public void testFilterPropertyInYaml() {
@@ -46,11 +43,9 @@ public class FilterPropertyToDumpTest extends TestCase {
         bean.setNumber(25);
         bean.setId("ID125");
         Yaml yaml = new Yaml(new MyRepresenter());
-        String dump = yaml.dump(bean);
+        String dump = yaml.dumpAsMap(bean);
         // System.out.println(dump);
-        assertEquals(
-                "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {number: 25}\n",
-                dump);
+        assertEquals("number: 25\n", dump);
     }
 
     public void testDoNotFilterPropertyIncludeReadOnly() {

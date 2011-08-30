@@ -80,5 +80,4 @@ abstract public class GenericProperty extends Property {
         }
         return actualClasses;
     }
-
 }

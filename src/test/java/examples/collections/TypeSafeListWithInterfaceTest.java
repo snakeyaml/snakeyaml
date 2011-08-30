@@ -21,7 +21,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -40,8 +39,8 @@ public class TypeSafeListWithInterfaceTest extends TestCase {
         developers.add(new Developer("Fred", "creator"));
         developers.add(new Committer("John", "committer", 34));
         bean.setDevelopers(developers);
-        JavaBeanDumper dumper = new JavaBeanDumper(false);
-        String output = dumper.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-2.yaml");
         assertEquals(etalon, output);

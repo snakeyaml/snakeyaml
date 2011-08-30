@@ -1,0 +1,8 @@
+!!org.yaml.snakeyaml.constructor.ArrayTagsTest$CarWithArray
+plate: 12-XP-F4
+wheels:
+- {id: 1}
+- {id: 2}
+- {id: 3}
+- {id: 4}
+- {id: 5}

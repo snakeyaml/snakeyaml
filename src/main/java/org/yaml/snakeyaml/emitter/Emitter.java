@@ -58,7 +58,7 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * mapping ::= MAPPING-START (node node)* MAPPING-END
  * </pre>
  */
-public final class Emitter {
+public final class Emitter implements Emitable {
     private static final Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
     public static final int MIN_INDENT = 1;
     public static final int MAX_INDENT = 10;
@@ -726,12 +726,13 @@ public final class Emitter {
             if (style == null) {
                 style = chooseScalarStyle();
             }
-            if (((!canonical || tag == null) && ((style == null && ev.getImplicit().isFirst()) || (style != null && ev
-                    .getImplicit().isSecond())))) {
+            if (((!canonical || tag == null) && ((style == null && ev.getImplicit()
+                    .canOmitTagInPlainScalar()) || (style != null && ev.getImplicit()
+                    .canOmitTagInNonPlainScalar())))) {
                 preparedTag = null;
                 return;
             }
-            if (ev.getImplicit().isFirst() && tag == null) {
+            if (ev.getImplicit().canOmitTagInPlainScalar() && tag == null) {
                 tag = "!";
                 preparedTag = null;
             }
@@ -761,7 +762,7 @@ public final class Emitter {
         if (ev.getStyle() != null && ev.getStyle() == '"' || this.canonical) {
             return '"';
         }
-        if (ev.getStyle() == null && ev.getImplicit().isFirst()) {
+        if (ev.getStyle() == null && ev.getImplicit().canOmitTagInPlainScalar()) {
             if (!(simpleKeyContext && (analysis.empty || analysis.multiline))
                     && ((flowLevel != 0 && analysis.allowFlowPlain) || (flowLevel == 0 && analysis.allowBlockPlain))) {
                 return null;

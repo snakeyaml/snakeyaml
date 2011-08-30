@@ -20,9 +20,7 @@ import java.beans.IntrospectionException;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class BirdTest extends TestCase {
 
@@ -33,17 +31,15 @@ public class BirdTest extends TestCase {
         home = new Nest();
         home.setHeight(3);
         bird.setHome(home);
-        DumperOptions options = new DumperOptions();
-        options.setExplicitRoot(Tag.MAP);
-        Yaml yaml = new Yaml(options);
-        String output = yaml.dump(bird);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAsMap(bird);
         Bird parsed;
         String javaVendor = System.getProperty("java.vm.name");
         Yaml loader = new Yaml();
         if (GenericsBugDetector.isProperIntrospection()) {
             // no global tags
             System.out.println("java.vm.name: " + javaVendor);
-            assertEquals("no global tags must be emitted.", "home: {height: 3}\nname: Eagle\n",
+            assertEquals("no global tags must be emitted.", "home:\n  height: 3\nname: Eagle\n",
                     output);
             parsed = loader.loadAs(output, Bird.class);
 
@@ -53,7 +49,7 @@ public class BirdTest extends TestCase {
                     .println("JDK requires global tags for JavaBean properties with Java Generics. java.vm.name: "
                             + javaVendor);
             assertEquals("global tags are inevitable here.",
-                    "home: !!org.yaml.snakeyaml.generics.Nest {height: 3}\nname: Eagle\n", output);
+                    "home: !!org.yaml.snakeyaml.generics.Nest\n  height: 3\nname: Eagle\n", output);
             parsed = loader.loadAs(output, Bird.class);
         }
         assertEquals(bird.getName(), parsed.getName());

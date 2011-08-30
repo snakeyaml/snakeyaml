@@ -22,7 +22,6 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -41,8 +40,8 @@ public class TypeSafeListNoGerericsTest extends TestCase {
         developers.add(new Developer("Fred", "creator"));
         developers.add(new Developer("John", "committer"));
         bean.setDevelopers(developers);
-        JavaBeanDumper dumper = new JavaBeanDumper(false);
-        String output = dumper.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/list-bean-4.yaml");
         assertEquals(etalon, output);

@@ -35,7 +35,7 @@ public class SerializerTest extends TestCase {
     protected void setUp() throws Exception {
         DumperOptions config = new DumperOptions();
         StringWriter writer = new StringWriter();
-        serializer = new Serializer(new Emitter(writer, config), new Resolver(), config);
+        serializer = new Serializer(new Emitter(writer, config), new Resolver(), config, null);
     }
 
     public void testSerializerIsAlreadyOpened() throws IOException {

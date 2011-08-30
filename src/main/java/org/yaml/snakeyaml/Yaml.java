@@ -16,6 +16,7 @@
 
 package org.yaml.snakeyaml;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
@@ -26,9 +27,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.Event;
@@ -207,6 +210,18 @@ public class Yaml {
     }
 
     /**
+     * Produce the corresponding representation tree for a given Object.
+     * 
+     * @see http://yaml.org/spec/1.1/#id859333
+     * @param data
+     *            instance to build the representation tree for
+     * @return representation tree
+     */
+    public Node represent(Object data) {
+        return representer.represent(data);
+    }
+
+    /**
      * Serialize a sequence of Java objects into a YAML String.
      * 
      * @param data
@@ -223,7 +238,7 @@ public class Yaml {
      * Serialize a Java object into a YAML stream.
      * 
      * @param data
-     *            Java object to be Serialized to YAML
+     *            Java object to be serialized to YAML
      * @param output
      *            stream to write to
      */
@@ -241,16 +256,134 @@ public class Yaml {
      * @param output
      *            stream to write to
      */
+    @SuppressWarnings("deprecation")
     public void dumpAll(Iterator<? extends Object> data, Writer output) {
-        Serializer s = new Serializer(new Emitter(output, dumperOptions), resolver, dumperOptions);
+        dumpAll(data, output, dumperOptions.getExplicitRoot());
+    }
+
+    private void dumpAll(Iterator<? extends Object> data, Writer output, Tag rootTag) {
+        Serializer serializer = new Serializer(new Emitter(output, dumperOptions), resolver,
+                dumperOptions, rootTag);
         try {
-            s.open();
+            serializer.open();
             while (data.hasNext()) {
-                representer.represent(s, data.next());
+                Node node = representer.represent(data.next());
+                serializer.serialize(node);
             }
-            s.close();
+            serializer.close();
         } catch (java.io.IOException e) {
             throw new YAMLException(e);
+        }
+    }
+
+    /**
+     * <p>
+     * Serialize a Java object into a YAML string. Override the default root tag
+     * with <code>rootTag</code>.
+     * </p>
+     * 
+     * <p>
+     * This method is similar to <code>Yaml.dump(data)</code> except that the
+     * root tag for the whole document is replaced with the given tag. This has
+     * two main uses.
+     * </p>
+     * 
+     * <p>
+     * First, if the root tag is replaced with a standard YAML tag, such as
+     * <code>Tag.MAP</code>, then the object will be dumped as a map. The root
+     * tag will appear as <code>!!map</code>, or blank (implicit !!map).
+     * </p>
+     * 
+     * <p>
+     * Second, if the root tag is replaced by a different custom tag, then the
+     * document appears to be a different type when loaded. For example, if an
+     * instance of MyClass is dumped with the tag !!YourClass, then it will be
+     * handled as an instance of YourClass when loaded.
+     * </p>
+     * 
+     * @param data
+     *            Java object to be serialized to YAML
+     * @param rootTag
+     *            the tag for the whole YAML document. The tag should be Tag.MAP
+     *            for a JavaBean to make the tag disappear (to use implicit tag
+     *            !!map). If <code>null</code> is provided then the standard tag
+     *            with the full class name is used.
+     * @param flowStyle
+     *            flow style for the whole document. See Chapter 10. Collection
+     *            Styles http://yaml.org/spec/1.1/#id930798. If
+     *            <code>null</code> is provided then the flow style from
+     *            DumperOptions is used.
+     * 
+     * @return YAML String
+     */
+    public String dumpAs(Object data, Tag rootTag, FlowStyle flowStyle) {
+        FlowStyle oldStyle = representer.getDefaultFlowStyle();
+        if (flowStyle != null) {
+            representer.setDefaultFlowStyle(flowStyle);
+        }
+        List<Object> list = new ArrayList<Object>(1);
+        list.add(data);
+        StringWriter buffer = new StringWriter();
+        dumpAll(list.iterator(), buffer, rootTag);
+        representer.setDefaultFlowStyle(oldStyle);
+        return buffer.toString();
+    }
+
+    /**
+     * <p>
+     * Serialize a Java object into a YAML string. Override the default root tag
+     * with <code>Tag.MAP</code>.
+     * </p>
+     * <p>
+     * This method is similar to <code>Yaml.dump(data)</code> except that the
+     * root tag for the whole document is replaced with <code>Tag.MAP</code> tag
+     * (implicit !!map).
+     * </p>
+     * <p>
+     * Block Mapping is used as the collection style. See 10.2.2. Block Mappings
+     * (http://yaml.org/spec/1.1/#id934537)
+     * </p>
+     * 
+     * @param data
+     *            Java object to be serialized to YAML
+     * @return YAML String
+     */
+    public String dumpAsMap(Object data) {
+        return dumpAs(data, Tag.MAP, FlowStyle.BLOCK);
+    }
+
+    /**
+     * Serialize the representation tree into Events.
+     * 
+     * @see http://yaml.org/spec/1.1/#id859333
+     * @param data
+     *            representation tree
+     * @return Event list
+     */
+    public List<Event> serialize(Node data) {
+        SilentEmitter emitter = new SilentEmitter();
+        @SuppressWarnings("deprecation")
+        Serializer serializer = new Serializer(emitter, resolver, dumperOptions,
+                dumperOptions.getExplicitRoot());
+        try {
+            serializer.open();
+            serializer.serialize(data);
+            serializer.close();
+        } catch (java.io.IOException e) {
+            throw new YAMLException(e);
+        }
+        return emitter.getEvents();
+    }
+
+    private class SilentEmitter implements Emitable {
+        private List<Event> events = new ArrayList<Event>(100);
+
+        public List<Event> getEvents() {
+            return events;
+        }
+
+        public void emit(Event event) throws IOException {
+            events.add(event);
         }
     }
 
@@ -417,8 +550,9 @@ public class Yaml {
 
     /**
      * Parse the first YAML document in a stream and produce the corresponding
-     * representation tree.
+     * representation tree. (This is the opposite of the represent() method)
      * 
+     * @see http://yaml.org/spec/1.1/#id859333
      * @param yaml
      *            YAML document
      * @return parsed root Node for the specified YAML document
@@ -433,6 +567,7 @@ public class Yaml {
      * Parse all YAML documents in a stream and produce corresponding
      * representation trees.
      * 
+     * @see http://yaml.org/spec/1.1/#id859333
      * @param yaml
      *            stream of YAML documents
      * @return parsed root Nodes for all the specified YAML documents
@@ -531,6 +666,7 @@ public class Yaml {
     /**
      * Parse a YAML stream and produce parsing events.
      * 
+     * @see http://yaml.org/spec/1.1/#id859333
      * @param yaml
      *            YAML document(s)
      * @return parsed events

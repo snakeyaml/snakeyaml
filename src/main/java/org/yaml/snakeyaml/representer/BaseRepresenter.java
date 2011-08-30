@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.representer;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
@@ -35,7 +34,6 @@ import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.serializer.Serializer;
 
 /**
  * Represent basic YAML structures: scalar, sequence, mapping
@@ -51,27 +49,27 @@ public abstract class BaseRepresenter {
     // the order is important (map can be also a sequence of key-values)
     protected final Map<Class<?>, Represent> multiRepresenters = new LinkedHashMap<Class<?>, Represent>();
     private Character defaultStyle;
-    protected Boolean defaultFlowStyle;
+    protected FlowStyle defaultFlowStyle = FlowStyle.AUTO;
     protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>() {
         private static final long serialVersionUID = -5576159264232131854L;
 
         public Node put(Object key, Node value) {
             return super.put(key, new AnchorNode(value));
-        };
+        }
     };
 
     protected Object objectToRepresent;
     private PropertyUtils propertyUtils;
     private boolean explicitPropertyUtils = false;
 
-    public void represent(Serializer serializer, Object data) throws IOException {
+    public Node represent(Object data) {
         Node node = representData(data);
-        serializer.serialize(node);
         representedObjects.clear();
         objectToRepresent = null;
+        return node;
     }
 
-    protected Node representData(Object data) {
+    protected final Node representData(Object data) {
         objectToRepresent = data;
         // check for identity
         if (representedObjects.containsKey(objectToRepresent)) {
@@ -145,8 +143,8 @@ public abstract class BaseRepresenter {
             value.add(nodeItem);
         }
         if (flowStyle == null) {
-            if (defaultFlowStyle != null) {
-                node.setFlowStyle(defaultFlowStyle);
+            if (defaultFlowStyle != FlowStyle.AUTO) {
+                node.setFlowStyle(defaultFlowStyle.getStyleBoolean());
             } else {
                 node.setFlowStyle(bestStyle);
             }
@@ -173,8 +171,8 @@ public abstract class BaseRepresenter {
             value.add(new NodeTuple(nodeKey, nodeValue));
         }
         if (flowStyle == null) {
-            if (defaultFlowStyle != null) {
-                node.setFlowStyle(defaultFlowStyle);
+            if (defaultFlowStyle != FlowStyle.AUTO) {
+                node.setFlowStyle(defaultFlowStyle.getStyleBoolean());
             } else {
                 node.setFlowStyle(bestStyle);
             }
@@ -182,14 +180,16 @@ public abstract class BaseRepresenter {
         return node;
     }
 
-    // protected abstract boolean ignoreAliases(Object data);
-
     public void setDefaultScalarStyle(ScalarStyle defaultStyle) {
         this.defaultStyle = defaultStyle.getChar();
     }
 
     public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {
-        this.defaultFlowStyle = defaultFlowStyle.getStyleBoolean();
+        this.defaultFlowStyle = defaultFlowStyle;
+    }
+
+    public FlowStyle getDefaultFlowStyle() {
+        return this.defaultFlowStyle;
     }
 
     public void setPropertyUtils(PropertyUtils propertyUtils) {
@@ -207,5 +207,4 @@ public abstract class BaseRepresenter {
     public final boolean isExplicitPropertyUtils() {
         return explicitPropertyUtils;
     }
-
 }

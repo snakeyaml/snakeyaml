@@ -6,7 +6,48 @@
 		<author email="py4fun@gmail.com">Andrey Somov</author>
 	</properties>
 	<body>
-	    <release version="1.9-SNAPSHOT" date="in Mercurial" description="Development">
+        <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+             <action dev="py4fun" type="update">
+                Finish 1.9 release (2011-08-15)
+             </action>
+        </release>
+	    <release version="1.9" date="2011-08-15" description="Introduce Yaml.loadAs() and Yaml.dumpAs() methods">
+            <action dev="py4fun" type="update">
+                Add a test to prove that SnakeYAML is not affected by the problem reported for libyaml
+                at http://pyyaml.org/ticket/196 (2011-07-28)
+            </action>
+            <action dev="py4fun" type="fix" issue="128">
+                Since timestamp contains ':' characters it is dumped with single quoted scalar style 
+                in the flow context. The single quoted scalar style causes to dump the explicit tag. 
+                In the block context the plain scalar can be used and the tag is not required. It may cause
+                unpredictable behaviour if the tag is required. See the comments in JodaTimeExampleTest (2011-07-25)
+            </action>
+            <action dev="py4fun" type="fix" issue="130">
+                Fix scientific notation inconsistency in the YAML 1.1 specification: 
+                scalar '8e-06' should be parsed as a Double (2011-07-24)
+            </action>
+            <action dev="py4fun" type="remove" issue="127">
+                Do not allow to override BaseRepresenter.representData(Object data) because 
+                users should instead implement Represent interface (2011-07-21)
+            </action>
+            <action dev="py4fun" type="remove" issue="124">
+                Deprecate DumperOptions.explicitRoot (2011-07-20)
+            </action>
+            <action dev="py4fun" type="add" issue="124">
+                Add Yaml.dumpAs(Object, Tag.MAP, FlowStyle) and Yaml.dumpAsMap(Object) methods. JavaBeanDumper is marked as deprecated (2011-07-16)
+            </action>
+            <action dev="py4fun" type="add" issue="127">
+                Add example to show how to dump a custom class (2011-07-12)
+            </action>
+            <action dev="py4fun" type="add" issue="129">
+                Add Yaml.serialize(Node) low level method to the public API (2011-07-14)
+            </action>
+            <action dev="py4fun" type="add" issue="129">
+                Add Yaml.represent(Object) low level method to the public API (2011-07-14)
+            </action>
+            <action dev="py4fun" type="add" issue="125">
+                Add support for Maven 3 via 'm3' profile (2011-07-10)
+            </action>
             <action dev="py4fun" type="remove" issue="124">
                 Remove deprecated JavaBeanParser (2011-07-05)
             </action>

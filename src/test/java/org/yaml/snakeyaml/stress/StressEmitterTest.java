@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.yaml.snakeyaml.Invoice;
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -41,9 +40,9 @@ public class StressEmitterTest extends TestCase {
         Yaml loader = new Yaml();
         Invoice invoice = loader.loadAs(Util.getLocalResource("specification/example2_27.yaml"),
                 Invoice.class);
-        JavaBeanDumper dumper = new JavaBeanDumper();
+        Yaml dumper = new Yaml();
         long time1 = System.nanoTime();
-        dumper.dump(invoice);
+        dumper.dumpAsMap(invoice);
         long time2 = System.nanoTime();
         float duration = (time2 - time1) / 1000000;
         System.out.println("\nSingle dump was " + duration + " ms.");
@@ -68,8 +67,8 @@ public class StressEmitterTest extends TestCase {
         for (int number : range) {
             time1 = System.nanoTime();
             for (int i = 0; i < number; i++) {
-                dumper = new JavaBeanDumper();
-                dumper.dump(invoice);
+                dumper = new Yaml();
+                dumper.dumpAsMap(invoice);
             }
             time2 = System.nanoTime();
             duration = ((time2 - time1) / 1000000) / (float) number;

@@ -25,7 +25,6 @@ import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.JavaBeanDumper;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -43,8 +42,8 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         props.setProperty("key1", "value1");
         props.setProperty("key2", "value2");
         bean.setProperties(props);
-        JavaBeanDumper dumper = new JavaBeanDumper(false);
-        String output = dumper.dump(bean);
+        Yaml yaml = new Yaml();
+        String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-bean-1.yaml");
         assertEquals(etalon, output);

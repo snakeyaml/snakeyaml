@@ -21,9 +21,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -120,6 +124,33 @@ public class StrTagTest extends AbstractTest {
         String str = "\"xx\"";
         String output = dump(str);
         assertEquals("'" + str + "'\n", output);
+    }
+
+    /**
+     * http://pyyaml.org/ticket/196
+     */
+    public void testEmitQuoted() throws IOException {
+        List<String> list = new ArrayList<String>(3);
+        list.add("This is an 'example'.");
+        list.add("This is an \"example\".");
+        list.add("123");
+        String output = dump(list);
+        assertEquals("[This is an 'example'., This is an \"example\"., '123']\n", output);
+        // single quoted
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(ScalarStyle.SINGLE_QUOTED);
+        Yaml yaml = new Yaml(options);
+        String output2 = yaml.dump(list);
+        // System.out.println(output2);
+        assertEquals("- 'This is an ''example''.'\n- 'This is an \"example\".'\n- '123'\n", output2);
+        // double quoted
+        DumperOptions options2 = new DumperOptions();
+        options2.setDefaultScalarStyle(ScalarStyle.DOUBLE_QUOTED);
+        yaml = new Yaml(options2);
+        String output3 = yaml.dump(list);
+        // System.out.println(output2);
+        assertEquals("- \"This is an 'example'.\"\n- \"This is an \\\"example\\\".\"\n- \"123\"\n",
+                output3);
     }
 
     public void testEmitEndOfLine() throws IOException {

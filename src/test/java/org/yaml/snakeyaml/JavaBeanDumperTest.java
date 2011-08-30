@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.representer.Representer;
 
+@SuppressWarnings("deprecation")
 public class JavaBeanDumperTest extends TestCase {
 
     public void testDumpObjectWriter() {
@@ -59,14 +60,12 @@ public class JavaBeanDumperTest extends TestCase {
         DumpBean bean = new DumpBean();
         bean.setName("Name2");
         bean.setNumber(4);
-        JavaBeanDumper dumper = new JavaBeanDumper(new Representer(), new DumperOptions());
+        JavaBeanDumper dumper = new JavaBeanDumper();
         StringWriter buffer = new StringWriter();
         dumper.dump(bean, buffer);
-        assertEquals("!!org.yaml.snakeyaml.JavaBeanDumperTest$DumpBean {name: Name2, number: 4}\n",
-                buffer.toString());
+        assertEquals("name: Name2\nnumber: 4\n", buffer.toString());
         String output = dumper.dump(bean);
-        assertEquals("!!org.yaml.snakeyaml.JavaBeanDumperTest$DumpBean {name: Name2, number: 4}\n",
-                output);
+        assertEquals("name: Name2\nnumber: 4\n", output);
     }
 
     public void testDumpObjectNullRepresenter() {
