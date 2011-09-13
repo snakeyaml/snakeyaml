@@ -7,6 +7,9 @@
 	</properties>
 	<body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+             <action dev="py4fun" type="add">
+                Added a test for issue 132 (2011-09-13)
+             </action>
              <action dev="py4fun" type="update">
                 Finish 1.9 release (2011-08-15)
              </action>
