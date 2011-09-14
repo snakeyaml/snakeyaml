@@ -32,7 +32,7 @@ public class SerializerTest extends TestCase {
     private Serializer serializer;
 
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
         DumperOptions config = new DumperOptions();
         StringWriter writer = new StringWriter();
         serializer = new Serializer(new Emitter(writer, config), new Resolver(), config, null);

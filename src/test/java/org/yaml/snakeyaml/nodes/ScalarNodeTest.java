@@ -35,5 +35,4 @@ public class ScalarNodeTest extends TestCase {
         assertTrue(node.toString().contains("tag="));
         assertTrue(node.toString().contains("value="));
     }
-
 }

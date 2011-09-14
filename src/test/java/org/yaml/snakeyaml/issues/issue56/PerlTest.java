@@ -109,7 +109,7 @@ public class PerlTest extends TestCase {
     }
 
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
         CodeBean.counter = 0;
     }
 }

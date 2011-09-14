@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class InputOutputExceptionTest extends TestCase {
-    public void testIOExceptionOnLoad() throws Exception {
+    public void testIOExceptionOnLoad() {
         try {
             new Yaml().load(new BrokenInputStream());
             fail("Input must be broken.");
@@ -35,7 +35,7 @@ public class InputOutputExceptionTest extends TestCase {
         }
     }
 
-    public void testIOExceptionOnDump() throws Exception {
+    public void testIOExceptionOnDump() {
         try {
             new Yaml().dump("something", new BrokenWriter());
             fail("Output must be broken.");

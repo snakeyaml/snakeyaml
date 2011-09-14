@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class GenericListBeanTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void testGenericList() throws Exception {
+    public void testGenericList() {
         Yaml yaml = new Yaml();
         ListProvider<String> listProvider = new ListProvider<String>();
         listProvider.getList().add("foo");
@@ -43,7 +43,7 @@ public class GenericListBeanTest extends TestCase {
     }
 
     @SuppressWarnings("rawtypes")
-    public void testGenericBean() throws Exception {
+    public void testGenericBean() {
         Yaml yaml = new Yaml();
         ListProvider<Bean> listProvider = new ListProvider<Bean>();
         Bean foo = new Bean();

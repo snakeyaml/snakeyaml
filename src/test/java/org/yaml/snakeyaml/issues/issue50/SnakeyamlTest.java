@@ -64,7 +64,7 @@ public class SnakeyamlTest extends TestCase {
         }
     }
 
-    public void testIntrospector() throws Exception {
+    public void testIntrospector() {
         SomeBean someBean = new SomeBeanImpl("value1", "value2");
         Yaml dumper = new Yaml();
         String output = dumper.dump(someBean);

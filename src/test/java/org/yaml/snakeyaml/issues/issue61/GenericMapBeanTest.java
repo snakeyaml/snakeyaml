@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class GenericMapBeanTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void testGenericMap() throws Exception {
+    public void testGenericMap() {
         Yaml yaml = new Yaml();
         MapProvider<String, Integer> listProvider = new MapProvider<String, Integer>();
         listProvider.getMap().put("foo", 17);
@@ -43,7 +43,7 @@ public class GenericMapBeanTest extends TestCase {
     }
 
     @SuppressWarnings("rawtypes")
-    public void testGenericBean() throws Exception {
+    public void testGenericBean() {
         Yaml yaml = new Yaml();
         MapProvider<String, Bean> listProvider = new MapProvider<String, Bean>();
         Bean foo = new Bean();

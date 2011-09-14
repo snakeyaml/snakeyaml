@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 
 public class JavaBeanTimeStampTest extends TestCase {
-    public void testLoadDefaultJavaSqlTimestamp() throws Exception {
+    public void testLoadDefaultJavaSqlTimestamp() {
         JavaBeanWithSqlTimestamp javaBeanToDump = new JavaBeanWithSqlTimestamp();
         Timestamp stamp = new Timestamp(1000000000000L);
         javaBeanToDump.setTimestamp(stamp);
@@ -44,7 +44,7 @@ public class JavaBeanTimeStampTest extends TestCase {
         assertEquals(date, javaBeanToLoad.getDate());
     }
 
-    public void testLoadDefaultJavaSqlTimestampNoGlobalTag() throws Exception {
+    public void testLoadDefaultJavaSqlTimestampNoGlobalTag() {
         JavaBeanWithSqlTimestamp javaBeanToDump = new JavaBeanWithSqlTimestamp();
         Timestamp stamp = new Timestamp(1000000000000L);
         javaBeanToDump.setTimestamp(stamp);

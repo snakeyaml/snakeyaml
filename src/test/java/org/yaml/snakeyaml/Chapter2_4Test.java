@@ -119,7 +119,7 @@ public class Chapter2_4Test extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testExample_2_23_picture() throws Exception {
+    public void testExample_2_23_picture() {
         YamlDocument document = new YamlDocument("example2_23_picture.yaml", false);
         Map<String, Object> map = (Map<String, Object>) document.getNativeData();
         assertEquals(1, map.size());

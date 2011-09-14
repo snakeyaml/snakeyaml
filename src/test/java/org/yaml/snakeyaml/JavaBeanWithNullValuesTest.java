@@ -30,11 +30,11 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     private Yaml loader;
 
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
         loader = new Yaml();
     }
 
-    public void testNotNull() throws Exception {
+    public void testNotNull() {
         String dumpStr = dumpJavaBeanWithNullValues(false);
         // System.out.println(dumpStr);
         Yaml yaml = new Yaml();
@@ -61,7 +61,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         assertNotNull(parsed.getTimestamp());
     }
 
-    public void testNull() throws Exception {
+    public void testNull() {
         String dumpStr = dumpJavaBeanWithNullValues(true);
         Yaml yaml = new Yaml();
         JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
@@ -71,7 +71,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         assertNull(parsed.getString());
     }
 
-    public void testNullStringAndBoolean() throws Exception {
+    public void testNullStringAndBoolean() {
         JavaBeanWithNullValues javaBeanWithNullValues = new JavaBeanWithNullValues();
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
@@ -96,7 +96,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         assertNull(" expect null, got " + parsed.getString(), parsed.getString());
     }
 
-    public void testNoRootTag() throws Exception {
+    public void testNoRootTag() {
         JavaBeanWithNullValues javaBeanWithNullValues = new JavaBeanWithNullValues();
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
