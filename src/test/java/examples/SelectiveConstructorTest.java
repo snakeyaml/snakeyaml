@@ -16,7 +16,6 @@
 
 package examples;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +53,7 @@ public class SelectiveConstructorTest extends TestCase {
         }
     }
 
-    public void testConstructor() throws IOException {
+    public void testConstructor() {
         Yaml yaml = new Yaml(new SelectiveConstructor());
         List<?> data = (List<?>) yaml
                 .load("- 1\n- 2\n- !!examples.MyPersistentObject {amount: 222, id: persistent}");

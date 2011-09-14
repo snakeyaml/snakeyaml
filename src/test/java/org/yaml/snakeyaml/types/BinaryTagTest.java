@@ -30,7 +30,7 @@ public class BinaryTagTest extends AbstractTest {
     String line4 = "AgjoEwnuNAFOhpEMTRiggcz4BNJHrv/zCFcLiwMWYNG84BwwEeECcgggoBADs=";
     String content = line1 + line2 + line3 + line4;
 
-    public void testBinary() throws IOException {
+    public void testBinary() {
         byte[] binary = (byte[]) getMapValue("canonical: !!binary " + content, "canonical");
         assertEquals((byte) 'G', binary[0]);
         assertEquals((byte) 'I', binary[1]);
@@ -39,13 +39,13 @@ public class BinaryTagTest extends AbstractTest {
         assertEquals((byte) '9', binary[4]);
     }
 
-    public void testBinary2() throws IOException {
+    public void testBinary2() {
         byte[] binary = (byte[]) load("!!binary \"MQ==\"");
         assertEquals(1, binary.length);
         assertEquals((byte) '1', binary[0]);
     }
 
-    public void testBinaryTag() throws IOException {
+    public void testBinaryTag() {
         byte[] binary = (byte[]) getMapValue("canonical: !<tag:yaml.org,2002:binary> " + content,
                 "canonical");
         assertEquals((byte) 'G', binary[0]);
@@ -64,7 +64,7 @@ public class BinaryTagTest extends AbstractTest {
         assertEquals("canonical: !!binary |-\n  R0lGODkJYmkDAG5hcnkKH2ltYWdlCg==\n", output);
     }
 
-    public void testByteArray() throws IOException {
+    public void testByteArray() {
         byte[] data = { 8, 14, 15, 10, 126, 32, 65, 65, 65 };
         String output = dump(data);
         assertEquals("!!binary |-\n  CA4PCn4gQUFB\n", output);

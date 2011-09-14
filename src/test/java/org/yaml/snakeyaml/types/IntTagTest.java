@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +25,7 @@ import java.util.Map;
  */
 public class IntTagTest extends AbstractTest {
 
-    public void testInt() throws IOException {
+    public void testInt() {
         assertEquals(new Integer(685230), getMapValue("canonical: 685230", "canonical"));
         assertEquals(new Integer(685230), getMapValue("number: 685_230", "number"));
         assertEquals(new Integer(685230), getMapValue("decimal: +685230", "decimal"));
@@ -43,26 +42,25 @@ public class IntTagTest extends AbstractTest {
         assertEquals(Integer.MAX_VALUE, load(dump(Integer.MAX_VALUE)));
     }
 
-    public void testBigInt() throws IOException {
+    public void testBigInt() {
         assertEquals(new Long(922337203685477580L), load("922337203685477580"));
         assertEquals(new BigInteger("9223372036854775809999999999"),
                 load("9223372036854775809999999999"));
         assertEquals(Long.MIN_VALUE, load("-9223372036854775808"));
     }
 
-    public void testIntShorthand() throws IOException {
+    public void testIntShorthand() {
         assertEquals(new Integer(1), getMapValue("number: !!int 1", "number"));
     }
 
-    public void testIntTag() throws IOException {
+    public void testIntTag() {
         assertEquals(new Integer(1), getMapValue("number: !<tag:yaml.org,2002:int> 1", "number"));
     }
 
-    public void testIntOut() throws IOException {
+    public void testIntOut() {
         Map<String, Integer> map = new HashMap<String, Integer>();
         map.put("number", new Integer(1));
         String output = dump(map);
         assertTrue(output.contains("number: 1"));
     }
-
 }

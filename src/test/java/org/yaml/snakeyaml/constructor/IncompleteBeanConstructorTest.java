@@ -16,8 +16,6 @@
 
 package org.yaml.snakeyaml.constructor;
 
-import java.io.IOException;
-
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
@@ -26,7 +24,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 public class IncompleteBeanConstructorTest extends TestCase {
 
-    public void testRepresentor() throws IOException {
+    public void testRepresentor() {
         IncompleteJavaBean bean = new IncompleteJavaBean();
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
@@ -36,7 +34,7 @@ public class IncompleteBeanConstructorTest extends TestCase {
         assertEquals("!!" + className + ".IncompleteJavaBean {name: No name}\n", output);
     }
 
-    public void testConstructor() throws IOException {
+    public void testConstructor() {
         String className = "!!" + this.getClass().getPackage().getName()
                 + ".IncompleteJavaBean {number: 2}";
         Yaml yaml = new Yaml();
@@ -46,7 +44,7 @@ public class IncompleteBeanConstructorTest extends TestCase {
         assertEquals(2, bean.obtainNumber());
     }
 
-    public void testConstructor2() throws IOException {
+    public void testConstructor2() {
         String className = "!!" + this.getClass().getPackage().getName()
                 + ".IncompleteJavaBean {number: 2, name: Bill}";
         Yaml yaml = new Yaml();

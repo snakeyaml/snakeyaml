@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,7 @@ import junit.framework.TestCase;
 public class CollectionWithBeanYamlTest extends TestCase {
 
     @SuppressWarnings("unchecked")
-    public void testYamlMap() throws IOException {
+    public void testYamlMap() {
         Map<String, Bean> data = new TreeMap<String, Bean>();
         data.put("gold1", new Bean());
         data.put("gold2", new Bean());
@@ -46,7 +45,7 @@ public class CollectionWithBeanYamlTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testYamlList() throws IOException {
+    public void testYamlList() {
         List<Bean> data = new ArrayList<Bean>();
         data.add(new Bean("1"));
         data.add(new Bean("2"));

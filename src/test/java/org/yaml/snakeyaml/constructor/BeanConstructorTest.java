@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.constructor;
 
-import java.io.IOException;
 import java.math.BigInteger;
 
 import junit.framework.TestCase;
@@ -28,7 +27,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 public class BeanConstructorTest extends TestCase {
 
-    public void testPrimitivesConstructor() throws IOException {
+    public void testPrimitivesConstructor() {
         Yaml yaml = new Yaml(new Constructor(TestBean1.class));
         String document = Util.getLocalResource("constructor/test-primitives1.yaml");
         TestBean1 result = (TestBean1) yaml.load(document);
@@ -93,7 +92,7 @@ public class BeanConstructorTest extends TestCase {
         }
     }
 
-    public void testCharacter() throws IOException {
+    public void testCharacter() {
         Yaml yaml = new Yaml(new Constructor(TestBean1.class));
         String document = "charClass: id";
         try {
@@ -117,7 +116,7 @@ public class BeanConstructorTest extends TestCase {
         assertEquals(new Character('1'), bean.getCharClass());
     }
 
-    public void testNoEmptyConstructor() throws IOException {
+    public void testNoEmptyConstructor() {
         Yaml yaml = new Yaml(new Constructor(TestBean2.class));
         String document = "text: qwerty";
         try {
@@ -146,7 +145,7 @@ public class BeanConstructorTest extends TestCase {
         }
     }
 
-    public void testPrivateMethod() throws IOException {
+    public void testPrivateMethod() {
         // TODO: Are we sure no private ????
         Yaml yaml = new Yaml(new Constructor(TestBean2.class));
         String document = "text: qwerty";
@@ -158,7 +157,7 @@ public class BeanConstructorTest extends TestCase {
         }
     }
 
-    public void testKeyNotScalar() throws IOException {
+    public void testKeyNotScalar() {
         Yaml yaml = new Yaml(new Constructor(TestBean1.class));
         String document = "[1, 2]: qwerty";
         try {
@@ -169,7 +168,7 @@ public class BeanConstructorTest extends TestCase {
         }
     }
 
-    public void testInvalidKey() throws IOException {
+    public void testInvalidKey() {
         Yaml yaml = new Yaml(new Constructor(TestBean1.class));
         String document = "something: qwerty";
         try {
@@ -181,7 +180,7 @@ public class BeanConstructorTest extends TestCase {
         }
     }
 
-    public void testStaticField() throws IOException {
+    public void testStaticField() {
         Yaml yaml = new Yaml(new Constructor(TestBean1.class));
         String document = "staticInteger: 123";
         try {
@@ -193,7 +192,7 @@ public class BeanConstructorTest extends TestCase {
         }
     }
 
-    public void testScalarContructor() throws IOException {
+    public void testScalarContructor() {
         Yaml yaml = new Yaml(new Constructor(Parent1.class));
         String document = "id: 123\nchild: 25";
         Parent1 parent = (Parent1) yaml.load(document);
@@ -202,7 +201,7 @@ public class BeanConstructorTest extends TestCase {
         assertEquals(new Integer(25), child.getCode());
     }
 
-    public void testScalarContructorException() throws IOException {
+    public void testScalarContructorException() {
         Yaml yaml = new Yaml(new Constructor(ExceptionParent.class));
         String document = "id: 123\nchild: 25";
         try {

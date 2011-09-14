@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,7 +27,7 @@ import java.util.TimeZone;
  */
 public class TimestampTagTest extends AbstractTest {
 
-    public void testTimestamp() throws IOException {
+    public void testTimestamp() {
         assertEquals("2001-12-15 at 2:59:43 (100)",
                 getText("canonical: 2001-12-15T02:59:43.1Z", "canonical"));
         // zero miliseconds
@@ -60,16 +59,16 @@ public class TimestampTagTest extends AbstractTest {
                 getText("milliseconds: 2010-05-16 03:06:11.0250", "milliseconds"));
     }
 
-    public void testTimestampShorthand() throws IOException {
+    public void testTimestampShorthand() {
         assertTrue(getMapValue("canonical: !!timestamp 2001-12-15T02:59:43.1Z", "canonical") instanceof Date);
     }
 
-    public void testTimestampTag() throws IOException {
+    public void testTimestampTag() {
         assertTrue(getMapValue("canonical: !<tag:yaml.org,2002:timestamp> 2001-12-15T02:59:43.1Z",
                 "canonical") instanceof Date);
     }
 
-    public void testTimestampOut() throws IOException {
+    public void testTimestampOut() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"));
         cal.clear();
         cal.set(2008, 8, 23, 14, 35, 4);
@@ -78,7 +77,7 @@ public class TimestampTagTest extends AbstractTest {
         assertEquals("2008-09-23T10:35:04Z\n", output);
     }
 
-    public void testTimestampOutMap() throws IOException {
+    public void testTimestampOutMap() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"));
         cal.clear();
         cal.set(2008, 8, 23, 14, 35, 4);
@@ -107,7 +106,7 @@ public class TimestampTagTest extends AbstractTest {
         return result;
     }
 
-    public void testTimestampReadWrite() throws IOException {
+    public void testTimestampReadWrite() {
         Date date = (Date) getMapValue("Time: 2001-11-23 15:01:42 -5", "Time");
         Map<String, Date> map = new HashMap<String, Date>();
         map.put("canonical", date);
@@ -115,7 +114,7 @@ public class TimestampTagTest extends AbstractTest {
         assertEquals("{canonical: !!timestamp '2001-11-23T20:01:42Z'}\n", output);
     }
 
-    public void testSqlDate() throws IOException {
+    public void testSqlDate() {
         java.sql.Date date = new java.sql.Date(1000000000000L);
         Map<String, java.sql.Date> map = new HashMap<String, java.sql.Date>();
         map.put("canonical", date);

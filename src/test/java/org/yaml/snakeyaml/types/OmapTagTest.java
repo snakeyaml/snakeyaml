@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.yaml.snakeyaml.YamlDocument;
@@ -27,7 +26,7 @@ import org.yaml.snakeyaml.YamlDocument;
 public class OmapTagTest extends AbstractTest {
 
     @SuppressWarnings("unchecked")
-    public void testOmap() throws IOException {
+    public void testOmap() {
         YamlDocument document = new YamlDocument("types/omap.yaml");
         Map<String, Map<String, String>> map = (Map<String, Map<String, String>>) document
                 .getNativeData();

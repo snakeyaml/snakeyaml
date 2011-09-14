@@ -16,8 +16,6 @@
 
 package org.yaml.snakeyaml.issues.issue29;
 
-import java.io.IOException;
-
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
@@ -28,7 +26,7 @@ import org.yaml.snakeyaml.emitter.ScalarAnalysis;
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=29
  */
 public class FlexibleScalarStyleTest extends TestCase {
-    public void testLong() throws IOException {
+    public void testLong() {
         Yaml yaml = new Yaml(new MyOptions());
         String result = yaml
                 .dump("qqqqqqqqqqqqqqqqqq qqqqqqqqqqqqqqqqqqqqqqqqq qqqqqqqqqqqqqqqqqqqqqqqq "
@@ -39,7 +37,7 @@ public class FlexibleScalarStyleTest extends TestCase {
         assertTrue(result.startsWith(">\n"));
     }
 
-    public void testShort() throws IOException {
+    public void testShort() {
         Yaml yaml = new Yaml(new MyOptions());
         String result = yaml.dump("qqqqqqqqqqqqqqqqqq");
         // System.out.println(result);

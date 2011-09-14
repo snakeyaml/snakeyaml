@@ -16,7 +16,6 @@
 
 package examples;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -26,7 +25,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CustomMapExampleTest extends TestCase {
-    public void testMap() throws IOException {
+    public void testMap() {
         Yaml yaml = new Yaml(new CustomConstructor());
         @SuppressWarnings("unchecked")
         Map<Integer, String> data = (Map<Integer, String>) yaml

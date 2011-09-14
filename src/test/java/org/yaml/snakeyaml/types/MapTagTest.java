@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.yaml.snakeyaml.YamlDocument;
@@ -27,7 +26,7 @@ import org.yaml.snakeyaml.YamlDocument;
 public class MapTagTest extends AbstractTest {
 
     @SuppressWarnings("unchecked")
-    public void testMap() throws IOException {
+    public void testMap() {
         YamlDocument document = new YamlDocument("types/map.yaml");
         Map<String, Map<String, String>> map = (Map<String, Map<String, String>>) document
                 .getNativeData();
@@ -49,7 +48,7 @@ public class MapTagTest extends AbstractTest {
     }
 
     @SuppressWarnings("unchecked")
-    public void testMapYaml11() throws IOException {
+    public void testMapYaml11() {
         YamlDocument document = new YamlDocument("types/map_mixed_tags.yaml");
         Map<String, Map<String, String>> map = (Map<String, Map<String, String>>) document
                 .getNativeData();

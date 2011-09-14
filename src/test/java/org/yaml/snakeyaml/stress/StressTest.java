@@ -38,11 +38,11 @@ public class StressTest extends TestCase {
         return new TestSuite(StressTest.class);
     }
 
-    public void setUp() throws IOException {
+    public void setUp() {
         doc = Util.getLocalResource("specification/example2_27.yaml");
     }
 
-    public void testPerformance() throws IOException {
+    public void testPerformance() {
         long time1 = System.nanoTime();
         new Yaml(new Constructor(Invoice.class));
         long time2 = System.nanoTime();

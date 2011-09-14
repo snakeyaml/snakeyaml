@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ import org.yaml.snakeyaml.YamlDocument;
 public class PairsTagTest extends AbstractTest {
 
     @SuppressWarnings("unchecked")
-    public void testPairs() throws IOException {
+    public void testPairs() {
         YamlDocument document = new YamlDocument("types/pairs.yaml", false);
         Map<String, List<String[]>> map = (Map<String, List<String[]>>) document.getNativeData();
         assertEquals(2, map.size());

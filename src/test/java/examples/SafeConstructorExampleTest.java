@@ -16,7 +16,6 @@
 
 package examples;
 
-import java.io.IOException;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -26,7 +25,7 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 public class SafeConstructorExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void testConstruct() throws IOException {
+    public void testConstruct() {
         String doc = "- 5\n- Person\n- true";
         Yaml yaml = new Yaml(new SafeConstructor());
         List<Object> list = (List<Object>) yaml.load(doc);
@@ -36,7 +35,7 @@ public class SafeConstructorExampleTest extends TestCase {
         assertEquals(Boolean.TRUE, list.get(2));
     }
 
-    public void testSafeConstruct() throws IOException {
+    public void testSafeConstruct() {
         String doc = "- 5\n- !org.yaml.snakeyaml.constructor.Person\n  firstName: Andrey\n  age: 99\n- true";
         Yaml yaml = new Yaml(new SafeConstructor());
         try {

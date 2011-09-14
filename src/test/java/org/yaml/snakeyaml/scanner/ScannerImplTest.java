@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.scanner;
 
-import java.io.IOException;
 import java.util.LinkedList;
 
 import junit.framework.TestCase;
@@ -56,7 +55,7 @@ public class ScannerImplTest extends TestCase {
                 scanner.checkToken(new Token.ID[0]));
     }
 
-    public void testWrongTab() throws IOException {
+    public void testWrongTab() {
         Yaml yaml = new Yaml();
         try {
             yaml.load("\t  data: 1");

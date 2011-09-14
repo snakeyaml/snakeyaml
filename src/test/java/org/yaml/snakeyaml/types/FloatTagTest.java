@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ import java.util.Map;
  */
 public class FloatTagTest extends AbstractTest {
 
-    public void testFloat() throws IOException {
+    public void testFloat() {
         assertEquals(new Double(6.8523015e+5), getMapValue("canonical: 6.8523015e+5", "canonical"));
         assertEquals(new Double(6.8523015e+5),
                 getMapValue("exponentioal: 685.230_15e+03", "exponentioal"));
@@ -37,15 +36,15 @@ public class FloatTagTest extends AbstractTest {
         assertEquals(Double.NaN, getMapValue("not a number: .NaN", "not a number"));
     }
 
-    public void testFloatShorthand() throws IOException {
+    public void testFloatShorthand() {
         assertEquals(new Double(1), getMapValue("number: !!float 1", "number"));
     }
 
-    public void testFloatTag() throws IOException {
+    public void testFloatTag() {
         assertEquals(new Double(1), getMapValue("number: !<tag:yaml.org,2002:float> 1", "number"));
     }
 
-    public void testFloatOut() throws IOException {
+    public void testFloatOut() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("number", new Double(1));
         String output = dump(map);
@@ -69,7 +68,7 @@ public class FloatTagTest extends AbstractTest {
     /**
      * to test http://code.google.com/p/snakeyaml/issues/detail?id=130
      */
-    public void testScientificFloatWithoutDecimalDot() throws IOException {
+    public void testScientificFloatWithoutDecimalDot() {
         assertEquals(new Double(8e-06), load("8e-06"));
         assertEquals(new Double(8e06), load("8e06"));
         assertEquals(new Double(8e06), load("8e+06"));

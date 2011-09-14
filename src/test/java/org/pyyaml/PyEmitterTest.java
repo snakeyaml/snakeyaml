@@ -44,19 +44,19 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
  * @see imported from PyYAML
  */
 public class PyEmitterTest extends PyImportTest {
-    public void testEmitterOnData() throws IOException {
+    public void testEmitterOnData() {
         _testEmitter(".data", false);
     }
 
-    public void testEmitterOnCanonicalNormally() throws IOException {
+    public void testEmitterOnCanonicalNormally() {
         _testEmitter(".canonical", false);
     }
 
-    public void testEmitterOnCanonicalCanonically() throws IOException {
+    public void testEmitterOnCanonicalCanonically() {
         _testEmitter(".canonical", true);
     }
 
-    private void _testEmitter(String mask, boolean canonical) throws IOException {
+    private void _testEmitter(String mask, boolean canonical) {
         File[] files = getStreamsByExtension(mask, true);
         assertTrue("No test files found.", files.length > 0);
         for (File file : files) {
@@ -119,7 +119,7 @@ public class PyEmitterTest extends PyImportTest {
         }
     }
 
-    public void testEmitterStyles() throws IOException {
+    public void testEmitterStyles() {
         File[] canonicalFiles = getStreamsByExtension(".canonical", false);
         assertTrue("No test files found.", canonicalFiles.length > 0);
         File[] dataFiles = getStreamsByExtension(".data", true);
@@ -219,7 +219,7 @@ public class PyEmitterTest extends PyImportTest {
     }
 
     @SuppressWarnings("unchecked")
-    public void testEmitterEvents() throws IOException {
+    public void testEmitterEvents() {
         File[] files = getStreamsByExtension(".events", false);
         assertTrue("No test files found.", files.length > 0);
         for (File file : files) {
@@ -266,8 +266,10 @@ public class PyEmitterTest extends PyImportTest {
                     if (event instanceof ScalarEvent) {
                         ScalarEvent e1 = (ScalarEvent) event;
                         ScalarEvent e2 = (ScalarEvent) newEvent;
-                        if (e1.getImplicit().canOmitTagInPlainScalar() == e2.getImplicit().canOmitTagInPlainScalar()
-                                && e1.getImplicit().canOmitTagInNonPlainScalar() == e2.getImplicit().canOmitTagInNonPlainScalar()) {
+                        if (e1.getImplicit().canOmitTagInPlainScalar() == e2.getImplicit()
+                                .canOmitTagInPlainScalar()
+                                && e1.getImplicit().canOmitTagInNonPlainScalar() == e2
+                                        .getImplicit().canOmitTagInNonPlainScalar()) {
 
                         } else {
                             if ((e1.getTag() == null || e2.getTag() == null)

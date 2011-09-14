@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -145,7 +144,7 @@ public class Chapter2_4Test extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testExample_2_23() throws IOException {
+    public void testExample_2_23() {
         YamlDocument document = new YamlDocument("example2_23.yaml", false,
                 new SomethingConstructor());
         Map<String, Object> map = (Map<String, Object>) document.getNativeData();

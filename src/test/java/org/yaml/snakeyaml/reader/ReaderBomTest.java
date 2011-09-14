@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 
 public class ReaderBomTest extends TestCase {
 
-    public void testReader() throws IOException {
+    public void testReader() {
         Reader input = new StringReader("test");
         StreamReader reader = new StreamReader(input);
         assertEquals('t', reader.peek());

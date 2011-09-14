@@ -16,7 +16,6 @@
 
 package examples;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class AnyObjectExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void testLoad() throws IOException {
+    public void testLoad() {
         String doc = Util.getLocalResource("examples/any-object-example.yaml");
         Yaml yaml = new Yaml();
         Map<String, Object> object = (Map<String, Object>) yaml.load(doc);

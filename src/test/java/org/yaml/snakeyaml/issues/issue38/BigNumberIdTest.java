@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.issues.issue38;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class BigNumberIdTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void testBigNumberFormat() throws IOException {
+    public void testBigNumberFormat() {
         List<Bean> list = new ArrayList<Bean>(2000);
         for (int i = 1; i < 1010; i++) {
             Bean value = new Bean(i);

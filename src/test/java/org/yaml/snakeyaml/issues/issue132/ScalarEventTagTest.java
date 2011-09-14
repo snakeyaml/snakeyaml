@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.issues.issue132;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ import org.yaml.snakeyaml.nodes.Node;
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=132
  */
 public class ScalarEventTagTest extends TestCase {
-    public void testLoad() throws IOException {
+    public void testLoad() {
         Yaml yaml = new Yaml();
         Iterable<Event> parsed = yaml.parse(new StringReader("5"));
         List<Event> events = new ArrayList<Event>(5);
@@ -44,7 +43,7 @@ public class ScalarEventTagTest extends TestCase {
         assertNull("The tag should not be specified: " + tag, tag);
     }
 
-    public void testDump() throws IOException {
+    public void testDump() {
         Yaml yaml = new Yaml();
         Node intNode = yaml.represent(7);
         assertEquals("tag:yaml.org,2002:int", intNode.getTag().toString());

@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
@@ -35,7 +34,7 @@ public class ValueTagTest extends AbstractTest {
      * as in PyYAML
      */
     @SuppressWarnings("unchecked")
-    public void testValue() throws IOException {
+    public void testValue() {
         InputStream input = YamlDocument.class.getClassLoader().getResourceAsStream(
                 YamlDocument.ROOT + "types/value.yaml");
         Yaml yaml = new Yaml();

@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -68,7 +67,7 @@ public class Chapter2_3Test extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testExample_2_17() throws IOException {
+    public void testExample_2_17() {
         YamlDocument document = new YamlDocument("example2_17.yaml", false);
         Map<String, String> map = (Map<String, String>) document.getNativeData();
         assertEquals(map.toString(), 6, map.size());
@@ -123,7 +122,7 @@ public class Chapter2_3Test extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testExample_2_18() throws IOException {
+    public void testExample_2_18() {
         YamlDocument document = new YamlDocument("example2_18.yaml");
         Map<String, String> map = (Map<String, String>) document.getNativeData();
         assertEquals(map.toString(), 2, map.size());

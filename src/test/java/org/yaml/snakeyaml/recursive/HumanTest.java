@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.recursive;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,7 +37,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 public class HumanTest extends TestCase {
 
-    public void testNoChildren() throws IOException {
+    public void testNoChildren() {
         Human father = new Human();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -64,7 +63,7 @@ public class HumanTest extends TestCase {
         assertSame(father2, father2.getBankAccountOwner());
     }
 
-    public void testNoChildrenPretty() throws IOException {
+    public void testNoChildrenPretty() {
         Human father = new Human();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -93,7 +92,7 @@ public class HumanTest extends TestCase {
         assertSame(father2, father2.getBankAccountOwner());
     }
 
-    public void testChildren() throws IOException {
+    public void testChildren() {
         Human father = new Human();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -163,7 +162,7 @@ public class HumanTest extends TestCase {
         validateSet(children2);
     }
 
-    public void testChildrenPretty() throws IOException {
+    public void testChildrenPretty() {
         Human father = new Human();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -236,7 +235,7 @@ public class HumanTest extends TestCase {
         validateSet(children2);
     }
 
-    public void testChildren2() throws IOException {
+    public void testChildren2() {
         Human2 father = new Human2();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -303,7 +302,7 @@ public class HumanTest extends TestCase {
         validateMapKeys(children2);
     }
 
-    public void testChildren3() throws IOException {
+    public void testChildren3() {
         Human3 father = new Human3();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -378,7 +377,7 @@ public class HumanTest extends TestCase {
      * of children
      */
     @SuppressWarnings("unchecked")
-    public void testChildrenSetAsRoot() throws IOException {
+    public void testChildrenSetAsRoot() {
         String etalon = Util.getLocalResource("recursive/with-children-as-set.yaml");
 
         Constructor constructor = new Constructor();
@@ -415,7 +414,7 @@ public class HumanTest extends TestCase {
      * of children
      */
     @SuppressWarnings("unchecked")
-    public void testChildrenMapAsRoot() throws IOException {
+    public void testChildrenMapAsRoot() {
         String etalon = Util.getLocalResource("recursive/with-children-as-map.yaml");
 
         Constructor constructor = new Constructor();
@@ -448,7 +447,7 @@ public class HumanTest extends TestCase {
      * of children
      */
     @SuppressWarnings("unchecked")
-    public void testChildrenListRoot() throws IOException {
+    public void testChildrenListRoot() {
         Human3 father = new Human3();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -517,7 +516,7 @@ public class HumanTest extends TestCase {
         }
     }
 
-    public void testBeanRing() throws IOException {
+    public void testBeanRing() {
         Human man1 = new Human();
         man1.setName("Man 1");
         Human man2 = new Human();
@@ -542,7 +541,7 @@ public class HumanTest extends TestCase {
         assertSame(loadedMan1, loadedMan3.getBankAccountOwner());
     }
 
-    public void qtestCollectionRing() throws IOException {
+    public void qtestCollectionRing() {
         // Set<Object> set = new HashSet<Object>();
         // List<Object> list = new ArrayList<Object>();
         // Map<Object, Object> map = new HashMap<Object, Object>();
@@ -588,7 +587,7 @@ public class HumanTest extends TestCase {
         }
     }
 
-    public void testChildrenWithoutRootTag() throws IOException {
+    public void testChildrenWithoutRootTag() {
         Human father = new Human();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));

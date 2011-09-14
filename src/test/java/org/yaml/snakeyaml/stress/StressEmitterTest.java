@@ -16,8 +16,6 @@
 
 package org.yaml.snakeyaml.stress;
 
-import java.io.IOException;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -36,7 +34,7 @@ public class StressEmitterTest extends TestCase {
         return new TestSuite(StressEmitterTest.class);
     }
 
-    public void testPerformance() throws IOException {
+    public void testPerformance() {
         Yaml loader = new Yaml();
         Invoice invoice = loader.loadAs(Util.getLocalResource("specification/example2_27.yaml"),
                 Invoice.class);

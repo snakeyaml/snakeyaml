@@ -16,8 +16,6 @@
 
 package org.yaml.snakeyaml.issues.issue52;
 
-import java.io.IOException;
-
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
@@ -29,7 +27,7 @@ import org.yaml.snakeyaml.Yaml;
  *      href="http://code.google.com/p/snakeyaml/issues/detail?id=52">Issue</a>
  */
 public class LineBreakDooubleQuotedTest extends TestCase {
-    public void testDoubleQuotedStyle() throws IOException {
+    public void testDoubleQuotedStyle() {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(ScalarStyle.DOUBLE_QUOTED);
         options.setWidth(20);

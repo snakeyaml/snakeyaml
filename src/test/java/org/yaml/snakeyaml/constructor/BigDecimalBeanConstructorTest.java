@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.constructor;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 import junit.framework.TestCase;
@@ -25,7 +24,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class BigDecimalBeanConstructorTest extends TestCase {
 
-    public void testRepresentor() throws IOException {
+    public void testRepresentor() {
         BigDecimalJavaBean bean = new BigDecimalJavaBean();
         bean.setAmount(1.5f);
         bean.setNumber(new BigDecimal("3.1416"));
@@ -36,7 +35,7 @@ public class BigDecimalBeanConstructorTest extends TestCase {
                 output);
     }
 
-    public void testConstructor() throws IOException {
+    public void testConstructor() {
         String className = "!!" + this.getClass().getPackage().getName()
                 + ".BigDecimalJavaBean {amount: 1.5, number: 3.1416}";
         Yaml yaml = new Yaml();
@@ -46,7 +45,7 @@ public class BigDecimalBeanConstructorTest extends TestCase {
         assertTrue((new BigDecimal("3.1416")).add(bean.getNumber().negate()).doubleValue() < 0.0000001);
     }
 
-    public void testConstructorAtomic() throws IOException {
+    public void testConstructorAtomic() {
         String className = "!!" + this.getClass().getPackage().getName()
                 + ".AtomicJavaBean {amount: 1.5, atomic: 0}";
         Yaml yaml = new Yaml();

@@ -17,8 +17,8 @@
 package org.yaml.snakeyaml.types;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -38,19 +38,19 @@ public class StrTagTest extends AbstractTest {
         return (String) getMapValue(data, key);
     }
 
-    public void testString() throws IOException {
+    public void testString() {
         assertEquals("abcd", getData("string: abcd", "string"));
     }
 
-    public void testStringShorthand() throws IOException {
+    public void testStringShorthand() {
         assertEquals("abcd", getData("string: !!str abcd", "string"));
     }
 
-    public void testStringTag() throws IOException {
+    public void testStringTag() {
         assertEquals("abcd", getData("string: !<tag:yaml.org,2002:str> abcd", "string"));
     }
 
-    public void testUnicode() throws IOException {
+    public void testUnicode() {
         // escaped 8-bit unicode character (u-umlaut):
         assertEquals("\u00fc", load("\"\\xfc\""));
         assertEquals("\\xfc", load("\\xfc"));
@@ -108,19 +108,19 @@ public class StrTagTest extends AbstractTest {
         assertTrue(output, output.contains("number: 'True'"));
     }
 
-    public void testEmitLongString() throws IOException {
+    public void testEmitLongString() {
         String str = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
         String output = dump(str);
         assertEquals(str + "\n", output);
     }
 
-    public void testEmitLongStringWithCR() throws IOException {
+    public void testEmitLongStringWithCR() {
         String str = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n";
         String output = dump(str);
         assertEquals("'" + str + "\n  '\n", output);
     }
 
-    public void testEmitDoubleQuoted() throws IOException {
+    public void testEmitDoubleQuoted() {
         String str = "\"xx\"";
         String output = dump(str);
         assertEquals("'" + str + "'\n", output);
@@ -129,7 +129,7 @@ public class StrTagTest extends AbstractTest {
     /**
      * http://pyyaml.org/ticket/196
      */
-    public void testEmitQuoted() throws IOException {
+    public void testEmitQuoted() {
         List<String> list = new ArrayList<String>(3);
         list.add("This is an 'example'.");
         list.add("This is an \"example\".");
@@ -153,13 +153,13 @@ public class StrTagTest extends AbstractTest {
                 output3);
     }
 
-    public void testEmitEndOfLine() throws IOException {
+    public void testEmitEndOfLine() {
         String str = "xxxxxxx\n";
         String output = dump(str);
         assertEquals("'" + str + "\n  '\n", output);
     }
 
-    public void testDumpUtf16() throws IOException {
+    public void testDumpUtf16() throws UnsupportedEncodingException {
         String str = "xxx";
         assertEquals(3, str.toString().length());
         Yaml yaml = new Yaml();

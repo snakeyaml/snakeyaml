@@ -16,7 +16,6 @@
 
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ import org.yaml.snakeyaml.YamlDocument;
 public class MergeTagTest extends AbstractTest {
 
     @SuppressWarnings("unchecked")
-    public void testMerge() throws IOException {
+    public void testMerge() {
         YamlDocument document = new YamlDocument("types/merge.yaml");
         List<Object> list = (List<Object>) document.getNativeData();
         assertEquals(8, list.size());

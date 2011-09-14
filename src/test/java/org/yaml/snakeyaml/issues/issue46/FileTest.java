@@ -17,7 +17,6 @@
 package org.yaml.snakeyaml.issues.issue46;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ import org.yaml.snakeyaml.representer.Representer;
  */
 public class FileTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void test() throws IOException {
+    public void test() {
         File file = new File("src/test/resources/examples/list-bean-1.yaml");
         assertTrue(file.exists());
         Yaml yaml = new Yaml(new MyRepresenter());
