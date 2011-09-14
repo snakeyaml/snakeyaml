@@ -33,20 +33,23 @@ public class StackOverflowTest extends TestCase {
     public void testDumpRecursiveObject() {
         try {
             Yaml yaml = new Yaml();
+            // by default it must fail with StackOverflow
             yaml.dump(new Point());
-            fail("getLocation() is recursive");
+            fail("getLocation() is recursive.");
         } catch (Throwable e) {
-            assertNull("StackOverflow has no message.", e.getMessage());
+            assertNull("StackOverflow has no message: " + e.getMessage(), e.getMessage());
         }
     }
 
-    public void testDump() {
-        Yaml yaml = new Yaml(new PointRepresenter());
-        String output = yaml.dump(new Point());
-        assertEquals("!!java.awt.Point {x: 0, y: 0}\n", output);
-    }
-
-    class PointRepresenter extends Representer {
+    /**
+     * Since Point.getLocation() creates a new instance of Point class,
+     * SnakeYAML will fail to dump an instance of Point if 'getLocation()' is
+     * also included.
+     * 
+     * Since Point is not really a JavaBean, we can safely skip the recursive
+     * property when we dump the instance of Point.
+     */
+    private class PointRepresenter extends Representer {
 
         @Override
         protected NodeTuple representJavaBeanProperty(Object javaBean, Property property,
@@ -58,5 +61,11 @@ public class StackOverflowTest extends TestCase {
                         .representJavaBeanProperty(javaBean, property, propertyValue, customTag);
             }
         }
+    }
+
+    public void testDump() {
+        Yaml yaml = new Yaml(new PointRepresenter());
+        String output = yaml.dump(new Point());
+        assertEquals("!!java.awt.Point {x: 0, y: 0}\n", output);
     }
 }
