@@ -8,10 +8,13 @@
 	<body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
              <action dev="py4fun" type="add">
-                Added example how to dump recursive object for issue 133 (2011-09-14)
+                An example added: how to dump multiline literal scalars (2011-10-04)
              </action>
              <action dev="py4fun" type="add">
-                Added a test for issue 132 (2011-09-13)
+                An example added: how to dump recursive object for issue 133 (2011-09-14)
+             </action>
+             <action dev="py4fun" type="add">
+                A test added for issue 132 (2011-09-13)
              </action>
              <action dev="py4fun" type="update">
                 Finish 1.9 release (2011-08-15)

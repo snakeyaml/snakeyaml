@@ -20,6 +20,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 
 public class EmitterMultiLineTest extends TestCase {
@@ -35,14 +37,62 @@ public class EmitterMultiLineTest extends TestCase {
         assertEquals(plain, parsed);
     }
 
-    public void testWriteMultiLineLiteral() {
-        String source = "a: 1\nb: |-\n  mama\n  mila\n  ramu\n";
+    public void testWriteMultiLineLiteralNoChomping() {
+        String source = "a: 1\nb: |\n  mama\n  mila\n  ramu\n";
         // System.out.println("Source:\n" + source);
-        Yaml yaml = new Yaml();
+        DumperOptions options = new MyOptions();
+        Yaml yaml = new Yaml(options);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> parsed = (Map<String, Object>) yaml.load(source);
+        String value = (String) parsed.get("b");
+        // System.out.println(value);
+        assertEquals("mama\nmila\nramu\n", value);
+        String dumped = yaml.dump(parsed);
+        // System.out.println(dumped);
+        assertEquals("{a: 1, b: |\n    mama\n    mila\n    ramu\n}\n", dumped);
+    }
+
+    public void testWriteMultiLineSingleQuotedInFlowContext() {
+        String source = "{a: 1, b: 'mama\n\n    mila\n\n    ramu'}\n";
+        // System.out.println("Source:\n" + source);
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(FlowStyle.FLOW);
+        Yaml yaml = new Yaml(options);
         @SuppressWarnings("unchecked")
         Map<String, Object> parsed = (Map<String, Object>) yaml.load(source);
         String value = (String) parsed.get("b");
         // System.out.println(value);
         assertEquals("mama\nmila\nramu", value);
+        String dumped = yaml.dump(parsed);
+        // System.out.println(dumped);
+        assertEquals(source, dumped);
+    }
+
+    public void testWriteMultiLineLiteralWithStripChomping() {
+        String source = "a: 1\nb: |-\n  mama\n  mila\n  ramu\n";
+        // System.out.println("Source:\n" + source);
+        DumperOptions options = new MyOptions();
+        options.setDefaultFlowStyle(FlowStyle.BLOCK);
+        Yaml yaml = new Yaml(options);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> parsed = (Map<String, Object>) yaml.load(source);
+        String value = (String) parsed.get("b");
+        // System.out.println(value);
+        assertEquals("mama\nmila\nramu", value);
+        String dumped = yaml.dump(parsed);
+        // System.out.println(dumped);
+        assertEquals(source, dumped);
+    }
+
+    private class MyOptions extends DumperOptions {
+        @Override
+        public DumperOptions.ScalarStyle calculateScalarStyle(ScalarAnalysis analysis,
+                DumperOptions.ScalarStyle style) {
+            if (analysis.scalar.length() > 8) {
+                return ScalarStyle.LITERAL;
+            } else {
+                return super.calculateScalarStyle(analysis, style);
+            }
+        }
     }
 }
