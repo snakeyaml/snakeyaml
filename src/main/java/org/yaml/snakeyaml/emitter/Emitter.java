@@ -1044,9 +1044,9 @@ public final class Emitter implements Emitable {
             allowFlowPlain = allowBlockPlain = allowSingleQuoted = allowBlock = false;
         }
         // Although the plain scalar writer supports breaks, we never emit
-        // multiline plain scalars.
+        // multiline plain scalars in the flow context.
         if (lineBreaks) {
-            allowFlowPlain = allowBlockPlain = false;
+            allowFlowPlain = false;
         }
         // Flow indicators are forbidden for flow plain scalars.
         if (flowIndicators) {

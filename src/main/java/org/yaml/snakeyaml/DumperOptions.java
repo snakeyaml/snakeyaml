@@ -31,6 +31,7 @@ public class DumperOptions {
      * double-quoted style. These styles offer a range of trade-offs between
      * expressive power and readability.
      * 
+     * @see http://yaml.org/spec/1.1/#id903915
      * @see http://yaml.org/spec/1.1/#id858081
      */
     public enum ScalarStyle {

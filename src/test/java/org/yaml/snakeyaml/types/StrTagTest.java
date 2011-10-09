@@ -117,7 +117,7 @@ public class StrTagTest extends AbstractTest {
     public void testEmitLongStringWithCR() {
         String str = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n";
         String output = dump(str);
-        assertEquals("'" + str + "\n  '\n", output);
+        assertEquals("|+\n  " + str, output);
     }
 
     public void testEmitDoubleQuoted() {
@@ -156,7 +156,7 @@ public class StrTagTest extends AbstractTest {
     public void testEmitEndOfLine() {
         String str = "xxxxxxx\n";
         String output = dump(str);
-        assertEquals("'" + str + "\n  '\n", output);
+        assertEquals("|\n  " + str, output);
     }
 
     public void testDumpUtf16() throws UnsupportedEncodingException {

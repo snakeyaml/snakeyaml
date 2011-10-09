@@ -62,7 +62,7 @@ public class EmitterTest extends TestCase {
         map.put("bbb", "\nbla-bla");
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
-        String etalon = "{aaa: '0123456789 0123456789\n\n    0123456789 0123456789', bbb: '\n\n    bla-bla'}\n";
+        String etalon = "aaa: |-\n  0123456789 0123456789\n  0123456789 0123456789\nbbb: |2-\n\n  bla-bla\n";
         assertEquals(etalon, output);
     }
 
@@ -78,7 +78,7 @@ public class EmitterTest extends TestCase {
 
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
-        String etalon = "{\n  aaa: '0123456789 0123456789\n\n    0123456789 0123456789',\n  bbb: '\n\n    bla-bla'\n}\n";
+        String etalon = "aaa: |-\n  0123456789 0123456789\n  0123456789 0123456789\nbbb: |2-\n\n  bla-bla\n";
         assertEquals(etalon, output);
     }
 

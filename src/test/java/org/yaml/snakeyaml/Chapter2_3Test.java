@@ -21,6 +21,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
+
 /**
  * Test Chapter 2.3 from the YAML specification
  * 
@@ -45,13 +47,15 @@ public class Chapter2_3Test extends TestCase {
         String etalon = "Sammy Sosa completed another fine season with great stats.\n\n  63 Home Runs\n  0.288 Batting Average\n\nWhat a year!\n";
         InputStream input = YamlDocument.class.getClassLoader().getResourceAsStream(
                 YamlDocument.ROOT + "example2_15.yaml");
-        Yaml yaml = new Yaml();
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(ScalarStyle.FOLDED);
+        Yaml yaml = new Yaml(options);
         String data = (String) yaml.load(input);
         assertEquals(etalon, data);
         //
         String dumped = yaml.dump(data);
-        assertTrue(dumped.contains("Sammy Sosa completed another fine season with great stats"));
-        assertEquals("Must be splitted into 2 lines.", 2, dumped.split("\n").length);
+        String etalonDumped = Util.getLocalResource("specification/example2_15_dumped.yaml");
+        assertEquals(etalonDumped, dumped);
     }
 
     @SuppressWarnings("unchecked")

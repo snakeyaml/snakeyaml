@@ -47,7 +47,7 @@ public class ScalarNode extends Node {
      * Get scalar style of this node.
      * 
      * @see org.yaml.snakeyaml.events.ScalarEvent
-     * @see http://yaml.org/spec/1.1/#id864487
+     * @see http://yaml.org/spec/1.1/#id903915
      * @return
      */
     public Character getStyle() {

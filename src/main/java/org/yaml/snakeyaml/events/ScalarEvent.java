@@ -54,7 +54,7 @@ public final class ScalarEvent extends NodeEvent {
     /**
      * Style of the scalar.
      * <dl>
-     * <dt>''</dt>
+     * <dt>null</dt>
      * <dd>Flow Style - Plain</dd>
      * <dt>'\''</dt>
      * <dd>Flow Style - Single-Quoted</dd>
