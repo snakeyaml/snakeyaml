@@ -363,6 +363,7 @@ public class DumperOptions {
      * @param style
      *            - automatically detected style
      * @return ScalarStyle to be used for scalar
+     * @deprecated it was implemented as a quick fix for issue 29
      */
     public ScalarStyle calculateScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
         return style;

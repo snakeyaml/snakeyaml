@@ -28,7 +28,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class EmitterMultiLineTest extends TestCase {
 
-    public void testWriteMultiLinePlain() {
+    public void testWriteMultiLineLiteral() {
         String plain = "mama\nmila\nramu";
         Yaml yaml = new Yaml();
         String output = yaml.dump(plain);
@@ -39,7 +39,7 @@ public class EmitterMultiLineTest extends TestCase {
         assertEquals(plain, parsed);
     }
 
-    public void testWriteMultiLinePlainList() {
+    public void testWriteMultiLineList() {
         String one = "first\nsecond\nthird";
         String two = "one\ntwo\nthree\n";
         byte[] binary = { 8, 14, 15, 10, 126, 32, 65, 65, 65 };
@@ -51,7 +51,7 @@ public class EmitterMultiLineTest extends TestCase {
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(list);
-        System.out.println(output);
+        // System.out.println(output);
         String etalon = "- |-\n  first\n  second\n  third\n- |\n  one\n  two\n  three\n- !!binary |-\n  CA4PCn4gQUFB\n";
         assertEquals(etalon, output);
         @SuppressWarnings("unchecked")
@@ -62,7 +62,7 @@ public class EmitterMultiLineTest extends TestCase {
         assertEquals(new String(binary), new String((byte[]) parsed.get(2)));
     }
 
-    public void testWriteMultiLineLiteralNoChomping() {
+    public void testWriteMultiLineLiteralWithClipChomping() {
         String source = "a: 1\nb: |\n  mama\n  mila\n  ramu\n";
         // System.out.println("Source:\n" + source);
         Yaml yaml = new Yaml();
@@ -76,7 +76,7 @@ public class EmitterMultiLineTest extends TestCase {
         assertEquals("a: 1\nb: |\n  mama\n  mila\n  ramu\n", dumped);
     }
 
-    public void testWriteMultiLineSingleQuotedInFlowContext() {
+    public void testWriteMultiLineQuotedInFlowContext() {
         String source = "{a: 1, b: 'mama\n\n    mila\n\n    ramu'}\n";
         // System.out.println("Source:\n" + source);
         DumperOptions options = new DumperOptions();

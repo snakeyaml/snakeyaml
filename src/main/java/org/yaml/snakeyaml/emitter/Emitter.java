@@ -781,6 +781,7 @@ public final class Emitter implements Emitable {
         return '"';
     }
 
+    @SuppressWarnings("deprecation")
     private void processScalar() throws IOException {
         ScalarEvent ev = (ScalarEvent) event;
         if (analysis == null) {
@@ -789,6 +790,7 @@ public final class Emitter implements Emitable {
         if (style == null) {
             style = chooseScalarStyle();
         }
+        // TODO the next line should be removed
         style = options.calculateScalarStyle(analysis, ScalarStyle.createStyle(style)).getChar();
         boolean split = !simpleKeyContext;
         if (style == null) {

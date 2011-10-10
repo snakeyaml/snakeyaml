@@ -7,6 +7,11 @@
 	</properties>
 	<body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+             <action dev="py4fun" type="remove">
+                Deprecate the DumperOptions.calculateScalarStyle() method because it was introduced as a quick
+                fix for issue 29. Now it should not be required at all (because of the fix for issue 66),
+                or it should be implemented in the Representer (in RepresentString) (2011-10-10)
+             </action>
              <action dev="py4fun" type="fix">
                 Fix issue 66: literal scalar style is used by default for multiline scalars (2011-10-10)
              </action>

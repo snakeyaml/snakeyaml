@@ -60,7 +60,7 @@ public class DumpStackTraceTest extends TestCase {
         String result = (String) yaml.dump(input);
         // System.out.println(result);
         String etalon = Util.getLocalResource("representer/stacktrace1.yaml");
-        // http://code.google.com/p/snakeyaml/issues/detail?id=66)
+        // http://code.google.com/p/snakeyaml/issues/detail?id=66
         assertEquals(etalon, result);
     }
 }

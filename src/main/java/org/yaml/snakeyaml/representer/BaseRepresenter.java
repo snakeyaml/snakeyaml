@@ -118,7 +118,6 @@ public abstract class BaseRepresenter {
             style = this.defaultScalarStyle;
         }
         Node node = new ScalarNode(tag, value, null, null, style);
-        // representedObjects.put(objectToRepresent, node);
         return node;
     }
 
