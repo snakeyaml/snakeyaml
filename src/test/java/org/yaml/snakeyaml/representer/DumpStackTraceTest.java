@@ -54,18 +54,13 @@ public class DumpStackTraceTest extends TestCase {
         assertEquals(result, yaml.dump(yaml.load(result)));
     }
 
-    public void testJavaStackTrace2() {
+    public void testJavaStackTraceWithoutTabs() {
         Yaml yaml = new Yaml();
         String input = Util.getLocalResource("representer/stacktrace1.txt");
-        assertTrue("Double quote must be used.", input.indexOf('"') > 0);
-        assertTrue("Colon must be used.", input.indexOf(':') > 0);
-        assertTrue("Tabs must be used.", input.indexOf('\t') > 0);
         String result = (String) yaml.dump(input);
         // System.out.println(result);
         String etalon = Util.getLocalResource("representer/stacktrace1.yaml");
-        assertFalse(etalon.equals(result));
-        // TODO stacktrace serialisation can be improved
         // http://code.google.com/p/snakeyaml/issues/detail?id=66)
-        // assertEquals(etalon, result);
+        assertEquals(etalon, result);
     }
 }
