@@ -17,20 +17,16 @@
 package examples.jodatime;
 
 import java.util.Date;
-import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.events.Event;
-import org.yaml.snakeyaml.events.ScalarEvent;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -48,105 +44,9 @@ public class JodaTimeExampleTest extends TestCase {
     }
 
     public void testLoad() {
-        Yaml yaml = new Yaml(new JodaTimeContructor());
+        Yaml yaml = new Yaml(new JodaTimeImplicitContructor());
         DateTime time = (DateTime) yaml.load("2001-09-09T01:46:40Z");
         assertEquals(new DateTime(timestamp, DateTimeZone.UTC), time);
-    }
-
-    /**
-     * @see http://code.google.com/p/snakeyaml/issues/detail?id=128
-     */
-    public void testLoadBeanWithBlockFlow() {
-        MyBean bean = new MyBean();
-        bean.setId("id123");
-        DateTime etalon = new DateTime(timestamp, DateTimeZone.UTC);
-        bean.setDate(etalon);
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        Yaml dumper = new Yaml(new JodaTimeRepresenter(), options);
-        // compare Nodes with flow style AUTO and flow style BLOCK
-        Node node1 = dumper.represent(bean);
-        DumperOptions options2 = new DumperOptions();
-        options2.setDefaultFlowStyle(FlowStyle.AUTO);
-        Yaml dumper2 = new Yaml(new JodaTimeRepresenter(), options2);
-        Node node2 = dumper2.represent(bean);
-        assertEquals(node2.toString(), node1.toString());
-        // compare Events with flow style AUTO and flow style BLOCK
-        List<Event> events1 = dumper.serialize(node1);
-        List<Event> events2 = dumper2.serialize(node2);
-        assertEquals(events2.size(), events1.size());
-        int i = 0;
-        for (Event etalonEvent : events2) {
-            assertEquals(etalonEvent, events1.get(i++));
-            if (etalonEvent instanceof ScalarEvent) {
-                ScalarEvent scalar = (ScalarEvent) etalonEvent;
-                if (scalar.getValue().equals("2001-09-09T01:46:40Z")) {
-                    assertTrue(scalar.getImplicit().canOmitTagInPlainScalar());
-                    assertFalse(scalar.getImplicit().canOmitTagInNonPlainScalar());
-                }
-            }
-        }
-        // Nodes and Events are the same. Only emitter may influence the output.
-        String doc1 = dumper.dump(bean);
-        // System.out.println(doc1);
-        /*
-         * 'date' must be used only with the explicit '!!timestamp' tag.
-         * Implicit tag will not work because 'date' is the JavaBean property
-         * and in this case the empty constructor of the class will be used.
-         * Since this constructor does not exist for JodaTime an exception will
-         * be thrown.
-         */
-        assertEquals("!!examples.jodatime.MyBean\ndate: 2001-09-09T01:46:40Z\nid: id123\n", doc1);
-        /*
-         * provided JodaTimeContructor will be ignored because 'date' is a
-         * JavaBean property and its class gets more priority then the implicit
-         * '!!timestamp' tag.
-         */
-        Yaml loader = new Yaml(new JodaTimeContructor());
-        try {
-            loader.load(doc1);
-        } catch (Exception e) {
-            assertTrue(
-                    "The error must indicate that JodaTime cannot be created from the scalar value.",
-                    e.getMessage()
-                            .contains(
-                                    "No String constructor found. Exception=org.joda.time.DateTime.<init>(java.lang.String)"));
-        }
-        // we have to provide a special way to create JodaTime instances from
-        // scalars
-        Yaml loader2 = new Yaml(new JodaPropertyConstructor());
-        MyBean parsed = (MyBean) loader2.load(doc1);
-        assertEquals(etalon, parsed.getDate());
-    }
-
-    /**
-     * !!timestamp must be used, without it the implicit tag will be ignored
-     * because 'date' is the JavaBean property.
-     * 
-     * Since the timestamp contains ':' character it cannot use plain scalar
-     * style in the FLOW mapping style. Emitter suggests single quoted scalar
-     * style and that is why the explicit '!!timestamp' is present in the YAML
-     * document.
-     * 
-     * @see http://code.google.com/p/snakeyaml/issues/detail?id=128
-     * 
-     */
-    public void testLoadBeanWithAutoFlow() {
-        MyBean bean = new MyBean();
-        bean.setId("id123");
-        DateTime etalon = new DateTime(timestamp, DateTimeZone.UTC);
-        bean.setDate(etalon);
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(FlowStyle.AUTO);
-        Yaml dumper = new Yaml(new JodaTimeRepresenter(), options);
-        String doc = dumper.dump(bean);
-        //System.out.println(doc);
-        assertEquals(
-                "!!examples.jodatime.MyBean {date: !!timestamp '2001-09-09T01:46:40Z', id: id123}\n",
-                doc);
-        Yaml loader = new Yaml(new JodaTimeContructor());
-        MyBean parsed = (MyBean) loader.load(doc);
-        assertEquals(etalon, parsed.getDate());
     }
 
     /**
@@ -178,7 +78,44 @@ public class JodaTimeExampleTest extends TestCase {
                     return super.construct(nnode);
                 }
             }
+        }
+    }
 
+    /**
+     * This class should be used if JodaTime may appear with a tag or as a
+     * JavaBean property
+     */
+    public class JodaTimeConstructor extends Constructor {
+        private final Construct javaDateConstruct;
+        private final Construct jodaDateConstruct;
+
+        public JodaTimeConstructor() {
+            javaDateConstruct = new ConstructYamlTimestamp();
+            jodaDateConstruct = new ConstructJodaTimestamp();
+            // Whenever we see an explicit timestamp tag, make a Joda Date
+            // instead
+            yamlConstructors.put(Tag.TIMESTAMP, jodaDateConstruct);
+            // See
+            // We need this to work around implicit construction.
+            yamlClassConstructors.put(NodeId.scalar, new TimeStampConstruct());
+        }
+
+        public class ConstructJodaTimestamp extends AbstractConstruct {
+            public Object construct(Node node) {
+                Date date = (Date) javaDateConstruct.construct(node);
+                return new DateTime(date, DateTimeZone.UTC);
+            }
+        }
+
+        class TimeStampConstruct extends Constructor.ConstructScalar {
+            @Override
+            public Object construct(Node nnode) {
+                if (nnode.getTag().equals(Tag.TIMESTAMP)) {
+                    return jodaDateConstruct.construct(nnode);
+                } else {
+                    return super.construct(nnode);
+                }
+            }
         }
     }
 }

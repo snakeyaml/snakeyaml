@@ -24,8 +24,11 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 
-public class JodaTimeContructor extends Constructor {
-    public JodaTimeContructor() {
+/**
+ * It works only when JodaTime is not a JavaBean property
+ */
+public class JodaTimeImplicitContructor extends Constructor {
+    public JodaTimeImplicitContructor() {
         this.yamlConstructors.put(Tag.TIMESTAMP, new ConstructJodaTimestamp());
     }
 
