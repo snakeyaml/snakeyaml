@@ -867,6 +867,7 @@ public final class Emitter implements Emitable {
         }
         String handle = null;
         String suffix = tag;
+        //shall the tag prefixes be sorted as in PyYAML?
         for (String prefix : tagPrefixes.keySet()) {
             if (tag.startsWith(prefix) && ("!".equals(prefix) || prefix.length() < tag.length())) {
                 handle = prefix;
