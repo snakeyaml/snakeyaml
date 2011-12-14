@@ -23,8 +23,12 @@ import org.yaml.snakeyaml.Yaml;
 public class TabInScalarTest extends TestCase {
 
     public void testTab() {
-        String data = (String) new Yaml().load("--- 36LDIESEL\n");
-        // String data = (String) new Yaml().load("--- 36L\tDIESEL\n");
-        assertEquals("36LDIESEL", data);
+        String data = (String) new Yaml().load("--- 36L\tDIESEL\n");
+        assertEquals("36L\tDIESEL", data);
+    }
+
+    public void testNoTab() {
+        String data = (String) new Yaml().load("--- 36L DIESEL\n");
+        assertEquals("36L DIESEL", data);
     }
 }
