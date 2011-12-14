@@ -23,12 +23,18 @@ import org.yaml.snakeyaml.Yaml;
 public class TabInScalarTest extends TestCase {
 
     public void testTab() {
-        String data = (String) new Yaml().load("--- 36L\tDIESEL\n");
-        assertEquals("36L\tDIESEL", data);
+        try {
+            new Yaml().load("L\tD");
+            fail("Tabs in plain scalars are not allowed.");
+        } catch (Exception e) {
+            assertEquals(
+                    "while scanning for the next token; found character \t'\\t' that cannot start any token",
+                    e.getMessage());
+        }
     }
 
     public void testNoTab() {
-        String data = (String) new Yaml().load("--- 36L DIESEL\n");
-        assertEquals("36L DIESEL", data);
+        String data = (String) new Yaml().load("L D");
+        assertEquals("L D", data);
     }
 }
