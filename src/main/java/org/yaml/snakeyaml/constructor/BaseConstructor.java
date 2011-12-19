@@ -269,10 +269,11 @@ public abstract class BaseConstructor {
 
     // >>>> NEW instance
     protected Object newInstance(Node node) {
-        return newInstance(Object.class, node);
+        return newInstance(Object.class, node, true);
     }
 
-    protected Object newInstance(Class<?> ancestor, Node node) {
+    protected Object newInstance(Class<?> ancestor, Node node,
+            boolean exceptionIfNoDefaultConstructor) {
         final Class<? extends Object> type = node.getType();
         if (typeDefinitions.containsKey(type)) {
             TypeDescription td = typeDefinitions.get(type);
@@ -286,6 +287,10 @@ public abstract class BaseConstructor {
                 java.lang.reflect.Constructor<?> c = type.getDeclaredConstructor();
                 c.setAccessible(true);
                 return c.newInstance();
+            } catch (NoSuchMethodException e) { // No default constructor
+                if (exceptionIfNoDefaultConstructor) {
+                    throw new YAMLException(e);
+                }
             } catch (Exception e) {
                 throw new YAMLException(e);
             }
@@ -295,7 +300,7 @@ public abstract class BaseConstructor {
 
     @SuppressWarnings("unchecked")
     protected Set<Object> newSet(CollectionNode<?> node) {
-        final Set<Object> object = (Set<Object>) newInstance(Set.class, node);
+        final Set<Object> object = (Set<Object>) newInstance(Set.class, node, false);
         if (object != null) {
             return object;
         }
@@ -304,7 +309,7 @@ public abstract class BaseConstructor {
 
     @SuppressWarnings("unchecked")
     protected List<Object> newList(SequenceNode node) {
-        final List<Object> object = (List<Object>) newInstance(List.class, node);
+        final List<Object> object = (List<Object>) newInstance(List.class, node, false);
         if (object != null) {
             return object;
         }
@@ -313,7 +318,7 @@ public abstract class BaseConstructor {
 
     @SuppressWarnings("unchecked")
     protected Map<Object, Object> newMap(MappingNode node) {
-        final Map<Object, Object> object = (Map<Object, Object>) newInstance(Map.class, node);
+        final Map<Object, Object> object = (Map<Object, Object>) newInstance(Map.class, node, false);
         if (object != null) {
             return object;
         }
