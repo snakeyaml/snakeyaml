@@ -1,12 +1,16 @@
 <document xmlns="http://maven.apache.org/changes/1.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
-	<properties>
-		<title>YAML 1.1 parser and emitter</title>
-		<author email="py4fun@gmail.com">Andrey Somov</author>
-	</properties>
-	<body>
+    <properties>
+        <title>YAML 1.1 parser and emitter</title>
+        <author email="py4fun@gmail.com">Andrey Somov</author>
+    </properties>
+    <body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+             <action dev="py4fun" type="add">
+                Use http://mercurial.selenic.com/wiki/EolExtension to force LF  as line separator
+                for all operating systems (2011-12-20)
+             </action>
              <action dev="py4fun" type="add">
                 Add a test for issue 136 (2011-12-14)
              </action>
@@ -31,7 +35,7 @@
                 Finish 1.9 release (2011-08-15)
              </action>
         </release>
-	    <release version="1.9" date="2011-08-15" description="Introduce Yaml.loadAs() and Yaml.dumpAs() methods">
+        <release version="1.9" date="2011-08-15" description="Introduce Yaml.loadAs() and Yaml.dumpAs() methods">
             <action dev="py4fun" type="update">
                 Add a test to prove that SnakeYAML is not affected by the problem reported for libyaml
                 at http://pyyaml.org/ticket/196 (2011-07-28)
@@ -261,13 +265,13 @@
             <action dev="py4fun" type="fix" issue="65" due-to="lerch.johannes">
                 Fix: add checks for null arguments for JavaBeanDumper (2010-04-27)
             </action>
-		    <action dev="py4fun" type="add">
+            <action dev="py4fun" type="add">
                 Add a test to see how stack trace is serialised (2010-04-27)
             </action>
             <action dev="py4fun" type="fix" issue="64" due-to="maxim.moschko">
                 ClassCastException in Representer when working with ParameterizedType (2010-04-25)
             </action>
-	        <action dev="py4fun" type="update">
+            <action dev="py4fun" type="update">
                 Improve toString() method for Node. Since scalars cannot be recursive
                 they can be printed (2010-04-15)
             </action>
@@ -313,11 +317,11 @@
                 Issue 50 fails in Eclipse but works with Maven (2010-03-01)
             </action>
         </release>
-	    <release version="1.6" date="2010-02-26" description="introduce Tag class">
-	        <action dev="py4fun" type="update">
+        <release version="1.6" date="2010-02-26" description="introduce Tag class">
+            <action dev="py4fun" type="update">
                 Release Candidate 2 is available (2010-02-24)
             </action>
-	        <action dev="py4fun" type="fix" issue="47" due-to="obastard">
+            <action dev="py4fun" type="fix" issue="47" due-to="obastard">
                 Don't dump read-only properties by default. DumperOptions gets a setting to
                 include read-only JavaBean properties. 
                 This is no backwards compatible change (2010-02-19)
@@ -350,7 +354,7 @@
                 Refactor: introduce Chomping to avoid using null as value for Boolean.
                 Stay in line with Scala port where null is not allowed (2010-01-19)
             </action>
-	    	<action dev="py4fun" type="update">
+            <action dev="py4fun" type="update">
                 Refactor: use Event.ID enum instead of classes (2010-01-15)
             </action>
             <action dev="py4fun" type="update">
@@ -380,7 +384,7 @@
             <action dev="py4fun" type="update">
                 Refactor: introduce TagTuple instead of String[] (2010-01-04)
             </action>
-	    	<action dev="py4fun" type="fix" issue="40" due-to="sitrious">
+            <action dev="py4fun" type="fix" issue="40" due-to="sitrious">
                 Ignore tags when they are compatible with the runtime class (2010-01-04)
             </action>
             <action dev="py4fun" type="add">
@@ -424,7 +428,7 @@
                 Refactor: rename Tuple to RecursiveTuple and hide it inside BaseConstructor (2009-11-03)
             </action>
         </release>
-		<release version="1.5" date="2009-10-30" description="Improve usage of generic collections in JavaBeans">
+        <release version="1.5" date="2009-10-30" description="Improve usage of generic collections in JavaBeans">
             <action dev="py4fun" type="fix" issue="27" due-to="Polyglot Maven team">
                 Extend Resolver to support custom implicit types (2009-10-27)
             </action>
@@ -449,7 +453,7 @@
             <action dev="py4fun" type="fix" issue="24" due-to="shrode">
                 Line numbers reported in Exceptions are Zero based, should be 1 based (2009-10-12)
             </action>
-			<action dev="py4fun" type="fix" issue="21" due-to="ashwin.jayaprakash">
+            <action dev="py4fun" type="fix" issue="21" due-to="ashwin.jayaprakash">
                 Support arrays of reference types as JavaBean properties (2009-09-22)
             </action>
             <action dev="py4fun" type="fix" issue="17" due-to="jcucurull">
@@ -477,8 +481,8 @@
                 Fix: ArrayList is more efficient than LinkedList  (2009-08-26)
             </action>
         </release>
-	    <release version="1.4" date="2009-08-26" description="better support for loading immutable objects">
-	        <action dev="py4fun" type="update">
+        <release version="1.4" date="2009-08-26" description="better support for loading immutable objects">
+            <action dev="py4fun" type="update">
                 Apply Apache License Version 2.0 (2009-08-14)
             </action>
             <action dev="py4fun" type="fix" issue="13" due-to="infinity0x">
@@ -502,7 +506,7 @@
                 support for immutable objects. Custom Constructor may be used when there are more
                 then 1 way to create an instance (2009-08-04)
             </action>
-	        <action dev="py4fun" type="add">
+            <action dev="py4fun" type="add">
                 Deliver possibility to load immutable instances with no global tags. Reflection for
                 constructor arguments is used to get the runtime classes (2009-08-04)
             </action>
