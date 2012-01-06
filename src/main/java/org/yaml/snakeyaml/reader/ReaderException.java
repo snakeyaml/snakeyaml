@@ -20,15 +20,27 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 public class ReaderException extends YAMLException {
     private static final long serialVersionUID = 8710781187529689083L;
-    private String name;
-    private char character;
-    private int position;
+    private final String name;
+    private final char character;
+    private final int position;
 
     public ReaderException(String name, int position, char character, String message) {
         super(message);
         this.name = name;
         this.character = character;
         this.position = position;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public char getCharacter() {
+        return character;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     @Override

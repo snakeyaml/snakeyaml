@@ -1503,7 +1503,8 @@ public final class ScannerImpl implements Scanner {
                                         + " hexadecimal numbers, but found: " + hex,
                                 reader.getMark());
                     }
-                    char unicode = (char) Integer.parseInt(hex, 16);
+                    int decimal = Integer.parseInt(hex, 16);
+                    String unicode = new String(Character.toChars(decimal));
                     chunks.append(unicode);
                     reader.forward(length);
                 } else if (scanLineBreak().length() != 0) {
