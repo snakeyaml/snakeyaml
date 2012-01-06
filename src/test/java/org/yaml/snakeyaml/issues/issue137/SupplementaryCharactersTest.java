@@ -20,20 +20,36 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
 
+/**
+ * http://java.sun.com/developer/technicalArticles/Intl/Supplementary/
+ */
 public class SupplementaryCharactersTest extends TestCase {
 
-  public void testSupplementaryCharacter() {
-    Yaml yaml = new Yaml();
-    String parsed = (String) yaml.load("\"\\U0001f648\"");
-    // assertEquals(2, parsed.length());
-    assertEquals("\ud83d\ude48", parsed);
-    // System.out.println(data);
-  }
+    public void testSupplementaryCharacter() {
+        Yaml yaml = new Yaml();
+        String parsed = (String) yaml.load("\"\\U0001f648\"");
+        assertEquals("\ud83d\ude48", parsed);
+        // System.out.println(data);
+    }
 
-  public void testBasicMultilingualPlane() {
-    Yaml yaml = new Yaml();
-    String parsed = (String) yaml.load("\"\\U00000041\"");
-    assertEquals("A", parsed);
-    // System.out.println(data);
-  }
+    public void testBasicMultilingualPlane() {
+        Yaml yaml = new Yaml();
+        String parsed = (String) yaml.load("\"\\U00000041\"");
+        assertEquals("A", parsed);
+    }
+
+    public void testDumpSupplementaryCharacter() {
+        Yaml yaml = new Yaml();
+        String output = yaml.dump("\ud83d\ude48");
+        assertEquals("\"\ud83d\ude48\"\n", output);
+    }
+
+    public void testLoadSupplementaryCharacter() {
+        try {
+            new Yaml().load("\"\ud83d\ude48\"\n");
+            fail("Are Supplementary Characters printable ?");
+        } catch (Exception e) {
+            assertEquals("special characters are not allowed", e.getMessage());
+        }
+    }
 }
