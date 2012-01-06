@@ -19,6 +19,13 @@ import java.lang.reflect.Field;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
+/**
+ * <p>
+ * A <code>FieldProperty</code> is a <code>Property</code> which is accessed as
+ * a field, without going through accessor methods (setX, getX). The field may
+ * have any scope (public, package, protected, private).
+ * </p>
+ */
 public class FieldProperty extends GenericProperty {
     private final Field field;
 

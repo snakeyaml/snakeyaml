@@ -19,6 +19,15 @@ import java.beans.PropertyDescriptor;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
+/**
+ * <p>
+ * A <code>MethodProperty</code> is a <code>Property</code> which is accessed
+ * through accessor methods (setX, getX). It is possible to have a
+ * <code>MethodProperty</code> which has only setter, only getter, or both. It
+ * is not possible to have a <code>MethodProperty</code> which has neither
+ * setter nor getter.
+ * </p>
+ */
 public class MethodProperty extends GenericProperty {
 
     private final PropertyDescriptor property;
