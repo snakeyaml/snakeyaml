@@ -2025,11 +2025,8 @@ public final class ScannerImpl implements Scanner {
     }
 
     /**
-     * <pre>
-     * See the specification for details.
-     * The specification is really confusing about tabs in plain scalars.
-     * We just forbid them completely. Do not use tabs in YAML!
-     * </pre>
+     * See the specification for details. SnakeYAML and libyaml allow tabs
+     * inside plain scalar
      */
     private String scanPlainSpaces() {
         int length = 0;
