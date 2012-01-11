@@ -4,3 +4,5 @@
 **.xml   = LF
 **.yaml  = LF
 **.yml   = LF
+**.data  = LF
+**.canonical   = LF

@@ -22,14 +22,8 @@ import org.yaml.snakeyaml.Yaml;
 public class TabInScalarTest extends TestCase {
 
     public void testTab() {
-        try {
-            new Yaml().load("L\tD");
-            fail("Tabs in plain scalars are not allowed.");
-        } catch (Exception e) {
-            assertEquals(
-                    "while scanning for the next token; found character \t'\\t' that cannot start any token",
-                    e.getMessage());
-        }
+        String data = (String) new Yaml().load("L\tD");
+        assertEquals("L\tD", data);
     }
 
     public void testNoTab() {
@@ -39,19 +33,19 @@ public class TabInScalarTest extends TestCase {
 
     public void testTabDoubleQuotes() {
         String data = (String) new Yaml().load("\"L\tD\"");
-        //System.out.println(data);
+        // System.out.println(data);
         assertEquals("L\tD", data);
     }
 
     public void testTabSingleQuotes() {
         String data = (String) new Yaml().load("'L\tD'");
-        //System.out.println(data);
+        // System.out.println(data);
         assertEquals("L\tD", data);
     }
 
     public void testDumpTab() {
         String data = (String) new Yaml().dump("L\tD");
-        //System.out.println(data);
+        // System.out.println(data);
         assertEquals("\"L\\tD\"\n", data);
     }
 }

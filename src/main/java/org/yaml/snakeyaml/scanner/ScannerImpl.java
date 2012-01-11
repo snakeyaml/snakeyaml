@@ -2033,7 +2033,7 @@ public final class ScannerImpl implements Scanner {
      */
     private String scanPlainSpaces() {
         int length = 0;
-        while (reader.peek(length) == ' ') {
+        while (reader.peek(length) == ' ' || reader.peek(length) == '\t') {
             length++;
         }
         String whitespaces = reader.prefixForward(length);

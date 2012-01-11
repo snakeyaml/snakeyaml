@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+             <action dev="py4fun" type="fix">
+                Fix issue 136: tabs are allowed in plain scalars. This is a deviation from PyYAML (2012-01-11)
+             </action>
              <action dev="py4fun" type="add" issue="138">
                 Expose internal data of ReaderException (2012-01-06)
              </action>
