@@ -40,6 +40,7 @@ public class MergeValueTest extends TestCase {
 
     private void check(String name) {
         String input = Util.getLocalResource(name);
+        // System.out.println(input);
         Yaml yaml = new Yaml();
         @SuppressWarnings("unchecked")
         Map<String, Object> map = (Map<String, Object>) yaml.load(input);
@@ -47,5 +48,23 @@ public class MergeValueTest extends TestCase {
         assertTrue(map.containsKey("common"));
         assertTrue(map.containsKey("production"));
         assertEquals(map.get("common"), map.get("production"));
+    }
+
+    /**
+     * http://yaml.org/type/merge.html: If the value associated with the key is
+     * a single mapping node, each of its key/value pairs is inserted into the
+     * current mapping, <b>unless the key already exists in it</b>.
+     */
+    @SuppressWarnings("unchecked")
+    public void testMergeUnlessAlreadyExists() {
+        String input = Util.getLocalResource("issues/issue139-3.yaml");
+        // System.out.println(input);
+        Yaml yaml = new Yaml();
+        Map<String, Object> map = (Map<String, Object>) yaml.load(input);
+        assertEquals(2, map.size());
+        Map<String, Integer> common = (Map<String, Integer>) map.get("common");
+        Map<String, Integer> production = (Map<String, Integer>) map.get("production");
+        assertEquals(new Integer(2), common.get("key"));
+        assertEquals(new Integer(3), production.get("key"));
     }
 }
