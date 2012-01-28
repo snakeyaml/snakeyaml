@@ -108,7 +108,7 @@ public final class Serializer {
         if (explicitRoot != null) {
             node.setTag(explicitRoot);
         }
-        serializeNode(node, null, null);
+        serializeNode(node, null);
         this.emitter.emit(new DocumentEndEvent(null, null, this.explicitEnd));
         this.serializedNodes.clear();
         this.anchors.clear();
@@ -158,7 +158,7 @@ public final class Serializer {
         return "id" + anchorId;
     }
 
-    private void serializeNode(Node node, Node parent, Object index) throws IOException {
+    private void serializeNode(Node node, Node parent) throws IOException {
         if (node.getNodeId() == NodeId.anchor) {
             node = ((AnchorNode) node).getRealNode();
         }
@@ -187,7 +187,7 @@ public final class Serializer {
                 int indexCounter = 0;
                 List<Node> list = seqNode.getValue();
                 for (Node item : list) {
-                    serializeNode(item, node, indexCounter);
+                    serializeNode(item, node);
                     indexCounter++;
                 }
                 this.emitter.emit(new SequenceEndEvent(null, null));
@@ -202,8 +202,8 @@ public final class Serializer {
                 for (NodeTuple row : map) {
                     Node key = row.getKeyNode();
                     Node value = row.getValueNode();
-                    serializeNode(key, mnode, null);
-                    serializeNode(value, mnode, key);
+                    serializeNode(key, mnode);
+                    serializeNode(value, mnode);
                 }
                 this.emitter.emit(new MappingEndEvent(null, null));
             }
