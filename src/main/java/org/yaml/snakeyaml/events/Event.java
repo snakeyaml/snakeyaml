@@ -66,4 +66,12 @@ public abstract class Event {
             return false;
         }
     }
+
+    /*
+     * for tests only
+     */
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

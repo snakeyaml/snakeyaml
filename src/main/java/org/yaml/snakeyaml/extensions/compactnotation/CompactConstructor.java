@@ -80,10 +80,11 @@ public class CompactConstructor extends Constructor {
         if (data == null) {
             throw new NullPointerException("Data for Compact Object Notation cannot be null.");
         }
-        for (String key : data.keySet()) {
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            String key = entry.getKey();
             Property property = getPropertyUtils().getProperty(bean.getClass(), key);
             try {
-                property.set(bean, data.get(key));
+                property.set(bean, entry.getValue());
             } catch (IllegalArgumentException e) {
                 throw new YAMLException("Cannot set property='" + key + "' with value='"
                         + data.get(key) + "' (" + data.get(key).getClass() + ") in " + bean);

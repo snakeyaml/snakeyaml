@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.CollectionEndEvent;
 import org.yaml.snakeyaml.events.CollectionStartEvent;
@@ -62,24 +63,24 @@ public final class Emitter implements Emitable {
     public static final int MIN_INDENT = 1;
     public static final int MAX_INDENT = 10;
 
-    public static final char[] SPACE = { ' ' };
+    protected static final char[] SPACE = { ' ' };
 
     static {
-        ESCAPE_REPLACEMENTS.put(new Character('\0'), "0");
-        ESCAPE_REPLACEMENTS.put(new Character('\u0007'), "a");
-        ESCAPE_REPLACEMENTS.put(new Character('\u0008'), "b");
-        ESCAPE_REPLACEMENTS.put(new Character('\u0009'), "t");
-        ESCAPE_REPLACEMENTS.put(new Character('\n'), "n");
-        ESCAPE_REPLACEMENTS.put(new Character('\u000B'), "v");
-        ESCAPE_REPLACEMENTS.put(new Character('\u000C'), "f");
-        ESCAPE_REPLACEMENTS.put(new Character('\r'), "r");
-        ESCAPE_REPLACEMENTS.put(new Character('\u001B'), "e");
-        ESCAPE_REPLACEMENTS.put(new Character('"'), "\"");
-        ESCAPE_REPLACEMENTS.put(new Character('\\'), "\\");
-        ESCAPE_REPLACEMENTS.put(new Character('\u0085'), "N");
-        ESCAPE_REPLACEMENTS.put(new Character('\u00A0'), "_");
-        ESCAPE_REPLACEMENTS.put(new Character('\u2028'), "L");
-        ESCAPE_REPLACEMENTS.put(new Character('\u2029'), "P");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\0'), "0");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u0007'), "a");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u0008'), "b");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u0009'), "t");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\n'), "n");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u000B'), "v");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u000C'), "f");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\r'), "r");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u001B'), "e");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('"'), "\"");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\\'), "\\");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u0085'), "N");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u00A0'), "_");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u2028'), "L");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u2029'), "P");
     }
 
     private final static Map<String, String> DEFAULT_TAG_PREFIXES = new LinkedHashMap<String, String>();
@@ -665,8 +666,8 @@ public final class Emitter implements Emitable {
         Event event = events.peek();
         if (event instanceof ScalarEvent) {
             ScalarEvent e = (ScalarEvent) event;
-            return (e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && e
-                    .getValue() == "");
+            return (e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && ""
+                    .equals(e.getValue()));
         }
         return false;
     }
@@ -808,6 +809,8 @@ public final class Emitter implements Emitable {
             case '|':
                 writeLiteral(analysis.scalar);
                 break;
+            default:
+                throw new YAMLException("Unexpected style: " + style);
             }
         }
         analysis = null;
@@ -866,7 +869,7 @@ public final class Emitter implements Emitable {
         }
         String handle = null;
         String suffix = tag;
-        //shall the tag prefixes be sorted as in PyYAML?
+        // shall the tag prefixes be sorted as in PyYAML?
         for (String prefix : tagPrefixes.keySet()) {
             if (tag.startsWith(prefix) && ("!".equals(prefix) || prefix.length() < tag.length())) {
                 handle = prefix;
@@ -1223,8 +1226,8 @@ public final class Emitter implements Emitable {
                 }
                 if (ch != null) {
                     String data;
-                    if (ESCAPE_REPLACEMENTS.containsKey(new Character(ch))) {
-                        data = "\\" + ESCAPE_REPLACEMENTS.get(new Character(ch));
+                    if (ESCAPE_REPLACEMENTS.containsKey(Character.valueOf(ch))) {
+                        data = "\\" + ESCAPE_REPLACEMENTS.get(Character.valueOf(ch));
                     } else if (!this.allowUnicode) {
                         // this is different from PyYAML which escapes all
                         // non-ASCII characters

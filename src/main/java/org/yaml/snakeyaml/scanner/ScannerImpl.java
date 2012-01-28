@@ -113,44 +113,44 @@ public final class ScannerImpl implements Scanner {
 
     static {
         // ASCII null
-        ESCAPE_REPLACEMENTS.put(new Character('0'), "\0");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('0'), "\0");
         // ASCII bell
-        ESCAPE_REPLACEMENTS.put(new Character('a'), "\u0007");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('a'), "\u0007");
         // ASCII backspace
-        ESCAPE_REPLACEMENTS.put(new Character('b'), "\u0008");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('b'), "\u0008");
         // ASCII horizontal tab
-        ESCAPE_REPLACEMENTS.put(new Character('t'), "\u0009");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('t'), "\u0009");
         // ASCII newline (line feed; &#92;n maps to 0x0A)
-        ESCAPE_REPLACEMENTS.put(new Character('n'), "\n");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('n'), "\n");
         // ASCII vertical tab
-        ESCAPE_REPLACEMENTS.put(new Character('v'), "\u000B");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('v'), "\u000B");
         // ASCII form-feed
-        ESCAPE_REPLACEMENTS.put(new Character('f'), "\u000C");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('f'), "\u000C");
         // carriage-return (&#92;r maps to 0x0D)
-        ESCAPE_REPLACEMENTS.put(new Character('r'), "\r");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('r'), "\r");
         // ASCII escape character (Esc)
-        ESCAPE_REPLACEMENTS.put(new Character('e'), "\u001B");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('e'), "\u001B");
         // ASCII space
-        ESCAPE_REPLACEMENTS.put(new Character(' '), "\u0020");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf(' '), "\u0020");
         // ASCII double-quote
-        ESCAPE_REPLACEMENTS.put(new Character('"'), "\"");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('"'), "\"");
         // ASCII backslash
-        ESCAPE_REPLACEMENTS.put(new Character('\\'), "\\");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('\\'), "\\");
         // Unicode next line
-        ESCAPE_REPLACEMENTS.put(new Character('N'), "\u0085");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('N'), "\u0085");
         // Unicode non-breaking-space
-        ESCAPE_REPLACEMENTS.put(new Character('_'), "\u00A0");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('_'), "\u00A0");
         // Unicode line-separator
-        ESCAPE_REPLACEMENTS.put(new Character('L'), "\u2028");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('L'), "\u2028");
         // Unicode paragraph separator
-        ESCAPE_REPLACEMENTS.put(new Character('P'), "\u2029");
+        ESCAPE_REPLACEMENTS.put(Character.valueOf('P'), "\u2029");
 
         // 8-bit Unicode
-        ESCAPE_CODES.put(new Character('x'), 2);
+        ESCAPE_CODES.put(Character.valueOf('x'), 2);
         // 16-bit Unicode
-        ESCAPE_CODES.put(new Character('u'), 4);
+        ESCAPE_CODES.put(Character.valueOf('u'), 4);
         // 32-bit Unicode (Supplementary characters are supported)
-        ESCAPE_CODES.put(new Character('U'), 8);
+        ESCAPE_CODES.put(Character.valueOf('U'), 8);
     }
     private final StreamReader reader;
     // Had we reached the end of the stream?
@@ -1313,7 +1313,7 @@ public final class ScannerImpl implements Scanner {
         while (Character.isDigit(reader.peek(length))) {
             length++;
         }
-        Integer value = new Integer(reader.prefixForward(length));
+        Integer value = Integer.parseInt(reader.prefixForward(length));
         return value;
     }
 
@@ -1871,16 +1871,16 @@ public final class ScannerImpl implements Scanner {
             } else if (doubleQuoted && ch == '\\') {
                 reader.forward();
                 ch = reader.peek();
-                if (ESCAPE_REPLACEMENTS.containsKey(new Character(ch))) {
+                if (ESCAPE_REPLACEMENTS.containsKey(Character.valueOf(ch))) {
                     // The character is one of the single-replacement
                     // types; these are replaced with a literal character
                     // from the mapping.
-                    chunks.append(ESCAPE_REPLACEMENTS.get(new Character(ch)));
+                    chunks.append(ESCAPE_REPLACEMENTS.get(Character.valueOf(ch)));
                     reader.forward();
-                } else if (ESCAPE_CODES.containsKey(new Character(ch))) {
+                } else if (ESCAPE_CODES.containsKey(Character.valueOf(ch))) {
                     // The character is a multi-digit escape sequence, with
                     // length defined by the value in the ESCAPE_CODES map.
-                    length = (ESCAPE_CODES.get(new Character(ch))).intValue();
+                    length = (ESCAPE_CODES.get(Character.valueOf(ch))).intValue();
                     reader.forward();
                     String hex = reader.prefix(length);
                     if (NOT_HEXA.matcher(hex).find()) {
@@ -2257,7 +2257,7 @@ public final class ScannerImpl implements Scanner {
     /**
      * Chomping the tail may have 3 values - yes, no, not defined.
      */
-    private class Chomping {
+    private static class Chomping {
         private final Boolean value;
         private final int increment;
 

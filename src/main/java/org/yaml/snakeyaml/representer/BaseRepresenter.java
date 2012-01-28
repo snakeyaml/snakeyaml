@@ -78,7 +78,7 @@ public abstract class BaseRepresenter {
         // }
         // check for null first
         if (data == null) {
-            Node node = nullRepresenter.representData(data);
+            Node node = nullRepresenter.representData(null);
             return node;
         }
         // check the same class
@@ -156,10 +156,9 @@ public abstract class BaseRepresenter {
         MappingNode node = new MappingNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
-        for (Object itemKey : mapping.keySet()) {
-            Object itemValue = mapping.get(itemKey);
-            Node nodeKey = representData(itemKey);
-            Node nodeValue = representData(itemValue);
+        for (Map.Entry<? extends Object, Object> entry : mapping.entrySet()) {
+            Node nodeKey = representData(entry.getKey());
+            Node nodeValue = representData(entry.getValue());
             if (!((nodeKey instanceof ScalarNode && ((ScalarNode) nodeKey).getStyle() == null))) {
                 bestStyle = false;
             }

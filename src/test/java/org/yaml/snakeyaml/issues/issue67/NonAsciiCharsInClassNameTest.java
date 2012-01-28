@@ -55,6 +55,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public void testLoadInvalidPatternTooShort() {
         try {
             LoaderOptions options = new LoaderOptions();
@@ -69,6 +70,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public void testLoadInvalidUtf8() {
         try {
             LoaderOptions options = new LoaderOptions();

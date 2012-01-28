@@ -15,6 +15,10 @@
         <system>Google Code</system>
         <url>http://code.google.com/p/snakeyaml/issues/list</url>
     </issueManagement>
+    <!--ciManagement>
+        <system>jenkins</system>
+        <url>https://snakeyaml.ci.cloudbees.com/job/SnakeYAML/</url>
+    </ciManagement-->
     <mailingLists>
         <mailingList>
             <name>SnakeYAML developers and users List</name>
@@ -221,6 +225,16 @@
                     </instructions>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>2.4.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.6</version>
+            </plugin>
         </plugins>
     </build>
     <reporting>
@@ -282,6 +296,16 @@
                         </reports>
                     </reportSet>
                 </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>2.4.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.6</version>
             </plugin>
         </plugins>
     </reporting>

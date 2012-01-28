@@ -51,6 +51,7 @@ public class LoaderTest extends TestCase {
                 node.toString());
     }
 
+    @SuppressWarnings("deprecation")
     public void testCompose2() {
         LoaderOptions options = new LoaderOptions();
         Yaml loader = new Yaml(options);
@@ -59,7 +60,7 @@ public class LoaderTest extends TestCase {
         assertEquals(Tag.INT, node.getTag());
         assertEquals("3", node.getValue());
         // not sure whether it should be null or 0
-        assertEquals(new Character('\u0000'), node.getStyle());
+        assertEquals(Character.valueOf('\u0000'), node.getStyle());
         assertEquals(Object.class, node.getType());
         Mark mark = node.getStartMark();
         assertEquals(0, mark.getColumn());

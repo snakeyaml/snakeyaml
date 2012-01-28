@@ -71,4 +71,12 @@ public abstract class Token {
             return false;
         }
     }
+
+    /*
+     * for tests only
+     */
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

@@ -43,7 +43,7 @@ public class BeanConstructorTest extends TestCase {
         assertEquals(9999999999L, result.getLongPrimitive());
         assertEquals(Boolean.TRUE, result.getBooleanClass());
         assertTrue(result.isBooleanPrimitive());
-        assertEquals(new Character('2'), result.getCharClass());
+        assertEquals(Character.valueOf('2'), result.getCharClass());
         assertEquals('#', result.getCharPrimitive());
         assertEquals(new BigInteger("1234567890123456789012345678901234567890"),
                 result.getBigInteger());
@@ -112,7 +112,7 @@ public class BeanConstructorTest extends TestCase {
         assertNull("Null must be accepted.", bean.getCharClass());
         document = "charClass: 1\n";
         bean = (TestBean1) yaml.load(document);
-        assertEquals(new Character('1'), bean.getCharClass());
+        assertEquals(Character.valueOf('1'), bean.getCharClass());
     }
 
     public void testNoEmptyConstructor() {

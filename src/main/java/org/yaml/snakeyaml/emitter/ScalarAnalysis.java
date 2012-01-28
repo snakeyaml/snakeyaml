@@ -34,7 +34,7 @@ public final class ScalarAnalysis {
         this.allowFlowPlain = allowFlowPlain;
         this.allowBlockPlain = allowBlockPlain;
         this.allowSingleQuoted = allowSingleQuoted;
-        this.allowDoubleQuoted = allowDoubleQuoted;
+        // TODO this.allowDoubleQuoted = allowDoubleQuoted; this is strange
         this.allowBlock = allowBlock;
     }
 }

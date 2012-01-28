@@ -180,7 +180,7 @@ class SafeRepresenter extends BaseRepresenter {
         }
     }
 
-    private class IteratorWrapper implements Iterable<Object> {
+    private static class IteratorWrapper implements Iterable<Object> {
         private Iterator<Object> iter;
 
         public IteratorWrapper(Iterator<Object> iter) {

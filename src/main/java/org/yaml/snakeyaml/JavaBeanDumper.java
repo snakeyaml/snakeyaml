@@ -25,7 +25,7 @@ import org.yaml.snakeyaml.representer.Representer;
 
 /**
  * Convenience utility to serialize JavaBeans.
- *
+ * 
  * @deprecated use Yaml.dumpAs(data, Tag.MAP) instead
  */
 public class JavaBeanDumper {
