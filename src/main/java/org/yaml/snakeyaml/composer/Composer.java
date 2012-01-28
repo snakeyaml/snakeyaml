@@ -119,7 +119,7 @@ public class Composer {
         // Drop the DOCUMENT-START event.
         parser.getEvent();
         // Compose the root node.
-        Node node = composeNode(null, null);
+        Node node = composeNode(null);
         // Drop the DOCUMENT-END event.
         parser.getEvent();
         this.anchors.clear();
@@ -127,7 +127,7 @@ public class Composer {
         return node;
     }
 
-    private Node composeNode(Node parent, Object index) {
+    private Node composeNode(Node parent) {
         recursiveNodes.add(parent);
         if (parser.checkEvent(Event.ID.Alias)) {
             AliasEvent event = (AliasEvent) parser.getEvent();
@@ -201,7 +201,7 @@ public class Composer {
         }
         int index = 0;
         while (!parser.checkEvent(Event.ID.SequenceEnd)) {
-            children.add(composeNode(node, index));
+            children.add(composeNode(node));
             index++;
         }
         Event endEvent = parser.getEvent();
@@ -228,13 +228,13 @@ public class Composer {
             anchors.put(anchor, node);
         }
         while (!parser.checkEvent(Event.ID.MappingEnd)) {
-            Node itemKey = composeNode(node, null);
+            Node itemKey = composeNode(node);
             if (itemKey.getTag().equals(Tag.MERGE)) {
                 node.setMerged(true);
             } else if (itemKey.getTag().equals(Tag.VALUE)) {
                 itemKey.setTag(Tag.STR);
             }
-            Node itemValue = composeNode(node, itemKey);
+            Node itemValue = composeNode(node);
             children.add(new NodeTuple(itemKey, itemValue));
         }
         Event endEvent = parser.getEvent();
