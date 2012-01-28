@@ -26,6 +26,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.reader.UnicodeReader;
 
 public class LoadExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
@@ -51,7 +52,7 @@ public class LoadExampleTest extends TestCase {
         Object data = yaml.load(input);
         assertEquals("test", data);
         //
-        data = yaml.load(new ByteArrayInputStream("test2".getBytes()));
+        data = yaml.load(new ByteArrayInputStream("test2".getBytes(UnicodeReader.UTF8)));
         assertEquals("test2", data);
         input.close();
     }

@@ -7,7 +7,10 @@
     </properties>
     <body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
-             <action dev="maslovalex" type="update">
+             <action dev="py4fun" type="update">
+                Refactor with FindBugs: do not rely on default encoding (2012-01-28)
+             </action>
+             <action dev="py4fun" type="update">
                 Refactor: apply FindBugs recommendations (2012-01-28)
              </action>
              <action dev="maslovalex" type="fix">

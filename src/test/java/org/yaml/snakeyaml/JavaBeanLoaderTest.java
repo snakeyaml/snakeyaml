@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
+import org.yaml.snakeyaml.reader.UnicodeReader;
 
 public class JavaBeanLoaderTest extends TestCase {
 
@@ -50,7 +51,7 @@ public class JavaBeanLoaderTest extends TestCase {
 
     public void testLoadInputStream() {
         String yaml = "!!org.yaml.snakeyaml.JavaBeanParserTest$Bean {id: 3, name: Test me.}\n";
-        InputStream input = new ByteArrayInputStream(yaml.getBytes());
+        InputStream input = new ByteArrayInputStream(yaml.getBytes(UnicodeReader.UTF8));
         Yaml loader = new Yaml();
         Bean parsed = loader.loadAs(input, Bean.class);
         assertEquals(3, parsed.getId());

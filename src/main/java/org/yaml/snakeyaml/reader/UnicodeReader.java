@@ -42,12 +42,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PushbackInputStream;
 import java.io.Reader;
+import java.nio.charset.Charset;
 
 /**
  * Generic unicode textreader, which will use BOM mark to identify the encoding
  * to be used. If BOM is not found then use a given default or system encoding.
  */
 public class UnicodeReader extends Reader {
+    public static final Charset UTF8 = Charset.forName("UTF-8");
+    public static final Charset UTF16BE = Charset.forName("UTF-16BE");
+    public static final Charset UTF16LE = Charset.forName("UTF-16LE");
+
     PushbackInputStream internalIn;
     InputStreamReader internalIn2 = null;
 
@@ -77,23 +82,23 @@ public class UnicodeReader extends Reader {
         if (internalIn2 != null)
             return;
 
-        String encoding;
+        Charset encoding;
         byte bom[] = new byte[BOM_SIZE];
         int n, unread;
         n = internalIn.read(bom, 0, bom.length);
 
         if ((bom[0] == (byte) 0xEF) && (bom[1] == (byte) 0xBB) && (bom[2] == (byte) 0xBF)) {
-            encoding = "UTF-8";
+            encoding = UTF8;
             unread = n - 3;
         } else if ((bom[0] == (byte) 0xFE) && (bom[1] == (byte) 0xFF)) {
-            encoding = "UTF-16BE";
+            encoding = UTF16BE;
             unread = n - 2;
         } else if ((bom[0] == (byte) 0xFF) && (bom[1] == (byte) 0xFE)) {
-            encoding = "UTF-16LE";
+            encoding = UTF16LE;
             unread = n - 2;
         } else {
             // Unicode BOM mark not found, unread all bytes
-            encoding = "UTF-8";
+            encoding = UTF8;
             unread = n;
         }
 

@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.reader.UnicodeReader;
 
 /**
  * Represent standard Java classes
@@ -114,7 +115,7 @@ class SafeRepresenter extends BaseRepresenter {
             if (BINARY_PATTERN.matcher(value).find()) {
                 tag = Tag.BINARY;
                 char[] binary;
-                binary = Base64Coder.encode(value.getBytes());
+                binary = Base64Coder.encode(value.getBytes(UnicodeReader.UTF8));
                 value = String.valueOf(binary);
                 style = '|';
             }
