@@ -904,7 +904,7 @@ public final class Emitter implements Emitable {
     private ScalarAnalysis analyzeScalar(String scalar) {
         // Empty scalar is a special case.
         if (scalar.length() == 0) {
-            return new ScalarAnalysis(scalar, true, false, false, true, true, true, false);
+            return new ScalarAnalysis(scalar, true, false, false, true, true, false);
         }
         // Indicators and special characters.
         boolean blockIndicators = false;
@@ -1028,7 +1028,6 @@ public final class Emitter implements Emitable {
         boolean allowFlowPlain = true;
         boolean allowBlockPlain = true;
         boolean allowSingleQuoted = true;
-        boolean allowDoubleQuoted = true;
         boolean allowBlock = true;
         // Leading and trailing whitespaces are bad for plain scalars.
         if (leadingSpace || leadingBreak || trailingSpace || trailingBreak) {
@@ -1063,7 +1062,7 @@ public final class Emitter implements Emitable {
         }
 
         return new ScalarAnalysis(scalar, false, lineBreaks, allowFlowPlain, allowBlockPlain,
-                allowSingleQuoted, allowDoubleQuoted, allowBlock);
+                allowSingleQuoted, allowBlock);
     }
 
     // Writers.

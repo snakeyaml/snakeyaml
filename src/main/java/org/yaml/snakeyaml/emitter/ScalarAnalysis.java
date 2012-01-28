@@ -22,19 +22,16 @@ public final class ScalarAnalysis {
     public boolean allowFlowPlain;
     public boolean allowBlockPlain;
     public boolean allowSingleQuoted;
-    public boolean allowDoubleQuoted;
     public boolean allowBlock;
 
     public ScalarAnalysis(String scalar, boolean empty, boolean multiline, boolean allowFlowPlain,
-            boolean allowBlockPlain, boolean allowSingleQuoted, boolean allowDoubleQuoted,
-            boolean allowBlock) {
+            boolean allowBlockPlain, boolean allowSingleQuoted, boolean allowBlock) {
         this.scalar = scalar;
         this.empty = empty;
         this.multiline = multiline;
         this.allowFlowPlain = allowFlowPlain;
         this.allowBlockPlain = allowBlockPlain;
         this.allowSingleQuoted = allowSingleQuoted;
-        // TODO this.allowDoubleQuoted = allowDoubleQuoted; this is strange
         this.allowBlock = allowBlock;
     }
 }

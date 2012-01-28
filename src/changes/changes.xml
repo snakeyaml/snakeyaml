@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+             <action dev="py4fun" type="remove">
+                Refactor with FindBugs: remove unused ScalarAnalysis.allowDoubleQuoted (2012-01-28)
+             </action>
              <action dev="py4fun" type="update">
                 Refactor with FindBugs: do not rely on default encoding (2012-01-28)
              </action>
