@@ -63,7 +63,7 @@ public final class Emitter implements Emitable {
     public static final int MIN_INDENT = 1;
     public static final int MAX_INDENT = 10;
 
-    protected static final char[] SPACE = { ' ' };
+    private static final char[] SPACE = { ' ' };
 
     static {
         ESCAPE_REPLACEMENTS.put(Character.valueOf('\0'), "0");
@@ -1225,8 +1225,8 @@ public final class Emitter implements Emitable {
                 }
                 if (ch != null) {
                     String data;
-                    if (ESCAPE_REPLACEMENTS.containsKey(Character.valueOf(ch))) {
-                        data = "\\" + ESCAPE_REPLACEMENTS.get(Character.valueOf(ch));
+                    if (ESCAPE_REPLACEMENTS.containsKey(ch)) {
+                        data = "\\" + ESCAPE_REPLACEMENTS.get(ch);
                     } else if (!this.allowUnicode) {
                         // this is different from PyYAML which escapes all
                         // non-ASCII characters

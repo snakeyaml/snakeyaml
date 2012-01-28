@@ -7,6 +7,10 @@
     </properties>
     <body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+             <action dev="py4fun" type="update">
+                Refactor Emitter: the SPACE mutable static field could be changed by malicious code or by accident. 
+                Boxed value is unboxed and then immediately reboxed (2012-01-28)
+             </action>
              <action dev="py4fun" type="remove">
                 Refactor with FindBugs: remove unused ScalarAnalysis.allowDoubleQuoted (2012-01-28)
              </action>
