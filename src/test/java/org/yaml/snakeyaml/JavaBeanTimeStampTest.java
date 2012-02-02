@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml;
 
 import java.sql.Date;
@@ -24,7 +23,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 
 public class JavaBeanTimeStampTest extends TestCase {
-    public void testLoadDefaultJavaSqlTimestamp() throws Exception {
+    public void testLoadDefaultJavaSqlTimestamp() {
         JavaBeanWithSqlTimestamp javaBeanToDump = new JavaBeanWithSqlTimestamp();
         Timestamp stamp = new Timestamp(1000000000000L);
         javaBeanToDump.setTimestamp(stamp);
@@ -44,7 +43,7 @@ public class JavaBeanTimeStampTest extends TestCase {
         assertEquals(date, javaBeanToLoad.getDate());
     }
 
-    public void testLoadDefaultJavaSqlTimestampNoGlobalTag() throws Exception {
+    public void testLoadDefaultJavaSqlTimestampNoGlobalTag() {
         JavaBeanWithSqlTimestamp javaBeanToDump = new JavaBeanWithSqlTimestamp();
         Timestamp stamp = new Timestamp(1000000000000L);
         javaBeanToDump.setTimestamp(stamp);

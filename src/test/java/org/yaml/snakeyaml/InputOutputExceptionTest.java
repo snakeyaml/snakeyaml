@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml;
 
 import java.io.IOException;
@@ -25,7 +24,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class InputOutputExceptionTest extends TestCase {
-    public void testIOExceptionOnLoad() throws Exception {
+    public void testIOExceptionOnLoad() {
         try {
             new Yaml().load(new BrokenInputStream());
             fail("Input must be broken.");
@@ -35,7 +34,7 @@ public class InputOutputExceptionTest extends TestCase {
         }
     }
 
-    public void testIOExceptionOnDump() throws Exception {
+    public void testIOExceptionOnDump() {
         try {
             new Yaml().dump("something", new BrokenWriter());
             fail("Output must be broken.");

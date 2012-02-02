@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +33,7 @@ import org.yaml.snakeyaml.representer.Representer;
  */
 public class NullTagTest extends AbstractTest {
 
-    public void testNull() throws IOException {
+    public void testNull() {
         assertNull("Got: '" + load("---\n") + "'", load("---\n"));
         assertNull(load("---\n..."));
         assertNull(load("---\n...\n"));
@@ -56,7 +54,7 @@ public class NullTagTest extends AbstractTest {
     }
 
     @SuppressWarnings("unchecked")
-    public void testSequenceNull() throws IOException {
+    public void testSequenceNull() {
         String input = "---\n# This sequence has five\n# entries, two have values.\nsparse:\n  - ~\n  - 2nd entry\n  -\n  - 4th entry\n  - Null\n";
         List<String> parsed = (List<String>) getMapValue(input, "sparse");
         assertEquals(5, parsed.size());
@@ -67,7 +65,7 @@ public class NullTagTest extends AbstractTest {
         assertNull(parsed.get(4));
     }
 
-    public void testNullInMap() throws IOException {
+    public void testNullInMap() {
         String input = "key1: null\n~: value1";
         Map<String, Object> parsed = getMap(input);
         assertEquals(2, parsed.size());
@@ -80,20 +78,20 @@ public class NullTagTest extends AbstractTest {
         assertFalse(getMap("key2: value2").containsKey(null));
     }
 
-    public void testNullShorthand() throws IOException {
+    public void testNullShorthand() {
         assertNull(getMapValue("nothing: !!null null", "nothing"));
     }
 
-    public void testNullTag() throws IOException {
+    public void testNullTag() {
         assertNull(getMapValue("nothing: !<tag:yaml.org,2002:null> null", "nothing"));
     }
 
-    public void testNullOut() throws IOException {
+    public void testNullOut() {
         String output = dump(null);
         assertEquals("null\n", output);
     }
 
-    public void testNullOutAsEmpty() throws IOException {
+    public void testNullOutAsEmpty() {
         Yaml yaml = new Yaml(new NullRepresenter());
         String output = yaml.dump(null);
         assertEquals("", output);
@@ -102,7 +100,7 @@ public class NullTagTest extends AbstractTest {
     /**
      * test flow style
      */
-    public void testNullOutAsEmpty2() throws IOException {
+    public void testNullOutAsEmpty2() {
         Yaml yaml = new Yaml(new NullRepresenter());
         Map<String, String> map = new HashMap<String, String>();
         map.put("aaa", "foo");
@@ -114,7 +112,7 @@ public class NullTagTest extends AbstractTest {
     /**
      * test block style
      */
-    public void testBoolOutAsEmpty3() throws IOException {
+    public void testBoolOutAsEmpty3() {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
         Yaml yaml = new Yaml(new NullRepresenter(), options);

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package examples.jodatime;
 
 import java.util.Date;
@@ -24,8 +23,11 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 
-public class JodaTimeContructor extends Constructor {
-    public JodaTimeContructor() {
+/**
+ * It works only when JodaTime is not a JavaBean property
+ */
+public class JodaTimeImplicitContructor extends Constructor {
+    public JodaTimeImplicitContructor() {
         this.yamlConstructors.put(Tag.TIMESTAMP, new ConstructJodaTimestamp());
     }
 

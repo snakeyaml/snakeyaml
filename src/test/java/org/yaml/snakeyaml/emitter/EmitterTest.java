@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.emitter;
 
 import java.util.LinkedHashMap;
@@ -62,7 +61,7 @@ public class EmitterTest extends TestCase {
         map.put("bbb", "\nbla-bla");
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
-        String etalon = "{aaa: '0123456789 0123456789\n\n    0123456789 0123456789', bbb: '\n\n    bla-bla'}\n";
+        String etalon = "aaa: |-\n  0123456789 0123456789\n  0123456789 0123456789\nbbb: |2-\n\n  bla-bla\n";
         assertEquals(etalon, output);
     }
 
@@ -78,7 +77,7 @@ public class EmitterTest extends TestCase {
 
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
-        String etalon = "{\n  aaa: '0123456789 0123456789\n\n    0123456789 0123456789',\n  bbb: '\n\n    bla-bla'\n}\n";
+        String etalon = "aaa: |-\n  0123456789 0123456789\n  0123456789 0123456789\nbbb: |2-\n\n  bla-bla\n";
         assertEquals(etalon, output);
     }
 

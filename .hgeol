@@ -1,0 +1,8 @@
+[patterns]
+**.java  = LF
+**.txt   = LF
+**.xml   = LF
+**.yaml  = LF
+**.yml   = LF
+**.data  = LF
+**.canonical   = LF

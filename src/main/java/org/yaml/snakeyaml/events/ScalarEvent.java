@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.events;
 
 import org.yaml.snakeyaml.error.Mark;
@@ -54,7 +53,7 @@ public final class ScalarEvent extends NodeEvent {
     /**
      * Style of the scalar.
      * <dl>
-     * <dt>''</dt>
+     * <dt>null</dt>
      * <dd>Flow Style - Plain</dd>
      * <dt>'\''</dt>
      * <dd>Flow Style - Single-Quoted</dd>

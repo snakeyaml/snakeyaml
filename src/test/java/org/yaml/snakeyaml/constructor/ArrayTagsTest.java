@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.constructor;
 
-import java.io.IOException;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -29,7 +27,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class ArrayTagsTest extends TestCase {
 
-    public void testDefaultRepresenter() throws IOException {
+    public void testDefaultRepresenter() {
         CarWithArray car = new CarWithArray();
         car.setPlate("12-XP-F4");
         Wheel[] wheels = new Wheel[5];
@@ -43,7 +41,7 @@ public class ArrayTagsTest extends TestCase {
                 new Yaml().dump(car));
     }
 
-    public void testFlowBlock() throws IOException {
+    public void testFlowBlock() {
         CarWithArray car = new CarWithArray();
         car.setPlate("12-XP-F4");
         Wheel[] wheels = new Wheel[5];
@@ -59,7 +57,7 @@ public class ArrayTagsTest extends TestCase {
         assertEquals(Util.getLocalResource("constructor/cararray-with-tags.yaml"), yaml.dump(car));
     }
 
-    public void testLoadClassTag() throws IOException {
+    public void testLoadClassTag() {
         Constructor constructor = new Constructor();
         constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
         Yaml yaml = new Yaml(constructor);
@@ -70,7 +68,7 @@ public class ArrayTagsTest extends TestCase {
         assertEquals(5, wheels.size());
     }
 
-    public void testNullDescription() throws IOException {
+    public void testNullDescription() {
         Constructor constructor = new Constructor();
         try {
             constructor.addTypeDescription(null);
@@ -80,7 +78,7 @@ public class ArrayTagsTest extends TestCase {
         }
     }
 
-    public void testLoadClassNoRoot() throws IOException {
+    public void testLoadClassNoRoot() {
         Constructor constructor = new Constructor(new TypeDescription(CarWithArray.class));
         Yaml yaml = new Yaml(constructor);
         CarWithArray car = (CarWithArray) yaml.load(Util

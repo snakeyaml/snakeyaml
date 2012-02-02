@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.issues.issue46;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +32,7 @@ import org.yaml.snakeyaml.representer.Representer;
  */
 public class FileTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void test() throws IOException {
+    public void test() {
         File file = new File("src/test/resources/examples/list-bean-1.yaml");
         assertTrue(file.exists());
         Yaml yaml = new Yaml(new MyRepresenter());

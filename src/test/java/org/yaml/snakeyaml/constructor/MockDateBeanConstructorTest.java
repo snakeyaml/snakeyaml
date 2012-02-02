@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.constructor;
 
-import java.io.IOException;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -25,7 +23,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class MockDateBeanConstructorTest extends TestCase {
 
-    public void testConstructor() throws IOException {
+    public void testConstructor() {
         String className = "!!org.yaml.snakeyaml.constructor.MockDateBeanConstructorTest$DateBean {number: 24, date: 2009-07-24}";
         Yaml yaml = new Yaml();
         try {

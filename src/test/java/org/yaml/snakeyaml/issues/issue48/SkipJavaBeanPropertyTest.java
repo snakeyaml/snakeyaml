@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.issues.issue48;
-
-import java.io.IOException;
 
 import junit.framework.TestCase;
 
@@ -27,7 +24,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class SkipJavaBeanPropertyTest extends TestCase {
-    public void testWithNull() throws IOException {
+    public void testWithNull() {
         Bean bean = new Bean();
         bean.setValue(3);
         Yaml yaml = new Yaml();
@@ -36,7 +33,7 @@ public class SkipJavaBeanPropertyTest extends TestCase {
         assertEquals("name: null\nvalue: 3\n", output);
     }
 
-    public void testWithoutNull() throws IOException {
+    public void testWithoutNull() {
         Bean bean = new Bean();
         bean.setValue(5);
         Yaml yaml = new Yaml(new MyRepresenter());

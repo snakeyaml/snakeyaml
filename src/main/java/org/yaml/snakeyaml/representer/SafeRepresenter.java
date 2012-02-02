@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.representer;
 
 import java.math.BigInteger;
@@ -105,6 +104,7 @@ class SafeRepresenter extends BaseRepresenter {
     }
 
     public static Pattern BINARY_PATTERN = Pattern.compile("[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]");
+    public static Pattern MULTILINE_PATTERN = Pattern.compile("\n|\u0085|\u2028|\u2029");
 
     protected class RepresentString implements Represent {
         public Node representData(Object data) {
@@ -116,6 +116,11 @@ class SafeRepresenter extends BaseRepresenter {
                 char[] binary;
                 binary = Base64Coder.encode(value.getBytes());
                 value = String.valueOf(binary);
+                style = '|';
+            }
+            // if no other scalar style is explicitly set, use literal style for
+            // multiline scalars
+            if (defaultScalarStyle == null && MULTILINE_PATTERN.matcher(value).find()) {
                 style = '|';
             }
             return representScalar(tag, value, style);

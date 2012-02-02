@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.issues.issue61;
 
 import java.util.HashMap;
@@ -26,7 +25,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class GenericMapBeanTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void testGenericMap() throws Exception {
+    public void testGenericMap() {
         Yaml yaml = new Yaml();
         MapProvider<String, Integer> listProvider = new MapProvider<String, Integer>();
         listProvider.getMap().put("foo", 17);
@@ -43,7 +42,7 @@ public class GenericMapBeanTest extends TestCase {
     }
 
     @SuppressWarnings("rawtypes")
-    public void testGenericBean() throws Exception {
+    public void testGenericBean() {
         Yaml yaml = new Yaml();
         MapProvider<String, Bean> listProvider = new MapProvider<String, Bean>();
         Bean foo = new Bean();

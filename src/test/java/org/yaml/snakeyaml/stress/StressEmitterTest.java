@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.stress;
-
-import java.io.IOException;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -36,7 +33,7 @@ public class StressEmitterTest extends TestCase {
         return new TestSuite(StressEmitterTest.class);
     }
 
-    public void testPerformance() throws IOException {
+    public void testPerformance() {
         Yaml loader = new Yaml();
         Invoice invoice = loader.loadAs(Util.getLocalResource("specification/example2_27.yaml"),
                 Invoice.class);

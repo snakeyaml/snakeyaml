@@ -1,10 +1,12 @@
 !!org.yaml.snakeyaml.Invoice
 billTo: &id001
-  address: {city: Royal Oak, lines: '458 Walkman Dr.
-
+  address:
+    city: Royal Oak
+    lines: |
+      458 Walkman Dr.
       Suite #292
-
-      ', postal: '48046', state: MI}
+    postal: '48046'
+    state: MI
   family: Dumars
   given: Chris
 comments: Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.

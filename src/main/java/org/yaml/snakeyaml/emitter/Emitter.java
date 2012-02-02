@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.emitter;
 
 import java.io.IOException;
@@ -781,6 +780,7 @@ public final class Emitter implements Emitable {
         return '"';
     }
 
+    @SuppressWarnings("deprecation")
     private void processScalar() throws IOException {
         ScalarEvent ev = (ScalarEvent) event;
         if (analysis == null) {
@@ -789,6 +789,7 @@ public final class Emitter implements Emitable {
         if (style == null) {
             style = chooseScalarStyle();
         }
+        // TODO the next line should be removed
         style = options.calculateScalarStyle(analysis, ScalarStyle.createStyle(style)).getChar();
         boolean split = !simpleKeyContext;
         if (style == null) {
@@ -865,6 +866,7 @@ public final class Emitter implements Emitable {
         }
         String handle = null;
         String suffix = tag;
+        //shall the tag prefixes be sorted as in PyYAML?
         for (String prefix : tagPrefixes.keySet()) {
             if (tag.startsWith(prefix) && ("!".equals(prefix) || prefix.length() < tag.length())) {
                 handle = prefix;
@@ -1044,9 +1046,9 @@ public final class Emitter implements Emitable {
             allowFlowPlain = allowBlockPlain = allowSingleQuoted = allowBlock = false;
         }
         // Although the plain scalar writer supports breaks, we never emit
-        // multiline plain scalars.
+        // multiline plain scalars in the flow context.
         if (lineBreaks) {
-            allowFlowPlain = allowBlockPlain = false;
+            allowFlowPlain = false;
         }
         // Flow indicators are forbidden for flow plain scalars.
         if (flowIndicators) {

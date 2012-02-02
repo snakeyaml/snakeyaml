@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -238,7 +236,7 @@ public class Example2_24Test extends TestCase {
         }
     }
 
-    public void testExample_2_24() throws IOException {
+    public void testExample_2_24() {
         Yaml yaml = new Yaml(new MyConstructor());
         Shape shape = (Shape) yaml.load(Util.getLocalResource("specification/example2_24.yaml"));
         assertNotNull(shape);

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.issues.issue11;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -32,7 +30,7 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlMapTest extends TestCase {
-    public void testYaml() throws IOException {
+    public void testYaml() {
         Yaml yaml = new Yaml(new ExtendedConstructor(), new ExtendedRepresenter());
         String output = yaml.dump(new Custom(123));
         // System.out.println(output);
@@ -41,7 +39,7 @@ public class YamlMapTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testYamlMap() throws IOException {
+    public void testYamlMap() {
         Map<String, Object> data = new TreeMap<String, Object>();
         data.put("customTag", new Custom(123));
 
@@ -56,7 +54,7 @@ public class YamlMapTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testYamlMapBean() throws IOException {
+    public void testYamlMapBean() {
         Map<String, Object> data = new TreeMap<String, Object>();
         data.put("knownClass", new Wrapper("test", new Custom(456)));
 

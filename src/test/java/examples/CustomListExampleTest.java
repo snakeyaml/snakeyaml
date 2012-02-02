@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package examples;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CustomListExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void testList() throws IOException {
+    public void testList() {
         Yaml yaml = new Yaml(new CustomConstructor());
         List<Integer> data = (List<Integer>) yaml.load("[1, 2, 3]");
         assertTrue(data instanceof LinkedList);

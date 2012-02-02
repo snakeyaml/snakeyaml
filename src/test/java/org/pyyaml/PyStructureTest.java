@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.pyyaml;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -77,7 +75,7 @@ public class PyStructureTest extends PyImportTest {
         }
     }
 
-    public void testParser() throws IOException {
+    public void testParser() {
         File[] files = getStreamsByExtension(".data", true);
         assertTrue("No test files found.", files.length > 0);
         for (File file : files) {
@@ -103,7 +101,7 @@ public class PyStructureTest extends PyImportTest {
         }
     }
 
-    public void testParserOnCanonical() throws IOException {
+    public void testParserOnCanonical() {
         File[] canonicalFiles = getStreamsByExtension(".canonical", false);
         assertTrue("No test files found.", canonicalFiles.length > 0);
         for (File file : canonicalFiles) {
@@ -156,7 +154,7 @@ public class PyStructureTest extends PyImportTest {
         }
     }
 
-    public void testComposer() throws IOException {
+    public void testComposer() {
         File[] files = getStreamsByExtension(".data", true);
         assertTrue("No test files found.", files.length > 0);
         for (File file : files) {
@@ -269,7 +267,7 @@ public class PyStructureTest extends PyImportTest {
         }
     }
 
-    public void testConstructor() throws IOException {
+    public void testConstructor() {
         File[] files = getStreamsByExtension(".data", true);
         assertTrue("No test files found.", files.length > 0);
         Yaml myYaml = new Yaml(new MyConstructor());

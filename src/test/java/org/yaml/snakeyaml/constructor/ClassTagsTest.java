@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.constructor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +29,7 @@ import org.yaml.snakeyaml.representer.Representer;
 
 public class ClassTagsTest extends TestCase {
 
-    public void testDefaultRepresenter() throws IOException {
+    public void testDefaultRepresenter() {
         Car car = new Car();
         car.setPlate("12-XP-F4");
         List<Wheel> wheels = new ArrayList<Wheel>();
@@ -44,7 +42,7 @@ public class ClassTagsTest extends TestCase {
         assertEquals(Util.getLocalResource("constructor/car-with-tags.yaml"), new Yaml().dump(car));
     }
 
-    public void testDumpClassTag() throws IOException {
+    public void testDumpClassTag() {
         Car car = new Car();
         car.setPlate("12-XP-F4");
         List<Wheel> wheels = new ArrayList<Wheel>();
@@ -62,7 +60,7 @@ public class ClassTagsTest extends TestCase {
         assertEquals(Util.getLocalResource("constructor/car-without-tags.yaml"), output);
     }
 
-    public void testLoadUnknounClassTag() throws IOException {
+    public void testLoadUnknounClassTag() {
         try {
             Yaml yaml = new Yaml();
             yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
@@ -73,7 +71,7 @@ public class ClassTagsTest extends TestCase {
 
     }
 
-    public void testLoadClassTag() throws IOException {
+    public void testLoadClassTag() {
         Constructor constructor = new Constructor();
         constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
         Yaml yaml = new Yaml(constructor);
@@ -85,7 +83,7 @@ public class ClassTagsTest extends TestCase {
         assertEquals(5, wheels.size());
     }
 
-    public void testNullDescription() throws IOException {
+    public void testNullDescription() {
         Constructor constructor = new Constructor();
         try {
             constructor.addTypeDescription(null);
@@ -95,7 +93,7 @@ public class ClassTagsTest extends TestCase {
         }
     }
 
-    public void testLoadClassNoRoot() throws IOException {
+    public void testLoadClassNoRoot() {
         Constructor constructor = new Constructor(new TypeDescription(Car.class));
         Yaml yaml = new Yaml(constructor);
         Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));

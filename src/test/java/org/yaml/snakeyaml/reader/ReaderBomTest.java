@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.reader;
 
 import java.io.ByteArrayInputStream;
@@ -29,7 +28,7 @@ import junit.framework.TestCase;
 
 public class ReaderBomTest extends TestCase {
 
-    public void testReader() throws IOException {
+    public void testReader() {
         Reader input = new StringReader("test");
         StreamReader reader = new StreamReader(input);
         assertEquals('t', reader.peek());

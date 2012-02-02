@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.constructor;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +30,7 @@ import org.yaml.snakeyaml.representer.Representer;
 
 public class ImplicitTagsTest extends TestCase {
 
-    public void testDefaultRepresenter() throws IOException {
+    public void testDefaultRepresenter() {
         CarWithWheel car1 = new CarWithWheel();
         car1.setPlate("12-XP-F4");
         Wheel wheel = new Wheel();
@@ -50,7 +48,7 @@ public class ImplicitTagsTest extends TestCase {
         assertEquals(carYaml1, carYaml2);
     }
 
-    public void testNoRootTag() throws IOException {
+    public void testNoRootTag() {
         CarWithWheel car1 = new CarWithWheel();
         car1.setPlate("12-XP-F4");
         Wheel wheel = new Wheel();
@@ -70,7 +68,7 @@ public class ImplicitTagsTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testRootMap() throws IOException {
+    public void testRootMap() {
         Map<Object, Object> car1 = new HashMap<Object, Object>();
         car1.put("plate", "12-XP-F4");
         Wheel wheel = new Wheel();
@@ -86,7 +84,7 @@ public class ImplicitTagsTest extends TestCase {
         assertEquals(carYaml1, new Yaml().dump(car2));
     }
 
-    public void testLoadClassTag() throws IOException {
+    public void testLoadClassTag() {
         Constructor constructor = new Constructor();
         constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
         Yaml yaml = new Yaml(constructor);

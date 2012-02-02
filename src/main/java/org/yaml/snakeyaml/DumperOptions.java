@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml;
 
 import java.util.Map;
@@ -31,6 +30,7 @@ public class DumperOptions {
      * double-quoted style. These styles offer a range of trade-offs between
      * expressive power and readability.
      * 
+     * @see http://yaml.org/spec/1.1/#id903915
      * @see http://yaml.org/spec/1.1/#id858081
      */
     public enum ScalarStyle {
@@ -76,7 +76,8 @@ public class DumperOptions {
      * document. In contrast, flow styles rely on explicit indicators to denote
      * nesting and scope.
      * 
-     * @see See Chapter 10. Collection Styles http://yaml.org/spec/1.1/#id930798
+     * @see 3.2.3.1. Node Styles (http://yaml.org/spec/1.1)
+     * @see http://www.yaml.org/spec/current.html#id2509255
      */
     public enum FlowStyle {
         FLOW(Boolean.TRUE), BLOCK(Boolean.FALSE), AUTO(null);
@@ -362,6 +363,7 @@ public class DumperOptions {
      * @param style
      *            - automatically detected style
      * @return ScalarStyle to be used for scalar
+     * @deprecated it was implemented as a quick fix for issue 29
      */
     public ScalarStyle calculateScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
         return style;

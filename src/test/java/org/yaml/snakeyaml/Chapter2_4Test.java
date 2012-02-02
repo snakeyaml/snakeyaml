@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -120,7 +118,7 @@ public class Chapter2_4Test extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testExample_2_23_picture() throws Exception {
+    public void testExample_2_23_picture() {
         YamlDocument document = new YamlDocument("example2_23_picture.yaml", false);
         Map<String, Object> map = (Map<String, Object>) document.getNativeData();
         assertEquals(1, map.size());
@@ -145,7 +143,7 @@ public class Chapter2_4Test extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testExample_2_23() throws IOException {
+    public void testExample_2_23() {
         YamlDocument document = new YamlDocument("example2_23.yaml", false,
                 new SomethingConstructor());
         Map<String, Object> map = (Map<String, Object>) document.getNativeData();

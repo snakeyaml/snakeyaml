@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.constructor;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +31,7 @@ import org.yaml.snakeyaml.representer.Representer;
 
 public class TypeSafeCollectionsTest extends TestCase {
 
-    public void testTypeSafeList() throws IOException {
+    public void testTypeSafeList() {
         Constructor constructor = new Constructor(Car.class);
         TypeDescription carDescription = new TypeDescription(Car.class);
         carDescription.putListPropertyType("wheels", Wheel.class);
@@ -49,7 +47,7 @@ public class TypeSafeCollectionsTest extends TestCase {
         }
     }
 
-    public void testTypeSafeMap() throws IOException {
+    public void testTypeSafeMap() {
         Constructor constructor = new Constructor(MyCar.class);
         TypeDescription carDescription = new TypeDescription(MyCar.class);
         carDescription.putMapPropertyType("wheels", MyWheel.class, Object.class);
@@ -69,7 +67,7 @@ public class TypeSafeCollectionsTest extends TestCase {
         }
     }
 
-    public void testTypeSafeList2() throws IOException {
+    public void testTypeSafeList2() {
         Constructor constructor = new Constructor(Car.class);
         TypeDescription carDescription = new TypeDescription(Car.class);
         carDescription.addPropertyParameters("wheels", Wheel.class);
@@ -85,7 +83,7 @@ public class TypeSafeCollectionsTest extends TestCase {
         }
     }
 
-    public void testTypeSafeMap2() throws IOException {
+    public void testTypeSafeMap2() {
         Constructor constructor = new Constructor(MyCar.class);
         TypeDescription carDescription = new TypeDescription(MyCar.class);
         carDescription.addPropertyParameters("wheels", MyWheel.class, Object.class);
@@ -105,7 +103,7 @@ public class TypeSafeCollectionsTest extends TestCase {
         }
     }
 
-    public void testWithGlobalTag() throws IOException {
+    public void testWithGlobalTag() {
         Map<MyWheel, Date> wheels = new TreeMap<MyWheel, Date>();
         long time = 1248212168084L;
         for (int i = 1; i < 6; i++) {

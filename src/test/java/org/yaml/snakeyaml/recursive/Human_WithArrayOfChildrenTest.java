@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.recursive;
 
-import java.io.IOException;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -143,7 +141,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
         }
     }
 
-    public void testChildrenArray() throws IOException {
+    public void testChildrenArray() {
         Constructor constructor = new Constructor(Human_WithArrayOfChildren.class);
         TypeDescription HumanWithChildrenArrayDescription = new TypeDescription(
                 Human_WithArrayOfChildren.class);
@@ -161,7 +159,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
         checkSon(son2);
     }
 
-    public void testDumpChildrenArrayWithoutRootTag() throws IOException {
+    public void testDumpChildrenArrayWithoutRootTag() {
         Yaml yaml = new Yaml();
         Human_WithArrayOfChildren son = createSon();
         String output = yaml.dumpAsMap(son);
@@ -170,7 +168,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
         assertEquals(etalon, output);
     }
 
-    public void testParseChildrenArrayWithoutRootTag() throws IOException {
+    public void testParseChildrenArrayWithoutRootTag() {
         Constructor constructor = new Constructor(Human_WithArrayOfChildren.class);
         TypeDescription HumanWithChildrenArrayDescription = new TypeDescription(
                 Human_WithArrayOfChildren.class);

@@ -1,0 +1,6 @@
+common: &id_common
+   key1: 1
+   key2: 2
+
+production:
+   <<: *id_common

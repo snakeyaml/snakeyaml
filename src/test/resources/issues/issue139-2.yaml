@@ -1,0 +1,6 @@
+common: &id_common
+   key: 1
+   key: 2 # this value must overwrite the previous. Is it specified ?
+
+production:
+   <<: *id_common

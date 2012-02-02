@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.constructor;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -90,6 +90,8 @@ public class SafeConstructor extends BaseConstructor {
     private List<NodeTuple> mergeNode(MappingNode node, boolean isPreffered,
             Map<Object, Integer> key2index, List<NodeTuple> values) {
         List<NodeTuple> nodeValue = node.getValue();
+        // reversed for http://code.google.com/p/snakeyaml/issues/detail?id=139
+        Collections.reverse(nodeValue);
         for (Iterator<NodeTuple> iter = nodeValue.iterator(); iter.hasNext();) {
             final NodeTuple nodeTuple = iter.next();
             final Node keyNode = nodeTuple.getKeyNode();

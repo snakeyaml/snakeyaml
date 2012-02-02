@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.introspector;
 
 import java.lang.reflect.Field;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
+/**
+ * <p>
+ * A <code>FieldProperty</code> is a <code>Property</code> which is accessed as
+ * a field, without going through accessor methods (setX, getX). The field may
+ * have any scope (public, package, protected, private).
+ * </p>
+ */
 public class FieldProperty extends GenericProperty {
     private final Field field;
 

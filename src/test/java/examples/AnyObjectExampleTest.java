@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package examples;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +25,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class AnyObjectExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
-    public void testLoad() throws IOException {
+    public void testLoad() {
         String doc = Util.getLocalResource("examples/any-object-example.yaml");
         Yaml yaml = new Yaml();
         Map<String, Object> object = (Map<String, Object>) yaml.load(doc);

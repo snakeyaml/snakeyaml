@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package examples;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -34,7 +32,7 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class DiceExampleTest extends TestCase {
-    public void testRepresenter() throws IOException {
+    public void testRepresenter() {
         Dice dice = new Dice(3, 6);
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
@@ -43,7 +41,7 @@ public class DiceExampleTest extends TestCase {
         assertEquals("!!examples.Dice {a: 3, b: 6}\n", output);
     }
 
-    public void testDiceRepresenter() throws IOException {
+    public void testDiceRepresenter() {
         Dice dice = new Dice(3, 6);
         Map<String, Dice> data = new HashMap<String, Dice>();
         data.put("gold", dice);
@@ -83,7 +81,7 @@ public class DiceExampleTest extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testConstructor() throws IOException {
+    public void testConstructor() {
         Yaml yaml = new Yaml(new DiceConstructor());
         Object data = yaml.load("{initial hit points: !dice '8d4'}");
         Map<String, Dice> map = (Map<String, Dice>) data;
@@ -92,7 +90,7 @@ public class DiceExampleTest extends TestCase {
 
     // the tag must start with a digit
     @SuppressWarnings("unchecked")
-    public void testImplicitResolver() throws IOException {
+    public void testImplicitResolver() {
         Yaml yaml = new Yaml(new DiceConstructor(), new DiceRepresenter());
         // the tag must start with a digit
         yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), "123456789");
@@ -109,7 +107,7 @@ public class DiceExampleTest extends TestCase {
 
     // the tag may start with anything
     @SuppressWarnings("unchecked")
-    public void testImplicitResolverWithNull() throws IOException {
+    public void testImplicitResolverWithNull() {
         Yaml yaml = new Yaml(new DiceConstructor(), new DiceRepresenter());
         // the tag may start with anything
         yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), null);

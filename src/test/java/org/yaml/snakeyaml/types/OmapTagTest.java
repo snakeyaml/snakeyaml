@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.yaml.snakeyaml.YamlDocument;
@@ -27,7 +25,7 @@ import org.yaml.snakeyaml.YamlDocument;
 public class OmapTagTest extends AbstractTest {
 
     @SuppressWarnings("unchecked")
-    public void testOmap() throws IOException {
+    public void testOmap() {
         YamlDocument document = new YamlDocument("types/omap.yaml");
         Map<String, Map<String, String>> map = (Map<String, Map<String, String>>) document
                 .getNativeData();

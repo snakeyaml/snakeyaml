@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml;
-
-import java.io.IOException;
 
 import junit.framework.TestCase;
 
@@ -30,7 +27,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
  */
 public class Example2_27Test extends TestCase {
 
-    public void testExample_2_27() throws IOException {
+    public void testExample_2_27() {
         Yaml yaml = new Yaml(new Constructor(Invoice.class));
         Invoice invoice = (Invoice) yaml.load(Util
                 .getLocalResource("specification/example2_27.yaml"));

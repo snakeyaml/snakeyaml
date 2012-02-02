@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.constructor;
 
 import java.beans.IntrospectionException;
-import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -26,12 +24,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -312,10 +305,9 @@ public class Constructor extends SafeConstructor {
      * structures are not supported.
      */
     protected class ConstructScalar extends AbstractConstruct {
-        @SuppressWarnings("unchecked")
         public Object construct(Node nnode) {
             ScalarNode node = (ScalarNode) nnode;
-            Class type = node.getType();
+            Class<?> type = node.getType();
             Object result;
             if (type.isPrimitive() || type == String.class || Number.class.isAssignableFrom(type)
                     || type == Boolean.class || Date.class.isAssignableFrom(type)
@@ -326,10 +318,10 @@ public class Constructor extends SafeConstructor {
                 result = constructStandardJavaInstance(type, node);
             } else {
                 // there must be only 1 constructor with 1 argument
-                java.lang.reflect.Constructor[] javaConstructors = type.getConstructors();
+                java.lang.reflect.Constructor<?>[] javaConstructors = type.getConstructors();
                 int oneArgCount = 0;
-                java.lang.reflect.Constructor javaConstructor = null;
-                for (java.lang.reflect.Constructor c : javaConstructors) {
+                java.lang.reflect.Constructor<?> javaConstructor = null;
+                for (java.lang.reflect.Constructor<?> c : javaConstructors) {
                     if (c.getParameterTypes().length == 1) {
                         oneArgCount++;
                         javaConstructor = c;
@@ -370,7 +362,8 @@ public class Constructor extends SafeConstructor {
         }
 
         @SuppressWarnings("unchecked")
-        private Object constructStandardJavaInstance(Class type, ScalarNode node) {
+        private Object constructStandardJavaInstance(@SuppressWarnings("rawtypes") Class type,
+                ScalarNode node) {
             Object result;
             if (type == String.class) {
                 Construct stringConstructor = yamlConstructors.get(Tag.STR);
@@ -477,9 +470,10 @@ public class Constructor extends SafeConstructor {
                 }
             } else {
                 // create immutable object
-                List<java.lang.reflect.Constructor> possibleConstructors = new ArrayList<java.lang.reflect.Constructor>(
+                List<java.lang.reflect.Constructor<?>> possibleConstructors = new ArrayList<java.lang.reflect.Constructor<?>>(
                         snode.getValue().size());
-                for (java.lang.reflect.Constructor constructor : node.getType().getConstructors()) {
+                for (java.lang.reflect.Constructor<?> constructor : node.getType()
+                        .getConstructors()) {
                     if (snode.getValue().size() == constructor.getParameterTypes().length) {
                         possibleConstructors.add(constructor);
                     }
@@ -487,10 +481,10 @@ public class Constructor extends SafeConstructor {
                 if (!possibleConstructors.isEmpty()) {
                     if (possibleConstructors.size() == 1) {
                         Object[] argumentList = new Object[snode.getValue().size()];
-                        java.lang.reflect.Constructor c = possibleConstructors.get(0);
+                        java.lang.reflect.Constructor<?> c = possibleConstructors.get(0);
                         int index = 0;
                         for (Node argumentNode : snode.getValue()) {
-                            Class type = c.getParameterTypes()[index];
+                            Class<?> type = c.getParameterTypes()[index];
                             // set runtime classes for arguments
                             argumentNode.setType(type);
                             argumentList[index++] = constructObject(argumentNode);
@@ -505,15 +499,15 @@ public class Constructor extends SafeConstructor {
 
                     // use BaseConstructor
                     List<Object> argumentList = (List<Object>) constructSequence(snode);
-                    Class[] parameterTypes = new Class[argumentList.size()];
+                    Class<?>[] parameterTypes = new Class[argumentList.size()];
                     int index = 0;
                     for (Object parameter : argumentList) {
                         parameterTypes[index] = parameter.getClass();
                         index++;
                     }
 
-                    for (java.lang.reflect.Constructor c : possibleConstructors) {
-                        Class[] argTypes = c.getParameterTypes();
+                    for (java.lang.reflect.Constructor<?> c : possibleConstructors) {
+                        Class<?>[] argTypes = c.getParameterTypes();
                         boolean foundConstructor = true;
                         for (int i = 0; i < argTypes.length; i++) {
                             if (!wrapIfPrimitive(argTypes[i]).isAssignableFrom(parameterTypes[i])) {

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,14 +30,14 @@ import org.yaml.snakeyaml.representer.Representer;
  * @see http://yaml.org/type/bool.html
  */
 public class BoolTagTest extends AbstractTest {
-    public void testBool() throws IOException {
+    public void testBool() {
         assertEquals(Boolean.TRUE, getMapValue("canonical: true", "canonical"));
         assertEquals(Boolean.FALSE, getMapValue("answer: NO", "answer"));
         assertEquals(Boolean.TRUE, getMapValue("logical: True", "logical"));
         assertEquals(Boolean.TRUE, getMapValue("option: on", "option"));
     }
 
-    public void testBoolCanonical() throws IOException {
+    public void testBoolCanonical() {
         assertEquals(Boolean.TRUE, getMapValue("canonical: Yes", "canonical"));
         assertEquals(Boolean.TRUE, getMapValue("canonical: yes", "canonical"));
         assertEquals(Boolean.TRUE, getMapValue("canonical: YES", "canonical"));
@@ -61,23 +59,23 @@ public class BoolTagTest extends AbstractTest {
         assertEquals("Y", getMapValue("canonical: Y", "canonical"));
     }
 
-    public void testBoolShorthand() throws IOException {
+    public void testBoolShorthand() {
         assertEquals(Boolean.TRUE, getMapValue("boolean: !!bool true", "boolean"));
     }
 
-    public void testBoolTag() throws IOException {
+    public void testBoolTag() {
         assertEquals(Boolean.TRUE,
                 getMapValue("boolean: !<tag:yaml.org,2002:bool> true", "boolean"));
     }
 
-    public void testBoolOut() throws IOException {
+    public void testBoolOut() {
         Map<String, Boolean> map = new HashMap<String, Boolean>();
         map.put("boolean", Boolean.TRUE);
         String output = dump(map);
         assertTrue(output, output.contains("boolean: true"));
     }
 
-    public void testBoolOutAsYes() throws IOException {
+    public void testBoolOutAsYes() {
         Yaml yaml = new Yaml(new BoolRepresenter("YES"));
         String output = yaml.dump(true);
         assertEquals("YES\n", output);
@@ -86,7 +84,7 @@ public class BoolTagTest extends AbstractTest {
     /**
      * test flow style
      */
-    public void testBoolOutAsEmpty2() throws IOException {
+    public void testBoolOutAsEmpty2() {
         Yaml yaml = new Yaml(new BoolRepresenter("on"));
         Map<String, Boolean> map = new HashMap<String, Boolean>();
         map.put("aaa", false);
@@ -98,7 +96,7 @@ public class BoolTagTest extends AbstractTest {
     /**
      * test block style
      */
-    public void testBoolOutAsEmpty3() throws IOException {
+    public void testBoolOutAsEmpty3() {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
         Yaml yaml = new Yaml(new BoolRepresenter("True"), options);

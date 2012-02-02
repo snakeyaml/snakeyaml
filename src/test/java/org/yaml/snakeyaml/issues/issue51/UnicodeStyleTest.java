@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.issues.issue51;
-
-import java.io.IOException;
 
 import junit.framework.TestCase;
 
@@ -29,14 +26,14 @@ import org.yaml.snakeyaml.Yaml;
  *      href="http://code.google.com/p/snakeyaml/issues/detail?id=51">Issue</a>
  */
 public class UnicodeStyleTest extends TestCase {
-    public void testFoldedStyle() throws IOException {
+    public void testFoldedStyle() {
         Yaml yaml = new Yaml();
         String output = yaml.dump("í");
         // System.out.println(output);
         assertEquals("í\n", output);
     }
 
-    public void testDoubleQuotedStyle() throws IOException {
+    public void testDoubleQuotedStyle() {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(ScalarStyle.DOUBLE_QUOTED);
         Yaml yaml = new Yaml(options);

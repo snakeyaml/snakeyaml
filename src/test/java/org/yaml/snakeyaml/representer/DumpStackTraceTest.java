@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.representer;
 
 import junit.framework.TestCase;
@@ -54,18 +53,13 @@ public class DumpStackTraceTest extends TestCase {
         assertEquals(result, yaml.dump(yaml.load(result)));
     }
 
-    public void testJavaStackTrace2() {
+    public void testJavaStackTraceWithoutTabs() {
         Yaml yaml = new Yaml();
         String input = Util.getLocalResource("representer/stacktrace1.txt");
-        assertTrue("Double quote must be used.", input.indexOf('"') > 0);
-        assertTrue("Colon must be used.", input.indexOf(':') > 0);
-        assertTrue("Tabs must be used.", input.indexOf('\t') > 0);
         String result = (String) yaml.dump(input);
         // System.out.println(result);
         String etalon = Util.getLocalResource("representer/stacktrace1.yaml");
-        assertFalse(etalon.equals(result));
-        // TODO stacktrace serialisation can be improved
-        // http://code.google.com/p/snakeyaml/issues/detail?id=66)
-        // assertEquals(etalon, result);
+        // http://code.google.com/p/snakeyaml/issues/detail?id=66
+        assertEquals(etalon, result);
     }
 }

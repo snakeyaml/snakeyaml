@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package examples;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -26,7 +24,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CustomMapExampleTest extends TestCase {
-    public void testMap() throws IOException {
+    public void testMap() {
         Yaml yaml = new Yaml(new CustomConstructor());
         @SuppressWarnings("unchecked")
         Map<Integer, String> data = (Map<Integer, String>) yaml

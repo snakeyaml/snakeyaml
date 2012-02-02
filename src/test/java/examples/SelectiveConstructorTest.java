@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package examples;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +52,7 @@ public class SelectiveConstructorTest extends TestCase {
         }
     }
 
-    public void testConstructor() throws IOException {
+    public void testConstructor() {
         Yaml yaml = new Yaml(new SelectiveConstructor());
         List<?> data = (List<?>) yaml
                 .load("- 1\n- 2\n- !!examples.MyPersistentObject {amount: 222, id: persistent}");

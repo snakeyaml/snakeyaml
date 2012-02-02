@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.scanner;
 
-import java.io.IOException;
 import java.util.LinkedList;
 
 import junit.framework.TestCase;
@@ -56,7 +54,7 @@ public class ScannerImplTest extends TestCase {
                 scanner.checkToken(new Token.ID[0]));
     }
 
-    public void testWrongTab() throws IOException {
+    public void testWrongTab() {
         Yaml yaml = new Yaml();
         try {
             yaml.load("\t  data: 1");

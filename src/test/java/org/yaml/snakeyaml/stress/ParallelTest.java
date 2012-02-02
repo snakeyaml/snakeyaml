@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.stress;
-
-import java.io.IOException;
 
 import junit.framework.TestCase;
 
@@ -31,7 +28,7 @@ public class ParallelTest extends TestCase {
     private int progress = 0;
     private int MAX = 5;
 
-    public void testPerfomance() throws IOException {
+    public void testPerfomance() {
         String doc = Util.getLocalResource("specification/example2_27.yaml");
         for (int i = 0; i < MAX; i++) {
             Worker worker = new Worker(i, doc);

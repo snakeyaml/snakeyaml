@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
 import junit.framework.TestCase;
+
+import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 
 /**
  * Test Chapter 2.3 from the YAML specification
@@ -46,13 +46,15 @@ public class Chapter2_3Test extends TestCase {
         String etalon = "Sammy Sosa completed another fine season with great stats.\n\n  63 Home Runs\n  0.288 Batting Average\n\nWhat a year!\n";
         InputStream input = YamlDocument.class.getClassLoader().getResourceAsStream(
                 YamlDocument.ROOT + "example2_15.yaml");
-        Yaml yaml = new Yaml();
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(ScalarStyle.FOLDED);
+        Yaml yaml = new Yaml(options);
         String data = (String) yaml.load(input);
         assertEquals(etalon, data);
         //
         String dumped = yaml.dump(data);
-        assertTrue(dumped.contains("Sammy Sosa completed another fine season with great stats"));
-        assertEquals("Must be splitted into 2 lines.", 2, dumped.split("\n").length);
+        String etalonDumped = Util.getLocalResource("specification/example2_15_dumped.yaml");
+        assertEquals(etalonDumped, dumped);
     }
 
     @SuppressWarnings("unchecked")
@@ -68,7 +70,7 @@ public class Chapter2_3Test extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testExample_2_17() throws IOException {
+    public void testExample_2_17() {
         YamlDocument document = new YamlDocument("example2_17.yaml", false);
         Map<String, String> map = (Map<String, String>) document.getNativeData();
         assertEquals(map.toString(), 6, map.size());
@@ -123,7 +125,7 @@ public class Chapter2_3Test extends TestCase {
     }
 
     @SuppressWarnings("unchecked")
-    public void testExample_2_18() throws IOException {
+    public void testExample_2_18() {
         YamlDocument document = new YamlDocument("example2_18.yaml");
         Map<String, String> map = (Map<String, String>) document.getNativeData();
         assertEquals(map.toString(), 2, map.size());

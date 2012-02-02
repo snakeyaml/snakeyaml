@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.types;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.yaml.snakeyaml.YamlDocument;
@@ -27,7 +25,7 @@ import org.yaml.snakeyaml.YamlDocument;
 public class MapTagTest extends AbstractTest {
 
     @SuppressWarnings("unchecked")
-    public void testMap() throws IOException {
+    public void testMap() {
         YamlDocument document = new YamlDocument("types/map.yaml");
         Map<String, Map<String, String>> map = (Map<String, Map<String, String>>) document
                 .getNativeData();
@@ -49,7 +47,7 @@ public class MapTagTest extends AbstractTest {
     }
 
     @SuppressWarnings("unchecked")
-    public void testMapYaml11() throws IOException {
+    public void testMapYaml11() {
         YamlDocument document = new YamlDocument("types/map_mixed_tags.yaml");
         Map<String, Map<String, String>> map = (Map<String, Map<String, String>>) document
                 .getNativeData();

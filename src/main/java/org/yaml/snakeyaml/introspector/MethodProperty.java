@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.introspector;
 
 import java.beans.PropertyDescriptor;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
+/**
+ * <p>
+ * A <code>MethodProperty</code> is a <code>Property</code> which is accessed
+ * through accessor methods (setX, getX). It is possible to have a
+ * <code>MethodProperty</code> which has only setter, only getter, or both. It
+ * is not possible to have a <code>MethodProperty</code> which has neither
+ * setter nor getter.
+ * </p>
+ */
 public class MethodProperty extends GenericProperty {
 
     private final PropertyDescriptor property;

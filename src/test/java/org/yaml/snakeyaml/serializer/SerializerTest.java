@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011, http://www.snakeyaml.org
+ * Copyright (c) 2008-2012, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.yaml.snakeyaml.serializer;
 
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class SerializerTest extends TestCase {
     private Serializer serializer;
 
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
         DumperOptions config = new DumperOptions();
         StringWriter writer = new StringWriter();
         serializer = new Serializer(new Emitter(writer, config), new Resolver(), config, null);
