@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+             <action dev="py4fun" type="update">
+                Fix issue 141: TimeZone is configurable in DumperOptions (2012-02-03)
+             </action>
              <action dev="maslovalex" type="fix">
                 Fix issue 139: merge should use last key in map (2012-01-24)
              </action>
