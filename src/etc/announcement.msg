@@ -1,26 +1,25 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.9 final is available
+Subject: [ANN] SnakeYAML-1.10 final is available
 
 ==========================
- Announcing SnakeYAML-1.9
+ Announcing SnakeYAML-1.10
 ==========================
 
 A new release of SnakeYAML is now available:
 
     http://www.snakeyaml.org
 
-This release delivers a public API changes as well as other changes and bug fixes.
+This release delivers minor changes and bug fixes.
 
 Changes
 ========
- * Update public API: Introduce Yaml.loadAs(), Yaml.dumpAs() and Yaml.dumpAsMap() methods. JavaBeanLoader and JavaBeanDumper are deprecated
- 
- * apply regular expression for !!float from YAML 1.2 specification
- * Provide low level methods from objects to Nodes and Events (represent(Object), serialize(Node))
- * Improved support for empty JavaBeans
- * Do not remove root tags of JavaBeans when it is not explicitly requested 
- * Generate OSGi bundle
+ * TimeZone is configurable in DumperOptions
+ * Merge should favour last key in map
+ * TAB is allowed inside a plain scalar
+ * Expose internal data of ReaderException
+ * Respect supplementary characters 
+ * Use literal scalar style when the scalar contains multiple lines
 
 The complete list of changes is here: http://code.google.com/p/snakeyaml/wiki/changes 
 
@@ -30,7 +29,7 @@ Resources
 SnakeYAML homepage: http://www.snakeyaml.org
 SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
 
-JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.9/snakeyaml-1.9.jar
+JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.10/snakeyaml-1.10.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/
