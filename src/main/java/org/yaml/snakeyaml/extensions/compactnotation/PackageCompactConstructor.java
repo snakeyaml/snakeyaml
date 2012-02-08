@@ -29,7 +29,7 @@ public class PackageCompactConstructor extends CompactConstructor {
                 Class<?> clazz = Class.forName(packageName + "." + name);
                 return clazz;
             } catch (ClassNotFoundException e) {
-                return super.getClassForName(name);
+                // use super implementation
             }
         }
         return super.getClassForName(name);

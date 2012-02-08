@@ -66,21 +66,21 @@ public final class Emitter implements Emitable {
     private static final char[] SPACE = { ' ' };
 
     static {
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\0'), "0");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u0007'), "a");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u0008'), "b");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u0009'), "t");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\n'), "n");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u000B'), "v");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u000C'), "f");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\r'), "r");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u001B'), "e");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('"'), "\"");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\\'), "\\");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u0085'), "N");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u00A0'), "_");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u2028'), "L");
-        ESCAPE_REPLACEMENTS.put(Character.valueOf('\u2029'), "P");
+        ESCAPE_REPLACEMENTS.put('\0', "0");
+        ESCAPE_REPLACEMENTS.put('\u0007', "a");
+        ESCAPE_REPLACEMENTS.put('\u0008', "b");
+        ESCAPE_REPLACEMENTS.put('\u0009', "t");
+        ESCAPE_REPLACEMENTS.put('\n', "n");
+        ESCAPE_REPLACEMENTS.put('\u000B', "v");
+        ESCAPE_REPLACEMENTS.put('\u000C', "f");
+        ESCAPE_REPLACEMENTS.put('\r', "r");
+        ESCAPE_REPLACEMENTS.put('\u001B', "e");
+        ESCAPE_REPLACEMENTS.put('"', "\"");
+        ESCAPE_REPLACEMENTS.put('\\', "\\");
+        ESCAPE_REPLACEMENTS.put('\u0085', "N");
+        ESCAPE_REPLACEMENTS.put('\u00A0', "_");
+        ESCAPE_REPLACEMENTS.put('\u2028', "L");
+        ESCAPE_REPLACEMENTS.put('\u2029', "P");
     }
 
     private final static Map<String, String> DEFAULT_TAG_PREFIXES = new LinkedHashMap<String, String>();
@@ -665,8 +665,8 @@ public final class Emitter implements Emitable {
         Event event = events.peek();
         if (event instanceof ScalarEvent) {
             ScalarEvent e = (ScalarEvent) event;
-            return (e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && ""
-                    .equals(e.getValue()));
+            return (e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && e
+                    .getValue().length() == 0);
         }
         return false;
     }
