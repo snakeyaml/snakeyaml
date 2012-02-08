@@ -39,6 +39,7 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
 class SafeRepresenter extends BaseRepresenter {
 
     protected Map<Class<? extends Object>, Tag> classTags;
+    protected TimeZone timeZone = null;
 
     public SafeRepresenter() {
         this.nullRepresenter = new RepresentNull();
@@ -228,7 +229,8 @@ class SafeRepresenter extends BaseRepresenter {
             if (data instanceof Calendar) {
                 calendar = (Calendar) data;
             } else {
-                calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                calendar = Calendar.getInstance(getTimeZone() == null ? TimeZone.getTimeZone("UTC")
+                        : timeZone);
                 calendar.setTime((Date) data);
             }
             int years = calendar.get(Calendar.YEAR);
@@ -308,5 +310,13 @@ class SafeRepresenter extends BaseRepresenter {
             char[] binary = Base64Coder.encode((byte[]) data);
             return representScalar(Tag.BINARY, String.valueOf(binary), '|');
         }
+    }
+
+    public TimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
     }
 }

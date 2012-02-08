@@ -52,33 +52,32 @@ public class RecursiveSortedSetTest extends TestCase {
     }
 
     /**
-     * XXX: sets can be recursive
+     * set and JavaBean refer to each other
      */
     public void testLoadRecursiveTest() {
         String doc = Util.getLocalResource("issues/issue73-recursive9.txt");
         // System.out.println(doc);
         Yaml yaml = new Yaml();
-        Bean11 obj = (Bean11) yaml.load(doc);
-        Set<Object> set = obj.getSet();
-        // System.out.println(set);
+        Bean11 beanWithSet = (Bean11) yaml.load(doc);
+        Set<Object> set = beanWithSet.getSet();
         assertEquals(TreeSet.class, set.getClass());
-        assertEquals("ID555", obj.getId());
+        assertEquals("ID555", beanWithSet.getId());
         assertEquals(3, set.size());
         assertTrue(set.remove("ggg"));
+        // assertFalse(set.remove("ggg"));???
         assertTrue(set.remove("hhh"));
+        assertEquals(1, set.size());
         //
         Bean11 beanRef = (Bean11) set.iterator().next();
-        assertEquals(obj, beanRef);
-        assertSame(obj, beanRef);
+        assertEquals(beanWithSet, beanRef);
+        assertSame(beanWithSet, beanRef);
         //
-        try {
-            set.add(obj);
-            fail("Recursive set fails to provide a hashcode.");
-        } catch (StackOverflowError e) {
-            // ignore
-        }
-        set.clear();
-        assertTrue("Empty set is not recursive.", set.add(obj));
+        assertFalse(set.isEmpty());
+        assertTrue(set.contains(beanWithSet));
+        assertFalse(set.add(beanWithSet));
+        assertTrue(set.remove(beanWithSet));
+        assertFalse(set.remove(beanWithSet));
+        assertTrue(set.isEmpty());
     }
 
     public static class Bean11 implements Comparable<Object> {
@@ -102,7 +101,7 @@ public class RecursiveSortedSetTest extends TestCase {
         }
 
         public int compareTo(Object o) {
-            return id.compareTo(o.toString());
+            return toString().compareTo(o.toString());
         }
 
         @Override
@@ -117,12 +116,12 @@ public class RecursiveSortedSetTest extends TestCase {
 
         @Override
         public int hashCode() {
-            return id.hashCode();
+            return toString().hashCode();
         }
 
         @Override
         public String toString() {
-            return "Bean id=" + id + "set=" + set.toString();
+            return "Bean id=" + id + "set=" + System.identityHashCode(set);
         }
     }
 }

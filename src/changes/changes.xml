@@ -8,6 +8,9 @@
     <body>
         <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
              <action dev="py4fun" type="update">
+                Fix issue 141: TimeZone is configurable in DumperOptions (2012-02-03)
+             </action>
+             <action dev="py4fun" type="update">
                 Refactor with PMD: minor non-functional improvements (2012-01-28)
              </action>
              <action dev="py4fun" type="update">

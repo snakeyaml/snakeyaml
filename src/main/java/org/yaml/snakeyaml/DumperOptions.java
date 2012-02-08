@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml;
 
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.emitter.ScalarAnalysis;
@@ -162,6 +163,7 @@ public class DumperOptions {
     private LineBreak lineBreak = LineBreak.UNIX;
     private boolean explicitStart = false;
     private boolean explicitEnd = false;
+    private TimeZone timeZone = null;
 
     /**
      * @deprecated do not use explicit root Tag
@@ -389,5 +391,17 @@ public class DumperOptions {
      */
     public void setAllowReadOnlyProperties(boolean allowReadOnlyProperties) {
         this.allowReadOnlyProperties = allowReadOnlyProperties;
+    }
+
+    public TimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    /**
+     * Set the timezone to be used for Date. If set to <code>null</code> UTC is
+     * used.
+     */
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
     }
 }
