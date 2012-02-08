@@ -49,9 +49,9 @@ import java.nio.charset.Charset;
  * to be used. If BOM is not found then use a given default or system encoding.
  */
 public class UnicodeReader extends Reader {
-    public static final Charset UTF8 = Charset.forName("UTF-8");
-    public static final Charset UTF16BE = Charset.forName("UTF-16BE");
-    public static final Charset UTF16LE = Charset.forName("UTF-16LE");
+    private static final Charset UTF8 = Charset.forName("UTF-8");
+    private static final Charset UTF16BE = Charset.forName("UTF-16BE");
+    private static final Charset UTF16LE = Charset.forName("UTF-16LE");
 
     PushbackInputStream internalIn;
     InputStreamReader internalIn2 = null;

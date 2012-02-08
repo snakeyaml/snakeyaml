@@ -15,6 +15,7 @@
  */
 package org.yaml.snakeyaml.representer;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,10 +29,10 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.reader.UnicodeReader;
 
 /**
  * Represent standard Java classes
@@ -116,7 +117,11 @@ class SafeRepresenter extends BaseRepresenter {
             if (BINARY_PATTERN.matcher(value).find()) {
                 tag = Tag.BINARY;
                 char[] binary;
-                binary = Base64Coder.encode(value.getBytes(UnicodeReader.UTF8));
+                try {
+                    binary = Base64Coder.encode(value.getBytes("UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    throw new YAMLException(e);
+                }
                 value = String.valueOf(binary);
                 style = '|';
             }

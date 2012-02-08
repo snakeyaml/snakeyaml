@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,6 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
-import org.yaml.snakeyaml.reader.UnicodeReader;
 
 public class JavaBeanLoaderTest extends TestCase {
 
@@ -49,9 +49,9 @@ public class JavaBeanLoaderTest extends TestCase {
         assertFalse(parsed2.isValid());
     }
 
-    public void testLoadInputStream() {
+    public void testLoadInputStream() throws UnsupportedEncodingException {
         String yaml = "!!org.yaml.snakeyaml.JavaBeanParserTest$Bean {id: 3, name: Test me.}\n";
-        InputStream input = new ByteArrayInputStream(yaml.getBytes(UnicodeReader.UTF8));
+        InputStream input = new ByteArrayInputStream(yaml.getBytes("UTF-8"));
         Yaml loader = new Yaml();
         Bean parsed = loader.loadAs(input, Bean.class);
         assertEquals(3, parsed.getId());
