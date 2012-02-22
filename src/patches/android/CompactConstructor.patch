@@ -1,0 +1,22 @@
+# HG changeset patch
+# Parent 802af3ea9a2228c074259858b737e2cda0d22a7c
+diff --git a/src/main/java/org/yaml/snakeyaml/extensions/compactnotation/CompactConstructor.java b/src/main/java/org/yaml/snakeyaml/extensions/compactnotation/CompactConstructor.java
+--- a/src/main/java/org/yaml/snakeyaml/extensions/compactnotation/CompactConstructor.java
++++ b/src/main/java/org/yaml/snakeyaml/extensions/compactnotation/CompactConstructor.java
+@@ -15,7 +15,6 @@
+  */
+ package org.yaml.snakeyaml.extensions.compactnotation;
+ 
+-import java.beans.IntrospectionException;
+ import java.util.HashMap;
+ import java.util.Iterator;
+ import java.util.List;
+@@ -186,7 +185,7 @@
+      * 
+      * @throws IntrospectionException
+      */
+-    protected String getSequencePropertyName(Class<?> bean) throws IntrospectionException {
++    protected String getSequencePropertyName(Class<?> bean) {
+         Set<Property> properties = getPropertyUtils().getProperties(bean);
+         for (Iterator<Property> iterator = properties.iterator(); iterator.hasNext();) {
+             Property property = iterator.next();
