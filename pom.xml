@@ -395,7 +395,7 @@
             <id>maven-3</id>
             <activation>
                 <file>
-                    <!-- This employs that the basedir expression is only 
+                    <!-- This employs that the basedir expression is only
                         recognized by Maven 3.x (see MNG-2363) -->
                     <exists>${basedir}</exists>
                 </file>
@@ -425,5 +425,168 @@
                 </plugins>
             </build>
         </profile>
+	<profile>
+	  <id>android</id>
+	  <properties>
+	    <android.src>${project.build.directory}/android/src/</android.src>
+	    <android.classes>${project.build.directory}/android/classes/</android.classes>
+	    <android.test.classes>${project.build.directory}/android/test-classes/</android.test.classes>
+	  </properties>
+	  <build>
+	    <plugins>
+	      <plugin>
+		<artifactId>maven-resources-plugin</artifactId>
+		<version>2.5</version>
+		<executions>
+		  <execution>
+		    <id>copy-src-for-android</id>
+		    <phase>generate-sources</phase>
+		    <goals>
+		      <goal>copy-resources</goal>
+		    </goals>
+		    <configuration>
+		      <outputDirectory>${android.src}</outputDirectory>
+		      <resources>
+			<resource>
+			  <directory>${basedir}/src/main/java</directory>
+			  <filtering>false</filtering>
+			  <excludes>
+			    <exclude>org/yaml/snakeyaml/introspector/MethodProperty.java</exclude>
+			  </excludes>
+			</resource>
+		      </resources>
+		    </configuration>
+		  </execution>
+		  <execution>
+		    <id>copy-test-resources-for-android</id>
+		    <phase>process-test-resources</phase>
+		    <goals>
+		      <goal>copy-resources</goal>
+		    </goals>
+		    <configuration>
+		      <outputDirectory>${android.test.classes}</outputDirectory>
+		      <resources>
+			<resource>
+			  <directory>${basedir}/src/test/resources</directory>
+			</resource>
+		      </resources>
+		    </configuration>
+		  </execution>
+		</executions>
+	      </plugin>
+
+	      <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-patch-plugin</artifactId>
+		<version>1.1.1</version>
+		<configuration>
+		  <patchDirectory>${basedir}/src/patches/android/</patchDirectory>
+		  <targetDirectory>${android.src}</targetDirectory>
+		  <skipApplication>false</skipApplication>
+		  <strip>4</strip>
+		</configuration>
+		<executions>
+		  <execution>
+		    <id>android-patches</id>
+		    <phase>process-sources</phase>
+		    <goals>
+		      <goal>apply</goal>
+		    </goals>
+		    <configuration>
+		      <patchTrackingFile>${project.build.directory}/android/patches-applied.txt</patchTrackingFile>
+		      <naturalOrderProcessing>true</naturalOrderProcessing>
+		    </configuration>
+		  </execution>
+		</executions>
+	      </plugin>
+	      <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-antrun-plugin</artifactId>
+		<version>1.7</version>
+		<executions>
+		  <execution>
+		    <id>build-for-android</id>
+		    <phase>compile</phase>
+		    <goals>
+		      <goal>run</goal>
+		    </goals>
+		    <configuration>
+		      <target>
+			<mkdir dir="${android.classes}" />
+			<mkdir dir="${android.test.classes}" />
+
+			<!-- compile patched sources -->
+			<javac srcdir="${android.src}"
+			       destdir="${android.classes}"
+			       classpath="${android.classes}"
+			       encoding="${project.build.sourceEncoding}"
+			       target="1.5"
+			       source="1.5"
+			       debug="true"
+			       includeantruntime="false" />
+
+			<!-- compile test classes. Exclude some - not for BeanAccess.FIELD -->
+			<javac srcdir="${basedir}/src/test/java:${basedir}/src/test/resources"
+			       destdir="${android.test.classes}"
+			       classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.springframework:spring:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}"
+			       encoding="${project.build.sourceEncoding}"
+			       target="1.5"
+			       source="1.5"
+			       debug="true"
+			       includeantruntime="false">
+			  <exclude name="org/yaml/snakeyaml/introspector/MethodPropertyTest.java" />
+			  <exclude name="org/yaml/snakeyaml/representer/FilterPropertyToDumpTest.java" />
+			  <exclude name="org/yaml/snakeyaml/issues/issue60/CustomOrderTest.java" />
+			  <exclude name="org/yaml/snakeyaml/issues/issue29/FlexibleScalarStylesInJavaBeanTest.java" />
+
+			</javac>
+		      </target>
+
+		    </configuration>
+		  </execution>
+		</executions>
+	      </plugin>
+	      <plugin>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<executions>
+		  <execution>
+		    <id>test-android</id>
+		    <phase>test</phase>
+		    <goals>
+		      <goal>test</goal>
+		    </goals>
+		    <configuration>
+		      <classesDirectory>${android.classes}</classesDirectory>
+		      <reportsDirectory>${project.build.directory}/android/surefire-reports</reportsDirectory>
+		      <testClassesDirectory>${android.test.classes}</testClassesDirectory>
+		      <!--
+		      We ignore test failures for android build at the moment.
+		      Most of the FAILs are because of testing with "property" not "field" access.
+		      But we still fail whole build if there are test errors.
+		      -->
+		      <testFailureIgnore>true</testFailureIgnore>
+		    </configuration>
+		  </execution>
+		</executions>
+	      </plugin>
+	      <plugin>
+		<artifactId>maven-jar-plugin</artifactId>
+		<executions>
+		  <execution>
+		    <id>package-android-jar</id>
+		    <phase>package</phase>
+		    <goals>
+		      <goal>jar</goal>
+		    </goals>
+		    <configuration>
+		      <classesDirectory>${android.classes}</classesDirectory>
+		      <classifier>android</classifier>
+		    </configuration>
+		  </execution>
+		</executions>
+	      </plugin>
+	    </plugins>
+	  </build>
+	</profile>
     </profiles>
 </project>
