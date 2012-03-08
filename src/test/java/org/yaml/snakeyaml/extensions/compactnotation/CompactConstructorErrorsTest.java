@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
+import org.yaml.snakeyaml.error.YAMLException;
 
 public class CompactConstructorErrorsTest extends TestCase {
 
@@ -54,10 +55,24 @@ public class CompactConstructorErrorsTest extends TestCase {
     }
 
     private void check(String fileName, String failure, String message) {
+        check(fileName, failure, message, true);
+    }
+
+    private void check(String fileName, String failure, String message, boolean exactMatch) {
         try {
             failLoad(fileName, failure);
+        } catch (YAMLException e) {
+            String eMessage = e.getMessage();
+            if (exactMatch) {
+                assertEquals(message, eMessage);
+            } else {
+                assertNotNull("Exception message is NULL", eMessage);
+                assertTrue(String.format(
+                        "\nException message\n%s\ndoes not contain expected value\n%s",
+                        e.getMessage(), message), eMessage.contains(message));
+            }
         } catch (Exception e) {
-            assertEquals(message, e.getMessage());
+            fail("Exception must be YAMLException");
         }
     }
 
@@ -113,7 +128,8 @@ public class CompactConstructorErrorsTest extends TestCase {
     public void test7() {
         check("error7.yaml",
                 "Invalid property.",
-                "org.yaml.snakeyaml.error.YAMLException: Unable to find property 'foo' on class: org.yaml.snakeyaml.extensions.compactnotation.Table");
+                "Unable to find property 'foo' on class: org.yaml.snakeyaml.extensions.compactnotation.Table",
+                false);
     }
 
     public void test8() {

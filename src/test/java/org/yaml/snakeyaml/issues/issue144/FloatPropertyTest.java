@@ -15,8 +15,6 @@
  */
 package org.yaml.snakeyaml.issues.issue144;
 
-import java.util.Map;
-
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
@@ -35,21 +33,10 @@ public class FloatPropertyTest extends TestCase {
     }
 
     public void testCompact() {
-        CompactConstructor compact = new FloatContructor();
-        Yaml yaml = new Yaml(compact);
+        Yaml yaml = new Yaml(new CompactConstructor());
         BeanData obj = (BeanData) yaml
                 .load("org.yaml.snakeyaml.issues.issue144.BeanData(id): { number: 123.4 }");
         assertEquals(123.4f, obj.getNumber());
     }
 
-    private class FloatContructor extends CompactConstructor {
-
-        protected void setProperties(Object bean, Map<String, Object> data) throws Exception {
-            if (data.containsKey("number")) {
-                Double fl = (Double) data.get("number");
-                data.put("number", new Float(fl));
-            }
-            super.setProperties(bean, data);
-        }
-    }
 }

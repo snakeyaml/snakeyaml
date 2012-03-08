@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -33,24 +32,18 @@ import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.SequenceNode;
 
 /**
  * Construct a custom Java instance out of a compact object notation format.
  */
 public class CompactConstructor extends Constructor {
+    private static final Pattern GUESS_COMPACT = Pattern
+            .compile("\\p{Alpha}.*\\s*\\((?:,?\\s*(?:(?:\\w*)|(?:\\p{Alpha}\\w*\\s*=.+))\\s*)+\\)");
     private static final Pattern FIRST_PATTERN = Pattern.compile("(\\p{Alpha}.*)(\\s*)\\((.*?)\\)");
     private static final Pattern PROPERTY_NAME_PATTERN = Pattern
             .compile("\\s*(\\p{Alpha}\\w*)\\s*=(.+)");
-
-    @Override
-    protected Object constructScalar(ScalarNode node) {
-        CompactData data = getCompactData(node.getValue());
-        if (data != null) {
-            return constructCompactFormat(node, data);
-        } else {
-            return super.constructScalar(node);
-        }
-    }
+    private Construct compactConstruct;
 
     protected Object constructCompactFormat(ScalarNode node, CompactData data) {
         try {
@@ -127,6 +120,17 @@ public class CompactConstructor extends Constructor {
         return null;
     }
 
+    private Construct getCompactConstruct() {
+        if (compactConstruct == null) {
+            compactConstruct = createCompactConstruct();
+        }
+        return compactConstruct;
+    }
+
+    protected Construct createCompactConstruct() {
+        return new ConstructCompactObject();
+    }
+
     @Override
     protected Construct getConstructor(Node node) {
         if (node instanceof MappingNode) {
@@ -137,38 +141,61 @@ public class CompactConstructor extends Constructor {
                 Node key = tuple.getKeyNode();
                 if (key instanceof ScalarNode) {
                     ScalarNode scalar = (ScalarNode) key;
-                    CompactData data = getCompactData(scalar.getValue());
-                    if (data != null) {
-                        return new ConstructCompactObject();
+                    if (GUESS_COMPACT.matcher(scalar.getValue()).matches()) {
+                        return getCompactConstruct();
                     }
                 }
+            }
+        } else if (node instanceof ScalarNode) {
+            ScalarNode scalar = (ScalarNode) node;
+            if (GUESS_COMPACT.matcher(scalar.getValue()).matches()) {
+                return getCompactConstruct();
             }
         }
         return super.getConstructor(node);
     }
 
-    public class ConstructCompactObject extends AbstractConstruct {
-        @SuppressWarnings("unchecked")
-        public Object construct(Node node) {
-            // TODO we cannot use the flexible machinery for JavaBeans here
-            // (constructJavaBean2ndStep()), that is why implicit types are used
-            Map<Object, Object> map = constructMapping((MappingNode) node);
+    public class ConstructCompactObject extends ConstructMapping {
+
+        @Override
+        public void construct2ndStep(Node node, Object object) {
             // Compact Object Notation may contain only one entry
-            Map.Entry<Object, Object> entry = map.entrySet().iterator().next();
-            Object result = entry.getKey();
-            Object value = entry.getValue();
-            if (value instanceof Map) {
-                Map<String, Object> properties = (Map<String, Object>) value;
-                try {
-                    setProperties(result, properties);
-                } catch (Exception e) {
-                    throw new YAMLException(e);
-                }
+            MappingNode mnode = (MappingNode) node;
+            NodeTuple nodeTuple = mnode.getValue().iterator().next();
+
+            Node valueNode = nodeTuple.getValueNode();
+
+            if (valueNode instanceof MappingNode) {
+                valueNode.setType(object.getClass());
+                constructJavaBean2ndStep((MappingNode) valueNode, object);
             } else {
                 // value is a list
-                applySequence(result, (List<?>) value);
+                applySequence(object, constructSequence((SequenceNode) valueNode));
             }
-            return result;
+        }
+
+        /*
+         * MappingNode and ScalarNode end up here only they assumed to be a
+         * compact object's representation (@see getConstructor(Node) above)
+         */
+        public Object construct(Node node) {
+            ScalarNode tmpNode = null;
+            if (node instanceof MappingNode) {
+                // Compact Object Notation may contain only one entry
+                MappingNode mnode = (MappingNode) node;
+                NodeTuple nodeTuple = mnode.getValue().iterator().next();
+                node.setTwoStepsConstruction(true);
+                tmpNode = (ScalarNode) nodeTuple.getKeyNode();
+                // return constructScalar((ScalarNode) keyNode);
+            } else {
+                tmpNode = (ScalarNode) node;
+            }
+
+            CompactData data = getCompactData(tmpNode.getValue());
+            if (data == null) { // TODO: Should we throw an exception here ?
+                return constructScalar(tmpNode);
+            }
+            return constructCompactFormat(tmpNode, data);
         }
     }
 
