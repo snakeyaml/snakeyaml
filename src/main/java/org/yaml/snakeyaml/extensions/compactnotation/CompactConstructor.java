@@ -150,6 +150,8 @@ public class CompactConstructor extends Constructor {
     public class ConstructCompactObject extends AbstractConstruct {
         @SuppressWarnings("unchecked")
         public Object construct(Node node) {
+            // TODO we cannot use the flexible machinery for JavaBeans here
+            // (constructJavaBean2ndStep()), that is why implicit types are used
             Map<Object, Object> map = constructMapping((MappingNode) node);
             // Compact Object Notation may contain only one entry
             Map.Entry<Object, Object> entry = map.entrySet().iterator().next();

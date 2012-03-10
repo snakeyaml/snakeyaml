@@ -6,6 +6,14 @@
         <author email="py4fun@gmail.com">Andrey Somov</author>
     </properties>
     <body>
+        <release version="1.11" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="add">
+                Add example for issue 144 (2012-03-10)
+             </action>
+             <action dev="maslovalex" type="add">
+                Improve Android support
+             </action>
+        </release>
         <release version="1.10" date="2012-02-08" description="Maintenance">
              <action dev="py4fun" type="update">
                 Fix issue 141: TimeZone is configurable in DumperOptions (2012-02-03)
