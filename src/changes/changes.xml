@@ -7,8 +7,11 @@
     </properties>
     <body>
         <release version="1.11" date="in Mercurial" description="Maintenance">
-             <action dev="py4fun" type="add">
-                Add example for issue 144 (2012-03-10)
+             <action dev="py4fun" type="fix">
+                Fix issue 145: exception.getMessage() must show the line number as exception.toString() does (2012-04-03)
+             </action>
+             <action dev="maslovalex" type="fix">
+                Fix issue 144: improve type inference for Compact Object Notation (2012-03-16)
              </action>
              <action dev="maslovalex" type="add">
                 Improve Android support
