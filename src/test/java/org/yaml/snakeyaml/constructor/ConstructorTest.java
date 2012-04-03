@@ -100,7 +100,7 @@ public class ConstructorTest extends TestCase {
             fail("IntrospectionException expected.");
         } catch (Exception e) {
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.constructor.TestBean; exception=Cannot create property=wrongName for JavaBean=#<org.jvyaml.TestBean name=\"null\" age=0 born=\"null\">; Unable to find property 'wrongName' on class: org.yaml.snakeyaml.constructor.TestBean;  in \"<string>\", line 1, column 5:\n    --- !!org.yaml.snakeyaml.constructor ... \n        ^",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.constructor.TestBean; exception=Cannot create property=wrongName for JavaBean=#<org.jvyaml.TestBean name=\"null\" age=0 born=\"null\">; Unable to find property 'wrongName' on class: org.yaml.snakeyaml.constructor.TestBean;  in <string>, line 1, column 5:\n    --- !!org.yaml.snakeyaml.constructor ... \n        ^",
                     e.getMessage());
         }
     }

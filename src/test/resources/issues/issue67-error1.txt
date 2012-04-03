@@ -1,8 +1,8 @@
 while scanning a tag
- in "<string>", line 1, column 1:
+ in <string>, line 1, column 1:
     !!org.yaml.snakeyaml.issues.issu ... 
     ^
 expected URI escape sequence of 2 hexadecimal numbers, but found 9(57) and %(37)
- in "<string>", line 1, column 71:
+ in <string>, line 1, column 71:
      ... nAsciiCharsInClassNameTest$Acad%9%A9mico {id: 3, name: Foo bar}
                                          ^
