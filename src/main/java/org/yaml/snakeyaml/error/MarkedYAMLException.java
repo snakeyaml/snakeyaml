@@ -31,7 +31,7 @@ public class MarkedYAMLException extends YAMLException {
 
     protected MarkedYAMLException(String context, Mark contextMark, String problem,
             Mark problemMark, String note, Throwable cause) {
-        super(context + "; " + problem, cause);
+        super(context + "; " + problem/* + "; " + problemMark */, cause);
         this.context = context;
         this.contextMark = contextMark;
         this.problem = problem;
