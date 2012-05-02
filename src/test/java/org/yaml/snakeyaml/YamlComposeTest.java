@@ -32,8 +32,8 @@ public class YamlComposeTest extends TestCase {
             yaml.compose(new StringReader("abc: 56\n---\n123\n---\n456"));
             fail("YAML contans more then one document.");
         } catch (Exception e) {
-            assertEquals("expected a single document in the stream; but found another document",
-                    e.getMessage());
+            assertTrue(e.getMessage().startsWith(
+                    "expected a single document in the stream; but found another document"));
         }
     }
 

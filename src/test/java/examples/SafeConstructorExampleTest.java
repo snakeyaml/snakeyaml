@@ -42,7 +42,7 @@ public class SafeConstructorExampleTest extends TestCase {
             fail("Custom Java classes should not be created.");
         } catch (Exception e) {
             assertEquals(
-                    "null; could not determine a constructor for the tag !org.yaml.snakeyaml.constructor.Person",
+                    "null; could not determine a constructor for the tag !org.yaml.snakeyaml.constructor.Person;  in \"<string>\", line 2, column 3:\n    - !org.yaml.snakeyaml.constructor. ... \n      ^",
                     e.getMessage());
         }
     }

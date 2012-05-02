@@ -50,7 +50,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
             fail("Illegal hex characters in escape (%) pattern must not be accepted.");
         } catch (Exception e) {
             assertEquals(
-                    "while scanning a tag; expected URI escape sequence of 2 hexadecimal numbers, but found W(87) and Z(90)",
+                    "while scanning a tag; expected URI escape sequence of 2 hexadecimal numbers, but found W(87) and Z(90);  in \"<string>\", line 1, column 71:\n     ... nAsciiCharsInClassNameTest$Acad%WZ%A9mico {id: 3, name: Foo bar}\n                                         ^",
                     e.getMessage());
         }
     }
@@ -64,7 +64,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
             fail("Illegal hex characters in escape (%) pattern must not be accepted.");
         } catch (ScannerException e) {
             assertEquals(
-                    "while scanning a tag; expected URI escape sequence of 2 hexadecimal numbers, but found 9(57) and %(37)",
+                    "while scanning a tag; expected URI escape sequence of 2 hexadecimal numbers, but found 9(57) and %(37);  in \"<string>\", line 1, column 71:\n     ... nAsciiCharsInClassNameTest$Acad%9%A9mico {id: 3, name: Foo bar}\n                                         ^",
                     e.getMessage());
             assertEquals(Util.getLocalResource("issues/issue67-error1.txt"), e.toString());
         }
@@ -78,7 +78,8 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
             yaml.load(PREFIX + "Acad%C0mico {id: 3, name: Foo bar}");
             fail("Illegal UTF-8 must not be accepted.");
         } catch (ScannerException e) {
-            assertEquals("while scanning a tag; expected URI in UTF-8: Input length = 1",
+            assertEquals(
+                    "while scanning a tag; expected URI in UTF-8: Input length = 1;  in \"<string>\", line 1, column 70:\n     ... onAsciiCharsInClassNameTest$Acad%C0mico {id: 3, name: Foo bar}\n                                         ^",
                     e.getMessage());
             assertEquals(Util.getLocalResource("issues/issue67-error2.txt"), e.toString());
         }
