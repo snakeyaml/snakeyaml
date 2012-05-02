@@ -60,8 +60,7 @@ public class ShapeImmutableTest extends TestCase {
         assertEquals(new Integer(555), code2.getCode());
     }
 
-    // TODO fix error message
-    public void qtestCode3() {
+    public void testCode3() {
         Yaml yaml = new Yaml();
         try {
             yaml.load("!!org.yaml.snakeyaml.immutable.Code3 777");
@@ -74,15 +73,14 @@ public class ShapeImmutableTest extends TestCase {
         }
     }
 
-    // TODO fix error message
-    public void qtestCode4() {
+    public void testCode4() {
         Yaml yaml = new Yaml();
         try {
             yaml.load("!!org.yaml.snakeyaml.immutable.Code4 777");
             fail("Constructor with String is required.");
         } catch (Exception e) {
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; exception=null; Can't construct a java object for scalar tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; No String constructor found. Exception=org.yaml.snakeyaml.immutable.Code4.<init>(java.lang.String);  in \"<string>\", line 1, column 1:\n    !!org.yaml.snakeyaml.immutable.C ... ",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; exception=Can't construct a java object for scalar tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; No String constructor found. Exception=org.yaml.snakeyaml.immutable.Code4.<init>(java.lang.String);  in \"<string>\", line 1, column 1:\n    !!org.yaml.snakeyaml.immutable.C ... \n    ^",
                     e.getMessage());
         }
     }

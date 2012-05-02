@@ -391,10 +391,9 @@ public class Constructor extends SafeConstructor {
                     try {
                         javaConstructor = type.getConstructor(String.class);
                     } catch (Exception e) {
-                        throw new ConstructorException(null, null,
-                                "Can't construct a java object for scalar " + node.getTag()
-                                        + "; No String constructor found. Exception="
-                                        + e.getMessage(), node.getStartMark(), e);
+                        throw new YAMLException("Can't construct a java object for scalar "
+                                + node.getTag() + "; No String constructor found. Exception="
+                                + e.getMessage(), e);
                     }
                 }
                 try {

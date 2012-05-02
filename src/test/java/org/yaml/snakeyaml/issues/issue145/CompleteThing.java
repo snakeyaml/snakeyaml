@@ -15,14 +15,10 @@
  */
 package org.yaml.snakeyaml.issues.issue145;
 
-public abstract class AbstractThing {
-    protected String id;
+public class CompleteThing extends AbstractThing {
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    @Override
+    public String toString() {
+        return "CompleteThing-" + id;
     }
 }
