@@ -44,7 +44,7 @@ public class StreamReader {
     private char[] data;
 
     public StreamReader(String stream) {
-        this.name = "<string>";
+        this.name = "'string'";
         this.buffer = ""; // to set length to 0
         checkPrintable(stream);
         this.buffer = stream + "\0";
@@ -54,7 +54,7 @@ public class StreamReader {
     }
 
     public StreamReader(Reader reader) {
-        this.name = "<reader>";
+        this.name = "'reader'";
         this.buffer = "";
         this.stream = reader;
         this.eof = false;

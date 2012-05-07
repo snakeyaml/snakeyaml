@@ -65,7 +65,7 @@ public class LoaderTest extends TestCase {
         Mark mark = node.getStartMark();
         assertEquals(0, mark.getColumn());
         assertEquals(0, mark.getLine());
-        assertEquals("<reader>", mark.getName());
+        assertEquals("'reader'", mark.getName());
         assertEquals("    3\n    ^", mark.get_snippet());
         assertEquals("<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:int, value=3)>",
                 node.toString());

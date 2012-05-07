@@ -51,7 +51,7 @@ public class YamlTest extends TestCase {
             fail("Second document is invalid");
         } catch (Exception e) {
             assertEquals(
-                    "while parsing a flow node; expected the node content, but found Value;  in <reader>, line 2, column 6:\n    --- [:]\n         ^",
+                    "while parsing a flow node; expected the node content, but found Value;  in 'reader', line 2, column 6:\n    --- [:]\n         ^",
                     e.getMessage());
         }
     }
@@ -64,7 +64,7 @@ public class YamlTest extends TestCase {
             fail("It must be only one document.");
         } catch (YAMLException e) {
             assertEquals(
-                    "expected a single document in the stream; but found another document;  in <string>, line 2, column 1:\n    --- b\n    ^",
+                    "expected a single document in the stream; but found another document;  in 'string', line 2, column 1:\n    --- b\n    ^",
                     e.getMessage());
         }
     }

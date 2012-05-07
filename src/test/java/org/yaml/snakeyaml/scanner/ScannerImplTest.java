@@ -61,7 +61,7 @@ public class ScannerImplTest extends TestCase {
             fail("TAB cannot start a token.");
         } catch (Exception e) {
             assertEquals(
-                    "while scanning for the next token; found character \t'\\t' that cannot start any token;  in <string>, line 1, column 1:\n    \t  data: 1\n    ^",
+                    "while scanning for the next token; found character \t'\\t' that cannot start any token;  in 'string', line 1, column 1:\n    \t  data: 1\n    ^",
                     e.getMessage());
         }
     }

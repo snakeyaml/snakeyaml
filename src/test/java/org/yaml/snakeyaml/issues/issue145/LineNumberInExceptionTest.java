@@ -29,7 +29,7 @@ public class LineNumberInExceptionTest extends TestCase {
         } catch (Exception e) {
             assertTrue(e.toString().contains("line 2, column 1"));
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue145.AbstractThing; exception=java.lang.InstantiationException;  in <string>, line 2, column 1:\n    !!org.yaml.snakeyaml.issues.issu ... \n    ^",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue145.AbstractThing; exception=java.lang.InstantiationException;  in 'string', line 2, column 1:\n    !!org.yaml.snakeyaml.issues.issu ... \n    ^",
                     e.getMessage());
         }
     }
@@ -49,7 +49,7 @@ public class LineNumberInExceptionTest extends TestCase {
         } catch (Exception e) {
             assertTrue(e.toString().contains("line 2, column 1"));
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue145.CompleteThing; exception=Cannot create property=id2 for JavaBean=CompleteThing-null; Unable to find property 'id2' on class: org.yaml.snakeyaml.issues.issue145.CompleteThing;  in <string>, line 2, column 1:\n    !!org.yaml.snakeyaml.issues.issu ... \n    ^",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue145.CompleteThing; exception=Cannot create property=id2 for JavaBean=CompleteThing-null; Unable to find property 'id2' on class: org.yaml.snakeyaml.issues.issue145.CompleteThing;  in 'string', line 2, column 1:\n    !!org.yaml.snakeyaml.issues.issu ... \n    ^",
                     e.getMessage());
         }
     }
