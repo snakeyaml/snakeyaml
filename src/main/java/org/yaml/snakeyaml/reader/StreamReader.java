@@ -32,7 +32,7 @@ public class StreamReader {
     // NON_PRINTABLE changed from PyYAML: \uFFFD excluded because Java returns
     // it in case of data corruption
     final static Pattern NON_PRINTABLE = Pattern
-            .compile("[^\t\n\r\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFC]");
+            .compile("[^\t\n\r\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD]");
     private String name;
     private final Reader stream;
     private int pointer = 0;
@@ -89,7 +89,7 @@ public class StreamReader {
 
             if ((c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
                     || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
-                    || (c >= '\uE000' && c <= '\uFFFC')) {
+                    || (c >= '\uE000' && c <= '\uFFFD')) {
                 continue;
             }
 

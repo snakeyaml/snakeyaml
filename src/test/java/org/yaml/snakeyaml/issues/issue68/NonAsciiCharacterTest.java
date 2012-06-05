@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -43,11 +46,14 @@ public class NonAsciiCharacterTest extends TestCase {
         try {
             Yaml yaml = new Yaml();
             InputStream input = new FileInputStream("src/test/resources/issues/issue68.txt");
-            Object text = yaml.load(new InputStreamReader(input, "Cp1252"));
+            CharsetDecoder decoder = Charset.forName("Cp1252").newDecoder();
+            decoder.onUnmappableCharacter(CodingErrorAction.REPORT);
+            Object text = yaml.load(new InputStreamReader(input, decoder));
             input.close();
             fail("Invalid UTF-8 must not be accepted: " + text.toString());
         } catch (Exception e) {
-            assertEquals("special characters are not allowed", e.getMessage());
+            assertEquals("java.nio.charset.UnmappableCharacterException: Input length = 1",
+                    e.getMessage());
         }
     }
 

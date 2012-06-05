@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.reader.ReaderException;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
@@ -43,6 +44,8 @@ public class PyReaderTest extends PyImportTest {
             } catch (ReaderException e) {
                 assertTrue(e.toString(),
                         e.toString().contains(" special characters are not allowed"));
+            } catch (YAMLException e) {
+                assertTrue(e.toString(), e.toString().contains("MalformedInputException"));
             } finally {
                 input.close();
             }

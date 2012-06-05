@@ -43,6 +43,8 @@ import java.io.InputStreamReader;
 import java.io.PushbackInputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
 
 /**
  * Generic unicode textreader, which will use BOM mark to identify the encoding
@@ -106,7 +108,9 @@ public class UnicodeReader extends Reader {
             internalIn.unread(bom, (n - unread), unread);
 
         // Use given encoding
-        internalIn2 = new InputStreamReader(internalIn, encoding);
+        CharsetDecoder decoder = encoding.newDecoder().onUnmappableCharacter(
+                CodingErrorAction.REPORT);
+        internalIn2 = new InputStreamReader(internalIn, decoder);
     }
 
     public void close() throws IOException {

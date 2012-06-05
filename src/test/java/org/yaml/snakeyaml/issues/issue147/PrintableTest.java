@@ -22,12 +22,8 @@ import org.yaml.snakeyaml.Yaml;
 public class PrintableTest extends TestCase {
     // http://code.google.com/p/snakeyaml/issues/detail?id=147
     public void testFFFD() {
-        try {
-            Yaml yaml = new Yaml();
-            yaml.load(yaml.dump("\uFFFD"));
-            fail(" \uFFFD excluded because Java returns it in case of data corruption");
-        } catch (Exception e) {
-            assertEquals("special characters are not allowed", e.getMessage());
-        }
+        Yaml yaml = new Yaml();
+        String fffd = (String) yaml.load(yaml.dump("\uFFFD"));
+        assertEquals("\uFFFD", fffd);
     }
 }
