@@ -8,6 +8,9 @@
     <body>
         <release version="1.11" date="in Mercurial" description="Maintenance">
              <action dev="py4fun" type="fix">
+                Fix issue 147: Serialized representation of character U+FFFD causes exception on deserialization  (2012-06-05)
+             </action>
+             <action dev="py4fun" type="fix">
                 Fix issue 145: exception.getMessage() must show the line number as exception.toString() does (2012-04-03)
              </action>
              <action dev="maslovalex" type="fix">

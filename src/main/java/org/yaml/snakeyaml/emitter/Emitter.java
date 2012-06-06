@@ -1225,6 +1225,7 @@ public final class Emitter implements Emitable {
                 if (ch != null) {
                     String data;
                     if (ESCAPE_REPLACEMENTS.containsKey(ch)) {
+                        // TODO check the whole range (issue 148)
                         data = "\\" + ESCAPE_REPLACEMENTS.get(ch);
                     } else if (!this.allowUnicode) {
                         // this is different from PyYAML which escapes all

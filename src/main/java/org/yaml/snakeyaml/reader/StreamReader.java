@@ -21,6 +21,7 @@ import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.emitter.YamlCharacterEncoding;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.scanner.Constant;
@@ -87,11 +88,8 @@ public class StreamReader {
         for (int i = begin; i < end; i++) {
             final char c = chars[i];
 
-            if ((c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
-                    || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
-                    || (c >= '\uE000' && c <= '\uFFFD')) {
+            if (YamlCharacterEncoding.isPrintable(c))
                 continue;
-            }
 
             int position = this.index + this.buffer.length() - this.pointer + i;
             throw new ReaderException(name, position, c, "special characters are not allowed");
