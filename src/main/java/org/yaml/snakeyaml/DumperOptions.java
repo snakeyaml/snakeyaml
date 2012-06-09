@@ -147,9 +147,13 @@ public class DumperOptions {
             return version;
         }
 
+        public String getRepresentation() {
+            return version[0] + "." + version[1];
+        }
+
         @Override
         public String toString() {
-            return "Version: " + version[0] + "." + version[1];
+            return "Version: " + getRepresentation();
         }
     }
 

@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
+import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.CollectionEndEvent;
@@ -818,13 +819,11 @@ public final class Emitter implements Emitable {
 
     // Analyzers.
 
-    private String prepareVersion(Integer[] version) {
-        Integer major = version[0];
-        Integer minor = version[1];
-        if (major != 1) {
-            throw new EmitterException("unsupported YAML version: " + version[0] + "." + version[1]);
+    private String prepareVersion(Version version) {
+        if (version.getArray()[0] != 1) {
+            throw new EmitterException("unsupported YAML version: " + version);
         }
-        return major.toString() + "." + minor.toString();
+        return version.getRepresentation();
     }
 
     private final static Pattern HANDLE_FORMAT = Pattern.compile("^![-_\\w]*!$");

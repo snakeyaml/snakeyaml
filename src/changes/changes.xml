@@ -7,6 +7,10 @@
     </properties>
     <body>
         <release version="1.11" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="update">
+                Refactor: use Version enum instead of Array of Integers. 
+                This is done to simplify fixing issue 149 (2012-06-09)
+             </action>
              <action dev="py4fun" type="fix">
                 Add tests for issue 148  (2012-06-07)
              </action>

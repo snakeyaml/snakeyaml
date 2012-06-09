@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
@@ -122,7 +123,7 @@ public final class ParserImpl implements Parser {
 
     private final Scanner scanner;
     private Event currentEvent;
-    private List<Integer> yamlVersion;
+    private Version yamlVersion;
     private Map<String, String> tagHandles;
     private final ArrayStack<Production> states;
     private final ArrayStack<Mark> marks;
@@ -223,23 +224,15 @@ public final class ParserImpl implements Parser {
             if (!scanner.checkToken(Token.ID.StreamEnd)) {
                 Token token = scanner.peekToken();
                 Mark startMark = token.getStartMark();
-                List<Object> version_tags = processDirectives();
-                List<Object> version = (List<Object>) version_tags.get(0);
-                Map<String, String> tags = (Map<String, String>) version_tags.get(1);
+                VersionTagsTuple tuple = processDirectives();
                 if (!scanner.checkToken(Token.ID.DocumentStart)) {
                     throw new ParserException(null, null, "expected '<document start>', but found "
                             + scanner.peekToken().getTokenId(), scanner.peekToken().getStartMark());
                 }
                 token = scanner.getToken();
                 Mark endMark = token.getEndMark();
-                Integer[] versionInteger;
-                if (version != null) {
-                    versionInteger = new Integer[2];
-                    versionInteger = version.toArray(versionInteger);
-                } else {
-                    versionInteger = null;
-                }
-                event = new DocumentStartEvent(startMark, endMark, true, versionInteger, tags);
+                event = new DocumentStartEvent(startMark, endMark, true, tuple.getVersion(),
+                        tuple.getTags());
                 states.push(new ParseDocumentEnd());
                 state = new ParseDocumentContent();
             } else {
@@ -293,7 +286,7 @@ public final class ParserImpl implements Parser {
     }
 
     @SuppressWarnings("unchecked")
-    private List<Object> processDirectives() {
+    private VersionTagsTuple processDirectives() {
         yamlVersion = null;
         tagHandles = new HashMap<String, String>();
         while (scanner.checkToken(Token.ID.Directive)) {
@@ -311,7 +304,16 @@ public final class ParserImpl implements Parser {
                             "found incompatible YAML document (version 1.* is required)",
                             token.getStartMark());
                 }
-                yamlVersion = (List<Integer>) token.getValue();
+                Integer minor = value.get(1);
+                switch (minor) {
+                case 0:
+                    yamlVersion = Version.V1_0;
+                    break;
+
+                default:
+                    yamlVersion = Version.V1_1;
+                    break;
+                }
             } else if (token.getName().equals("TAG")) {
                 List<String> value = (List<String>) token.getValue();
                 String handle = value.get(0);
@@ -335,7 +337,7 @@ public final class ParserImpl implements Parser {
                 tagHandles.put(key, DEFAULT_TAGS.get(key));
             }
         }
-        return value;
+        return new VersionTagsTuple(yamlVersion, tagHandles);
     }
 
     /**

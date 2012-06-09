@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
@@ -52,7 +53,7 @@ public final class Serializer {
     private final Resolver resolver;
     private boolean explicitStart;
     private boolean explicitEnd;
-    private Integer[] useVersion;
+    private Version useVersion;
     private Map<String, String> useTags;
     private Set<Node> serializedNodes;
     private Map<Node, String> anchors;
@@ -66,7 +67,7 @@ public final class Serializer {
         this.explicitStart = opts.isExplicitStart();
         this.explicitEnd = opts.isExplicitEnd();
         if (opts.getVersion() != null) {
-            this.useVersion = opts.getVersion().getArray();
+            this.useVersion = opts.getVersion();
         }
         this.useTags = opts.getTags();
         this.serializedNodes = new HashSet<Node>();
