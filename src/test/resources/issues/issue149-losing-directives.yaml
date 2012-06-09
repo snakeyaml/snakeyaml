@@ -1,0 +1,9 @@
+%YAML 1.1
+%TAG !u! tag:ualberta.ca,2012:
+--- !u!29 &1
+property1: 0
+property2: aaa
+
+--- !u!29 &2
+property1: 3
+property2: bbb
