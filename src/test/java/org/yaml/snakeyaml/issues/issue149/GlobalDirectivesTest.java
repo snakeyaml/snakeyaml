@@ -15,6 +15,8 @@
  */
 package org.yaml.snakeyaml.issues.issue149;
 
+import java.util.Iterator;
+
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.TypeDescription;
@@ -32,10 +34,11 @@ public class GlobalDirectivesTest extends TestCase {
                 "tag:ualberta.ca,2012:" + 29));
         constr.addTypeDescription(description);
         Yaml yaml = new Yaml(constr);
-        Iterable<Object> parsed = yaml.loadAll(input);
-        for (Object obj : parsed) {
-            System.out.println(obj);
-        }
+        Iterator<Object> parsed = yaml.loadAll(input).iterator();
+        ComponentBean bean = (ComponentBean) parsed.next();
+        assertEquals(0, bean.getProperty1());
+        assertEquals("aaa", bean.getProperty2());
+        assertFalse(parsed.hasNext());
     }
 
     public void testDirectives() {
@@ -45,10 +48,17 @@ public class GlobalDirectivesTest extends TestCase {
         TypeDescription description = new TypeDescription(ComponentBean.class, new Tag(
                 "tag:ualberta.ca,2012:" + 29));
         constr.addTypeDescription(description);
-        Yaml yaml = new Yaml(constr);
-        // Iterable<Object> parsed = yaml.loadAll(input);
-        // for (Object obj : parsed) {
-        // System.out.println(obj);
-        // }
+        try {
+            Yaml yaml = new Yaml(constr);
+            Iterable<Object> parsed = yaml.loadAll(input);
+            for (Object obj : parsed) {
+                ComponentBean bean = (ComponentBean) obj;
+                System.out.println(bean.getProperty1());
+            }
+            fail("149 must be fixed.");
+        } catch (Exception e) {
+            assertTrue(e.getMessage().startsWith(
+                    "while parsing a node; found undefined tag handle !u!;"));
+        }
     }
 }
