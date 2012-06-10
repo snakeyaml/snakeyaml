@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.11" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="fix">
+                Fix issue 149: Directives are no longer lost between documents (2012-06-10)
+             </action>
              <action dev="py4fun" type="update">
                 Refactor: use Version enum instead of Array of Integers. 
                 This is done to simplify fixing issue 149 (2012-06-09)

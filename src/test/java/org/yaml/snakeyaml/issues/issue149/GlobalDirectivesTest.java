@@ -31,7 +31,7 @@ public class GlobalDirectivesTest extends TestCase {
         // System.out.println(input);
         Constructor constr = new Constructor();
         TypeDescription description = new TypeDescription(ComponentBean.class, new Tag(
-                "tag:ualberta.ca,2012:" + 29));
+                "tag:ualberta.ca,2012:29"));
         constr.addTypeDescription(description);
         Yaml yaml = new Yaml(constr);
         Iterator<Object> parsed = yaml.loadAll(input).iterator();
@@ -48,17 +48,32 @@ public class GlobalDirectivesTest extends TestCase {
         TypeDescription description = new TypeDescription(ComponentBean.class, new Tag(
                 "tag:ualberta.ca,2012:" + 29));
         constr.addTypeDescription(description);
-        try {
-            Yaml yaml = new Yaml(constr);
-            Iterable<Object> parsed = yaml.loadAll(input);
-            for (Object obj : parsed) {
-                ComponentBean bean = (ComponentBean) obj;
-                System.out.println(bean.getProperty1());
-            }
-            fail("149 must be fixed.");
-        } catch (Exception e) {
-            assertTrue(e.getMessage().startsWith(
-                    "while parsing a node; found undefined tag handle !u!;"));
-        }
+        Yaml yaml = new Yaml(constr);
+        Iterator<Object> parsed = yaml.loadAll(input).iterator();
+        ComponentBean bean1 = (ComponentBean) parsed.next();
+        assertEquals(0, bean1.getProperty1());
+        assertEquals("aaa", bean1.getProperty2());
+        ComponentBean bean2 = (ComponentBean) parsed.next();
+        assertEquals(3, bean2.getProperty1());
+        assertEquals("bbb", bean2.getProperty2());
+        assertFalse(parsed.hasNext());
+    }
+
+    public void testDirectives2() {
+        String input = Util.getLocalResource("issues/issue149-losing-directives-2.yaml");
+        // System.out.println(input);
+        Constructor constr = new Constructor();
+        TypeDescription description = new TypeDescription(ComponentBean.class, new Tag(
+                "tag:ualberta.ca,2012:" + 29));
+        constr.addTypeDescription(description);
+        Yaml yaml = new Yaml(constr);
+        Iterator<Object> parsed = yaml.loadAll(input).iterator();
+        ComponentBean bean1 = (ComponentBean) parsed.next();
+        assertEquals(0, bean1.getProperty1());
+        assertEquals("aaa", bean1.getProperty2());
+        ComponentBean bean2 = (ComponentBean) parsed.next();
+        assertEquals(3, bean2.getProperty1());
+        assertEquals("bbb", bean2.getProperty2());
+        assertFalse(parsed.hasNext());
     }
 }

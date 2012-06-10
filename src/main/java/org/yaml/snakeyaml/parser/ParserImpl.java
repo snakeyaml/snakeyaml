@@ -130,7 +130,7 @@ public final class ParserImpl implements Parser {
     public ParserImpl(StreamReader reader) {
         this.scanner = new ScannerImpl(reader);
         currentEvent = null;
-        directives = new VersionTagsTuple(null, new HashMap<String, String>());
+        directives = new VersionTagsTuple(null, new HashMap<String, String>(DEFAULT_TAGS));
         states = new ArrayStack<Production>(100);
         marks = new ArrayStack<Mark>(10);
         state = new ParseStreamStart();
@@ -321,13 +321,14 @@ public final class ParserImpl implements Parser {
                 tagHandles.put(handle, prefix);
             }
         }
-        for (String key : DEFAULT_TAGS.keySet()) {
-            if (!tagHandles.containsKey(key)) {
-                tagHandles.put(key, DEFAULT_TAGS.get(key));
-            }
-        }
         if (yamlVersion != null || !tagHandles.isEmpty()) {
             // directives in the document found - drop the previous
+            for (String key : DEFAULT_TAGS.keySet()) {
+                // do not overwrite re-defined tags
+                if (!tagHandles.containsKey(key)) {
+                    tagHandles.put(key, DEFAULT_TAGS.get(key));
+                }
+            }
             directives = new VersionTagsTuple(yamlVersion, tagHandles);
         }
         return directives;
