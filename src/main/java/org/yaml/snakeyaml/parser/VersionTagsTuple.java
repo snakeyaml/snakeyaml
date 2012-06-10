@@ -19,7 +19,10 @@ import java.util.Map;
 
 import org.yaml.snakeyaml.DumperOptions.Version;
 
-public class VersionTagsTuple {
+/**
+ * Store the internal state for directives
+ */
+class VersionTagsTuple {
     private Version version;
     private Map<String, String> tags;
 

@@ -15,7 +15,6 @@
  */
 package org.yaml.snakeyaml.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,17 +122,15 @@ public final class ParserImpl implements Parser {
 
     private final Scanner scanner;
     private Event currentEvent;
-    private Version yamlVersion;
-    private Map<String, String> tagHandles;
     private final ArrayStack<Production> states;
     private final ArrayStack<Mark> marks;
     private Production state;
+    private VersionTagsTuple directives;
 
     public ParserImpl(StreamReader reader) {
         this.scanner = new ScannerImpl(reader);
         currentEvent = null;
-        yamlVersion = null;
-        tagHandles = new HashMap<String, String>();
+        directives = new VersionTagsTuple(null, new HashMap<String, String>());
         states = new ArrayStack<Production>(100);
         marks = new ArrayStack<Mark>(10);
         state = new ParseStreamStart();
@@ -196,7 +193,7 @@ public final class ParserImpl implements Parser {
         public Event produce() {
             // Parse an implicit document.
             if (!scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart, Token.ID.StreamEnd)) {
-                tagHandles = DEFAULT_TAGS;
+                directives = new VersionTagsTuple(null, DEFAULT_TAGS);
                 Token token = scanner.peekToken();
                 Mark startMark = token.getStartMark();
                 Mark endMark = startMark;
@@ -213,7 +210,6 @@ public final class ParserImpl implements Parser {
     }
 
     private class ParseDocumentStart implements Production {
-        @SuppressWarnings("unchecked")
         public Event produce() {
             // Parse any extra document end indicators.
             while (scanner.checkToken(Token.ID.DocumentEnd)) {
@@ -287,8 +283,8 @@ public final class ParserImpl implements Parser {
 
     @SuppressWarnings("unchecked")
     private VersionTagsTuple processDirectives() {
-        yamlVersion = null;
-        tagHandles = new HashMap<String, String>();
+        Version yamlVersion = null;
+        HashMap<String, String> tagHandles = new HashMap<String, String>();
         while (scanner.checkToken(Token.ID.Directive)) {
             @SuppressWarnings("rawtypes")
             DirectiveToken token = (DirectiveToken) scanner.getToken();
@@ -325,19 +321,16 @@ public final class ParserImpl implements Parser {
                 tagHandles.put(handle, prefix);
             }
         }
-        List<Object> value = new ArrayList<Object>(2);
-        value.add(yamlVersion);
-        if (!tagHandles.isEmpty()) {
-            value.add(new HashMap<String, String>(tagHandles));
-        } else {
-            value.add(new HashMap<String, String>());
-        }
         for (String key : DEFAULT_TAGS.keySet()) {
             if (!tagHandles.containsKey(key)) {
                 tagHandles.put(key, DEFAULT_TAGS.get(key));
             }
         }
-        return new VersionTagsTuple(yamlVersion, tagHandles);
+        if (yamlVersion != null || !tagHandles.isEmpty()) {
+            // directives in the document found - drop the previous
+            directives = new VersionTagsTuple(yamlVersion, tagHandles);
+        }
+        return directives;
     }
 
     /**
@@ -414,11 +407,11 @@ public final class ParserImpl implements Parser {
                 String handle = tagTokenTag.getHandle();
                 String suffix = tagTokenTag.getSuffix();
                 if (handle != null) {
-                    if (!tagHandles.containsKey(handle)) {
+                    if (!directives.getTags().containsKey(handle)) {
                         throw new ParserException("while parsing a node", startMark,
                                 "found undefined tag handle " + handle, tagMark);
                     }
-                    tag = tagHandles.get(handle) + suffix;
+                    tag = directives.getTags().get(handle) + suffix;
                 } else {
                     tag = suffix;
                 }
