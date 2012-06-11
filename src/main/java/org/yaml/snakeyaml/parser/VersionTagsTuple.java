@@ -38,4 +38,9 @@ class VersionTagsTuple {
     public Map<String, String> getTags() {
         return tags;
     }
+
+    @Override
+    public String toString() {
+        return String.format("VersionTagsTuple<%s, %s>", version, tags);
+    }
 }

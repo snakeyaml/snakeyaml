@@ -31,7 +31,9 @@ import org.yaml.snakeyaml.resolver.Resolver;
  * ignored in favour of the runtime class <code>T</code>.
  * 
  * @deprecated use Yaml.loadAs() methods instead
- * @see http://www.artima.com/weblogs/viewpost.jsp?thread=208860
+ * @see <a
+ *      href="http://www.artima.com/weblogs/viewpost.jsp?thread=208860">Reflecting
+ *      generics</a>
  */
 public class JavaBeanLoader<T> {
     private Yaml loader;

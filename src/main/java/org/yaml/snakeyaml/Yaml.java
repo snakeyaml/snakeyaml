@@ -212,7 +212,8 @@ public class Yaml {
     /**
      * Produce the corresponding representation tree for a given Object.
      * 
-     * @see http://yaml.org/spec/1.1/#id859333
+     * @see <a href="http://yaml.org/spec/1.1/#id859333">Figure 3.1. Processing
+     *      Overview</a>
      * @param data
      *            instance to build the representation tree for
      * @return representation tree
@@ -355,7 +356,7 @@ public class Yaml {
     /**
      * Serialize the representation tree into Events.
      * 
-     * @see http://yaml.org/spec/1.1/#id859333
+     * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
      * @param data
      *            representation tree
      * @return Event list
@@ -551,7 +552,8 @@ public class Yaml {
      * Parse the first YAML document in a stream and produce the corresponding
      * representation tree. (This is the opposite of the represent() method)
      * 
-     * @see http://yaml.org/spec/1.1/#id859333
+     * @see <a href="http://yaml.org/spec/1.1/#id859333">Figure 3.1. Processing
+     *      Overview</a>
      * @param yaml
      *            YAML document
      * @return parsed root Node for the specified YAML document
@@ -566,7 +568,7 @@ public class Yaml {
      * Parse all YAML documents in a stream and produce corresponding
      * representation trees.
      * 
-     * @see http://yaml.org/spec/1.1/#id859333
+     * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
      * @param yaml
      *            stream of YAML documents
      * @return parsed root Nodes for all the specified YAML documents
@@ -665,7 +667,7 @@ public class Yaml {
     /**
      * Parse a YAML stream and produce parsing events.
      * 
-     * @see http://yaml.org/spec/1.1/#id859333
+     * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
      * @param yaml
      *            YAML document(s)
      * @return parsed events

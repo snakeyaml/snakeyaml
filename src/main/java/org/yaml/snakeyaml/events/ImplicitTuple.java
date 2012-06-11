@@ -20,7 +20,7 @@ package org.yaml.snakeyaml.events;
  * if the tag may be omitted when the scalar is emitted in a plain and non-plain
  * style correspondingly.
  * 
- * @see http://pyyaml.org/wiki/PyYAMLDocumentation#Events
+ * @see <a href="http://pyyaml.org/wiki/PyYAMLDocumentation#Events">Events</a>
  */
 public class ImplicitTuple {
     private final boolean plain;

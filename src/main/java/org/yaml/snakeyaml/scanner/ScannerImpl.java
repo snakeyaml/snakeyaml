@@ -92,7 +92,8 @@ public final class ScannerImpl implements Scanner {
      * 
      * YAML defines several common and a few uncommon escape sequences.
      * 
-     * @see http://www.yaml.org/spec/current.html#id2517668
+     * @see <a href="http://www.yaml.org/spec/current.html#id2517668">4.1.6.
+     *      Escape Sequences</a>
      */
     public final static Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
 
@@ -107,7 +108,8 @@ public final class ScannerImpl implements Scanner {
      * &#92;UHHHHHHHH   : escaped 32-bit Unicode character
      * </pre>
      * 
-     * @see http://yaml.org/spec/1.1/current.html#id872840
+     * @see <a href="http://yaml.org/spec/1.1/current.html#id872840">5.6. Escape
+     *      Sequences</a>
      */
     public final static Map<Character, Integer> ESCAPE_CODES = new HashMap<Character, Integer>();
 

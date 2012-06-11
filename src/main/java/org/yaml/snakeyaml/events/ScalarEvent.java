@@ -65,7 +65,8 @@ public final class ScalarEvent extends NodeEvent {
      * <dd>Block Style - Folded</dd>
      * </dl>
      * 
-     * @see http://yaml.org/spec/1.1/#id864487
+     * @see <a href="http://yaml.org/spec/1.1/#id864487">Kind/Style
+     *      Combinations</a>
      * @return Style of the scalar.
      */
     public Character getStyle() {

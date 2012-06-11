@@ -22,7 +22,8 @@ import org.yaml.snakeyaml.nodes.Node;
  * recursive objects if it is required. (create Native Data Structure out of
  * Node Graph)
  * 
- * @see http://yaml.org/spec/1.1/#id859109
+ * @see <a href="http://yaml.org/spec/1.1/#id859109">Chapter 3. Processing YAML
+ *      Information</a>
  */
 public interface Construct {
     /**

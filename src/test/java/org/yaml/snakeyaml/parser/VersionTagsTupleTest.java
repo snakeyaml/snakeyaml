@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml.representer;
+package org.yaml.snakeyaml.parser;
 
-import org.yaml.snakeyaml.nodes.Node;
+import java.util.HashMap;
 
-/**
- * Create a Node Graph out of the provided Native Data Structure (Java
- * instance).
- * 
- * @see <a href="http://yaml.org/spec/1.1/#id859109">Chapter 3. Processing YAML
- *      Information</a>
- */
-public interface Represent {
-    /**
-     * Create a Node
-     * 
-     * @param data
-     *            the instance to represent
-     * @return Node to dump
-     */
-    public Node representData(Object data);
+import junit.framework.TestCase;
+
+import org.yaml.snakeyaml.DumperOptions.Version;
+
+public class VersionTagsTupleTest extends TestCase {
+
+    public void testToString() {
+        VersionTagsTuple tuple = new VersionTagsTuple(Version.V1_1, new HashMap<String, String>());
+        assertEquals("VersionTagsTuple<Version: 1.1, {}>", tuple.toString());
+    }
 }

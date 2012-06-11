@@ -137,7 +137,7 @@ public class StreamReader {
      * Peek the next index-th character
      * 
      * @param index
-     * @return
+     * @return the next index-th character
      */
     public char peek(int index) {
         if (this.pointer + index + 1 > this.buffer.length()) {
@@ -150,7 +150,7 @@ public class StreamReader {
      * peek the next length characters
      * 
      * @param length
-     * @return
+     * @return the next length characters
      */
     public String prefix(int length) {
         if (this.pointer + length >= this.buffer.length()) {
