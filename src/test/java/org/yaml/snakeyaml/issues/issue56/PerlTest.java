@@ -50,11 +50,6 @@ public class PerlTest extends TestCase {
                 String acidNameDe = e.entrySet().toArray()[1].toString();
                 assertEquals("Unicode escaped sequence must be decoded.",
                         ":de=AcetylsalicylsÃ¤ure", acidNameDe);
-                /*
-                 * TODO issue 151:
-                 * assertEquals("Unicode escaped sequence must be decoded.",
-                 * ":de=Acetylsalicylsäure", acidNameDe);
-                 */
             }
             assertTrue(oid > 10000);
             counter++;

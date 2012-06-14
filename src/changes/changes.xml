@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.11" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="update">
+                Add a test for issue 151 (2012-06-14)
+             </action>
              <action dev="py4fun" type="fix">
                 Fix issue 149: Directives are no longer lost between documents (2012-06-10)
              </action>
