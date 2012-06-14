@@ -15,6 +15,8 @@
  */
 package org.yaml.snakeyaml.issues.issue56;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -30,7 +32,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 
 public class PerlTest extends TestCase {
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void testMaps() {
         Yaml yaml = new Yaml(new CustomConstructor());
         String input = Util.getLocalResource("issues/issue56-1.yaml");
@@ -39,6 +41,21 @@ public class PerlTest extends TestCase {
             // System.out.println(obj);
             Map<String, Object> map = (Map<String, Object>) obj;
             Integer oid = (Integer) map.get("oid");
+            if (oid == 123058) {
+                ArrayList a = (ArrayList) map.get("sequences");
+                LinkedHashMap b = (LinkedHashMap) a.get(0);
+                LinkedHashMap c = (LinkedHashMap) b.get("atc");
+                LinkedHashMap d = (LinkedHashMap) c.get("name");
+                LinkedHashMap e = (LinkedHashMap) d.get("canonical");
+                String acidNameDe = e.entrySet().toArray()[1].toString();
+                assertEquals("Unicode escaped sequence must be decoded.",
+                        ":de=AcetylsalicylsÃ¤ure", acidNameDe);
+                /*
+                 * TODO issue 151:
+                 * assertEquals("Unicode escaped sequence must be decoded.",
+                 * ":de=Acetylsalicylsäure", acidNameDe);
+                 */
+            }
             assertTrue(oid > 10000);
             counter++;
         }
