@@ -15,7 +15,6 @@
  */
 package org.yaml.snakeyaml.constructor;
 
-import java.beans.IntrospectionException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -255,8 +254,7 @@ public class Constructor extends SafeConstructor {
             return constructObject(node);
         }
 
-        protected Property getProperty(Class<? extends Object> type, String name)
-                throws IntrospectionException {
+        protected Property getProperty(Class<? extends Object> type, String name) {
             return getPropertyUtils().getProperty(type, name);
         }
     }
