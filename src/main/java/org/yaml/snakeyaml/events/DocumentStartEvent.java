@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.events;
 
 import java.util.Map;
 
+import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
@@ -27,14 +28,18 @@ import org.yaml.snakeyaml.error.Mark;
  */
 public final class DocumentStartEvent extends Event {
     private final boolean explicit;
-    private final Integer[] version;
+    private final Version version;
     private final Map<String, String> tags;
 
-    public DocumentStartEvent(Mark startMark, Mark endMark, boolean explicit, Integer[] version,
+    public DocumentStartEvent(Mark startMark, Mark endMark, boolean explicit, Version version,
             Map<String, String> tags) {
         super(startMark, endMark);
         this.explicit = explicit;
         this.version = version;
+        // TODO enforce not null
+        // if (tags == null) {
+        // throw new NullPointerException("Tags must be provided.");
+        // }
         this.tags = tags;
     }
 
@@ -50,7 +55,7 @@ public final class DocumentStartEvent extends Event {
      *         components, the major and minor part of the version (in this
      *         order).
      */
-    public Integer[] getVersion() {
+    public Version getVersion() {
         return version;
     }
 

@@ -44,7 +44,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  */
 public class SafeConstructor extends BaseConstructor {
 
-    public static ConstructUndefined undefinedConstructor = new ConstructUndefined();
+    public static final ConstructUndefined undefinedConstructor = new ConstructUndefined();
 
     public SafeConstructor() {
         this.yamlConstructors.put(Tag.NULL, new ConstructYamlNull());
@@ -188,7 +188,7 @@ public class SafeConstructor extends BaseConstructor {
             }
             int base = 10;
             if ("0".equals(value)) {
-                return new Integer(0);
+                return Integer.valueOf(0);
             } else if (value.startsWith("0b")) {
                 value = value.substring(2);
                 base = 2;
@@ -276,7 +276,7 @@ public class SafeConstructor extends BaseConstructor {
     private final static Pattern YMD_REGEXP = Pattern
             .compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)$");
 
-    public class ConstructYamlTimestamp extends AbstractConstruct {
+    public static class ConstructYamlTimestamp extends AbstractConstruct {
         private Calendar calendar;
 
         public Calendar getCalendar() {

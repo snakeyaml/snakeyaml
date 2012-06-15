@@ -21,7 +21,8 @@ import org.yaml.snakeyaml.nodes.Node;
  * Create a Node Graph out of the provided Native Data Structure (Java
  * instance).
  * 
- * @see http://yaml.org/spec/1.1/#id859109
+ * @see <a href="http://yaml.org/spec/1.1/#id859109">Chapter 3. Processing YAML
+ *      Information</a>
  */
 public interface Represent {
     /**

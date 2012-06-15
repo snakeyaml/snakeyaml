@@ -15,6 +15,7 @@
  */
 package org.yaml.snakeyaml.representer;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,6 +29,7 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -38,6 +40,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 class SafeRepresenter extends BaseRepresenter {
 
     protected Map<Class<? extends Object>, Tag> classTags;
+    protected TimeZone timeZone = null;
 
     public SafeRepresenter() {
         this.nullRepresenter = new RepresentNull();
@@ -114,7 +117,11 @@ class SafeRepresenter extends BaseRepresenter {
             if (BINARY_PATTERN.matcher(value).find()) {
                 tag = Tag.BINARY;
                 char[] binary;
-                binary = Base64Coder.encode(value.getBytes());
+                try {
+                    binary = Base64Coder.encode(value.getBytes("UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    throw new YAMLException(e);
+                }
                 value = String.valueOf(binary);
                 style = '|';
             }
@@ -180,7 +187,7 @@ class SafeRepresenter extends BaseRepresenter {
         }
     }
 
-    private class IteratorWrapper implements Iterable<Object> {
+    private static class IteratorWrapper implements Iterable<Object> {
         private Iterator<Object> iter;
 
         public IteratorWrapper(Iterator<Object> iter) {
@@ -227,7 +234,8 @@ class SafeRepresenter extends BaseRepresenter {
             if (data instanceof Calendar) {
                 calendar = (Calendar) data;
             } else {
-                calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                calendar = Calendar.getInstance(getTimeZone() == null ? TimeZone.getTimeZone("UTC")
+                        : timeZone);
                 calendar.setTime((Date) data);
             }
             int years = calendar.get(Calendar.YEAR);
@@ -307,5 +315,13 @@ class SafeRepresenter extends BaseRepresenter {
             char[] binary = Base64Coder.encode((byte[]) data);
             return representScalar(Tag.BINARY, String.valueOf(binary), '|');
         }
+    }
+
+    public TimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
     }
 }

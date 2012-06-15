@@ -19,6 +19,7 @@ public class Row {
     private String id;
     private int size;
     private double ratio;
+    private float floatRatio;
     private String description;
 
     public Row(String id) {
@@ -40,6 +41,14 @@ public class Row {
 
     public void setRatio(double ratio) {
         this.ratio = ratio;
+    }
+
+    public float getFloatRatio() {
+        return floatRatio;
+    }
+
+    public void setFloatRatio(float floatRatio) {
+        this.floatRatio = floatRatio;
     }
 
     public String getDescription() {

@@ -43,7 +43,7 @@ public class ReaderStringTest extends TestCase {
             fail("Non printable Unicode characters must not be accepted.");
         } catch (ReaderException e) {
             assertEquals(
-                    "unacceptable character '' (0x5) special characters are not allowed\nin \"<string>\", position 4",
+                    "unacceptable character '' (0x5) special characters are not allowed\nin \"'string'\", position 4",
                     e.toString());
         }
     }

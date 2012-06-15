@@ -47,9 +47,10 @@ public class ShapeImmutableTest extends TestCase {
             yaml.load("!!org.yaml.snakeyaml.immutable.SuperColor BLACK");
             fail("SuperColor requires Color and not a String.");
         } catch (Exception e) {
-            assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.SuperColor; exception=Unsupported class: class org.yaml.snakeyaml.immutable.Color",
-                    e.getMessage());
+            assertTrue(e
+                    .getMessage()
+                    .startsWith(
+                            "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.SuperColor; exception=Unsupported class: class org.yaml.snakeyaml.immutable.Color"));
         }
     }
 
@@ -65,9 +66,10 @@ public class ShapeImmutableTest extends TestCase {
             yaml.load("!!org.yaml.snakeyaml.immutable.Code3 777");
             fail("There must be 1 constructor with 1 argument for scalar.");
         } catch (Exception e) {
-            assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code3; exception=No single argument constructor found for class org.yaml.snakeyaml.immutable.Code3",
-                    e.getMessage());
+            assertTrue(e
+                    .getMessage()
+                    .startsWith(
+                            "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code3; exception=No single argument constructor found for class org.yaml.snakeyaml.immutable.Code3"));
         }
     }
 
@@ -78,7 +80,7 @@ public class ShapeImmutableTest extends TestCase {
             fail("Constructor with String is required.");
         } catch (Exception e) {
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; exception=null; Can't construct a java object for scalar tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; No String constructor found. Exception=org.yaml.snakeyaml.immutable.Code4.<init>(java.lang.String)",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; exception=Can't construct a java object for scalar tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Code4; No String constructor found. Exception=org.yaml.snakeyaml.immutable.Code4.<init>(java.lang.String);  in 'string', line 1, column 1:\n    !!org.yaml.snakeyaml.immutable.C ... \n    ^",
                     e.getMessage());
         }
     }
@@ -104,7 +106,7 @@ public class ShapeImmutableTest extends TestCase {
             fail("Two arguments required.");
         } catch (Exception e) {
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Point; exception=No suitable constructor with 1 arguments found for class org.yaml.snakeyaml.immutable.Point",
+                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.Point; exception=No suitable constructor with 1 arguments found for class org.yaml.snakeyaml.immutable.Point;  in 'string', line 1, column 1:\n    !!org.yaml.snakeyaml.immutable.Point\n    ^",
                     e.getMessage());
         }
     }

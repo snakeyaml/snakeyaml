@@ -51,7 +51,7 @@ public class LoadExampleTest extends TestCase {
         Object data = yaml.load(input);
         assertEquals("test", data);
         //
-        data = yaml.load(new ByteArrayInputStream("test2".getBytes()));
+        data = yaml.load(new ByteArrayInputStream("test2".getBytes("UTF-8")));
         assertEquals("test2", data);
         input.close();
     }

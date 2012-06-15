@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
@@ -52,7 +53,7 @@ public final class Serializer {
     private final Resolver resolver;
     private boolean explicitStart;
     private boolean explicitEnd;
-    private Integer[] useVersion;
+    private Version useVersion;
     private Map<String, String> useTags;
     private Set<Node> serializedNodes;
     private Map<Node, String> anchors;
@@ -66,7 +67,7 @@ public final class Serializer {
         this.explicitStart = opts.isExplicitStart();
         this.explicitEnd = opts.isExplicitEnd();
         if (opts.getVersion() != null) {
-            this.useVersion = opts.getVersion().getArray();
+            this.useVersion = opts.getVersion();
         }
         this.useTags = opts.getTags();
         this.serializedNodes = new HashSet<Node>();
@@ -108,7 +109,7 @@ public final class Serializer {
         if (explicitRoot != null) {
             node.setTag(explicitRoot);
         }
-        serializeNode(node, null, null);
+        serializeNode(node, null);
         this.emitter.emit(new DocumentEndEvent(null, null, this.explicitEnd));
         this.serializedNodes.clear();
         this.anchors.clear();
@@ -158,7 +159,7 @@ public final class Serializer {
         return "id" + anchorId;
     }
 
-    private void serializeNode(Node node, Node parent, Object index) throws IOException {
+    private void serializeNode(Node node, Node parent) throws IOException {
         if (node.getNodeId() == NodeId.anchor) {
             node = ((AnchorNode) node).getRealNode();
         }
@@ -187,7 +188,7 @@ public final class Serializer {
                 int indexCounter = 0;
                 List<Node> list = seqNode.getValue();
                 for (Node item : list) {
-                    serializeNode(item, node, indexCounter);
+                    serializeNode(item, node);
                     indexCounter++;
                 }
                 this.emitter.emit(new SequenceEndEvent(null, null));
@@ -202,8 +203,8 @@ public final class Serializer {
                 for (NodeTuple row : map) {
                     Node key = row.getKeyNode();
                     Node value = row.getValueNode();
-                    serializeNode(key, mnode, null);
-                    serializeNode(value, mnode, key);
+                    serializeNode(key, mnode);
+                    serializeNode(value, mnode);
                 }
                 this.emitter.emit(new MappingEndEvent(null, null));
             }

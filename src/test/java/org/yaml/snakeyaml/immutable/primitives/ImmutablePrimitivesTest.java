@@ -46,9 +46,10 @@ public class ImmutablePrimitivesTest extends TestCase {
             yaml.load(dump);
             fail();
         } catch (YAMLException e) {
-            assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives; exception=No suitable constructor with 3 arguments found for class org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives",
-                    e.getMessage());
+            assertTrue(e
+                    .getMessage()
+                    .startsWith(
+                            "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives; exception=No suitable constructor with 3 arguments found for class org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives"));
         }
     }
 }

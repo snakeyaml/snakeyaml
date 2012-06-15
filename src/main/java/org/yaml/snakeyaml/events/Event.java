@@ -47,7 +47,7 @@ public abstract class Event {
     }
 
     /**
-     * @see __repr__ for Event in PyYAML
+     * @see "__repr__ for Event in PyYAML"
      */
     protected String getArguments() {
         return "";
@@ -65,5 +65,13 @@ public abstract class Event {
         } else {
             return false;
         }
+    }
+
+    /*
+     * for tests only
+     */
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
     }
 }

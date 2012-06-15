@@ -91,9 +91,9 @@ public final class Mark {
     @Override
     public String toString() {
         String snippet = get_snippet();
-        StringBuilder where = new StringBuilder(" in \"");
+        StringBuilder where = new StringBuilder(" in ");
         where.append(name);
-        where.append("\", line ");
+        where.append(", line ");
         where.append(line + 1);
         where.append(", column ");
         where.append(column + 1);

@@ -344,10 +344,9 @@ public class Constructor extends SafeConstructor {
                     try {
                         javaConstructor = type.getConstructor(String.class);
                     } catch (Exception e) {
-                        throw new ConstructorException(null, null,
-                                "Can't construct a java object for scalar " + node.getTag()
-                                        + "; No String constructor found. Exception="
-                                        + e.getMessage(), node.getStartMark(), e);
+                        throw new YAMLException("Can't construct a java object for scalar "
+                                + node.getTag() + "; No String constructor found. Exception="
+                                + e.getMessage(), e);
                     }
                 }
                 try {
@@ -380,7 +379,7 @@ public class Constructor extends SafeConstructor {
                     throw new YAMLException("Invalid node Character: '" + ch + "'; length: "
                             + ch.length());
                 } else {
-                    result = new Character(ch.charAt(0));
+                    result = Character.valueOf(ch.charAt(0));
                 }
             } else if (Date.class.isAssignableFrom(type)) {
                 Construct dateConstructor = yamlConstructors.get(Tag.TIMESTAMP);
@@ -416,7 +415,7 @@ public class Constructor extends SafeConstructor {
                 } else if (type == Short.class || type == Short.TYPE) {
                     result = new Short(result.toString());
                 } else if (type == Integer.class || type == Integer.TYPE) {
-                    result = new Integer(result.toString());
+                    result = Integer.parseInt(result.toString());
                 } else if (type == Long.class || type == Long.TYPE) {
                     result = new Long(result.toString());
                 } else {

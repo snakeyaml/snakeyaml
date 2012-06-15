@@ -32,7 +32,7 @@ public class StreamReader {
     // NON_PRINTABLE changed from PyYAML: \uFFFD excluded because Java returns
     // it in case of data corruption
     final static Pattern NON_PRINTABLE = Pattern
-            .compile("[^\t\n\r\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFC]");
+            .compile("[^\t\n\r\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD]");
     private String name;
     private final Reader stream;
     private int pointer = 0;
@@ -44,7 +44,7 @@ public class StreamReader {
     private char[] data;
 
     public StreamReader(String stream) {
-        this.name = "<string>";
+        this.name = "'string'";
         this.buffer = ""; // to set length to 0
         checkPrintable(stream);
         this.buffer = stream + "\0";
@@ -54,7 +54,7 @@ public class StreamReader {
     }
 
     public StreamReader(Reader reader) {
-        this.name = "<reader>";
+        this.name = "'reader'";
         this.buffer = "";
         this.stream = reader;
         this.eof = false;
@@ -89,7 +89,7 @@ public class StreamReader {
 
             if ((c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
                     || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
-                    || (c >= '\uE000' && c <= '\uFFFC')) {
+                    || (c >= '\uE000' && c <= '\uFFFD')) {
                 continue;
             }
 
@@ -137,7 +137,7 @@ public class StreamReader {
      * Peek the next index-th character
      * 
      * @param index
-     * @return
+     * @return the next index-th character
      */
     public char peek(int index) {
         if (this.pointer + index + 1 > this.buffer.length()) {
@@ -150,7 +150,7 @@ public class StreamReader {
      * peek the next length characters
      * 
      * @param length
-     * @return
+     * @return the next length characters
      */
     public String prefix(int length) {
         if (this.pointer + length >= this.buffer.length()) {

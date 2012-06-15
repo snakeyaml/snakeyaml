@@ -99,7 +99,7 @@ public class Resolver {
         } else {
             char[] chrs = first.toCharArray();
             for (int i = 0, j = chrs.length; i < j; i++) {
-                Character theC = new Character(chrs[i]);
+                Character theC = Character.valueOf(chrs[i]);
                 if (theC == 0) {
                     // special case: for null
                     theC = null;

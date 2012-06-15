@@ -24,7 +24,7 @@ public class MarkedYAMLExceptionTest extends TestCase {
         MarkedYAMLException exception = new MarkedYAMLException(null, null, "Error happened", mark);
         assertTrue(exception.toString().contains("Error happened"));
         assertTrue(exception.toString().contains("The first line"));
-        assertTrue(exception.toString().contains("\"test1\""));
+        assertTrue(exception.toString(), exception.toString().contains("test1"));
     }
 
     public void testToString2() {
@@ -33,7 +33,7 @@ public class MarkedYAMLExceptionTest extends TestCase {
                 "Error2 happened", mark);
         assertTrue(exception.toString().contains("Error2 happened"));
         assertTrue(exception.toString().contains("The first line"));
-        assertTrue(exception.toString().contains("\"search\""));
+        assertTrue(exception.toString().contains("search"));
     }
 
     public void testToString3() {

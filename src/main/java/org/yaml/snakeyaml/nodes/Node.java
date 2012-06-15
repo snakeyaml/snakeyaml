@@ -70,7 +70,7 @@ public abstract class Node {
     /**
      * For error reporting.
      * 
-     * @see class variable 'id' in PyYAML
+     * @see "class variable 'id' in PyYAML"
      * @return scalar, sequence, mapping
      */
     public abstract NodeId getNodeId();

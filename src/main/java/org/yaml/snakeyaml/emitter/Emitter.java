@@ -29,6 +29,8 @@ import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
+import org.yaml.snakeyaml.DumperOptions.Version;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.CollectionEndEvent;
 import org.yaml.snakeyaml.events.CollectionStartEvent;
@@ -62,24 +64,24 @@ public final class Emitter implements Emitable {
     public static final int MIN_INDENT = 1;
     public static final int MAX_INDENT = 10;
 
-    public static final char[] SPACE = { ' ' };
+    private static final char[] SPACE = { ' ' };
 
     static {
-        ESCAPE_REPLACEMENTS.put(new Character('\0'), "0");
-        ESCAPE_REPLACEMENTS.put(new Character('\u0007'), "a");
-        ESCAPE_REPLACEMENTS.put(new Character('\u0008'), "b");
-        ESCAPE_REPLACEMENTS.put(new Character('\u0009'), "t");
-        ESCAPE_REPLACEMENTS.put(new Character('\n'), "n");
-        ESCAPE_REPLACEMENTS.put(new Character('\u000B'), "v");
-        ESCAPE_REPLACEMENTS.put(new Character('\u000C'), "f");
-        ESCAPE_REPLACEMENTS.put(new Character('\r'), "r");
-        ESCAPE_REPLACEMENTS.put(new Character('\u001B'), "e");
-        ESCAPE_REPLACEMENTS.put(new Character('"'), "\"");
-        ESCAPE_REPLACEMENTS.put(new Character('\\'), "\\");
-        ESCAPE_REPLACEMENTS.put(new Character('\u0085'), "N");
-        ESCAPE_REPLACEMENTS.put(new Character('\u00A0'), "_");
-        ESCAPE_REPLACEMENTS.put(new Character('\u2028'), "L");
-        ESCAPE_REPLACEMENTS.put(new Character('\u2029'), "P");
+        ESCAPE_REPLACEMENTS.put('\0', "0");
+        ESCAPE_REPLACEMENTS.put('\u0007', "a");
+        ESCAPE_REPLACEMENTS.put('\u0008', "b");
+        ESCAPE_REPLACEMENTS.put('\u0009', "t");
+        ESCAPE_REPLACEMENTS.put('\n', "n");
+        ESCAPE_REPLACEMENTS.put('\u000B', "v");
+        ESCAPE_REPLACEMENTS.put('\u000C', "f");
+        ESCAPE_REPLACEMENTS.put('\r', "r");
+        ESCAPE_REPLACEMENTS.put('\u001B', "e");
+        ESCAPE_REPLACEMENTS.put('"', "\"");
+        ESCAPE_REPLACEMENTS.put('\\', "\\");
+        ESCAPE_REPLACEMENTS.put('\u0085', "N");
+        ESCAPE_REPLACEMENTS.put('\u00A0', "_");
+        ESCAPE_REPLACEMENTS.put('\u2028', "L");
+        ESCAPE_REPLACEMENTS.put('\u2029', "P");
     }
 
     private final static Map<String, String> DEFAULT_TAG_PREFIXES = new LinkedHashMap<String, String>();
@@ -368,14 +370,13 @@ public final class Emitter implements Emitable {
     private class ExpectDocumentRoot implements EmitterState {
         public void expect() throws IOException {
             states.push(new ExpectDocumentEnd());
-            expectNode(true, false, false, false);
+            expectNode(true, false, false);
         }
     }
 
     // Node handlers.
 
-    private void expectNode(boolean root, boolean sequence, boolean mapping, boolean simpleKey)
-            throws IOException {
+    private void expectNode(boolean root, boolean mapping, boolean simpleKey) throws IOException {
         rootContext = root;
         mappingContext = mapping;
         simpleKeyContext = simpleKey;
@@ -445,7 +446,7 @@ public final class Emitter implements Emitable {
                     writeIndent();
                 }
                 states.push(new ExpectFlowSequenceItem());
-                expectNode(false, true, false, false);
+                expectNode(false, false, false);
             }
         }
     }
@@ -470,7 +471,7 @@ public final class Emitter implements Emitable {
                     writeIndent();
                 }
                 states.push(new ExpectFlowSequenceItem());
-                expectNode(false, true, false, false);
+                expectNode(false, false, false);
             }
         }
     }
@@ -500,11 +501,11 @@ public final class Emitter implements Emitable {
                 }
                 if (!canonical && checkSimpleKey()) {
                     states.push(new ExpectFlowMappingSimpleValue());
-                    expectNode(false, false, true, true);
+                    expectNode(false, true, true);
                 } else {
                     writeIndicator("?", true, false, false);
                     states.push(new ExpectFlowMappingValue());
-                    expectNode(false, false, true, false);
+                    expectNode(false, true, false);
                 }
             }
         }
@@ -531,11 +532,11 @@ public final class Emitter implements Emitable {
                 }
                 if (!canonical && checkSimpleKey()) {
                     states.push(new ExpectFlowMappingSimpleValue());
-                    expectNode(false, false, true, true);
+                    expectNode(false, true, true);
                 } else {
                     writeIndicator("?", true, false, false);
                     states.push(new ExpectFlowMappingValue());
-                    expectNode(false, false, true, false);
+                    expectNode(false, true, false);
                 }
             }
         }
@@ -545,7 +546,7 @@ public final class Emitter implements Emitable {
         public void expect() throws IOException {
             writeIndicator(":", false, false, false);
             states.push(new ExpectFlowMappingKey());
-            expectNode(false, false, true, false);
+            expectNode(false, true, false);
         }
     }
 
@@ -556,7 +557,7 @@ public final class Emitter implements Emitable {
             }
             writeIndicator(":", true, false, false);
             states.push(new ExpectFlowMappingKey());
-            expectNode(false, false, true, false);
+            expectNode(false, true, false);
         }
     }
 
@@ -589,7 +590,7 @@ public final class Emitter implements Emitable {
                 writeIndent();
                 writeIndicator("-", true, false, true);
                 states.push(new ExpectBlockSequenceItem(false));
-                expectNode(false, true, false, false);
+                expectNode(false, false, false);
             }
         }
     }
@@ -621,11 +622,11 @@ public final class Emitter implements Emitable {
                 writeIndent();
                 if (checkSimpleKey()) {
                     states.push(new ExpectBlockMappingSimpleValue());
-                    expectNode(false, false, true, true);
+                    expectNode(false, true, true);
                 } else {
                     writeIndicator("?", true, false, true);
                     states.push(new ExpectBlockMappingValue());
-                    expectNode(false, false, true, false);
+                    expectNode(false, true, false);
                 }
             }
         }
@@ -635,7 +636,7 @@ public final class Emitter implements Emitable {
         public void expect() throws IOException {
             writeIndicator(":", false, false, false);
             states.push(new ExpectBlockMappingKey(false));
-            expectNode(false, false, true, false);
+            expectNode(false, true, false);
         }
     }
 
@@ -644,7 +645,7 @@ public final class Emitter implements Emitable {
             writeIndent();
             writeIndicator(":", true, false, true);
             states.push(new ExpectBlockMappingKey(false));
-            expectNode(false, false, true, false);
+            expectNode(false, true, false);
         }
     }
 
@@ -666,7 +667,7 @@ public final class Emitter implements Emitable {
         if (event instanceof ScalarEvent) {
             ScalarEvent e = (ScalarEvent) event;
             return (e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && e
-                    .getValue() == "");
+                    .getValue().length() == 0);
         }
         return false;
     }
@@ -808,6 +809,8 @@ public final class Emitter implements Emitable {
             case '|':
                 writeLiteral(analysis.scalar);
                 break;
+            default:
+                throw new YAMLException("Unexpected style: " + style);
             }
         }
         analysis = null;
@@ -816,13 +819,11 @@ public final class Emitter implements Emitable {
 
     // Analyzers.
 
-    private String prepareVersion(Integer[] version) {
-        Integer major = version[0];
-        Integer minor = version[1];
-        if (major != 1) {
-            throw new EmitterException("unsupported YAML version: " + version[0] + "." + version[1]);
+    private String prepareVersion(Version version) {
+        if (version.getArray()[0] != 1) {
+            throw new EmitterException("unsupported YAML version: " + version);
         }
-        return major.toString() + "." + minor.toString();
+        return version.getRepresentation();
     }
 
     private final static Pattern HANDLE_FORMAT = Pattern.compile("^![-_\\w]*!$");
@@ -866,7 +867,7 @@ public final class Emitter implements Emitable {
         }
         String handle = null;
         String suffix = tag;
-        //shall the tag prefixes be sorted as in PyYAML?
+        // shall the tag prefixes be sorted as in PyYAML?
         for (String prefix : tagPrefixes.keySet()) {
             if (tag.startsWith(prefix) && ("!".equals(prefix) || prefix.length() < tag.length())) {
                 handle = prefix;
@@ -901,7 +902,7 @@ public final class Emitter implements Emitable {
     private ScalarAnalysis analyzeScalar(String scalar) {
         // Empty scalar is a special case.
         if (scalar.length() == 0) {
-            return new ScalarAnalysis(scalar, true, false, false, true, true, true, false);
+            return new ScalarAnalysis(scalar, true, false, false, true, true, false);
         }
         // Indicators and special characters.
         boolean blockIndicators = false;
@@ -1025,7 +1026,6 @@ public final class Emitter implements Emitable {
         boolean allowFlowPlain = true;
         boolean allowBlockPlain = true;
         boolean allowSingleQuoted = true;
-        boolean allowDoubleQuoted = true;
         boolean allowBlock = true;
         // Leading and trailing whitespaces are bad for plain scalars.
         if (leadingSpace || leadingBreak || trailingSpace || trailingBreak) {
@@ -1060,7 +1060,7 @@ public final class Emitter implements Emitable {
         }
 
         return new ScalarAnalysis(scalar, false, lineBreaks, allowFlowPlain, allowBlockPlain,
-                allowSingleQuoted, allowDoubleQuoted, allowBlock);
+                allowSingleQuoted, allowBlock);
     }
 
     // Writers.
@@ -1223,8 +1223,9 @@ public final class Emitter implements Emitable {
                 }
                 if (ch != null) {
                     String data;
-                    if (ESCAPE_REPLACEMENTS.containsKey(new Character(ch))) {
-                        data = "\\" + ESCAPE_REPLACEMENTS.get(new Character(ch));
+                    if (ESCAPE_REPLACEMENTS.containsKey(ch)) {
+                        // TODO check the whole range (issue 148)
+                        data = "\\" + ESCAPE_REPLACEMENTS.get(ch);
                     } else if (!this.allowUnicode) {
                         // this is different from PyYAML which escapes all
                         // non-ASCII characters

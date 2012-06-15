@@ -6,7 +6,59 @@
         <author email="py4fun@gmail.com">Andrey Somov</author>
     </properties>
     <body>
-        <release version="1.10-SNAPSHOT" date="in Mercurial" description="Development">
+        <release version="1.11" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="fix">
+                Fix issue 149: Directives are no longer lost between documents (2012-06-10)
+             </action>
+             <action dev="py4fun" type="update">
+                Refactor: use Version enum instead of Array of Integers. 
+                This is done to simplify fixing issue 149 (2012-06-09)
+             </action>
+             <action dev="py4fun" type="fix">
+                Add tests for issue 148  (2012-06-07)
+             </action>
+             <action dev="py4fun" type="fix">
+                Fix issue 147: Serialized representation of character U+FFFD causes exception on deserialization  (2012-06-05)
+             </action>
+             <action dev="py4fun" type="fix">
+                Fix issue 145: exception.getMessage() must show the line number as exception.toString() does (2012-04-03)
+             </action>
+             <action dev="maslovalex" type="fix">
+                Fix issue 144: improve type inference for Compact Object Notation (2012-03-16)
+             </action>
+             <action dev="maslovalex" type="add">
+                Improve Android support
+             </action>
+        </release>
+        <release version="1.10" date="2012-02-08" description="Maintenance">
+             <action dev="py4fun" type="update">
+                Fix issue 141: TimeZone is configurable in DumperOptions (2012-02-03)
+             </action>
+             <action dev="py4fun" type="update">
+                Refactor with PMD: minor non-functional improvements (2012-01-28)
+             </action>
+             <action dev="py4fun" type="update">
+                Refactor with PMD: Avoid unused method parameter 'index' in 
+                Serializer and Emitter (2012-01-28)
+             </action>
+             <action dev="py4fun" type="update">
+                Refactor with PMD: Composer - Avoid unused method parameter 'index' in 
+                'Composer.composeNode(Node parent, Object index)''. It was used
+                in PyYAML for kind of XPath for YAML, but it was not imported from PyYAML (2012-01-28)
+             </action>
+             <action dev="py4fun" type="update">
+                Refactor Emitter: the SPACE mutable static field could be changed by malicious code or by accident. 
+                Boxed value is unboxed and then immediately reboxed (2012-01-28)
+             </action>
+             <action dev="py4fun" type="remove">
+                Refactor with FindBugs: remove unused ScalarAnalysis.allowDoubleQuoted (2012-01-28)
+             </action>
+             <action dev="py4fun" type="update">
+                Refactor with FindBugs: do not rely on default encoding (2012-01-28)
+             </action>
+             <action dev="py4fun" type="update">
+                Refactor: apply FindBugs recommendations (2012-01-28)
+             </action>
              <action dev="maslovalex" type="fix">
                 Fix issue 139: merge should use last key in map (2012-01-24)
              </action>

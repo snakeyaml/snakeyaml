@@ -15,6 +15,9 @@
  */
 package org.yaml.snakeyaml;
 
+/**
+ * @deprecated
+ */
 public class LoaderOptions {
     private TypeDescription rootTypeDescription;
 

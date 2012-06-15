@@ -120,9 +120,6 @@ public final class Tag implements Comparable<Tag> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
         if (obj instanceof Tag) {
             return value.equals(((Tag) obj).getValue());
         } else if (obj instanceof String) {

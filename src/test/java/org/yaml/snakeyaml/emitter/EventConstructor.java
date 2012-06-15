@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
@@ -94,11 +96,19 @@ public class EventConstructor extends Constructor {
             } else if (className.equals("DocumentStartEvent")) {
                 Map<String, String> tags = (Map<String, String>) mapping.get("tags");
                 List<Integer> versionList = (List<Integer>) mapping.get("version");
-                Integer[] version = null;
+                Version version = null;
+                // TODO ???
                 if (versionList != null) {
-                    version = new Integer[2];
-                    version[0] = versionList.get(0).intValue();
-                    version[1] = versionList.get(1).intValue();
+                    Integer major = versionList.get(0).intValue();
+                    if (major != 1) {
+                        throw new YAMLException("Unsupported version.");
+                    }
+                    Integer minor = versionList.get(1).intValue();
+                    if (minor == 0) {
+                        version = Version.V1_0;
+                    } else {
+                        version = Version.V1_1;
+                    }
                 }
                 value = new DocumentStartEvent(null, null, false, version, tags);
             } else if (className.equals("MappingEndEvent")) {

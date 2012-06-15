@@ -268,11 +268,14 @@ public abstract class BaseConstructor {
 
     // >>>> NEW instance
     protected Object newInstance(Node node) {
-        return newInstance(Object.class, node, true);
+        try {
+            return newInstance(Object.class, node);
+        } catch (InstantiationException e) {
+            throw new YAMLException(e);
+        }
     }
 
-    protected Object newInstance(Class<?> ancestor, Node node,
-            boolean exceptionIfNoDefaultConstructor) {
+    protected Object newInstance(Class<?> ancestor, Node node) throws InstantiationException {
         final Class<? extends Object> type = node.getType();
         if (typeDefinitions.containsKey(type)) {
             TypeDescription td = typeDefinitions.get(type);
@@ -281,47 +284,46 @@ public abstract class BaseConstructor {
                 return instance;
             }
         }
+        /*
+         * Removed <code> have InstantiationException in case of abstract type
+         */
         if (ancestor.isAssignableFrom(type) && !Modifier.isAbstract(type.getModifiers())) {
             try {
                 java.lang.reflect.Constructor<?> c = type.getDeclaredConstructor();
                 c.setAccessible(true);
                 return c.newInstance();
-            } catch (NoSuchMethodException e) { // No default constructor
-                if (exceptionIfNoDefaultConstructor) {
-                    throw new YAMLException(e);
-                }
             } catch (Exception e) {
                 throw new YAMLException(e);
             }
         }
-        return null;
+        throw new InstantiationException();
     }
 
     @SuppressWarnings("unchecked")
     protected Set<Object> newSet(CollectionNode<?> node) {
-        final Set<Object> object = (Set<Object>) newInstance(Set.class, node, false);
-        if (object != null) {
-            return object;
+        try {
+            return (Set<Object>) newInstance(Set.class, node);
+        } catch (InstantiationException e) {
+            return createDefaultSet(node.getValue().size());
         }
-        return createDefaultSet(node.getValue().size());
     }
 
     @SuppressWarnings("unchecked")
     protected List<Object> newList(SequenceNode node) {
-        final List<Object> object = (List<Object>) newInstance(List.class, node, false);
-        if (object != null) {
-            return object;
+        try {
+            return (List<Object>) newInstance(List.class, node);
+        } catch (InstantiationException e) {
+            return createDefaultList(node.getValue().size());
         }
-        return createDefaultList(node.getValue().size());
     }
 
     @SuppressWarnings("unchecked")
     protected Map<Object, Object> newMap(MappingNode node) {
-        final Map<Object, Object> object = (Map<Object, Object>) newInstance(Map.class, node, false);
-        if (object != null) {
-            return object;
+        try {
+            return (Map<Object, Object>) newInstance(Map.class, node);
+        } catch (InstantiationException e) {
+            return createDefaultMap();
         }
-        return createDefaultMap();
     }
 
     // <<<< NEW instance

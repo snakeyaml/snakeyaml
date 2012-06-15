@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml;
 
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.emitter.ScalarAnalysis;
@@ -30,12 +31,13 @@ public class DumperOptions {
      * double-quoted style. These styles offer a range of trade-offs between
      * expressive power and readability.
      * 
-     * @see http://yaml.org/spec/1.1/#id903915
-     * @see http://yaml.org/spec/1.1/#id858081
+     * @see <a href="http://yaml.org/spec/1.1/#id903915">Chapter 9. Scalar
+     *      Styles</a>
+     * @see <a href="http://yaml.org/spec/1.1/#id858081">2.3. Scalars</a>
      */
     public enum ScalarStyle {
-        DOUBLE_QUOTED(new Character('"')), SINGLE_QUOTED(new Character('\'')), LITERAL(
-                new Character('|')), FOLDED(new Character('>')), PLAIN(null);
+        DOUBLE_QUOTED(Character.valueOf('"')), SINGLE_QUOTED(Character.valueOf('\'')), LITERAL(
+                Character.valueOf('|')), FOLDED(Character.valueOf('>')), PLAIN(null);
         private Character styleChar;
 
         private ScalarStyle(Character style) {
@@ -76,8 +78,8 @@ public class DumperOptions {
      * document. In contrast, flow styles rely on explicit indicators to denote
      * nesting and scope.
      * 
-     * @see 3.2.3.1. Node Styles (http://yaml.org/spec/1.1)
-     * @see http://www.yaml.org/spec/current.html#id2509255
+     * @see <a href="http://www.yaml.org/spec/current.html#id2509255">3.2.3.1.
+     *      Node Styles (http://yaml.org/spec/1.1)</a>
      */
     public enum FlowStyle {
         FLOW(Boolean.TRUE), BLOCK(Boolean.FALSE), AUTO(null);
@@ -146,9 +148,13 @@ public class DumperOptions {
             return version;
         }
 
+        public String getRepresentation() {
+            return version[0] + "." + version[1];
+        }
+
         @Override
         public String toString() {
-            return "Version: " + version[0] + "." + version[1];
+            return "Version: " + getRepresentation();
         }
     }
 
@@ -162,6 +168,7 @@ public class DumperOptions {
     private LineBreak lineBreak = LineBreak.UNIX;
     private boolean explicitStart = false;
     private boolean explicitEnd = false;
+    private TimeZone timeZone = null;
 
     /**
      * @deprecated do not use explicit root Tag
@@ -232,7 +239,6 @@ public class DumperOptions {
      * 
      * @param canonical
      *            true produce canonical YAML document
-     * @return
      */
     public void setCanonical(boolean canonical) {
         this.canonical = canonical;
@@ -389,5 +395,17 @@ public class DumperOptions {
      */
     public void setAllowReadOnlyProperties(boolean allowReadOnlyProperties) {
         this.allowReadOnlyProperties = allowReadOnlyProperties;
+    }
+
+    public TimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    /**
+     * Set the timezone to be used for Date. If set to <code>null</code> UTC is
+     * used.
+     */
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
     }
 }
