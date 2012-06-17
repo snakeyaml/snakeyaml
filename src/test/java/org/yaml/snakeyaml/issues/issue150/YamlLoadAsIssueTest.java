@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.issues.issue150;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -73,15 +74,12 @@ public class YamlLoadAsIssueTest {
     }
 
     @Test
-    public void loadAsConstructsDocumentCorrectly() {
+    public void ignoreImplicitTag() {
         Yaml yaml = yaml();
         try {
-            Car result = yaml.loadAs(reader(), Car.class);
-            assertNotNull(result);
-            assertEquals("12-XP-F4", ((Car) result).getPlate());
-            assertEquals(4, ((Car) result).getWheels().size());
+            yaml.loadAs(reader(), Car.class);
+            fail();
         } catch (Exception e) {
-            // TODO fix issue 150
             assertTrue(e
                     .getMessage()
                     .startsWith(
@@ -105,6 +103,7 @@ public class YamlLoadAsIssueTest {
 
         private class ConstructCar extends AbstractConstruct {
 
+            @SuppressWarnings("unchecked")
             public Car construct(Node node) {
                 Car car = new Car();
                 MappingNode mapping = (MappingNode) node;
@@ -115,9 +114,11 @@ public class YamlLoadAsIssueTest {
                         car.setPlate(toScalarString(tuple.getValueNode()));
                     }
                     if ("wheels".equals(field)) {
-                        @SuppressWarnings("unchecked")
-                        List<Wheel> wheels = (List<Wheel>) constructSequence((SequenceNode) tuple
-                                .getValueNode());
+                        SequenceNode snode = (SequenceNode) tuple.getValueNode();
+                        for (Node leafNode : snode.getValue()) {
+                            leafNode.setTag(new Tag("!wheel"));
+                        }
+                        List<Wheel> wheels = (List<Wheel>) constructSequence(snode);
                         car.setWheels(wheels);
                     }
                 }
