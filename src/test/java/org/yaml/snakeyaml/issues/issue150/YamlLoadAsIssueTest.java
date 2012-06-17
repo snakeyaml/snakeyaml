@@ -115,9 +115,6 @@ public class YamlLoadAsIssueTest {
                     }
                     if ("wheels".equals(field)) {
                         SequenceNode snode = (SequenceNode) tuple.getValueNode();
-                        for (Node leafNode : snode.getValue()) {
-                            leafNode.setTag(new Tag("!wheel"));
-                        }
                         List<Wheel> wheels = (List<Wheel>) constructSequence(snode);
                         car.setWheels(wheels);
                     }
