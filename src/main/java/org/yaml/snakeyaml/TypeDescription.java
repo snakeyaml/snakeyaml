@@ -19,10 +19,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.velocity.runtime.directive.Foreach;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.PropertySubstitute;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -264,7 +266,7 @@ public class TypeDescription {
 
     public void substituteProperty(PropertySubstitute substitute) {
         if (Collections.EMPTY_MAP == properties) {
-            properties = new HashMap<String, PropertySubstitute>();
+            properties = new LinkedHashMap<String, PropertySubstitute>();
         }
         substitute.setTargetType(type);
         properties.put(substitute.getName(), substitute);
@@ -327,15 +329,19 @@ public class TypeDescription {
             }
 
             dumpProperties = new LinkedHashSet<Property>();
+
             for (Property property : readableProps) {
                 if (!excludes.contains(property.getName())) {
-                    if (properties.containsKey(property.getName())) {
-                        dumpProperties.add(properties.get(property.getName()));
-                    } else {
-                        dumpProperties.add(property);
-                    }
+                    dumpProperties.add(property);
                 }
             }
+
+            for (Property property : properties.values()) {
+                if (!excludes.contains(property.getName()) && property.isReadable()) {
+                    dumpProperties.add(property);
+                }
+            }
+
             return dumpProperties;
         }
         return null;
