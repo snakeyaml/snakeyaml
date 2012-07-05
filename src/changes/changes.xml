@@ -8,6 +8,9 @@
     <body>
         <release version="1.11" date="in Mercurial" description="Maintenance">
              <action dev="py4fun" type="update">
+                Add a test for issue 150 (2012-06-17)
+             </action>
+             <action dev="py4fun" type="update">
                 Add a test for issue 151 (2012-06-14)
              </action>
              <action dev="py4fun" type="fix">
