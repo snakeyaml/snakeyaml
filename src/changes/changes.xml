@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.11" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="update"  issue="154">
+                Fix issue 154: Add option to skip missing properties when deserializing YAML into Java object (2012-07-25)
+             </action>
              <action dev="py4fun" type="update">
                 Add a test for issue 150 (2012-06-17)
              </action>
