@@ -52,8 +52,7 @@ public class NonAsciiCharacterTest extends TestCase {
             input.close();
             fail("Invalid UTF-8 must not be accepted: " + text.toString());
         } catch (Exception e) {
-            assertEquals("java.nio.charset.UnmappableCharacterException: Input length = 1",
-                    e.getMessage());
+            assertTrue(e.getMessage().endsWith("Exception: Input length = 1"));
         }
     }
 
