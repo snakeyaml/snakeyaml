@@ -27,8 +27,8 @@ public class BinaryTest extends TestCase {
         String inconsistentString = new String(bytes, "ISO-8859-1");
         Yaml yaml = new Yaml();
         String payload = yaml.dump(inconsistentString);
-        System.out.println("payload: " + payload);
-        String loaded = (String) yaml.load(payload);
+        System.out.println("payload: '" + payload + "'");
+        String loaded = new String((byte[]) yaml.load(payload), "UTF-8");
         assertEquals(inconsistentString, loaded);
     }
 }

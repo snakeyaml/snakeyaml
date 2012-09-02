@@ -107,6 +107,11 @@ class SafeRepresenter extends BaseRepresenter {
     }
 
     public static Pattern BINARY_PATTERN = Pattern.compile("[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]");
+
+    // TODO issue 155
+    // public static Pattern BINARY_PATTERN = Pattern
+    // .compile("[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\u0085\u00A0-\uD7FF]");
+
     public static Pattern MULTILINE_PATTERN = Pattern.compile("\n|\u0085|\u2028|\u2029");
 
     protected class RepresentString implements Represent {
