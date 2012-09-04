@@ -15,6 +15,8 @@
  */
 package org.yaml.snakeyaml.issues.issue137;
 
+import java.io.UnsupportedEncodingException;
+
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
@@ -37,10 +39,17 @@ public class SupplementaryCharactersTest extends TestCase {
         assertEquals("A", parsed);
     }
 
-    public void testDumpSupplementaryCharacter() {
+    /**
+     * Supplementary Characters are dumped as binary
+     */
+    public void testDumpSupplementaryCharacter() throws UnsupportedEncodingException {
+        String supplementary = "\ud83d\ude48";
         Yaml yaml = new Yaml();
-        String output = yaml.dump("\ud83d\ude48");
-        assertEquals("\"\ud83d\ude48\"\n", output);
+        String output = yaml.dump(supplementary);
+        assertEquals("!!binary |-\n  8J+ZiA==\n", output);
+        byte[] binary = (byte[]) yaml.load(output);
+        String binString = new String(binary, "UTF-8");
+        assertEquals(supplementary, binString);
     }
 
     public void testLoadSupplementaryCharacter() {

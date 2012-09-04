@@ -7,6 +7,10 @@
     </properties>
     <body>
         <release version="1.11" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="fix"  issue="155">
+                Fix issue 155: SnakeYAML must always eat its own food - a YAML document created by itself must
+                be read without exceptions (2012-09-04)
+             </action>
              <action dev="py4fun" type="update"  issue="154">
                 Fix issue 154: Add option to skip missing properties when deserializing YAML into Java object (2012-07-25)
              </action>

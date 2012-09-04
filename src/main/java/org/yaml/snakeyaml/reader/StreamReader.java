@@ -29,9 +29,7 @@ import org.yaml.snakeyaml.scanner.Constant;
  * Reader: checks if characters are in allowed range, adds '\0' to the end.
  */
 public class StreamReader {
-    // NON_PRINTABLE changed from PyYAML: \uFFFD excluded because Java returns
-    // it in case of data corruption
-    final static Pattern NON_PRINTABLE = Pattern
+    public final static Pattern NON_PRINTABLE = Pattern
             .compile("[^\t\n\r\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD]");
     private String name;
     private final Reader stream;

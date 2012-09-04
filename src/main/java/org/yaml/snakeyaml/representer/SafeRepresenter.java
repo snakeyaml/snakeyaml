@@ -33,6 +33,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.reader.StreamReader;
 
 /**
  * Represent standard Java classes
@@ -106,12 +107,6 @@ class SafeRepresenter extends BaseRepresenter {
         }
     }
 
-    public static Pattern BINARY_PATTERN = Pattern.compile("[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]");
-
-    // TODO issue 155
-    // public static Pattern BINARY_PATTERN = Pattern
-    // .compile("[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\u0085\u00A0-\uD7FF]");
-
     public static Pattern MULTILINE_PATTERN = Pattern.compile("\n|\u0085|\u2028|\u2029");
 
     protected class RepresentString implements Represent {
@@ -119,7 +114,7 @@ class SafeRepresenter extends BaseRepresenter {
             Tag tag = Tag.STR;
             Character style = null;
             String value = data.toString();
-            if (BINARY_PATTERN.matcher(value).find()) {
+            if (StreamReader.NON_PRINTABLE.matcher(value).find()) {
                 tag = Tag.BINARY;
                 char[] binary;
                 try {

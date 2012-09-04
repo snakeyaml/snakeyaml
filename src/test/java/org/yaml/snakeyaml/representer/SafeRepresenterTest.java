@@ -28,11 +28,12 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.reader.StreamReader;
 
 public class SafeRepresenterTest extends TestCase {
 
     public void testBinaryPattern() {
-        Pattern pattern = SafeRepresenter.BINARY_PATTERN;
+        Pattern pattern = StreamReader.NON_PRINTABLE;
         assertFalse(pattern.matcher("\tAndrey\r\n").find());
         assertTrue(pattern.matcher("\u0005Andrey").find());
     }
