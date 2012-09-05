@@ -269,7 +269,7 @@ public class Constructor extends SafeConstructor {
                     if (!typeDetected && valueNode.getNodeId() != NodeId.scalar) {
                         // only if there is no explicit TypeDescription
                         Class<?>[] arguments = property.getActualTypeArguments();
-                        if (arguments != null) {
+                        if (arguments != null && arguments.length > 0) {
                             // type safe (generic) collection may contain the
                             // proper class
                             if (valueNode.getNodeId() == NodeId.sequence) {

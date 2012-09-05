@@ -15,30 +15,25 @@
  */
 package org.yaml.snakeyaml.issues.issue154;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import junit.framework.TestCase;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.representer.Representer;
 
-public class MissingPropertyTest {
+public class MissingPropertyTest extends TestCase {
 
     private Yaml yaml;
 
-    @Before
-    public void init() {
+    public void setUp() {
         yaml = new Yaml();
     }
 
     /**
      * A normal scalar property should work fine.
      */
-    @Test
-    public void publicField() throws Exception {
+    public void testPublicField() throws Exception {
         String doc = "hello: 5";
         TestBean bean = yaml.loadAs(doc, TestBean.class);
         assertNotNull(bean);
@@ -48,10 +43,13 @@ public class MissingPropertyTest {
     /**
      * By default, unknown fields should throw a YAMLException.
      */
-    @Test(expected = YAMLException.class)
-    public void unknownField() throws Exception {
-        String doc = "goodbye: 10";
-        yaml.loadAs(doc, TestBean.class);
+    public void testUnknownField() throws Exception {
+        try {
+            String doc = "goodbye: 10";
+            yaml.loadAs(doc, TestBean.class);
+        } catch (YAMLException e) {
+            assertTrue(e.getMessage().contains("Cannot create property=goodbye"));
+        }
     }
 
     /**
@@ -59,12 +57,11 @@ public class MissingPropertyTest {
      * whether missing properties should throw a YAMLException (the default) or
      * simply show a warning. The default is false.
      */
-    @Test
-    public void skipMissingProperties() throws Exception {
+    public void testSkipMissingProperties() throws Exception {
         Representer representer = new Representer();
         representer.getPropertyUtils().setSkipMissingProperties(true);
         yaml = new Yaml(new Constructor(), representer);
-        String doc = "goodbye: 10\nhello: 5";
+        String doc = "goodbye: 10\nhello: 5\nfizz: [1]";
         TestBean bean = yaml.loadAs(doc, TestBean.class);
         assertNotNull(bean);
         assertEquals(5, bean.hello);
@@ -74,12 +71,15 @@ public class MissingPropertyTest {
      * The default for setSkipMissingProperties(boolean) is false; this just
      * ensures it works if set manually.
      */
-    @Test(expected = YAMLException.class)
-    public void noSkipMissingProperties() throws Exception {
-        Representer representer = new Representer();
-        representer.getPropertyUtils().setSkipMissingProperties(false);
-        yaml = new Yaml(new Constructor(), representer);
-        String doc = "goodbye: 10";
-        yaml.loadAs(doc, TestBean.class);
+    public void testNoSkipMissingProperties() throws Exception {
+        try {
+            Representer representer = new Representer();
+            representer.getPropertyUtils().setSkipMissingProperties(false);
+            yaml = new Yaml(new Constructor(), representer);
+            String doc = "goodbye: 10";
+            yaml.loadAs(doc, TestBean.class);
+        } catch (YAMLException e) {
+            assertTrue(e.getMessage().contains("Cannot create property=goodbye"));
+        }
     }
 }
