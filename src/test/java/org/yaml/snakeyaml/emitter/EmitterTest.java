@@ -117,14 +117,15 @@ public class EmitterTest extends TestCase {
     public void testWriteSupplementaryUnicode() throws IOException {
         DumperOptions options = new DumperOptions();
         String burger = new String(Character.toChars(0x1f354));
+        String halfBurger = "\uD83C";
         StringWriter output = new StringWriter();
         Emitter emitter = new Emitter(output, options);
 
         emitter.emit(new StreamStartEvent(null, null));
         emitter.emit(new DocumentStartEvent(null, null, false, null, null));
-        emitter.emit(new ScalarEvent(null, null, new ImplicitTuple(true, false), burger, null,
-                null, '"'));
-        String expected = "! \"\\U0001f354\"";
+        emitter.emit(new ScalarEvent(null, null, new ImplicitTuple(true, false), burger
+                + halfBurger, null, null, '"'));
+        String expected = "! \"\\U0001f354\\ud83c\"";
         assertEquals(expected, output.toString());
     }
 }
