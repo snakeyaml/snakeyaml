@@ -6,7 +6,7 @@
         <author email="py4fun@gmail.com">Andrey Somov</author>
     </properties>
     <body>
-        <release version="1.11" date="in Mercurial" description="Maintenance">
+        <release version="1.11" date="2012-09-29" description="Maintenance">
              <action dev="py4fun" type="fix"  issue="158">
                 Fix issue 158: improve support for 32-bit characters (UTF-16 surrogate pairs) (2012-09-29)
              </action>
