@@ -15,14 +15,20 @@
  */
 package org.yaml.snakeyaml.emitter;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
+import org.yaml.snakeyaml.events.DocumentStartEvent;
+import org.yaml.snakeyaml.events.ImplicitTuple;
+import org.yaml.snakeyaml.events.ScalarEvent;
+import org.yaml.snakeyaml.events.StreamStartEvent;
 
 public class EmitterTest extends TestCase {
 
@@ -105,5 +111,20 @@ public class EmitterTest extends TestCase {
         String output = yaml.dump(map);
         String etalon = "\"aaa\": \"0123456789 0123456789\\n0123456789 0123456789\"\n\"bbb\": \"\\nbla-bla\"\n";
         assertEquals(etalon, output);
+    }
+
+    // Issue #158
+    public void testWriteSupplementaryUnicode() throws IOException {
+        DumperOptions options = new DumperOptions();
+        String burger = new String(Character.toChars(0x1f354));
+        StringWriter output = new StringWriter();
+        Emitter emitter = new Emitter(output, options);
+
+        emitter.emit(new StreamStartEvent(null, null));
+        emitter.emit(new DocumentStartEvent(null, null, false, null, null));
+        emitter.emit(new ScalarEvent(null, null, new ImplicitTuple(true, false), burger, null,
+                null, '"'));
+        String expected = "! \"\\U0001f354\"";
+        assertEquals(expected, output.toString());
     }
 }

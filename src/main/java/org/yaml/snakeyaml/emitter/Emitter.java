@@ -46,6 +46,7 @@ import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Constant;
 import org.yaml.snakeyaml.util.ArrayStack;
 
@@ -1227,12 +1228,21 @@ public final class Emitter implements Emitable {
                     String data;
                     if (ESCAPE_REPLACEMENTS.containsKey(ch)) {
                         data = "\\" + ESCAPE_REPLACEMENTS.get(ch);
-                    } else if (!this.allowUnicode) {
-                        // this is different from PyYAML which escapes all
-                        // non-ASCII characters
+                    } else if (!this.allowUnicode || !StreamReader.isPrintable(ch)) {
+                        // if !allowUnicode or the character is not printable,
+                        // we must encode it
                         if (ch <= '\u00FF') {
                             String s = "0" + Integer.toString(ch, 16);
                             data = "\\x" + s.substring(s.length() - 2);
+                        } else if (ch >= '\uD800' && ch <= '\uDBFF') {
+                            if (end + 1 < text.length()) {
+                                Character ch2 = text.charAt(++end);
+                                String s = "000" + Long.toHexString(Character.toCodePoint(ch, ch2));
+                                data = "\\U" + s.substring(s.length() - 8);
+                            } else {
+                                String s = "000" + Integer.toString(ch, 16);
+                                data = "\\u" + s.substring(s.length() - 4);
+                            }
                         } else {
                             String s = "000" + Integer.toString(ch, 16);
                             data = "\\u" + s.substring(s.length() - 4);

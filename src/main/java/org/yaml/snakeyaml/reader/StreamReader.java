@@ -85,15 +85,19 @@ public class StreamReader {
         for (int i = begin; i < end; i++) {
             final char c = chars[i];
 
-            if ((c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
-                    || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
-                    || (c >= '\uE000' && c <= '\uFFFD')) {
+            if (isPrintable(c)) {
                 continue;
             }
 
             int position = this.index + this.buffer.length() - this.pointer + i;
             throw new ReaderException(name, position, c, "special characters are not allowed");
         }
+    }
+
+    public static boolean isPrintable(final char c) {
+        return (c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
+                || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
+                || (c >= '\uE000' && c <= '\uFFFD');
     }
 
     public Mark getMark() {
