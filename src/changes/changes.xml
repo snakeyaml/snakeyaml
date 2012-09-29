@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.11" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="fix"  issue="146">
+                Fix issue 146: empty tags should not force explicit document start (2012-09-29)
+             </action>
              <action dev="py4fun" type="fix"  issue="156">
                 Fix issue 156: setSkipMissingProperties fails for non-scalar values (2012-09-05)
              </action>

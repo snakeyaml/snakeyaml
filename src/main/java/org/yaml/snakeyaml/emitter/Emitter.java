@@ -328,7 +328,9 @@ public final class Emitter implements Emitable {
                     }
                 }
                 boolean implicit = first && !ev.getExplicit() && !canonical
-                        && ev.getVersion() == null && ev.getTags() == null && !checkEmptyDocument();
+                        && ev.getVersion() == null
+                        && (ev.getTags() == null || ev.getTags().isEmpty())
+                        && !checkEmptyDocument();
                 if (!implicit) {
                     writeIndent();
                     writeIndicator("---", true, false, false);
