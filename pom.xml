@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.yaml</groupId>
     <artifactId>snakeyaml</artifactId>
-    <version>1.11-SNAPSHOT</version>
+    <version>1.11</version>
     <packaging>bundle</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -516,24 +516,10 @@
 			<mkdir dir="${android.test.classes}" />
 
 			<!-- compile patched sources -->
-			<javac srcdir="${android.src}"
-			       destdir="${android.classes}"
-			       classpath="${android.classes}"
-			       encoding="${project.build.sourceEncoding}"
-			       target="1.5"
-			       source="1.5"
-			       debug="true"
-			       includeantruntime="false" />
+			<javac srcdir="${android.src}" destdir="${android.classes}" classpath="${android.classes}" encoding="${project.build.sourceEncoding}" target="1.5" source="1.5" debug="true" includeantruntime="false" />
 
 			<!-- compile test classes. Exclude some - not for BeanAccess.FIELD -->
-			<javac srcdir="${basedir}/src/test/java:${basedir}/src/test/resources"
-			       destdir="${android.test.classes}"
-			       classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.springframework:spring:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}"
-			       encoding="${project.build.sourceEncoding}"
-			       target="1.5"
-			       source="1.5"
-			       debug="true"
-			       includeantruntime="false">
+			<javac srcdir="${basedir}/src/test/java:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.springframework:spring:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}" encoding="${project.build.sourceEncoding}" target="1.5" source="1.5" debug="true" includeantruntime="false">
 			  <exclude name="org/yaml/snakeyaml/introspector/MethodPropertyTest.java" />
 			  <exclude name="org/yaml/snakeyaml/representer/FilterPropertyToDumpTest.java" />
 			  <exclude name="org/yaml/snakeyaml/issues/issue60/CustomOrderTest.java" />
