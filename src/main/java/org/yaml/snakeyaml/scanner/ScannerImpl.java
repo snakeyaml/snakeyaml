@@ -412,8 +412,13 @@ public final class ScannerImpl implements Scanner {
                 break;
             }
         }
-        throw new ScannerException("while scanning for the next token", null, "found character "
-                + ch + "'" + chRepresentation + "' that cannot start any token", reader.getMark());
+        if (ch == '\t')
+            chRepresentation += "(TAB)";
+        String text = String
+                .format("found character %s '%s' that cannot start any token. (Do not use %s for indentation)",
+                        ch, chRepresentation, chRepresentation);
+        throw new ScannerException("while scanning for the next token", null, text,
+                reader.getMark());
     }
 
     // Simple keys treatment.
