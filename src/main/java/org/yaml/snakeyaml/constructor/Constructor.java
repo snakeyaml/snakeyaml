@@ -48,7 +48,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  */
 public class Constructor extends SafeConstructor {
     private final Map<Tag, Class<? extends Object>> typeTags;
-    private final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
+    protected final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
 
     public Constructor() {
         this(Object.class);
@@ -408,8 +408,8 @@ public class Constructor extends SafeConstructor {
         }
 
         @SuppressWarnings("unchecked")
-        private Object constructStandardJavaInstance(@SuppressWarnings("rawtypes") Class type,
-                ScalarNode node) {
+        private Object constructStandardJavaInstance(@SuppressWarnings("rawtypes")
+        Class type, ScalarNode node) {
             Object result;
             if (type == String.class) {
                 Construct stringConstructor = yamlConstructors.get(Tag.STR);

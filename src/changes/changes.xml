@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.12-SNAPSHOT" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="fix"  issue="169">
+                Make Constructor.typeDefinitions protected to be more flexible (2013-02-18)
+             </action>
              <action dev="py4fun" type="remove">
                 Remove file AUTHORS because it does not reflect the actual situation (2012-11-09)
              </action>
