@@ -124,7 +124,7 @@ public abstract class BaseRepresenter {
         return representScalar(tag, value, null);
     }
 
-    protected Node representSequence(Tag tag, Iterable<? extends Object> sequence, Boolean flowStyle) {
+    protected Node representSequence(Tag tag, Iterable<?> sequence, Boolean flowStyle) {
         int size = 10;// default for ArrayList
         if (sequence instanceof List<?>) {
             size = ((List<?>) sequence).size();
@@ -150,13 +150,12 @@ public abstract class BaseRepresenter {
         return node;
     }
 
-    protected Node representMapping(Tag tag, Map<? extends Object, Object> mapping,
-            Boolean flowStyle) {
+    protected Node representMapping(Tag tag, Map<?, ?> mapping, Boolean flowStyle) {
         List<NodeTuple> value = new ArrayList<NodeTuple>(mapping.size());
         MappingNode node = new MappingNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
         boolean bestStyle = true;
-        for (Map.Entry<? extends Object, Object> entry : mapping.entrySet()) {
+        for (Map.Entry<?, ?> entry : mapping.entrySet()) {
             Node nodeKey = representData(entry.getKey());
             Node nodeValue = representData(entry.getValue());
             if (!((nodeKey instanceof ScalarNode && ((ScalarNode) nodeKey).getStyle() == null))) {
