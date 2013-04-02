@@ -145,11 +145,7 @@ public class Composer {
         NodeEvent event = (NodeEvent) parser.peekEvent();
         String anchor = null;
         anchor = event.getAnchor();
-        if (anchor != null && anchors.containsKey(anchor)) {
-            throw new ComposerException("found duplicate anchor " + anchor + "; first occurence",
-                    this.anchors.get(anchor).getStartMark(), "second occurence",
-                    event.getStartMark());
-        }
+        // the check for duplicate anchors has been removed (issue 174)
         Node node = null;
         if (parser.checkEvent(Event.ID.Scalar)) {
             node = composeScalarNode(anchor);

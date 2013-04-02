@@ -1,0 +1,4 @@
+- &id foo
+- *id
+- &id bar
+- *id
