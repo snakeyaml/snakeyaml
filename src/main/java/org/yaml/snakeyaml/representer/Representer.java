@@ -162,6 +162,12 @@ public class Representer extends SafeRepresenter {
      */
     @SuppressWarnings("unchecked")
     protected void checkGlobalTag(Property property, Node node, Object object) {
+        // Skip primitive arrays.
+        if (object.getClass().isArray()
+                && object.getClass().getComponentType().isPrimitive()) {
+            return;
+        }
+        
         Class<?>[] arguments = property.getActualTypeArguments();
         if (arguments != null) {
             if (node.getNodeId() == NodeId.sequence) {

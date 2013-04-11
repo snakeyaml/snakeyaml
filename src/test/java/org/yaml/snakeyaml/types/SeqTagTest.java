@@ -90,17 +90,4 @@ public class SeqTagTest extends AbstractTest {
         String output = dump(array);
         assertEquals("[aaa, bbb, ccc]\n", output);
     }
-
-    public void testArrayPrimitives() {
-        int[] array = new int[3];
-        array[0] = 1;
-        array[1] = 1;
-        array[2] = 2;
-        try {
-            dump(array);
-            fail("Arrays of primitives are not supported.");
-        } catch (RuntimeException e) {
-            assertEquals("Arrays of primitives are not fully supported.", e.getMessage());
-        }
-    }
 }

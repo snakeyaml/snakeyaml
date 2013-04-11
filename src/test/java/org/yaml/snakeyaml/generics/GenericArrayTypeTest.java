@@ -24,38 +24,6 @@ import org.yaml.snakeyaml.Yaml;
 
 public class GenericArrayTypeTest extends TestCase {
 
-    public void testPrimitives() {
-        GenericPrimitivesArray ga = new GenericPrimitivesArray(3);
-        Yaml yaml = new Yaml();
-        try {
-            yaml.dump(ga);
-            fail("Arrays of primitives are not yet fully supported.");
-        } catch (Exception e) {
-            assertEquals("Arrays of primitives are not fully supported.", e.getMessage());
-        }
-    }
-
-    public static class GenericPrimitivesArray extends AbstractAnimal<int[]> {
-        private int[] home;
-
-        public GenericPrimitivesArray(int count) {
-            home = new int[count];
-            for (int i = 0; i < home.length; i++) {
-                home[i] = i + 1;
-            }
-        }
-
-        @Override
-        public int[] getHome() {
-            return home;
-        }
-
-        @Override
-        public void setHome(int[] home) {
-            this.home = home;
-        }
-    }
-
     public void testClasses() throws IntrospectionException {
         GenericArray ga = new GenericArray();
         Yaml yaml = new Yaml();

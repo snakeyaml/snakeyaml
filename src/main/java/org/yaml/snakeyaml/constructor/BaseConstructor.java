@@ -226,9 +226,8 @@ public abstract class BaseConstructor {
         return new LinkedHashSet<Object>(initSize);
     }
 
-    @SuppressWarnings("unchecked")
-    protected <T> T[] createArray(Class<T> type, int size) {
-        return (T[]) Array.newInstance(type.getComponentType(), size);
+    protected Object createArray(Class<?> type, int size) {
+        return Array.newInstance(type.getComponentType(), size);
     }
 
     @SuppressWarnings("unchecked")
@@ -278,9 +277,65 @@ public abstract class BaseConstructor {
     }
 
     protected Object constructArrayStep2(SequenceNode node, Object array) {
+        final Class<?> componentType = node.getType().getComponentType();
+
         int index = 0;
         for (Node child : node.getValue()) {
-            Array.set(array, index++, constructObject(child));
+            Object value = constructObject(child);
+
+            if (componentType.isPrimitive()) {
+                // Primitive arrays require quite a lot of work.
+                if (byte.class.equals(componentType)) {
+                    Array.setByte(array, index, ((Number) value).byteValue());
+
+                } else if (short.class.equals(componentType)) {
+                    Array.setShort(array, index, ((Number) value).shortValue());
+
+                } else if (int.class.equals(componentType)) {
+                    Array.setInt(array, index, ((Number) value).intValue());
+
+                } else if (long.class.equals(componentType)) {
+                    Array.setLong(array, index, ((Number) value).longValue());
+
+                } else if (float.class.equals(componentType)) {
+                    Array.setFloat(array, index, ((Number) value).floatValue());
+
+                } else if (double.class.equals(componentType)) {
+                    Array.setDouble(array, index,
+                            ((Number) value).doubleValue());
+
+                } else if (char.class.equals(componentType)) {
+
+                    if (value instanceof Character) {
+                        Array.setChar(array, index,
+                                ((Character) value).charValue());
+
+                    } else if (value instanceof String) {
+                        String val = (String) value;
+                        if (val.length() != 1) {
+                            throw new YAMLException("expected char but got \""
+                                    + val + "\"");
+                        }
+                        Array.setChar(array, index, val.charAt(0));
+                    } else {
+                        throw new ClassCastException("expected char but got "
+                                + value.getClass().getCanonicalName());
+                    }
+
+                } else if (boolean.class.equals(componentType)) {
+                    Array.setBoolean(array, index,
+                            ((Boolean) value).booleanValue());
+
+                } else {
+                    throw new YAMLException("unexpected primitive type");
+                }
+
+            } else {
+                // Non-primitive arrays can simply be assigned:
+                Array.set(array, index, constructObject(child));
+            }
+
+            ++index;
         }
         return array;
     }

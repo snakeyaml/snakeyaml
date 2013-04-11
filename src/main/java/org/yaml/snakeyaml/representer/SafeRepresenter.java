@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.representer;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,6 +50,16 @@ class SafeRepresenter extends BaseRepresenter {
         this.representers.put(Boolean.class, new RepresentBoolean());
         this.representers.put(Character.class, new RepresentString());
         this.representers.put(byte[].class, new RepresentByteArray());
+        
+        Represent primitiveArray = new RepresentPrimitiveArray();
+        representers.put(short[].class,   primitiveArray);
+        representers.put(int[].class,     primitiveArray);
+        representers.put(long[].class,    primitiveArray);
+        representers.put(float[].class,   primitiveArray);
+        representers.put(double[].class,  primitiveArray);
+        representers.put(char[].class,    primitiveArray);
+        representers.put(boolean[].class, primitiveArray);
+        
         this.multiRepresenters.put(Number.class, new RepresentNumber());
         this.multiRepresenters.put(List.class, new RepresentList());
         this.multiRepresenters.put(Map.class, new RepresentMap());
@@ -207,11 +218,107 @@ class SafeRepresenter extends BaseRepresenter {
         }
     }
 
+    /**
+     * Represents primitive arrays, such as short[] and float[], by converting
+     * them into equivalent List<Short> and List<Float> using the appropriate
+     * autoboxing type.
+     */
+    protected class RepresentPrimitiveArray implements Represent {
+        public Node representData(Object data) {
+            Class<?> type = data.getClass().getComponentType();
+
+            if (byte.class == type) {
+                return representSequence(Tag.SEQ, asByteList(data), null);
+            } else if (short.class == type) {
+                return representSequence(Tag.SEQ, asShortList(data), null);
+            } else if (int.class == type) {
+                return representSequence(Tag.SEQ, asIntList(data), null);
+            } else if (long.class == type) {
+                return representSequence(Tag.SEQ, asLongList(data), null);
+            } else if (float.class == type) {
+                return representSequence(Tag.SEQ, asFloatList(data), null);
+            } else if (double.class == type) {
+                return representSequence(Tag.SEQ, asDoubleList(data), null);
+            } else if (char.class == type) {
+                return representSequence(Tag.SEQ, asCharList(data), null);
+            } else if (boolean.class == type) {
+                return representSequence(Tag.SEQ, asBooleanList(data), null);
+            }
+
+            throw new YAMLException("Unexpected primitive '"
+                    + type.getCanonicalName() + "'");
+        }
+
+        private List<Byte> asByteList(Object in) {
+            byte[] array = (byte[]) in;
+            List<Byte> list = new ArrayList<Byte>(array.length);
+            for (int i = 0; i < array.length; ++i)
+                list.add(array[i]);
+            return list;
+        }
+
+        private List<Short> asShortList(Object in) {
+            short[] array = (short[]) in;
+            List<Short> list = new ArrayList<Short>(array.length);
+            for (int i = 0; i < array.length; ++i)
+                list.add(array[i]);
+            return list;
+        }
+
+        private List<Integer> asIntList(Object in) {
+            int[] array = (int[]) in;
+            List<Integer> list = new ArrayList<Integer>(array.length);
+            for (int i = 0; i < array.length; ++i)
+                list.add(array[i]);
+            return list;
+        }
+
+        private List<Long> asLongList(Object in) {
+            long[] array = (long[]) in;
+            List<Long> list = new ArrayList<Long>(array.length);
+            for (int i = 0; i < array.length; ++i)
+                list.add(array[i]);
+            return list;
+        }
+
+        private List<Float> asFloatList(Object in) {
+            float[] array = (float[]) in;
+            List<Float> list = new ArrayList<Float>(array.length);
+            for (int i = 0; i < array.length; ++i)
+                list.add(array[i]);
+            return list;
+        }
+
+        private List<Double> asDoubleList(Object in) {
+            double[] array = (double[]) in;
+            List<Double> list = new ArrayList<Double>(array.length);
+            for (int i = 0; i < array.length; ++i)
+                list.add(array[i]);
+            return list;
+        }
+
+        private List<Character> asCharList(Object in) {
+            char[] array = (char[]) in;
+            List<Character> list = new ArrayList<Character>(array.length);
+            for (int i = 0; i < array.length; ++i)
+                list.add(array[i]);
+            return list;
+        }
+
+        private List<Boolean> asBooleanList(Object in) {
+            boolean[] array = (boolean[]) in;
+            List<Boolean> list = new ArrayList<Boolean>(array.length);
+            for (int i = 0; i < array.length; ++i)
+                list.add(array[i]);
+            return list;
+        }
+    }
+
     protected class RepresentMap implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representMapping(getTag(data.getClass(), Tag.MAP), (Map<Object, Object>) data,
-                    null);
+            return representMapping(getTag(data.getClass(), Tag.MAP),
+                    (Map<Object, Object>) data, null);
         }
     }
 

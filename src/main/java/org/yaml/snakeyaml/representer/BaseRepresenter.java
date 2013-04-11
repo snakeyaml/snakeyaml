@@ -96,10 +96,7 @@ public abstract class BaseRepresenter {
                     return node;
                 }
             }
-            // check array of primitives
-            if (clazz.isArray()) {
-                throw new YAMLException("Arrays of primitives are not fully supported.");
-            }
+            
             // check defaults
             if (multiRepresenters.containsKey(null)) {
                 Represent representer = multiRepresenters.get(null);
