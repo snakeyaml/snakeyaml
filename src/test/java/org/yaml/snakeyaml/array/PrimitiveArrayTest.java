@@ -1,3 +1,18 @@
+/**
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.yaml.snakeyaml.array;
 
 import java.util.Arrays;
@@ -14,14 +29,14 @@ public class PrimitiveArrayTest extends TestCase {
     
     private final String pkg = "!!org.yaml.snakeyaml.array";
     
-    private final byte[]    bytes    = new byte[]{1,2,3};
-    private final short[]    shorts    = new short[]{300,301,302};
-    private final int[]        ints    = new int[]{40000,40001,40002};
-    private final long[]    longs    = new long[]{5000000000L,5000000001L};
-    private final float[]    floats    = new float[]{0.1f,3.1415f};
-    private final double[]    doubles    = new double[]{50.0001, 2150.0002};
-    private final char[]    chars    = new char[]{'a', 'b', 'c', 'd', 'e'};
-    private final boolean[]    bools    = new boolean[]{true, false};
+    private final byte[]    bytes   = new byte[]{1,2,3};
+    private final short[]   shorts  = new short[]{300,301,302};
+    private final int[]     ints    = new int[]{40000,40001,40002};
+    private final long[]    longs   = new long[]{5000000000L,5000000001L};
+    private final float[]   floats  = new float[]{0.1f,3.1415f};
+    private final double[]  doubles = new double[]{50.0001, 2150.0002};
+    private final char[]    chars   = new char[]{'a', 'b', 'c', 'd', 'e'};
+    private final boolean[] bools   = new boolean[]{true, false};
 
     public void testValidConstructor () {
         String testInput =
@@ -71,17 +86,20 @@ public class PrimitiveArrayTest extends TestCase {
     }
     
     public void testInvalidConstructors() {
-        // Loading a character as any primitive other than 'char' is a ClassCastException
-        tryInvalid ( pkg + ".ByteArr [ [ 'a' ] ]", ClassCastException.class );
-        tryInvalid ( pkg + ".ShortArr [ [ 'a' ] ]", ClassCastException.class );
-        tryInvalid ( pkg + ".IntArr [ [ 'a' ] ]", ClassCastException.class );
-        tryInvalid ( pkg + ".LongArr [ [ 'a' ] ]", ClassCastException.class );
-        tryInvalid ( pkg + ".FloatArr [ [ 'a' ] ]", ClassCastException.class );
-        tryInvalid ( pkg + ".DoubleArr [ [ 'a' ] ]", ClassCastException.class );
-        tryInvalid ( pkg + ".BooleanArr [ [ 'a' ] ]", ClassCastException.class );
+        // Loading a character as any primitive other than 'char' is a NumberFormatException
+        tryInvalid ( pkg + ".ByteArr [ [ 'a' ] ]", NumberFormatException.class );
+        tryInvalid ( pkg + ".ShortArr [ [ 'a' ] ]", NumberFormatException.class );
+        tryInvalid ( pkg + ".IntArr [ [ 'a' ] ]", NumberFormatException.class );
+        tryInvalid ( pkg + ".LongArr [ [ 'a' ] ]", NumberFormatException.class );
+        tryInvalid ( pkg + ".FloatArr [ [ 'a' ] ]", NumberFormatException.class );
+        tryInvalid ( pkg + ".DoubleArr [ [ 'a' ] ]", NumberFormatException.class );
         
-        // Loading a floating-point number as a character is a ClassCastException
-        tryInvalid ( pkg + ".CharArr [ [ 1.2 ] ]", ClassCastException.class );
+        // Exception: because of how boolean construction works, constructing a boolean from 'a'
+        // results in null.
+        tryInvalid ( pkg + ".BooleanArr [ [ 'a' ] ]", NullPointerException.class );
+        
+        // Loading a floating-point number as a character is a YAMLException
+        tryInvalid ( pkg + ".CharArr [ [ 1.2 ] ]", YAMLException.class );
         
         // Loading a String as a Character is a YAMLException
         tryInvalid ( pkg + ".CharArr [ [ 'abcd' ] ]", YAMLException.class );
@@ -89,30 +107,12 @@ public class PrimitiveArrayTest extends TestCase {
     }
     
     public void testTruncation() {
-        Yaml yaml = new Yaml();
-        
-        // Loading floating-point numbers as integer types is allowed, because
-        // that's how the Number.byteValue(), .shortValue(), .intValue(),
-        // .longValue().
-        Assert.assertArrayEquals (
-                new byte[]{3,5},
-                ((ByteArr)yaml.load(pkg + ".ByteArr [ [ 3.14, 5.2 ] ] ")).getBytes()
-        );
-
-        Assert.assertArrayEquals (
-                new short[]{3,5},
-                ((ShortArr)yaml.load(pkg + ".ShortArr [ [ 3.14, 5.2 ] ] ")).getShorts()
-        );
-
-        Assert.assertArrayEquals (
-                new int[]{3,5},
-                ((IntArr)yaml.load(pkg + ".IntArr [ [ 3.14, 5.2 ] ] ")).getInts()
-        );
-
-        Assert.assertArrayEquals (
-                new long[]{3,5},
-                ((LongArr)yaml.load(pkg + ".LongArr [ [ 3.14, 5.2 ] ] ")).getLongs()
-        );
+        // Loading floating-point numbers as integer types is disallowed,
+        // because that's a number-format problem.
+        tryInvalid ( pkg+".ByteArr [ [ 3.14 ] ]", NumberFormatException.class );
+        tryInvalid ( pkg+".ShortArr [ [ 3.14 ] ]", NumberFormatException.class );
+        tryInvalid ( pkg+".IntArr [ [ 3.14 ] ]", NumberFormatException.class );
+        tryInvalid ( pkg+".LongArr [ [ 3.14 ] ]", NumberFormatException.class );
     }
     
     public void testPromotion() {
@@ -140,7 +140,7 @@ public class PrimitiveArrayTest extends TestCase {
             fail ( "Expected exception." );
         } catch ( Exception e ) {
             assertEquals ( ConstructorException.class, e.getClass() );
-            assertEquals ( "expected char but got \"abcd\"", e.getCause().getMessage() );
+            assertEquals ( "Invalid node Character: 'abcd'; length: 4", e.getCause().getMessage() );
         }
     }
     
@@ -180,5 +180,72 @@ public class PrimitiveArrayTest extends TestCase {
 
         BooleanArr boolArr = new BooleanArr(bools);
         assertArrayEquals ( boolArr.getBools(), ((BooleanArr)cycle(boolArr)).getBools() );
+    }
+    
+    public void testMultiDimensional() {
+        Array2D two = new Array2D();
+        two.setLongs(new long[][]{ {1,2,3}, {4,5,6} });
+        assertTrue ( Arrays.deepEquals ( two.getLongs(), ((Array2D)cycle(two)).getLongs() ) );
+        
+        Array3D three = new Array3D();
+        three.setLongs(new long[][][]{ { {1,2,3,4}, {5,6,7,8} }, { {9,10,11,12}, {13,14,15,16} } });
+        assertTrue ( Arrays.deepEquals ( three.getLongs(), ((Array3D)cycle(three)).getLongs() ) );
+        
+        // Object with an array of Objects which each have an array of primitives.
+        ArrayLongArr four = new ArrayLongArr();
+        four.setContents ( new LongArr[] { new LongArr(new long[]{1,2,3,4}), new LongArr(new long[]{5,6,7,8}) } );
+        Object result = cycle(four);
+        assertEquals ( four, (ArrayLongArr)result );
+    }
+    
+    public static class Array2D {
+        private long[][] longs;
+
+        public long[][] getLongs() {
+            return longs;
+        }
+
+        public void setLongs(long[][] longs) {
+            this.longs = longs;
+        }
+    }
+    
+    public static class Array3D {
+        private long[][][] longs;
+
+        public long[][][] getLongs() {
+            return longs;
+        }
+
+        public void setLongs(long[][][] longs) {
+            this.longs = longs;
+        }
+    }
+    
+    public static class ArrayLongArr {
+        private LongArr[] contents;
+
+		public LongArr[] getContents() {
+			return contents;
+		}
+
+		public void setContents(LongArr[] contents) {
+			this.contents = contents;
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if ( ! ( obj instanceof ArrayLongArr ) ) return false;
+			
+			ArrayLongArr other = ((ArrayLongArr)obj);
+			if ( contents.length != other.getContents().length ) return false;
+			for ( int i = 0; i < contents.length; ++i ) {
+				if ( ! Arrays.equals ( contents[i].getLongs(), other.getContents()[i].getLongs() ) ) {
+					return false;
+				}
+			}
+			
+			return true;
+		}
     }
 }

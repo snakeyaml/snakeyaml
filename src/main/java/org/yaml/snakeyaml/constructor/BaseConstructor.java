@@ -281,9 +281,19 @@ public abstract class BaseConstructor {
 
         int index = 0;
         for (Node child : node.getValue()) {
-            Object value = constructObject(child);
+            // Handle multi-dimensional arrays...
+            if ( child.getType() == Object.class ) {
+                child.setType(componentType);
+            }
+            
+            final Object value = constructObject(child);
 
             if (componentType.isPrimitive()) {
+                // Null values are disallowed for primitives
+                if ( value == null ) {
+                    throw new NullPointerException ( "Unable to construct element value for " + child );
+                }
+                
                 // Primitive arrays require quite a lot of work.
                 if (byte.class.equals(componentType)) {
                     Array.setByte(array, index, ((Number) value).byteValue());
@@ -301,30 +311,13 @@ public abstract class BaseConstructor {
                     Array.setFloat(array, index, ((Number) value).floatValue());
 
                 } else if (double.class.equals(componentType)) {
-                    Array.setDouble(array, index,
-                            ((Number) value).doubleValue());
+                    Array.setDouble(array, index, ((Number) value).doubleValue());
 
                 } else if (char.class.equals(componentType)) {
-
-                    if (value instanceof Character) {
-                        Array.setChar(array, index,
-                                ((Character) value).charValue());
-
-                    } else if (value instanceof String) {
-                        String val = (String) value;
-                        if (val.length() != 1) {
-                            throw new YAMLException("expected char but got \""
-                                    + val + "\"");
-                        }
-                        Array.setChar(array, index, val.charAt(0));
-                    } else {
-                        throw new ClassCastException("expected char but got "
-                                + value.getClass().getCanonicalName());
-                    }
+                    Array.setChar(array, index, ((Character) value).charValue());
 
                 } else if (boolean.class.equals(componentType)) {
-                    Array.setBoolean(array, index,
-                            ((Boolean) value).booleanValue());
+                    Array.setBoolean(array, index, ((Boolean) value).booleanValue());
 
                 } else {
                     throw new YAMLException("unexpected primitive type");
@@ -332,7 +325,7 @@ public abstract class BaseConstructor {
 
             } else {
                 // Non-primitive arrays can simply be assigned:
-                Array.set(array, index, constructObject(child));
+                Array.set(array, index, value);
             }
 
             ++index;
