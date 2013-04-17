@@ -47,6 +47,11 @@
             <name>Alexander Maslov</name>
             <email>alexander.maslov@gmail.com</email>
         </developer>
+        <developer>
+            <id>Jordan</id>
+            <name>Jordan Angold</name>
+            <email>jordanangold@gmail.com</email>
+        </developer>
     </developers>
     <dependencies>
         <dependency>
