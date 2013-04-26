@@ -46,11 +46,7 @@ public class PropertySubstitute extends Property {
         super(name, type);
         this.readMethod = readMethod;
         this.writeMethod = writeMethod;
-        if (params != null && params.length > 0) {
-            this.parameters = params;
-        } else {
-            this.parameters = null;
-        }
+        setActualTypeArguments(params);
         this.filler = false;
     }
 
