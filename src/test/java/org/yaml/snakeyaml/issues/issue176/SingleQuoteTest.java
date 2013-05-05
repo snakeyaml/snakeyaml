@@ -27,12 +27,21 @@ import org.yaml.snakeyaml.representer.Representer;
 
 public class SingleQuoteTest extends TestCase {
 
-    public void testSingleQuote() throws Exception {
+    public void testNoSingleQuoteForBlockStyle() throws Exception {
+        checkQuotes(true, "cows:\n    steak:cow: '11'");
+    }
+
+    public void testSingleQuoteForFlowStyle() throws Exception {
+        checkQuotes(false, "cows: {'steak:cow': '11'}");
+    }
+
+    private void checkQuotes(boolean isBlock, String expectation) {
         DumperOptions options = new DumperOptions();
         options.setIndent(4);
-        options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        Representer representer = new org.yaml.snakeyaml.representer.Representer();
-        representer.setDefaultFlowStyle(FlowStyle.BLOCK);
+        if (isBlock) {
+            options.setDefaultFlowStyle(FlowStyle.BLOCK);
+        }
+        Representer representer = new Representer();
 
         Yaml yaml = new Yaml(new SafeConstructor(), representer, options);
 
@@ -41,6 +50,6 @@ public class SingleQuoteTest extends TestCase {
         LinkedHashMap<String, Object> root = new LinkedHashMap<String, Object>();
         root.put("cows", lvl1);
         String output = yaml.dump(root);
-        assertEquals("cows:\n    steak:cow: '11'\n", output);
+        assertEquals(expectation + "\n", output);
     }
 }
