@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.issues.issue176;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -51,5 +52,12 @@ public class SingleQuoteTest extends TestCase {
         root.put("cows", lvl1);
         String output = yaml.dump(root);
         assertEquals(expectation + "\n", output);
+
+        // parse the value back
+        @SuppressWarnings("unchecked")
+        Map<String, Object> cows = (Map<String, Object>) yaml.load(output);
+        @SuppressWarnings("unchecked")
+        Map<String, String> cow = (Map<String, String>) cows.get("cows");
+        assertEquals("11", cow.get("steak:cow"));
     }
 }
