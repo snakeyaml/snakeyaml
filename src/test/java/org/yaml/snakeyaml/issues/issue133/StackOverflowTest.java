@@ -36,7 +36,9 @@ public class StackOverflowTest extends TestCase {
             yaml.dump(new Point());
             fail("getLocation() is recursive.");
         } catch (Throwable e) {
-            assertNull("StackOverflow has no message: " + e.getMessage(), e.getMessage());
+            String message = e.getMessage();
+            assertTrue("StackOverflow has no message: " + e.getMessage(), message == null
+                    || message.contains("Unable to find getter for property 'location'"));
         }
     }
 
