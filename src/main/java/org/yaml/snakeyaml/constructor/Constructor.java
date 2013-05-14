@@ -296,8 +296,9 @@ public class Constructor extends SafeConstructor {
                     Object value = constructObject(valueNode);
                     property.set(object, value);
                 } catch (Exception e) {
-                    throw new YAMLException("Cannot create property=" + key + " for JavaBean="
-                            + object + "; " + e.getMessage(), e);
+                    throw new ConstructorException("Cannot create property=" + key
+                            + " for JavaBean=" + object, node.getStartMark(), e.getMessage(),
+                            valueNode.getStartMark(), e);
                 }
             }
             return object;
@@ -329,6 +330,8 @@ public class Constructor extends SafeConstructor {
             Object result = null;
             try {
                 result = getConstructor(node).construct(node);
+            } catch (ConstructorException e) {
+                throw e;
             } catch (Exception e) {
                 throw new ConstructorException(null, null, "Can't construct a java object for "
                         + node.getTag() + "; exception=" + e.getMessage(), node.getStartMark(), e);

@@ -1,0 +1,8 @@
+!!org.yaml.snakeyaml.issues.issue177.Points
+points:
+  pt1:
+    x: 1
+    y: 2
+  pt2:
+    x: a
+    y: 4

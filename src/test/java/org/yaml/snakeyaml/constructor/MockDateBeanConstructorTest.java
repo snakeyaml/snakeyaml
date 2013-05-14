@@ -31,7 +31,7 @@ public class MockDateBeanConstructorTest extends TestCase {
             fail("MockDate cannot be constructed.");
         } catch (Exception e) {
             assertEquals(
-                    "Cannot create property=date for JavaBean=<DateBean n=24>; Cannot construct: 'class org.yaml.snakeyaml.constructor.MockDateBeanConstructorTest$MockDate'",
+                    "Cannot construct: 'class org.yaml.snakeyaml.constructor.MockDateBeanConstructorTest$MockDate'",
                     e.getCause().getMessage());
         }
     }
