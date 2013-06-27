@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.13-SNAPSHOT" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="fix"  issue="178">
+                OSGi: Specify version for exported packages (2013-06-27)
+             </action>
              <action dev="py4fun" type="fix"  issue="177">
                 Improve error report while parsing a JavaBean (2013-05-14)
              </action>
