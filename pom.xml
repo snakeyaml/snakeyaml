@@ -238,7 +238,11 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package>org.yaml.snakeyaml.*</Export-Package>
+                        <_nouses>true</_nouses>
+                        <Export-Package>
+                            !org.yaml.snakeyaml.external*,
+                            org.yaml.snakeyaml.*;version=${project.version}
+                        </Export-Package>
                         <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
                     </instructions>
                 </configuration>
