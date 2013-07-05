@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -145,11 +145,7 @@ public class Composer {
         NodeEvent event = (NodeEvent) parser.peekEvent();
         String anchor = null;
         anchor = event.getAnchor();
-        if (anchor != null && anchors.containsKey(anchor)) {
-            throw new ComposerException("found duplicate anchor " + anchor + "; first occurence",
-                    this.anchors.get(anchor).getStartMark(), "second occurence",
-                    event.getStartMark());
-        }
+        // the check for duplicate anchors has been removed (issue 174)
         Node node = null;
         if (parser.checkEvent(Event.ID.Scalar)) {
             node = composeScalarNode(anchor);

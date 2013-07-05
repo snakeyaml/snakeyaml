@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,9 +52,8 @@ public class BigDecimalBeanConstructorTest extends TestCase {
             yaml.load(className);
             fail("AtomicLong is not supported.");
         } catch (Exception e) {
-            assertEquals(
-                    "Cannot create property=atomic for JavaBean=AtomicJavaBean; Unsupported class: class java.util.concurrent.atomic.AtomicLong",
-                    e.getCause().getMessage());
+            assertEquals("Unsupported class: class java.util.concurrent.atomic.AtomicLong", e
+                    .getCause().getMessage());
         }
     }
 }

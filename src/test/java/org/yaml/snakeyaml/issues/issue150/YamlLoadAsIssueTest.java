@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,10 +80,14 @@ public class YamlLoadAsIssueTest {
             yaml.loadAs(reader(), Car.class);
             fail();
         } catch (Exception e) {
-            assertTrue(e
-                    .getMessage()
-                    .startsWith(
-                            "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue150.Car; exception=Cannot create property=wheels for JavaBean=org.yaml.snakeyaml.issues.issue150.Car"));
+            assertTrue(e.getMessage(),
+                    e.getMessage().startsWith("Cannot create property=wheels for JavaBean"));
+            assertTrue(
+                    e.getCause().getMessage(),
+                    e.getCause()
+                            .getMessage()
+                            .startsWith(
+                                    "No single argument constructor found for class org.yaml.snakeyaml.issues.issue150.Wheel"));
         }
     }
 

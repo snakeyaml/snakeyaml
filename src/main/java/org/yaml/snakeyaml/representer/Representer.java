@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -186,6 +186,12 @@ public class Representer extends SafeRepresenter {
      */
     @SuppressWarnings("unchecked")
     protected void checkGlobalTag(Property property, Node node, Object object) {
+        // Skip primitive arrays.
+        if (object.getClass().isArray()
+                && object.getClass().getComponentType().isPrimitive()) {
+            return;
+        }
+        
         Class<?>[] arguments = property.getActualTypeArguments();
         if (arguments != null) {
             if (node.getNodeId() == NodeId.sequence) {

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,11 +28,12 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.reader.StreamReader;
 
 public class SafeRepresenterTest extends TestCase {
 
     public void testBinaryPattern() {
-        Pattern pattern = SafeRepresenter.BINARY_PATTERN;
+        Pattern pattern = StreamReader.NON_PRINTABLE;
         assertFalse(pattern.matcher("\tAndrey\r\n").find());
         assertTrue(pattern.matcher("\u0005Andrey").find());
     }

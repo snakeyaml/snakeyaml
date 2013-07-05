@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ public class ScannerImplTest extends TestCase {
             fail("TAB cannot start a token.");
         } catch (Exception e) {
             assertEquals(
-                    "while scanning for the next token; found character \t'\\t' that cannot start any token;  in 'string', line 1, column 1:\n    \t  data: 1\n    ^",
+                    "while scanning for the next token; found character \t '\\t(TAB)' that cannot start any token. (Do not use \\t(TAB) for indentation);  in 'string', line 1, column 1:\n    \t  data: 1\n    ^",
                     e.getMessage());
         }
     }

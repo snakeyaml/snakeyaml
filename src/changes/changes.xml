@@ -6,7 +6,57 @@
         <author email="py4fun@gmail.com">Andrey Somov</author>
     </properties>
     <body>
-        <release version="1.11" date="in Mercurial" description="Maintenance">
+        <release version="1.13-SNAPSHOT" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="fix"  issue="178">
+                OSGi: Specify version for exported packages (2013-06-27)
+             </action>
+             <action dev="py4fun" type="fix"  issue="177">
+                Improve error report while parsing a JavaBean (2013-05-14)
+             </action>
+              <action dev="Jordan" type="fix"  issue="135">
+                Arrays of primitives are now fully supported (2013-04-16)
+             </action>
+             <action dev="py4fun" type="fix"  issue="174">
+                Duplicate anchors in an input document should not be an error (2013-04-03)
+             </action>
+             <action dev="py4fun" type="fix"  issue="172">
+                Using a locale with minimum number fraction digits breaks anchor generation (2013-03-30)
+             </action>
+             <action dev="py4fun" type="fix"  issue="171">
+                Use more generic generics in BaseRepresenter (2013-03-30)
+             </action>
+        </release>
+        <release version="1.12" date="2013-03-02" description="Maintenance">
+             <action dev="py4fun" type="update">
+                The build is using JDK 1.6 (2013-03-02)
+             </action>
+             <action dev="py4fun" type="fix"  issue="169">
+                Make Constructor.typeDefinitions protected to be more flexible (2013-02-18)
+             </action>
+             <action dev="py4fun" type="remove">
+                Remove file AUTHORS because it does not reflect the actual situation (2012-11-09)
+             </action>
+             <action dev="py4fun" type="update">
+                Improve the error message when a TAB character starts a token (2012-11-06)
+             </action>
+        </release>
+        <release version="1.11" date="2012-09-29" description="Maintenance">
+             <action dev="py4fun" type="fix"  issue="158">
+                Fix issue 158: improve support for 32-bit characters (UTF-16 surrogate pairs) (2012-09-29)
+             </action>
+             <action dev="py4fun" type="fix"  issue="146">
+                Fix issue 146: empty tags should not force explicit document start (2012-09-29)
+             </action>
+             <action dev="py4fun" type="fix"  issue="156">
+                Fix issue 156: setSkipMissingProperties fails for non-scalar values (2012-09-05)
+             </action>
+             <action dev="py4fun" type="fix"  issue="155">
+                Fix issue 155: SnakeYAML must always eat its own food - a YAML document created by itself must
+                be read without exceptions (2012-09-04)
+             </action>
+             <action dev="py4fun" type="update"  issue="154">
+                Fix issue 154: Add option to skip missing properties when deserializing YAML into Java object (2012-07-25)
+             </action>
              <action dev="py4fun" type="update">
                 Add a test for issue 150 (2012-06-17)
              </action>

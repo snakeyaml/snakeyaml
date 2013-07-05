@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,18 +89,5 @@ public class SeqTagTest extends AbstractTest {
         String[] array = new String[] { "aaa", "bbb", "ccc" };
         String output = dump(array);
         assertEquals("[aaa, bbb, ccc]\n", output);
-    }
-
-    public void testArrayPrimitives() {
-        int[] array = new int[3];
-        array[0] = 1;
-        array[1] = 1;
-        array[2] = 2;
-        try {
-            dump(array);
-            fail("Arrays of primitives are not supported.");
-        } catch (RuntimeException e) {
-            assertEquals("Arrays of primitives are not fully supported.", e.getMessage());
-        }
     }
 }

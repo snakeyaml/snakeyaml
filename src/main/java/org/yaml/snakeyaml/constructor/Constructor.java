@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -209,7 +209,7 @@ public class Constructor extends SafeConstructor {
                     if (!typeDetected && valueNode.getNodeId() != NodeId.scalar) {
                         // only if there is no explicit TypeDescription
                         Class<?>[] arguments = property.getActualTypeArguments();
-                        if (arguments != null) {
+                        if (arguments != null && arguments.length > 0) {
                             // type safe (generic) collection may contain the
                             // proper class
                             if (valueNode.getNodeId() == NodeId.sequence) {
@@ -238,8 +238,9 @@ public class Constructor extends SafeConstructor {
                         property.set(object, value);
                     }
                 } catch (Exception e) {
-                    throw new YAMLException("Cannot create property=" + key + " for JavaBean="
-                            + object + "; " + e.getMessage(), e);
+                    throw new ConstructorException("Cannot create property=" + key
+                            + " for JavaBean=" + object, node.getStartMark(), e.getMessage(),
+                            valueNode.getStartMark(), e);
                 }
             }
             return object;
@@ -267,9 +268,8 @@ public class Constructor extends SafeConstructor {
      */
     protected class ConstructYamlObject implements Construct {
 
-        @SuppressWarnings("unchecked")
         private Construct getConstructor(Node node) {
-            Class cl = getClassForNode(node);
+            Class<?> cl = getClassForNode(node);
             node.setType(cl);
             // call the constructor as if the runtime class is defined
             Construct constructor = yamlClassConstructors.get(node.getNodeId());
@@ -280,6 +280,8 @@ public class Constructor extends SafeConstructor {
             Object result = null;
             try {
                 result = getConstructor(node).construct(node);
+            } catch (ConstructorException e) {
+                throw e;
             } catch (Exception e) {
                 throw new ConstructorException(null, null, "Can't construct a java object for "
                         + node.getTag() + "; exception=" + e.getMessage(), node.getStartMark(), e);

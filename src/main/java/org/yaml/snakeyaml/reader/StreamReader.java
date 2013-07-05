@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,9 +29,7 @@ import org.yaml.snakeyaml.scanner.Constant;
  * Reader: checks if characters are in allowed range, adds '\0' to the end.
  */
 public class StreamReader {
-    // NON_PRINTABLE changed from PyYAML: \uFFFD excluded because Java returns
-    // it in case of data corruption
-    final static Pattern NON_PRINTABLE = Pattern
+    public final static Pattern NON_PRINTABLE = Pattern
             .compile("[^\t\n\r\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD]");
     private String name;
     private final Reader stream;
@@ -87,15 +85,19 @@ public class StreamReader {
         for (int i = begin; i < end; i++) {
             final char c = chars[i];
 
-            if ((c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
-                    || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
-                    || (c >= '\uE000' && c <= '\uFFFD')) {
+            if (isPrintable(c)) {
                 continue;
             }
 
             int position = this.index + this.buffer.length() - this.pointer + i;
             throw new ReaderException(name, position, c, "special characters are not allowed");
         }
+    }
+
+    public static boolean isPrintable(final char c) {
+        return (c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
+                || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
+                || (c >= '\uE000' && c <= '\uFFFD');
     }
 
     public Mark getMark() {

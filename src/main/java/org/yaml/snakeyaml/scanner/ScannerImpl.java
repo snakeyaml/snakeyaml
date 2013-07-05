@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -412,8 +412,13 @@ public final class ScannerImpl implements Scanner {
                 break;
             }
         }
-        throw new ScannerException("while scanning for the next token", null, "found character "
-                + ch + "'" + chRepresentation + "' that cannot start any token", reader.getMark());
+        if (ch == '\t')
+            chRepresentation += "(TAB)";
+        String text = String
+                .format("found character %s '%s' that cannot start any token. (Do not use %s for indentation)",
+                        ch, chRepresentation, chRepresentation);
+        throw new ScannerException("while scanning for the next token", null, text,
+                reader.getMark());
     }
 
     // Simple keys treatment.

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ public class PropertyUtils {
     private final Map<Class<?>, Set<Property>> readableProperties = new HashMap<Class<?>, Set<Property>>();
     private BeanAccess beanAccess = BeanAccess.DEFAULT;
     private boolean allowReadOnlyProperties = false;
+    private boolean skipMissingProperties = false;
 
     protected Map<String, Property> getPropertiesMap(Class<?> type, BeanAccess bAccess) {
         if (propertiesCache.containsKey(type)) {
@@ -123,6 +124,9 @@ public class PropertyUtils {
     public Property getProperty(Class<? extends Object> type, String name, BeanAccess bAccess) {
         Map<String, Property> properties = getPropertiesMap(type, bAccess);
         Property property = properties.get(name);
+        if (property == null && skipMissingProperties) {
+            property = new MissingProperty(name);
+        }
         if (property == null) {
             throw new YAMLException("Unable to find property '" + name + "' on class: "
                     + type.getName());
@@ -141,6 +145,20 @@ public class PropertyUtils {
     public void setAllowReadOnlyProperties(boolean allowReadOnlyProperties) {
         if (this.allowReadOnlyProperties != allowReadOnlyProperties) {
             this.allowReadOnlyProperties = allowReadOnlyProperties;
+            readableProperties.clear();
+        }
+    }
+
+    /**
+     * Skip properties that are missing during deserialization of YAML to a Java
+     * object. The default is false.
+     * 
+     * @param skipMissingProperties
+     *            true if missing properties should be skipped, false otherwise.
+     */
+    public void setSkipMissingProperties(boolean skipMissingProperties) {
+        if (this.skipMissingProperties != skipMissingProperties) {
+            this.skipMissingProperties = skipMissingProperties;
             readableProperties.clear();
         }
     }

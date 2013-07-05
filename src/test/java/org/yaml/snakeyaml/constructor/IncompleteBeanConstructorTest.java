@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ public class IncompleteBeanConstructorTest extends TestCase {
             fail("'name' property does not have setter.");
         } catch (YAMLException e) {
             assertEquals(
-                    "Cannot create property=name for JavaBean=<IncompleteJavaBean name=No name>; No writable property 'name' on class: org.yaml.snakeyaml.constructor.IncompleteJavaBean",
+                    "No writable property 'name' on class: org.yaml.snakeyaml.constructor.IncompleteJavaBean",
                     e.getCause().getMessage());
         }
     }

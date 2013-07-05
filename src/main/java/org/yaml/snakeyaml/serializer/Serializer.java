@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -154,6 +154,7 @@ public final class Serializer {
         this.lastAnchorId++;
         NumberFormat format = NumberFormat.getNumberInstance();
         format.setMinimumIntegerDigits(3);
+        format.setMaximumFractionDigits(0);// issue 172
         format.setGroupingUsed(false);
         String anchorId = format.format(this.lastAnchorId);
         return "id" + anchorId;

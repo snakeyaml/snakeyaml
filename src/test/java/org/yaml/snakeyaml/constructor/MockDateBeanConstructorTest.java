@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public class MockDateBeanConstructorTest extends TestCase {
             fail("MockDate cannot be constructed.");
         } catch (Exception e) {
             assertEquals(
-                    "Cannot create property=date for JavaBean=<DateBean n=24>; Cannot construct: 'class org.yaml.snakeyaml.constructor.MockDateBeanConstructorTest$MockDate'",
+                    "Cannot construct: 'class org.yaml.snakeyaml.constructor.MockDateBeanConstructorTest$MockDate'",
                     e.getCause().getMessage());
         }
     }

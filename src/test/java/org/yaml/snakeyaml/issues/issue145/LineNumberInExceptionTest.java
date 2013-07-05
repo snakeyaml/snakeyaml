@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,10 +47,7 @@ public class LineNumberInExceptionTest extends TestCase {
             yaml.load("---\n!!org.yaml.snakeyaml.issues.issue145.CompleteThing { id2: QQQ }");
             fail("Invalid parameter");
         } catch (Exception e) {
-            assertTrue(e.toString().contains("line 2, column 1"));
-            assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue145.CompleteThing; exception=Cannot create property=id2 for JavaBean=CompleteThing-null; Unable to find property 'id2' on class: org.yaml.snakeyaml.issues.issue145.CompleteThing;  in 'string', line 2, column 1:\n    !!org.yaml.snakeyaml.issues.issu ... \n    ^",
-                    e.getMessage());
+            assertTrue("The error should ponit to QQQ.", e.toString().contains("line 2, column 59"));
         }
     }
 }

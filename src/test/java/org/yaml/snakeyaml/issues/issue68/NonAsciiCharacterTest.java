@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2012, http://www.snakeyaml.org
+ * Copyright (c) 2008-2013, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,7 @@ public class NonAsciiCharacterTest extends TestCase {
             input.close();
             fail("Invalid UTF-8 must not be accepted: " + text.toString());
         } catch (Exception e) {
-            assertEquals("java.nio.charset.UnmappableCharacterException: Input length = 1",
-                    e.getMessage());
+            assertTrue(e.getMessage().endsWith("Exception: Input length = 1"));
         }
     }
 

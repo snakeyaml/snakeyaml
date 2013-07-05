@@ -1,0 +1,6 @@
+Cannot create property=points for JavaBean=All Points; Cannot create property=x for JavaBean=PointBean; For input string: "a";  in 'string', line 7, column 8:
+        x: a
+           ^;  in 'string', line 3, column 3:
+      pt1:
+      ^
+
