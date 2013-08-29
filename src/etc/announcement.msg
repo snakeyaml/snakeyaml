@@ -1,9 +1,9 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.12 final is available
+Subject: [ANN] SnakeYAML-1.13 final is available
 
 ==========================
- Announcing SnakeYAML-1.12
+ Announcing SnakeYAML-1.13
 ==========================
 
 A new release of SnakeYAML is now available:
@@ -20,7 +20,7 @@ Resources
 SnakeYAML homepage: http://www.snakeyaml.org
 SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
 
-JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.12/snakeyaml-1.12.jar
+JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.13/snakeyaml-1.13.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/
@@ -32,7 +32,7 @@ YAML-core mailing list: http://lists.sourceforge.net/lists/listinfo/yaml-core
 About SnakeYAML
 ================
 
-SnakeYAML is a YAML parser and emitter for Java 5.
+SnakeYAML is a YAML parser and emitter for Java 6.
 
 SnakeYAML features a complete YAML 1.1 parser.
 SnakeYAML is applicable for a broad range of tasks from complex
