@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.14-SNAPSHOT" date="in Mercurial" description="Maintenance">
+             <action dev="py4fun" type="fix"  issue="183">
+                Support Number class (2013-11-07)
+             </action>
              <action dev="py4fun" type="fix"  issue="182">
                 Double.POSITIVE_INFINITY applied to float fields (2013-11-07)
              </action>

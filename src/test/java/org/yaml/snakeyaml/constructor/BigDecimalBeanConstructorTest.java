@@ -52,8 +52,7 @@ public class BigDecimalBeanConstructorTest extends TestCase {
             yaml.load(className);
             fail("AtomicLong is not supported.");
         } catch (Exception e) {
-            assertEquals("Unsupported class: class java.util.concurrent.atomic.AtomicLong", e
-                    .getCause().getMessage());
+            assertEquals("argument type mismatch", e.getCause().getMessage());
         }
     }
 }

@@ -16,6 +16,8 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.math.BigInteger;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -268,6 +270,20 @@ public class SafeConstructor extends BaseConstructor {
             byte[] decoded = Base64Coder.decode(constructScalar((ScalarNode) node).toString()
                     .toCharArray());
             return decoded;
+        }
+    }
+
+    public static class ConstructYamlNumber extends AbstractConstruct {
+        private final NumberFormat nf = NumberFormat.getInstance();
+
+        public Object construct(Node node) {
+            ScalarNode scalar = (ScalarNode) node;
+            try {
+                return nf.parse(scalar.getValue());
+            } catch (ParseException e) {
+                throw new IllegalArgumentException("Unable to parse as Number: "
+                        + scalar.getValue());
+            }
         }
     }
 

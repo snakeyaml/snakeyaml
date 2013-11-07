@@ -492,6 +492,9 @@ public class Constructor extends SafeConstructor {
                 ConstructYamlTimestamp contr = new ConstructYamlTimestamp();
                 contr.construct(node);
                 result = contr.getCalendar();
+            } else if (Number.class.isAssignableFrom(type)) {
+                ConstructYamlNumber contr = new ConstructYamlNumber();
+                result = contr.construct(node);
             } else {
                 throw new YAMLException("Unsupported class: " + type);
             }
