@@ -4,3 +4,9 @@ syntax: regexp
 ^\.settings$
 ^\.project$
 ^\.classpath$
+
+^\.idea$
+snakeyaml.iml
+snakeyaml.ipr
+snakeyaml.iws
+
