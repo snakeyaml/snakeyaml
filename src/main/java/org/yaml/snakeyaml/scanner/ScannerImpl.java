@@ -859,10 +859,10 @@ public final class ScannerImpl implements Scanner {
             // There cannot be two simple keys one after another.
             this.allowSimpleKey = false;
 
-        } else {// It must be a part of a complex key.
-            // Block context needs additional checks.Do we really need them?
-            // They
-            // will be catched by the parser anyway.)
+        } else {
+            // It must be a part of a complex key.
+            // Block context needs additional checks. Do we really need them?
+            // They will be caught by the parser anyway.
             if (this.flowLevel == 0) {
 
                 // We are allowed to start a complex value if and only if we can

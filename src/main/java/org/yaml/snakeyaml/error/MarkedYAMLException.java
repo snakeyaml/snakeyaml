@@ -49,6 +49,11 @@ public class MarkedYAMLException extends YAMLException {
     }
 
     @Override
+    public String getMessage() {
+        return toString();
+    }
+
+    @Override
     public String toString() {
         StringBuilder lines = new StringBuilder();
         if (context != null) {
