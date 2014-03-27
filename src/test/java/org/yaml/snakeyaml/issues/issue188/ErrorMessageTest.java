@@ -25,8 +25,8 @@ public class ErrorMessageTest extends TestCase {
 
         try {
             Yaml yaml = new Yaml();
-            String doc = "ode_templates:\n" + "  master:\n"
-                    + "    type: alu.nodes.Compute : invalid123";
+            String doc = "templates:\n" + "  master:\n"
+                    + "    type: Compute : invalid123";
             yaml.load(doc);
         } catch (Exception e) {
             assertFalse(e.getMessage(), e.getMessage().contains("null"));
