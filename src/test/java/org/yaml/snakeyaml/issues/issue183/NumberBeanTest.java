@@ -21,7 +21,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class NumberBeanTest extends TestCase {
 
-    public void testInfinityFloatBean() throws Exception {
+    public void testNumberBean() throws Exception {
 
         NumberBean number = new NumberBean();
         number.number = 1;
@@ -31,4 +31,66 @@ public class NumberBeanTest extends TestCase {
         NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
         assertEquals(new Long(1), loaded.number);
     }
+
+    public void testNumberAsFloatInfinity() throws Exception {
+        NumberBean number = new NumberBean();
+        number.number = Float.POSITIVE_INFINITY;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(number);
+        NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
+        assertEquals(Float.POSITIVE_INFINITY, loaded.number.floatValue());
+    }
+
+    public void testNumberAsDoubleInfinity() throws Exception {
+        NumberBean number = new NumberBean();
+        number.number = Double.POSITIVE_INFINITY;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(number);
+        NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
+        assertEquals(Double.POSITIVE_INFINITY, loaded.number.doubleValue());
+    }
+
+    public void testNumberAsNegativeFloatInfinity() throws Exception {
+        NumberBean number = new NumberBean();
+        number.number = Float.NEGATIVE_INFINITY;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(number);
+        NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
+        assertEquals(Float.NEGATIVE_INFINITY, loaded.number.floatValue());
+    }
+
+    public void testNumberAsNegativeDoubleInfinity() throws Exception {
+        NumberBean number = new NumberBean();
+        number.number = Double.NEGATIVE_INFINITY;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(number);
+        NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
+        assertEquals(Double.NEGATIVE_INFINITY, loaded.number.doubleValue());
+    }
+
+    
+    public void testNumberAsFloatNaN() throws Exception {
+        NumberBean number = new NumberBean();
+        number.number = Float.NaN;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(number);
+        NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
+        assertEquals(Float.NaN, loaded.number.floatValue());
+    }
+
+    public void testNumberAsDoubleNaN() throws Exception {
+        NumberBean number = new NumberBean();
+        number.number = Double.NaN;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(number);
+        NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
+        assertEquals(Double.NaN, loaded.number.doubleValue());
+    }
+
 }

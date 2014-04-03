@@ -273,7 +273,8 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    public static class ConstructYamlNumber extends AbstractConstruct {
+    public class ConstructYamlNumber extends AbstractConstruct {
+
         private final NumberFormat nf = NumberFormat.getInstance();
 
         public Object construct(Node node) {
@@ -281,8 +282,15 @@ public class SafeConstructor extends BaseConstructor {
             try {
                 return nf.parse(scalar.getValue());
             } catch (ParseException e) {
-                throw new IllegalArgumentException("Unable to parse as Number: "
-                        + scalar.getValue());
+                String lowerCaseValue = scalar.getValue().toLowerCase();
+                if (lowerCaseValue.contains("inf") || lowerCaseValue.contains("nan")) {
+                    // Non-finites such as (+/-)infinity and NaN are not parseable by NumberFormat when these `Double` values are dumped by snakeyaml.
+                    // Delegate to the `Tag.FLOAT` constructor when for this expected failure cause.
+                    return (Number) yamlConstructors.get(Tag.FLOAT).construct(node);
+                } else {
+                    throw new IllegalArgumentException("Unable to parse as Number: "
+                            + scalar.getValue());
+                }
             }
         }
     }
