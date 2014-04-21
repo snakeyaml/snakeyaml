@@ -28,6 +28,7 @@ public class ErrorMessageTest extends TestCase {
             String doc = "templates:\n" + "  master:\n"
                     + "    type: Compute : invalid123";
             yaml.load(doc);
+            fail();
         } catch (Exception e) {
             assertFalse(e.getMessage(), e.getMessage().contains("null"));
         }
