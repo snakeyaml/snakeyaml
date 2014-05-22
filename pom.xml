@@ -315,17 +315,32 @@
         <profile>
             <id>jdk8</id>
             <activation>
-                <jdk>1.8</jdk>
+                <jdk>[1.8,)</jdk>
 	    </activation>
        	    <build>
 	        <plugins>
-	        <plugin>
-		    <groupId>org.apache.maven.plugins</groupId>
-		    <artifactId>maven-javadoc-plugin</artifactId>
-		    <configuration>
-                        <additionalparam>-Xdoclint:none</additionalparam>
-		    </configuration>
-		</plugin>
+	            <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-javadoc-plugin</artifactId>
+			<configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+			</configuration>
+		    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <configuration>
+                            <reportPlugins>
+                                <plugin>
+                                    <groupId>org.apache.maven.plugins</groupId>
+                                    <artifactId>maven-javadoc-plugin</artifactId>
+                                    <configuration>
+                                        <additionalparam>-Xdoclint:none</additionalparam>
+                                    </configuration>
+                                </plugin>
+                            </reportPlugins>
+                	</configuration>
+		    </plugin>
 		</plugins>
 	    </build>
         </profile>
