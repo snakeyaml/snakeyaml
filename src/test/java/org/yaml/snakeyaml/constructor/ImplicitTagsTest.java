@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,14 +70,16 @@ public class ImplicitTagsTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testRootMap() {
-        Map<Object, Object> car1 = new HashMap<Object, Object>();
-        car1.put("plate", "12-XP-F4");
+        Map<Object, Object> car1 = new LinkedHashMap<Object, Object>();
         Wheel wheel = new Wheel();
         wheel.setId(2);
-        car1.put("wheel", wheel);
         Map<String, Integer> map = new HashMap<String, Integer>();
         map.put("id", 3);
+
+        car1.put("wheel", wheel);
         car1.put("map", map);
+        car1.put("plate", "12-XP-F4");
+
         String carYaml1 = new Yaml().dump(car1);
         assertEquals(Util.getLocalResource("constructor/carwheel-root-map.yaml"), carYaml1);
         Map<Object, Object> car2 = (Map<Object, Object>) new Yaml().load(carYaml1);
