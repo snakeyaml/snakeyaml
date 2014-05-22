@@ -31,6 +31,5 @@ public class CustomResolver extends Resolver {
         addImplicitResolver(Tag.NULL, NULL, "~nN\0");
         addImplicitResolver(Tag.NULL, EMPTY, null);
         // addImplicitResolver(Tags.TIMESTAMP, TIMESTAMP, "0123456789");
-        addImplicitResolver(Tag.VALUE, VALUE, "=");
     }
 }

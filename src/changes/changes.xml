@@ -7,6 +7,12 @@
     </properties>
     <body>
         <release version="1.14-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="py4fun" type="fix"  issue="192">
+                Drop support for "Value Key Language-Independent Type" and '=' a standard character (2014-05-22)
+            </action>
+            <action dev="maslovalex" type="fix"  issue="191">
+                Improve error message for invalid YAML document (2014-05-21)
+            </action>
             <action dev="py4fun" type="fix"  issue="188">
                 Improve error message for invalid YAML document (2014-03-26)
             </action>

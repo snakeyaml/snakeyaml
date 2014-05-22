@@ -31,7 +31,6 @@ import org.yaml.snakeyaml.util.UriEncoder;
 public final class Tag implements Comparable<Tag> {
     public static final String PREFIX = "tag:yaml.org,2002:";
     public static final Tag YAML = new Tag(PREFIX + "yaml");
-    public static final Tag VALUE = new Tag(PREFIX + "value");
     public static final Tag MERGE = new Tag(PREFIX + "merge");
     public static final Tag SET = new Tag(PREFIX + "set");
     public static final Tag PAIRS = new Tag(PREFIX + "pairs");

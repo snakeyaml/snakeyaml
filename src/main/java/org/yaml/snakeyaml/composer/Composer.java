@@ -227,8 +227,6 @@ public class Composer {
             Node itemKey = composeNode(node);
             if (itemKey.getTag().equals(Tag.MERGE)) {
                 node.setMerged(true);
-            } else if (itemKey.getTag().equals(Tag.VALUE)) {
-                itemKey.setTag(Tag.STR);
             }
             Node itemValue = composeNode(node);
             children.add(new NodeTuple(itemKey, itemValue));

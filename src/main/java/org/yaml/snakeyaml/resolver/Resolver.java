@@ -52,7 +52,7 @@ public class Resolver {
 
     /**
      * Create Resolver
-     * 
+     *
      * @param respectDefaultImplicitScalars
      *            false to parse/dump scalars as plain Strings
      * @deprecated override addImplicitResolvers instead
@@ -76,7 +76,6 @@ public class Resolver {
         addImplicitResolver(Tag.NULL, NULL, "~nN\0");
         addImplicitResolver(Tag.NULL, EMPTY, null);
         addImplicitResolver(Tag.TIMESTAMP, TIMESTAMP, "0123456789");
-        addImplicitResolver(Tag.VALUE, VALUE, "=");
         // The following implicit resolver is only for documentation
         // purposes.
         // It cannot work
