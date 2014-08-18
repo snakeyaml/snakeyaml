@@ -22,6 +22,8 @@ import static org.junit.Assert.fail;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -76,18 +78,13 @@ public class YamlLoadAsIssueTest {
     @Test
     public void ignoreImplicitTag() {
         Yaml yaml = yaml();
-        try {
-            yaml.loadAs(reader(), Car.class);
-            fail();
-        } catch (Exception e) {
-            assertTrue(e.getMessage(),
-                    e.getMessage().startsWith("Cannot create property=wheels for JavaBean"));
-            assertTrue(
-                    e.getCause().getMessage(),
-                    e.getCause()
-                            .getMessage()
-                            .startsWith(
-                                    "No single argument constructor found for class org.yaml.snakeyaml.issues.issue150.Wheel"));
+        Car car = yaml.loadAs(reader(), Car.class);
+        assertNotNull(car);
+        assertEquals("12-XP-F4", car.getPlate());
+        ArrayList<Wheel> wheels = new ArrayList<Wheel>(car.getWheels());
+        assertEquals(4, wheels.size());
+        for (int i = 0; i < wheels.size(); i++) {
+            assertEquals(wheels.get(i).getId(), Integer.valueOf(i + 1));
         }
     }
 
