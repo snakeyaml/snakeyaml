@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
+import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -64,7 +65,7 @@ public class DiceExampleTest extends TestCase {
         }
     }
 
-    class DiceConstructor extends SafeConstructor {
+    class DiceConstructor extends Constructor {
         public DiceConstructor() {
             this.yamlConstructors.put(new Tag("!dice"), new ConstructDice());
         }
@@ -95,7 +96,7 @@ public class DiceExampleTest extends TestCase {
         // the tag must start with a digit
         yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), "123456789");
         // dump
-        Map<String, Dice> treasure = (Map<String, Dice>) new HashMap<String, Dice>();
+        Map<String, Dice> treasure = new HashMap<String, Dice>();
         treasure.put("treasure", new Dice(10, 20));
         String output = yaml.dump(treasure);
         assertEquals("{treasure: 10d20}\n", output);
@@ -112,7 +113,7 @@ public class DiceExampleTest extends TestCase {
         // the tag may start with anything
         yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), null);
         // dump
-        Map<String, Dice> treasure = (Map<String, Dice>) new HashMap<String, Dice>();
+        Map<String, Dice> treasure = new HashMap<String, Dice>();
         treasure.put("treasure", new Dice(10, 20));
         String output = yaml.dump(treasure);
         assertEquals("{treasure: 10d20}\n", output);
@@ -120,5 +121,41 @@ public class DiceExampleTest extends TestCase {
         Object data = yaml.load("{damage: 5d10}");
         Map<String, Dice> map = (Map<String, Dice>) data;
         assertEquals(new Dice(5, 10), map.get("damage"));
+    }
+
+    static class DiceBean {
+        public Dice treasure;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o)
+                return true;
+            if (!(o instanceof DiceBean))
+                return false;
+
+            DiceBean diceBean = (DiceBean) o;
+            if (treasure != null ? !treasure.equals(diceBean.treasure) : diceBean.treasure != null)
+                return false;
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return treasure != null ? treasure.hashCode() : 0;
+        }
+    }
+
+    public void testImplicitResolverJavaBean() {
+        Yaml yaml = new Yaml(new DiceConstructor(), new DiceRepresenter());
+        // the tag must start with a digit
+        yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), "123456789");
+        // dump
+        DiceBean bean = new DiceBean();
+        bean.treasure = new Dice(10, 20);
+        String output = yaml.dump(bean);
+        assertEquals("!!examples.DiceExampleTest$DiceBean {treasure: 10d20}\n", output);
+        // load
+        Object loaded = yaml.load(output);
+        assertEquals(loaded, bean);
     }
 }
