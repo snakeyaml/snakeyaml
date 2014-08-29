@@ -12,7 +12,7 @@ A new release of SnakeYAML is now available:
 
 This release delivers minor changes and bug fixes.
 
-The complete list of changes is here: http://code.google.com/p/snakeyaml/wiki/changes 
+The complete list of changes is here: http://code.google.com/p/snakeyaml/wiki/changes
 
 Resources
 ==========

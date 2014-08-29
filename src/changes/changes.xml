@@ -84,7 +84,7 @@
                 Fix issue 149: Directives are no longer lost between documents (2012-06-10)
              </action>
              <action dev="py4fun" type="update">
-                Refactor: use Version enum instead of Array of Integers. 
+                Refactor: use Version enum instead of Array of Integers.
                 This is done to simplify fixing issue 149 (2012-06-09)
              </action>
              <action dev="py4fun" type="fix">
@@ -111,16 +111,16 @@
                 Refactor with PMD: minor non-functional improvements (2012-01-28)
              </action>
              <action dev="py4fun" type="update">
-                Refactor with PMD: Avoid unused method parameter 'index' in 
+                Refactor with PMD: Avoid unused method parameter 'index' in
                 Serializer and Emitter (2012-01-28)
              </action>
              <action dev="py4fun" type="update">
-                Refactor with PMD: Composer - Avoid unused method parameter 'index' in 
+                Refactor with PMD: Composer - Avoid unused method parameter 'index' in
                 'Composer.composeNode(Node parent, Object index)''. It was used
                 in PyYAML for kind of XPath for YAML, but it was not imported from PyYAML (2012-01-28)
              </action>
              <action dev="py4fun" type="update">
-                Refactor Emitter: the SPACE mutable static field could be changed by malicious code or by accident. 
+                Refactor Emitter: the SPACE mutable static field could be changed by malicious code or by accident.
                 Boxed value is unboxed and then immediately reboxed (2012-01-28)
              </action>
              <action dev="py4fun" type="remove">
@@ -178,17 +178,17 @@
                 at http://pyyaml.org/ticket/196 (2011-07-28)
             </action>
             <action dev="py4fun" type="fix" issue="128">
-                Since timestamp contains ':' characters it is dumped with single quoted scalar style 
-                in the flow context. The single quoted scalar style causes to dump the explicit tag. 
+                Since timestamp contains ':' characters it is dumped with single quoted scalar style
+                in the flow context. The single quoted scalar style causes to dump the explicit tag.
                 In the block context the plain scalar can be used and the tag is not required. It may cause
                 unpredictable behaviour if the tag is required. See the comments in JodaTimeExampleTest (2011-07-25)
             </action>
             <action dev="py4fun" type="fix" issue="130">
-                Fix scientific notation inconsistency in the YAML 1.1 specification: 
+                Fix scientific notation inconsistency in the YAML 1.1 specification:
                 scalar '8e-06' should be parsed as a Double (2011-07-24)
             </action>
             <action dev="py4fun" type="remove" issue="127">
-                Do not allow to override BaseRepresenter.representData(Object data) because 
+                Do not allow to override BaseRepresenter.representData(Object data) because
                 users should instead implement Represent interface (2011-07-21)
             </action>
             <action dev="py4fun" type="remove" issue="124">
@@ -242,7 +242,7 @@
                 Fix: Long escaped tag URI sequences throw BufferOverflowException (2011-03-03)
             </action>
             <action dev="py4fun" type="fix" issue="110" due-to="dmitry.s.mamonov">
-                Fix: introduce a package for external libraries and move there the 64Coder 
+                Fix: introduce a package for external libraries and move there the 64Coder
                 and the Google's URL encoder (2011-02-24)
             </action>
             <action dev="py4fun" type="fix" issue="109" due-to="cjalmeida">
@@ -275,11 +275,11 @@
                 Add an example for escaping line breaks in binary content (2011-01-03)
             </action>
             <action dev="py4fun" type="update" issue="97">
-                Propose a solution for JavaBeans to support SortedSet property when it is encoded 
+                Propose a solution for JavaBeans to support SortedSet property when it is encoded
                 as a sequence (2010-11-24)
             </action>
             <action dev="py4fun" type="update" issue="59">
-                Simplify the way how the order of JavaBean properties is specified. Introduce 
+                Simplify the way how the order of JavaBean properties is specified. Introduce
                 PropertyUtils.createPropertySet() method to be overridden when a specific order
                 is expected (2010-11-23)
             </action>
@@ -322,7 +322,7 @@
                 Introduce LoaderOptions to be able to specify configuration while loading (2010-09-03)
             </action>
             <action dev="py4fun" type="fix" issue="81">
-                Representer.representJavaBeanProperty() is given the wrong tag. Instead of the property tag, 
+                Representer.representJavaBeanProperty() is given the wrong tag. Instead of the property tag,
                 the tag for the JavaBean itself is provided. (2010-09-01)
             </action>
             <action dev="py4fun" type="update">
@@ -389,14 +389,14 @@
                 Add possibility to create a Tag out of an URI (2010-05-31)
             </action>
             <action dev="py4fun" type="update">
-                URLDecoder.decode() does not fail when UTF-8 is invalid. Use 
+                URLDecoder.decode() does not fail when UTF-8 is invalid. Use
                 CodingErrorAction.REPORT to implement the failure (2010-05-21)
             </action>
             <action dev="maslovalex" type="update">
                 Fix generic collections which contain other collections (2010-05-18)
             </action>
             <action dev="py4fun" type="fix" issue="67" due-to="Manuel Sugawara">
-                Fix: java classes containing non-ASCII characters in names are 
+                Fix: java classes containing non-ASCII characters in names are
                 incorrectly encoded (2010-05-14)
             </action>
             <action dev="py4fun" type="fix" issue="65" due-to="lerch.johannes">
@@ -428,15 +428,15 @@
                 Provide example for skipping null and empty collections (2010-03-29)
             </action>
             <action dev="py4fun" type="fix" issue="58" due-to="jeff.caulfield">
-                JavaBeanDumper.dump throws NullPointerException on list property 
+                JavaBeanDumper.dump throws NullPointerException on list property
                 with null element (2010-03-23)
             </action>
             <action dev="py4fun" type="fix" issue="56" due-to="DZeiss">
                 Make constructors in SafeConstructor public (2010-03-16)
             </action>
             <action dev="py4fun" type="update" due-to="David Bernard">
-                Releases and snapshots are available in the Sonatype Maven repository. 
-                https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide 
+                Releases and snapshots are available in the Sonatype Maven repository.
+                https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
             </action>
             <action dev="obastard" type="fix" issue="53" due-to="obastard">
                 Enhancement for a pretty format that combines BLOCK and FLOW (2010-03-03)
@@ -460,7 +460,7 @@
             </action>
             <action dev="py4fun" type="fix" issue="47" due-to="obastard">
                 Don't dump read-only properties by default. DumperOptions gets a setting to
-                include read-only JavaBean properties. 
+                include read-only JavaBean properties.
                 This is no backwards compatible change (2010-02-19)
             </action>
             <action dev="py4fun" type="fix" issue="49" due-to="obastard">
@@ -468,7 +468,7 @@
                 a TimeZone cannot determine the exact time (2010-02-19)
             </action>
             <action dev="py4fun" type="fix" issue="51" due-to="johann.Werner">
-                Some Unicode characters are wrongly replaced by \x{fffd} during 
+                Some Unicode characters are wrongly replaced by \x{fffd} during
                 double quoted style dump (2010-02-15)
             </action>
             <action dev="py4fun" type="fix" issue="48" due-to="obastard">
@@ -573,8 +573,8 @@
                 Performance improvement: use ArrayStack instead of Stack which extends Vector (2009-10-20)
             </action>
             <action dev="py4fun" type="fix" issue="25" due-to="Benjamin Bentmann">
-                Improve usage of generic collections: while type erase makes no difference between 
-                Class&lt; Foo&gt; and Class&lt; Bar&gt; at runtime, the information about generics is still 
+                Improve usage of generic collections: while type erase makes no difference between
+                Class&lt; Foo&gt; and Class&lt; Bar&gt; at runtime, the information about generics is still
                 accessible via reflection from Method/Field. (2009-10-19)
             </action>
             <action dev="py4fun" type="update">
@@ -583,7 +583,7 @@
                 from the resolved tag (2009-10-19)
             </action>
             <action dev="py4fun" type="update">
-                Refactor: use rootTag instead of rootType (for Class) in BaseConstructor. This is done to 
+                Refactor: use rootTag instead of rootType (for Class) in BaseConstructor. This is done to
                 solve the priority problem: normally explicit tag has more priority then runtime class but
                 for the root tag it is the other way around (2009-10-19)
             </action>
@@ -597,21 +597,21 @@
                 Respect root tag for sequences (2009-09-04)
             </action>
             <action dev="py4fun" type="fix" issue="18" due-to="creiniger">
-                SafeRepresenter respects custom tags for standard Java classes where standard tag has 
+                SafeRepresenter respects custom tags for standard Java classes where standard tag has
                 more then one Java implementation available (Long, List, Map, Date etc) (2009-09-03)
             </action>
             <action dev="py4fun" type="add">
                 Add possibility to define a custom Class Loader. (2009-09-01)
             </action>
             <action dev="py4fun" type="fix">
-                Fixed an obscure scanner error not reported when there is no line break at the end 
+                Fixed an obscure scanner error not reported when there is no line break at the end
                 of the stream. The fix is imported from PyYAML 3.09 {ticket 118} (2009-08-31)
             </action>
             <action dev="py4fun" type="fix" issue="16" due-to="infinity0x">
                 Cache JavaBean class properties. Tests show that the loading has become a few percents faster (2009-08-31)
             </action>
             <action dev="py4fun" type="add">
-                Introduce ArrayStack to use push() and pop() instead of standard (and too verbose) 
+                Introduce ArrayStack to use push() and pop() instead of standard (and too verbose)
                 'remove(size()-1)'  (2009-08-27)
             </action>
             <action dev="py4fun" type="fix" issue="14" due-to="infinity0x">
@@ -652,7 +652,7 @@
                 be created (2009-08-02)
             </action>
             <action dev="py4fun" type="update">
-                Refactor: Constructor is rewritten. Do not overwrite methods from BaseConstructor. 
+                Refactor: Constructor is rewritten. Do not overwrite methods from BaseConstructor.
                 Instead introduce ConstructScalar, ConstructSequence, ConstructMapping (2009-07-31)
             </action>
             <action dev="py4fun" type="update">
@@ -672,11 +672,11 @@
                 Introduce method setMapTagForBean() (2009-07-22)
             </action>
             <action dev="py4fun" type="add">
-                Add ConstructEmptyBeanTest to test JavaBean construction with no 
+                Add ConstructEmptyBeanTest to test JavaBean construction with no
                 properties in the YAML document(2009-07-22)
             </action>
             <action dev="py4fun" type="remove">
-                Refactor: redesign tag management for JavaBeans in Representer. 
+                Refactor: redesign tag management for JavaBeans in Representer.
                 Drop dynamic root tag concept (2009-07-22)
             </action>
             <action dev="py4fun" type="remove">
@@ -697,8 +697,8 @@
                 Fix: values returned by System.identityHashCode() are not guaranteed to be unique (2009-07-14)
             </action>
             <action dev="py4fun" type="add">
-                Add a simple test for Java Generics (BirdTest). Unfortunately it shows that some JVM 
-                implementations do not recognise classes for JavaBean properties at runtime. 
+                Add a simple test for Java Generics (BirdTest). Unfortunately it shows that some JVM
+                implementations do not recognise classes for JavaBean properties at runtime.
                 It leads to unnecessary global tags. See http://code.google.com/p/snakeyaml/wiki/Documentation#Generics
                 for details (2009-07-13)
             </action>
@@ -719,7 +719,7 @@
                 Add a test to check the proper report for IOException (2009-07-03)
             </action>
             <action dev="py4fun" type="fix" issue="3" due-to="infinity0x">
-                Fix: represent proper tags for JavaBeans when they are not the root of the YAML 
+                Fix: represent proper tags for JavaBeans when they are not the root of the YAML
                 document but a member of a collection (2009-07-03)
             </action>
             <action dev="py4fun" type="update">
@@ -787,7 +787,7 @@
                 Use byte[] for binary type. (2009-03-09)
             </action>
             <action dev="py4fun" type="update">
-                Restore Regular Expressions in Resolver. Ragel gives only 5% performance increase. 
+                Restore Regular Expressions in Resolver. Ragel gives only 5% performance increase.
                 Fix a bug in Resolver with expanded regular expressions which caused the
                 performance problem. (2009-03-06)
             </action>
@@ -854,7 +854,7 @@
                 Refactor: for performance ScannerImpl.stalePossibleSimpleKeys() does not copy key Set (2009-02-10)
             </action>
             <action dev="py4fun" type="update">
-                By default allowUnicode=true. If it is necessary to escape Unicode use 
+                By default allowUnicode=true. If it is necessary to escape Unicode use
                 DumperOptions.setAllowUnicode(false) (2009-02-09)
             </action>
             <action dev="py4fun" type="add">
@@ -864,11 +864,11 @@
                 Add possibility to specify tags for dumping (2009-02-09)
             </action>
             <action dev="py4fun" type="update">
-                Rename getExpRoot to getExplicitRoot to conform with 
+                Rename getExpRoot to getExplicitRoot to conform with
                 standard JavaBean naming convention (2009-02-09)
             </action>
             <action dev="py4fun" type="update">
-                Rename explictStart and explicitEnd to standard setters to conform with 
+                Rename explictStart and explicitEnd to standard setters to conform with
                 standard JavaBean naming convention (2009-02-09)
             </action>
             <action dev="py4fun" type="fix">
@@ -883,11 +883,11 @@
                 Use LinkedHashMap for ScannerImpl.possibleSimpleKeys to respect the key order (2009-02-05)
             </action>
             <action dev="py4fun" type="add">
-                Add a test to prove that Yaml instances are independent and can safely be used in 
+                Add a test to prove that Yaml instances are independent and can safely be used in
                 multithreaded environment like for instance a Servlet container (2009-02-05)
             </action>
             <action dev="py4fun" type="update">
-                The mailing list is renamed to snakeyaml-core to avoid a 
+                The mailing list is renamed to snakeyaml-core to avoid a
                 name conflict in Google AppEngine (2009-02-03)
             </action>
         </release>
@@ -908,7 +908,7 @@
         </release>
         <release version="1.0rc1" date="2009-01-16" description="Construct type safe collections">
             <action dev="py4fun" type="update">
-                Replace String.getBytes(Charset charset) with String.getBytes(String charsetName) because 
+                Replace String.getBytes(Charset charset) with String.getBytes(String charsetName) because
                 String.getBytes(Charset charset) was introduced only in Java 6 (2009-01-16)
             </action>
             <action dev="py4fun" type="update">
@@ -976,11 +976,11 @@
                 Add possibility to use java.io.Reader as input. BOM must be respected. (2009-01-06)
             </action>
             <action dev="py4fun" type="update">
-                Import Changeset 308 from PyYAML: Refactored whitespace combination 
+                Import Changeset 308 from PyYAML: Refactored whitespace combination
                 detector in the scalar analyser. (2009-01-06)
             </action>
             <action dev="py4fun" type="update">
-                Import Changeset 313 from PyYAML: Emit an explicit document end indicator 
+                Import Changeset 313 from PyYAML: Emit an explicit document end indicator
                 when there is a possibility of ambiguous parsing. (2009-01-06)
             </action>
             <action dev="py4fun" type="update">
@@ -996,7 +996,7 @@
                 Fix parsing Long.MIN_VALUE: respect the sign when parsing integers. (2009-01-04)
             </action>
             <action dev="py4fun" type="update">
-                when constructing integers try to create the first in the following order: 
+                when constructing integers try to create the first in the following order:
                 Integer -> Long -> BigInteger. (2009-01-02)
             </action>
         </release>
@@ -1105,7 +1105,7 @@
                 as it is defined in the specification. This is how it is done in PyYAML (2008-11-21)
             </action>
             <action dev="py4fun" type="remove">
-                Constructor: because Java does not have generators 'deep' is not 
+                Constructor: because Java does not have generators 'deep' is not
                 imported from PyYAML (2008-11-19)
             </action>
             <action dev="py4fun" type="update">
@@ -1152,7 +1152,7 @@
             </action>
             <action dev="py4fun" type="fix">
                 Fix a deviation with PyYAML in method scanBlockScalar().
-                'chomping' can be null. Fix a bug in JvYaml that the trailing '\n' in a 
+                'chomping' can be null. Fix a bug in JvYaml that the trailing '\n' in a
                 block scalar was removed.(2008-11-07)
             </action>
             <action dev="py4fun" type="fix">
@@ -1224,4 +1224,3 @@
         </release>
     </body>
 </document>
-
