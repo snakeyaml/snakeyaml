@@ -271,43 +271,43 @@ public class RagelMachine {
                         while (__nacts-- > 0) {
                             switch (_snakeyaml_actions[__acts++]) {
                             case 0:
-                                // line 14 "RagelMachine.rl"
+                            // line 14 "RagelMachine.rl"
                             {
                                 tag = "tag:yaml.org,2002:bool";
                             }
                                 break;
                             case 1:
-                                // line 15 "RagelMachine.rl"
+                            // line 15 "RagelMachine.rl"
                             {
                                 tag = "tag:yaml.org,2002:merge";
                             }
                                 break;
                             case 2:
-                                // line 16 "RagelMachine.rl"
+                            // line 16 "RagelMachine.rl"
                             {
                                 tag = "tag:yaml.org,2002:null";
                             }
                                 break;
                             case 3:
-                                // line 17 "RagelMachine.rl"
+                            // line 17 "RagelMachine.rl"
                             {
                                 tag = "tag:yaml.org,2002:value";
                             }
                                 break;
                             case 4:
-                                // line 18 "RagelMachine.rl"
+                            // line 18 "RagelMachine.rl"
                             {
                                 tag = "tag:yaml.org,2002:int";
                             }
                                 break;
                             case 5:
-                                // line 19 "RagelMachine.rl"
+                            // line 19 "RagelMachine.rl"
                             {
                                 tag = "tag:yaml.org,2002:float";
                             }
                                 break;
                             case 6:
-                                // line 20 "RagelMachine.rl"
+                            // line 20 "RagelMachine.rl"
                             {
                                 tag = "tag:yaml.org,2002:timestamp";
                             }

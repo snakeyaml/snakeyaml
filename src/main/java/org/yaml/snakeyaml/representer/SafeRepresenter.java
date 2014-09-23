@@ -50,16 +50,16 @@ class SafeRepresenter extends BaseRepresenter {
         this.representers.put(Boolean.class, new RepresentBoolean());
         this.representers.put(Character.class, new RepresentString());
         this.representers.put(byte[].class, new RepresentByteArray());
-        
+
         Represent primitiveArray = new RepresentPrimitiveArray();
-        representers.put(short[].class,   primitiveArray);
-        representers.put(int[].class,     primitiveArray);
-        representers.put(long[].class,    primitiveArray);
-        representers.put(float[].class,   primitiveArray);
-        representers.put(double[].class,  primitiveArray);
-        representers.put(char[].class,    primitiveArray);
+        representers.put(short[].class, primitiveArray);
+        representers.put(int[].class, primitiveArray);
+        representers.put(long[].class, primitiveArray);
+        representers.put(float[].class, primitiveArray);
+        representers.put(double[].class, primitiveArray);
+        representers.put(char[].class, primitiveArray);
         representers.put(boolean[].class, primitiveArray);
-        
+
         this.multiRepresenters.put(Number.class, new RepresentNumber());
         this.multiRepresenters.put(List.class, new RepresentList());
         this.multiRepresenters.put(Map.class, new RepresentMap());
@@ -245,8 +245,7 @@ class SafeRepresenter extends BaseRepresenter {
                 return representSequence(Tag.SEQ, asBooleanList(data), null);
             }
 
-            throw new YAMLException("Unexpected primitive '"
-                    + type.getCanonicalName() + "'");
+            throw new YAMLException("Unexpected primitive '" + type.getCanonicalName() + "'");
         }
 
         private List<Byte> asByteList(Object in) {
@@ -317,8 +316,8 @@ class SafeRepresenter extends BaseRepresenter {
     protected class RepresentMap implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representMapping(getTag(data.getClass(), Tag.MAP),
-                    (Map<Object, Object>) data, null);
+            return representMapping(getTag(data.getClass(), Tag.MAP), (Map<Object, Object>) data,
+                    null);
         }
     }
 

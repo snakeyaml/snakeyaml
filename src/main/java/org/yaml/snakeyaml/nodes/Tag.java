@@ -145,7 +145,7 @@ public final class Tag implements Comparable<Tag> {
     /**
      * Java has more then 1 class compatible with a language-independent tag
      * (!!int, !!float, !!timestamp etc)
-     *
+     * 
      * @param clazz
      *            - Class to check compatibility
      * @return true when the Class can be represented by this
@@ -162,7 +162,7 @@ public final class Tag implements Comparable<Tag> {
 
     /**
      * Check whether this tag matches the global tag for the Class
-     *
+     * 
      * @param clazz
      *            - Class to check
      * @return true when the this tag can be used as a global tag for the Class

@@ -61,11 +61,9 @@ public class ScannerImplTest extends TestCase {
             fail("TAB cannot start a token.");
         } catch (Exception e) {
             assertEquals(
-                    "while scanning for the next token\n" +
-                            "found character \t '\\t(TAB)' that cannot start any token. (Do not use \\t(TAB) for indentation)\n" +
-                            " in 'string', line 1, column 1:\n" +
-                            "    \t  data: 1\n" +
-                            "    ^\n",
+                    "while scanning for the next token\n"
+                            + "found character \t '\\t(TAB)' that cannot start any token. (Do not use \\t(TAB) for indentation)\n"
+                            + " in 'string', line 1, column 1:\n" + "    \t  data: 1\n" + "    ^\n",
                     e.getMessage());
         }
     }

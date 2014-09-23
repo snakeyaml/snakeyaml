@@ -47,7 +47,6 @@ class FragmentComposer extends Composer {
                 }
             }
         }
-        throw new RuntimeException("Did not find key \"" + nodeName
-                + "\" in document-level map");
+        throw new RuntimeException("Did not find key \"" + nodeName + "\" in document-level map");
     }
 }

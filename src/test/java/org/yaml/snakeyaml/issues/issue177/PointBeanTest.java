@@ -29,22 +29,15 @@ public class PointBeanTest extends TestCase {
             yaml.load(input);
             fail();
         } catch (Exception e) {
-            assertEquals("Cannot create property=points for JavaBean=All Points\n" +
-                    " in 'string', line 1, column 1:\n" +
-                    "    !!org.yaml.snakeyaml.issues.issu ... \n" +
-                    "    ^\n" +
-                    "Cannot create property=x for JavaBean=PointBean\n" +
-                    " in 'string', line 7, column 5:\n" +
-                    "        x: a\n" +
-                    "        ^\n" +
-                    "For input string: \"a\"\n" +
-                    " in 'string', line 7, column 8:\n" +
-                    "        x: a\n" +
-                    "           ^\n" +
-                    "\n" +
-                    " in 'string', line 3, column 3:\n" +
-                    "      pt1:\n" +
-                    "      ^\n", e.getMessage());
+            assertEquals("Cannot create property=points for JavaBean=All Points\n"
+                    + " in 'string', line 1, column 1:\n"
+                    + "    !!org.yaml.snakeyaml.issues.issu ... \n" + "    ^\n"
+                    + "Cannot create property=x for JavaBean=PointBean\n"
+                    + " in 'string', line 7, column 5:\n" + "        x: a\n" + "        ^\n"
+                    + "For input string: \"a\"\n" + " in 'string', line 7, column 8:\n"
+                    + "        x: a\n" + "           ^\n" + "\n"
+                    + " in 'string', line 3, column 3:\n" + "      pt1:\n" + "      ^\n",
+                    e.getMessage());
         }
     }
 }

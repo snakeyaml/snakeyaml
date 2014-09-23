@@ -13,6 +13,3 @@ public class EqualsSignTest extends TestCase {
         new Yaml().load("=");
     }
 }
-
-
-

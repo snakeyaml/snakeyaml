@@ -72,7 +72,6 @@ public class NumberBeanTest extends TestCase {
         assertEquals(Double.NEGATIVE_INFINITY, loaded.number.doubleValue());
     }
 
-    
     public void testNumberAsFloatNaN() throws Exception {
         NumberBean number = new NumberBean();
         number.number = Float.NaN;

@@ -96,7 +96,7 @@ public abstract class BaseRepresenter {
                     return node;
                 }
             }
-            
+
             // check defaults
             if (multiRepresenters.containsKey(null)) {
                 Represent representer = multiRepresenters.get(null);

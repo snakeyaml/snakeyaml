@@ -98,16 +98,9 @@ public class ConstructEmptyBeanTest extends TestCase {
             beanLoader.loadAs("{", EmptyBean.class);
             fail("Invalid document provided.");
         } catch (Exception e) {
-            assertEquals(
-                    "while parsing a flow node\n" +
-                            " in 'string', line 1, column 2:\n" +
-                            "    {\n" +
-                            "     ^\n" +
-                            "expected the node content, but found StreamEnd\n" +
-                            " in 'string', line 1, column 2:\n" +
-                            "    {\n" +
-                            "     ^\n",
-                    e.getMessage());
+            assertEquals("while parsing a flow node\n" + " in 'string', line 1, column 2:\n"
+                    + "    {\n" + "     ^\n" + "expected the node content, but found StreamEnd\n"
+                    + " in 'string', line 1, column 2:\n" + "    {\n" + "     ^\n", e.getMessage());
         }
     }
 

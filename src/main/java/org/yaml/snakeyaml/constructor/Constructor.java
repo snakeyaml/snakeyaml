@@ -301,7 +301,7 @@ public class Constructor extends SafeConstructor {
                             value = ((Double) value).floatValue();
                         }
                     }
-                    
+
                     property.set(object, value);
                 } catch (Exception e) {
                     throw new ConstructorException("Cannot create property=" + key

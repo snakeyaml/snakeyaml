@@ -50,15 +50,10 @@ public class YamlTest extends TestCase {
             loaded.next();
             fail("Second document is invalid");
         } catch (Exception e) {
-            assertEquals(
-                    "while parsing a flow node\n" +
-                            " in 'reader', line 2, column 6:\n" +
-                            "    --- [:]\n" +
-                            "         ^\n" +
-                            "expected the node content, but found Value\n" +
-                            " in 'reader', line 2, column 6:\n" +
-                            "    --- [:]\n" +
-                            "         ^\n",
+            assertEquals("while parsing a flow node\n" + " in 'reader', line 2, column 6:\n"
+                    + "    --- [:]\n" + "         ^\n"
+                    + "expected the node content, but found Value\n"
+                    + " in 'reader', line 2, column 6:\n" + "    --- [:]\n" + "         ^\n",
                     e.getMessage());
         }
     }
@@ -70,16 +65,10 @@ public class YamlTest extends TestCase {
             yaml.load(doc);
             fail("It must be only one document.");
         } catch (YAMLException e) {
-            assertEquals(
-                    "expected a single document in the stream\n" +
-                            " in 'string', line 1, column 5:\n" +
-                            "    --- a\n" +
-                            "        ^\n" +
-                            "but found another document\n" +
-                            " in 'string', line 2, column 1:\n" +
-                            "    --- b\n" +
-                            "    ^\n",
-                    e.getMessage());
+            assertEquals("expected a single document in the stream\n"
+                    + " in 'string', line 1, column 5:\n" + "    --- a\n" + "        ^\n"
+                    + "but found another document\n" + " in 'string', line 2, column 1:\n"
+                    + "    --- b\n" + "    ^\n", e.getMessage());
         }
     }
 }

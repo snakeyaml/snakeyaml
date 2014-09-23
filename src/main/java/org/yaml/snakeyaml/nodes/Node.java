@@ -56,7 +56,7 @@ public abstract class Node {
      * Tag of this node.
      * <p>
      * Every node has a tag assigned. The tag is either local or global.
-     *
+     * 
      * @return Tag of this node.
      */
     public Tag getTag() {
@@ -69,7 +69,7 @@ public abstract class Node {
 
     /**
      * For error reporting.
-     *
+     * 
      * @see "class variable 'id' in PyYAML"
      * @return scalar, sequence, mapping
      */
@@ -122,7 +122,7 @@ public abstract class Node {
      * <p>
      * Only relevant during loading.
      * </p>
-     *
+     * 
      * @return <code>true</code> if the node is self referenced.
      */
     public boolean isTwoStepsConstruction() {
@@ -157,7 +157,7 @@ public abstract class Node {
     /**
      * Indicates if the tag was added by
      * {@link org.yaml.snakeyaml.resolver.Resolver}.
-     *
+     * 
      * @return <code>true</code> if the tag of this node was resolved</code>
      */
     public boolean isResolved() {

@@ -284,8 +284,10 @@ public class SafeConstructor extends BaseConstructor {
             } catch (ParseException e) {
                 String lowerCaseValue = scalar.getValue().toLowerCase();
                 if (lowerCaseValue.contains("inf") || lowerCaseValue.contains("nan")) {
-                    // Non-finites such as (+/-)infinity and NaN are not parseable by NumberFormat when these `Double` values are dumped by snakeyaml.
-                    // Delegate to the `Tag.FLOAT` constructor when for this expected failure cause.
+                    /* Non-finites such as (+/-)infinity and NaN are not parseable by NumberFormat
+                    when these `Double` values are dumped by snakeyaml.
+                    Delegate to the `Tag.FLOAT` constructor when for this expected failure cause.
+                    */
                     return (Number) yamlConstructors.get(Tag.FLOAT).construct(node);
                 } else {
                     throw new IllegalArgumentException("Unable to parse as Number: "
