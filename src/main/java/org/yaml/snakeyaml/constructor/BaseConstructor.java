@@ -414,18 +414,6 @@ public abstract class BaseConstructor {
         }
     }
 
-    // TODO protected List<Object[]> constructPairs(MappingNode node) {
-    // List<Object[]> pairs = new LinkedList<Object[]>();
-    // List<Node[]> nodeValue = (List<Node[]>) node.getValue();
-    // for (Iterator<Node[]> iter = nodeValue.iterator(); iter.hasNext();) {
-    // Node[] tuple = iter.next();
-    // Object key = constructObject(Object.class, tuple[0]);
-    // Object value = constructObject(Object.class, tuple[1]);
-    // pairs.add(new Object[] { key, value });
-    // }
-    // return pairs;
-    // }
-
     public void setPropertyUtils(PropertyUtils propertyUtils) {
         this.propertyUtils = propertyUtils;
         explicitPropertyUtils = true;

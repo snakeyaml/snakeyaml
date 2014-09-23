@@ -64,13 +64,6 @@ public class Yaml {
     }
 
     /**
-     * @deprecated
-     */
-    public Yaml(LoaderOptions loaderOptions) {
-        this(new Constructor(), new Representer(), new DumperOptions(), new Resolver());
-    }
-
-    /**
      * Create Yaml instance.
      * 
      * @param dumperOptions
@@ -176,27 +169,6 @@ public class Yaml {
     }
 
     /**
-     * Create Yaml instance. It is safe to create a few instances and use them
-     * in different Threads.
-     * 
-     * @param constructor
-     *            BaseConstructor to construct incoming documents
-     * @param loaderOptions
-     *            LoaderOptions to control construction process (unused)
-     * @param representer
-     *            Representer to emit outgoing objects
-     * @param dumperOptions
-     *            DumperOptions to configure outgoing objects
-     * @param resolver
-     *            Resolver to detect implicit type
-     * @deprecated
-     */
-    public Yaml(BaseConstructor constructor, LoaderOptions loaderOptions, Representer representer,
-            DumperOptions dumperOptions, Resolver resolver) {
-        this(constructor, representer, dumperOptions, resolver);
-    }
-
-    /**
      * Serialize a Java object into a YAML String.
      * 
      * @param data
@@ -231,7 +203,7 @@ public class Yaml {
      */
     public String dumpAll(Iterator<? extends Object> data) {
         StringWriter buffer = new StringWriter();
-        dumpAll(data, buffer);
+        dumpAll(data, buffer, null);
         return buffer.toString();
     }
 
@@ -246,7 +218,7 @@ public class Yaml {
     public void dump(Object data, Writer output) {
         List<Object> list = new ArrayList<Object>(1);
         list.add(data);
-        dumpAll(list.iterator(), output);
+        dumpAll(list.iterator(), output, null);
     }
 
     /**
@@ -257,9 +229,8 @@ public class Yaml {
      * @param output
      *            stream to write to
      */
-    @SuppressWarnings("deprecation")
     public void dumpAll(Iterator<? extends Object> data, Writer output) {
-        dumpAll(data, output, dumperOptions.getExplicitRoot());
+        dumpAll(data, output, null);
     }
 
     private void dumpAll(Iterator<? extends Object> data, Writer output, Tag rootTag) {
@@ -363,9 +334,7 @@ public class Yaml {
      */
     public List<Event> serialize(Node data) {
         SilentEmitter emitter = new SilentEmitter();
-        @SuppressWarnings("deprecation")
-        Serializer serializer = new Serializer(emitter, resolver, dumperOptions,
-                dumperOptions.getExplicitRoot());
+        Serializer serializer = new Serializer(emitter, resolver, dumperOptions, null);
         try {
             serializer.open();
             serializer.serialize(data);
@@ -608,24 +577,6 @@ public class Yaml {
      * Add an implicit scalar detector. If an implicit scalar value matches the
      * given regexp, the corresponding tag is assigned to the scalar.
      * 
-     * @deprecated use Tag instead of String
-     * @param tag
-     *            tag to assign to the node
-     * @param regexp
-     *            regular expression to match against
-     * @param first
-     *            a sequence of possible initial characters or null (which means
-     *            any).
-     * 
-     */
-    public void addImplicitResolver(String tag, Pattern regexp, String first) {
-        addImplicitResolver(new Tag(tag), regexp, first);
-    }
-
-    /**
-     * Add an implicit scalar detector. If an implicit scalar value matches the
-     * given regexp, the corresponding tag is assigned to the scalar.
-     * 
      * @param tag
      *            tag to assign to the node
      * @param regexp
@@ -707,37 +658,4 @@ public class Yaml {
         representer.getPropertyUtils().setBeanAccess(beanAccess);
     }
 
-    // deprecated
-    /**
-     * @deprecated use with Constructor instead of Loader
-     */
-    public Yaml(Loader loader) {
-        this(loader, new Dumper(new DumperOptions()));
-    }
-
-    /**
-     * @deprecated use with Constructor instead of Loader
-     */
-    public Yaml(Loader loader, Dumper dumper) {
-        this(loader, dumper, new Resolver());
-    }
-
-    /**
-     * @deprecated use with Constructor instead of Loader
-     */
-    public Yaml(Loader loader, Dumper dumper, Resolver resolver) {
-        this(loader.constructor, dumper.representer, dumper.options, resolver);
-    }
-
-    /**
-     * Create Yaml instance. It is safe to create a few instances and use them
-     * in different Threads.
-     * 
-     * @param dumper
-     *            Dumper to emit outgoing objects
-     */
-    @SuppressWarnings("deprecation")
-    public Yaml(Dumper dumper) {
-        this(new Constructor(), dumper.representer, dumper.options);
-    }
 }

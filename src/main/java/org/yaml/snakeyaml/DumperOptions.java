@@ -170,10 +170,6 @@ public class DumperOptions {
     private boolean explicitEnd = false;
     private TimeZone timeZone = null;
 
-    /**
-     * @deprecated do not use explicit root Tag
-     */
-    private Tag explicitRoot = null;
     private Version version = null;
     private Map<String, String> tags = null;
     private Boolean prettyFlow = false;
@@ -292,36 +288,6 @@ public class DumperOptions {
 
     public FlowStyle getDefaultFlowStyle() {
         return defaultFlowStyle;
-    }
-
-    /**
-     * @deprecated do not use explicit root Tag
-     */
-    public Tag getExplicitRoot() {
-        return explicitRoot;
-    }
-
-    /**
-     * @param expRoot
-     *            tag to be used for the root node. (JavaBeans may use
-     *            Tag.MAP="tag:yaml.org,2002:map")
-     * @deprecated use Tag instead of String
-     */
-    public void setExplicitRoot(String expRoot) {
-        setExplicitRoot(new Tag(expRoot));
-    }
-
-    /**
-     * @param expRoot
-     *            tag to be used for the root node. (JavaBeans may use
-     *            Tag.MAP="tag:yaml.org,2002:map")
-     * @deprecated do not use explicit root Tag
-     */
-    public void setExplicitRoot(Tag expRoot) {
-        if (expRoot == null) {
-            throw new NullPointerException("Root tag must be specified.");
-        }
-        this.explicitRoot = expRoot;
     }
 
     /**

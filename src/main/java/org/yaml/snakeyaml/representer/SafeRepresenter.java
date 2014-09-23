@@ -81,21 +81,6 @@ class SafeRepresenter extends BaseRepresenter {
     }
 
     /**
-     * Define a tag for the <code>Class</code> to serialize
-     * 
-     * @deprecated use Tag instead of String
-     * @param clazz
-     *            <code>Class</code> which tag is changed
-     * @param tag
-     *            new tag to be used for every instance of the specified
-     *            <code>Class</code>
-     * @return the previous tag associated with the <code>Class</code>
-     */
-    public Tag addClassTag(Class<? extends Object> clazz, String tag) {
-        return addClassTag(clazz, new Tag(tag));
-    }
-
-    /**
      * Define a tag for the <code>Class</code> to serialize.
      * 
      * @param clazz

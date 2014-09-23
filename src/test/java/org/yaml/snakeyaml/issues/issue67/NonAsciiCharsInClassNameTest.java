@@ -17,7 +17,6 @@ package org.yaml.snakeyaml.issues.issue67;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -58,45 +57,6 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
                             + " in 'string', line 1, column 71:\n"
                             + "     ... nAsciiCharsInClassNameTest$Acad%WZ%A9mico {id: 3, name: Foo bar}\n"
                             + "                                         ^\n", e.getMessage());
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    public void testLoadInvalidPatternTooShort() {
-        try {
-            LoaderOptions options = new LoaderOptions();
-            Yaml yaml = new Yaml(options);
-            yaml.load(PREFIX + "Acad%9%A9mico {id: 3, name: Foo bar}");
-            fail("Illegal hex characters in escape (%) pattern must not be accepted.");
-        } catch (ScannerException e) {
-            assertEquals(
-                    "while scanning a tag\n"
-                            + " in 'string', line 1, column 1:\n"
-                            + "    !!org.yaml.snakeyaml.issues.issu ... \n"
-                            + "    ^\n"
-                            + "expected URI escape sequence of 2 hexadecimal numbers, but found 9(57) and %(37)\n"
-                            + " in 'string', line 1, column 71:\n"
-                            + "     ... nAsciiCharsInClassNameTest$Acad%9%A9mico {id: 3, name: Foo bar}\n"
-                            + "                                         ^\n", e.getMessage());
-            assertEquals(Util.getLocalResource("issues/issue67-error1.txt"), e.toString());
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    public void testLoadInvalidUtf8() {
-        try {
-            LoaderOptions options = new LoaderOptions();
-            Yaml yaml = new Yaml(options);
-            yaml.load(PREFIX + "Acad%C0mico {id: 3, name: Foo bar}");
-            fail("Illegal UTF-8 must not be accepted.");
-        } catch (ScannerException e) {
-            assertEquals("while scanning a tag\n" + " in 'string', line 1, column 1:\n"
-                    + "    !!org.yaml.snakeyaml.issues.issu ... \n" + "    ^\n"
-                    + "expected URI in UTF-8: Input length = 1\n"
-                    + " in 'string', line 1, column 70:\n"
-                    + "     ... onAsciiCharsInClassNameTest$Acad%C0mico {id: 3, name: Foo bar}\n"
-                    + "                                         ^\n", e.getMessage());
-            assertEquals(Util.getLocalResource("issues/issue67-error2.txt"), e.toString());
         }
     }
 

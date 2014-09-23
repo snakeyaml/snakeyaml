@@ -784,7 +784,6 @@ public final class Emitter implements Emitable {
         return '"';
     }
 
-    @SuppressWarnings("deprecation")
     private void processScalar() throws IOException {
         ScalarEvent ev = (ScalarEvent) event;
         if (analysis == null) {

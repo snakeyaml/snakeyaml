@@ -50,19 +50,6 @@ public class Resolver {
 
     protected Map<Character, List<ResolverTuple>> yamlImplicitResolvers = new HashMap<Character, List<ResolverTuple>>();
 
-    /**
-     * Create Resolver
-     * 
-     * @param respectDefaultImplicitScalars
-     *            false to parse/dump scalars as plain Strings
-     * @deprecated override addImplicitResolvers instead
-     */
-    public Resolver(boolean respectDefaultImplicitScalars) {
-        if (respectDefaultImplicitScalars) {
-            addImplicitResolvers();
-        }
-    }
-
     protected void addImplicitResolvers() {
         addImplicitResolver(Tag.BOOL, BOOL, "yYnNtTfFoO");
         /*
@@ -84,7 +71,7 @@ public class Resolver {
     }
 
     public Resolver() {
-        this(true);
+        addImplicitResolvers();
     }
 
     public void addImplicitResolver(Tag tag, Pattern regexp, String first) {
