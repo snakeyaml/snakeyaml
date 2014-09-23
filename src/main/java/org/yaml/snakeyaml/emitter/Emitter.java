@@ -792,8 +792,6 @@ public final class Emitter implements Emitable {
         if (style == null) {
             style = chooseScalarStyle();
         }
-        // TODO the next line should be removed
-        style = options.calculateScalarStyle(analysis, ScalarStyle.createStyle(style)).getChar();
         boolean split = !simpleKeyContext;
         if (style == null) {
             writePlain(analysis.scalar, split);

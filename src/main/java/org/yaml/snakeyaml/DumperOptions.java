@@ -328,20 +328,6 @@ public class DumperOptions {
     }
 
     /**
-     * Define the ScalarStyle to be used for emitting scalars
-     * 
-     * @param analysis
-     *            - Scalar meta data
-     * @param style
-     *            - automatically detected style
-     * @return ScalarStyle to be used for scalar
-     * @deprecated it was implemented as a quick fix for issue 29
-     */
-    public ScalarStyle calculateScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
-        return style;
-    }
-
-    /**
      * Report whether read-only JavaBean properties (the ones without setters)
      * should be included in the YAML document
      * 
