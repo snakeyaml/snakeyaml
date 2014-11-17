@@ -6,6 +6,11 @@
         <author email="py4fun@gmail.com">Andrey Somov</author>
     </properties>
     <body>
+        <release version="1.15-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="py4fun" type="fix"  issue="201">
+                Fix grammar error in exception message (2014-11-18)
+            </action>
+        </release>
         <release version="1.14" date="2014-08-29" description="Maintenance">
             <action dev="maslovalex" type="fix"  issue="197">
 	        Load JavaBean with fields using custom constructors (2014-08-18)

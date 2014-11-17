@@ -463,7 +463,7 @@ public final class ScannerImpl implements Scanner {
                         // If the key was required, this implies an error
                         // condition.
                         throw new ScannerException("while scanning a simple key", key.getMark(),
-                                "could not found expected ':'", reader.getMark());
+                                "could not find expected ':'", reader.getMark());
                     }
                     iterator.remove();
                 }
@@ -512,7 +512,7 @@ public final class ScannerImpl implements Scanner {
         SimpleKey key = possibleSimpleKeys.remove(flowLevel);
         if (key != null && key.isRequired()) {
             throw new ScannerException("while scanning a simple key", key.getMark(),
-                    "could not found expected ':'", reader.getMark());
+                    "could not find expected ':'", reader.getMark());
         }
     }
 
