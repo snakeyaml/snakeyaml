@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.15-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="py4fun" type="fix"  issue="199">
+                Fail to parse with duplicate mapping keys (2015-02-04)
+            </action>
             <action dev="py4fun" type="update"  issue="205">
                 Add test to clarify iOS emoji character in the surrogate range (2015-02-03)
             </action>
