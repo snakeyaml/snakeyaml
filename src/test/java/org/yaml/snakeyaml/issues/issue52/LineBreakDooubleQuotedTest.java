@@ -39,4 +39,19 @@ public class LineBreakDooubleQuotedTest extends TestCase {
         String parsed = (String) yaml.load(output);
         assertEquals(etalon, parsed);
     }
+
+    public void testDoubleQuotedStyleNoLineSplit() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(ScalarStyle.DOUBLE_QUOTED);
+        options.setWidth(20);
+        options.setSplitLines(false);
+        options.setIndent(4);
+        Yaml yaml = new Yaml(options);
+        String etalon = "12345678901234567890\n\n123  456";
+        String output = yaml.dump(etalon);
+        // System.out.println(output);
+        assertEquals("\"12345678901234567890\\n\\n123  456\"\n", output);
+        String parsed = (String) yaml.load(output);
+        assertEquals(etalon, parsed);
+    }
 }

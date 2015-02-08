@@ -138,6 +138,7 @@ public final class Emitter implements Emitable {
     private int bestIndent;
     private int bestWidth;
     private char[] bestLineBreak;
+    private boolean splitLines;
 
     // Tag prefixes.
     private Map<String, String> tagPrefixes;
@@ -196,6 +197,7 @@ public final class Emitter implements Emitable {
             this.bestWidth = opts.getWidth();
         }
         this.bestLineBreak = opts.getLineBreak().getString().toCharArray();
+        this.splitLines = opts.getSplitLines();
 
         // Tag prefixes.
         this.tagPrefixes = new LinkedHashMap<String, String>();
@@ -445,7 +447,7 @@ public final class Emitter implements Emitable {
                 writeIndicator("]", false, false, false);
                 state = states.pop();
             } else {
-                if (canonical || column > bestWidth || prettyFlow) {
+                if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
                 states.push(new ExpectFlowSequenceItem());
@@ -499,7 +501,7 @@ public final class Emitter implements Emitable {
                 writeIndicator("}", false, false, false);
                 state = states.pop();
             } else {
-                if (canonical || column > bestWidth || prettyFlow) {
+                if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
                 if (!canonical && checkSimpleKey()) {
@@ -530,7 +532,7 @@ public final class Emitter implements Emitable {
                 state = states.pop();
             } else {
                 writeIndicator(",", false, false, false);
-                if (canonical || column > bestWidth || prettyFlow) {
+                if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
                 if (!canonical && checkSimpleKey()) {
@@ -555,7 +557,7 @@ public final class Emitter implements Emitable {
 
     private class ExpectFlowMappingValue implements EmitterState {
         public void expect() throws IOException {
-            if (canonical || column > bestWidth || prettyFlow) {
+            if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                 writeIndent();
             }
             writeIndicator(":", true, false, false);
@@ -792,7 +794,7 @@ public final class Emitter implements Emitable {
         if (style == null) {
             style = chooseScalarStyle();
         }
-        boolean split = !simpleKeyContext;
+        boolean split = !simpleKeyContext && splitLines;
         if (style == null) {
             writePlain(analysis.scalar, split);
         } else {
@@ -804,7 +806,7 @@ public final class Emitter implements Emitable {
                 writeSingleQuoted(analysis.scalar, split);
                 break;
             case '>':
-                writeFolded(analysis.scalar);
+                writeFolded(analysis.scalar, split);
                 break;
             case '|':
                 writeLiteral(analysis.scalar);
@@ -1293,7 +1295,7 @@ public final class Emitter implements Emitable {
         return hints.toString();
     }
 
-    void writeFolded(String text) throws IOException {
+    void writeFolded(String text, boolean split) throws IOException {
         String hints = determineBlockHints(text);
         writeIndicator(">" + hints, true, false, false);
         if (hints.length() > 0 && (hints.charAt(hints.length() - 1) == '+')) {
@@ -1330,7 +1332,7 @@ public final class Emitter implements Emitable {
                 }
             } else if (spaces) {
                 if (ch != ' ') {
-                    if (start + 1 == end && this.column > this.bestWidth) {
+                    if (start + 1 == end && this.column > this.bestWidth && split) {
                         writeIndent();
                     } else {
                         int len = end - start;

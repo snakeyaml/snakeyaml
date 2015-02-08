@@ -68,6 +68,17 @@ public class FlexibleScalarStyleTest extends TestCase {
         assertEquals(etalon, output);
     }
 
+    public void testCustomScalarStyleNoSplitLines() {
+        DumperOptions options = new DumperOptions();
+        options.setWidth(30);
+        options.setSplitLines(false);
+        Yaml yaml = new Yaml(new MyRepresenter(), options);
+        String output = yaml.dump(getData());
+        // System.out.println(output);
+        String etalon = Util.getLocalResource("representer/scalar-style3.yaml");
+        assertEquals(etalon, output);
+    }
+
     private Map<String, String> getData() {
         Map<String, String> map = new LinkedHashMap<String, String>();
         map.put("name", "Steve Jobs");

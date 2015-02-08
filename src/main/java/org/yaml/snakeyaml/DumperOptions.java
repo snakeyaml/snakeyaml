@@ -165,6 +165,7 @@ public class DumperOptions {
     private boolean allowReadOnlyProperties = false;
     private int indent = 2;
     private int bestWidth = 80;
+    private boolean splitLines = true;
     private LineBreak lineBreak = LineBreak.UNIX;
     private boolean explicitStart = false;
     private boolean explicitEnd = false;
@@ -265,7 +266,7 @@ public class DumperOptions {
      * split into a few lines. The default is 80.
      * 
      * @param bestWidth
-     *            the preferred with for scalars.
+     *            the preferred width for scalars.
      */
     public void setWidth(int bestWidth) {
         this.bestWidth = bestWidth;
@@ -273,6 +274,21 @@ public class DumperOptions {
 
     public int getWidth() {
         return this.bestWidth;
+    }
+
+    /**
+     * Specify whether to split lines exceeding preferred width for
+     * scalars. The default is true.
+     *
+     * @param splitLines
+     *            whether to split lines exceeding preferred width for scalars.
+     */
+    public void setSplitLines(boolean splitLines) {
+        this.splitLines = splitLines;
+    }
+
+    public boolean getSplitLines() {
+        return this.splitLines;
     }
 
     public LineBreak getLineBreak() {
