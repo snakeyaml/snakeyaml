@@ -1,9 +1,9 @@
 From: Andrey Somov <py4fun@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.14 final is available
+Subject: [ANN] SnakeYAML-1.15 final is available
 
 ==========================
- Announcing SnakeYAML-1.14
+ Announcing SnakeYAML-1.15
 ==========================
 
 A new release of SnakeYAML is now available:
@@ -20,7 +20,7 @@ Resources
 SnakeYAML homepage: http://www.snakeyaml.org
 SnakeYAML documentation: http://code.google.com/p/snakeyaml/wiki/Documentation
 
-JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.14/snakeyaml-1.14.jar
+JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.15/snakeyaml-1.15.jar
 Reports: http://snakeyamlrepo.appspot.com/
 
 SnakeYAML Mercurial repository: http://snakeyaml.googlecode.com/hg/
