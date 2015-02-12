@@ -21,33 +21,21 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.ConstructorException;
 
 public class MergeValueTest extends TestCase {
 
     public void testNotUniqueSimple() {
-        String simple = "{k: 1, k: 2}";
+        String simple = "{key: 1, key: 2}";
         Yaml yaml = new Yaml();
-        try {
-            yaml.load(simple);
-            fail("Duplicate key must not be accepted.");
-        } catch (ConstructorException e) {
-            System.out.print(e);
-            assertTrue(simple, e.getMessage().contains("duplicate key"));
-        }
+        @SuppressWarnings("unchecked")
+        Map<String, Integer> map = (Map<String, Integer>) yaml.load(simple);
+        assertEquals(1, map.size());
+        assertEquals(new Integer(2), map.get("key"));
     }
 
     public void testMerge() {
         check("issues/issue139-1.yaml");// merge with unique keys
-    }
-
-    public void testMergeWithSameKey() {
-        try {
-            check("issues/issue139-2.yaml");// merge with same key
-            fail("Duplicate key must not be accepted.");
-        } catch (ConstructorException e) {
-            assertTrue(e.getMessage().contains("duplicate key"));
-        }
+        check("issues/issue139-2.yaml");// merge with same key
     }
 
     private void check(String name) {
@@ -76,7 +64,7 @@ public class MergeValueTest extends TestCase {
         assertEquals(2, map.size());
         Map<String, Integer> common = (Map<String, Integer>) map.get("common");
         Map<String, Integer> production = (Map<String, Integer>) map.get("production");
-        assertEquals(new Integer(1), common.get("key"));
-        assertEquals(new Integer(2), production.get("key"));
+        assertEquals(new Integer(2), common.get("key"));
+        assertEquals(new Integer(3), production.get("key"));
     }
 }

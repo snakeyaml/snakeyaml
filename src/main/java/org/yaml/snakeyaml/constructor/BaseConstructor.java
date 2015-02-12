@@ -382,10 +382,7 @@ public abstract class BaseConstructor {
                         new RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>(
                                 mapping, new RecursiveTuple<Object, Object>(key, value)));
             } else {
-                Object previous = mapping.put(key, value);
-                if (previous != null) throw new ConstructorException("while constructing a mapping",
-                        node.getStartMark(), "found duplicate key '" + key + "' with values '" + previous + "' and '" + value + "'", tuple
-                        .getKeyNode().getStartMark());
+                mapping.put(key, value);
             }
         }
     }
