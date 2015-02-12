@@ -8,7 +8,7 @@
     <body>
         <release version="1.16-SNAPSHOT" date="in Mercurial" description="Maintenance">
             <action dev="py4fun" type="fix"  issue="199">
-                Investidate duplicate mapping keys
+                Evaluate implementations for duplicate mapping keys.
             </action>
         </release>
         <release version="1.15" date="2015-02-12" description="Maintenance">
