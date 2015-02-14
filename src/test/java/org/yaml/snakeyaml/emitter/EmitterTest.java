@@ -17,8 +17,10 @@ package org.yaml.snakeyaml.emitter;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
@@ -127,5 +129,119 @@ public class EmitterTest extends TestCase {
                 + halfBurger, null, null, '"'));
         String expected = "! \"\\U0001f354\\ud83c\"";
         assertEquals(expected, output.toString());
+    }
+
+    public void testSplitLineExpectFirstFlowSequenceItem() {
+
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
+        options.setWidth(8);
+        Yaml yaml;
+        String output;
+        Map<String, Object> map = new TreeMap<String, Object>();
+        map.put("12345", Arrays.asList("1111111111"));
+
+        // Split lines enabled (default)
+        yaml = new Yaml(options);
+        output = yaml.dump(map);
+        assertEquals("{\"12345\": [\n    \"1111111111\"]}\n", output);
+
+        // Split lines disabled
+        options.setSplitLines(false);
+        assertFalse(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump(map);
+        assertEquals("{\"12345\": [\"1111111111\"]}\n", output);
+    }
+
+    public void testSplitLineExpectFlowSequenceItem() {
+
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
+        options.setWidth(8);
+        Yaml yaml;
+        String output;
+
+        // Split lines enabled (default)
+        yaml = new Yaml(options);
+        output = yaml.dump(Arrays.asList("1111111111", "2222222222"));
+        assertEquals("[\"1111111111\",\n  \"2222222222\"]\n", output);
+        output = yaml.dump(Arrays.asList("1", "2"));
+        assertEquals("[\"1\", \"2\"]\n", output);
+
+        // Split lines disabled
+        options.setSplitLines(false);
+        assertFalse(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump(Arrays.asList("1111111111", "2222222222"));
+        assertEquals("[\"1111111111\", \"2222222222\"]\n", output);
+        output = yaml.dump(Arrays.asList("1", "2"));
+        assertEquals("[\"1\", \"2\"]\n", output);
+    }
+
+    public void testSplitLineExpectFirstFlowMappingKey() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
+        options.setWidth(16);
+        Yaml yaml;
+        String output;
+        Map<String, String> nonSplitMap = new TreeMap<String, String>();
+        nonSplitMap.put("3", "4");
+        Map<String, Map<String, String>> nonSplitContainerMap = new TreeMap<String, Map<String, String>>();
+        nonSplitContainerMap.put("1 2", nonSplitMap);
+        Map<String, String> splitMap = new TreeMap<String, String>();
+        splitMap.put("3333333333", "4444444444");
+        Map<String, Map<String, String>> splitContainerMap = new TreeMap<String, Map<String, String>>();
+        splitContainerMap.put("1111111111 2222222222", splitMap);
+
+        // Split lines enabled (default)
+        yaml = new Yaml(options);
+        output = yaml.dump(splitContainerMap);
+        assertEquals("{\"1111111111 2222222222\": {\n    \"3333333333\": \"4444444444\"}}\n", output);
+        output = yaml.dump(nonSplitContainerMap);
+        assertEquals("{\"1 2\": {\"3\": \"4\"}}\n", output);
+
+        // Split lines disabled
+        options.setSplitLines(false);
+        assertFalse(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump(splitContainerMap);
+        assertEquals("{\"1111111111 2222222222\": {\"3333333333\": \"4444444444\"}}\n", output);
+        output = yaml.dump(nonSplitContainerMap);
+        assertEquals("{\"1 2\": {\"3\": \"4\"}}\n", output);
+    }
+
+    public void testSplitLineExpectFlowMappingKey() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
+        options.setWidth(16);
+        Yaml yaml;
+        String output;
+        Map<String, String> nonSplitMap = new TreeMap<String, String>();
+        nonSplitMap.put("1", "2");
+        nonSplitMap.put("3", "4");
+        Map<String, String> splitMap = new TreeMap<String, String>();
+        splitMap.put("1111111111", "2222222222");
+        splitMap.put("3333333333", "4444444444");
+
+        // Split lines enabled (default)
+        yaml = new Yaml(options);
+        output = yaml.dump(splitMap);
+        assertEquals("{\"1111111111\": \"2222222222\",\n  \"3333333333\": \"4444444444\"}\n", output);
+        output = yaml.dump(nonSplitMap);
+        assertEquals("{\"1\": \"2\", \"3\": \"4\"}\n", output);
+
+        // Split lines disabled
+        options.setSplitLines(false);
+        assertFalse(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump(splitMap);
+        assertEquals("{\"1111111111\": \"2222222222\", \"3333333333\": \"4444444444\"}\n", output);
+        output = yaml.dump(nonSplitMap);
+        assertEquals("{\"1\": \"2\", \"3\": \"4\"}\n", output);
     }
 }
