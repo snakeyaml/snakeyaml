@@ -472,7 +472,7 @@ public final class Emitter implements Emitable {
                 state = states.pop();
             } else {
                 writeIndicator(",", false, false, false);
-                if (canonical || column > bestWidth || prettyFlow) {
+                if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
                 states.push(new ExpectFlowSequenceItem());
