@@ -16,7 +16,7 @@
                 Added split lines option to DumperOptions to allow line splitting to be disabled. (2015-02-08)
             </action>
             <action dev="py4fun" type="update">
-                Use Maven 3. (2015-02-05)
+                Use Maven 3 and update plugin versions (2015-02-05)
             </action>
             <action dev="py4fun" type="update"  issue="205">
                 Add test to clarify iOS emoji character in the surrogate range (2015-02-03)
