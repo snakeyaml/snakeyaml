@@ -144,9 +144,8 @@ public class DumperOptions {
             this.version = version;
         }
 
-        public Integer[] getArray() {
-            return version;
-        }
+        public int major() { return version[0]; }
+        public int minor() { return version[1]; }
 
         public String getRepresentation() {
             return version[0] + "." + version[1];

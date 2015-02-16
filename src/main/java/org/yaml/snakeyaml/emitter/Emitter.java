@@ -822,7 +822,7 @@ public final class Emitter implements Emitable {
     // Analyzers.
 
     private String prepareVersion(Version version) {
-        if (version.getArray()[0] != 1) {
+        if (version.major() != 1) {
             throw new EmitterException("unsupported YAML version: " + version);
         }
         return version.getRepresentation();
