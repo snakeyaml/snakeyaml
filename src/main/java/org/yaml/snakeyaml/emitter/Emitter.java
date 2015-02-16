@@ -150,7 +150,6 @@ public final class Emitter implements Emitable {
     // Scalar analysis and style.
     private ScalarAnalysis analysis;
     private Character style;
-    private DumperOptions options;
 
     public Emitter(Writer stream, DumperOptions opts) {
         // The stream should have the methods `write` and possibly `flush`.
@@ -209,7 +208,6 @@ public final class Emitter implements Emitable {
         // Scalar analysis and style.
         this.analysis = null;
         this.style = null;
-        this.options = opts;
     }
 
     public void emit(Event event) throws IOException {

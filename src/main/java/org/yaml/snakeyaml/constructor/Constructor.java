@@ -449,6 +449,8 @@ public class Constructor extends SafeConstructor {
                     try {
                         java.lang.reflect.Constructor<?> constr = type.getConstructor(long.class);
                         result = constr.newInstance(date.getTime());
+                    } catch (RuntimeException e) {
+                        throw e;
                     } catch (Exception e) {
                         throw new YAMLException("Cannot construct: '" + type + "'");
                     }
@@ -470,13 +472,13 @@ public class Constructor extends SafeConstructor {
                 Construct intConstructor = yamlConstructors.get(Tag.INT);
                 result = intConstructor.construct(node);
                 if (type == Byte.class || type == Byte.TYPE) {
-                    result = new Byte(result.toString());
+                    result = Byte.valueOf(result.toString());
                 } else if (type == Short.class || type == Short.TYPE) {
-                    result = new Short(result.toString());
+                    result = Short.valueOf(result.toString());
                 } else if (type == Integer.class || type == Integer.TYPE) {
                     result = Integer.parseInt(result.toString());
                 } else if (type == Long.class || type == Long.TYPE) {
-                    result = new Long(result.toString());
+                    result = Long.valueOf(result.toString());
                 } else {
                     // only BigInteger left
                     result = new BigInteger(result.toString());
