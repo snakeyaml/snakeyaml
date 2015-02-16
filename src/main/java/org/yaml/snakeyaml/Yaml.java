@@ -243,7 +243,7 @@ public class Yaml {
                 serializer.serialize(node);
             }
             serializer.close();
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             throw new YAMLException(e);
         }
     }
@@ -339,7 +339,7 @@ public class Yaml {
             serializer.open();
             serializer.serialize(data);
             serializer.close();
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             throw new YAMLException(e);
         }
         return emitter.getEvents();

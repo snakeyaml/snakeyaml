@@ -148,7 +148,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     @Override
-    protected void constructSet2ndStep(MappingNode node, java.util.Set<Object> set) {
+    protected void constructSet2ndStep(MappingNode node, Set<Object> set) {
         flattenMapping(node);
         super.constructSet2ndStep(node, set);
     }
@@ -205,7 +205,7 @@ public class SafeConstructor extends BaseConstructor {
                 int bes = 1;
                 int val = 0;
                 for (int i = 0, j = digits.length; i < j; i++) {
-                    val += (Long.parseLong(digits[(j - i) - 1]) * bes);
+                    val += Long.parseLong(digits[j - i - 1]) * bes;
                     bes *= 60;
                 }
                 return createNumber(sign, String.valueOf(val), 10);
@@ -254,7 +254,7 @@ public class SafeConstructor extends BaseConstructor {
                 int bes = 1;
                 double val = 0.0;
                 for (int i = 0, j = digits.length; i < j; i++) {
-                    val += (Double.parseDouble(digits[(j - i) - 1]) * bes);
+                    val += Double.parseDouble(digits[j - i - 1]) * bes;
                     bes *= 60;
                 }
                 return new Double(sign * val);
@@ -344,7 +344,7 @@ public class SafeConstructor extends BaseConstructor {
                 }
                 double fractions = Double.parseDouble(seconds);
                 int sec_s = (int) Math.round(Math.floor(fractions));
-                int usec = (int) Math.round(((fractions - sec_s) * 1000));
+                int usec = (int) Math.round((fractions - sec_s) * 1000);
                 // timezone
                 String timezoneh_s = match.group(8);
                 String timezonem_s = match.group(9);
@@ -465,7 +465,7 @@ public class SafeConstructor extends BaseConstructor {
         public Object construct(Node node) {
             SequenceNode seqNode = (SequenceNode) node;
             if (node.isTwoStepsConstruction()) {
-                return createDefaultList((seqNode.getValue()).size());
+                return createDefaultList(seqNode.getValue().size());
             } else {
                 return constructSequence(seqNode);
             }

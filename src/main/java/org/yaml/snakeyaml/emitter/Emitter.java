@@ -28,7 +28,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
@@ -567,7 +566,7 @@ public final class Emitter implements Emitable {
     // Block sequence handlers.
 
     private void expectBlockSequence() throws IOException {
-        boolean indentless = (mappingContext && !indention);
+        boolean indentless = mappingContext && !indention;
         increaseIndent(false, indentless);
         state = new ExpectFirstBlockSequenceItem();
     }
@@ -655,11 +654,11 @@ public final class Emitter implements Emitable {
     // Checkers.
 
     private boolean checkEmptySequence() {
-        return (event instanceof SequenceStartEvent && !events.isEmpty() && events.peek() instanceof SequenceEndEvent);
+        return event instanceof SequenceStartEvent && !events.isEmpty() && events.peek() instanceof SequenceEndEvent;
     }
 
     private boolean checkEmptyMapping() {
-        return (event instanceof MappingStartEvent && !events.isEmpty() && events.peek() instanceof MappingEndEvent);
+        return event instanceof MappingStartEvent && !events.isEmpty() && events.peek() instanceof MappingEndEvent;
     }
 
     private boolean checkEmptyDocument() {
@@ -669,8 +668,8 @@ public final class Emitter implements Emitable {
         Event event = events.peek();
         if (event instanceof ScalarEvent) {
             ScalarEvent e = (ScalarEvent) event;
-            return (e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && e
-                    .getValue().length() == 0);
+            return e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && e
+                    .getValue().length() == 0;
         }
         return false;
     }
@@ -701,9 +700,9 @@ public final class Emitter implements Emitable {
             }
             length += analysis.scalar.length();
         }
-        return (length < 128 && (event instanceof AliasEvent
+        return length < 128 && (event instanceof AliasEvent
                 || (event instanceof ScalarEvent && !analysis.empty && !analysis.multiline)
-                || checkEmptySequence() || checkEmptyMapping()));
+                || checkEmptySequence() || checkEmptyMapping());
     }
 
     // Anchor, Tag, and Scalar processors.
@@ -729,9 +728,9 @@ public final class Emitter implements Emitable {
             if (style == null) {
                 style = chooseScalarStyle();
             }
-            if (((!canonical || tag == null) && ((style == null && ev.getImplicit()
+            if ((!canonical || tag == null) && ((style == null && ev.getImplicit()
                     .canOmitTagInPlainScalar()) || (style != null && ev.getImplicit()
-                    .canOmitTagInNonPlainScalar())))) {
+                    .canOmitTagInNonPlainScalar()))) {
                 preparedTag = null;
                 return;
             }
@@ -925,8 +924,7 @@ public final class Emitter implements Emitable {
         }
         // First character or preceded by a whitespace.
         boolean preceededByWhitespace = true;
-        boolean followedByWhitespace = (scalar.length() == 1 || Constant.NULL_BL_T_LINEBR
-                .has(scalar.charAt(1)));
+        boolean followedByWhitespace = scalar.length() == 1 || Constant.NULL_BL_T_LINEBR.has(scalar.charAt(1));
         // The previous character is a space.
         boolean previousSpace = false;
 
@@ -1019,8 +1017,8 @@ public final class Emitter implements Emitable {
             // Prepare for the next character.
             index++;
             preceededByWhitespace = Constant.NULL_BL_T.has(ch) || isLineBreak;
-            followedByWhitespace = (index + 1 >= scalar.length()
-                    || (Constant.NULL_BL_T.has(scalar.charAt(index + 1))) || isLineBreak);
+            followedByWhitespace = index + 1 >= scalar.length()
+                    || (Constant.NULL_BL_T.has(scalar.charAt(index + 1))) || isLineBreak;
         }
         // Let's decide what styles are allowed.
         boolean allowFlowPlain = true;
@@ -1314,7 +1312,7 @@ public final class Emitter implements Emitable {
                     if (!leadingSpace && ch != 0 && ch != ' ' && text.charAt(start) == '\n') {
                         writeLineBreak(null);
                     }
-                    leadingSpace = (ch == ' ');
+                    leadingSpace = ch == ' ';
                     String data = text.substring(start, end);
                     for (char br : data.toCharArray()) {
                         if (br == '\n') {
@@ -1352,7 +1350,7 @@ public final class Emitter implements Emitable {
             }
             if (ch != 0) {
                 breaks = Constant.LINEBR.has(ch);
-                spaces = (ch == ' ');
+                spaces = ch == ' ';
             }
             end++;
         }
@@ -1397,7 +1395,7 @@ public final class Emitter implements Emitable {
                 }
             }
             if (ch != 0) {
-                breaks = (Constant.LINEBR.has(ch));
+                breaks = Constant.LINEBR.has(ch);
             }
             end++;
         }
@@ -1464,8 +1462,8 @@ public final class Emitter implements Emitable {
                 }
             }
             if (ch != 0) {
-                spaces = (ch == ' ');
-                breaks = (Constant.LINEBR.has(ch));
+                spaces = ch == ' ';
+                breaks = Constant.LINEBR.has(ch);
             }
             end++;
         }

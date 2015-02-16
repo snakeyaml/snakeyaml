@@ -182,21 +182,19 @@ public final class Serializer {
                 break;
             case sequence:
                 SequenceNode seqNode = (SequenceNode) node;
-                boolean implicitS = (node.getTag().equals(this.resolver.resolve(NodeId.sequence,
-                        null, true)));
+                boolean implicitS = node.getTag().equals(this.resolver.resolve(NodeId.sequence,
+                        null, true));
                 this.emitter.emit(new SequenceStartEvent(tAlias, node.getTag().getValue(),
                         implicitS, null, null, seqNode.getFlowStyle()));
-                int indexCounter = 0;
                 List<Node> list = seqNode.getValue();
                 for (Node item : list) {
                     serializeNode(item, node);
-                    indexCounter++;
                 }
                 this.emitter.emit(new SequenceEndEvent(null, null));
                 break;
             default:// instance of MappingNode
                 Tag implicitTag = this.resolver.resolve(NodeId.mapping, null, true);
-                boolean implicitM = (node.getTag().equals(implicitTag));
+                boolean implicitM = node.getTag().equals(implicitTag);
                 this.emitter.emit(new MappingStartEvent(tAlias, node.getTag().getValue(),
                         implicitM, null, null, ((CollectionNode) node).getFlowStyle()));
                 MappingNode mnode = (MappingNode) node;

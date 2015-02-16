@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
-import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.AnchorNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -132,7 +131,7 @@ public abstract class BaseRepresenter {
         boolean bestStyle = true;
         for (Object item : sequence) {
             Node nodeItem = representData(item);
-            if (!((nodeItem instanceof ScalarNode && ((ScalarNode) nodeItem).getStyle() == null))) {
+            if (!(nodeItem instanceof ScalarNode && ((ScalarNode) nodeItem).getStyle() == null)) {
                 bestStyle = false;
             }
             value.add(nodeItem);
@@ -155,10 +154,10 @@ public abstract class BaseRepresenter {
         for (Map.Entry<?, ?> entry : mapping.entrySet()) {
             Node nodeKey = representData(entry.getKey());
             Node nodeValue = representData(entry.getValue());
-            if (!((nodeKey instanceof ScalarNode && ((ScalarNode) nodeKey).getStyle() == null))) {
+            if (!(nodeKey instanceof ScalarNode && ((ScalarNode) nodeKey).getStyle() == null)) {
                 bestStyle = false;
             }
-            if (!((nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null))) {
+            if (!(nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null)) {
                 bestStyle = false;
             }
             value.add(new NodeTuple(nodeKey, nodeValue));

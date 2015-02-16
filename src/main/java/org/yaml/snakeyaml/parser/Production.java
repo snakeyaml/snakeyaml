@@ -24,5 +24,5 @@ import org.yaml.snakeyaml.events.Event;
  * @see http://en.wikipedia.org/wiki/LL_parser
  */
 interface Production {
-    public Event produce();
+    Event produce();
 }

@@ -422,7 +422,7 @@ public final class ParserImpl implements Parser {
                 endMark = startMark;
             }
             event = null;
-            boolean implicit = (tag == null || tag.equals("!"));
+            boolean implicit = tag == null || tag.equals("!");
             if (indentlessSequence && scanner.checkToken(Token.ID.BlockEntry)) {
                 endMark = scanner.peekToken().getEndMark();
                 event = new SequenceStartEvent(anchor, tag, implicit, startMark, endMark,

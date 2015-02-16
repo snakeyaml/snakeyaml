@@ -20,5 +20,5 @@ import java.io.IOException;
 import org.yaml.snakeyaml.events.Event;
 
 public interface Emitable {
-    public void emit(Event event) throws IOException;
+    void emit(Event event) throws IOException;
 }

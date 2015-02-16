@@ -62,7 +62,7 @@ public class MarkedYAMLException extends YAMLException {
         }
         if (contextMark != null
                 && (problem == null || problemMark == null
-                        || (contextMark.getName().equals(problemMark.getName()))
+                        || contextMark.getName().equals(problemMark.getName())
                         || (contextMark.getLine() != problemMark.getLine()) || (contextMark
                         .getColumn() != problemMark.getColumn()))) {
             lines.append(contextMark.toString());

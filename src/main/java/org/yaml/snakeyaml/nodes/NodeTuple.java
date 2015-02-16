@@ -34,7 +34,7 @@ public final class NodeTuple {
     /**
      * Key node.
      */
-    final public Node getKeyNode() {
+    public Node getKeyNode() {
         return keyNode;
     }
 
@@ -43,7 +43,7 @@ public final class NodeTuple {
      * 
      * @return value
      */
-    final public Node getValueNode() {
+    public Node getValueNode() {
         return valueNode;
     }
 

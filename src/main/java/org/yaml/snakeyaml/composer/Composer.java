@@ -195,10 +195,8 @@ public class Composer {
         if (anchor != null) {
             anchors.put(anchor, node);
         }
-        int index = 0;
         while (!parser.checkEvent(Event.ID.SequenceEnd)) {
             children.add(composeNode(node));
-            index++;
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());

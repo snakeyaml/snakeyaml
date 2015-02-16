@@ -89,7 +89,7 @@ public class Representer extends SafeRepresenter {
                 bestStyle = false;
             }
             Node nodeValue = tuple.getValueNode();
-            if (!((nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null))) {
+            if (!(nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null)) {
                 bestStyle = false;
             }
             value.add(tuple);

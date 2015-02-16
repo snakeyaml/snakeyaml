@@ -32,5 +32,5 @@ public interface Represent {
      *            the instance to represent
      * @return Node to dump
      */
-    public Node representData(Object data);
+    Node representData(Object data);
 }

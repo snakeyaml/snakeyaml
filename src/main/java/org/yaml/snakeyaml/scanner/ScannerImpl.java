@@ -484,7 +484,7 @@ public final class ScannerImpl implements Scanner {
         // Check if a simple key is required at the current position.
         // A simple key is required if this position is the root flowLevel, AND
         // the current indentation level is the same as the last indent-level.
-        boolean required = ((this.flowLevel == 0) && (this.indent == this.reader.getColumn()));
+        boolean required = (this.flowLevel == 0) && (this.indent == this.reader.getColumn());
 
         if (allowSimpleKey || !required) {
             // A simple key is required only if it is the first token in the
@@ -884,7 +884,7 @@ public final class ScannerImpl implements Scanner {
             }
 
             // Simple keys are allowed after ':' in the block context.
-            allowSimpleKey = (flowLevel == 0);
+            allowSimpleKey = flowLevel == 0;
 
             // Reset possible simple key on the current level.
             removePossibleSimpleKey();
@@ -1887,7 +1887,7 @@ public final class ScannerImpl implements Scanner {
                 } else if (ESCAPE_CODES.containsKey(Character.valueOf(ch))) {
                     // The character is a multi-digit escape sequence, with
                     // length defined by the value in the ESCAPE_CODES map.
-                    length = (ESCAPE_CODES.get(Character.valueOf(ch))).intValue();
+                    length = ESCAPE_CODES.get(Character.valueOf(ch)).intValue();
                     reader.forward();
                     String hex = reader.prefix(length);
                     if (NOT_HEXA.matcher(hex).find()) {
