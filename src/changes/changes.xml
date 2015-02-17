@@ -11,7 +11,7 @@
                 Evaluate implementations for duplicate mapping keys.
             </action>
         </release>
-        <release version="1.15" date="2015-02-12" description="Maintenance">
+        <release version="1.15" date="2015-02-19" description="Maintenance">
             <action dev="py4fun" type="update">
                 Apply FindBugs and PMD recommendations (2015-02-16)
             </action>
