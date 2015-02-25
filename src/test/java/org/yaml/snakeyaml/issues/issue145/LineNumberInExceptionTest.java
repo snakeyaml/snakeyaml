@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,9 @@ public class LineNumberInExceptionTest extends TestCase {
         } catch (Exception e) {
             assertTrue(e.toString().contains("line 2, column 1"));
             assertEquals(
-                    "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue145.AbstractThing; exception=java.lang.InstantiationException;  in 'string', line 2, column 1:\n    !!org.yaml.snakeyaml.issues.issu ... \n    ^",
+                    "Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue145.AbstractThing; exception=java.lang.InstantiationException\n"
+                            + " in 'string', line 2, column 1:\n"
+                            + "    !!org.yaml.snakeyaml.issues.issu ... \n" + "    ^\n",
                     e.getMessage());
         }
     }

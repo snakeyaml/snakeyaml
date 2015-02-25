@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,16 +50,16 @@ class SafeRepresenter extends BaseRepresenter {
         this.representers.put(Boolean.class, new RepresentBoolean());
         this.representers.put(Character.class, new RepresentString());
         this.representers.put(byte[].class, new RepresentByteArray());
-        
+
         Represent primitiveArray = new RepresentPrimitiveArray();
-        representers.put(short[].class,   primitiveArray);
-        representers.put(int[].class,     primitiveArray);
-        representers.put(long[].class,    primitiveArray);
-        representers.put(float[].class,   primitiveArray);
-        representers.put(double[].class,  primitiveArray);
-        representers.put(char[].class,    primitiveArray);
+        representers.put(short[].class, primitiveArray);
+        representers.put(int[].class, primitiveArray);
+        representers.put(long[].class, primitiveArray);
+        representers.put(float[].class, primitiveArray);
+        representers.put(double[].class, primitiveArray);
+        representers.put(char[].class, primitiveArray);
         representers.put(boolean[].class, primitiveArray);
-        
+
         this.multiRepresenters.put(Number.class, new RepresentNumber());
         this.multiRepresenters.put(List.class, new RepresentList());
         this.multiRepresenters.put(Map.class, new RepresentMap());
@@ -78,21 +78,6 @@ class SafeRepresenter extends BaseRepresenter {
         } else {
             return defaultTag;
         }
-    }
-
-    /**
-     * Define a tag for the <code>Class</code> to serialize
-     * 
-     * @deprecated use Tag instead of String
-     * @param clazz
-     *            <code>Class</code> which tag is changed
-     * @param tag
-     *            new tag to be used for every instance of the specified
-     *            <code>Class</code>
-     * @return the previous tag associated with the <code>Class</code>
-     */
-    public Tag addClassTag(Class<? extends Object> clazz, String tag) {
-        return addClassTag(clazz, new Tag(tag));
     }
 
     /**
@@ -245,8 +230,7 @@ class SafeRepresenter extends BaseRepresenter {
                 return representSequence(Tag.SEQ, asBooleanList(data), null);
             }
 
-            throw new YAMLException("Unexpected primitive '"
-                    + type.getCanonicalName() + "'");
+            throw new YAMLException("Unexpected primitive '" + type.getCanonicalName() + "'");
         }
 
         private List<Byte> asByteList(Object in) {
@@ -317,8 +301,8 @@ class SafeRepresenter extends BaseRepresenter {
     protected class RepresentMap implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representMapping(getTag(data.getClass(), Tag.MAP),
-                    (Map<Object, Object>) data, null);
+            return representMapping(getTag(data.getClass(), Tag.MAP), (Map<Object, Object>) data,
+                    null);
         }
     }
 

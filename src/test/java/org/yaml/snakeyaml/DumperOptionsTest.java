@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -321,17 +321,6 @@ public class DumperOptionsTest extends TestCase {
         assertEquals("\"\\xdcber\"\n", yaml.dump("\u00DCber"));
     }
 
-    @SuppressWarnings("deprecation")
-    public void testSetRootTag() {
-        DumperOptions options = new DumperOptions();
-        try {
-            options.setExplicitRoot((Tag) null);
-            fail("Root tag is required.");
-        } catch (NullPointerException e) {
-            assertEquals("Root tag must be specified.", e.getMessage());
-        }
-    }
-
     public void testToString() {
         DumperOptions.ScalarStyle scalarStyle = DumperOptions.ScalarStyle.LITERAL;
         assertEquals("Scalar style: '|'", scalarStyle.toString());
@@ -357,5 +346,91 @@ public class DumperOptionsTest extends TestCase {
         map.put("a", "b");
         map.put("c", list);
         assertEquals("a: b\nc:\n- 1\n- 2\n- 3\n", yaml.dump(map));
+    }
+
+    public void testSplitLinesDoubleQuoted() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
+        Yaml yaml;
+        String output;
+
+        // Split lines enabled (default)
+        assertTrue(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
+        assertEquals("\"1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888\\\n  \\ 9999999999 0000000000\"\n", output);
+
+        // Split lines disabled
+        options.setSplitLines(false);
+        assertFalse(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
+        assertEquals("\"1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000\"\n", output);
+    }
+
+    public void testSplitLinesSingleQuoted() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.SINGLE_QUOTED);
+        Yaml yaml;
+        String output;
+
+        // Split lines enabled (default)
+        assertTrue(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
+        assertEquals("'1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888\n  9999999999 0000000000'\n", output);
+
+        // Split lines disabled
+        options.setSplitLines(false);
+        assertFalse(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
+        assertEquals("'1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000'\n", output);
+    }
+
+    public void testSplitLinesFolded() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.FOLDED);
+        Yaml yaml;
+        String output;
+
+        // Split lines enabled (default)
+        assertTrue(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
+        assertEquals(">-\n  1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888\n  9999999999 0000000000\n", output);
+
+        // Split lines disabled
+        options.setSplitLines(false);
+        assertFalse(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
+        assertEquals(">-\n  1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000\n", output);
+    }
+
+    public void testSplitLinesLiteral() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.LITERAL);
+        Yaml yaml;
+        String output;
+
+        // Split lines enabled (default) -- split lines does not apply to literal style
+        assertTrue(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
+        assertEquals("|-\n  1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000\n", output);
+    }
+
+    public void testSplitLinesPlain() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.PLAIN);
+        Yaml yaml;
+        String output;
+
+        // Split lines enabled (default) -- split lines does not apply to plain style
+        assertTrue(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
+        assertEquals("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000\n", output);
     }
 }

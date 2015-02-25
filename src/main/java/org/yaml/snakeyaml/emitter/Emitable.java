@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,5 +20,5 @@ import java.io.IOException;
 import org.yaml.snakeyaml.events.Event;
 
 public interface Emitable {
-    public void emit(Event event) throws IOException;
+    void emit(Event event) throws IOException;
 }

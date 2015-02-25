@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,23 +18,24 @@ package org.yaml.snakeyaml.array;
 import java.util.Arrays;
 
 public class CharArr {
-	private char[] chars;
-	
-	public CharArr () {}
-	
-	public CharArr ( char[] chars ) {
-		this.chars = chars;
-	}
-	
-	public String toString() {
-		return Arrays.toString(chars);
-	}
-	
-	public char[] getChars() {
-		return chars;
-	}
+    private char[] chars;
 
-	public void setChars(char[] chars) {
-		this.chars = chars;
-	}
+    public CharArr() {
+    }
+
+    public CharArr(char[] chars) {
+        this.chars = chars;
+    }
+
+    public String toString() {
+        return Arrays.toString(chars);
+    }
+
+    public char[] getChars() {
+        return chars;
+    }
+
+    public void setChars(char[] chars) {
+        this.chars = chars;
+    }
 }

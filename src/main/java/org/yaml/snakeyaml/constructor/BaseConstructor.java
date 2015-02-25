@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -356,18 +356,18 @@ public abstract class BaseConstructor {
         int index = 0;
         for (Node child : node.getValue()) {
             // Handle multi-dimensional arrays...
-            if ( child.getType() == Object.class ) {
+            if (child.getType() == Object.class) {
                 child.setType(componentType);
             }
-            
+
             final Object value = constructObject(child);
 
             if (componentType.isPrimitive()) {
                 // Null values are disallowed for primitives
-                if ( value == null ) {
-                    throw new NullPointerException ( "Unable to construct element value for " + child );
+                if (value == null) {
+                    throw new NullPointerException("Unable to construct element value for " + child);
                 }
-                
+
                 // Primitive arrays require quite a lot of work.
                 if (byte.class.equals(componentType)) {
                     Array.setByte(array, index, ((Number) value).byteValue());

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,23 +18,24 @@ package org.yaml.snakeyaml.array;
 import java.util.Arrays;
 
 public class IntArr {
-	private int[] ints;
-	
-	public IntArr () {}
-	
-	public IntArr ( int[] ints ) {
-		this.ints = ints;
-	}
+    private int[] ints;
 
-	public String toString() {
-		return Arrays.toString(ints);
-	}
-	
-	public int[] getInts() {
-		return ints;
-	}
+    public IntArr() {
+    }
 
-	public void setInts(int[] ints) {
-		this.ints = ints;
-	}
+    public IntArr(int[] ints) {
+        this.ints = ints;
+    }
+
+    public String toString() {
+        return Arrays.toString(ints);
+    }
+
+    public int[] getInts() {
+        return ints;
+    }
+
+    public void setInts(int[] ints) {
+        this.ints = ints;
+    }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,8 +102,14 @@ public class ConstructorTest extends TestCase {
             // TODO improve the error message - the pointer should be at the
             // property name, not value
             assertEquals(
-                    "Cannot create property=wrongName for JavaBean=#<org.jvyaml.TestBean name=\"null\" age=0 born=\"null\">; Unable to find property 'wrongName' on class: org.yaml.snakeyaml.constructor.TestBean;  in 'string', line 2, column 12:\n    wrongName: No one\n               ^",
-                    e.getMessage());
+                    "Cannot create property=wrongName for JavaBean=#<org.jvyaml.TestBean name=\"null\" age=0 born=\"null\">\n"
+                            + " in 'string', line 1, column 5:\n"
+                            + "    --- !!org.yaml.snakeyaml.constructor ... \n"
+                            + "        ^\n"
+                            + "Unable to find property 'wrongName' on class: org.yaml.snakeyaml.constructor.TestBean\n"
+                            + " in 'string', line 2, column 12:\n"
+                            + "    wrongName: No one\n"
+                            + "               ^\n", e.getMessage());
         }
     }
 

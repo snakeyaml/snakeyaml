@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
@@ -138,6 +137,7 @@ public final class Emitter implements Emitable {
     private int bestIndent;
     private int bestWidth;
     private char[] bestLineBreak;
+    private boolean splitLines;
 
     // Tag prefixes.
     private Map<String, String> tagPrefixes;
@@ -149,7 +149,6 @@ public final class Emitter implements Emitable {
     // Scalar analysis and style.
     private ScalarAnalysis analysis;
     private Character style;
-    private DumperOptions options;
 
     public Emitter(Writer stream, DumperOptions opts) {
         // The stream should have the methods `write` and possibly `flush`.
@@ -196,6 +195,7 @@ public final class Emitter implements Emitable {
             this.bestWidth = opts.getWidth();
         }
         this.bestLineBreak = opts.getLineBreak().getString().toCharArray();
+        this.splitLines = opts.getSplitLines();
 
         // Tag prefixes.
         this.tagPrefixes = new LinkedHashMap<String, String>();
@@ -207,7 +207,6 @@ public final class Emitter implements Emitable {
         // Scalar analysis and style.
         this.analysis = null;
         this.style = null;
-        this.options = opts;
     }
 
     public void emit(Event event) throws IOException {
@@ -445,7 +444,7 @@ public final class Emitter implements Emitable {
                 writeIndicator("]", false, false, false);
                 state = states.pop();
             } else {
-                if (canonical || column > bestWidth || prettyFlow) {
+                if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
                 states.push(new ExpectFlowSequenceItem());
@@ -470,7 +469,7 @@ public final class Emitter implements Emitable {
                 state = states.pop();
             } else {
                 writeIndicator(",", false, false, false);
-                if (canonical || column > bestWidth || prettyFlow) {
+                if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
                 states.push(new ExpectFlowSequenceItem());
@@ -499,7 +498,7 @@ public final class Emitter implements Emitable {
                 writeIndicator("}", false, false, false);
                 state = states.pop();
             } else {
-                if (canonical || column > bestWidth || prettyFlow) {
+                if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
                 if (!canonical && checkSimpleKey()) {
@@ -530,7 +529,7 @@ public final class Emitter implements Emitable {
                 state = states.pop();
             } else {
                 writeIndicator(",", false, false, false);
-                if (canonical || column > bestWidth || prettyFlow) {
+                if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
                 if (!canonical && checkSimpleKey()) {
@@ -555,7 +554,7 @@ public final class Emitter implements Emitable {
 
     private class ExpectFlowMappingValue implements EmitterState {
         public void expect() throws IOException {
-            if (canonical || column > bestWidth || prettyFlow) {
+            if (canonical || (column > bestWidth) || prettyFlow) {
                 writeIndent();
             }
             writeIndicator(":", true, false, false);
@@ -567,7 +566,7 @@ public final class Emitter implements Emitable {
     // Block sequence handlers.
 
     private void expectBlockSequence() throws IOException {
-        boolean indentless = (mappingContext && !indention);
+        boolean indentless = mappingContext && !indention;
         increaseIndent(false, indentless);
         state = new ExpectFirstBlockSequenceItem();
     }
@@ -655,11 +654,11 @@ public final class Emitter implements Emitable {
     // Checkers.
 
     private boolean checkEmptySequence() {
-        return (event instanceof SequenceStartEvent && !events.isEmpty() && events.peek() instanceof SequenceEndEvent);
+        return event instanceof SequenceStartEvent && !events.isEmpty() && events.peek() instanceof SequenceEndEvent;
     }
 
     private boolean checkEmptyMapping() {
-        return (event instanceof MappingStartEvent && !events.isEmpty() && events.peek() instanceof MappingEndEvent);
+        return event instanceof MappingStartEvent && !events.isEmpty() && events.peek() instanceof MappingEndEvent;
     }
 
     private boolean checkEmptyDocument() {
@@ -669,8 +668,8 @@ public final class Emitter implements Emitable {
         Event event = events.peek();
         if (event instanceof ScalarEvent) {
             ScalarEvent e = (ScalarEvent) event;
-            return (e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && e
-                    .getValue().length() == 0);
+            return e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null && e
+                    .getValue().length() == 0;
         }
         return false;
     }
@@ -701,9 +700,9 @@ public final class Emitter implements Emitable {
             }
             length += analysis.scalar.length();
         }
-        return (length < 128 && (event instanceof AliasEvent
+        return length < 128 && (event instanceof AliasEvent
                 || (event instanceof ScalarEvent && !analysis.empty && !analysis.multiline)
-                || checkEmptySequence() || checkEmptyMapping()));
+                || checkEmptySequence() || checkEmptyMapping());
     }
 
     // Anchor, Tag, and Scalar processors.
@@ -729,9 +728,9 @@ public final class Emitter implements Emitable {
             if (style == null) {
                 style = chooseScalarStyle();
             }
-            if (((!canonical || tag == null) && ((style == null && ev.getImplicit()
+            if ((!canonical || tag == null) && ((style == null && ev.getImplicit()
                     .canOmitTagInPlainScalar()) || (style != null && ev.getImplicit()
-                    .canOmitTagInNonPlainScalar())))) {
+                    .canOmitTagInNonPlainScalar()))) {
                 preparedTag = null;
                 return;
             }
@@ -784,7 +783,6 @@ public final class Emitter implements Emitable {
         return '"';
     }
 
-    @SuppressWarnings("deprecation")
     private void processScalar() throws IOException {
         ScalarEvent ev = (ScalarEvent) event;
         if (analysis == null) {
@@ -793,9 +791,7 @@ public final class Emitter implements Emitable {
         if (style == null) {
             style = chooseScalarStyle();
         }
-        // TODO the next line should be removed
-        style = options.calculateScalarStyle(analysis, ScalarStyle.createStyle(style)).getChar();
-        boolean split = !simpleKeyContext;
+        boolean split = !simpleKeyContext && splitLines;
         if (style == null) {
             writePlain(analysis.scalar, split);
         } else {
@@ -807,7 +803,7 @@ public final class Emitter implements Emitable {
                 writeSingleQuoted(analysis.scalar, split);
                 break;
             case '>':
-                writeFolded(analysis.scalar);
+                writeFolded(analysis.scalar, split);
                 break;
             case '|':
                 writeLiteral(analysis.scalar);
@@ -823,7 +819,7 @@ public final class Emitter implements Emitable {
     // Analyzers.
 
     private String prepareVersion(Version version) {
-        if (version.getArray()[0] != 1) {
+        if (version.major() != 1) {
             throw new EmitterException("unsupported YAML version: " + version);
         }
         return version.getRepresentation();
@@ -928,8 +924,7 @@ public final class Emitter implements Emitable {
         }
         // First character or preceded by a whitespace.
         boolean preceededByWhitespace = true;
-        boolean followedByWhitespace = (scalar.length() == 1 || Constant.NULL_BL_T_LINEBR
-                .has(scalar.charAt(1)));
+        boolean followedByWhitespace = scalar.length() == 1 || Constant.NULL_BL_T_LINEBR.has(scalar.charAt(1));
         // The previous character is a space.
         boolean previousSpace = false;
 
@@ -1022,8 +1017,8 @@ public final class Emitter implements Emitable {
             // Prepare for the next character.
             index++;
             preceededByWhitespace = Constant.NULL_BL_T.has(ch) || isLineBreak;
-            followedByWhitespace = (index + 1 >= scalar.length()
-                    || (Constant.NULL_BL_T.has(scalar.charAt(index + 1))) || isLineBreak);
+            followedByWhitespace = index + 1 >= scalar.length()
+                    || (Constant.NULL_BL_T.has(scalar.charAt(index + 1))) || isLineBreak;
         }
         // Let's decide what styles are allowed.
         boolean allowFlowPlain = true;
@@ -1296,7 +1291,7 @@ public final class Emitter implements Emitable {
         return hints.toString();
     }
 
-    void writeFolded(String text) throws IOException {
+    void writeFolded(String text, boolean split) throws IOException {
         String hints = determineBlockHints(text);
         writeIndicator(">" + hints, true, false, false);
         if (hints.length() > 0 && (hints.charAt(hints.length() - 1) == '+')) {
@@ -1317,7 +1312,7 @@ public final class Emitter implements Emitable {
                     if (!leadingSpace && ch != 0 && ch != ' ' && text.charAt(start) == '\n') {
                         writeLineBreak(null);
                     }
-                    leadingSpace = (ch == ' ');
+                    leadingSpace = ch == ' ';
                     String data = text.substring(start, end);
                     for (char br : data.toCharArray()) {
                         if (br == '\n') {
@@ -1333,7 +1328,7 @@ public final class Emitter implements Emitable {
                 }
             } else if (spaces) {
                 if (ch != ' ') {
-                    if (start + 1 == end && this.column > this.bestWidth) {
+                    if (start + 1 == end && this.column > this.bestWidth && split) {
                         writeIndent();
                     } else {
                         int len = end - start;
@@ -1355,7 +1350,7 @@ public final class Emitter implements Emitable {
             }
             if (ch != 0) {
                 breaks = Constant.LINEBR.has(ch);
-                spaces = (ch == ' ');
+                spaces = ch == ' ';
             }
             end++;
         }
@@ -1400,7 +1395,7 @@ public final class Emitter implements Emitable {
                 }
             }
             if (ch != 0) {
-                breaks = (Constant.LINEBR.has(ch));
+                breaks = Constant.LINEBR.has(ch);
             }
             end++;
         }
@@ -1467,8 +1462,8 @@ public final class Emitter implements Emitable {
                 }
             }
             if (ch != 0) {
-                spaces = (ch == ' ');
-                breaks = (Constant.LINEBR.has(ch));
+                spaces = ch == ' ';
+                breaks = Constant.LINEBR.has(ch);
             }
             end++;
         }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public interface Construct {
      *            composed Node
      * @return a complete Java instance
      */
-    public Object construct(Node node);
+    Object construct(Node node);
 
     /**
      * Apply the second step when constructing recursive structures. Because the
@@ -46,5 +46,5 @@ public interface Construct {
      *            the instance constructed earlier by
      *            <code>construct(Node node)</code> for the provided Node
      */
-    public void construct2ndStep(Node node, Object object);
+    void construct2ndStep(Node node, Object object);
 }

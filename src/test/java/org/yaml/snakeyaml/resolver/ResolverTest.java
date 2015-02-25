@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -147,16 +147,4 @@ public class ResolverTest extends TestCase {
         }
     }
 
-    /**
-     * Parse scalars as Strings
-     */
-    @SuppressWarnings({ "unchecked", "deprecation" })
-    public void testStringResolver() {
-        Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
-                new Resolver(false));
-        List<Object> output = (List<Object>) yaml.load("[ '1.00', 1.00, !!float '1.00' ]");
-        assertEquals("1.00", output.get(0));
-        assertEquals("1.00", output.get(1));
-        assertEquals(1.0, output.get(2));
-    }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -140,7 +140,7 @@ public class JodaTimeFlowStylesTest extends TestCase {
         class TimeStampConstruct extends Constructor.ConstructScalar {
             @Override
             public Object construct(Node nnode) {
-                if (nnode.getTag().equals("tag:yaml.org,2002:timestamp")) {
+                if (nnode.getTag().equals(new Tag("tag:yaml.org,2002:timestamp"))) {
                     Construct dateConstructor = yamlConstructors.get(Tag.TIMESTAMP);
                     Date date = (Date) dateConstructor.construct(nnode);
                     return new DateTime(date, DateTimeZone.UTC);

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.issues.issue61;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -68,7 +69,7 @@ public class GenericMapBeanTest extends TestCase {
     }
 
     public static class MapProvider<K, V> {
-        private Map<K, V> map = new HashMap<K, V>();
+        private Map<K, V> map = new LinkedHashMap<K, V>();
 
         public Map<K, V> getMap() {
             return map;

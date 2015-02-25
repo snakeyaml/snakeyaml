@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,6 @@ class FragmentComposer extends Composer {
                 }
             }
         }
-        throw new RuntimeException("Did not find key \"" + nodeName
-                + "\" in document-level map");
+        throw new RuntimeException("Did not find key \"" + nodeName + "\" in document-level map");
     }
 }

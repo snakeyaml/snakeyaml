@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.math.BigInteger;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -146,7 +148,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     @Override
-    protected void constructSet2ndStep(MappingNode node, java.util.Set<Object> set) {
+    protected void constructSet2ndStep(MappingNode node, Set<Object> set) {
         flattenMapping(node);
         super.constructSet2ndStep(node, set);
     }
@@ -203,7 +205,7 @@ public class SafeConstructor extends BaseConstructor {
                 int bes = 1;
                 int val = 0;
                 for (int i = 0, j = digits.length; i < j; i++) {
-                    val += (Long.parseLong(digits[(j - i) - 1]) * bes);
+                    val += Long.parseLong(digits[j - i - 1]) * bes;
                     bes *= 60;
                 }
                 return createNumber(sign, String.valueOf(val), 10);
@@ -252,7 +254,7 @@ public class SafeConstructor extends BaseConstructor {
                 int bes = 1;
                 double val = 0.0;
                 for (int i = 0, j = digits.length; i < j; i++) {
-                    val += (Double.parseDouble(digits[(j - i) - 1]) * bes);
+                    val += Double.parseDouble(digits[j - i - 1]) * bes;
                     bes *= 60;
                 }
                 return new Double(sign * val);
@@ -268,6 +270,32 @@ public class SafeConstructor extends BaseConstructor {
             byte[] decoded = Base64Coder.decode(constructScalar((ScalarNode) node).toString()
                     .toCharArray());
             return decoded;
+        }
+    }
+
+    public class ConstructYamlNumber extends AbstractConstruct {
+
+        private final NumberFormat nf = NumberFormat.getInstance();
+
+        public Object construct(Node node) {
+            ScalarNode scalar = (ScalarNode) node;
+            try {
+                return nf.parse(scalar.getValue());
+            } catch (ParseException e) {
+                String lowerCaseValue = scalar.getValue().toLowerCase();
+                if (lowerCaseValue.contains("inf") || lowerCaseValue.contains("nan")) {
+                    /*
+                     * Non-finites such as (+/-)infinity and NaN are not
+                     * parseable by NumberFormat when these `Double` values are
+                     * dumped by snakeyaml. Delegate to the `Tag.FLOAT`
+                     * constructor when for this expected failure cause.
+                     */
+                    return (Number) yamlConstructors.get(Tag.FLOAT).construct(node);
+                } else {
+                    throw new IllegalArgumentException("Unable to parse as Number: "
+                            + scalar.getValue());
+                }
+            }
         }
     }
 
@@ -316,7 +344,7 @@ public class SafeConstructor extends BaseConstructor {
                 }
                 double fractions = Double.parseDouble(seconds);
                 int sec_s = (int) Math.round(Math.floor(fractions));
-                int usec = (int) Math.round(((fractions - sec_s) * 1000));
+                int usec = (int) Math.round((fractions - sec_s) * 1000);
                 // timezone
                 String timezoneh_s = match.group(8);
                 String timezonem_s = match.group(9);

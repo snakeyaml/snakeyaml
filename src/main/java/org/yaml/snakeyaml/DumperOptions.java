@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.yaml.snakeyaml.emitter.Emitter;
-import org.yaml.snakeyaml.emitter.ScalarAnalysis;
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class DumperOptions {
     /**
@@ -144,9 +142,8 @@ public class DumperOptions {
             this.version = version;
         }
 
-        public Integer[] getArray() {
-            return version;
-        }
+        public int major() { return version[0]; }
+        public int minor() { return version[1]; }
 
         public String getRepresentation() {
             return version[0] + "." + version[1];
@@ -165,15 +162,12 @@ public class DumperOptions {
     private boolean allowReadOnlyProperties = false;
     private int indent = 2;
     private int bestWidth = 80;
+    private boolean splitLines = true;
     private LineBreak lineBreak = LineBreak.UNIX;
     private boolean explicitStart = false;
     private boolean explicitEnd = false;
     private TimeZone timeZone = null;
 
-    /**
-     * @deprecated do not use explicit root Tag
-     */
-    private Tag explicitRoot = null;
     private Version version = null;
     private Map<String, String> tags = null;
     private Boolean prettyFlow = false;
@@ -269,7 +263,7 @@ public class DumperOptions {
      * split into a few lines. The default is 80.
      * 
      * @param bestWidth
-     *            the preferred with for scalars.
+     *            the preferred width for scalars.
      */
     public void setWidth(int bestWidth) {
         this.bestWidth = bestWidth;
@@ -277,6 +271,21 @@ public class DumperOptions {
 
     public int getWidth() {
         return this.bestWidth;
+    }
+
+    /**
+     * Specify whether to split lines exceeding preferred width for
+     * scalars. The default is true.
+     *
+     * @param splitLines
+     *            whether to split lines exceeding preferred width for scalars.
+     */
+    public void setSplitLines(boolean splitLines) {
+        this.splitLines = splitLines;
+    }
+
+    public boolean getSplitLines() {
+        return this.splitLines;
     }
 
     public LineBreak getLineBreak() {
@@ -292,36 +301,6 @@ public class DumperOptions {
 
     public FlowStyle getDefaultFlowStyle() {
         return defaultFlowStyle;
-    }
-
-    /**
-     * @deprecated do not use explicit root Tag
-     */
-    public Tag getExplicitRoot() {
-        return explicitRoot;
-    }
-
-    /**
-     * @param expRoot
-     *            tag to be used for the root node. (JavaBeans may use
-     *            Tag.MAP="tag:yaml.org,2002:map")
-     * @deprecated use Tag instead of String
-     */
-    public void setExplicitRoot(String expRoot) {
-        setExplicitRoot(new Tag(expRoot));
-    }
-
-    /**
-     * @param expRoot
-     *            tag to be used for the root node. (JavaBeans may use
-     *            Tag.MAP="tag:yaml.org,2002:map")
-     * @deprecated do not use explicit root Tag
-     */
-    public void setExplicitRoot(Tag expRoot) {
-        if (expRoot == null) {
-            throw new NullPointerException("Root tag must be specified.");
-        }
-        this.explicitRoot = expRoot;
     }
 
     /**
@@ -359,20 +338,6 @@ public class DumperOptions {
     // TODO should use Tag ???
     public void setTags(Map<String, String> tags) {
         this.tags = tags;
-    }
-
-    /**
-     * Define the ScalarStyle to be used for emitting scalars
-     * 
-     * @param analysis
-     *            - Scalar meta data
-     * @param style
-     *            - automatically detected style
-     * @return ScalarStyle to be used for scalar
-     * @deprecated it was implemented as a quick fix for issue 29
-     */
-    public ScalarStyle calculateScalarStyle(ScalarAnalysis analysis, ScalarStyle style) {
-        return style;
     }
 
     /**

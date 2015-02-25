@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -233,6 +233,14 @@ public class Constructor extends SafeConstructor {
 
                     Object value = (memberDescription != null) ? newInstance(memberDescription,
                             key, valueNode) : constructObject(valueNode);
+                    // Correct when the property expects float but double was
+                    // constructed
+                    if (property.getType() == Float.TYPE || property.getType() == Float.class) {
+                        if (value instanceof Double) {
+                            value = ((Double) value).floatValue();
+                        }
+                    }
+                    
                     if (memberDescription == null
                             || !memberDescription.setProperty(object, key, value)) {
                         property.set(object, value);
@@ -390,6 +398,8 @@ public class Constructor extends SafeConstructor {
                     try {
                         java.lang.reflect.Constructor<?> constr = type.getConstructor(long.class);
                         result = constr.newInstance(date.getTime());
+                    } catch (RuntimeException e) {
+                        throw e;
                     } catch (Exception e) {
                         throw new YAMLException("Cannot construct: '" + type + "'");
                     }
@@ -411,13 +421,13 @@ public class Constructor extends SafeConstructor {
                 Construct intConstructor = yamlConstructors.get(Tag.INT);
                 result = intConstructor.construct(node);
                 if (type == Byte.class || type == Byte.TYPE) {
-                    result = new Byte(result.toString());
+                    result = Byte.valueOf(result.toString());
                 } else if (type == Short.class || type == Short.TYPE) {
-                    result = new Short(result.toString());
+                    result = Short.valueOf(result.toString());
                 } else if (type == Integer.class || type == Integer.TYPE) {
                     result = Integer.parseInt(result.toString());
                 } else if (type == Long.class || type == Long.TYPE) {
-                    result = new Long(result.toString());
+                    result = Long.valueOf(result.toString());
                 } else {
                     // only BigInteger left
                     result = new BigInteger(result.toString());
@@ -434,6 +444,9 @@ public class Constructor extends SafeConstructor {
                 ConstructYamlTimestamp contr = new ConstructYamlTimestamp();
                 contr.construct(node);
                 result = contr.getCalendar();
+            } else if (Number.class.isAssignableFrom(type)) {
+                ConstructYamlNumber contr = new ConstructYamlNumber();
+                result = contr.construct(node);
             } else {
                 throw new YAMLException("Unsupported class: " + type);
             }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,23 +18,24 @@ package org.yaml.snakeyaml.array;
 import java.util.Arrays;
 
 public class LongArr {
-	private long[] longs;
+    private long[] longs;
 
-	public LongArr () {}
-	
-	public LongArr ( long[] longs ) {
-		this.longs = longs;
-	}
-	
-	public String toString() {
-		return Arrays.toString(longs);
-	}
+    public LongArr() {
+    }
 
-	public long[] getLongs() {
-		return longs;
-	}
+    public LongArr(long[] longs) {
+        this.longs = longs;
+    }
 
-	public void setLongs(long[] longs) {
-		this.longs = longs;
-	}
+    public String toString() {
+        return Arrays.toString(longs);
+    }
+
+    public long[] getLongs() {
+        return longs;
+    }
+
+    public void setLongs(long[] longs) {
+        this.longs = longs;
+    }
 }

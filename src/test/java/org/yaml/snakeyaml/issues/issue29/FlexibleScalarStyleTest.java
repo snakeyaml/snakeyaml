@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,6 +65,17 @@ public class FlexibleScalarStyleTest extends TestCase {
         String output = yaml.dump(getData());
         // System.out.println(output);
         String etalon = Util.getLocalResource("representer/scalar-style2.yaml");
+        assertEquals(etalon, output);
+    }
+
+    public void testCustomScalarStyleNoSplitLines() {
+        DumperOptions options = new DumperOptions();
+        options.setWidth(30);
+        options.setSplitLines(false);
+        Yaml yaml = new Yaml(new MyRepresenter(), options);
+        String output = yaml.dump(getData());
+        // System.out.println(output);
+        String etalon = Util.getLocalResource("representer/scalar-style3.yaml");
         assertEquals(etalon, output);
     }
 

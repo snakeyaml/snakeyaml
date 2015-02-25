@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,11 @@ public class MarkedYAMLException extends YAMLException {
     }
 
     @Override
+    public String getMessage() {
+        return toString();
+    }
+
+    @Override
     public String toString() {
         StringBuilder lines = new StringBuilder();
         if (context != null) {
@@ -57,7 +62,7 @@ public class MarkedYAMLException extends YAMLException {
         }
         if (contextMark != null
                 && (problem == null || problemMark == null
-                        || (contextMark.getName().equals(problemMark.getName()))
+                        || contextMark.getName().equals(problemMark.getName())
                         || (contextMark.getLine() != problemMark.getLine()) || (contextMark
                         .getColumn() != problemMark.getColumn()))) {
             lines.append(contextMark.toString());

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -463,7 +463,7 @@ public final class ScannerImpl implements Scanner {
                         // If the key was required, this implies an error
                         // condition.
                         throw new ScannerException("while scanning a simple key", key.getMark(),
-                                "could not found expected ':'", reader.getMark());
+                                "could not find expected ':'", reader.getMark());
                     }
                     iterator.remove();
                 }
@@ -484,7 +484,7 @@ public final class ScannerImpl implements Scanner {
         // Check if a simple key is required at the current position.
         // A simple key is required if this position is the root flowLevel, AND
         // the current indentation level is the same as the last indent-level.
-        boolean required = ((this.flowLevel == 0) && (this.indent == this.reader.getColumn()));
+        boolean required = (this.flowLevel == 0) && (this.indent == this.reader.getColumn());
 
         if (allowSimpleKey || !required) {
             // A simple key is required only if it is the first token in the
@@ -512,7 +512,7 @@ public final class ScannerImpl implements Scanner {
         SimpleKey key = possibleSimpleKeys.remove(flowLevel);
         if (key != null && key.isRequired()) {
             throw new ScannerException("while scanning a simple key", key.getMark(),
-                    "could not found expected ':'", reader.getMark());
+                    "could not find expected ':'", reader.getMark());
         }
     }
 
@@ -859,10 +859,10 @@ public final class ScannerImpl implements Scanner {
             // There cannot be two simple keys one after another.
             this.allowSimpleKey = false;
 
-        } else {// It must be a part of a complex key.
-            // Block context needs additional checks.Do we really need them?
-            // They
-            // will be catched by the parser anyway.)
+        } else {
+            // It must be a part of a complex key.
+            // Block context needs additional checks. Do we really need them?
+            // They will be caught by the parser anyway.
             if (this.flowLevel == 0) {
 
                 // We are allowed to start a complex value if and only if we can
@@ -884,7 +884,7 @@ public final class ScannerImpl implements Scanner {
             }
 
             // Simple keys are allowed after ':' in the block context.
-            allowSimpleKey = (flowLevel == 0);
+            allowSimpleKey = flowLevel == 0;
 
             // Reset possible simple key on the current level.
             removePossibleSimpleKey();
@@ -1887,7 +1887,7 @@ public final class ScannerImpl implements Scanner {
                 } else if (ESCAPE_CODES.containsKey(Character.valueOf(ch))) {
                     // The character is a multi-digit escape sequence, with
                     // length defined by the value in the ESCAPE_CODES map.
-                    length = (ESCAPE_CODES.get(Character.valueOf(ch))).intValue();
+                    length = ESCAPE_CODES.get(Character.valueOf(ch)).intValue();
                     reader.forward();
                     String hex = reader.prefix(length);
                     if (NOT_HEXA.matcher(hex).find()) {

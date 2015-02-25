@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,9 +98,9 @@ public class ConstructEmptyBeanTest extends TestCase {
             beanLoader.loadAs("{", EmptyBean.class);
             fail("Invalid document provided.");
         } catch (Exception e) {
-            assertEquals(
-                    "while parsing a flow node; expected the node content, but found StreamEnd;  in 'string', line 1, column 2:\n    {\n     ^",
-                    e.getMessage());
+            assertEquals("while parsing a flow node\n" + " in 'string', line 1, column 2:\n"
+                    + "    {\n" + "     ^\n" + "expected the node content, but found StreamEnd\n"
+                    + " in 'string', line 1, column 2:\n" + "    {\n" + "     ^\n", e.getMessage());
         }
     }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class ImmutablePrimitivesTest extends TestCase {
             assertTrue(e
                     .getMessage()
                     .startsWith(
-                            "null; Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives; exception=No suitable constructor with 3 arguments found for class org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives"));
+                            "Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives; exception=No suitable constructor with 3 arguments found for class org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives"));
         }
     }
 }

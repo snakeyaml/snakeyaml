@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,19 +50,6 @@ public class Resolver {
 
     protected Map<Character, List<ResolverTuple>> yamlImplicitResolvers = new HashMap<Character, List<ResolverTuple>>();
 
-    /**
-     * Create Resolver
-     * 
-     * @param respectDefaultImplicitScalars
-     *            false to parse/dump scalars as plain Strings
-     * @deprecated override addImplicitResolvers instead
-     */
-    public Resolver(boolean respectDefaultImplicitScalars) {
-        if (respectDefaultImplicitScalars) {
-            addImplicitResolvers();
-        }
-    }
-
     protected void addImplicitResolvers() {
         addImplicitResolver(Tag.BOOL, BOOL, "yYnNtTfFoO");
         /*
@@ -76,7 +63,6 @@ public class Resolver {
         addImplicitResolver(Tag.NULL, NULL, "~nN\0");
         addImplicitResolver(Tag.NULL, EMPTY, null);
         addImplicitResolver(Tag.TIMESTAMP, TIMESTAMP, "0123456789");
-        addImplicitResolver(Tag.VALUE, VALUE, "=");
         // The following implicit resolver is only for documentation
         // purposes.
         // It cannot work
@@ -85,7 +71,7 @@ public class Resolver {
     }
 
     public Resolver() {
-        this(true);
+        addImplicitResolvers();
     }
 
     public void addImplicitResolver(Tag tag, Pattern regexp, String first) {

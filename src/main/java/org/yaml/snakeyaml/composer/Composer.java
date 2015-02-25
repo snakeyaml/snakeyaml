@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -195,10 +195,8 @@ public class Composer {
         if (anchor != null) {
             anchors.put(anchor, node);
         }
-        int index = 0;
         while (!parser.checkEvent(Event.ID.SequenceEnd)) {
             children.add(composeNode(node));
-            index++;
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());
@@ -227,8 +225,6 @@ public class Composer {
             Node itemKey = composeNode(node);
             if (itemKey.getTag().equals(Tag.MERGE)) {
                 node.setMerged(true);
-            } else if (itemKey.getTag().equals(Tag.VALUE)) {
-                itemKey.setTag(Tag.STR);
             }
             Node itemValue = composeNode(node);
             children.add(new NodeTuple(itemKey, itemValue));

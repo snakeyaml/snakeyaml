@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,23 +18,24 @@ package org.yaml.snakeyaml.array;
 import java.util.Arrays;
 
 public class ShortArr {
-	private short[] shorts;
-	
-	public ShortArr(){}
-	
-	public ShortArr ( short[] shorts ) {
-		this.shorts = shorts;
-	}
-	
-	public String toString() {
-		return Arrays.toString(shorts);
-	}
+    private short[] shorts;
 
-	public short[] getShorts() {
-		return shorts;
-	}
+    public ShortArr() {
+    }
 
-	public void setShorts(short[] shorts) {
-		this.shorts = shorts;
-	}
+    public ShortArr(short[] shorts) {
+        this.shorts = shorts;
+    }
+
+    public String toString() {
+        return Arrays.toString(shorts);
+    }
+
+    public short[] getShorts() {
+        return shorts;
+    }
+
+    public void setShorts(short[] shorts) {
+        this.shorts = shorts;
+    }
 }

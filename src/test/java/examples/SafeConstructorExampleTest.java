@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,9 @@ public class SafeConstructorExampleTest extends TestCase {
             fail("Custom Java classes should not be created.");
         } catch (Exception e) {
             assertEquals(
-                    "null; could not determine a constructor for the tag !org.yaml.snakeyaml.constructor.Person;  in 'string', line 2, column 3:\n    - !org.yaml.snakeyaml.constructor. ... \n      ^",
+                    "could not determine a constructor for the tag !org.yaml.snakeyaml.constructor.Person\n"
+                            + " in 'string', line 2, column 3:\n"
+                            + "    - !org.yaml.snakeyaml.constructor. ... \n" + "      ^\n",
                     e.getMessage());
         }
     }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml;
+package org.yaml.snakeyaml.issues.issue203;
 
-import org.yaml.snakeyaml.constructor.BaseConstructor;
-import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.resolver.Resolver;
+public class ContentIdentifierImpl  implements ContentIdentifier {
 
-/**
- * @deprecated Loader's functionality was moved to Yaml
- */
-public final class Loader {
-    protected final BaseConstructor constructor;
-    protected Resolver resolver;
+    private Long id;
 
-    public Loader(BaseConstructor constructor) {
-        super();
-        this.constructor = constructor;
+    public ContentIdentifierImpl(Long id) {
+        this.id = id;
     }
 
-    public Loader() {
-        this(new Constructor());
+    public Long getId() {
+        return id;
     }
 }

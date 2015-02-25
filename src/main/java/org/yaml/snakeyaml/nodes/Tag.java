@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import org.yaml.snakeyaml.util.UriEncoder;
 public final class Tag implements Comparable<Tag> {
     public static final String PREFIX = "tag:yaml.org,2002:";
     public static final Tag YAML = new Tag(PREFIX + "yaml");
-    public static final Tag VALUE = new Tag(PREFIX + "value");
     public static final Tag MERGE = new Tag(PREFIX + "merge");
     public static final Tag SET = new Tag(PREFIX + "set");
     public static final Tag PAIRS = new Tag(PREFIX + "pairs");
@@ -68,6 +67,7 @@ public final class Tag implements Comparable<Tag> {
     }
 
     private final String value;
+    private boolean secondary = false; // see http://www.yaml.org/refcard.html
 
     public Tag(String tag) {
         if (tag == null) {
@@ -78,6 +78,7 @@ public final class Tag implements Comparable<Tag> {
             throw new IllegalArgumentException("Tag must not contain leading or trailing spaces.");
         }
         this.value = UriEncoder.encode(tag);
+        this.secondary = !tag.startsWith(PREFIX);
     }
 
     public Tag(Class<? extends Object> clazz) {
@@ -92,6 +93,10 @@ public final class Tag implements Comparable<Tag> {
             throw new NullPointerException("URI for tag must be provided.");
         }
         this.value = uri.toASCIIString();
+    }
+
+    public boolean isSecondary() {
+        return secondary;
     }
 
     public String getValue() {
@@ -122,14 +127,8 @@ public final class Tag implements Comparable<Tag> {
     public boolean equals(Object obj) {
         if (obj instanceof Tag) {
             return value.equals(((Tag) obj).getValue());
-        } else if (obj instanceof String) {
-            if (value.equals(obj.toString())) {
-                // TODO to be removed later (version 2.0?)
-                System.err.println("Comparing Tag and String is deprecated.");
-                return true;
-            }
-        }
-        return false;
+        } else
+            return false;
     }
 
     @Override

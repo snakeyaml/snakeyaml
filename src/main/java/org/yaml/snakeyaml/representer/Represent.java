@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2013, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,5 +32,5 @@ public interface Represent {
      *            the instance to represent
      * @return Node to dump
      */
-    public Node representData(Object data);
+    Node representData(Object data);
 }
