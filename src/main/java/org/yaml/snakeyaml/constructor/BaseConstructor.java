@@ -103,7 +103,7 @@ public abstract class BaseConstructor {
 
     /**
      * Check if more documents available
-     * 
+     *
      * @return true when there are more YAML documents in the stream
      */
     public boolean checkData() {
@@ -113,7 +113,7 @@ public abstract class BaseConstructor {
 
     /**
      * Construct and return the next document
-     * 
+     *
      * @return constructed instance
      */
     public Object getData() {
@@ -128,7 +128,7 @@ public abstract class BaseConstructor {
 
     /**
      * Ensure that the stream contains a single document and construct it
-     * 
+     *
      * @return constructed instance
      * @throws ComposerException
      *             in case there are more documents in the stream
@@ -150,7 +150,7 @@ public abstract class BaseConstructor {
     /**
      * Construct complete YAML document. Call the second step in case of
      * recursive structures. At the end cleans all the state.
-     * 
+     *
      * @param node
      *            root Node
      * @return Java instance
@@ -182,7 +182,7 @@ public abstract class BaseConstructor {
     /**
      * Construct object from the specified Node. Return existing instance if the
      * node is already constructed.
-     * 
+     *
      * @param node
      *            Node to be constructed
      * @return Java instance
@@ -201,7 +201,7 @@ public abstract class BaseConstructor {
         }
         recursiveObjects.add(node);
         Construct constructor = getConstructor(node);
-        Object data = constructor.construct(node);
+        Object data = finalizeCunstruction(node, constructor.construct(node));
         constructedObjects.put(node, data);
         recursiveObjects.remove(node);
         if (node.isTwoStepsConstruction()) {
@@ -214,7 +214,7 @@ public abstract class BaseConstructor {
      * Get the constructor to construct the Node. For implicit tags if the
      * runtime class is known a dedicated Construct implementation is used.
      * Otherwise the constructor is chosen by the tag.
-     * 
+     *
      * @param node
      *            Node to be constructed
      * @return Construct implementation for the specified node
@@ -265,6 +265,14 @@ public abstract class BaseConstructor {
 
     // <<<< DEFAULTS <<<<
 
+    protected Object finalizeCunstruction(Node node, Object data) {
+        final Class<? extends Object> type = node.getType();
+        if (typeDefinitions.containsKey(type)) {
+            return typeDefinitions.get(type).finalizeConstruction(data);
+        }
+        return data;
+    }
+
     // >>>> NEW instance
     protected Object newInstance(Node node) {
         try {
@@ -274,7 +282,12 @@ public abstract class BaseConstructor {
         }
     }
 
-    protected Object newInstance(Class<?> ancestor, Node node) throws InstantiationException {
+    final protected Object newInstance(Class<?> ancestor, Node node) throws InstantiationException {
+        return newInstance(ancestor, node, true);
+    }
+
+    protected Object newInstance(Class<?> ancestor, Node node, boolean tryDefault)
+            throws InstantiationException {
         final Class<? extends Object> type = node.getType();
         if (typeDefinitions.containsKey(type)) {
             TypeDescription td = typeDefinitions.get(type);
@@ -283,16 +296,22 @@ public abstract class BaseConstructor {
                 return instance;
             }
         }
-        /*
-         * Removed <code> have InstantiationException in case of abstract type
-         */
-        if (ancestor.isAssignableFrom(type) && !Modifier.isAbstract(type.getModifiers())) {
-            try {
-                java.lang.reflect.Constructor<?> c = type.getDeclaredConstructor();
-                c.setAccessible(true);
-                return c.newInstance();
-            } catch (Exception e) {
-                throw new YAMLException(e);
+        if (tryDefault) {
+            /*
+             * Removed <code> have InstantiationException in case of abstract
+             * type
+             */
+            if (ancestor.isAssignableFrom(type) && !Modifier.isAbstract(type.getModifiers())) {
+                try {
+                    java.lang.reflect.Constructor<?> c = type.getDeclaredConstructor();
+                    c.setAccessible(true);
+                    return c.newInstance();
+                } catch (NoSuchMethodException e) {
+                    throw new InstantiationException("NoSuchMethodException:"
+                            + e.getLocalizedMessage());
+                } catch (Exception e) {
+                    throw new YAMLException(e);
+                }
             }
         }
         throw new InstantiationException();
@@ -512,7 +531,7 @@ public abstract class BaseConstructor {
      * Make YAML aware how to parse a custom Class. If there is no root Class
      * assigned in constructor then the 'root' property of this definition is
      * respected.
-     * 
+     *
      * @param definition
      *            to be added to the Constructor
      * @return the previous value associated with <tt>definition</tt>, or

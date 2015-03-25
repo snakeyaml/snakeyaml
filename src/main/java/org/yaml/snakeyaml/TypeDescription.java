@@ -77,7 +77,7 @@ public class TypeDescription {
 
     /**
      * Get tag which shall be used to load or dump the type (class).
-     * 
+     *
      * @return tag to be used. It may be a tag for Language-Independent Types
      *         (http://www.yaml.org/type/)
      */
@@ -87,7 +87,7 @@ public class TypeDescription {
 
     /**
      * Set tag to be used to load or dump the type (class).
-     * 
+     *
      * @param tag
      *            local or global tag
      */
@@ -101,7 +101,7 @@ public class TypeDescription {
 
     /**
      * Get represented type (class)
-     * 
+     *
      * @return type (class) to be described.
      */
     public Class<? extends Object> getType() {
@@ -110,7 +110,7 @@ public class TypeDescription {
 
     /**
      * Specify that the property is a type-safe <code>List</code>.
-     * 
+     *
      * @param property
      *            name of the JavaBean property
      * @param type
@@ -123,7 +123,7 @@ public class TypeDescription {
 
     /**
      * Get class of List values for provided JavaBean property.
-     * 
+     *
      * @param property
      *            property name
      * @return class of List values
@@ -141,7 +141,7 @@ public class TypeDescription {
 
     /**
      * Specify that the property is a type-safe <code>Map</code>.
-     * 
+     *
      * @param property
      *            property name of this JavaBean
      * @param key
@@ -157,7 +157,7 @@ public class TypeDescription {
 
     /**
      * Get keys type info for this JavaBean
-     * 
+     *
      * @param property
      *            property name of this JavaBean
      * @return class of keys in the Map
@@ -175,7 +175,7 @@ public class TypeDescription {
 
     /**
      * Get values type info for this JavaBean
-     * 
+     *
      * @param property
      *            property name of this JavaBean
      * @return class of values in the Map
@@ -196,7 +196,7 @@ public class TypeDescription {
      * <code>classes</classes> to this <code>TypeDescription</code>. If
      * <code>pName</code> has been added before - updates parameters with
      * <code>classes</code>.
-     * 
+     *
      * @param pName
      * @param classes
      */
@@ -245,7 +245,7 @@ public class TypeDescription {
 
     /**
      * Adds property substitute for <code>pName</code>
-     * 
+     *
      * @param pName
      *            property name
      * @param pType
@@ -375,4 +375,9 @@ public class TypeDescription {
     public Object newInstance(String propertyName, Node node) {
         return null;
     }
+
+    public Object finalizeConstruction(Object obj) {
+        return obj;
+    }
+
 }

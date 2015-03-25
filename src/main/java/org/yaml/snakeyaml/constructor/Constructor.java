@@ -47,7 +47,7 @@ public class Constructor extends SafeConstructor {
 
     /**
      * Create Constructor for the specified class as the root.
-     * 
+     *
      * @param theRoot
      *            - the class (usually JavaBean) to be constructed
      */
@@ -82,7 +82,7 @@ public class Constructor extends SafeConstructor {
     /**
      * Create Constructor for a class which does not have to be in the classpath
      * or for a definition from a Spring ApplicationContext.
-     * 
+     *
      * @param theRoot
      *            fully qualified class name of the root class (usually
      *            JavaBean)
@@ -111,7 +111,7 @@ public class Constructor extends SafeConstructor {
         /**
          * Construct JavaBean. If type safe collections are used please look at
          * <code>TypeDescription</code>.
-         * 
+         *
          * @param node
          *            node where the keys are property names (they can only be
          *            <code>String</code>s) and values are objects to be created
@@ -240,7 +240,7 @@ public class Constructor extends SafeConstructor {
                             value = ((Double) value).floatValue();
                         }
                     }
-                    
+
                     if (memberDescription == null
                             || !memberDescription.setProperty(object, key, value)) {
                         property.set(object, value);
@@ -337,7 +337,12 @@ public class Constructor extends SafeConstructor {
                 }
                 Object argument;
                 if (javaConstructor == null) {
-                    throw new YAMLException("No single argument constructor found for " + type);
+                    try {
+                        return newInstance(type, node, false);
+                    } catch (InstantiationException ie) {
+                        throw new YAMLException("No single argument constructor found for " + type
+                                + " : " + ie.getMessage());
+                    }
                 } else if (oneArgCount == 1) {
                     argument = constructStandardJavaInstance(
                             javaConstructor.getParameterTypes()[0], node);
