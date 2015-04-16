@@ -415,8 +415,8 @@ public final class ScannerImpl implements Scanner {
         if (ch == '\t')
             chRepresentation += "(TAB)";
         String text = String
-                .format("found character %s '%s' that cannot start any token. (Do not use %s for indentation)",
-                        ch, chRepresentation, chRepresentation);
+                .format("found character '%s' that cannot start any token. (Do not use %s for indentation)",
+                        chRepresentation, chRepresentation);
         throw new ScannerException("while scanning for the next token", null, text,
                 reader.getMark());
     }
