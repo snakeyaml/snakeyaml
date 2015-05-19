@@ -1437,7 +1437,7 @@ public final class ScannerImpl implements Scanner {
         }
         if (length == 0) {
             throw new ScannerException("while scanning an " + name, startMark,
-                    "expected alphabetic or numeric character, but found but found " + ch,
+                    "expected alphabetic or numeric character, but found " + ch,
                     reader.getMark());
         }
         String value = reader.prefixForward(length);

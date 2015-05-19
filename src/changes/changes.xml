@@ -7,8 +7,11 @@
     </properties>
     <body>
         <release version="1.16-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="py4fun" type="fix"  issue="212">
+                Fix a typo in an error message in ScannerImpl (2015-05-19)
+            </action>
             <action dev="py4fun" type="fix"  issue="209">
-                Do not print special characters in the error message (20015-04-16)
+                Do not print special characters in the error message (2015-04-16)
             </action>
             <action dev="py4fun" type="fix"  issue="199">
                 Evaluate implementations for duplicate mapping keys.
