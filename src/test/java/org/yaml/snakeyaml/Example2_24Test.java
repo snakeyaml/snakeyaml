@@ -33,7 +33,6 @@ import org.yaml.snakeyaml.representer.Representer;
 /**
  * Test Example 2.24 from the YAML specification
  * 
- * @author py4fun
  * @see http://yaml.org/spec/1.1/
  */
 public class Example2_24Test extends TestCase {

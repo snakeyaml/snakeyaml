@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 /**
  * Test Chapter 2.5 from the YAML specification
  * 
- * @author py4fun
  * @see http://yaml.org/spec/1.1/
  */
 public class Chapter2_5Test extends TestCase {
