@@ -1,16 +1,14 @@
-SnakeYAML
-=========
+### The art of simplicity is a puzzle of complexity. ###
 
-##YAML parser and emitter for Java
+## Overview ##
+YAML is a data serialization format designed for human readability and interaction with scripting languages.
 
-This is the official [SnakeYAML] mirror for those who prefer to use GIT.
+SnakeYAML is a YAML parser and emitter for the Java programming language.
 
+## SnakeYAML features ##
 
-## License
-
-The SnakeYAML is licensed under [APL 2.0].
-
-  [SnakeYAML]:          http://www.snakeyaml.org/
-  [APL 2.0]:            http://www.apache.org/licenses/LICENSE-2.0
-
-
+* a complete YAML 1.1 parser. In particular, SnakeYAML can parse all examples from the specification.
+* Unicode support including UTF-8/UTF-16 input/output.
+* high-level API for serializing and deserializing native Java objects.
+* support for all types from the YAML types repository.
+* relatively sensible error messages.
