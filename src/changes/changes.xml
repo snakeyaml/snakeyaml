@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.16-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix">
+                Convert binary byte[] to String when it matches the JavaBean property (2015-05-26)
+            </action>
             <action dev="asomov" type="update">
                 The source code migrated to Bitbucket. Old commits (older then 6 years) have
                 been removed. (2015-05-20)
