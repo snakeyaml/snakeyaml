@@ -10,6 +10,7 @@
     <name>SnakeYAML</name>
     <description>YAML 1.1 parser and emitter for Java</description>
     <inceptionYear>2008</inceptionYear>
+
     <url>http://www.snakeyaml.org</url>
     <issueManagement>
         <system>Bitbucket</system>
@@ -32,8 +33,9 @@
     </scm>
     <licenses>
         <license>
-            <name>Apache License Version 2.0</name>
-            <url>LICENSE.txt</url>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
     <developers>
