@@ -12,3 +12,6 @@ SnakeYAML is a YAML parser and emitter for the Java Virtual Machine.
 * high-level API for serializing and deserializing native Java objects.
 * support for all types from the YAML types repository.
 * relatively sensible error messages.
+
+## Info ##
+ * [Changes](Changes)
