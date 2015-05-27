@@ -14,4 +14,4 @@ SnakeYAML is a YAML parser and emitter for the Java Virtual Machine.
 * relatively sensible error messages.
 
 ## Info ##
- * [Changes](Changes)
+ * [Changes](https://bitbucket.org/asomov/snakeyaml/wiki/Changes)
