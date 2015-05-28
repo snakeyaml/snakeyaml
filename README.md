@@ -1,7 +1,7 @@
 ***The art of simplicity is a puzzle of complexity.***
 
 ## Overview ##
-YAML is a data serialization format designed for human readability and interaction with scripting languages.
+[YAML](http://yaml.org) is a data serialization format designed for human readability and interaction with scripting languages.
 
 SnakeYAML is a YAML parser and emitter for the Java Virtual Machine.
 
