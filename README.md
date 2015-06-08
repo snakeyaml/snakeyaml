@@ -16,3 +16,9 @@ SnakeYAML is a YAML parser and emitter for the Java Virtual Machine.
 ## Info ##
  * [Changes](https://bitbucket.org/asomov/snakeyaml/wiki/Changes)
  * [Documentation](https://bitbucket.org/asomov/snakeyaml/wiki/Documentation)
+
+## Contribute ##
+* Mercurial DVCS is used to dance with the [source code](https://bitbucket.org/asomov/snakeyaml/src).
+* If you find a bug in SnakeYAML, please [file a bug report](https://bitbucket.org/asomov/snakeyaml/issues?status=new&status=open).
+* You may discuss SnakeYAML at
+[the mailing list](http://groups.google.com/group/snakeyaml-core).
