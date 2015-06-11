@@ -25,7 +25,6 @@ import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 /**
  * Test Chapter 2.3 from the YAML specification
  * 
- * @author py4fun
  * @see http://yaml.org/spec/1.1/
  */
 public class Chapter2_3Test extends TestCase {

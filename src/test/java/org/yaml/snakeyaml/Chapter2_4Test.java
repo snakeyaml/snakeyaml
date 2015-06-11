@@ -35,7 +35,6 @@ import org.yaml.snakeyaml.nodes.Tag;
 /**
  * Test Chapter 2.4 from the YAML specification
  * 
- * @author py4fun
  * @see http://yaml.org/spec/1.1/
  */
 public class Chapter2_4Test extends TestCase {

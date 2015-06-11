@@ -1,16 +1,24 @@
-SnakeYAML
-=========
+***The art of simplicity is a puzzle of complexity.***
 
-##YAML parser and emitter for Java
+## Overview ##
+[YAML](http://yaml.org) is a data serialization format designed for human readability and interaction with scripting languages.
 
-This is the official [SnakeYAML] mirror for those who prefer to use GIT.
+SnakeYAML is a YAML parser and emitter for the Java Virtual Machine.
 
+## SnakeYAML features ##
 
-## License
+* a **complete** [YAML 1.1 parser](http://yaml.org/spec/1.1/current.html). In particular, SnakeYAML can parse all examples from the specification.
+* Unicode support including UTF-8/UTF-16 input/output.
+* high-level API for serializing and deserializing native Java objects.
+* support for all types from the [YAML types repository](http://yaml.org/type/index.html).
+* relatively sensible error messages.
 
-The SnakeYAML is licensed under [APL 2.0].
+## Info ##
+ * [Changes](https://bitbucket.org/asomov/snakeyaml/wiki/Changes)
+ * [Documentation](https://bitbucket.org/asomov/snakeyaml/wiki/Documentation)
 
-  [SnakeYAML]:          http://www.snakeyaml.org/
-  [APL 2.0]:            http://www.apache.org/licenses/LICENSE-2.0
-
-
+## Contribute ##
+* Mercurial DVCS is used to dance with the [source code](https://bitbucket.org/asomov/snakeyaml/src).
+* If you find a bug in SnakeYAML, please [file a bug report](https://bitbucket.org/asomov/snakeyaml/issues?status=new&status=open).
+* You may discuss SnakeYAML at
+[the mailing list](http://groups.google.com/group/snakeyaml-core).
