@@ -381,7 +381,8 @@ public class Constructor extends SafeConstructor {
                 result = constructStandardJavaInstance(type, node);
             } else {
                 // there must be only 1 constructor with 1 argument
-                java.lang.reflect.Constructor<?>[] javaConstructors = type.getConstructors();
+                java.lang.reflect.Constructor<?>[] javaConstructors = type
+                        .getDeclaredConstructors();
                 int oneArgCount = 0;
                 java.lang.reflect.Constructor<?> javaConstructor = null;
                 for (java.lang.reflect.Constructor<?> c : javaConstructors) {
@@ -405,7 +406,7 @@ public class Constructor extends SafeConstructor {
                     // constructor to avoid guessing the argument class
                     argument = constructScalar(node);
                     try {
-                        javaConstructor = type.getConstructor(String.class);
+                        javaConstructor = type.getDeclaredConstructor(String.class);
                     } catch (Exception e) {
                         throw new YAMLException("Can't construct a java object for scalar "
                                 + node.getTag() + "; No String constructor found. Exception="
@@ -413,6 +414,7 @@ public class Constructor extends SafeConstructor {
                     }
                 }
                 try {
+                    javaConstructor.setAccessible(true);
                     result = javaConstructor.newInstance(argument);
                 } catch (Exception e) {
                     throw new ConstructorException(null, null,
@@ -503,7 +505,11 @@ public class Constructor extends SafeConstructor {
                 ConstructYamlNumber contr = new ConstructYamlNumber();
                 result = contr.construct(node);
             } else {
-                throw new YAMLException("Unsupported class: " + type);
+                if (yamlConstructors.containsKey(node.getTag())) {
+                    result = yamlConstructors.get(node.getTag()).construct(node);
+                } else {
+                    throw new YAMLException("Unsupported class: " + type);
+                }
             }
             return result;
         }
