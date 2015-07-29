@@ -18,21 +18,95 @@ package org.yaml.snakeyaml.issues.issue311;
 import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Represent;
+import org.yaml.snakeyaml.representer.Representer;
 
 import static org.junit.Assert.assertEquals;
 
 public class BooleanEnumTest {
 
     @Test
-    public void laodFromString() {
+    public void loadEnum() {
+
+        Yaml yaml = new Yaml(new MyConstructor(), new MyRepresenter());
+        BeanWithEnum parsed = yaml.loadAs("{boolField: true, enumField: true, name: '10'}", BeanWithEnum.class);
+        System.out.println(parsed.getEnumField());
+        assertEquals(BooleanEnum.TRUE, parsed.getEnumField());
+        assertEquals("10", parsed.getName());
+    }
+
+    @Test
+    public void loadEnumUndefined() {
+
+        Yaml yaml = new Yaml(new MyConstructor(), new MyRepresenter());
+        BeanWithEnum parsed = yaml.loadAs("{boolField: true, enumField: nonsense, name: bar}", BeanWithEnum.class);
+        System.out.println(parsed.getEnumField());
+        assertEquals(BooleanEnum.UNKNOWN, parsed.getEnumField());
+        assertEquals("bar", parsed.getName());
+    }
+
+    @Test
+    public void dumpEnum() {
 
         BeanWithEnum bean = new BeanWithEnum(true, "10", BooleanEnum.TRUE);
-        Yaml yaml = new Yaml();
+        Yaml yaml = new Yaml(new MyConstructor(), new MyRepresenter());
         String output = yaml.dumpAs(bean, Tag.MAP, DumperOptions.FlowStyle.FLOW);
-        assertEquals("{boolField: true, enumField: 'TRUE', name: '10'}\n", output);
-        BeanWithEnum parsed = yaml.loadAs(output, BeanWithEnum.class);
-        assertEquals(bean.getEnumField(), parsed.getEnumField());
-        assertEquals(bean.getName(), parsed.getName());
+        assertEquals("{boolField: true, enumField: 'true', name: '10'}\n", output);
+    }
+
+    class MyRepresenter extends Representer {
+        public MyRepresenter() {
+            this.representers.put(BooleanEnum.class, new RepresentEnum());
+        }
+
+        private class RepresentEnum implements Represent {
+            public Node representData(Object data) {
+                BooleanEnum myEnum = (BooleanEnum) data;
+                String value;
+                switch (myEnum) {
+                    case TRUE:
+                        value = "true";
+                        break;
+
+                    case FALSE:
+                        value = "false";
+                        break;
+
+                    case UNKNOWN:
+                        value = "unknown";
+                        break;
+
+                    default:
+                        throw new IllegalArgumentException();
+                }
+                return representScalar(Tag.STR, value);
+            }
+        }
+    }
+
+    class MyConstructor extends Constructor {
+        public MyConstructor() {
+            this.yamlClassConstructors.put(NodeId.scalar, new ConstructEnum());
+        }
+
+        private class ConstructEnum extends ConstructScalar {
+            public Object construct(Node node) {
+                if (node.getType().equals(BooleanEnum.class)) {
+                    String val = (String) constructScalar((ScalarNode) node);
+                    if ("true".equals(val)) {
+                        return BooleanEnum.TRUE;
+                    } else if ("false".equals(val)) {
+                        return BooleanEnum.FALSE;
+                    } else
+                        return BooleanEnum.UNKNOWN;
+                }
+                return super.construct(node);
+            }
+        }
     }
 }

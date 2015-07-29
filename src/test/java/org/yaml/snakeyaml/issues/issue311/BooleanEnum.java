@@ -16,5 +16,30 @@
 package org.yaml.snakeyaml.issues.issue311;
 
 public enum BooleanEnum {
-    TRUE, FALSE, UNKNOWN
+
+    TRUE(true), FALSE(false), UNKNOWN();
+
+    private boolean boolValue;
+    private boolean defined;
+
+    BooleanEnum(boolean p) {
+        boolValue = p;
+        defined = true;
+    }
+
+    BooleanEnum() {
+        boolValue = false;
+        defined = false;
+    }
+
+    boolean getBoolValue() {
+        if (!defined)
+            throw new IllegalArgumentException("Undefined has no value");
+        else
+            return boolValue;
+    }
+
+    boolean isDefined() {
+        return defined;
+    }
 }
