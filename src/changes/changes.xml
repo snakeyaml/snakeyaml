@@ -6,7 +6,9 @@
         <author email="public.somov@gmail.com">Andrey Somov</author>
     </properties>
     <body>
-        <release version="1.16-SNAPSHOT" date="in Mercurial" description="Maintenance">
+        <release version="1.17-SNAPSHOT" date="in Mercurial" description="Maintenance">
+        </release>
+        <release version="1.16" date="2015-08-18" description="Maintenance">
             <action dev="asomov" type="fix" issue="308">
                 Provide Docker image for testing under different Java 8 (2015-06-19)
             </action>
