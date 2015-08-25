@@ -57,7 +57,7 @@ public final class Serializer {
     private Map<String, String> useTags;
     private Set<Node> serializedNodes;
     private Map<Node, String> anchors;
-    private int lastAnchorId;
+    private AnchorGenerator anchorGenerator;
     private Boolean closed;
     private Tag explicitRoot;
 
@@ -72,7 +72,7 @@ public final class Serializer {
         this.useTags = opts.getTags();
         this.serializedNodes = new HashSet<Node>();
         this.anchors = new HashMap<Node, String>();
-        this.lastAnchorId = 0;
+        this.anchorGenerator = opts.getAnchorGenerator();
         this.closed = null;
         this.explicitRoot = rootTag;
     }
@@ -113,7 +113,6 @@ public final class Serializer {
         this.emitter.emit(new DocumentEndEvent(null, null, this.explicitEnd));
         this.serializedNodes.clear();
         this.anchors.clear();
-        this.lastAnchorId = 0;
     }
 
     private void anchorNode(Node node) {
@@ -123,7 +122,7 @@ public final class Serializer {
         if (this.anchors.containsKey(node)) {
             String anchor = this.anchors.get(node);
             if (null == anchor) {
-                anchor = generateAnchor();
+                anchor = this.anchorGenerator.nextAnchor(node);
                 this.anchors.put(node, anchor);
             }
         } else {
@@ -148,16 +147,6 @@ public final class Serializer {
                 break;
             }
         }
-    }
-
-    private String generateAnchor() {
-        this.lastAnchorId++;
-        NumberFormat format = NumberFormat.getNumberInstance();
-        format.setMinimumIntegerDigits(3);
-        format.setMaximumFractionDigits(0);// issue 172
-        format.setGroupingUsed(false);
-        String anchorId = format.format(this.lastAnchorId);
-        return "id" + anchorId;
     }
 
     private void serializeNode(Node node, Node parent) throws IOException {
