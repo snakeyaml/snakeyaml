@@ -2,10 +2,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.yaml</groupId>
     <artifactId>snakeyaml</artifactId>
-    <version>1.16-SNAPSHOT</version>
+    <version>1.17-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.scm.id>bitbucket</project.scm.id>
     </properties>
     <name>SnakeYAML</name>
     <description>YAML 1.1 parser and emitter for Java</description>
@@ -200,7 +201,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.1</version>
+                <version>2.10.3</version>
                 <configuration>
                     <links>
                         <link>http://java.sun.com/javase/6/docs/api/</link>
@@ -247,7 +248,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.5.3</version>
+                <version>2.5.4</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
@@ -281,7 +282,7 @@
                 <artifactId>maven-changes-plugin</artifactId>
                 <version>2.11</version>
                 <configuration>
-                    <issueLinkTemplate>http://code.google.com/p/snakeyaml/issues/detail?id=%ISSUE%</issueLinkTemplate>
+                    <issueLinkTemplate>https://bitbucket.org/asomov/snakeyaml/issues/%ISSUE%</issueLinkTemplate>
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -398,12 +399,12 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>3.0.0</version>
+                        <version>3.0.2</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-pmd-plugin</artifactId>
-                        <version>3.4</version>
+                        <version>3.5</version>
                     </plugin>
                 </plugins>
             </build>
@@ -489,7 +490,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-patch-plugin</artifactId>
-                        <version>1.1.1</version>
+                        <version>1.2</version>
                         <configuration>
                             <patchDirectory>${basedir}/src/patches/android/</patchDirectory>
                             <targetDirectory>${android.src}</targetDirectory>

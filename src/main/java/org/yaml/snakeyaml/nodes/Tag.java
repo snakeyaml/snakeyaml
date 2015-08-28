@@ -88,6 +88,7 @@ public final class Tag implements Comparable<Tag> {
         this.value = Tag.PREFIX + UriEncoder.encode(clazz.getName());
     }
 
+    //TODO to be removed ?
     public Tag(URI uri) {
         if (uri == null) {
             throw new NullPointerException("URI for tag must be provided.");

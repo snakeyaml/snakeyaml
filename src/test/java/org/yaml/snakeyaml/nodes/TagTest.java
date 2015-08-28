@@ -90,20 +90,6 @@ public class TagTest extends TestCase {
         assertEquals("!ruby/object:Test::Module::Sub2", tag.getValue());
     }
 
-    public void testUri3() throws URISyntaxException {
-        Tag tag = new Tag(new URI("!!java/javabean:foo.Bar"));
-        assertEquals("!!java/javabean:foo.Bar", tag.toString());
-    }
-
-    public void testNullUri() throws URISyntaxException {
-        try {
-            new Tag((URI) null);
-            fail("URI for tag must not be null.");
-        } catch (Exception e) {
-            assertEquals("URI for tag must be provided.", e.getMessage());
-        }
-    }
-
     public void testCompare() {
         Tag tag = new Tag("!car");
         assertEquals(0, tag.compareTo(new Tag("!car")));

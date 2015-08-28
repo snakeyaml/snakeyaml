@@ -20,6 +20,8 @@ import java.util.TimeZone;
 
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.serializer.AnchorGenerator;
+import org.yaml.snakeyaml.serializer.NumberAnchorGenerator;
 
 public class DumperOptions {
     /**
@@ -171,15 +173,18 @@ public class DumperOptions {
     private Version version = null;
     private Map<String, String> tags = null;
     private Boolean prettyFlow = false;
+    private AnchorGenerator anchorGenerator = new NumberAnchorGenerator(0);
 
     public boolean isAllowUnicode() {
         return allowUnicode;
     }
 
     /**
-     * Specify whether to emit non-ASCII printable Unicode characters (to
-     * support ASCII terminals). The default value is true.
-     * 
+     * Specify whether to emit non-ASCII printable Unicode characters.
+     * The default value is true.
+     * When set to false then printable non-ASCII characters (Cyrillic, Chinese etc)
+     * will be not printed but escaped (to support ASCII terminals)
+     *
      * @param allowUnicode
      *            if allowUnicode is false then all non-ASCII characters are
      *            escaped
@@ -343,7 +348,7 @@ public class DumperOptions {
     /**
      * Report whether read-only JavaBean properties (the ones without setters)
      * should be included in the YAML document
-     * 
+     *
      * @return false when read-only JavaBean properties are not emitted
      */
     public boolean isAllowReadOnlyProperties() {
@@ -354,7 +359,7 @@ public class DumperOptions {
      * Set to true to include read-only JavaBean properties (the ones without
      * setters) in the YAML document. By default these properties are not
      * included to be able to parse later the same JavaBean.
-     * 
+     *
      * @param allowReadOnlyProperties
      *            - true to dump read-only JavaBean properties
      */
@@ -372,5 +377,14 @@ public class DumperOptions {
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
+    }
+
+
+    public AnchorGenerator getAnchorGenerator() {
+        return anchorGenerator;
+    }
+
+    public void setAnchorGenerator(AnchorGenerator anchorGenerator) {
+        this.anchorGenerator = anchorGenerator;
     }
 }
