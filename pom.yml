@@ -1,4 +1,38 @@
+modelVersion: 4.0.0
+groupId: org.yaml
 artifactId: snakeyaml
+version: 1.17-SNAPSHOT
+packaging: jar # TODO must be bundle
+properties: {project.scm.id: bitbucket, project.build.sourceEncoding: UTF-8}
+name: SnakeYAML
+description: YAML 1.1 parser and emitter for Java
+inceptionYear: '2008'
+url: http://www.snakeyaml.org
+issueManagement: {system: Bitbucket, url: 'https://bitbucket.org/asomov/snakeyaml/issues'}
+mailingLists:
+- {name: SnakeYAML developers and users List, post: snakeyaml-core@googlegroups.com}
+scm: {connection: 'scm:hg:http://bitbucket.org/asomov/snakeyaml', developerConnection: 'scm:hg:https://bitbucket.org/asomov/snakeyaml',
+  tag: HEAD, url: 'https://bitbucket.org/asomov/snakeyaml/src'}
+licenses:
+- {distribution: repo, name: 'Apache License, Version 2.0', url: 'http://www.apache.org/licenses/LICENSE-2.0.txt'}
+developers:
+- {email: public.somov@gmail.com, id: asomov, name: Andrey Somov}
+- {email: alexander.maslov@gmail.com, id: maslovalex, name: Alexander Maslov}
+- {email: jordanangold@gmail.com, id: Jordan, name: Jordan Angold}
+prerequisites: {maven: 3.3.1}
+dependencies:
+- {artifactId: junit, groupId: junit, optional: false, scope: test, type: jar, version: '4.12'}
+- {artifactId: spring, groupId: org.springframework, optional: false, scope: test,
+  type: jar, version: 2.5.6}
+- {artifactId: velocity, groupId: org.apache.velocity, optional: false, scope: test,
+  type: jar, version: 1.6.2}
+- {artifactId: joda-time, groupId: joda-time, optional: false, scope: test, type: jar,
+  version: '1.6'}
+distributionManagement:
+  repository: {id: sonatype-nexus-staging, layout: default, name: Nexus Release Repository,
+    uniqueVersion: true, url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'}
+  snapshotRepository: {id: sonatype-nexus-snapshots, layout: default, name: Sonatype Nexus Snapshots,
+    uniqueVersion: false, url: 'https://oss.sonatype.org/content/repositories/snapshots/'}
 build:
   pluginManagement:
     plugins:
@@ -116,35 +150,6 @@ build:
     groupId: org.apache.maven.plugins
     inherited: true
     version: '3.4'
-dependencies:
-- {artifactId: junit, groupId: junit, optional: false, scope: test, type: jar, version: '4.12'}
-- {artifactId: spring, groupId: org.springframework, optional: false, scope: test,
-  type: jar, version: 2.5.6}
-- {artifactId: velocity, groupId: org.apache.velocity, optional: false, scope: test,
-  type: jar, version: 1.6.2}
-- {artifactId: joda-time, groupId: joda-time, optional: false, scope: test, type: jar,
-  version: '1.6'}
-description: YAML 1.1 parser and emitter for Java
-developers:
-- {email: public.somov@gmail.com, id: asomov, name: Andrey Somov}
-- {email: alexander.maslov@gmail.com, id: maslovalex, name: Alexander Maslov}
-- {email: jordanangold@gmail.com, id: Jordan, name: Jordan Angold}
-distributionManagement:
-  repository: {id: sonatype-nexus-staging, layout: default, name: Nexus Release Repository,
-    uniqueVersion: true, url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'}
-  snapshotRepository: {id: sonatype-nexus-snapshots, layout: default, name: Sonatype Nexus Snapshots,
-    uniqueVersion: false, url: 'https://oss.sonatype.org/content/repositories/snapshots/'}
-groupId: org.yaml
-inceptionYear: '2008'
-issueManagement: {system: Bitbucket, url: 'https://bitbucket.org/asomov/snakeyaml/issues'}
-licenses:
-- {distribution: repo, name: 'Apache License, Version 2.0', url: 'http://www.apache.org/licenses/LICENSE-2.0.txt'}
-mailingLists:
-- {name: SnakeYAML developers and users List, post: snakeyaml-core@googlegroups.com}
-modelVersion: 4.0.0
-name: SnakeYAML
-packaging: bundle
-prerequisites: {maven: 3.0.5}
 profiles:
 - activation: {activeByDefault: false, jdk: '[1.8,)'}
   build:
@@ -294,7 +299,6 @@ profiles:
   properties: {android.test.classes: '${project.build.directory}/android/test-classes/',
     android.classes: '${project.build.directory}/android/classes/', android.src: '${project.build.directory}/android/src/'}
   source: pom
-properties: {project.scm.id: bitbucket, project.build.sourceEncoding: UTF-8}
 reporting:
   excludeDefaults: false
   plugins:
@@ -329,7 +333,6 @@ reporting:
       inherited: true
       reports: [javadoc]
     version: 2.10.1
-scm: {connection: 'scm:hg:http://bitbucket.org/asomov/snakeyaml', developerConnection: 'scm:hg:https://bitbucket.org/asomov/snakeyaml',
-  tag: HEAD, url: 'https://bitbucket.org/asomov/snakeyaml/src'}
-url: http://www.snakeyaml.org
-version: 1.17-SNAPSHOT
+
+
+
