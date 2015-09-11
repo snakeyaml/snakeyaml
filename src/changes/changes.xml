@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.17-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="add">
+                Use Polyglot Maven: add support for YAML POM (2015-09-10)
+            </action>
             <action dev="asomov" type="fix" issue="314">
                 Provide ability to customize anchor names (2015-08-25)
             </action>
