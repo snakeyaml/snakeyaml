@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.17-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="306">
+                Better UUID support (2015-09-23)
+            </action>
             <action dev="asomov" type="add">
                 Use Polyglot Maven: add support for YAML POM (2015-09-10)
             </action>

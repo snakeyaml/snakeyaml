@@ -42,7 +42,7 @@ public class PropertyWithPrivateCostructorTest {
     }
 
     @Test
-    public void laodFromString() {
+    public void loadFromString() {
 
         String yamlStr = "id: 123\n" + "income: 123456.78\n" + "name: Neo Anderson";
 
