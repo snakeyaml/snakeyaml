@@ -20,9 +20,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
+import org.junit.Assert;
+import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -31,7 +30,9 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 
-public class YamlSortedSetTest extends TestCase {
+public class YamlSortedSetTest {
+
+    @Test
     public void testYaml() {
         String serialized = "!!org.yaml.snakeyaml.issues.issue97.Blog\n" + "posts:\n"
                 + "  - text: Dummy\n" + "    title: Test\n" + "  - text: Creative\n"
