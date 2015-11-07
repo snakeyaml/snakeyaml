@@ -1,0 +1,15 @@
+## installation
+sudo apt-get install apparmor lxc cgroup-lite
+sudo apt-get install docker.io
+
+## verification
+sudo service docker.io start
+sudo docker run hello-world
+
+## show current images
+sudo docker images
+
+
+cd <snakeyaml>/docker
+docker build --tag=snakeyaml:dev java8
+docker run -it snakeyaml:dev
