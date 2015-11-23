@@ -328,14 +328,14 @@ public class TypeDescription {
 
             dumpProperties = new LinkedHashSet<Property>();
 
-            for (Property property : readableProps) {
-                if (!excludes.contains(property.getName())) {
+            for (Property property : properties.values()) {
+                if (!excludes.contains(property.getName()) && property.isReadable()) {
                     dumpProperties.add(property);
                 }
             }
 
-            for (Property property : properties.values()) {
-                if (!excludes.contains(property.getName()) && property.isReadable()) {
+            for (Property property : readableProps) {
+                if (!excludes.contains(property.getName())) {
                     dumpProperties.add(property);
                 }
             }
