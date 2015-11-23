@@ -1,5 +1,5 @@
 # SnakeYAML
-FROM java:8
+FROM java:7
 MAINTAINER Andrey Somov <public.somov@gmail.com>
 
 RUN apt-get update && apt-get install -y mercurial

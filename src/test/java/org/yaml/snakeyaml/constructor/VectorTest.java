@@ -34,10 +34,10 @@ public class VectorTest extends TestCase {
         // System.out.println("Source Vector: " + srcVector);
         Yaml yaml = new Yaml();
         String instance = yaml.dump(srcVector);
-        // System.out.println("YAML String: " + new String(instance));
+        //System.out.println("YAML String: " + instance);
         yaml = new Yaml(new Constructor("java.util.Vector"));
         // If I try to get a Vector I receive a class cast exception.
-        Vector<String> vector = (Vector<String>) yaml.load(new String(instance));
+        Vector<String> vector = (Vector<String>) yaml.load(instance);
         // System.out.println("Vector: " + vector);
         assertEquals(4, vector.size());
         assertEquals("this", vector.firstElement());

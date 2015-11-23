@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.error.YAMLException;
@@ -49,6 +50,7 @@ class SafeRepresenter extends BaseRepresenter {
         this.representers.put(String.class, new RepresentString());
         this.representers.put(Boolean.class, new RepresentBoolean());
         this.representers.put(Character.class, new RepresentString());
+        this.representers.put(UUID.class, new RepresentUuid());
         this.representers.put(byte[].class, new RepresentByteArray());
 
         Represent primitiveArray = new RepresentPrimitiveArray();
@@ -414,5 +416,11 @@ class SafeRepresenter extends BaseRepresenter {
 
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
+    }
+
+    protected class RepresentUuid implements Represent {
+        public Node representData(Object data) {
+            return representScalar(getTag(data.getClass(), new Tag(UUID.class)), data.toString());
+        }
     }
 }

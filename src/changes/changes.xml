@@ -7,6 +7,16 @@
     </properties>
     <body>
         <release version="1.17-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update" issue="320">
+                Better support to customise BaseConstructor. Make 'composer' field and constructDocument()
+                method protected (2015-10-03)
+            </action>
+            <action dev="asomov" type="fix" issue="306">
+                Better UUID support (2015-09-23)
+            </action>
+            <action dev="asomov" type="add">
+                Use Polyglot Maven: add support for YAML POM (2015-09-10)
+            </action>
             <action dev="asomov" type="fix" issue="314">
                 Provide ability to customize anchor names (2015-08-25)
             </action>

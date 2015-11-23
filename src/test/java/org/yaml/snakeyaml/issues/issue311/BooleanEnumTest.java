@@ -35,7 +35,7 @@ public class BooleanEnumTest {
 
         Yaml yaml = new Yaml(new MyConstructor(), new MyRepresenter());
         BeanWithEnum parsed = yaml.loadAs("{boolField: true, enumField: true, name: '10'}", BeanWithEnum.class);
-        System.out.println(parsed.getEnumField());
+        //System.out.println(parsed.getEnumField());
         assertEquals(BooleanEnum.TRUE, parsed.getEnumField());
         assertEquals("10", parsed.getName());
     }
@@ -45,7 +45,7 @@ public class BooleanEnumTest {
 
         Yaml yaml = new Yaml(new MyConstructor(), new MyRepresenter());
         BeanWithEnum parsed = yaml.loadAs("{boolField: true, enumField: nonsense, name: bar}", BeanWithEnum.class);
-        System.out.println(parsed.getEnumField());
+        //System.out.println(parsed.getEnumField());
         assertEquals(BooleanEnum.UNKNOWN, parsed.getEnumField());
         assertEquals("bar", parsed.getName());
     }

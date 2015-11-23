@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -325,7 +326,7 @@ public class Constructor extends SafeConstructor {
                     || type == Boolean.class || Date.class.isAssignableFrom(type)
                     || type == Character.class || type == BigInteger.class
                     || type == BigDecimal.class || Enum.class.isAssignableFrom(type)
-                    || Tag.BINARY.equals(node.getTag()) || Calendar.class.isAssignableFrom(type)) {
+                    || Tag.BINARY.equals(node.getTag()) || Calendar.class.isAssignableFrom(type) || type == UUID.class) {
                 // standard classes created directly
                 result = constructStandardJavaInstance(type, node);
             } else {
@@ -458,6 +459,8 @@ public class Constructor extends SafeConstructor {
             } else if (Number.class.isAssignableFrom(type)) {
                 ConstructYamlNumber contr = new ConstructYamlNumber();
                 result = contr.construct(node);
+            }  else if (UUID.class == type) {
+                result = UUID.fromString(node.getValue());
             } else {
                 if (yamlConstructors.containsKey(node.getTag())) {
                     result = yamlConstructors.get(node.getTag()).construct(node);

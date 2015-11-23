@@ -67,7 +67,7 @@ public abstract class BaseConstructor {
      */
     protected final Map<String, Construct> yamlMultiConstructors = new HashMap<String, Construct>();
 
-    private Composer composer;
+    protected Composer composer;
     final Map<Node, Object> constructedObjects;
     private final Set<Node> recursiveObjects;
     private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>> maps2fill;
@@ -155,7 +155,7 @@ public abstract class BaseConstructor {
      *            root Node
      * @return Java instance
      */
-    private Object constructDocument(Node node) {
+    protected final Object constructDocument(Node node) {
         Object data = constructObject(node);
         fillRecursive();
         constructedObjects.clear();
