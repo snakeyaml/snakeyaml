@@ -22,7 +22,7 @@ package org.yaml.snakeyaml.introspector;
  * class is the actual name of the property as given for the class, not an
  * alias.
  * </p>
- * 
+ *
  * <p>
  * Objects of this class have a total ordering which defaults to ordering based
  * on the name of the property.
@@ -54,7 +54,7 @@ public abstract class Property implements Comparable<Property> {
     }
 
     public int compareTo(Property o) {
-        return name.compareTo(o.name);
+        return getName().compareTo(o.getName());
     }
 
     public boolean isWritable() {
@@ -71,14 +71,14 @@ public abstract class Property implements Comparable<Property> {
 
     @Override
     public int hashCode() {
-        return name.hashCode() + type.hashCode();
+        return getName().hashCode() + getType().hashCode();
     }
 
     @Override
     public boolean equals(Object other) {
         if (other instanceof Property) {
             Property p = (Property) other;
-            return name.equals(p.getName()) && type.equals(p.getType());
+            return getName().equals(p.getName()) && getType().equals(p.getType());
         }
         return false;
     }
