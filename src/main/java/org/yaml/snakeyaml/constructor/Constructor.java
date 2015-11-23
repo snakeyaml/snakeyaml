@@ -216,7 +216,7 @@ public class Constructor extends SafeConstructor {
                                 Class<?> t = arguments[0];
                                 SequenceNode snode = (SequenceNode) valueNode;
                                 snode.setListType(t);
-                            } else if (valueNode.getTag().equals(Tag.SET)) {
+                            } else if (Set.class.isAssignableFrom(valueNode.getType())) {
                                 Class<?> t = arguments[0];
                                 MappingNode mnode = (MappingNode) valueNode;
                                 mnode.setOnlyKeyType(t);
