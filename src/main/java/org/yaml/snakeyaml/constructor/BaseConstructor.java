@@ -201,7 +201,10 @@ public abstract class BaseConstructor {
         }
         recursiveObjects.add(node);
         Construct constructor = getConstructor(node);
-        Object data = finalizeCunstruction(node, constructor.construct(node));
+        Object data = (constructedObjects.containsKey(node)) ? constructedObjects.get(node)
+                : constructor.construct(node);
+
+        finalizeCunstruction(node, data);
         constructedObjects.put(node, data);
         recursiveObjects.remove(node);
         if (node.isTwoStepsConstruction()) {
