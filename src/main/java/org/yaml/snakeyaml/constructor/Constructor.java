@@ -548,9 +548,10 @@ public class Constructor extends SafeConstructor {
                 // create immutable object
                 List<java.lang.reflect.Constructor<?>> possibleConstructors = new ArrayList<java.lang.reflect.Constructor<?>>(
                         snode.getValue().size());
-                for (java.lang.reflect.Constructor<?> constructor : node.getType()
-                        .getConstructors()) {
-                    if (snode.getValue().size() == constructor.getParameterTypes().length) {
+                for (java.lang.reflect.Constructor<?> constructor : node
+                        .getType().getDeclaredConstructors()) {
+                    if (snode.getValue()
+                            .size() == constructor.getParameterTypes().length) {
                         possibleConstructors.add(constructor);
                     }
                 }
@@ -567,6 +568,7 @@ public class Constructor extends SafeConstructor {
                         }
 
                         try {
+                            c.setAccessible(true);
                             return c.newInstance(argumentList);
                         } catch (Exception e) {
                             throw new YAMLException(e);
@@ -593,6 +595,7 @@ public class Constructor extends SafeConstructor {
                         }
                         if (foundConstructor) {
                             try {
+                                c.setAccessible(true);
                                 return c.newInstance(argumentList.toArray());
                             } catch (Exception e) {
                                 throw new YAMLException(e);
