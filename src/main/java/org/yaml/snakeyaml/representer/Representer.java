@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.representer;
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -173,21 +174,23 @@ public class Representer extends SafeRepresenter {
                 // apply map tag where class is the same
                 Class<? extends Object> t = arguments[0];
                 SequenceNode snode = (SequenceNode) node;
-                Iterable<Object> memberList;
+                Iterable<Object> memberList = Collections.EMPTY_LIST;
                 if (object.getClass().isArray()) {
                     memberList = Arrays.asList((Object[]) object);
-                } else {
+                } else if (object instanceof Iterable<?>) {
                     // list
                     memberList = (Iterable<Object>) object;
                 }
                 Iterator<Object> iter = memberList.iterator();
-                for (Node childNode : snode.getValue()) {
-                    Object member = iter.next();
-                    if (member != null) {
-                        if (t.equals(member.getClass()))
-                            if (childNode.getNodeId() == NodeId.mapping) {
-                                childNode.setTag(Tag.MAP);
-                            }
+                if (iter.hasNext()) {
+                    for (Node childNode : snode.getValue()) {
+                        Object member = iter.next();
+                        if (member != null) {
+                            if (t.equals(member.getClass()))
+                                if (childNode.getNodeId() == NodeId.mapping) {
+                                    childNode.setTag(Tag.MAP);
+                                }
+                        }
                     }
                 }
             } else if (object instanceof Set) {
