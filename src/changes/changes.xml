@@ -7,6 +7,10 @@
     </properties>
     <body>
         <release version="1.17-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="maslovalex" type="update" issue="310">
+                Make use of private/protected constructors for Scalars and 'immutable' objects.
+                Added 'src/test/java8' for Java8 specific tests (requires -Pwith-java8-tests) (2016-01-07)
+            </action>
             <action dev="asomov" type="update" issue="320">
                 Better support to customise BaseConstructor. Make 'composer' field and constructDocument()
                 method protected (2015-10-03)
@@ -61,7 +65,7 @@
         </release>
         <release version="1.14" date="2014-08-29" description="Maintenance">
             <action dev="maslovalex" type="fix"  issue="197">
-	        Load JavaBean with fields using custom constructors (2014-08-18)
+                Load JavaBean with fields using custom constructors (2014-08-18)
             </action>
             <action dev="asomov" type="fix"  issue="192">
                 Drop support for "Value Key Language-Independent Type" and '=' a standard character (2014-05-22)
