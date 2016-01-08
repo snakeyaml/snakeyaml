@@ -171,6 +171,28 @@ profiles:
       inherited: true
   id: jdk8
   source: pom
+- build:
+    plugins:
+    - artifactId: maven-compiler-plugin
+      configuration: {source: '1.8', target: '1.8'}
+      extensions: false
+      groupId: org.apache.maven.plugins
+      inherited: true
+    - artifactId: build-helper-maven-plugin
+      executions:
+      - configuration:
+          sources: {source: '${basedir}/src/test/java8/'}
+        goals: [add-test-source]
+        id: add-java8-test-source
+        inherited: true
+        phase: generate-test-sources
+        priority: 0
+      extensions: false
+      groupId: org.codehaus.mojo
+      inherited: true
+      version: '1.10'
+  id: with-java8-tests
+  source: pom
 - activation:
     activeByDefault: false
     property: {name: performRelease, value: 'true'}
