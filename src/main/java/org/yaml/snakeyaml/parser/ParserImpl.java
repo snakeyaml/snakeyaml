@@ -15,40 +15,20 @@
  */
 package org.yaml.snakeyaml.parser;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.events.AliasEvent;
-import org.yaml.snakeyaml.events.DocumentEndEvent;
-import org.yaml.snakeyaml.events.DocumentStartEvent;
-import org.yaml.snakeyaml.events.Event;
-import org.yaml.snakeyaml.events.ImplicitTuple;
-import org.yaml.snakeyaml.events.MappingEndEvent;
-import org.yaml.snakeyaml.events.MappingStartEvent;
-import org.yaml.snakeyaml.events.ScalarEvent;
-import org.yaml.snakeyaml.events.SequenceEndEvent;
-import org.yaml.snakeyaml.events.SequenceStartEvent;
-import org.yaml.snakeyaml.events.StreamEndEvent;
-import org.yaml.snakeyaml.events.StreamStartEvent;
+import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
-import org.yaml.snakeyaml.tokens.AliasToken;
-import org.yaml.snakeyaml.tokens.AnchorToken;
-import org.yaml.snakeyaml.tokens.BlockEntryToken;
-import org.yaml.snakeyaml.tokens.DirectiveToken;
-import org.yaml.snakeyaml.tokens.ScalarToken;
-import org.yaml.snakeyaml.tokens.StreamEndToken;
-import org.yaml.snakeyaml.tokens.StreamStartToken;
-import org.yaml.snakeyaml.tokens.TagToken;
-import org.yaml.snakeyaml.tokens.TagTuple;
-import org.yaml.snakeyaml.tokens.Token;
+import org.yaml.snakeyaml.tokens.*;
 import org.yaml.snakeyaml.util.ArrayStack;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <pre>
@@ -113,14 +93,14 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * Since writing a recursive-descendant parser is a straightforward task, we do
  * not give many comments here.
  */
-public final class ParserImpl implements Parser {
+public class ParserImpl implements Parser {
     private static final Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();
     static {
         DEFAULT_TAGS.put("!", "!");
         DEFAULT_TAGS.put("!!", Tag.PREFIX);
     }
 
-    private final Scanner scanner;
+    protected final Scanner scanner;
     private Event currentEvent;
     private final ArrayStack<Production> states;
     private final ArrayStack<Mark> marks;
@@ -128,7 +108,11 @@ public final class ParserImpl implements Parser {
     private VersionTagsTuple directives;
 
     public ParserImpl(StreamReader reader) {
-        this.scanner = new ScannerImpl(reader);
+        this(new ScannerImpl(reader));
+    }
+
+    public ParserImpl(Scanner scanner) {
+        this.scanner = scanner;
         currentEvent = null;
         directives = new VersionTagsTuple(null, new HashMap<String, String>(DEFAULT_TAGS));
         states = new ArrayStack<Production>(100);
