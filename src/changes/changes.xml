@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.17-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update" issue="326">
+                Relax some of the modifiers to make integration easier (2016-02-02)
+            </action>
             <action dev="maslovalex" type="update" issue="310">
                 Make use of private/protected constructors for Scalars and 'immutable' objects.
                 Added 'src/test/java8' for Java8 specific tests (requires -Pwith-java8-tests) (2016-01-07)
