@@ -15,5 +15,5 @@ WORKDIR /projects
 RUN hg clone https://bitbucket.org/asomov/snakeyaml
 WORKDIR /projects/snakeyaml
 
-CMD ["mvn", "test"]
+CMD ["mvn", "test", "-Pwith-java8-tests"]
 
