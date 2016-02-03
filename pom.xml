@@ -7,6 +7,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.scm.id>bitbucket</project.scm.id>
+        <release.repo.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.repo.url>
+        <snapshot.repo.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.repo.url>
     </properties>
     <name>SnakeYAML</name>
     <description>YAML 1.1 parser and emitter for Java</description>
@@ -88,12 +90,12 @@
         <repository>
             <id>sonatype-nexus-staging</id>
             <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <url>${release.repo.url}</url>
         </repository>
         <snapshotRepository>
             <id>sonatype-nexus-snapshots</id>
             <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <url>${snapshot.repo.url}</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
