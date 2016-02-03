@@ -143,14 +143,9 @@ public class ParserImpl implements Parser {
     /**
      * Check the type of the next event.
      */
-    public boolean checkEvent(Event.ID choices) {
+    public boolean checkEvent(Event.ID choice) {
         peekEvent();
-        if (currentEvent != null) {
-            if (currentEvent.is(choices)) {
-                return true;
-            }
-        }
-        return false;
+        return currentEvent != null && currentEvent.is(choice);
     }
 
     /**
