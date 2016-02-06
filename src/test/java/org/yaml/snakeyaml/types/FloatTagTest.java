@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @see http://yaml.org/type/float.html
+ * @see <a href="http://yaml.org/type/float.html"></a>
  */
 public class FloatTagTest extends AbstractTest {
 

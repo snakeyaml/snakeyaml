@@ -42,7 +42,7 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 /**
- * @see imported from PyYAML
+ * imported from PyYAML
  */
 public class PyStructureTest extends PyImportTest {
 

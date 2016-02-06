@@ -31,7 +31,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 /**
- * @see issue 82: property order influence when aliased in generic collection
+ * issue 82: property order influence when aliased in generic collection
  */
 public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCase {
 

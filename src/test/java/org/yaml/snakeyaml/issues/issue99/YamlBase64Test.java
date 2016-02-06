@@ -35,7 +35,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 /**
  * Example for issue 99
  * 
- * @see http://code.google.com/p/snakeyaml/issues/detail?id=99
+ * @see <a href="http://code.google.com/p/snakeyaml/issues/detail?id=99"></a>
  */
 public class YamlBase64Test extends TestCase {
 

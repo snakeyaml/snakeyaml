@@ -52,7 +52,7 @@ import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.ValueToken;
 
 /**
- * @see imported from PyYAML
+ * imported from PyYAML
  */
 public class PyTokensTest extends PyImportTest {
 

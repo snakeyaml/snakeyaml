@@ -30,7 +30,7 @@ import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * @see http://yaml.org/type/str.html
+ * @see <a href="http://yaml.org/type/str.html"></a>
  */
 public class StrTagTest extends AbstractTest {
     private String getData(String data, String key) {
@@ -69,7 +69,7 @@ public class StrTagTest extends AbstractTest {
     }
 
     /**
-     * @see http://code.google.com/p/jvyamlb/issues/detail?id=6
+     * @see <a href="http://code.google.com/p/jvyamlb/issues/detail?id=6"></a>
      */
     @SuppressWarnings("unchecked")
     public void testIssueId6() {

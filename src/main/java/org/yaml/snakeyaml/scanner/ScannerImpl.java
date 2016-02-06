@@ -605,7 +605,7 @@ public final class ScannerImpl implements Scanner {
      * interpreted as instructions to the processor. YAML defines two kinds of
      * directives, YAML and TAG; all other types are reserved for future use.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id864824
+     * @see <a href="http://www.yaml.org/spec/1.1/#id864824"></a>
      */
     private void fetchDirective() {
         // Set the current intendation to -1.
@@ -676,7 +676,7 @@ public final class ScannerImpl implements Scanner {
      * started by '[' and ended by ']'; mappings are started by '{' and ended by
      * '}'.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      * 
      * @param isMappingStart
      */
@@ -719,7 +719,7 @@ public final class ScannerImpl implements Scanner {
      * started by '[' and ended by ']'; mappings are started by '{' and ended by
      * '}'.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      */
     private void fetchFlowCollectionEnd(boolean isMappingEnd) {
         // Reset possible simple key on the current level.
@@ -748,7 +748,7 @@ public final class ScannerImpl implements Scanner {
      * Fetch an entry in the flow style. Flow-style entries occur either
      * immediately after the start of a collection, or else after a comma.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      */
     private void fetchFlowEntry() {
         // Simple keys are allowed after ','.
@@ -768,7 +768,7 @@ public final class ScannerImpl implements Scanner {
     /**
      * Fetch an entry in the block style.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      */
     private void fetchBlockEntry() {
         // Block context needs additional checks.
@@ -805,7 +805,7 @@ public final class ScannerImpl implements Scanner {
     /**
      * Fetch a key in a block-style mapping.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      */
     private void fetchKey() {
         // Block context needs additional checks.
@@ -838,7 +838,7 @@ public final class ScannerImpl implements Scanner {
     /**
      * Fetch a value in a block-style mapping.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      */
     private void fetchValue() {
         // Do we determine a simple key?
@@ -905,7 +905,7 @@ public final class ScannerImpl implements Scanner {
      * *(anchor name)
      * </pre>
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863390
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863390"></a>
      */
     private void fetchAlias() {
         // ALIAS could be a simple key.
@@ -926,7 +926,7 @@ public final class ScannerImpl implements Scanner {
      * &(anchor name)
      * </pre>
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863390
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863390"></a>
      */
     private void fetchAnchor() {
         // ANCHOR could start a simple key.
@@ -943,7 +943,7 @@ public final class ScannerImpl implements Scanner {
     /**
      * Fetch a tag. Tags take a complex form.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id861700
+     * @see <a href="http://www.yaml.org/spec/1.1/#id861700"></a>
      */
     private void fetchTag() {
         // TAG could start a simple key.
@@ -962,7 +962,7 @@ public final class ScannerImpl implements Scanner {
      * best used for source code and other content, such as binary data, which
      * must be included verbatim.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      */
     private void fetchLiteral() {
         fetchBlockScalar('|');
@@ -972,7 +972,7 @@ public final class ScannerImpl implements Scanner {
      * Fetch a folded scalar, denoted with a greater-than sign. This is the type
      * best used for long content, such as the text of a chapter or description.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      */
     private void fetchFolded() {
         fetchBlockScalar('>');
@@ -981,7 +981,7 @@ public final class ScannerImpl implements Scanner {
     /**
      * Fetch a block scalar (literal or folded).
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      * 
      * @param style
      */
@@ -1014,7 +1014,7 @@ public final class ScannerImpl implements Scanner {
     /**
      * Fetch a flow scalar (single- or double-quoted).
      * 
-     * @see http://www.yaml.org/spec/1.1/#id863975
+     * @see <a href="http://www.yaml.org/spec/1.1/#id863975"></a>
      * 
      * @param style
      */
@@ -1052,7 +1052,7 @@ public final class ScannerImpl implements Scanner {
      * Returns true if the next thing on the reader is a directive, given that
      * the leading '%' has already been checked.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id864824
+     * @see <a href="http://www.yaml.org/spec/1.1/#id864824"></a>
      */
     private boolean checkDirective() {
         // DIRECTIVE: ^ '%' ...
@@ -1249,7 +1249,7 @@ public final class ScannerImpl implements Scanner {
      * Scan a directive name. Directive names are a series of non-space
      * characters.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id895217
+     * @see <a href="http://www.yaml.org/spec/1.1/#id895217"></a>
      */
     private String scanDirectiveName(Mark startMark) {
         // See the specification for details.
@@ -1306,8 +1306,8 @@ public final class ScannerImpl implements Scanner {
      * Read a %YAML directive number: this is either the major or the minor
      * part. Stop reading at a non-digit character (usually either '.' or '\n').
      * 
-     * @see http://www.yaml.org/spec/1.1/#id895631
-     * @see http://www.yaml.org/spec/1.1/#ns-dec-digit
+     * @see <a href="http://www.yaml.org/spec/1.1/#id895631"></a>
+     * @see <a href="http://www.yaml.org/spec/1.1/#ns-dec-digit"></a>
      */
     private Integer scanYamlDirectiveNumber(Mark startMark) {
         // See the specification for details.
@@ -1334,7 +1334,7 @@ public final class ScannerImpl implements Scanner {
      * 
      * </p>
      * 
-     * @see http://www.yaml.org/spec/1.1/#id896044
+     * @see <a href="http://www.yaml.org/spec/1.1/#id896044"></a>
      */
     private List<String> scanTagDirectiveValue(Mark startMark) {
         // See the specification for details.
@@ -1355,7 +1355,7 @@ public final class ScannerImpl implements Scanner {
     /**
      * Scan a %TAG directive's handle. This is YAML's c-tag-handle.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id896876
+     * @see <a href="http://www.yaml.org/spec/1.1/#id896876"></a>
      * @param startMark
      * @return
      */
@@ -1373,7 +1373,7 @@ public final class ScannerImpl implements Scanner {
     /**
      * Scan a %TAG directive's prefix. This is YAML's ns-tag-prefix.
      * 
-     * @see http://www.yaml.org/spec/1.1/#ns-tag-prefix
+     * @see <a href="http://www.yaml.org/spec/1.1/#ns-tag-prefix"></a>
      */
     private String scanTagDirectivePrefix(Mark startMark) {
         // See the specification for details.
@@ -1485,7 +1485,7 @@ public final class ScannerImpl implements Scanner {
      * 
      * TODO SnakeYaml incorrectly ignores c-ns-non-specific-tag right now.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id900262
+     * @see <a href="http://www.yaml.org/spec/1.1/#id900262"></a>
      * 
      *      TODO Note that this method does not enforce rules about local versus
      *      global tags!
@@ -1651,9 +1651,9 @@ public final class ScannerImpl implements Scanner {
      * A block chomping indicator is a + or -, selecting the chomping mode away
      * from the default (clip) to either -(strip) or +(keep).
      * 
-     * @see http://www.yaml.org/spec/1.1/#id868988
-     * @see http://www.yaml.org/spec/1.1/#id927035
-     * @see http://www.yaml.org/spec/1.1/#id927557
+     * @see <a href="http://www.yaml.org/spec/1.1/#id868988"></a>
+     * @see <a href="http://www.yaml.org/spec/1.1/#id927035"></a>
+     * @see <a href="http://www.yaml.org/spec/1.1/#id927557"></a>
      */
     private Chomping scanBlockScalarIndicators(Mark startMark) {
         // See the specification for details.
@@ -1744,7 +1744,7 @@ public final class ScannerImpl implements Scanner {
      * used only if the block did not explicitly state an indentation to be
      * used.
      * 
-     * @see http://www.yaml.org/spec/1.1/#id927035
+     * @see <a href="http://www.yaml.org/spec/1.1/#id927035"></a>
      */
     private Object[] scanBlockScalarIndentation() {
         // See the specification for details.
@@ -1816,7 +1816,7 @@ public final class ScannerImpl implements Scanner {
      * first, a flow scalar may be a double-quoted string; second, a flow scalar
      * may be a single-quoted string.
      * 
-     * @see http://www.yaml.org/spec/1.1/#flow style/syntax
+     * @see <a href="http://www.yaml.org/spec/1.1/#flow"></a> style/syntax
      * 
      *      <pre>
      * See the specification for details.
@@ -2090,8 +2090,8 @@ public final class ScannerImpl implements Scanner {
      * Where (name) must be formatted as an ns-word-char.
      * </p>
      * 
-     * @see http://www.yaml.org/spec/1.1/#c-tag-handle
-     * @see http://www.yaml.org/spec/1.1/#ns-word-char
+     * @see <a href="http://www.yaml.org/spec/1.1/#c-tag-handle"></a>
+     * @see <a href="http://www.yaml.org/spec/1.1/#ns-word-char"></a>
      * 
      *      <pre>
      * See the specification for details.
@@ -2146,7 +2146,7 @@ public final class ScannerImpl implements Scanner {
      * particular kind of URI specification.
      * </p>
      * 
-     * @see http://www.yaml.org/spec/1.1/#ns-uri-char
+     * @see <a href="http://www.yaml.org/spec/1.1/#ns-uri-char"></a>
      */
     private String scanTagUri(String name, Mark startMark) {
         // See the specification for details.
@@ -2190,7 +2190,7 @@ public final class ScannerImpl implements Scanner {
      * FIXME This method fails for more than 256 bytes' worth of URI-encoded
      * characters in a row. Is this possible? Is this a use-case?
      * 
-     * @see http://www.ietf.org/rfc/rfc2396.txt, section 2.4, Escaped Encoding.
+     * @see <a href="http://www.ietf.org/rfc/rfc2396.txt"></a>, section 2.4, Escaped Encoding.
      */
     private String scanUriEscapes(String name, Mark startMark) {
         // First, look ahead to see how many URI-escaped characters we should

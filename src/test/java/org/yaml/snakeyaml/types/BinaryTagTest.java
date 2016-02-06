@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @see http://yaml.org/type/binary.html
+ * @see <a href="http://yaml.org/type/binary.html"></a>
  */
 public class BinaryTagTest extends AbstractTest {
     String line1 = "R0lGODlhDAAMAIQAAP//9/X17unp5WZmZgAAAOfn515eXvPz7Y6OjuDg4J+fn5";

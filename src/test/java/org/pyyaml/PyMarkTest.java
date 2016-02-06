@@ -18,7 +18,7 @@ package org.pyyaml;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
- * @see imported from PyYAML
+ * imported from PyYAML
  */
 public class PyMarkTest extends PyImportTest {
 

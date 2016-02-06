@@ -20,7 +20,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
 /**
- * @see http://bugs.sun.com/view_bug.do?bug_id=6528714
+ * @see <a href="http://bugs.sun.com/view_bug.do?bug_id=6528714"></a>
  */
 public class GenericsBugDetector {
     /**

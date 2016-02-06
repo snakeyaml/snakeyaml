@@ -26,7 +26,7 @@ import java.util.Set;
  * whatever you put(...) in here. Needed to track duplications in merge
  * procedure.
  * 
- * @see issue100 & issue103
+ * issue100 & issue103
  */
 public class FakeMap<K, V> implements Map<K, V> {
 

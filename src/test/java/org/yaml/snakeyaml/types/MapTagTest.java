@@ -20,7 +20,7 @@ import java.util.Map;
 import org.yaml.snakeyaml.YamlDocument;
 
 /**
- * @see http://yaml.org/type/map.html
+ * @see <a href="http://yaml.org/type/map.html"></a>
  */
 public class MapTagTest extends AbstractTest {
 

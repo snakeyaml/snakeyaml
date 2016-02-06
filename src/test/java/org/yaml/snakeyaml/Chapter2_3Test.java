@@ -25,7 +25,7 @@ import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 /**
  * Test Chapter 2.3 from the YAML specification
  * 
- * @see http://yaml.org/spec/1.1/
+ * @see <a href="http://yaml.org/spec/1.1/"></a>
  */
 public class Chapter2_3Test extends TestCase {
 

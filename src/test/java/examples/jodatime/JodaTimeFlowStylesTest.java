@@ -37,7 +37,7 @@ public class JodaTimeFlowStylesTest extends TestCase {
     private static final long timestamp = 1000000000000L;
 
     /**
-     * @see http://code.google.com/p/snakeyaml/issues/detail?id=128
+     * @see <a href="http://code.google.com/p/snakeyaml/issues/detail?id=128"></a>
      */
     public void testLoadBeanWithBlockFlow() {
         MyBean bean = new MyBean();
@@ -111,7 +111,7 @@ public class JodaTimeFlowStylesTest extends TestCase {
      * style and that is why the explicit '!!timestamp' is present in the YAML
      * document.
      * 
-     * @see http://code.google.com/p/snakeyaml/issues/detail?id=128
+     * @see <a href="http://code.google.com/p/snakeyaml/issues/detail?id=128"></a>
      * 
      */
     public void testLoadBeanWithAutoFlow() {
