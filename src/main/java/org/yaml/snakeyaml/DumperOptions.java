@@ -30,7 +30,7 @@ public class DumperOptions {
      * plain style and two quoted styles, the single-quoted style and the
      * double-quoted style. These styles offer a range of trade-offs between
      * expressive power and readability.
-     * 
+     *
      * @see <a href="http://yaml.org/spec/1.1/#id903915">Chapter 9. Scalar
      *      Styles</a>
      * @see <a href="http://yaml.org/spec/1.1/#id858081">2.3. Scalars</a>
@@ -77,7 +77,7 @@ public class DumperOptions {
      * Block styles use indentation to denote nesting and scope within the
      * document. In contrast, flow styles rely on explicit indicators to denote
      * nesting and scope.
-     * 
+     *
      * @see <a href="http://www.yaml.org/spec/current.html#id2509255">3.2.3.1.
      *      Node Styles (http://yaml.org/spec/1.1)</a>
      */
@@ -201,7 +201,7 @@ public class DumperOptions {
     /**
      * Set default style for scalars. See YAML 1.1 specification, 2.3 Scalars
      * (http://yaml.org/spec/1.1/#id858081)
-     * 
+     *
      * @param defaultStyle
      *            set the style for all scalars
      */
@@ -228,10 +228,10 @@ public class DumperOptions {
 
     public void setIndicatorIndent(int indicatorIndent) {
         if (indicatorIndent < 0) {
-            throw new YAMLException("Indicator indent must be non-negative");
+            throw new YAMLException("Indicator indent must be non-negative.");
         }
         if (indicatorIndent > Emitter.MAX_INDENT - 1) {
-            throw new YAMLException("Indicator indent must be at most " + (Emitter.MAX_INDENT-1));
+            throw new YAMLException("Indicator indent must be at most Emitter.MAX_INDENT-1: " + (Emitter.MAX_INDENT - 1));
         }
         this.indicatorIndent = indicatorIndent;
     }
@@ -250,7 +250,7 @@ public class DumperOptions {
 
     /**
      * Force the emitter to produce a canonical YAML document.
-     * 
+     *
      * @param canonical
      *            true produce canonical YAML document
      */
@@ -265,7 +265,7 @@ public class DumperOptions {
     /**
      * Force the emitter to produce a pretty YAML document when using the flow
      * style.
-     * 
+     *
      * @param prettyFlow
      *            true produce pretty flow YAML document
      */
@@ -281,7 +281,7 @@ public class DumperOptions {
      * Specify the preferred width to emit scalars. When the scalar
      * representation takes more then the preferred with the scalar will be
      * split into a few lines. The default is 80.
-     * 
+     *
      * @param bestWidth
      *            the preferred width for scalars.
      */

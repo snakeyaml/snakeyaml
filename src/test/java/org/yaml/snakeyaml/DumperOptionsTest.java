@@ -433,4 +433,41 @@ public class DumperOptionsTest extends TestCase {
         output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
         assertEquals("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000\n", output);
     }
+
+    public void testSetIndicatorIndentNegative() {
+        DumperOptions options = new DumperOptions();
+        try {
+        options.setIndicatorIndent(-1);
+            fail("Negative indent must not be accepted.");
+        } catch (YAMLException e) {
+            assertEquals("Indicator indent must be non-negative.", e.getMessage());
+        }
+    }
+
+    public void testSetIndicatorIndentTooBig() {
+        DumperOptions options = new DumperOptions();
+        try {
+            options.setIndicatorIndent(100);
+            fail("Negative indent must not be accepted.");
+        } catch (YAMLException e) {
+            assertEquals("Indicator indent must be at most Emitter.MAX_INDENT-1: 9", e.getMessage());
+        }
+    }
+
+    public void testCreateUnknownStyle() {
+        try {
+            DumperOptions.ScalarStyle.createStyle(' ');
+            fail("Negative indent must not be accepted.");
+        } catch (YAMLException e) {
+            assertEquals("Unknown scalar style character:  ", e.getMessage());
+        }
+    }
+
+    public void testCreateStyle() {
+        assertEquals(DumperOptions.ScalarStyle.DOUBLE_QUOTED, DumperOptions.ScalarStyle.createStyle('"'));
+        assertEquals(DumperOptions.ScalarStyle.SINGLE_QUOTED, DumperOptions.ScalarStyle.createStyle('\''));
+        assertEquals(DumperOptions.ScalarStyle.LITERAL, DumperOptions.ScalarStyle.createStyle('|'));
+        assertEquals(DumperOptions.ScalarStyle.FOLDED, DumperOptions.ScalarStyle.createStyle('>'));
+        assertEquals(DumperOptions.ScalarStyle.PLAIN, DumperOptions.ScalarStyle.createStyle(null));
+    }
 }
