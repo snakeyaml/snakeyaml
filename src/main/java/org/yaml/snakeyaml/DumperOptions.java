@@ -163,6 +163,7 @@ public class DumperOptions {
     private boolean allowUnicode = true;
     private boolean allowReadOnlyProperties = false;
     private int indent = 2;
+    private int indicatorIndent = 0;
     private int bestWidth = 80;
     private boolean splitLines = true;
     private LineBreak lineBreak = LineBreak.UNIX;
@@ -223,6 +224,20 @@ public class DumperOptions {
 
     public int getIndent() {
         return this.indent;
+    }
+
+    public void setIndicatorIndent(int indicatorIndent) {
+        if (indicatorIndent < 0) {
+            throw new YAMLException("Indicator indent must be non-negative");
+        }
+        if (indicatorIndent > Emitter.MAX_INDENT - 1) {
+            throw new YAMLException("Indicator indent must be at most " + (Emitter.MAX_INDENT-1));
+        }
+        this.indicatorIndent = indicatorIndent;
+    }
+
+    public int getIndicatorIndent() {
+        return this.indicatorIndent;
     }
 
     public void setVersion(Version version) {

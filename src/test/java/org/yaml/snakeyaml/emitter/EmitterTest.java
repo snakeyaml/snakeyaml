@@ -18,7 +18,9 @@ package org.yaml.snakeyaml.emitter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -26,6 +28,7 @@ import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
 import org.yaml.snakeyaml.events.ImplicitTuple;
@@ -153,6 +156,19 @@ public class EmitterTest extends TestCase {
         yaml = new Yaml(options);
         output = yaml.dump(map);
         assertEquals("{\"12345\": [\"1111111111\"]}\n", output);
+    }
+
+    public void testWriteIndicatorIndent() {
+        DumperOptions options = new DumperOptions();
+        options.setIndent(5);
+        options.setIndicatorIndent(2);
+        options.setDefaultFlowStyle(FlowStyle.BLOCK);
+        List<?> topLevel = Arrays.asList(Collections.singletonMap("k1", "v1"), Collections.singletonMap("k2", "v2"));
+        Map<String, ?> map = Collections.singletonMap("aaa", topLevel);
+        Yaml yaml = new Yaml(options);
+        String output = yaml.dump(map);
+        String etalon = "aaa:\n  -  k1: v1\n  -  k2: v2\n";
+        assertEquals(etalon, output);
     }
 
     public void testSplitLineExpectFlowSequenceItem() {
