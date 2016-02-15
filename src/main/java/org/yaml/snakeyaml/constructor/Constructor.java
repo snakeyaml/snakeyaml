@@ -673,6 +673,10 @@ public class Constructor extends SafeConstructor {
     }
 
     protected Class<?> getClassForName(String name) throws ClassNotFoundException {
-        return Class.forName(name);
+        try {
+            return Class.forName(name, true, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException e) {
+            return Class.forName(name);
+        }
     }
 }
