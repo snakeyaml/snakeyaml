@@ -7,8 +7,8 @@
     </properties>
     <body>
         <release version="1.17-SNAPSHOT" date="in Mercurial" description="Maintenance">
-            <action dev="asomov" type="update" issue="327">
-                Support customizing a whitespace before sequence indicators (2016-02-06)
+            <action dev="maslovalex" type="fix" issue="318" due-to="Rog Sigal">
+                Use Thread.currentThread.getContextClassLoader in Class.forName instead of default one (2016-02-15)
             </action>
             <action dev="asomov" type="update" issue="329">
                 Add parameters to POM to change distribution server (2016-02-03)
