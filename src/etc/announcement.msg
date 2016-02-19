@@ -1,9 +1,9 @@
 From: Andrey Somov <public.somov@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.16 final is available
+Subject: [ANN] SnakeYAML-1.17 final is available
 
 ==========================
- Announcing SnakeYAML-1.16
+ Announcing SnakeYAML-1.17
 ==========================
 
 A new release of SnakeYAML is now available:
@@ -20,7 +20,7 @@ Resources
 SnakeYAML homepage: http://www.snakeyaml.org
 SnakeYAML documentation: https://bitbucket.org/asomov/snakeyaml/wiki/Home
 
-JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.16/snakeyaml-1.16.jar
+JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.17/snakeyaml-1.17.jar
 
 YAML homepage: http://yaml.org/
 YAML-core mailing list: http://lists.sourceforge.net/lists/listinfo/yaml-core
