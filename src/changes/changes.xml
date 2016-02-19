@@ -7,7 +7,9 @@
     </properties>
     <body>
         <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
-
+            <action dev="asomov" type="update">
+                Update plugin versions (2016-02-19)
+            </action>
         </release>
         <release version="1.17" date="2016-02-19" description="Maintenance">
             <action dev="maslovalex" type="fix" issue="318" due-to="Rog Sigal">
