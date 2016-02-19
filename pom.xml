@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.yaml</groupId>
     <artifactId>snakeyaml</artifactId>
-    <version>1.17-SNAPSHOT</version>
+    <version>1.17</version>
     <packaging>bundle</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,7 +32,8 @@
         <connection>scm:hg:http://bitbucket.org/asomov/snakeyaml</connection>
         <developerConnection>scm:hg:ssh://hg@bitbucket.org/asomov/snakeyaml</developerConnection>
         <url>https://bitbucket.org/asomov/snakeyaml/src</url>
-    </scm>
+      <tag>v1.17</tag>
+  </scm>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
