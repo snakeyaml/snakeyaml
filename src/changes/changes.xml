@@ -6,7 +6,10 @@
         <author email="public.somov@gmail.com">Andrey Somov</author>
     </properties>
     <body>
-        <release version="1.17-SNAPSHOT" date="in Mercurial" description="Maintenance">
+        <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
+
+        </release>
+        <release version="1.17" date="2016-02-19" description="Maintenance">
             <action dev="maslovalex" type="fix" issue="318" due-to="Rog Sigal">
                 Use Thread.currentThread.getContextClassLoader in Class.forName instead of default one (2016-02-15)
             </action>

@@ -1,14 +1,4 @@
-## installation
-sudo apt-get install apparmor lxc cgroup-lite
-sudo apt-get install docker.io
-
-## verification
-sudo service docker.io start
-sudo docker run hello-world
-
-## show current images
-sudo docker images
-
+How to run different JDKs
 
 cd <snakeyaml>/docker
 Java 8:
