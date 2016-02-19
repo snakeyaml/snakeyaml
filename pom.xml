@@ -30,7 +30,7 @@
     </mailingLists>
     <scm>
         <connection>scm:hg:http://bitbucket.org/asomov/snakeyaml</connection>
-        <developerConnection>scm:hg:https://bitbucket.org/asomov/snakeyaml</developerConnection>
+        <developerConnection>scm:hg:ssh://hg@bitbucket.org/asomov/snakeyaml</developerConnection>
         <url>https://bitbucket.org/asomov/snakeyaml/src</url>
     </scm>
     <licenses>
