@@ -113,14 +113,14 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * Since writing a recursive-descendant parser is a straightforward task, we do
  * not give many comments here.
  */
-public final class ParserImpl implements Parser {
+public class ParserImpl implements Parser {
     private static final Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();
     static {
         DEFAULT_TAGS.put("!", "!");
         DEFAULT_TAGS.put("!!", Tag.PREFIX);
     }
 
-    private final Scanner scanner;
+    protected final Scanner scanner;
     private Event currentEvent;
     private final ArrayStack<Production> states;
     private final ArrayStack<Mark> marks;
@@ -128,7 +128,11 @@ public final class ParserImpl implements Parser {
     private VersionTagsTuple directives;
 
     public ParserImpl(StreamReader reader) {
-        this.scanner = new ScannerImpl(reader);
+        this(new ScannerImpl(reader));
+    }
+
+    public ParserImpl(Scanner scanner) {
+        this.scanner = scanner;
         currentEvent = null;
         directives = new VersionTagsTuple(null, new HashMap<String, String>(DEFAULT_TAGS));
         states = new ArrayStack<Production>(100);
@@ -139,14 +143,9 @@ public final class ParserImpl implements Parser {
     /**
      * Check the type of the next event.
      */
-    public boolean checkEvent(Event.ID choices) {
+    public boolean checkEvent(Event.ID choice) {
         peekEvent();
-        if (currentEvent != null) {
-            if (currentEvent.is(choices)) {
-                return true;
-            }
-        }
-        return false;
+        return currentEvent != null && currentEvent.is(choice);
     }
 
     /**

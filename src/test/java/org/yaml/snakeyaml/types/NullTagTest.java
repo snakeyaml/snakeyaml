@@ -29,7 +29,7 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 /**
- * @see http://yaml.org/type/null.html
+ * @see <a href="http://yaml.org/type/null.html"></a>
  */
 public class NullTagTest extends AbstractTest {
 

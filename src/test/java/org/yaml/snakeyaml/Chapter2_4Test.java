@@ -35,7 +35,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 /**
  * Test Chapter 2.4 from the YAML specification
  * 
- * @see http://yaml.org/spec/1.1/
+ * @see <a href="http://yaml.org/spec/1.1/"></a>
  */
 public class Chapter2_4Test extends TestCase {
 

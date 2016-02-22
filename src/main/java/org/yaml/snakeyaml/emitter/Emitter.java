@@ -135,6 +135,7 @@ public final class Emitter implements Emitable {
 
     private boolean allowUnicode;
     private int bestIndent;
+    private int indicatorIndent;
     private int bestWidth;
     private char[] bestLineBreak;
     private boolean splitLines;
@@ -190,6 +191,7 @@ public final class Emitter implements Emitable {
         if ((opts.getIndent() > MIN_INDENT) && (opts.getIndent() < MAX_INDENT)) {
             this.bestIndent = opts.getIndent();
         }
+        this.indicatorIndent = opts.getIndicatorIndent();
         this.bestWidth = 80;
         if (opts.getWidth() > this.bestIndent * 2) {
             this.bestWidth = opts.getWidth();
@@ -590,6 +592,7 @@ public final class Emitter implements Emitable {
                 state = states.pop();
             } else {
                 writeIndent();
+                writeWhitespace(indicatorIndent);
                 writeIndicator("-", true, false, true);
                 states.push(new ExpectBlockSequenceItem(false));
                 expectNode(false, false, false);
@@ -1100,15 +1103,20 @@ public final class Emitter implements Emitable {
             writeLineBreak(null);
         }
 
-        if (this.column < indent) {
-            this.whitespace = true;
-            char[] data = new char[indent - this.column];
-            for (int i = 0; i < data.length; i++) {
-                data[i] = ' ';
-            }
-            this.column = indent;
-            stream.write(data);
+        writeWhitespace(indent - this.column);
+    }
+
+    private void writeWhitespace(int length) throws IOException {
+        if (length <= 0) {
+            return;
         }
+        this.whitespace = true;
+        char[] data = new char[length];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = ' ';
+        }
+        this.column += length;
+        stream.write(data);
     }
 
     private void writeLineBreak(String data) throws IOException {

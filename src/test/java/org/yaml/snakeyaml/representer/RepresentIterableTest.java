@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * Test {@link issue69 http://code.google.com/p/snakeyaml/issues/detail?id=69}
+ * Test @see <a href="http://code.google.com/p/snakeyaml/issues/detail?id=69">issue 69</a>
  */
 public class RepresentIterableTest extends TestCase {
 

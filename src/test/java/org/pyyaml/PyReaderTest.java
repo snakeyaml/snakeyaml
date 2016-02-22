@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 
 /**
- * @see imported from PyYAML
+ * imported from PyYAML
  */
 public class PyReaderTest extends PyImportTest {
 

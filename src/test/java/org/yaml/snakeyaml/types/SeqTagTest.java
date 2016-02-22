@@ -24,7 +24,7 @@ import java.util.Map;
 import org.yaml.snakeyaml.YamlDocument;
 
 /**
- * @see http://yaml.org/type/seq.html
+ * @see <a href="http://yaml.org/type/seq.html"></a>
  */
 public class SeqTagTest extends AbstractTest {
 

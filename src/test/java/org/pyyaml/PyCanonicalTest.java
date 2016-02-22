@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.tokens.Token;
 
 /**
- * @see imported from PyYAML
+ * imported from PyYAML
  */
 public class PyCanonicalTest extends PyImportTest {
 

@@ -21,7 +21,7 @@ import java.util.Set;
 import org.yaml.snakeyaml.YamlDocument;
 
 /**
- * @see http://yaml.org/type/set.html
+ * @see <a href="http://yaml.org/type/set.html"></a>
  */
 public class SetTagTest extends AbstractTest {
 

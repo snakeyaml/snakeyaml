@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml.parser;
+package org.yaml.snakeyaml.tokens;
 
-import org.yaml.snakeyaml.events.Event;
+import org.yaml.snakeyaml.error.Mark;
 
-/**
- * Helper for {@link ParserImpl}. A grammar rule to apply given the symbols on
- * top of its stack and the next input token
- * 
- * @see <a href="http://en.wikipedia.org/wiki/LL_parser"></a>
- */
-interface Production {
-    Event produce();
+public class WhitespaceToken extends Token {
+    public WhitespaceToken(Mark startMark, Mark endMark) {
+        super(startMark, endMark);
+    }
+
+    @Override
+    public ID getTokenId() {
+        return ID.Whitespace;
+    }
 }

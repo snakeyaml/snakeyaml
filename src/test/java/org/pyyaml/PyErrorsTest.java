@@ -31,7 +31,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.Event;
 
 /**
- * @see imported from PyYAML
+ * imported from PyYAML
  */
 public class PyErrorsTest extends PyImportTest {
     private boolean skip(String filename) {

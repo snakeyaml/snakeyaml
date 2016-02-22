@@ -82,7 +82,7 @@ public class Representer extends SafeRepresenter {
      * - a global tag with class name is always used as tag. The JavaBean parent
      * of the specified JavaBean may set another tag (tag:yaml.org,2002:map)
      * when the property class is the same as runtime class
-     * 
+     *
      * @param properties
      *            JavaBean getters
      * @param javaBean
@@ -100,8 +100,8 @@ public class Representer extends SafeRepresenter {
         boolean bestStyle = true;
         for (Property property : properties) {
             Object memberValue = property.get(javaBean);
-            Tag customPropertyTag = memberValue == null ? null : classTags.get(memberValue
-                    .getClass());
+            Tag customPropertyTag = memberValue == null ? null
+                    : classTags.get(memberValue.getClass());
             NodeTuple tuple = representJavaBeanProperty(javaBean, property, memberValue,
                     customPropertyTag);
             if (tuple == null) {
@@ -126,7 +126,7 @@ public class Representer extends SafeRepresenter {
 
     /**
      * Represent one JavaBean property.
-     * 
+     *
      * @param javaBean
      *            - the instance to be represented
      * @param property
@@ -176,7 +176,7 @@ public class Representer extends SafeRepresenter {
     /**
      * Remove redundant global tag for a type safe (generic) collection if it is
      * the same as defined by the JavaBean property
-     * 
+     *
      * @param property
      *            - JavaBean property
      * @param node
@@ -197,21 +197,23 @@ public class Representer extends SafeRepresenter {
                 // apply map tag where class is the same
                 Class<? extends Object> t = arguments[0];
                 SequenceNode snode = (SequenceNode) node;
-                Iterable<Object> memberList;
+                Iterable<Object> memberList = Collections.EMPTY_LIST;
                 if (object.getClass().isArray()) {
                     memberList = Arrays.asList((Object[]) object);
-                } else {
+                } else if (object instanceof Iterable<?>) {
                     // list
                     memberList = (Iterable<Object>) object;
                 }
                 Iterator<Object> iter = memberList.iterator();
-                for (Node childNode : snode.getValue()) {
-                    Object member = iter.next();
-                    if (member != null) {
-                        if (t.equals(member.getClass()))
-                            if (childNode.getNodeId() == NodeId.mapping) {
+                if (iter.hasNext()) {
+                    for (Node childNode : snode.getValue()) {
+                        Object member = iter.next();
+                        if (member != null) {
+                            if (t.equals(member.getClass()))
+                                if (childNode.getNodeId() == NodeId.mapping) {
                                     childNode.setTag(Tag.MAP);
                                 }
+                        }
                     }
                 }
             } else if (object instanceof Set) {
@@ -224,8 +226,8 @@ public class Representer extends SafeRepresenter {
                     Node keyNode = tuple.getKeyNode();
                     if (t.equals(member.getClass())) {
                         if (keyNode.getNodeId() == NodeId.mapping) {
-                                keyNode.setTag(Tag.MAP);
-                            }
+                            keyNode.setTag(Tag.MAP);
+                        }
                     }
                 }
             } else if (object instanceof Map) { // NodeId.mapping ends-up here
@@ -257,7 +259,7 @@ public class Representer extends SafeRepresenter {
     /**
      * Get JavaBean properties to be serialised. The order is respected. This
      * method may be overridden to provide custom property selection or order.
-     * 
+     *
      * @param type
      *            - JavaBean to inspect the properties
      * @return properties to serialise

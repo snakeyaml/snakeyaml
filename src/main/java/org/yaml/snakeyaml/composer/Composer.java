@@ -46,7 +46,7 @@ import org.yaml.snakeyaml.resolver.Resolver;
  * </p>
  */
 public class Composer {
-    private final Parser parser;
+    protected final Parser parser;
     private final Resolver resolver;
     private final Map<String, Node> anchors;
     private final Set<Node> recursiveNodes;
@@ -158,7 +158,7 @@ public class Composer {
         return node;
     }
 
-    private Node composeScalarNode(String anchor) {
+    protected Node composeScalarNode(String anchor) {
         ScalarEvent ev = (ScalarEvent) parser.getEvent();
         String tag = ev.getTag();
         boolean resolved = false;
@@ -178,7 +178,7 @@ public class Composer {
         return node;
     }
 
-    private Node composeSequenceNode(String anchor) {
+    protected Node composeSequenceNode(String anchor) {
         SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
         Tag nodeTag;
@@ -203,7 +203,7 @@ public class Composer {
         return node;
     }
 
-    private Node composeMappingNode(String anchor) {
+    protected Node composeMappingNode(String anchor) {
         MappingStartEvent startEvent = (MappingStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
         Tag nodeTag;
@@ -222,15 +222,27 @@ public class Composer {
             anchors.put(anchor, node);
         }
         while (!parser.checkEvent(Event.ID.MappingEnd)) {
-            Node itemKey = composeNode(node);
-            if (itemKey.getTag().equals(Tag.MERGE)) {
-                node.setMerged(true);
-            }
-            Node itemValue = composeNode(node);
-            children.add(new NodeTuple(itemKey, itemValue));
+            composeMappingChildren(children, node);
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());
         return node;
+    }
+
+    protected void composeMappingChildren(List<NodeTuple> children, MappingNode node) {
+        Node itemKey = composeKeyNode(node);
+        if (itemKey.getTag().equals(Tag.MERGE)) {
+            node.setMerged(true);
+        }
+        Node itemValue = composeValueNode(node);
+        children.add(new NodeTuple(itemKey, itemValue));
+    }
+
+    protected Node composeKeyNode(MappingNode node) {
+        return composeNode(node);
+    }
+
+    protected Node composeValueNode(MappingNode node) {
+        return composeNode(node);
     }
 }
