@@ -9,6 +9,8 @@
         <project.scm.id>bitbucket</project.scm.id>
         <release.repo.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.repo.url>
         <snapshot.repo.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.repo.url>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
     <name>SnakeYAML</name>
     <description>YAML 1.1 parser and emitter for Java</description>
@@ -122,8 +124,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
@@ -343,9 +345,41 @@
     </reporting>
     <profiles>
         <profile>
+            <id>toolchain</id>
+            <activation>
+                <file>
+                    <exists>${user.home}/.m2/toolchains.xml</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>toolchain</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                        <toolchains>
+                            <jdk>
+                                <version>${maven.compiler.target}</version>
+                            </jdk>
+                        </toolchains>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>jdk8</id>
             <activation>
-                <jdk>[1.8,)</jdk>
+              <jdk>[1.8,)</jdk>
             </activation>
             <build>
                 <plugins>
@@ -376,16 +410,12 @@
         </profile>
         <profile>
           <id>with-java8-tests</id>
+          <properties>
+            <maven.compiler.source>1.8</maven.compiler.source>
+            <maven.compiler.target>1.8</maven.compiler.target>
+          </properties>
           <build>
             <plugins>
-              <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-              </plugin>
               <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
