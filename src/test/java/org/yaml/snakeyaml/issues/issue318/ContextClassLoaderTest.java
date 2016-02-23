@@ -93,15 +93,16 @@ public class ContextClassLoaderTest {
 
     @After
     public void after() {
-        if (yamlCL != null) {
-            try {
-                yamlCL.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                yamlCL = null;
-            }
-        }
+        // URLClassLoader.close is @since 1.7
+        // if (yamlCL != null) {
+        //   try {
+        //     yamlCL.close();
+        //   } catch (IOException e) {
+        //     e.printStackTrace();
+        //   } finally {
+        yamlCL = null;
+        //   }
+        // }
     }
 
     @Test(expected = ClassNotFoundException.class)
