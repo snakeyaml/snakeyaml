@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update" issue="332">
+                Add example for issue 332 (2016-02-24)
+            </action>
             <action dev="asomov" type="update">
                 Build SnakeYAML for different JDKs with docker without building images (2016-02-22)
             </action>
