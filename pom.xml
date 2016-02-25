@@ -11,6 +11,7 @@
         <snapshot.repo.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.repo.url>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
     </properties>
     <name>SnakeYAML</name>
     <description>YAML 1.1 parser and emitter for Java</description>
@@ -113,6 +114,11 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.5</version>
                 </plugin>
@@ -212,7 +218,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
                 <configuration>
                     <links>
                         <link>http://java.sun.com/javase/6/docs/api/</link>
@@ -325,7 +330,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.1</version>
                 <reportSets>
                     <reportSet>
                         <id>html</id>
@@ -371,38 +375,6 @@
                                 <version>${maven.compiler.target}</version>
                             </jdk>
                         </toolchains>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>jdk8</id>
-            <activation>
-              <jdk>[1.8,)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <configuration>
-                            <reportPlugins>
-                                <plugin>
-                                    <groupId>org.apache.maven.plugins</groupId>
-                                    <artifactId>maven-javadoc-plugin</artifactId>
-                                    <configuration>
-                                        <additionalparam>-Xdoclint:none</additionalparam>
-                                    </configuration>
-                                </plugin>
-                            </reportPlugins>
                         </configuration>
                     </plugin>
                 </plugins>
