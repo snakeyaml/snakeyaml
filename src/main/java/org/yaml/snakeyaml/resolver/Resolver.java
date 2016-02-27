@@ -25,8 +25,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * Resolver tries to detect a type by scalars's content (when the type is
- * implicit)
+ * Resolver tries to detect a type by content (when the tag is implicit)
  */
 public class Resolver {
     public static final Pattern BOOL = Pattern
