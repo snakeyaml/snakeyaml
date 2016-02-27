@@ -9,6 +9,9 @@
         <project.scm.id>bitbucket</project.scm.id>
         <release.repo.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.repo.url>
         <snapshot.repo.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.repo.url>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
     </properties>
     <name>SnakeYAML</name>
     <description>YAML 1.1 parser and emitter for Java</description>
@@ -111,6 +114,11 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.5</version>
                 </plugin>
@@ -122,8 +130,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
@@ -210,7 +218,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
                 <configuration>
                     <links>
                         <link>http://java.sun.com/javase/6/docs/api/</link>
@@ -323,7 +330,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.1</version>
                 <reportSets>
                     <reportSet>
                         <id>html</id>
@@ -343,32 +349,32 @@
     </reporting>
     <profiles>
         <profile>
-            <id>jdk8</id>
+            <id>toolchain</id>
             <activation>
-                <jdk>[1.8,)</jdk>
+                <file>
+                    <exists>${user.home}/.m2/toolchains.xml</exists>
+                </file>
             </activation>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>toolchain</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <configuration>
-                            <reportPlugins>
-                                <plugin>
-                                    <groupId>org.apache.maven.plugins</groupId>
-                                    <artifactId>maven-javadoc-plugin</artifactId>
-                                    <configuration>
-                                        <additionalparam>-Xdoclint:none</additionalparam>
-                                    </configuration>
-                                </plugin>
-                            </reportPlugins>
+                        <toolchains>
+                            <jdk>
+                                <version>${maven.compiler.target}</version>
+                            </jdk>
+                        </toolchains>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -376,16 +382,12 @@
         </profile>
         <profile>
           <id>with-java8-tests</id>
+          <properties>
+            <maven.compiler.source>1.8</maven.compiler.source>
+            <maven.compiler.target>1.8</maven.compiler.target>
+          </properties>
           <build>
             <plugins>
-              <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-              </plugin>
               <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
