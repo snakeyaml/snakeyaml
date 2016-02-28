@@ -87,5 +87,5 @@ public class ParserImplTest extends TestCase {
         etalonEvents.add(new DocumentEndEvent(dummyMark, dummyMark, false));
         etalonEvents.add(new StreamEndEvent(dummyMark, dummyMark));
         check(etalonEvents, parser);
-rt    }
+    }
 }
