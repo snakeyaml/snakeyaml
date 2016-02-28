@@ -35,6 +35,17 @@ import org.yaml.snakeyaml.reader.StreamReader;
 
 public class ParserImplTest extends TestCase {
 
+    private void check(LinkedList<Event> etalonEvents, Parser parser) {
+        while (parser.checkEvent(null)) {
+            Event event = parser.getEvent();
+            if (etalonEvents.isEmpty()) {
+                fail("unexpected event: " + event);
+            }
+            assertEquals(etalonEvents.removeFirst(), event);
+        }
+        assertFalse("Must contain no more events: " + parser.getEvent(), parser.checkEvent(null));
+    }
+
     public void testGetEvent() {
         String data = "string: abcd";
         StreamReader reader = new StreamReader(data);
@@ -52,14 +63,7 @@ public class ParserImplTest extends TestCase {
         etalonEvents.add(new MappingEndEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentEndEvent(dummyMark, dummyMark, false));
         etalonEvents.add(new StreamEndEvent(dummyMark, dummyMark));
-        while (parser.checkEvent(null)) {
-            Event event = parser.getEvent();
-            if (etalonEvents.isEmpty()) {
-                fail("unexpected event: " + event);
-            }
-            assertEquals(etalonEvents.removeFirst(), event);
-        }
-        assertFalse("Must contain no more events: " + parser.getEvent(), parser.checkEvent(null));
+        check(etalonEvents, parser);
     }
 
     public void testGetEvent2() {
@@ -82,13 +86,6 @@ public class ParserImplTest extends TestCase {
         etalonEvents.add(new MappingEndEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentEndEvent(dummyMark, dummyMark, false));
         etalonEvents.add(new StreamEndEvent(dummyMark, dummyMark));
-        while (parser.checkEvent(null)) {
-            Event event = parser.getEvent();
-            if (etalonEvents.isEmpty()) {
-                fail("unexpected event: " + event);
-            }
-            assertEquals(etalonEvents.removeFirst(), event);
-        }
-        assertFalse("Must contain no more events: " + parser.getEvent(), parser.checkEvent(null));
-    }
+        check(etalonEvents, parser);
+rt    }
 }
