@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update" issue="335">
+                Add example for issue 335 - the same tag for different node kinds (2016-03-19)
+            </action>
             <action dev="asomov" type="update" issue="332">
                 Add example for issue 332 (2016-02-24)
             </action>
