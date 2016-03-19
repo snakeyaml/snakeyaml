@@ -24,17 +24,15 @@ public class JavaLangObjectTest {
 
     @Test
     public void testLoadObjectAsMapping() throws Exception {
-        String doc = "!!java.lang.Object {}";
-        Object obj = new Yaml().load(doc);
+        Object obj = new Yaml().load("!!java.lang.Object {}");
         assertEquals(Object.class, obj.getClass());
     }
 
     @Test
     public void testLoadObjectAsScalar() throws Exception {
-        String doc = "!!java.lang.Object";
         try {
-            new Yaml().load(doc);
-            fail("Object has no sigle argument constructor");
+            new Yaml().load("!!java.lang.Object");
+            fail("Object has no single argument constructor");
         } catch (Exception e) {
             assertTrue(e.getMessage().contains("No single argument constructor found"));
         }
