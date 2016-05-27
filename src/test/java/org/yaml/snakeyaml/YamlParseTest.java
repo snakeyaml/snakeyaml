@@ -16,12 +16,14 @@
 package org.yaml.snakeyaml;
 
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.events.Event;
-import org.yaml.snakeyaml.events.StreamEndEvent;
-import org.yaml.snakeyaml.events.StreamStartEvent;
+import org.yaml.snakeyaml.events.*;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public class YamlParseTest extends TestCase {
 
@@ -38,6 +40,27 @@ public class YamlParseTest extends TestCase {
         }
         assertTrue(e instanceof StreamEndEvent);
         assertEquals(8, counter);
+    }
+
+    public void testParseEvents() {
+        Yaml yaml = new Yaml();
+        Iterator<Event> events = yaml.parse(new StringReader("%YAML 1.1\n---\na")).iterator();
+        assertTrue(events.next() instanceof StreamStartEvent);
+        DocumentStartEvent documentStartEvent = (DocumentStartEvent) events.next();
+        assertTrue(documentStartEvent.getExplicit());
+        assertEquals(DumperOptions.Version.V1_1, documentStartEvent.getVersion());
+        Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();
+        DEFAULT_TAGS.put("!", "!");
+        DEFAULT_TAGS.put("!!", Tag.PREFIX);
+        assertEquals(DEFAULT_TAGS, documentStartEvent.getTags());
+        ScalarEvent scalarEvent = (ScalarEvent) events.next();
+        assertNull(scalarEvent.getAnchor());
+        assertNull(scalarEvent.getTag());
+        assertEquals(new ImplicitTuple(true, false).toString(), scalarEvent.getImplicit().toString());
+        DocumentEndEvent documentEndEvent = (DocumentEndEvent) events.next();
+        assertFalse(documentEndEvent.getExplicit());
+        assertTrue("Unexpected event.", events.next() instanceof StreamEndEvent);
+        assertFalse(events.hasNext());
     }
 
     public void testParseManyDocuments() {

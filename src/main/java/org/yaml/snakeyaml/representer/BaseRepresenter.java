@@ -89,7 +89,7 @@ public abstract class BaseRepresenter {
         } else {
             // check the parents
             for (Class<?> repr : multiRepresenters.keySet()) {
-                if (repr.isInstance(data)) {
+                if (repr != null && repr.isInstance(data)) {
                     Represent representer = multiRepresenters.get(repr);
                     node = representer.representData(data);
                     return node;

@@ -355,7 +355,6 @@ public class DumperOptions {
         return tags;
     }
 
-    // TODO should use Tag ???
     public void setTags(Map<String, String> tags) {
         this.tags = tags;
     }

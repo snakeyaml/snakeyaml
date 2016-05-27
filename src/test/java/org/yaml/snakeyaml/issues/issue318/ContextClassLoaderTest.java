@@ -76,32 +76,30 @@ public class ContextClassLoaderTest {
     @Before
     public void before() throws MalformedURLException {
         Properties classpath = new Properties();
-        InputStream cpProperties = getClass()
-                .getResourceAsStream("classpath.properties");
+        InputStream cpProperties = getClass().getResourceAsStream("classpath.properties");
         try {
             classpath.load(cpProperties);
         } catch (IOException e2) {
             fail(e2.getLocalizedMessage());
         }
 
-        File runtimeClassesDir = new File(
-                classpath.getProperty("runtime_classes_dir"));
+        File runtimeClassesDir = new File(classpath.getProperty("runtime_classes_dir"));
 
-        yamlCL = new URLClassLoader(
-                new URL[] { runtimeClassesDir.toURI().toURL() }, null);
+        yamlCL = new URLClassLoader(new URL[] { runtimeClassesDir.toURI().toURL() }, null);
     }
 
     @After
     public void after() {
-        if (yamlCL != null) {
-            try {
-                yamlCL.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                yamlCL = null;
-            }
-        }
+        // URLClassLoader.close is @since 1.7
+        // if (yamlCL != null) {
+        //   try {
+        //     yamlCL.close();
+        //   } catch (IOException e) {
+        //     e.printStackTrace();
+        //   } finally {
+        yamlCL = null;
+        //   }
+        // }
     }
 
     @Test(expected = ClassNotFoundException.class)
@@ -115,10 +113,9 @@ public class ContextClassLoaderTest {
     }
 
     @Test
-    public void domainInDifferentConstructor()
-            throws ClassNotFoundException, InstantiationException,
-            IllegalAccessException, NoSuchMethodException, SecurityException,
-            IllegalArgumentException, InvocationTargetException {
+    public void domainInDifferentConstructor() throws ClassNotFoundException,
+            InstantiationException, IllegalAccessException, NoSuchMethodException,
+            SecurityException, IllegalArgumentException, InvocationTargetException {
 
         Class<?> yamlClass = yamlCL.loadClass(Yaml.class.getName());
 
@@ -127,12 +124,10 @@ public class ContextClassLoaderTest {
 
         Object yaml = yamlClass.newInstance();
 
-        Method dumpMethod = yaml.getClass().getMethod("dump",
-                new Class<?>[] { Object.class });
+        Method dumpMethod = yaml.getClass().getMethod("dump", new Class<?>[] { Object.class });
         String dump = dumpMethod.invoke(yaml, bean).toString();
 
-        Method loadMethod = yaml.getClass().getMethod("load",
-                new Class<?>[] { String.class });
+        Method loadMethod = yaml.getClass().getMethod("load", new Class<?>[] { String.class });
         DomainBean object = (DomainBean) loadMethod.invoke(yaml, dump);
 
         assertEquals(bean, object);
