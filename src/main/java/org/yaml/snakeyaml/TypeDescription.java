@@ -38,7 +38,9 @@ import org.yaml.snakeyaml.nodes.Tag;
 public class TypeDescription {
 
     private final Class<? extends Object> type;
-    private Class<?> impl;
+    
+    //class that implements the described type; if set, will be used as a source for constructor. If not set - TypeDescription will leave instantiation of an entity to the YAML Constructor
+    private Class<?> impl; 
 
     private Tag tag;
 
@@ -376,6 +378,11 @@ public class TypeDescription {
         return null;
     }
 
+    /**
+     * Is invoked after entity is filled with values from deserialized YAML
+     * @param obj - deserialized entity
+     * @return postprocessed deserialized entity
+     */
     public Object finalizeConstruction(Object obj) {
         return obj;
     }

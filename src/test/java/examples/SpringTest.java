@@ -15,22 +15,53 @@
  */
 package examples;
 
-import junit.framework.TestCase;
+import java.io.InputStream;
 
-import org.springframework.context.ApplicationContext;
+import org.apache.commons.io.IOUtils;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.helpers.FileTestHelper;
+
+import examples.spring.TestEntity;
+import junit.framework.TestCase;
 
 public class SpringTest extends TestCase {
+
     public void testSimple() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("examples/spring.xml");
-        Yaml yaml = (Yaml) context.getBean("standardYaml");
-        assertNotNull(yaml);
-        //
-        yaml = (Yaml) context.getBean("javabeanYaml");
-        assertNotNull(yaml);
-        //
-        yaml = (Yaml) context.getBean("snakeYaml");
-        assertNotNull(yaml);
+        AbstractApplicationContext context = new ClassPathXmlApplicationContext("examples/spring.xml");
+        try {
+            Yaml yaml = (Yaml) context.getBean("standardYaml");
+            assertNotNull(yaml);
+            //
+            yaml = (Yaml) context.getBean("javabeanYaml");
+            assertNotNull(yaml);
+            //
+            yaml = (Yaml) context.getBean("snakeYaml");
+            assertNotNull(yaml);
+
+        } finally {
+            IOUtils.closeQuietly(context);
+        }
     }
+
+    public void testTypeDescriptionWithBean() {
+        AbstractApplicationContext context = new ClassPathXmlApplicationContext("examples/spring.xml");
+        InputStream is = null;
+        try {
+            Yaml yaml = context.getBean("javabeanYamlWithCustomTypeDescriptions", Yaml.class);
+            assertNotNull(yaml);
+            is = FileTestHelper.getInputStreamFromClasspath("examples/spring/test-entity.yaml");
+
+            TestEntity entity = yaml.loadAs(is, TestEntity.class);
+            assertNotNull(entity);
+            assertEquals(1, entity.getCounter()); //retrieved from DataRegistry
+            assertEquals("1:A", entity.getId()); //loaded from yaml
+            assertEquals("1:A-1:A", entity.getData()); //retrieved from DataRegistry based on ID and counter.
+        } finally {
+            IOUtils.closeQuietly(context);
+            IOUtils.closeQuietly(is);
+        }
+    }
+
 }

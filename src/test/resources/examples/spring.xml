@@ -2,8 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- the most powerful way -->
 	<bean id="yamlConstructor" class="examples.CustomConstructor" scope="prototype" />
@@ -25,6 +25,30 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <constructor-arg ref="beanConstructor" />
     </bean>
 
-	<!-- the simplest way -->
-	<bean id="standardYaml" class="org.yaml.snakeyaml.Yaml" scope="prototype" />
+    <!-- the simplest way -->
+    <bean id="standardYaml" class="org.yaml.snakeyaml.Yaml" scope="prototype" />
+
+    
+    <!-- 
+         For SpringTest.testTypeDescriptionWithBean BEGIN
+     -->
+    
+    <bean id="dataRegistry" class="examples.spring.DataRegistry" scope="singleton"/>
+
+    <bean id="testEntityDescription" class="examples.spring.TestEntityDescription" scope="singleton">
+            <property name="dataRegistry" ref="dataRegistry" />
+    </bean>
+    
+    <bean id="beanConstructorWithCustomTypeDescriptions" class="org.yaml.snakeyaml.constructor.Constructor" scope="prototype">
+        <constructor-arg ref="testEntityDescription" />
+    </bean>
+    
+    <bean id="javabeanYamlWithCustomTypeDescriptions" class="org.yaml.snakeyaml.Yaml" scope="prototype">
+        <constructor-arg ref="beanConstructorWithCustomTypeDescriptions" />
+    </bean>
+
+    <!-- END  -->
+    
+    
+
 </beans>

@@ -96,7 +96,7 @@ public abstract class BaseConstructor {
         typeDefinitions.put(SortedSet.class, new TypeDescription(SortedSet.class, Tag.SET,
                 TreeSet.class));
     }
-
+    
     public void setComposer(Composer composer) {
         this.composer = composer;
     }
@@ -204,7 +204,7 @@ public abstract class BaseConstructor {
         Object data = (constructedObjects.containsKey(node)) ? constructedObjects.get(node)
                 : constructor.construct(node);
 
-        finalizeCunstruction(node, data);
+        finalizeConstruction(node, data);
         constructedObjects.put(node, data);
         recursiveObjects.remove(node);
         if (node.isTwoStepsConstruction()) {
@@ -268,7 +268,7 @@ public abstract class BaseConstructor {
 
     // <<<< DEFAULTS <<<<
 
-    protected Object finalizeCunstruction(Node node, Object data) {
+    protected Object finalizeConstruction(Node node, Object data) {
         final Class<? extends Object> type = node.getType();
         if (typeDefinitions.containsKey(type)) {
             return typeDefinitions.get(type).finalizeConstruction(data);
