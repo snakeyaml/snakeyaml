@@ -34,6 +34,13 @@ import org.yaml.snakeyaml.nodes.Tag;
 /**
  * Provides additional runtime information necessary to create a custom Java
  * instance.
+ * 
+ * In general this class is thread-safe and can be used as a singleton, the only
+ * exception being the PropertyUtils field. A singleton PropertyUtils should be
+ * constructed and shared between all YAML Constructors used if a singleton
+ * TypeDescription is used, since Constructor sets its propertyUtils to the
+ * TypeDescription that is passed to it, hence you may end up in a situation
+ * when propertyUtils in TypeDescription is from different Constructor.
  */
 public class TypeDescription {
 
@@ -44,9 +51,9 @@ public class TypeDescription {
 
     private Tag tag;
 
-    transient private Set<Property> dumpProperties = null;
+    transient private Set<Property> dumpProperties;
     transient private PropertyUtils propertyUtils;
-    transient private boolean delegatesChecked = false;
+    transient private boolean delegatesChecked;
 
     private Map<String, PropertySubstitute> properties = Collections.emptyMap();
 
@@ -360,6 +367,14 @@ public class TypeDescription {
         return false;
     }
 
+    /**
+     * This method should be overriden for TypeDescription implementations that are supposed to implement instantiation logic that is different from default one as
+     * implemented in YAML constructors.
+     * Note that even if you override this method, default filling of fields with variables from parsed YAML will still occur later.
+
+     * @param node
+     * @return
+     */
     public Object newInstance(Node node) {
         if (impl != null) {
             try {

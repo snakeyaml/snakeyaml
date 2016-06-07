@@ -39,8 +39,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <property name="dataRegistry" ref="dataRegistry" />
     </bean>
     
+    <bean id="propertyUtils" class="org.yaml.snakeyaml.introspector.PropertyUtils" scope="singleton" />
+
     <bean id="beanConstructorWithCustomTypeDescriptions" class="org.yaml.snakeyaml.constructor.Constructor" scope="prototype">
         <constructor-arg ref="testEntityDescription" />
+        <property name="propertyUtils" ref="propertyUtils" />
     </bean>
     
     <bean id="javabeanYamlWithCustomTypeDescriptions" class="org.yaml.snakeyaml.Yaml" scope="prototype">
