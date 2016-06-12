@@ -60,6 +60,11 @@
             <name>Jordan Angold</name>
             <email>jordanangold@gmail.com</email>
         </developer>
+        <developer>
+            <id>kibertoad</id>
+            <name>>Igor Savin</name>
+            <email>kibertoad@gmail.com</email>
+        </developer>
     </developers>
     <prerequisites>
         <maven>3.0.5</maven>
