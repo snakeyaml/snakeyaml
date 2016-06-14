@@ -426,6 +426,7 @@
                     </goals>
                     <configuration>
                       <sources>
+                        <source>${basedir}/src/test/java7/</source>
                         <source>${basedir}/src/test/java8/</source>
                       </sources>
                     </configuration>

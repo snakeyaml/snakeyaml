@@ -15,19 +15,19 @@
  */
 package org.yaml.snakeyaml.issues.issue207;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.InputStream;
-import java.util.Map;
+public class OctalNumberTest {
 
-public class OctalNumberTest extends TestCase {
-
+    @Test
     public void testOctalNumbersMoreThenSeven() {
         Yaml yaml = new Yaml();
-        assertEquals(7, yaml.load("07"));
-        assertEquals(63, yaml.load("077"));
-        assertEquals(0, yaml.load("0"));
+        assertEquals(Integer.valueOf(7), yaml.load("07"));
+        assertEquals(Integer.valueOf(63), yaml.load("077"));
+        assertEquals(Integer.valueOf(0), yaml.load("0"));
         assertEquals("0A", yaml.load("0A"));
         assertEquals("09", yaml.load("!!str 09"));
 
