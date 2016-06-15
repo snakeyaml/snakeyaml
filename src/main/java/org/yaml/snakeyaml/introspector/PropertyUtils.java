@@ -15,10 +15,13 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import java.beans.FeatureDescriptor;
+
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
@@ -27,10 +30,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class PropertyUtils {
+
+    final private static Logger log = Logger.getLogger(PropertyUtils.class.getPackage().getName());
 
     private final Map<Class<?>, Map<String, Property>> propertiesCache = new HashMap<Class<?>, Map<String, Property>>();
     private final Map<Class<?>, Set<Property>> readableProperties = new HashMap<Class<?>, Set<Property>>();
@@ -63,7 +69,8 @@ public class PropertyUtils {
                 for (PropertyDescriptor property : Introspector.getBeanInfo(type)
                         .getPropertyDescriptors()) {
                     Method readMethod = property.getReadMethod();
-                    if (readMethod == null || !readMethod.getName().equals("getClass")) {
+                    if ((readMethod == null || !readMethod.getName().equals("getClass"))
+                            && !isTransient(property)) {
                         properties.put(property.getName(), new MethodProperty(property));
                     }
                 }
@@ -91,6 +98,38 @@ public class PropertyUtils {
         }
         propertiesCache.put(type, properties);
         return properties;
+    }
+
+    private boolean transientMethodChecked;
+    private Method isTransientMethod;
+
+    private boolean isTransient(FeatureDescriptor fd) {
+        if (!transientMethodChecked) {
+            transientMethodChecked = true;
+            try {
+                isTransientMethod = FeatureDescriptor.class.getDeclaredMethod("isTransient");
+                isTransientMethod.setAccessible(true);
+            } catch (NoSuchMethodException e) {
+                log.fine("NoSuchMethod: FeatureDescriptor.isTransient(). Don't check it anymore.");
+            } catch (SecurityException e) {
+                e.printStackTrace();
+                isTransientMethod = null;
+            }
+        }
+
+        if (isTransientMethod != null) {
+            try {
+                return Boolean.TRUE.equals(isTransientMethod.invoke(fd));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            isTransientMethod = null;
+        }
+        return false;
     }
 
     public Set<Property> getProperties(Class<? extends Object> type) {
@@ -128,8 +167,8 @@ public class PropertyUtils {
             property = new MissingProperty(name);
         }
         if (property == null) {
-            throw new YAMLException("Unable to find property '" + name + "' on class: "
-                    + type.getName());
+            throw new YAMLException(
+                    "Unable to find property '" + name + "' on class: " + type.getName());
         }
         return property;
     }
@@ -152,7 +191,7 @@ public class PropertyUtils {
     /**
      * Skip properties that are missing during deserialization of YAML to a Java
      * object. The default is false.
-     * 
+     *
      * @param skipMissingProperties
      *            true if missing properties should be skipped, false otherwise.
      */

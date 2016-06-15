@@ -17,18 +17,10 @@ package org.yaml.snakeyaml.serialization;
 import static org.junit.Assert.*;
 
 import java.beans.Transient;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.representer.Represent;
-import org.yaml.snakeyaml.representer.Representer;
-
 
 public class TransientValuesTest {
 
