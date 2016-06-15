@@ -1,41 +1,51 @@
 # HG changeset patch
-# Parent 6dfd6edc540a74730c21f8e43df04d16ad70702b
+# Parent  982acbc28cc84e6734aaf4b495d8be8c78fc26dd
 
 diff --git a/src/main/java/org/yaml/snakeyaml/introspector/PropertyUtils.java b/src/main/java/org/yaml/snakeyaml/introspector/PropertyUtils.java
 --- a/src/main/java/org/yaml/snakeyaml/introspector/PropertyUtils.java
 +++ b/src/main/java/org/yaml/snakeyaml/introspector/PropertyUtils.java
-@@ -15,11 +15,7 @@
+@@ -15,14 +15,7 @@
   */
  package org.yaml.snakeyaml.introspector;
  
+-import java.beans.FeatureDescriptor;
+-
 -import java.beans.IntrospectionException;
 -import java.beans.Introspector;
 -import java.beans.PropertyDescriptor;
  import java.lang.reflect.Field;
+-import java.lang.reflect.InvocationTargetException;
 -import java.lang.reflect.Method;
  import java.lang.reflect.Modifier;
  import java.util.Collection;
  import java.util.HashMap;
-@@ -43,50 +39,14 @@
+@@ -30,14 +23,11 @@
+ import java.util.Map;
+ import java.util.Set;
+ import java.util.TreeSet;
+-import java.util.logging.Logger;
+ 
+ import org.yaml.snakeyaml.error.YAMLException;
+ 
+ public class PropertyUtils {
+ 
+-    final private static Logger log = Logger.getLogger(PropertyUtils.class.getPackage().getName());
+-
+     private final Map<Class<?>, Map<String, Property>> propertiesCache = new HashMap<Class<?>, Map<String, Property>>();
+     private final Map<Class<?>, Set<Property>> readableProperties = new HashMap<Class<?>, Set<Property>>();
+     private BeanAccess beanAccess = BeanAccess.DEFAULT;
+@@ -50,9 +40,6 @@
          }
  
          Map<String, Property> properties = new LinkedHashMap<String, Property>();
 -        boolean inaccessableFieldsExist = false;
 -        switch (bAccess) {
 -        case FIELD:
--            for (Class<?> c = type; c != null; c = c.getSuperclass()) {
--                for (Field field : c.getDeclaredFields()) {
--                    int modifiers = field.getModifiers();
--                    if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)
--                            && !properties.containsKey(field.getName())) {
--                        properties.put(field.getName(), new FieldProperty(field));
--                    }
-+        for (Class<?> c = type; c != null; c = c.getSuperclass()) {
-+            for (Field field : c.getDeclaredFields()) {
-+                int modifiers = field.getModifiers();
-+                if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)
-+                        && !properties.containsKey(field.getName())) {
-+                    properties.put(field.getName(), new FieldProperty(field));
+             for (Class<?> c = type; c != null; c = c.getSuperclass()) {
+                 for (Field field : c.getDeclaredFields()) {
+                     int modifiers = field.getModifiers();
+@@ -62,76 +49,10 @@
+                     }
                  }
              }
 -            break;
@@ -45,7 +55,8 @@ diff --git a/src/main/java/org/yaml/snakeyaml/introspector/PropertyUtils.java b/
 -                for (PropertyDescriptor property : Introspector.getBeanInfo(type)
 -                        .getPropertyDescriptors()) {
 -                    Method readMethod = property.getReadMethod();
--                    if (readMethod == null || !readMethod.getName().equals("getClass")) {
+-                    if ((readMethod == null || !readMethod.getName().equals("getClass"))
+-                            && !isTransient(property)) {
 -                        properties.put(property.getName(), new MethodProperty(property));
 -                    }
 -                }
@@ -70,6 +81,43 @@ diff --git a/src/main/java/org/yaml/snakeyaml/introspector/PropertyUtils.java b/
 -        }
 -        if (properties.isEmpty() && inaccessableFieldsExist) {
 -            throw new YAMLException("No JavaBean properties found in " + type.getName());
-         }
+-        }
          propertiesCache.put(type, properties);
          return properties;
+     }
+ 
+-    private boolean transientMethodChecked;
+-    private Method isTransientMethod;
+-
+-    private boolean isTransient(FeatureDescriptor fd) {
+-        if (!transientMethodChecked) {
+-            transientMethodChecked = true;
+-            try {
+-                isTransientMethod = FeatureDescriptor.class.getDeclaredMethod("isTransient");
+-                isTransientMethod.setAccessible(true);
+-            } catch (NoSuchMethodException e) {
+-                log.fine("NoSuchMethod: FeatureDescriptor.isTransient(). Don't check it anymore.");
+-            } catch (SecurityException e) {
+-                e.printStackTrace();
+-                isTransientMethod = null;
+-            }
+-        }
+-
+-        if (isTransientMethod != null) {
+-            try {
+-                return Boolean.TRUE.equals(isTransientMethod.invoke(fd));
+-            } catch (IllegalAccessException e) {
+-                e.printStackTrace();
+-            } catch (IllegalArgumentException e) {
+-                e.printStackTrace();
+-            } catch (InvocationTargetException e) {
+-                e.printStackTrace();
+-            }
+-            isTransientMethod = null;
+-        }
+-        return false;
+-    }
+-
+     public Set<Property> getProperties(Class<? extends Object> type) {
+         return getProperties(type, beanAccess);
+     }
