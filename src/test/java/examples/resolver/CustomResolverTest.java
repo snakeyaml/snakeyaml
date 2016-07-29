@@ -18,19 +18,20 @@ package examples.resolver;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoadingConfig;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.representer.Representer;
+
+import junit.framework.TestCase;
 
 public class CustomResolverTest extends TestCase {
 
     public void testResolverToDump() {
         Map<Object, Object> map = new HashMap<Object, Object>();
         map.put("1.0", "2009-01-01");
-        Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
+        Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(), new LoadingConfig(),
                 new CustomResolver());
         String output = yaml.dump(map);
         assertEquals("{1.0: 2009-01-01}\n", output);
@@ -40,7 +41,7 @@ public class CustomResolverTest extends TestCase {
 
     @SuppressWarnings("unchecked")
     public void testResolverToLoad() {
-        Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
+        Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(), new LoadingConfig(),
                 new CustomResolver());
         Map<Object, Object> map = (Map<Object, Object>) yaml.load("1.0: 2009-01-01");
         assertEquals(1, map.size());

@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.lang.reflect.Array;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
@@ -69,6 +70,7 @@ public abstract class BaseConstructor {
     protected Tag rootTag;
     private PropertyUtils propertyUtils;
     private boolean explicitPropertyUtils;
+    private boolean allowDuplicateKeys = true;
 
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();
@@ -333,9 +335,14 @@ public abstract class BaseConstructor {
         return array;
     }
 
-    protected Map<Object, Object> createDefaultMap() {
-        // respect order from YAML document
+  
+    // use LHMap to respect order from YAML document
+    protected Map<Object, Object> createOrderPreservedMap() {
         return new LinkedHashMap<Object, Object>();
+    }
+
+    protected Map<Object, Object> createDefaultMap() {
+        return createOrderPreservedMap();
     }
 
     protected Set<Object> createDefaultSet() {
@@ -382,7 +389,12 @@ public abstract class BaseConstructor {
                         new RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>(
                                 mapping, new RecursiveTuple<Object, Object>(key, value)));
             } else {
-                mapping.put(key, value);
+              
+                if (! isAllowDuplicateKeys() && mapping.containsKey(key)) {
+                    throw new IllegalStateException("duplicate key: " + key);
+                } else {
+                    mapping.put(key, value);
+                }
             }
         }
     }
@@ -446,5 +458,13 @@ public abstract class BaseConstructor {
 
     public final boolean isExplicitPropertyUtils() {
         return explicitPropertyUtils;
+    }
+
+    public boolean isAllowDuplicateKeys() {
+        return allowDuplicateKeys;
+    }
+
+    public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
+        this.allowDuplicateKeys = allowDuplicateKeys;
     }
 }

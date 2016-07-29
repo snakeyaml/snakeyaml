@@ -1,0 +1,11 @@
+name: no-dups-test
+map:
+  someitem1: !!org.yaml.snakeyaml.issues.issue337.DuplicateKeyTest$FooEntry
+    id: aead4b16-4b61-4eff-b241-6eff26eaa778
+    url: http://test.com/sample/v1/foobar
+  someitem2: !!org.yaml.snakeyaml.issues.issue337.DuplicateKeyTest$FooEntry
+    id: d8118e55-28a5-4674-addf-0d1d847e68f6
+    url: http://test.com/sample/v77/foobar
+  someitem3: !!org.yaml.snakeyaml.issues.issue337.DuplicateKeyTest$FooEntry
+    id: daaf8911-36e4-4e92-86ea-eb77ac2c1e91
+    url: http://test.com/sample/v55/foobar

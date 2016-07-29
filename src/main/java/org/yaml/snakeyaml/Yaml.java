@@ -54,13 +54,14 @@ public class Yaml {
     protected BaseConstructor constructor;
     protected Representer representer;
     protected DumperOptions dumperOptions;
+    protected LoadingConfig loadingConfig;
 
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
      */
     public Yaml() {
-        this(new Constructor(), new Representer(), new DumperOptions(), new Resolver());
+        this(new Constructor(), new Representer(), new DumperOptions(), new LoadingConfig(), new Resolver());
     }
 
     /**
@@ -72,6 +73,16 @@ public class Yaml {
     public Yaml(DumperOptions dumperOptions) {
         this(new Constructor(), new Representer(), dumperOptions);
     }
+    
+    /**
+     * Create Yaml instance.
+     * 
+     * @param loadingConfig
+     *            LoadingConfig to control load behavior 
+     */
+    public Yaml(LoadingConfig loadingConfig) {
+        this(new Constructor(), new Representer(), new DumperOptions(), loadingConfig);
+    }    
 
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
@@ -118,7 +129,7 @@ public class Yaml {
      *            DumperOptions to configure outgoing objects
      */
     public Yaml(Representer representer, DumperOptions dumperOptions) {
-        this(new Constructor(), representer, dumperOptions, new Resolver());
+        this(new Constructor(), representer, dumperOptions, new LoadingConfig(), new Resolver());
     }
 
     /**
@@ -133,7 +144,7 @@ public class Yaml {
      *            DumperOptions to configure outgoing objects
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions) {
-        this(constructor, representer, dumperOptions, new Resolver());
+        this(constructor, representer, dumperOptions, new LoadingConfig(), new Resolver());
     }
 
     /**
@@ -146,17 +157,37 @@ public class Yaml {
      *            Representer to emit outgoing objects
      * @param dumperOptions
      *            DumperOptions to configure outgoing objects
+     * @param loadingConfig
+     *            LoadingConfig to control load behavior            
+     */
+    public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions, LoadingConfig loadingConfig) {
+        this(constructor, representer, dumperOptions, loadingConfig, new Resolver());
+    }
+    
+    /**
+     * Create Yaml instance. It is safe to create a few instances and use them
+     * in different Threads.
+     * 
+     * @param constructor
+     *            BaseConstructor to construct incoming documents
+     * @param representer
+     *            Representer to emit outgoing objects
+     * @param dumperOptions
+     *            DumperOptions to configure outgoing objects
+     * @param loadingConfig
+     *            LoadingConfig to control load behavior   
      * @param resolver
      *            Resolver to detect implicit type
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
-            Resolver resolver) {
+    		LoadingConfig loadingConfig, Resolver resolver) {
         if (!constructor.isExplicitPropertyUtils()) {
             constructor.setPropertyUtils(representer.getPropertyUtils());
         } else if (!representer.isExplicitPropertyUtils()) {
             representer.setPropertyUtils(constructor.getPropertyUtils());
         }
         this.constructor = constructor;
+        this.constructor.setAllowDuplicateKeys(loadingConfig.isAllowDuplicateKeys());
         representer.setDefaultFlowStyle(dumperOptions.getDefaultFlowStyle());
         representer.setDefaultScalarStyle(dumperOptions.getDefaultScalarStyle());
         representer.getPropertyUtils().setAllowReadOnlyProperties(
@@ -164,6 +195,7 @@ public class Yaml {
         representer.setTimeZone(dumperOptions.getTimeZone());
         this.representer = representer;
         this.dumperOptions = dumperOptions;
+        this.loadingConfig = loadingConfig;
         this.resolver = resolver;
         this.name = "Yaml:" + System.identityHashCode(this);
     }
