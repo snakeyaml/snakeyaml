@@ -39,8 +39,8 @@ public final class Mark {
         this.pointer = pointer;
     }
 
-    private boolean isLineBreak(char ch) {
-        return Constant.NULL_OR_LINEBR.has(ch);
+    private boolean isLineBreak(int c) {
+        return Constant.NULL_OR_LINEBR.has(c);
     }
 
     public String get_snippet(int indent, int max_length) {
@@ -50,7 +50,7 @@ public final class Mark {
         float half = max_length / 2 - 1;
         int start = pointer;
         String head = "";
-        while ((start > 0) && !isLineBreak(buffer.charAt(start - 1))) {
+        while ((start > 0) && !isLineBreak(buffer.codePointAt(start - 1))) {
             start -= 1;
             if (pointer - start > half) {
                 head = " ... ";
@@ -60,7 +60,7 @@ public final class Mark {
         }
         String tail = "";
         int end = pointer;
-        while ((end < buffer.length()) && !isLineBreak(buffer.charAt(end))) {
+        while ((end < buffer.length()) && !isLineBreak(buffer.codePointAt(end))) {
             end += 1;
             if (end - pointer > half) {
                 tail = " ... ";
