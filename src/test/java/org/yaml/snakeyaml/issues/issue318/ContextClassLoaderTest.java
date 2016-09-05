@@ -85,7 +85,23 @@ public class ContextClassLoaderTest {
 
         File runtimeClassesDir = new File(classpath.getProperty("runtime_classes_dir"));
 
-        yamlCL = new URLClassLoader(new URL[] { runtimeClassesDir.toURI().toURL() }, null);
+        ClassLoader noSnakeYAMLClassLoader = new ClassLoader(
+                Thread.currentThread().getContextClassLoader()) {
+
+            @Override
+            protected Class<?> loadClass(String name, boolean resolve)
+                    throws ClassNotFoundException {
+                if (!name.startsWith("org.yaml.snakeyaml")) {
+                    return super.loadClass(name, resolve);
+                }
+                throw new ClassNotFoundException(
+                        "Can't load SnakeYaml classes by this ClassLoader");
+            }
+
+        };
+
+        yamlCL = new URLClassLoader(new URL[] { runtimeClassesDir.toURI().toURL() },
+                noSnakeYAMLClassLoader);
     }
 
     @After
