@@ -19,6 +19,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
+import java.util.Map;
 
 public class AppleSmileTest extends TestCase {
 
@@ -26,6 +27,9 @@ public class AppleSmileTest extends TestCase {
         //http://support.apple.com/en-us/ht4976
         InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("issues/ios_emoji_surrogate.yaml");
         Yaml yaml = new Yaml();
-        yaml.load(input);
+        Map<String, String> map = (Map<String, String>) yaml.load(input);
+        String ios_emoji = map.get("text");
+        assertEquals("😷😊", ios_emoji);
+        System.out.println(ios_emoji);
     }
 }
