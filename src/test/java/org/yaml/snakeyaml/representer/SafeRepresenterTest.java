@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
@@ -33,9 +32,8 @@ import org.yaml.snakeyaml.reader.StreamReader;
 public class SafeRepresenterTest extends TestCase {
 
     public void testBinaryPattern() {
-        Pattern pattern = StreamReader.NON_PRINTABLE;
-        assertFalse(pattern.matcher("\tAndrey\r\n").find());
-        assertTrue(pattern.matcher("\u0005Andrey").find());
+        assertTrue(StreamReader.isPrintable("\tAndrey\r\n"));
+        assertFalse(StreamReader.isPrintable("\u0005Andrey"));
     }
 
     public void testFloat() {

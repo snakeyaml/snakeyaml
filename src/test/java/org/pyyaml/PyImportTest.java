@@ -89,7 +89,7 @@ public abstract class PyImportTest extends TestCase {
         StreamReader reader = new StreamReader(new UnicodeReader(input2));
         StringBuilder buffer = new StringBuilder();
         while (reader.peek() != '\0') {
-            buffer.append(reader.peek());
+            buffer.appendCodePoint(reader.peek());
             reader.forward();
         }
         CanonicalParser parser = new CanonicalParser(buffer.toString());

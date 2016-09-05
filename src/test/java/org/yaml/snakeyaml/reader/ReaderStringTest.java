@@ -15,8 +15,6 @@
  */
 package org.yaml.snakeyaml.reader;
 
-import java.util.regex.Matcher;
-
 import junit.framework.TestCase;
 
 public class ReaderStringTest extends TestCase {
@@ -24,26 +22,17 @@ public class ReaderStringTest extends TestCase {
     public void testCheckPrintable() {
         StreamReader reader = new StreamReader("test");
         reader.checkPrintable("test");
-        Matcher matcher = StreamReader.NON_PRINTABLE.matcher("test");
-        assertFalse(matcher.find());
-
-        try {
-            reader.checkPrintable("test".toCharArray(), 0, 4);
-        } catch (ReaderException e) {
-            fail();
-        }
-
+        assertTrue(StreamReader.isPrintable("test"));
     }
 
     public void testCheckNonPrintable() {
-        Matcher matcher = StreamReader.NON_PRINTABLE.matcher("test\u0005 fail");
-        assertTrue(matcher.find());
+        assertFalse(StreamReader.isPrintable("test\u0005 fail"));
         try {
             new StreamReader("test\u0005 fail");
-            fail("Non printable Unicode characters must not be accepted.");
+            fail("Non printable Unicode code points must not be accepted.");
         } catch (ReaderException e) {
             assertEquals(
-                    "unacceptable character '' (0x5) special characters are not allowed\nin \"'string'\", position 4",
+                    "unacceptable code point '' (0x5) special characters are not allowed\nin \"'string'\", position 4",
                     e.toString());
         }
     }
@@ -57,12 +46,11 @@ public class ReaderStringTest extends TestCase {
             char[] chars = new char[1];
             chars[0] = i;
             String str = new String(chars);
-            Matcher matcher = StreamReader.NON_PRINTABLE.matcher(str);
-            boolean regularExpressionResult = !matcher.find();
+            boolean regularExpressionResult = StreamReader.isPrintable(str);
 
             boolean charsArrayResult = true;
             try {
-                streamReader.checkPrintable(chars, 0, 1);
+                streamReader.checkPrintable(str);
             } catch (Exception e) {
                 String error = e.getMessage();
                 assertTrue(

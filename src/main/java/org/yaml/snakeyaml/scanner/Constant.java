@@ -46,11 +46,11 @@ public final class Constant {
         Arrays.fill(contains, false);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < content.length(); i++) {
-            char ch = content.charAt(i);
-            if (ch < 128)
-                contains[ch] = true;
+            int c = content.codePointAt(i);
+            if (c < 128)
+                contains[c] = true;
             else
-                sb.append(ch);
+                sb.appendCodePoint(c);
         }
         if (sb.length() > 0) {
             noASCII = true;
@@ -58,19 +58,19 @@ public final class Constant {
         }
     }
 
-    public boolean has(char ch) {
-        return (ch < 128) ? contains[ch] : noASCII && content.indexOf(ch, 0) != -1;
+    public boolean has(int c) {
+        return (c < 128) ? contains[c] : noASCII && content.indexOf(c, 0) != -1;
     }
 
-    public boolean hasNo(char ch) {
-        return !has(ch);
+    public boolean hasNo(int c) {
+        return !has(c);
     }
 
-    public boolean has(char ch, String additional) {
-        return has(ch) || additional.indexOf(ch, 0) != -1;
+    public boolean has(int c, String additional) {
+        return has(c) || additional.indexOf(c, 0) != -1;
     }
 
-    public boolean hasNo(char ch, String additional) {
-        return !has(ch, additional);
+    public boolean hasNo(int c, String additional) {
+        return !has(c, additional);
     }
 }

@@ -112,11 +112,19 @@ class SafeRepresenter extends BaseRepresenter {
             Tag tag = Tag.STR;
             Character style = null;
             String value = data.toString();
-            if (StreamReader.NON_PRINTABLE.matcher(value).find()) {
+            if (!StreamReader.isPrintable(value)) {
                 tag = Tag.BINARY;
                 char[] binary;
                 try {
-                    binary = Base64Coder.encode(value.getBytes("UTF-8"));
+                    final byte[] bytes = value.getBytes("UTF-8");
+                    // sometimes above will just silently fail - it will return incomplete data
+                    // it happens when String has invalid code points
+                    // (for example half surrogate character without other half)
+                    final String checkValue = new String(bytes, "UTF-8");
+                    if (!checkValue.equals(value)) {
+                        throw new YAMLException("invalid string value has occurred");
+                    }
+                    binary = Base64Coder.encode(bytes);
                 } catch (UnsupportedEncodingException e) {
                     throw new YAMLException(e);
                 }

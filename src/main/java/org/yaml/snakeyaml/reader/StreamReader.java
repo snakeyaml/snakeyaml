@@ -18,28 +18,26 @@ package org.yaml.snakeyaml.reader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.scanner.Constant;
 
 /**
- * Reader: checks if characters are in allowed range, adds '\0' to the end.
+ * Reader: checks if code points are in allowed range, adds '\0' to the end.
  */
 public class StreamReader {
-    public final static Pattern NON_PRINTABLE = Pattern
-            .compile("[^\t\n\r\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD]");
     private String name;
     private final Reader stream;
-    private int pointer = 0;
+    private int pointer = 0; //in characters
     private boolean eof = true;
     private String buffer;
-    private int index = 0;
+    private int index = 0; //in characters
     private int line = 0;
-    private int column = 0;
+    private int column = 0; //in code points
     private char[] data;
+
+    private static final int BUFFER_SIZE = 1025;
 
     public StreamReader(String stream) {
         this.name = "'string'";
@@ -56,48 +54,44 @@ public class StreamReader {
         this.buffer = "";
         this.stream = reader;
         this.eof = false;
-        this.data = new char[1024];
+        this.data = new char[BUFFER_SIZE];
         this.update();
     }
 
-    void checkPrintable(CharSequence data) {
-        Matcher em = NON_PRINTABLE.matcher(data);
-        if (em.find()) {
-            int position = this.index + this.buffer.length() - this.pointer + em.start();
-            throw new ReaderException(name, position, em.group().charAt(0),
-                    "special characters are not allowed");
-        }
-    }
+    void checkPrintable(String data) {
+        final int length = data.length();
+        for (int offset = 0; offset < length; ) {
+            final int codePoint = data.codePointAt(offset);
 
-    /**
-     * Checks <code>chars</chars> for the non-printable characters.
-     * 
-     * @param chars
-     *            the array where to search.
-     * @param begin
-     *            the beginning index, inclusive.
-     * @param end
-     *            the ending index, exclusive.
-     * @throws ReaderException
-     *             if <code>chars</code> contains non-printable character(s).
-     */
-    void checkPrintable(final char[] chars, final int begin, final int end) {
-        for (int i = begin; i < end; i++) {
-            final char c = chars[i];
-
-            if (isPrintable(c)) {
-                continue;
+            if (!isPrintable(codePoint)) {
+                throw new ReaderException(name, offset, codePoint,
+                                          "special characters are not allowed");
             }
 
-            int position = this.index + this.buffer.length() - this.pointer + i;
-            throw new ReaderException(name, position, c, "special characters are not allowed");
+            offset += Character.charCount(codePoint);
         }
     }
 
-    public static boolean isPrintable(final char c) {
-        return (c >= '\u0020' && c <= '\u007E') || c == '\n' || c == '\r' || c == '\t'
-                || c == '\u0085' || (c >= '\u00A0' && c <= '\uD7FF')
-                || (c >= '\uE000' && c <= '\uFFFD');
+    public static boolean isPrintable(final String data) {
+        final int length = data.length();
+        for (int offset = 0; offset < length; ) {
+            final int codePoint = data.codePointAt(offset);
+
+            if (!isPrintable(codePoint)) {
+                return false;
+            }
+
+            offset += Character.charCount(codePoint);
+        }
+
+        return true;
+    }
+
+    public static boolean isPrintable(final int c) {
+        return (c >= 0x20 && c <= 0x7E) || c == 0x9 || c == 0xA || c == 0xD
+                || c == 0x85 || (c >= 0xA0 && c <= 0xD7FF)
+                || (c >= 0xE000 && c <= 0xFFFD)
+                || (c >= 0x10000 && c <= 0x10FFFF);
     }
 
     public Mark getMark() {
@@ -110,58 +104,100 @@ public class StreamReader {
 
     /**
      * read the next length characters and move the pointer.
+     * if the last character is high surrogate one more character will be read
      * 
      * @param length
      */
     public void forward(int length) {
-        if (this.pointer + length + 1 >= this.buffer.length()) {
-            update();
-        }
-        char ch = 0;
+        int c;
         for (int i = 0; i < length; i++) {
-            ch = this.buffer.charAt(this.pointer);
-            this.pointer++;
-            this.index++;
-            if (Constant.LINEBR.has(ch) || (ch == '\r' && buffer.charAt(pointer) != '\n')) {
+            if (this.pointer == this.buffer.length()) {
+                update();
+            }
+            if (this.pointer == this.buffer.length()) {
+                break;
+            }
+
+            c = this.buffer.codePointAt(this.pointer);
+            this.pointer += Character.charCount(c);
+            this.index += Character.charCount(c);
+            if (Constant.LINEBR.has(c) || (c == '\r' && buffer.charAt(pointer) != '\n')) {
                 this.line++;
                 this.column = 0;
-            } else if (ch != '\uFEFF') {
+            } else if (c != 0xFEFF) {
                 this.column++;
             }
         }
-    }
 
-    public char peek() {
-        return this.buffer.charAt(this.pointer);
-    }
-
-    /**
-     * Peek the next index-th character
-     * 
-     * @param index
-     * @return the next index-th character
-     */
-    public char peek(int index) {
-        if (this.pointer + index + 1 > this.buffer.length()) {
+        if (this.pointer == this.buffer.length()) {
             update();
         }
-        return this.buffer.charAt(this.pointer + index);
+    }
+
+    public int peek() {
+        if (this.pointer == this.buffer.length()) {
+            update();
+        }
+        if (this.pointer == this.buffer.length()) {
+            return -1;
+        }
+
+        return this.buffer.codePointAt(this.pointer);
     }
 
     /**
-     * peek the next length characters
+     * Peek the next index-th code point
+     *
+     * @param index
+     * @return the next index-th code point
+     */
+    public int peek(int index) {
+        int offset = 0;
+        int nextIndex = 0;
+        int codePoint;
+        do {
+            if (this.pointer + offset == this.buffer.length()) {
+                update();
+            }
+            if (this.pointer + offset == this.buffer.length()) {
+                return -1;
+            }
+
+            codePoint = this.buffer.codePointAt(this.pointer + offset);
+            offset += Character.charCount(codePoint);
+            nextIndex++;
+
+        } while (nextIndex <= index);
+
+        return codePoint;
+    }
+
+    /**
+     * peek the next length code points
      * 
      * @param length
-     * @return the next length characters
+     * @return the next length code points
      */
     public String prefix(int length) {
-        if (this.pointer + length >= this.buffer.length()) {
-            update();
+        final StringBuilder builder = new StringBuilder();
+
+        int offset = 0;
+        int resultLength = 0;
+        while (resultLength < length) {
+            if (this.pointer + offset == this.buffer.length()) {
+                update();
+            }
+            if (this.pointer + offset == this.buffer.length()) {
+                break;
+            }
+
+            int c = this.buffer.codePointAt(this.pointer + offset);
+            builder.appendCodePoint(c);
+            offset += Character.charCount(c);
+            resultLength++;
         }
-        if (this.pointer + length > this.buffer.length()) {
-            return this.buffer.substring(this.pointer);
-        }
-        return this.buffer.substring(this.pointer, this.pointer + length);
+
+        return builder.toString();
     }
 
     /**
@@ -169,8 +205,8 @@ public class StreamReader {
      */
     public String prefixForward(int length) {
         final String prefix = prefix(length);
-        this.pointer += length;
-        this.index += length;
+        this.pointer += prefix.length();
+        this.index += prefix.length();
         // prefix never contains new line characters
         this.column += length;
         return prefix;
@@ -181,17 +217,33 @@ public class StreamReader {
             this.buffer = buffer.substring(this.pointer);
             this.pointer = 0;
             try {
-                int converted = this.stream.read(data);
+                boolean eofDetected = false;
+                int converted = this.stream.read(data, 0, BUFFER_SIZE - 1);
                 if (converted > 0) {
+                    if (Character.isHighSurrogate(data[converted - 1])) {
+                        int oneMore = this.stream.read(data, converted, 1);
+                        if (oneMore != -1) {
+                            converted += oneMore;
+                        } else {
+                            eofDetected = true;
+                        }
+                    }
+
                     /*
                      * Let's create StringBuilder manually. Anyway str1 + str2
                      * generates new StringBuilder(str1).append(str2).toSting()
                      * Giving correct capacity to the constructor prevents
                      * unnecessary operations in appends.
                      */
-                    checkPrintable(data, 0, converted);
-                    this.buffer = new StringBuilder(buffer.length() + converted).append(buffer)
-                            .append(data, 0, converted).toString();
+                    StringBuilder builder  = new StringBuilder(buffer.length() + converted)
+                            .append(buffer)
+                            .append(data, 0, converted);
+                    if (eofDetected) {
+                        this.eof = true;
+                        builder.append('\0');
+                    }
+                    this.buffer = builder.toString();
+                    checkPrintable(this.buffer);
                 } else {
                     this.eof = true;
                     this.buffer += "\0";

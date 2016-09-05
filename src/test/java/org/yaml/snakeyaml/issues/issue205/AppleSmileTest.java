@@ -26,11 +26,6 @@ public class AppleSmileTest extends TestCase {
         //http://support.apple.com/en-us/ht4976
         InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("issues/ios_emoji_surrogate.yaml");
         Yaml yaml = new Yaml();
-        try {
-            yaml.load(input);
-            fail("Surrogate characters must not be accepted.");
-        } catch (Exception e) {
-            assertEquals("special characters are not allowed", e.getMessage());
-        }
+        yaml.load(input);
     }
 }
