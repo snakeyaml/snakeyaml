@@ -29,7 +29,7 @@ public class ReaderExceptionTest extends TestCase {
         } catch (ReaderException e) {
             assertEquals(3, e.getPosition());
             assertEquals("'string'", e.getName());
-            assertEquals('\u0019', e.getCharacter());
+            assertEquals(0x19, e.getCodePoint());
         }
     }
 }

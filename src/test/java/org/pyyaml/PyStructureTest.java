@@ -196,7 +196,7 @@ public class PyStructureTest extends PyImportTest {
         StreamReader reader = new StreamReader(new UnicodeReader(file));
         StringBuilder buffer = new StringBuilder();
         while (reader.peek() != '\0') {
-            buffer.append(reader.peek());
+            buffer.appendCodePoint(reader.peek());
             reader.forward();
         }
         CanonicalParser parser = new CanonicalParser(buffer.toString());
@@ -218,7 +218,7 @@ public class PyStructureTest extends PyImportTest {
             StreamReader reader = new StreamReader(yaml);
             StringBuilder buffer = new StringBuilder();
             while (reader.peek() != '\0') {
-                buffer.append(reader.peek());
+                buffer.appendCodePoint(reader.peek());
                 reader.forward();
             }
             CanonicalParser parser = new CanonicalParser(buffer.toString());

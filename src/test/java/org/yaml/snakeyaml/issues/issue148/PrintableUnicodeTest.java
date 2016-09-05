@@ -32,9 +32,13 @@ public class PrintableUnicodeTest extends TestCase {
     }
 
     public void testSerialization() {
-        // test serialization of all Unicode codepoints
+        // test serialization of valid Unicode BMP codepoints
         Yaml yaml = createYaml();
         for (int c = Character.MIN_VALUE; c <= Character.MAX_VALUE; c++) {
+            if (Character.isHighSurrogate((char)c) || Character.isLowSurrogate((char)c)) {
+                continue;
+            }
+
             String original = Character.toString((char) c);
             String serialized = yaml.dump(original);
 

@@ -109,8 +109,8 @@ public class CanonicalScanner implements Scanner {
         boolean stop = false;
         while (!stop) {
             findToken();
-            char ch = data.charAt(index);
-            switch (ch) {
+            int c = data.codePointAt(index);
+            switch (c) {
             case '\0':
                 tokens.add(new StreamEndToken(mark, mark));
                 stop = true;
@@ -191,8 +191,8 @@ public class CanonicalScanner implements Scanner {
         if (DIRECTIVE.equals(chunk1) && "\n\0".indexOf(chunk2) != -1) {
             index += DIRECTIVE.length();
             List<Integer> implicit = new ArrayList<Integer>(2);
-            implicit.add(new Integer(1));
-            implicit.add(new Integer(1));
+            implicit.add(1);
+            implicit.add(1);
             return new DirectiveToken<Integer>("YAML", implicit, mark, mark);
         } else {
             throw new CanonicalException("invalid directive");
@@ -201,12 +201,13 @@ public class CanonicalScanner implements Scanner {
 
     private Token scanAlias() {
         boolean isTokenClassAlias;
-        if (data.charAt(index) == '*') {
+        final int c = data.codePointAt(index);
+        if (c == '*') {
             isTokenClassAlias = true;
         } else {
             isTokenClassAlias = false;
         }
-        index++;
+        index += Character.charCount(c);
         int start = index;
         while (", \n\0".indexOf(data.charAt(index)) == -1) {
             index++;
@@ -222,7 +223,7 @@ public class CanonicalScanner implements Scanner {
     }
 
     private Token scanTag() {
-        index++;
+        index += Character.charCount(data.codePointAt(index));
         int start = index;
         while (" \n\0".indexOf(data.charAt(index)) == -1) {
             index++;
@@ -241,7 +242,7 @@ public class CanonicalScanner implements Scanner {
     }
 
     private Token scanScalar() {
-        index++;
+        index += Character.charCount(data.codePointAt(index));
         StringBuilder chunks = new StringBuilder();
         int start = index;
         boolean ignoreSpaces = false;
@@ -249,39 +250,39 @@ public class CanonicalScanner implements Scanner {
             if (data.charAt(index) == '\\') {
                 ignoreSpaces = false;
                 chunks.append(data.substring(start, index));
-                index++;
-                char ch = data.charAt(index);
-                index++;
-                if (ch == '\n') {
+                index += Character.charCount(data.codePointAt(index));
+                int c = data.codePointAt(index);
+                index += Character.charCount(data.codePointAt(index));
+                if (c == '\n') {
                     ignoreSpaces = true;
-                } else if (QUOTE_CODES.keySet().contains(ch)) {
-                    int length = QUOTE_CODES.get(ch);
+                } else if (!Character.isSupplementaryCodePoint(c) && QUOTE_CODES.keySet().contains((char)c)) {
+                    int length = QUOTE_CODES.get((char)c);
                     int code = Integer.parseInt(data.substring(index, index + length), 16);
                     chunks.append(String.valueOf((char) code));
                     index += length;
                 } else {
-                    if (!QUOTE_REPLACES.keySet().contains(ch)) {
+                    if (Character.isSupplementaryCodePoint(c) || !QUOTE_REPLACES.keySet().contains((char)c)) {
                         throw new CanonicalException("invalid escape code");
                     }
-                    chunks.append(QUOTE_REPLACES.get(ch));
+                    chunks.append(QUOTE_REPLACES.get((char)c));
                 }
                 start = index;
             } else if (data.charAt(index) == '\n') {
                 chunks.append(data.substring(start, index));
                 chunks.append(" ");
-                index++;
+                index += Character.charCount(data.codePointAt(index));
                 start = index;
                 ignoreSpaces = true;
             } else if (ignoreSpaces && data.charAt(index) == ' ') {
-                index++;
+                index += Character.charCount(data.codePointAt(index));
                 start = index;
             } else {
                 ignoreSpaces = false;
-                index++;
+                index += Character.charCount(data.codePointAt(index));
             }
         }
         chunks.append(data.substring(start, index));
-        index++;
+        index += Character.charCount(data.codePointAt(index));
         return new ScalarToken(chunks.toString(), mark, mark, false);
     }
 

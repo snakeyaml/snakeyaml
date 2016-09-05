@@ -927,7 +927,7 @@ public final class Emitter implements Emitable {
         }
         // First character or preceded by a whitespace.
         boolean preceededByWhitespace = true;
-        boolean followedByWhitespace = scalar.length() == 1 || Constant.NULL_BL_T_LINEBR.has(scalar.charAt(1));
+        boolean followedByWhitespace = scalar.length() == 1 || Constant.NULL_BL_T_LINEBR.has(scalar.codePointAt(1));
         // The previous character is a space.
         boolean previousSpace = false;
 
@@ -937,48 +937,49 @@ public final class Emitter implements Emitable {
         int index = 0;
 
         while (index < scalar.length()) {
-            char ch = scalar.charAt(index);
+            int c = scalar.codePointAt(index);
             // Check for indicators.
             if (index == 0) {
                 // Leading indicators are special characters.
-                if ("#,[]{}&*!|>\'\"%@`".indexOf(ch) != -1) {
+                if ("#,[]{}&*!|>\'\"%@`".indexOf(c) != -1) {
                     flowIndicators = true;
                     blockIndicators = true;
                 }
-                if (ch == '?' || ch == ':') {
+                if (c == '?' || c == ':') {
                     flowIndicators = true;
                     if (followedByWhitespace) {
                         blockIndicators = true;
                     }
                 }
-                if (ch == '-' && followedByWhitespace) {
+                if (c == '-' && followedByWhitespace) {
                     flowIndicators = true;
                     blockIndicators = true;
                 }
             } else {
                 // Some indicators cannot appear within a scalar as well.
-                if (",?[]{}".indexOf(ch) != -1) {
+                if (",?[]{}".indexOf(c) != -1) {
                     flowIndicators = true;
                 }
-                if (ch == ':') {
+                if (c == ':') {
                     flowIndicators = true;
                     if (followedByWhitespace) {
                         blockIndicators = true;
                     }
                 }
-                if (ch == '#' && preceededByWhitespace) {
+                if (c == '#' && preceededByWhitespace) {
                     flowIndicators = true;
                     blockIndicators = true;
                 }
             }
             // Check for line breaks, special, and unicode characters.
-            boolean isLineBreak = Constant.LINEBR.has(ch);
+            boolean isLineBreak = Constant.LINEBR.has(c);
             if (isLineBreak) {
                 lineBreaks = true;
             }
-            if (!(ch == '\n' || ('\u0020' <= ch && ch <= '\u007E'))) {
-                if ((ch == '\u0085' || ('\u00A0' <= ch && ch <= '\uD7FF') || ('\uE000' <= ch && ch <= '\uFFFD'))
-                        && (ch != '\uFEFF')) {
+            if (!(c == '\n' || (0x20 <= c && c <= 0x7E))) {
+                if (c == 0x85 || (c >= 0xA0 && c <= 0xD7FF)
+                || (c >= 0xE000 && c <= 0xFFFD)
+                || (c >= 0x10000 && c <= 0x10FFFF)) {
                     // unicode is used
                     if (!this.allowUnicode) {
                         specialCharacters = true;
@@ -988,7 +989,7 @@ public final class Emitter implements Emitable {
                 }
             }
             // Detect important whitespace combinations.
-            if (ch == ' ') {
+            if (c == ' ') {
                 if (index == 0) {
                     leadingSpace = true;
                 }
@@ -1018,10 +1019,15 @@ public final class Emitter implements Emitable {
             }
 
             // Prepare for the next character.
-            index++;
-            preceededByWhitespace = Constant.NULL_BL_T.has(ch) || isLineBreak;
-            followedByWhitespace = index + 1 >= scalar.length()
-                    || (Constant.NULL_BL_T.has(scalar.charAt(index + 1))) || isLineBreak;
+            index += Character.charCount(c);
+            preceededByWhitespace = Constant.NULL_BL_T.has(c) || isLineBreak;
+            followedByWhitespace = true;
+            if (index + 1 < scalar.length()) {
+                int nextIndex = index + Character.charCount(scalar.codePointAt(index));
+                if (nextIndex < scalar.length()) {
+                    followedByWhitespace = (Constant.NULL_BL_T.has(scalar.codePointAt(nextIndex))) || isLineBreak;
+                }
+            }
         }
         // Let's decide what styles are allowed.
         boolean allowFlowPlain = true;
