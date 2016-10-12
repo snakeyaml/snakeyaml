@@ -1,0 +1,6 @@
+foo:
+  - &foo !!org.yaml.snakeyaml.issues.issue348.model.Foo ["foo"]
+bar:
+  - &bar !!org.yaml.snakeyaml.issues.issue348.model.Bar [*foo]
+baz:
+  - &baz !!org.yaml.snakeyaml.issues.issue348.model.Baz [*bar]
