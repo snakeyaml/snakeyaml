@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="maslovalex" type="fix" issue="348">
+                Not removing parent object when composed object is an anchor. (2016-10-13)
+            </action>
             <action dev="asomov" type="fix" issue="323">
                 Support "Miscellaneous Symbols and Pictographs" (2016-09-05)
             </action>
