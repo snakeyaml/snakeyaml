@@ -41,8 +41,8 @@ import org.yaml.snakeyaml.resolver.Resolver;
 /**
  * Creates a node graph from parser events.
  * <p>
- * Corresponds to the 'Compose' step as described in chapter 3.1 of the <a
- * href="http://yaml.org/spec/1.1/">YAML Specification</a>.
+ * Corresponds to the 'Compose' step as described in chapter 3.1 of the
+ * <a href="http://yaml.org/spec/1.1/">YAML Specification</a>.
  * </p>
  */
 public class Composer {
@@ -60,7 +60,7 @@ public class Composer {
 
     /**
      * Checks if further documents are available.
-     * 
+     *
      * @return <code>true</code> if there is at least one more document.
      */
     public boolean checkNode() {
@@ -74,7 +74,7 @@ public class Composer {
 
     /**
      * Reads and composes the next document.
-     * 
+     *
      * @return The root node of the document or <code>null</code> if no more
      *         documents are available.
      */
@@ -92,7 +92,7 @@ public class Composer {
      * <p>
      * If the stream contains more than one document an exception is thrown.
      * </p>
-     * 
+     *
      * @return The root node of the document or <code>null</code> if no document
      *         is available.
      */
@@ -129,6 +129,7 @@ public class Composer {
 
     private Node composeNode(Node parent) {
         recursiveNodes.add(parent);
+        Node node = null;
         if (parser.checkEvent(Event.ID.Alias)) {
             AliasEvent event = (AliasEvent) parser.getEvent();
             String anchor = event.getAnchor();
@@ -136,23 +137,22 @@ public class Composer {
                 throw new ComposerException(null, null, "found undefined alias " + anchor,
                         event.getStartMark());
             }
-            Node result = anchors.get(anchor);
-            if (recursiveNodes.remove(result)) {
-                result.setTwoStepsConstruction(true);
+            node = anchors.get(anchor);
+            if (recursiveNodes.remove(node)) {
+                node.setTwoStepsConstruction(true);
             }
-            return result;
-        }
-        NodeEvent event = (NodeEvent) parser.peekEvent();
-        String anchor = null;
-        anchor = event.getAnchor();
-        // the check for duplicate anchors has been removed (issue 174)
-        Node node = null;
-        if (parser.checkEvent(Event.ID.Scalar)) {
-            node = composeScalarNode(anchor);
-        } else if (parser.checkEvent(Event.ID.SequenceStart)) {
-            node = composeSequenceNode(anchor);
         } else {
-            node = composeMappingNode(anchor);
+            NodeEvent event = (NodeEvent) parser.peekEvent();
+            String anchor = null;
+            anchor = event.getAnchor();
+            // the check for duplicate anchors has been removed (issue 174)
+            if (parser.checkEvent(Event.ID.Scalar)) {
+                node = composeScalarNode(anchor);
+            } else if (parser.checkEvent(Event.ID.SequenceStart)) {
+                node = composeSequenceNode(anchor);
+            } else {
+                node = composeMappingNode(anchor);
+            }
         }
         recursiveNodes.remove(parent);
         return node;
@@ -164,8 +164,8 @@ public class Composer {
         boolean resolved = false;
         Tag nodeTag;
         if (tag == null || tag.equals("!")) {
-            nodeTag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit()
-                    .canOmitTagInPlainScalar());
+            nodeTag = resolver.resolve(NodeId.scalar, ev.getValue(),
+                    ev.getImplicit().canOmitTagInPlainScalar());
             resolved = true;
         } else {
             nodeTag = new Tag(tag);
@@ -190,8 +190,8 @@ public class Composer {
             nodeTag = new Tag(tag);
         }
         final ArrayList<Node> children = new ArrayList<Node>();
-        SequenceNode node = new SequenceNode(nodeTag, resolved, children,
-                startEvent.getStartMark(), null, startEvent.getFlowStyle());
+        SequenceNode node = new SequenceNode(nodeTag, resolved, children, startEvent.getStartMark(),
+                null, startEvent.getFlowStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }
