@@ -16,8 +16,16 @@
 package org.yaml.snakeyaml.issues.issue348.model;
 
 public class Foo {
-  private String foo;
-  public Foo() {}
-  public Foo(String str) { this.foo = str; }
-}
+    private String foo;
 
+    public Foo() {
+    }
+
+    public Foo(String str) {
+        this.foo = str;
+    }
+
+    public String getFoo() {
+        return foo;
+    }
+}

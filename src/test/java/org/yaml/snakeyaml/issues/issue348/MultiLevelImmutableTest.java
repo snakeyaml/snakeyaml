@@ -15,21 +15,40 @@
  */
 package org.yaml.snakeyaml.issues.issue348;
 
-import junit.framework.TestCase;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Test;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.issues.issue348.model.Bar;
+import org.yaml.snakeyaml.issues.issue348.model.Baz;
+import org.yaml.snakeyaml.issues.issue348.model.Foo;
 
-public class MultiLevelImmutableTest extends TestCase {
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
-    public void testUnexpectedRecursive() throws Exception {
-        try {
-            Yaml yaml = new Yaml();
-            String data = Util.getLocalResource("issues/issue348.yaml");
-            yaml.load(data);
-            //FIXME issue 348
-            fail("There should be nothing recursive here.");
-        } catch (RuntimeException e) {
-            assertTrue(e.getMessage().contains("Immutable objects cannot be recursive"));
+public class MultiLevelImmutableTest {
+
+    @Test
+    public void testUnexpectedRecursive() {
+        Yaml yaml = new Yaml();
+        String data = Util.getLocalResource("issues/issue348.yaml");
+        Map<?, ?> loadedMap = yaml.loadAs(data, Map.class);
+
+        for (Map.Entry<?, ?> entry : loadedMap.entrySet()) {
+            assertThat(entry.getValue(), instanceOf(List.class));
         }
+
+        Object foo = ((List) loadedMap.get("foo")).get(0);
+        Object bar = ((List) loadedMap.get("bar")).get(0);
+        Object baz = ((List) loadedMap.get("baz")).get(0);
+        assertThat(foo, instanceOf(Foo.class));
+        assertThat(bar, instanceOf(Bar.class));
+        assertThat(baz, instanceOf(Baz.class));
+
+        assertEquals(foo, ((Bar) bar).getFoo());
+        assertEquals(bar, ((Baz) baz).getBar());
+        assertEquals("foo", ((Foo) foo).getFoo());
     }
 }

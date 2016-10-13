@@ -16,9 +16,16 @@
 package org.yaml.snakeyaml.issues.issue348.model;
 
 public class Bar {
-  private Foo foo;
+    private Foo foo;
 
-  public Bar(){ }
+    public Bar() {
+    }
 
-  public Bar(Foo foo){this.foo = foo;}
+    public Bar(Foo foo) {
+        this.foo = foo;
+    }
+
+    public Foo getFoo() {
+        return foo;
+    }
 }

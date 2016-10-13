@@ -16,9 +16,17 @@
 package org.yaml.snakeyaml.issues.issue348.model;
 
 public class Baz {
-  public Baz() {
-  }
+    private Bar bar;
 
-  public Baz(Bar bar) {
-  }
+    public Baz() {
+    }
+
+    public Baz(Bar bar) {
+        this.bar = bar;
+    }
+
+    public Bar getBar() {
+        return bar;
+    }
+
 }
