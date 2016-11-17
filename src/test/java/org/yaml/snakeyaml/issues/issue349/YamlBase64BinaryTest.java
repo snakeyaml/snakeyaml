@@ -25,9 +25,8 @@ import org.yaml.snakeyaml.Yaml;
 public class YamlBase64BinaryTest extends TestCase {
 
     public void testLocalBinaryTags() throws IOException {
-// TODO       String[] names = {"1", "2", "3"};
-        String[] names = {"1"};
-        for(String name : names) {
+        String[] names = {"1", "2", "3"};
+        for (String name : names) {
             toBeTested(name);
         }
     }
@@ -41,5 +40,4 @@ public class YamlBase64BinaryTest extends TestCase {
         assertEquals(65, jpeg.length);
         inputStream.close();
     }
-
 }

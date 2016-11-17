@@ -267,8 +267,9 @@ public class SafeConstructor extends BaseConstructor {
 
     public class ConstructYamlBinary extends AbstractConstruct {
         public Object construct(Node node) {
-            byte[] decoded = Base64Coder.decode(constructScalar((ScalarNode) node).toString()
-                    .toCharArray());
+            //Ignore white spaces for base64 encoded scalar
+            String noWhiteSpaces = constructScalar((ScalarNode) node).toString().replaceAll("\\s", "");
+            byte[] decoded = Base64Coder.decode(noWhiteSpaces.toCharArray());
             return decoded;
         }
     }

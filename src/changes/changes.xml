@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="349">
+                Ignore white spaces for base64 encoded scalar (2016-11-17)
+            </action>
             <action dev="maslovalex" type="fix" issue="348">
                 Not removing parent object when composed object is an anchor. (2016-10-13)
             </action>
