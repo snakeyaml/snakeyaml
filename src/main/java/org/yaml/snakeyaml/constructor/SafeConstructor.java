@@ -18,9 +18,10 @@ package org.yaml.snakeyaml.constructor;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -69,9 +70,47 @@ public class SafeConstructor extends BaseConstructor {
 
     protected void flattenMapping(MappingNode node) {
         // perform merging only on nodes containing merge node(s)
+        processDuplicateKeys(node);
         if (node.isMerged()) {
             node.setValue(mergeNode(node, true, new HashMap<Object, Integer>(),
                     new ArrayList<NodeTuple>()));
+        }
+    }
+
+    protected void processDuplicateKeys(MappingNode node) {
+        List<NodeTuple> nodeValue = node.getValue();
+        Map<Object, Integer> keys = new HashMap<Object, Integer>(nodeValue.size());
+        Deque<Integer> toRemove = new ArrayDeque<Integer>();
+        int i = 0;
+        for (NodeTuple tuple : nodeValue) {
+            Node keyNode = tuple.getKeyNode();
+            if (!keyNode.getTag().equals(Tag.MERGE)) {
+                Object key = constructObject(keyNode);
+                if (key != null) {
+                    try {
+                        key.hashCode();// check circular dependencies
+                    } catch (Exception e) {
+                        throw new ConstructorException("while constructing a mapping",
+                                node.getStartMark(), "found unacceptable key " + key,
+                                tuple.getKeyNode().getStartMark(), e);
+                    }
+                }
+
+                Integer prevIndex = keys.put(key, i);
+                if (prevIndex != null) {
+                    // if duplicates not allowed
+                    // throw new IllegalStateException("duplicate key: " + key);
+                    // else
+                    toRemove.add(prevIndex);
+                    //
+                }
+            }
+            i = i + 1;
+        }
+
+        Iterator<Integer> indicies2remove = toRemove.descendingIterator();
+        while (indicies2remove.hasNext()) {
+            nodeValue.remove(indicies2remove.next().intValue());
         }
     }
 
@@ -91,10 +130,8 @@ public class SafeConstructor extends BaseConstructor {
      */
     private List<NodeTuple> mergeNode(MappingNode node, boolean isPreffered,
             Map<Object, Integer> key2index, List<NodeTuple> values) {
-        List<NodeTuple> nodeValue = node.getValue();
-        // reversed for http://code.google.com/p/snakeyaml/issues/detail?id=139
-        Collections.reverse(nodeValue);
-        for (Iterator<NodeTuple> iter = nodeValue.iterator(); iter.hasNext();) {
+        Iterator<NodeTuple> iter = node.getValue().iterator();
+        while (iter.hasNext()) {
             final NodeTuple nodeTuple = iter.next();
             final Node keyNode = nodeTuple.getKeyNode();
             final Node valueNode = nodeTuple.getValueNode();
