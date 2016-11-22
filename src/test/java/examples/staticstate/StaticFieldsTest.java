@@ -29,6 +29,7 @@ import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 /**
@@ -92,8 +93,12 @@ public class StaticFieldsTest extends TestCase {
     }
 
     private class MyConstructor extends Constructor {
+
+        private Tag JBWSS = new Tag(JavaBeanWithStaticState.class);
+
         protected Object constructObject(Node node) {
-            if (node.getType().isAssignableFrom(JavaBeanWithStaticState.class)) {
+            if (JavaBeanWithStaticState.class.isAssignableFrom(node.getType())
+                    || JBWSS.equals(node.getTag())) {
                 MappingNode beanNode = (MappingNode) node;
                 List<NodeTuple> value = beanNode.getValue();
                 List<NodeTuple> removed = new ArrayList<NodeTuple>();
