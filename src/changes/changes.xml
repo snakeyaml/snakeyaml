@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="maslovalex" type="fix" issue="351">
+                preprocess keys for MappingNode and remove duplicates (keeping the last one). (2016-11-22)
+            </action>
             <action dev="asomov" type="fix" issue="349">
                 Ignore white spaces for base64 encoded scalar (2016-11-17)
             </action>
