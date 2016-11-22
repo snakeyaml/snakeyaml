@@ -1,0 +1,6 @@
+prize_cashBack_fixture: &cashBackPrize
+    "[prizes][0][bonusPrize]": "9"
+    "[prizes][0][options][19][value]": "25"
+    "[prizes][0][options][20][value]": "3"
+prize_cashBack_sendEmail_fixture:
+    <<: *cashBackPrize
