@@ -124,14 +124,26 @@ public class DuplicateKeyTest {
 
     @Test
     public void errorOnDuplicateKeysInJavaBeanProperty() {
-       thrown.expect(org.yaml.snakeyaml.constructor.ConstructorException.class);
-       thrown.expectMessage("duplicate key: name");
-       String input = Util.getLocalResource("issues/issue337-duplicate-keys-javabean-property.yaml");
-       LoaderOptions lc = new LoaderOptions();
-       lc.setAllowDuplicateKeys(true);
-       Yaml yaml = new Yaml(lc);
-       MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
-       assertEquals("no-dup-keys", testdata.getName());
+        thrown.expect(org.yaml.snakeyaml.constructor.ConstructorException.class);
+        thrown.expectMessage("duplicate key: name");
+        String input = Util
+                .getLocalResource("issues/issue337-duplicate-keys-javabean-property.yaml");
+        LoaderOptions lc = new LoaderOptions();
+        lc.setAllowDuplicateKeys(false);
+        Yaml yaml = new Yaml(lc);
+        MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
+        assertEquals("has-dup-keys", testdata.getName());
+    }
+
+    @Test
+    public void acceptDuplicateKeysInJavaBeanProperty() {
+        String input = Util
+                .getLocalResource("issues/issue337-duplicate-keys-javabean-property.yaml");
+        LoaderOptions lc = new LoaderOptions();
+        lc.setAllowDuplicateKeys(true);
+        Yaml yaml = new Yaml(lc);
+        MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
+        assertEquals("has-dup-keys", testdata.getName());
     }
 
     @Test
