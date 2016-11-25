@@ -123,6 +123,18 @@ public class DuplicateKeyTest {
     }
 
     @Test
+    public void errorOnDuplicateKeysInJavaBeanProperty() {
+       thrown.expect(org.yaml.snakeyaml.constructor.ConstructorException.class);
+       thrown.expectMessage("duplicate key: name");
+       String input = Util.getLocalResource("issues/issue337-duplicate-keys-javabean-property.yaml");
+       LoadingConfig lc = new LoadingConfig();
+       lc.setAllowDuplicateKeys(false);
+       Yaml yaml = new Yaml(lc);
+       MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
+       assertEquals("no-dup-keys", testdata.getName());
+    }
+
+    @Test
     public void defaultConfigUniqueKeysWorks() {
         String input = Util.getLocalResource("issues/issue337-duplicate-keys-no-dups.yaml");
         Yaml yaml = new Yaml();

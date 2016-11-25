@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -73,9 +74,33 @@ public class SafeConstructor extends BaseConstructor {
             node.setValue(mergeNode(node, true, new HashMap<Object, Integer>(),
                     new ArrayList<NodeTuple>()));
         }
+        if(!isAllowDuplicateKeys()) {
+            checkForDuplicateKeys(node);
+        }
     }
 
-    /**
+    protected void checkForDuplicateKeys(MappingNode node) {
+        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+        Set<Object> keys = new HashSet<Object>(nodeValue.size());
+        for (NodeTuple tuple : nodeValue) {
+            Node keyNode = tuple.getKeyNode();
+            Object key = constructObject(keyNode);
+            if (key != null) {
+                try {
+                    key.hashCode();// check circular dependencies
+                } catch (Exception e) {
+                    throw new ConstructorException("while constructing a mapping",
+                            node.getStartMark(), "found unacceptable key " + key, tuple
+                                    .getKeyNode().getStartMark(), e);
+                }
+            }
+            if(!keys.add(key)) {
+                throw new IllegalStateException("duplicate key: " + key);
+            }
+        }
+        }
+
+        /**
      * Does merge for supplied mapping node.
      * 
      * @param node
