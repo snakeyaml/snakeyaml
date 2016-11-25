@@ -69,6 +69,7 @@ public abstract class BaseConstructor {
     protected Tag rootTag;
     private PropertyUtils propertyUtils;
     private boolean explicitPropertyUtils;
+    private boolean allowDuplicateKeys = true;
 
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();
@@ -85,7 +86,7 @@ public abstract class BaseConstructor {
 
     /**
      * Check if more documents available
-     * 
+     *
      * @return true when there are more YAML documents in the stream
      */
     public boolean checkData() {
@@ -95,7 +96,7 @@ public abstract class BaseConstructor {
 
     /**
      * Construct and return the next document
-     * 
+     *
      * @return constructed instance
      */
     public Object getData() {
@@ -110,7 +111,7 @@ public abstract class BaseConstructor {
 
     /**
      * Ensure that the stream contains a single document and construct it
-     * 
+     *
      * @return constructed instance
      * @throws ComposerException
      *             in case there are more documents in the stream
@@ -132,7 +133,7 @@ public abstract class BaseConstructor {
     /**
      * Construct complete YAML document. Call the second step in case of
      * recursive structures. At the end cleans all the state.
-     * 
+     *
      * @param node
      *            root Node
      * @return Java instance
@@ -164,7 +165,7 @@ public abstract class BaseConstructor {
     /**
      * Construct object from the specified Node. Return existing instance if the
      * node is already constructed.
-     * 
+     *
      * @param node
      *            Node to be constructed
      * @return Java instance
@@ -192,7 +193,7 @@ public abstract class BaseConstructor {
      * Get the constructor to construct the Node. For implicit tags if the
      * runtime class is known a dedicated Construct implementation is used.
      * Otherwise the constructor is chosen by the tag.
-     * 
+     *
      * @param node
      *            Node to be constructed
      * @return Construct implementation for the specified node
@@ -291,7 +292,8 @@ public abstract class BaseConstructor {
             if (componentType.isPrimitive()) {
                 // Null values are disallowed for primitives
                 if (value == null) {
-                    throw new NullPointerException("Unable to construct element value for " + child);
+                    throw new NullPointerException(
+                            "Unable to construct element value for " + child);
                 }
 
                 // Primitive arrays require quite a lot of work.
@@ -356,7 +358,7 @@ public abstract class BaseConstructor {
     }
 
     protected void constructMapping2ndStep(MappingNode node, Map<Object, Object> mapping) {
-        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+        List<NodeTuple> nodeValue = node.getValue();
         for (NodeTuple tuple : nodeValue) {
             Node keyNode = tuple.getKeyNode();
             Node valueNode = tuple.getValueNode();
@@ -366,8 +368,8 @@ public abstract class BaseConstructor {
                     key.hashCode();// check circular dependencies
                 } catch (Exception e) {
                     throw new ConstructorException("while constructing a mapping",
-                            node.getStartMark(), "found unacceptable key " + key, tuple
-                                    .getKeyNode().getStartMark(), e);
+                            node.getStartMark(), "found unacceptable key " + key,
+                            tuple.getKeyNode().getStartMark(), e);
                 }
             }
             Object value = constructObject(valueNode);
@@ -388,7 +390,7 @@ public abstract class BaseConstructor {
     }
 
     protected void constructSet2ndStep(MappingNode node, Set<Object> set) {
-        List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+        List<NodeTuple> nodeValue = node.getValue();
         for (NodeTuple tuple : nodeValue) {
             Node keyNode = tuple.getKeyNode();
             Object key = constructObject(keyNode);
@@ -446,5 +448,13 @@ public abstract class BaseConstructor {
 
     public final boolean isExplicitPropertyUtils() {
         return explicitPropertyUtils;
+    }
+
+    public boolean isAllowDuplicateKeys() {
+        return allowDuplicateKeys;
+    }
+
+    public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
+        this.allowDuplicateKeys = allowDuplicateKeys;
     }
 }

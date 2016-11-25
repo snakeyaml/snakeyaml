@@ -98,11 +98,10 @@ public class SafeConstructor extends BaseConstructor {
 
                 Integer prevIndex = keys.put(key, i);
                 if (prevIndex != null) {
-                    // if duplicates not allowed
-                    // throw new IllegalStateException("duplicate key: " + key);
-                    // else
+                    if (!isAllowDuplicateKeys()) {
+                        throw new IllegalStateException("duplicate key: " + key);
+                    }
                     toRemove.add(prevIndex);
-                    //
                 }
             }
             i = i + 1;
@@ -116,7 +115,7 @@ public class SafeConstructor extends BaseConstructor {
 
     /**
      * Does merge for supplied mapping node.
-     * 
+     *
      * @param node
      *            where to merge
      * @param isPreffered
@@ -150,7 +149,8 @@ public class SafeConstructor extends BaseConstructor {
                             throw new ConstructorException("while constructing a mapping",
                                     node.getStartMark(),
                                     "expected a mapping for merging, but found "
-                                            + subnode.getNodeId(), subnode.getStartMark());
+                                            + subnode.getNodeId(),
+                                    subnode.getStartMark());
                         }
                         MappingNode mnode = (MappingNode) subnode;
                         mergeNode(mnode, false, key2index, values);
@@ -160,7 +160,8 @@ public class SafeConstructor extends BaseConstructor {
                     throw new ConstructorException("while constructing a mapping",
                             node.getStartMark(),
                             "expected a mapping or list of mappings for merging, but found "
-                                    + valueNode.getNodeId(), valueNode.getStartMark());
+                                    + valueNode.getNodeId(),
+                            valueNode.getStartMark());
                 }
             } else {
                 // we need to construct keys to avoid duplications
@@ -304,8 +305,9 @@ public class SafeConstructor extends BaseConstructor {
 
     public class ConstructYamlBinary extends AbstractConstruct {
         public Object construct(Node node) {
-            //Ignore white spaces for base64 encoded scalar
-            String noWhiteSpaces = constructScalar((ScalarNode) node).toString().replaceAll("\\s", "");
+            // Ignore white spaces for base64 encoded scalar
+            String noWhiteSpaces = constructScalar((ScalarNode) node).toString().replaceAll("\\s",
+                    "");
             byte[] decoded = Base64Coder.decode(noWhiteSpaces.toCharArray());
             return decoded;
         }
@@ -328,17 +330,17 @@ public class SafeConstructor extends BaseConstructor {
                      * dumped by snakeyaml. Delegate to the `Tag.FLOAT`
                      * constructor when for this expected failure cause.
                      */
-                    return (Number) yamlConstructors.get(Tag.FLOAT).construct(node);
+                    return yamlConstructors.get(Tag.FLOAT).construct(node);
                 } else {
-                    throw new IllegalArgumentException("Unable to parse as Number: "
-                            + scalar.getValue());
+                    throw new IllegalArgumentException(
+                            "Unable to parse as Number: " + scalar.getValue());
                 }
             }
         }
     }
 
-    private final static Pattern TIMESTAMP_REGEXP = Pattern
-            .compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:(?:[Tt]|[ \t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \t]*(?:Z|([-+][0-9][0-9]?)(?::([0-9][0-9])?)?))?)?$");
+    private final static Pattern TIMESTAMP_REGEXP = Pattern.compile(
+            "^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:(?:[Tt]|[ \t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \t]*(?:Z|([-+][0-9][0-9]?)(?::([0-9][0-9])?)?))?)?$");
     private final static Pattern YMD_REGEXP = Pattern
             .compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)$");
 
@@ -422,14 +424,16 @@ public class SafeConstructor extends BaseConstructor {
             for (Node subnode : snode.getValue()) {
                 if (!(subnode instanceof MappingNode)) {
                     throw new ConstructorException("while constructing an ordered map",
-                            node.getStartMark(), "expected a mapping of length 1, but found "
-                                    + subnode.getNodeId(), subnode.getStartMark());
+                            node.getStartMark(),
+                            "expected a mapping of length 1, but found " + subnode.getNodeId(),
+                            subnode.getStartMark());
                 }
                 MappingNode mnode = (MappingNode) subnode;
                 if (mnode.getValue().size() != 1) {
                     throw new ConstructorException("while constructing an ordered map",
                             node.getStartMark(), "expected a single mapping item, but found "
-                                    + mnode.getValue().size() + " items", mnode.getStartMark());
+                                    + mnode.getValue().size() + " items",
+                            mnode.getStartMark());
                 }
                 Node keyNode = mnode.getValue().get(0).getKeyNode();
                 Node valueNode = mnode.getValue().get(0).getValueNode();
@@ -462,7 +466,8 @@ public class SafeConstructor extends BaseConstructor {
                 if (mnode.getValue().size() != 1) {
                     throw new ConstructorException("while constructing pairs", node.getStartMark(),
                             "expected a single mapping item, but found " + mnode.getValue().size()
-                                    + " items", mnode.getStartMark());
+                                    + " items",
+                            mnode.getStartMark());
                 }
                 Node keyNode = mnode.getValue().get(0).getKeyNode();
                 Node valueNode = mnode.getValue().get(0).getValueNode();

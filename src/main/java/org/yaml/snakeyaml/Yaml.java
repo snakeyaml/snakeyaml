@@ -54,18 +54,20 @@ public class Yaml {
     protected BaseConstructor constructor;
     protected Representer representer;
     protected DumperOptions dumperOptions;
+    protected LoadingConfig loadingConfig;
 
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
      */
     public Yaml() {
-        this(new Constructor(), new Representer(), new DumperOptions(), new Resolver());
+        this(new Constructor(), new Representer(), new DumperOptions(), new LoadingConfig(),
+                new Resolver());
     }
 
     /**
      * Create Yaml instance.
-     * 
+     *
      * @param dumperOptions
      *            DumperOptions to configure outgoing objects
      */
@@ -74,9 +76,19 @@ public class Yaml {
     }
 
     /**
+     * Create Yaml instance.
+     *
+     * @param loadingConfig
+     *            LoadingConfig to control load behavior
+     */
+    public Yaml(LoadingConfig loadingConfig) {
+        this(new Constructor(), new Representer(), new DumperOptions(), loadingConfig);
+    }
+
+    /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
-     * 
+     *
      * @param representer
      *            Representer to emit outgoing objects
      */
@@ -87,7 +99,7 @@ public class Yaml {
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
-     * 
+     *
      * @param constructor
      *            BaseConstructor to construct incoming documents
      */
@@ -98,7 +110,7 @@ public class Yaml {
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
-     * 
+     *
      * @param constructor
      *            BaseConstructor to construct incoming documents
      * @param representer
@@ -111,20 +123,20 @@ public class Yaml {
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
-     * 
+     *
      * @param representer
      *            Representer to emit outgoing objects
      * @param dumperOptions
      *            DumperOptions to configure outgoing objects
      */
     public Yaml(Representer representer, DumperOptions dumperOptions) {
-        this(new Constructor(), representer, dumperOptions, new Resolver());
+        this(new Constructor(), representer, dumperOptions, new LoadingConfig(), new Resolver());
     }
 
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
-     * 
+     *
      * @param constructor
      *            BaseConstructor to construct incoming documents
      * @param representer
@@ -133,13 +145,31 @@ public class Yaml {
      *            DumperOptions to configure outgoing objects
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions) {
-        this(constructor, representer, dumperOptions, new Resolver());
+        this(constructor, representer, dumperOptions, new LoadingConfig(), new Resolver());
     }
 
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
-     * 
+     *
+     * @param constructor
+     *            BaseConstructor to construct incoming documents
+     * @param representer
+     *            Representer to emit outgoing objects
+     * @param dumperOptions
+     *            DumperOptions to configure outgoing objects
+     * @param loadingConfig
+     *            LoadingConfig to control load behavior
+     */
+    public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
+            LoadingConfig loadingConfig) {
+        this(constructor, representer, dumperOptions, loadingConfig, new Resolver());
+    }
+
+    /**
+     * Create Yaml instance. It is safe to create a few instances and use them
+     * in different Threads.
+     *
      * @param constructor
      *            BaseConstructor to construct incoming documents
      * @param representer
@@ -151,26 +181,48 @@ public class Yaml {
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
             Resolver resolver) {
+        this(constructor, representer, dumperOptions, new LoadingConfig(), resolver);
+    }
+
+    /**
+     * Create Yaml instance. It is safe to create a few instances and use them
+     * in different Threads.
+     *
+     * @param constructor
+     *            BaseConstructor to construct incoming documents
+     * @param representer
+     *            Representer to emit outgoing objects
+     * @param dumperOptions
+     *            DumperOptions to configure outgoing objects
+     * @param loadingConfig
+     *            LoadingConfig to control load behavior
+     * @param resolver
+     *            Resolver to detect implicit type
+     */
+    public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
+            LoadingConfig loadingConfig, Resolver resolver) {
         if (!constructor.isExplicitPropertyUtils()) {
             constructor.setPropertyUtils(representer.getPropertyUtils());
         } else if (!representer.isExplicitPropertyUtils()) {
             representer.setPropertyUtils(constructor.getPropertyUtils());
         }
         this.constructor = constructor;
+        this.constructor.setAllowDuplicateKeys(loadingConfig.isAllowDuplicateKeys());
         representer.setDefaultFlowStyle(dumperOptions.getDefaultFlowStyle());
         representer.setDefaultScalarStyle(dumperOptions.getDefaultScalarStyle());
-        representer.getPropertyUtils().setAllowReadOnlyProperties(
-                dumperOptions.isAllowReadOnlyProperties());
+        representer.getPropertyUtils()
+                .setAllowReadOnlyProperties(dumperOptions.isAllowReadOnlyProperties());
         representer.setTimeZone(dumperOptions.getTimeZone());
         this.representer = representer;
         this.dumperOptions = dumperOptions;
+        this.loadingConfig = loadingConfig;
         this.resolver = resolver;
         this.name = "Yaml:" + System.identityHashCode(this);
     }
 
     /**
      * Serialize a Java object into a YAML String.
-     * 
+     *
      * @param data
      *            Java object to be Serialized to YAML
      * @return YAML String
@@ -183,7 +235,7 @@ public class Yaml {
 
     /**
      * Produce the corresponding representation tree for a given Object.
-     * 
+     *
      * @see <a href="http://yaml.org/spec/1.1/#id859333">Figure 3.1. Processing
      *      Overview</a>
      * @param data
@@ -196,7 +248,7 @@ public class Yaml {
 
     /**
      * Serialize a sequence of Java objects into a YAML String.
-     * 
+     *
      * @param data
      *            Iterator with Objects
      * @return YAML String with all the objects in proper sequence
@@ -209,7 +261,7 @@ public class Yaml {
 
     /**
      * Serialize a Java object into a YAML stream.
-     * 
+     *
      * @param data
      *            Java object to be serialized to YAML
      * @param output
@@ -223,7 +275,7 @@ public class Yaml {
 
     /**
      * Serialize a sequence of Java objects into a YAML stream.
-     * 
+     *
      * @param data
      *            Iterator with Objects
      * @param output
@@ -253,26 +305,26 @@ public class Yaml {
      * Serialize a Java object into a YAML string. Override the default root tag
      * with <code>rootTag</code>.
      * </p>
-     * 
+     *
      * <p>
      * This method is similar to <code>Yaml.dump(data)</code> except that the
      * root tag for the whole document is replaced with the given tag. This has
      * two main uses.
      * </p>
-     * 
+     *
      * <p>
      * First, if the root tag is replaced with a standard YAML tag, such as
      * <code>Tag.MAP</code>, then the object will be dumped as a map. The root
      * tag will appear as <code>!!map</code>, or blank (implicit !!map).
      * </p>
-     * 
+     *
      * <p>
      * Second, if the root tag is replaced by a different custom tag, then the
      * document appears to be a different type when loaded. For example, if an
      * instance of MyClass is dumped with the tag !!YourClass, then it will be
      * handled as an instance of YourClass when loaded.
      * </p>
-     * 
+     *
      * @param data
      *            Java object to be serialized to YAML
      * @param rootTag
@@ -285,7 +337,7 @@ public class Yaml {
      *            Styles http://yaml.org/spec/1.1/#id930798. If
      *            <code>null</code> is provided then the flow style from
      *            DumperOptions is used.
-     * 
+     *
      * @return YAML String
      */
     public String dumpAs(Object data, Tag rootTag, FlowStyle flowStyle) {
@@ -315,7 +367,7 @@ public class Yaml {
      * Block Mapping is used as the collection style. See 10.2.2. Block Mappings
      * (http://yaml.org/spec/1.1/#id934537)
      * </p>
-     * 
+     *
      * @param data
      *            Java object to be serialized to YAML
      * @return YAML String
@@ -326,7 +378,7 @@ public class Yaml {
 
     /**
      * Serialize the representation tree into Events.
-     * 
+     *
      * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
      * @param data
      *            representation tree
@@ -360,7 +412,7 @@ public class Yaml {
     /**
      * Parse the only YAML document in a String and produce the corresponding
      * Java object. (Because the encoding in known BOM is not respected.)
-     * 
+     *
      * @param yaml
      *            YAML data to load from (BOM must not be present)
      * @return parsed object
@@ -372,7 +424,7 @@ public class Yaml {
     /**
      * Parse the only YAML document in a stream and produce the corresponding
      * Java object.
-     * 
+     *
      * @param io
      *            data to load from (BOM is respected and removed)
      * @return parsed object
@@ -384,7 +436,7 @@ public class Yaml {
     /**
      * Parse the only YAML document in a stream and produce the corresponding
      * Java object.
-     * 
+     *
      * @param io
      *            data to load from (BOM must not be present)
      * @return parsed object
@@ -396,7 +448,7 @@ public class Yaml {
     /**
      * Parse the only YAML document in a stream and produce the corresponding
      * Java object.
-     * 
+     *
      * @param <T>
      *            Class is defined by the second argument
      * @param io
@@ -413,7 +465,7 @@ public class Yaml {
     /**
      * Parse the only YAML document in a String and produce the corresponding
      * Java object. (Because the encoding in known BOM is not respected.)
-     * 
+     *
      * @param <T>
      *            Class is defined by the second argument
      * @param yaml
@@ -430,7 +482,7 @@ public class Yaml {
     /**
      * Parse the only YAML document in a stream and produce the corresponding
      * Java object.
-     * 
+     *
      * @param <T>
      *            Class is defined by the second argument
      * @param input
@@ -453,7 +505,7 @@ public class Yaml {
     /**
      * Parse all YAML documents in a String and produce corresponding Java
      * objects. The documents are parsed only when the iterator is invoked.
-     * 
+     *
      * @param yaml
      *            YAML data to load from (BOM must not be present)
      * @return an iterator over the parsed Java objects in this String in proper
@@ -494,7 +546,7 @@ public class Yaml {
      * Parse all YAML documents in a String and produce corresponding Java
      * objects. (Because the encoding in known BOM is not respected.) The
      * documents are parsed only when the iterator is invoked.
-     * 
+     *
      * @param yaml
      *            YAML data to load from (BOM must not be present)
      * @return an iterator over the parsed Java objects in this String in proper
@@ -507,7 +559,7 @@ public class Yaml {
     /**
      * Parse all YAML documents in a stream and produce corresponding Java
      * objects. The documents are parsed only when the iterator is invoked.
-     * 
+     *
      * @param yaml
      *            YAML data to load from (BOM is respected and ignored)
      * @return an iterator over the parsed Java objects in this stream in proper
@@ -520,7 +572,7 @@ public class Yaml {
     /**
      * Parse the first YAML document in a stream and produce the corresponding
      * representation tree. (This is the opposite of the represent() method)
-     * 
+     *
      * @see <a href="http://yaml.org/spec/1.1/#id859333">Figure 3.1. Processing
      *      Overview</a>
      * @param yaml
@@ -536,7 +588,7 @@ public class Yaml {
     /**
      * Parse all YAML documents in a stream and produce corresponding
      * representation trees.
-     * 
+     *
      * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
      * @param yaml
      *            stream of YAML documents
@@ -576,7 +628,7 @@ public class Yaml {
     /**
      * Add an implicit scalar detector. If an implicit scalar value matches the
      * given regexp, the corresponding tag is assigned to the scalar.
-     * 
+     *
      * @param tag
      *            tag to assign to the node
      * @param regexp
@@ -598,7 +650,7 @@ public class Yaml {
      * Get a meaningful name. It simplifies debugging in a multi-threaded
      * environment. If nothing is set explicitly the address of the instance is
      * returned.
-     * 
+     *
      * @return human readable name
      */
     public String getName() {
@@ -607,7 +659,7 @@ public class Yaml {
 
     /**
      * Set a meaningful name to be shown in toString()
-     * 
+     *
      * @param name
      *            human readable name
      */
@@ -617,7 +669,7 @@ public class Yaml {
 
     /**
      * Parse a YAML stream and produce parsing events.
-     * 
+     *
      * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
      * @param yaml
      *            YAML document(s)
