@@ -589,15 +589,16 @@
                                         <mkdir dir="${android.test.classes}" />
 
                                         <!-- compile patched sources -->
-                                        <javac srcdir="${android.src}" destdir="${android.classes}" classpath="${android.classes}" encoding="${project.build.sourceEncoding}" target="1.5" source="1.5" debug="true" includeantruntime="false" fork="true" />
+                                        <javac srcdir="${android.src}" destdir="${android.classes}" classpath="${android.classes}" encoding="${project.build.sourceEncoding}" target="1.6" source="1.6" debug="true" includeantruntime="false" fork="true" />
 
                                         <!-- compile test classes. Exclude some - not for BeanAccess.FIELD -->
-                                        <javac srcdir="${basedir}/src/test/java:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.springframework:spring:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}" encoding="${project.build.sourceEncoding}" target="1.5" source="1.5" debug="true" includeantruntime="false" fork="true">
+                                        <javac srcdir="${basedir}/src/test/java:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.springframework:spring:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}:${org.hamcrest:hamcrest-core:jar}" encoding="${project.build.sourceEncoding}" target="1.6" source="1.6" debug="true" includeantruntime="false" fork="true">
                                             <exclude name="org/yaml/snakeyaml/introspector/MethodPropertyTest.java" />
                                             <exclude name="org/yaml/snakeyaml/representer/FilterPropertyToDumpTest.java" />
                                             <exclude name="org/yaml/snakeyaml/issues/issue60/CustomOrderTest.java" />
                                             <exclude name="org/yaml/snakeyaml/issues/issue29/FlexibleScalarStylesInJavaBeanTest.java" />
-
+					    <!-- uses filtered resources. Addidional tricks needed to be able to run under current build -->
+					    <exclude name="org/yaml/snakeyaml/issues/issue318/ContextClassLoaderTest.java" />
                                         </javac>
                                     </target>
 
