@@ -15,7 +15,7 @@
  */
 package org.yaml.snakeyaml;
 
-public class LoadingConfig {
+public class LoaderOptions {
 
     private boolean allowDuplicateKeys = true;
 

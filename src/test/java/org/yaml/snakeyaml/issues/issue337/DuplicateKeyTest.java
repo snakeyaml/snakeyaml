@@ -23,7 +23,7 @@ import java.util.Map;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.yaml.snakeyaml.LoadingConfig;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -116,7 +116,7 @@ public class DuplicateKeyTest {
         thrown.expect(org.yaml.snakeyaml.constructor.ConstructorException.class);
         thrown.expectMessage("duplicate key: someitem");
         String input = Util.getLocalResource("issues/issue337-duplicate-keys.yaml");
-        LoadingConfig lc = new LoadingConfig();
+        LoaderOptions lc = new LoaderOptions();
         lc.setAllowDuplicateKeys(false);
         Yaml yaml = new Yaml(lc);
         MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
@@ -127,7 +127,7 @@ public class DuplicateKeyTest {
        thrown.expect(org.yaml.snakeyaml.constructor.ConstructorException.class);
        thrown.expectMessage("duplicate key: name");
        String input = Util.getLocalResource("issues/issue337-duplicate-keys-javabean-property.yaml");
-       LoadingConfig lc = new LoadingConfig();
+       LoaderOptions lc = new LoaderOptions();
        lc.setAllowDuplicateKeys(true);
        Yaml yaml = new Yaml(lc);
        MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
@@ -148,7 +148,7 @@ public class DuplicateKeyTest {
     @Test
     public void noDuplicatesConfigMutablePostChange() {
         String input = Util.getLocalResource("issues/issue337-duplicate-keys-no-dups.yaml");
-        LoadingConfig lc = new LoadingConfig();
+        LoaderOptions lc = new LoaderOptions();
         lc.setAllowDuplicateKeys(false);
         Yaml yaml = new Yaml(lc);
         MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);

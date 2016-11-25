@@ -54,14 +54,14 @@ public class Yaml {
     protected BaseConstructor constructor;
     protected Representer representer;
     protected DumperOptions dumperOptions;
-    protected LoadingConfig loadingConfig;
+    protected LoaderOptions loadingConfig;
 
     /**
      * Create Yaml instance. It is safe to create a few instances and use them
      * in different Threads.
      */
     public Yaml() {
-        this(new Constructor(), new Representer(), new DumperOptions(), new LoadingConfig(),
+        this(new Constructor(), new Representer(), new DumperOptions(), new LoaderOptions(),
                 new Resolver());
     }
 
@@ -81,7 +81,7 @@ public class Yaml {
      * @param loadingConfig
      *            LoadingConfig to control load behavior
      */
-    public Yaml(LoadingConfig loadingConfig) {
+    public Yaml(LoaderOptions loadingConfig) {
         this(new Constructor(), new Representer(), new DumperOptions(), loadingConfig);
     }
 
@@ -130,7 +130,7 @@ public class Yaml {
      *            DumperOptions to configure outgoing objects
      */
     public Yaml(Representer representer, DumperOptions dumperOptions) {
-        this(new Constructor(), representer, dumperOptions, new LoadingConfig(), new Resolver());
+        this(new Constructor(), representer, dumperOptions, new LoaderOptions(), new Resolver());
     }
 
     /**
@@ -145,7 +145,7 @@ public class Yaml {
      *            DumperOptions to configure outgoing objects
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions) {
-        this(constructor, representer, dumperOptions, new LoadingConfig(), new Resolver());
+        this(constructor, representer, dumperOptions, new LoaderOptions(), new Resolver());
     }
 
     /**
@@ -162,7 +162,7 @@ public class Yaml {
      *            LoadingConfig to control load behavior
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
-            LoadingConfig loadingConfig) {
+            LoaderOptions loadingConfig) {
         this(constructor, representer, dumperOptions, loadingConfig, new Resolver());
     }
 
@@ -181,7 +181,7 @@ public class Yaml {
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
             Resolver resolver) {
-        this(constructor, representer, dumperOptions, new LoadingConfig(), resolver);
+        this(constructor, representer, dumperOptions, new LoaderOptions(), resolver);
     }
 
     /**
@@ -200,7 +200,7 @@ public class Yaml {
      *            Resolver to detect implicit type
      */
     public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
-            LoadingConfig loadingConfig, Resolver resolver) {
+            LoaderOptions loadingConfig, Resolver resolver) {
         if (!constructor.isExplicitPropertyUtils()) {
             constructor.setPropertyUtils(representer.getPropertyUtils());
         } else if (!representer.isExplicitPropertyUtils()) {
