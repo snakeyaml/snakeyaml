@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update" issue="354">
+                Add tests for issue 354 (2016-12-12)
+            </action>
             <action dev="maslovalex" type="fix" issue="337">
                 Throw exception in case of duplicate keys in MappingNode and
                 LoaderOptions.allowDuplicateKeys is false. (2016-11-25)
