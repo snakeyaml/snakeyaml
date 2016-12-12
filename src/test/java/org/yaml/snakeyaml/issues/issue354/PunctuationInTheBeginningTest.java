@@ -25,23 +25,16 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 /**
- * The test does not fix anythin. It just proves that SnakeYAML works as it should according tio the spec 1.1
+ * The test does not fix anything. It just proves that SnakeYAML works as it should according to the spec 1.1
  */
 public class PunctuationInTheBeginningTest {
 
     @Test
-    public void testBacktick() throws IOException {
-        String input = Util.getLocalResource("issues/issue354-backtick.yaml");
+    public void testBacktickAndAtSign() throws IOException {
+        String input = Util.getLocalResource("issues/issue354.yaml");
         Yaml yaml = new Yaml();
         Map<String, Object> bean = (Map<String, Object>) yaml.load(input);
         assertEquals("This is\n`a literal\n", bean.get("foo"));
-    }
-
-    @Test
-    public void testAtSign() throws IOException {
-        String input = Util.getLocalResource("issues/issue354-at_sign.yaml");
-        Yaml yaml = new Yaml();
-        Map<String, Object> bean = (Map<String, Object>) yaml.load(input);
         assertEquals("And\n@this\n", bean.get("bar"));
     }
 }
