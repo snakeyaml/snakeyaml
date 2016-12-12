@@ -57,7 +57,7 @@ public interface Parser {
      * <p>
      * The event will be removed from the stream.
      * </p>
-     * 
+     * @return the next parsed event
      * @throws ParserException
      *             Thrown in case of malformed input.
      */

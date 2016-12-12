@@ -36,7 +36,7 @@ public class LoaderOptions {
      * For future reference, YAML spec 1.2 is clear. The keys MUST be unique.
      * <a href="http://www.yaml.org/spec/1.2/spec.html#id2759572">1.3. Relation
      * to JSON</a>
-     *
+     * @param allowDuplicateKeys false to reject duplicate mapping keys
      */
     public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
         this.allowDuplicateKeys = allowDuplicateKeys;

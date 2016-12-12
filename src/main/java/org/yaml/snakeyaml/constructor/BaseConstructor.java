@@ -48,8 +48,8 @@ public abstract class BaseConstructor {
             NodeId.class);
     /**
      * It maps the (explicit or implicit) tag to the Construct implementation.
-     * It is used: <br/>
-     * 1) explicit tag - if present. <br/>
+     * It is used:
+     * 1) explicit tag - if present.
      * 2) implicit tag - when the runtime class of the instance is unknown (the
      * node has the Object.class)
      */
@@ -112,6 +112,7 @@ public abstract class BaseConstructor {
     /**
      * Ensure that the stream contains a single document and construct it
      *
+     * @param type the class of the instance being created
      * @return constructed instance
      * @throws ComposerException
      *             in case there are more documents in the stream

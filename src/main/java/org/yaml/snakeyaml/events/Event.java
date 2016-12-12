@@ -47,7 +47,9 @@ public abstract class Event {
     }
 
     /**
+     * Generate human readable representation of the Event
      * @see "__repr__ for Event in PyYAML"
+     * @return representation fore humans
      */
     protected String getArguments() {
         return "";

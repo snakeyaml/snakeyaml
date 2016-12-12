@@ -106,7 +106,7 @@ public class StreamReader {
      * read the next length characters and move the pointer.
      * if the last character is high surrogate one more character will be read
      * 
-     * @param length
+     * @param length amount of characters to move forward
      */
     public void forward(int length) {
         int c;
@@ -148,7 +148,7 @@ public class StreamReader {
     /**
      * Peek the next index-th code point
      *
-     * @param index
+     * @param index to peek
      * @return the next index-th code point
      */
     public int peek(int index) {
@@ -175,7 +175,7 @@ public class StreamReader {
     /**
      * peek the next length code points
      * 
-     * @param length
+     * @param length amount of the characters to peek
      * @return the next length code points
      */
     public String prefix(int length) {
@@ -202,6 +202,8 @@ public class StreamReader {
 
     /**
      * prefix(length) immediately followed by forward(length)
+     * @param length amount of characters to get
+     * @return  the next length code points
      */
     public String prefixForward(int length) {
         final String prefix = prefix(length);

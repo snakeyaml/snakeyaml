@@ -110,6 +110,7 @@ public final class Mark {
 
     /**
      * starts with 0
+     * @return line number
      */
     public int getLine() {
         return line;
@@ -117,6 +118,7 @@ public final class Mark {
 
     /**
      * starts with 0
+     * @return column number
      */
     public int getColumn() {
         return column;
@@ -124,6 +126,7 @@ public final class Mark {
 
     /**
      * starts with 0
+     * @return character number
      */
     public int getIndex() {
         return index;

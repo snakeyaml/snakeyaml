@@ -17,7 +17,7 @@ package org.yaml.snakeyaml.introspector;
 
 /**
  * A property that does not map to a real property; this is used when {@link
- * PropertyUtils.setSkipMissingProperties(boolean)} is set to true.
+ * PropertyUtils}.setSkipMissingProperties(boolean) is set to true.
  */
 public class MissingProperty extends Property {
 

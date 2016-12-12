@@ -57,7 +57,7 @@ public interface Scanner {
      * <p>
      * The token will be removed from the stream.
      * </p>
-     * 
+     * @return the coming token
      * @throws ScannerException
      *             Thrown in case of malformed input.
      */

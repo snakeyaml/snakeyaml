@@ -158,7 +158,7 @@ public abstract class Node {
      * Indicates if the tag was added by
      * {@link org.yaml.snakeyaml.resolver.Resolver}.
      * 
-     * @return <code>true</code> if the tag of this node was resolved</code>
+     * @return <code>true</code> if the tag of this node was resolved
      */
     public boolean isResolved() {
         return resolved;
