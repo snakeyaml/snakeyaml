@@ -21,7 +21,7 @@ import org.yaml.snakeyaml.scanner.Constant;
  * It's just a record and its only use is producing nice error messages. Parser
  * does not use it for any other purposes.
  */
-public final class Mark {
+public final class Mark implements Serializable {
     private String name;
     private int index;
     private int line;
