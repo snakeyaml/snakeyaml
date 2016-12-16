@@ -15,6 +15,8 @@
  */
 package org.yaml.snakeyaml.error;
 
+import java.io.Serializable;
+
 import org.yaml.snakeyaml.scanner.Constant;
 
 /**
