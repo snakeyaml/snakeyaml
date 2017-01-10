@@ -18,8 +18,6 @@ package org.yaml.snakeyaml.issues.issue29;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.Util;
@@ -27,6 +25,8 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.representer.Representer;
+
+import junit.framework.TestCase;
 
 /**
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=29
@@ -48,7 +48,7 @@ public class FlexibleScalarStyleTest extends TestCase {
                 result);
     }
 
-    public void testNoFoldedScalar() {
+    public void testDefaultScalarStyle() {
         DumperOptions options = new DumperOptions();
         options.setWidth(30);
         Yaml yaml = new Yaml(options);
