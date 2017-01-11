@@ -208,6 +208,9 @@ public class Yaml {
         }
         this.constructor = constructor;
         this.constructor.setAllowDuplicateKeys(loadingConfig.isAllowDuplicateKeys());
+        if (dumperOptions.getIndent() <= dumperOptions.getIndicatorIndent()) {
+            throw new YAMLException("Indicator indent must be smaller then indent.");
+        }
         representer.setDefaultFlowStyle(dumperOptions.getDefaultFlowStyle());
         representer.setDefaultScalarStyle(dumperOptions.getDefaultScalarStyle());
         representer.getPropertyUtils()

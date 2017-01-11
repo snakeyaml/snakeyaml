@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="358">
+                Validate DumperOptions to prevent invalid YAML to be dumped (2017-01-12)
+            </action>
             <action dev="asomov" type="fix" issue="355">
                 Fix for emitter to split long plain string scalars over multiple lines (2017-01-10)
             </action>
