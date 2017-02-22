@@ -99,7 +99,7 @@
             <url>${release.repo.url}</url>
         </repository>
         <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
+            <id>sonatype-nexus-staging</id>
             <name>Sonatype Nexus Snapshots</name>
             <url>${snapshot.repo.url}</url>
             <uniqueVersion>false</uniqueVersion>
@@ -126,6 +126,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -215,7 +220,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -293,6 +298,28 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>android,release</releaseProfiles>
+                    <goals>deploy nexus-staging:release</goals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                   <serverId>sonatype-nexus-staging</serverId>
+                   <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                   <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -539,6 +566,7 @@
                                     <resources>
                                         <resource>
                                             <directory>${basedir}/src/test/resources</directory>
+					    <filtering>true</filtering>
                                         </resource>
                                     </resources>
                                 </configuration>
