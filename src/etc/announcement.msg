@@ -1,9 +1,9 @@
 From: Andrey Somov <public.somov@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.17 final is available
+Subject: [ANN] SnakeYAML-1.18 final is available
 
 ==========================
- Announcing SnakeYAML-1.17
+ Announcing SnakeYAML-1.18
 ==========================
 
 A new release of SnakeYAML is now available:
@@ -20,7 +20,8 @@ Resources
 SnakeYAML homepage: http://www.snakeyaml.org
 SnakeYAML documentation: https://bitbucket.org/asomov/snakeyaml/wiki/Home
 
-JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.17/snakeyaml-1.17.jar
+JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18.jar
+Android: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18-android.jar
 
 YAML homepage: http://yaml.org/
 YAML-core mailing list: http://lists.sourceforge.net/lists/listinfo/yaml-core
