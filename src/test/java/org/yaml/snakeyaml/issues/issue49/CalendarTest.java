@@ -20,9 +20,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
+
+import junit.framework.TestCase;
 
 public class CalendarTest extends TestCase {
     /**
@@ -38,7 +38,7 @@ public class CalendarTest extends TestCase {
         Yaml yaml = new Yaml();
         String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
-        assertEquals("calendar: 2001-09-08T17:46:40-8:00\nname: lunch\n", output);
+        assertEquals("calendar: 2001-09-08T17:46:40-08:00\nname: lunch\n", output);
         //
         Yaml loader = new Yaml();
         CalendarBean parsed = loader.loadAs(output, CalendarBean.class);
@@ -52,7 +52,7 @@ public class CalendarTest extends TestCase {
      */
     public void testDumpDstIsNotTheSame() {
         check(1000000000000L, "America/Los_Angeles", "Must be 7 hours difference.",
-                "2001-09-08T18:46:40-7:00");
+                "2001-09-08T18:46:40-07:00");
     }
 
     /**
@@ -62,7 +62,7 @@ public class CalendarTest extends TestCase {
      */
     public void testDumpDstIsTheSame() {
         check(1266833741374L, "America/Los_Angeles", "Must be 8 hours difference.",
-                "2010-02-22T02:15:41.374-8:00");
+                "2010-02-22T02:15:41.374-08:00");
     }
 
     /**
@@ -70,7 +70,7 @@ public class CalendarTest extends TestCase {
      */
     public void testNepal() {
         check(1266833741374L, "Asia/Katmandu", "Must be 5:45 hours difference.",
-                "2010-02-22T16:00:41.374+5:45");
+                "2010-02-22T16:00:41.374+05:45");
     }
 
     public void testMoreThen10hours() {
