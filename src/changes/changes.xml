@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="364">
+                Serializing Calendar objects with certain timezone offsets renders invalid YAML (2017-02-28)
+            </action>
         </release>
         <release version="1.18" date="2017-02-22" description="Maintenance">
             <action dev="asomov" type="fix" issue="358">
