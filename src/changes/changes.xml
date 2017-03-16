@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="370">
+                Remove redundant "Bundle-RequiredExecutionEnvironment: J2SE-1.5" (2017-03-16)
+            </action>
             <action dev="asomov" type="fix" issue="364">
                 Serializing Calendar objects with certain timezone offsets renders invalid YAML (2017-02-28)
             </action>
