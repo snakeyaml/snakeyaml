@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="add" issue="373">
+                Add redundant test (2017-04-06)
+            </action>
             <action dev="asomov" type="update">
                 Provide access to node's anchor, pull request#20 (2017-03-30)
             </action>

@@ -18,12 +18,8 @@ package org.yaml.snakeyaml.issues.issue373;
 import java.math.BigDecimal;
 import java.util.Map;
 
-/**
- * Created by somov on 4/7/17.
- */
 public class ModelMapIntegerBigdecimal {
     private Map<Integer, BigDecimal> mapIntegerBigDecimal;
-
 
     public ModelMapIntegerBigdecimal() {
     }
@@ -35,5 +31,4 @@ public class ModelMapIntegerBigdecimal {
     public void setMapIntegerBigDecimal(Map<Integer, BigDecimal> mapIntegerBigDecimal) {
         this.mapIntegerBigDecimal = mapIntegerBigDecimal;
     }
-
 }
