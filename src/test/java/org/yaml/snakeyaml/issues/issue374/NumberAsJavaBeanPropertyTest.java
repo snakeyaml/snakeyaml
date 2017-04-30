@@ -28,25 +28,7 @@ import static org.junit.Assert.assertEquals;
 public class NumberAsJavaBeanPropertyTest {
 
     @Test
-    public void testNumberIsNotTruncated() {
-        Locale originalLocale = Locale.getDefault();
-
-        Locale.setDefault(Locale.CANADA_FRENCH);
-
-        AmbiguousNumberType original = new AmbiguousNumberType();
-        original.number = 0.1;
-
-        Yaml yaml = new Yaml();
-        String str = yaml.dump(original);
-
-        AmbiguousNumberType interpreted = (AmbiguousNumberType) yaml.load(str);
-
-        Locale.setDefault(originalLocale);
-        assertEquals(original.number, interpreted.number);
-    }
-
-    @Test
-    public void testNumberIsNotTruncatedNonZero() {
+    public void testNumberAsDouble() {
         Locale originalLocale = Locale.getDefault();
 
         Locale.setDefault(Locale.CANADA_FRENCH);
@@ -80,8 +62,7 @@ public class NumberAsJavaBeanPropertyTest {
 
         AmbiguousNumberType interpreted = (AmbiguousNumberType) yaml.load(str);
 
-        assertEquals(Long.class, interpreted.number.getClass());
-        assertEquals(new Long(original.number.intValue()), interpreted.number);
+        assertEquals(new Double(original.number.intValue()), interpreted.number);
     }
 
     @Test
@@ -96,7 +77,7 @@ public class NumberAsJavaBeanPropertyTest {
 
         AmbiguousNumberType interpreted = (AmbiguousNumberType) yaml.load(str);
 
-        assertEquals(original.number, interpreted.number);
+        assertEquals(new Double(original.number.intValue()), interpreted.number);
     }
 
     @Test

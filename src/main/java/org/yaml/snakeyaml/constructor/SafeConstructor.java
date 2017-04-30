@@ -303,32 +303,6 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    public class ConstructYamlNumber extends AbstractConstruct {
-
-        private final NumberFormat nf = NumberFormat.getInstance(Locale.US);
-
-        public Object construct(Node node) {
-            ScalarNode scalar = (ScalarNode) node;
-            try {
-                return nf.parse(scalar.getValue());
-            } catch (ParseException e) {
-                String lowerCaseValue = scalar.getValue().toLowerCase();
-                if (lowerCaseValue.contains("inf") || lowerCaseValue.contains("nan")) {
-                    /*
-                     * Non-finites such as (+/-)infinity and NaN are not
-                     * parseable by NumberFormat when these `Double` values are
-                     * dumped by snakeyaml. Delegate to the `Tag.FLOAT`
-                     * constructor when for this expected failure cause.
-                     */
-                    return yamlConstructors.get(Tag.FLOAT).construct(node);
-                } else {
-                    throw new IllegalArgumentException(
-                            "Unable to parse as Number: " + scalar.getValue());
-                }
-            }
-        }
-    }
-
     private final static Pattern TIMESTAMP_REGEXP = Pattern.compile(
             "^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:(?:[Tt]|[ \t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \t]*(?:Z|([-+][0-9][0-9]?)(?::([0-9][0-9])?)?))?)?$");
     private final static Pattern YMD_REGEXP = Pattern

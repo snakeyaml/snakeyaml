@@ -504,8 +504,7 @@ public class Constructor extends SafeConstructor {
                 result = contr.getCalendar();
             } else if (Number.class.isAssignableFrom(type)) {
                 //since we do not know the exact type we create Float
-//                ConstructYamlFloat contr = new ConstructYamlFloat();
-                ConstructYamlNumber contr = new ConstructYamlNumber();
+                ConstructYamlFloat contr = new ConstructYamlFloat();
                 result = contr.construct(node);
             }  else if (UUID.class == type) {
                 result = UUID.fromString(node.getValue());

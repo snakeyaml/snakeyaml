@@ -21,18 +21,19 @@ import org.yaml.snakeyaml.Yaml;
 
 public class NumberBeanTest extends TestCase {
 
-    public void testNumberAsLong() throws Exception {
+    public void testNumberAsInteger() throws Exception {
 
         NumberBean number = new NumberBean();
         number.number = 1;
+        assertEquals(Integer.class, number.number.getClass());
 
         Yaml yaml = new Yaml();
         String dump = yaml.dump(number);
         NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
-        assertEquals(new Long(1), loaded.number);
+        assertEquals("Integer is converted to Double.", new Double(1), loaded.number);
     }
 
-    public void testNumberAsDoubleDoesNotWork() throws Exception {
+    public void testNumberAsDouble() throws Exception {
 
         NumberBean number = new NumberBean();
         number.number = 1.0;
@@ -40,8 +41,7 @@ public class NumberBeanTest extends TestCase {
         Yaml yaml = new Yaml();
         String dump = yaml.dump(number);
         NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
-        assertEquals(Long.class, loaded.number.getClass());
-        assertEquals(new Long(1), loaded.number);
+        assertEquals(number.number, loaded.number);
     }
 
     public void testNumberAsFloatInfinity() throws Exception {
