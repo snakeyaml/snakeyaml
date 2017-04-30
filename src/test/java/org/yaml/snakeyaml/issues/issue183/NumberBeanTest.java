@@ -21,7 +21,7 @@ import org.yaml.snakeyaml.Yaml;
 
 public class NumberBeanTest extends TestCase {
 
-    public void testNumberBean() throws Exception {
+    public void testNumberAsLong() throws Exception {
 
         NumberBean number = new NumberBean();
         number.number = 1;
@@ -29,6 +29,18 @@ public class NumberBeanTest extends TestCase {
         Yaml yaml = new Yaml();
         String dump = yaml.dump(number);
         NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
+        assertEquals(new Long(1), loaded.number);
+    }
+
+    public void testNumberAsDoubleDoesNotWork() throws Exception {
+
+        NumberBean number = new NumberBean();
+        number.number = 1.0;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(number);
+        NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
+        assertEquals(Long.class, loaded.number.getClass());
         assertEquals(new Long(1), loaded.number);
     }
 

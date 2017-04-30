@@ -18,17 +18,7 @@ package org.yaml.snakeyaml.constructor;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -315,7 +305,7 @@ public class SafeConstructor extends BaseConstructor {
 
     public class ConstructYamlNumber extends AbstractConstruct {
 
-        private final NumberFormat nf = NumberFormat.getInstance();
+        private final NumberFormat nf = NumberFormat.getInstance(Locale.US);
 
         public Object construct(Node node) {
             ScalarNode scalar = (ScalarNode) node;
