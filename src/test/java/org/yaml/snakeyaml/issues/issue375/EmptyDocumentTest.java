@@ -18,39 +18,39 @@ package org.yaml.snakeyaml.issues.issue375;
 import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.ConstructorException;
 
 public class EmptyDocumentTest {
 
     private static final String EMPTY_YAML =
             "%YAML 1.2\n"
-                    + "---\n"
-                    + "#Use all default values\n"
-                    + "...";
+                    + "---\n";
+
+    private static final String EMPTY_YAML_WITH_COMMENT =
+            EMPTY_YAML + "#Use all default values\n...";
 
     @Test
     public void emptyYamlTestAsString() {
         Yaml yaml = new Yaml();
-        String str = yaml.loadAs(EMPTY_YAML, String.class);
+        String str = yaml.loadAs(EMPTY_YAML_WITH_COMMENT, String.class);
         Assert.assertEquals("", str);
     }
 
-    @Test
+    @Test(expected = ConstructorException.class)
+    public void almostEmptyYamlTestAsObject() {
+        Yaml yaml = new Yaml();
+        yaml.loadAs(EMPTY_YAML_WITH_COMMENT, TestObject.class);
+    }
+
+    @Test(expected = ConstructorException.class)
     public void emptyYamlTestAsObject() {
         Yaml yaml = new Yaml();
-        TestObject obj = yaml.loadAs(EMPTY_YAML, TestObject.class);
-        Assert.assertEquals(0, obj.getAttribute1());
-        Assert.assertFalse(obj.isAttribute2());
+        yaml.loadAs(EMPTY_YAML, TestObject.class);
     }
 
     public static class TestObject {
         private int attribute1;
         private boolean attribute2;
-
-        public TestObject(String arg) {
-            if ("...".equals(arg)) {
-                throw new RuntimeException("Unexpected data.");
-            }
-        }
 
         public int getAttribute1() {
             return attribute1;
