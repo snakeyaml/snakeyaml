@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 public class EmptyDocumentTest {
 
     @Test
-    public void testNumberAsDouble() {
+    public void testEmptyDocument() {
         Yaml yaml = new Yaml();
         String str = yaml.loadAs("%YAML 1.2\n" +
                 "---\n" +
