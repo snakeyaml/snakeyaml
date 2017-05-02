@@ -15,21 +15,57 @@
  */
 package org.yaml.snakeyaml.issues.issue375;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 
-import static org.junit.Assert.assertEquals;
-
-
 public class EmptyDocumentTest {
 
+    private static final String EMPTY_YAML =
+            "%YAML 1.2\n"
+                    + "---\n"
+                    + "#Use all default values\n"
+                    + "...";
+
     @Test
-    public void testEmptyDocument() {
+    public void emptyYamlTestAsString() {
         Yaml yaml = new Yaml();
-        String str = yaml.loadAs("%YAML 1.2\n" +
-                "---\n" +
-                "#Use all default values\n" +
-                "...", String.class);
-        assertEquals("", str);
+        String str = yaml.loadAs(EMPTY_YAML, String.class);
+        Assert.assertEquals("", str);
+    }
+
+    @Test
+    public void emptyYamlTestAsObject() {
+        Yaml yaml = new Yaml();
+        TestObject obj = yaml.loadAs(EMPTY_YAML, TestObject.class);
+        Assert.assertEquals(0, obj.getAttribute1());
+        Assert.assertFalse(obj.isAttribute2());
+    }
+
+    public static class TestObject {
+        private int attribute1;
+        private boolean attribute2;
+
+        public TestObject(String arg) {
+            if ("...".equals(arg)) {
+                throw new RuntimeException("Unexpected data.");
+            }
+        }
+
+        public int getAttribute1() {
+            return attribute1;
+        }
+
+        public void setAttribute1(int attribute1) {
+            this.attribute1 = attribute1;
+        }
+
+        public boolean isAttribute2() {
+            return attribute2;
+        }
+
+        public void setAttribute2(boolean attribute2) {
+            this.attribute2 = attribute2;
+        }
     }
 }
