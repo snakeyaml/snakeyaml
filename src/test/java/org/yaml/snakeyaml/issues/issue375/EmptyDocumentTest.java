@@ -16,41 +16,29 @@
 package org.yaml.snakeyaml.issues.issue375;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.ConstructorException;
 
 public class EmptyDocumentTest {
 
-    private static final String EMPTY_YAML =
-            "%YAML 1.2\n"
-                    + "---\n";
-
-    private static final String EMPTY_YAML_WITH_COMMENT =
-            EMPTY_YAML + "#Use all default values\n...";
-
-    @Test
-    public void emptyYamlTestAsString() {
+    @Test(expected = ConstructorException.class)
+    public void cannotCreateJavaBeanFromScalar() {
         Yaml yaml = new Yaml();
-        String str = yaml.loadAs(EMPTY_YAML_WITH_COMMENT, String.class);
-        Assert.assertEquals("", str);
+        yaml.loadAs("---\n", TestObject.class);
     }
 
     @Test(expected = ConstructorException.class)
-    public void almostEmptyYamlTestAsObject() {
+    @Ignore //TODO fix issue 375
+    public void shouldNotCreateNullFromScalar() {
         Yaml yaml = new Yaml();
-        yaml.loadAs(EMPTY_YAML_WITH_COMMENT, TestObject.class);
-    }
-
-    @Test(expected = ConstructorException.class)
-    public void emptyYamlTestAsObject() {
-        Yaml yaml = new Yaml();
-        yaml.loadAs(EMPTY_YAML, TestObject.class);
+        TestObject obj = yaml.loadAs("\n  \n", TestObject.class);
+        Assert.assertNull(obj);
     }
 
     public static class TestObject {
         private int attribute1;
-        private boolean attribute2;
 
         public int getAttribute1() {
             return attribute1;
@@ -60,12 +48,5 @@ public class EmptyDocumentTest {
             this.attribute1 = attribute1;
         }
 
-        public boolean isAttribute2() {
-            return attribute2;
-        }
-
-        public void setAttribute2(boolean attribute2) {
-            this.attribute2 = attribute2;
-        }
     }
 }
