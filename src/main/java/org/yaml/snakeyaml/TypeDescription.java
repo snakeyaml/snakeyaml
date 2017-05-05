@@ -24,7 +24,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  * Provides additional runtime information necessary to create a custom Java
  * instance.
  */
-public final class TypeDescription {
+public class TypeDescription {
     private final Class<? extends Object> type;
     private Tag tag;
     private Map<String, Class<? extends Object>> listProperties;
