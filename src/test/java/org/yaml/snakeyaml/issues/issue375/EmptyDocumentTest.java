@@ -27,6 +27,7 @@ public class EmptyDocumentTest {
         Assert.assertNull(yaml.loadAs("", TestObject.class));
         Assert.assertNull(yaml.loadAs("\n  \n", TestObject.class));
         Assert.assertNull(yaml.loadAs("---\n", TestObject.class));
+        Assert.assertNull(yaml.loadAs("---\n#comment\n...\n", TestObject.class));
     }
 
     public static class TestObject {
