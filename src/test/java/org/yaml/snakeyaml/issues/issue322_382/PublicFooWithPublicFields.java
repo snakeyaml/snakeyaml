@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml.issues.issue382;
+package org.yaml.snakeyaml.issues.issue322_382;
 
 import java.util.ArrayList;
 import java.util.List;

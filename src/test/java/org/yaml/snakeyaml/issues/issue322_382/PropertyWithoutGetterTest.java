@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml.issues.issue382;
+package org.yaml.snakeyaml.issues.issue322_382;
 
 import org.junit.Test;
+
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -25,19 +26,22 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class CollectionErasureTest {
+public class PropertyWithoutGetterTest {
 
     @Test
     public void testPublicFooWithPublicFields() {
         Constructor constructor = new Constructor();
-        constructor.addTypeDescription(new TypeDescription(PublicFooWithPublicFields.class, "!foo"));
+        constructor
+                .addTypeDescription(new TypeDescription(PublicFooWithPublicFields.class, "!foo"));
         Yaml yaml = new Yaml(constructor);
 
-        PublicFooWithPublicFields foo = (PublicFooWithPublicFields) yaml.load("!foo\ncountryCodes: [NZ, NO]\nsome: NO");
+        PublicFooWithPublicFields foo = yaml.loadAs("!foo\ncountryCodes: [NZ, NO]\nsome: NO",
+                PublicFooWithPublicFields.class);
 
         assertEquals(2, foo.countryCodes.size());
         assertEquals("NZ", foo.countryCodes.get(0));
-        assertEquals("The type (String) must be taken from the field.", "NO", foo.countryCodes.get(1));
+        assertEquals("The type (String) must be taken from the field.", "NO",
+                foo.countryCodes.get(1));
         assertEquals("NO", foo.some);
     }
 
@@ -47,13 +51,14 @@ public class CollectionErasureTest {
         constructor.addTypeDescription(new TypeDescription(StaticFooWithoutGetter.class, "!foo"));
         Yaml yaml = new Yaml(constructor);
 
-        StaticFooWithoutGetter foo = (StaticFooWithoutGetter) yaml.load("!foo\ncountryCodes: [NZ, NO]\nsome: NO");
+        StaticFooWithoutGetter foo = yaml.loadAs("!foo\ncountryCodes: [NZ, NO]\nsome: NO",
+                StaticFooWithoutGetter.class);
 
         assertEquals(2, foo.countryCodes.size());
         assertEquals("NZ", foo.countryCodes.get(0));
-        assertEquals("Because of the erasure the type is defined by the implicit tag !!bool.",
-                false, foo.countryCodes.get(1)); //Wow !!! Dynamic typing in Java ?
-        assertEquals("NO", foo.some);//erasure is only a problem for collections
+        assertEquals("The type List(String) must be taken from the setter.", "NO",
+                foo.countryCodes.get(1));
+        assertEquals("NO", foo.some);
     }
 
     @Test
@@ -62,11 +67,13 @@ public class CollectionErasureTest {
         constructor.addTypeDescription(new TypeDescription(StaticFooWithGetter.class, "!foo"));
         Yaml yaml = new Yaml(constructor);
 
-        StaticFooWithGetter foo = (StaticFooWithGetter) yaml.load("!foo\ncountryCodes: [NZ, NO]\nsome: NO");
+        StaticFooWithGetter foo = yaml.loadAs("!foo\ncountryCodes: [NZ, NO]\nsome: NO",
+                StaticFooWithGetter.class);
 
         assertEquals(2, foo.countryCodes.size());
         assertEquals("NZ", foo.countryCodes.get(0));
-        assertEquals("The type (String) must be taken from the getter.", "NO", foo.countryCodes.get(1));
+        assertEquals("The type List(String) must be taken from the getter.", "NO",
+                foo.countryCodes.get(1));
         assertEquals("NO", foo.some);
     }
 
@@ -106,4 +113,3 @@ public class CollectionErasureTest {
         }
     }
 }
-
