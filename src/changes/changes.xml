@@ -7,8 +7,11 @@
     </properties>
     <body>
         <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
-            <action dev="asomov" type="update" issue="382">
-                Add test for issue 382
+            <action dev="maslovalex" type="fix" issue="382">
+                Fix 382: same as 322
+            </action>
+            <action dev="maslovalex" type="fix" issue="322">
+                Fix 322: if there is no getter try to get type information from a setter
             </action>
             <action dev="asomov" type="fix" issue="377">
                 Add test for 'billion laughs attack'
