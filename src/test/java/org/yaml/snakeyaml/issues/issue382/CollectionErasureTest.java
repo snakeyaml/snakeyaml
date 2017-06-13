@@ -28,18 +28,17 @@ import static org.junit.Assert.assertEquals;
 public class CollectionErasureTest {
 
     @Test
-    public void testPublicFooWithoutGetter() {
+    public void testPublicFooWithPublicFields() {
         Constructor constructor = new Constructor();
-        constructor.addTypeDescription(new TypeDescription(PublicFooWithoutGetter.class, "!foo"));
+        constructor.addTypeDescription(new TypeDescription(PublicFooWithPublicFields.class, "!foo"));
         Yaml yaml = new Yaml(constructor);
 
-        PublicFooWithoutGetter foo = (PublicFooWithoutGetter) yaml.load("!foo\ncountryCodes: [NZ,AU,NO]\nsome: YES");
+        PublicFooWithPublicFields foo = (PublicFooWithPublicFields) yaml.load("!foo\ncountryCodes: [NZ, NO]\nsome: NO");
 
-        assertEquals(3, foo.countryCodes.size());
+        assertEquals(2, foo.countryCodes.size());
         assertEquals("NZ", foo.countryCodes.get(0));
-        assertEquals("AU", foo.countryCodes.get(1));
-        assertEquals("NO", foo.countryCodes.get(2));
-        assertEquals("YES", foo.some);
+        assertEquals("The type (String) must be taken from the field.", "NO", foo.countryCodes.get(1));
+        assertEquals("NO", foo.some);
     }
 
     @Test
@@ -48,13 +47,13 @@ public class CollectionErasureTest {
         constructor.addTypeDescription(new TypeDescription(StaticFooWithoutGetter.class, "!foo"));
         Yaml yaml = new Yaml(constructor);
 
-        StaticFooWithoutGetter foo = (StaticFooWithoutGetter) yaml.load("!foo\ncountryCodes: [NZ,AU,NO]\nsome: YES");
+        StaticFooWithoutGetter foo = (StaticFooWithoutGetter) yaml.load("!foo\ncountryCodes: [NZ, NO]\nsome: NO");
 
-        assertEquals(3, foo.countryCodes.size());
+        assertEquals(2, foo.countryCodes.size());
         assertEquals("NZ", foo.countryCodes.get(0));
-        assertEquals("AU", foo.countryCodes.get(1));
-        assertEquals(false, foo.countryCodes.get(2)); //Wow !!! Dynamic typing in Java ?
-        assertEquals("YES", foo.some);
+        assertEquals("Because of the erasure the type is defined by the implicit tag !!bool.",
+                false, foo.countryCodes.get(1)); //Wow !!! Dynamic typing in Java ?
+        assertEquals("NO", foo.some);//erasure is only a problem for collections
     }
 
     @Test
@@ -63,13 +62,12 @@ public class CollectionErasureTest {
         constructor.addTypeDescription(new TypeDescription(StaticFooWithGetter.class, "!foo"));
         Yaml yaml = new Yaml(constructor);
 
-        StaticFooWithGetter foo = (StaticFooWithGetter) yaml.load("!foo\ncountryCodes: [NZ,AU, NO]\nsome: YES");
+        StaticFooWithGetter foo = (StaticFooWithGetter) yaml.load("!foo\ncountryCodes: [NZ, NO]\nsome: NO");
 
-        assertEquals(3, foo.countryCodes.size());
+        assertEquals(2, foo.countryCodes.size());
         assertEquals("NZ", foo.countryCodes.get(0));
-        assertEquals("AU", foo.countryCodes.get(1));
-        assertEquals("NO", foo.countryCodes.get(2));
-        assertEquals("YES", foo.some);
+        assertEquals("The type (String) must be taken from the getter.", "NO", foo.countryCodes.get(1));
+        assertEquals("NO", foo.some);
     }
 
     public static class StaticFooWithoutGetter {
@@ -92,9 +90,6 @@ public class CollectionErasureTest {
         private List<String> countryCodes = new ArrayList<String>();
         private String some;
 
-        // If this method is not here then "NO" is a Boolean,
-        // but when this method is here, then "NO" is a String.
-        // *I* think it should always be considered a String, given the 'countryCodes' datatype :-)
         public List<String> getCountryCodes() {
             return countryCodes;
         }

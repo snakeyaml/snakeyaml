@@ -3,7 +3,7 @@ package org.yaml.snakeyaml.issues.issue382;
 import java.util.ArrayList;
 import java.util.List;
 
-public  class PublicFooWithoutGetter {
+public class PublicFooWithPublicFields {
     public List<String> countryCodes = new ArrayList<String>();
     public String some;
 
