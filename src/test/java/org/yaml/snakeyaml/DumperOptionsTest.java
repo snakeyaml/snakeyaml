@@ -20,12 +20,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
+
+import junit.framework.TestCase;
 
 public class DumperOptionsTest extends TestCase {
 
@@ -360,6 +360,10 @@ public class DumperOptionsTest extends TestCase {
         output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
         assertEquals("\"1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888\\\n  \\ 9999999999 0000000000\"\n", output);
 
+        // Lines with double spaces can be split too as whitespace can be preserved
+        output = yaml.dump("1111111111  2222222222  3333333333  4444444444  5555555555  6666666666  7777777777  8888888888  9999999999  0000000000");
+        assertEquals("\"1111111111  2222222222  3333333333  4444444444  5555555555  6666666666  7777777777\\\n  \\  8888888888  9999999999  0000000000\"\n", output);
+
         // Split lines disabled
         options.setSplitLines(false);
         assertFalse(options.getSplitLines());
@@ -380,6 +384,10 @@ public class DumperOptionsTest extends TestCase {
         output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
         assertEquals("'1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888\n  9999999999 0000000000'\n", output);
 
+        // Do not split on double space as whitespace cannot be preserved in single quoted style
+        output = yaml.dump("1111111111  2222222222  3333333333  4444444444  5555555555  6666666666  7777777777  8888888888  9999999999  0000000000");
+        assertEquals("\'1111111111  2222222222  3333333333  4444444444  5555555555  6666666666  7777777777  8888888888  9999999999  0000000000'\n", output);
+
         // Split lines disabled
         options.setSplitLines(false);
         assertFalse(options.getSplitLines());
@@ -399,6 +407,10 @@ public class DumperOptionsTest extends TestCase {
         yaml = new Yaml(options);
         output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
         assertEquals(">-\n  1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888\n  9999999999 0000000000\n", output);
+
+        // Do not split on double space as whitespace cannot be preserved in folded style
+        output = yaml.dump("1111111111  2222222222  3333333333  4444444444  5555555555  6666666666  7777777777  8888888888  9999999999  0000000000");
+        assertEquals(">-\n  1111111111  2222222222  3333333333  4444444444  5555555555  6666666666  7777777777  8888888888  9999999999  0000000000\n", output);
 
         // Split lines disabled
         options.setSplitLines(false);
@@ -427,8 +439,19 @@ public class DumperOptionsTest extends TestCase {
         Yaml yaml;
         String output;
 
-        // Split lines enabled (default) -- split lines does not apply to plain style
+        // Split lines enabled (default)
         assertTrue(options.getSplitLines());
+        yaml = new Yaml(options);
+        output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
+        assertEquals("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888\n  9999999999 0000000000\n", output);
+
+        // Do not split on double space as whitespace cannot be preserved in plain style
+        output = yaml.dump("1111111111  2222222222  3333333333  4444444444  5555555555  6666666666  7777777777  8888888888  9999999999  0000000000");
+        assertEquals("1111111111  2222222222  3333333333  4444444444  5555555555  6666666666  7777777777  8888888888  9999999999  0000000000\n", output);
+
+        // Split lines disabled
+        options.setSplitLines(false);
+        assertFalse(options.getSplitLines());
         yaml = new Yaml(options);
         output = yaml.dump("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000");
         assertEquals("1111111111 2222222222 3333333333 4444444444 5555555555 6666666666 7777777777 8888888888 9999999999 0000000000\n", output);

@@ -18,10 +18,10 @@ package org.yaml.snakeyaml.issues.issue141;
 import java.util.Date;
 import java.util.TimeZone;
 
-import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+
+import junit.framework.TestCase;
 
 public class ConfigurableTimezoneTest extends TestCase {
 
@@ -38,7 +38,7 @@ public class ConfigurableTimezoneTest extends TestCase {
         Date date = new Date();
         String output = yaml.dump(date);
         // System.out.println(output);
-        assertTrue(output, output.trim().endsWith("+1:00"));
+        assertTrue(output, output.trim().endsWith("+01:00"));
         Date parsed = (Date) yaml.load(output);
         assertEquals(date, parsed);
     }

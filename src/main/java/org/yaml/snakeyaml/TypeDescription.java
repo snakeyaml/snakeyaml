@@ -43,7 +43,6 @@ import org.yaml.snakeyaml.nodes.Tag;
  * when propertyUtils in TypeDescription is from different Constructor.
  */
 public class TypeDescription {
-
     private final Class<? extends Object> type;
     
     //class that implements the described type; if set, will be used as a source for constructor. If not set - TypeDescription will leave instantiation of an entity to the YAML Constructor

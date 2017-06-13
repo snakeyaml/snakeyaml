@@ -15,7 +15,10 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import java.beans.IndexedPropertyDescriptor;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -34,10 +37,30 @@ public class MethodProperty extends GenericProperty {
     private final boolean readable;
     private final boolean writable;
 
+    private static Type discoverGenericType(PropertyDescriptor property) {
+        Method readMethod = property.getReadMethod();
+        if (readMethod != null) {
+            return readMethod.getGenericReturnType();
+        }
+
+        Method writeMethod = property.getWriteMethod();
+        if (writeMethod != null) {
+            Type[] paramTypes = writeMethod.getGenericParameterTypes();
+            if (paramTypes.length > 0) {
+                return paramTypes[0];
+            }
+        }
+        /*
+         * This actually may happen if PropertyDescriptor is of type
+         * IndexedPropertyDescriptor and it has only IndexedGetter/Setter. ATM
+         * we simply skip type discovery.
+         */
+        return null;
+    }
+
     public MethodProperty(PropertyDescriptor property) {
         super(property.getName(), property.getPropertyType(),
-                property.getReadMethod() == null ? null : property.getReadMethod()
-                        .getGenericReturnType());
+                MethodProperty.discoverGenericType(property));
         this.property = property;
         this.readable = property.getReadMethod() != null;
         this.writable = property.getWriteMethod() != null;

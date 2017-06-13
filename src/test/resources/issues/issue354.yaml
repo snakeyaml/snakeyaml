@@ -1,0 +1,7 @@
+foo: |
+  This is
+  `a literal
+
+bar: |
+  And
+  @this

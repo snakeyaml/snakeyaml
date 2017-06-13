@@ -15,13 +15,15 @@
  */
 package org.yaml.snakeyaml.error;
 
+import java.io.Serializable;
+
 import org.yaml.snakeyaml.scanner.Constant;
 
 /**
  * It's just a record and its only use is producing nice error messages. Parser
  * does not use it for any other purposes.
  */
-public final class Mark {
+public final class Mark implements Serializable {
     private String name;
     private int index;
     private int line;
@@ -110,6 +112,7 @@ public final class Mark {
 
     /**
      * starts with 0
+     * @return line number
      */
     public int getLine() {
         return line;
@@ -117,6 +120,7 @@ public final class Mark {
 
     /**
      * starts with 0
+     * @return column number
      */
     public int getColumn() {
         return column;
@@ -124,6 +128,7 @@ public final class Mark {
 
     /**
      * starts with 0
+     * @return character number
      */
     public int getIndex() {
         return index;

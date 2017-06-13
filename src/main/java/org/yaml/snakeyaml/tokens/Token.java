@@ -48,6 +48,7 @@ public abstract class Token {
 
     /**
      * @see "__repr__ for Token in PyYAML"
+     * @return human readable representation
      */
     protected String getArguments() {
         return "";
@@ -57,6 +58,7 @@ public abstract class Token {
      * For error reporting.
      * 
      * @see "class variable 'id' in PyYAML"
+     * @return ID of this token
      */
     public abstract Token.ID getTokenId();
 

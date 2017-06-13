@@ -1468,7 +1468,7 @@ public final class Emitter implements Emitable {
                     start = end;
                 }
             } else {
-                if (ch == 0 || Constant.LINEBR.has(ch)) {
+                if (Constant.LINEBR.has(ch, "\0 ")) {
                     int len = end - start;
                     this.column += len;
                     stream.write(text, start, len);

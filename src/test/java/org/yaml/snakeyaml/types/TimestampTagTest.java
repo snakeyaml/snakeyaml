@@ -87,6 +87,54 @@ public class TimestampTagTest extends AbstractTest {
         assertEquals("{canonical: !!timestamp '2008-09-23T10:35:04Z'}\n", output);
     }
 
+    public void testTimestampNegativeTimezoneOffset() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT-01:15"));
+        cal.clear();
+        cal.set(2008, 8, 23, 14, 35, 4);
+        Map<String, Calendar> map = new HashMap<String, Calendar>();
+        map.put("canonical", cal);
+        String output = dump(map);
+        assertEquals("{canonical: !!timestamp '2008-09-23T14:35:04-01:15'}\n", output);
+    }
+
+    public void testTimestampDoubleDigitsForOffset() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+00:30"));
+        cal.clear();
+        cal.set(2008, 8, 23, 14, 35, 4);
+        Map<String, Calendar> map = new HashMap<String, Calendar>();
+        map.put("canonical", cal);
+        String output = dump(map);
+        assertEquals("{canonical: !!timestamp '2008-09-23T14:35:04+00:30'}\n", output);
+    }
+
+    public void testTimestampGMTNoOffset() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+00:00"));
+        cal.clear();
+        cal.set(2008, 8, 23, 14, 35, 4);
+        Map<String, Calendar> map = new HashMap<String, Calendar>();
+        map.put("canonical", cal);
+        String output = dump(map);
+        assertEquals("{canonical: !!timestamp '2008-09-23T14:35:04Z'}\n", output);
+    }
+
+    public void testTimestampEpoch() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal.setTimeInMillis(0);
+        Map<String, Calendar> map = new HashMap<String, Calendar>();
+        map.put("canonical", cal);
+        String output = dump(map);
+        assertEquals("{canonical: !!timestamp '1970-01-01T00:00:00Z'}\n", output);
+    }
+
+    public void testTimestampEpochWithOffset() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT-01:00"));
+        cal.setTimeInMillis(0);
+        Map<String, Calendar> map = new HashMap<String, Calendar>();
+        map.put("canonical", cal);
+        String output = dump(map);
+        assertEquals("{canonical: !!timestamp '1969-12-31T23:00:00-01:00'}\n", output);
+    }
+
     private String getText(String yaml, String key) {
         Date date = (Date) getMapValue(yaml, key);
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));

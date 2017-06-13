@@ -96,7 +96,7 @@ public class Constructor extends SafeConstructor {
      * @param theRoot
      *            fully qualified class name of the root class (usually
      *            JavaBean)
-     * @throws ClassNotFoundException
+     * @throws ClassNotFoundException if cannot be loaded by the classloader
      */
     public Constructor(String theRoot) throws ClassNotFoundException {
         this(Class.forName(check(theRoot)));
@@ -479,7 +479,8 @@ public class Constructor extends SafeConstructor {
                 contr.construct(node);
                 result = contr.getCalendar();
             } else if (Number.class.isAssignableFrom(type)) {
-                ConstructYamlNumber contr = new ConstructYamlNumber();
+                //since we do not know the exact type we create Float
+                ConstructYamlFloat contr = new ConstructYamlFloat();
                 result = contr.construct(node);
             } else if (UUID.class == type) {
                 result = UUID.fromString(node.getValue());

@@ -386,20 +386,36 @@ class SafeRepresenter extends BaseRepresenter {
                 }
                 buffer.append(String.valueOf(millis));
             }
-            if (TimeZone.getTimeZone("UTC").equals(calendar.getTimeZone())) {
-                buffer.append("Z");
+
+            // Get the offset from GMT taking DST into account
+            int gmtOffset = calendar.getTimeZone().getOffset(calendar.get(Calendar.ERA),
+                    calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.DAY_OF_WEEK),
+                    calendar.get(Calendar.MILLISECOND));
+            if (gmtOffset == 0) {
+                buffer.append('Z');
             } else {
-                // Get the Offset from GMT taking DST into account
-                int gmtOffset = calendar.getTimeZone().getOffset(calendar.get(Calendar.ERA),
-                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.DAY_OF_WEEK),
-                        calendar.get(Calendar.MILLISECOND));
+                if (gmtOffset < 0) {
+                    buffer.append('-');
+                    gmtOffset *= -1;
+                } else {
+                    buffer.append('+');
+                }
                 int minutesOffset = gmtOffset / (60 * 1000);
                 int hoursOffset = minutesOffset / 60;
                 int partOfHour = minutesOffset % 60;
-                buffer.append((hoursOffset > 0 ? "+" : "") + hoursOffset + ":"
-                        + (partOfHour < 10 ? "0" + partOfHour : partOfHour));
+
+                if (hoursOffset < 10) {
+                    buffer.append('0');
+                }
+                buffer.append(hoursOffset);
+                buffer.append(':');
+                if (partOfHour < 10) {
+                    buffer.append('0');
+                }
+                buffer.append(partOfHour);
             }
+
             return representScalar(getTag(data.getClass(), Tag.TIMESTAMP), buffer.toString(), null);
         }
     }

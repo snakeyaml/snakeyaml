@@ -48,6 +48,7 @@ public class ScalarNode extends Node {
      * @see org.yaml.snakeyaml.events.ScalarEvent
      * @see <a href="http://yaml.org/spec/1.1/#id903915">Chapter 9. Scalar
      *      Styles</a>
+     * @return style of this scalar node
      */
     public Character getStyle() {
         return style;

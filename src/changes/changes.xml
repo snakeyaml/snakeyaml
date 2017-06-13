@@ -6,7 +6,62 @@
         <author email="public.somov@gmail.com">Andrey Somov</author>
     </properties>
     <body>
-        <release version="1.18-SNAPSHOT" date="in Mercurial" description="Maintenance">
+        <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update" issue="382">
+                Add test for issue 382
+            </action>
+            <action dev="asomov" type="fix" issue="377">
+                Add test for 'billion laughs attack'
+            </action>
+            <action dev="asomov" type="fix" issue="368">
+                Relax final restriction on TypeDescription (2017-05-05)
+            </action>
+            <action dev="asomov" type="fix" issue="375">
+                Empty yaml file must return null instead of throwing an exception when loading a JavaBean (2017-05-03)
+            </action>
+            <action dev="asomov" type="fix" issue="374">
+                Fix Number when it is used as a JavaBean property with a custom Locale (2017-04-30)
+            </action>
+            <action dev="asomov" type="add" issue="373">
+                Add redundant test (2017-04-06)
+            </action>
+            <action dev="asomov" type="update">
+                Provide access to node's anchor, pull request#20 (2017-03-30)
+            </action>
+            <action dev="asomov" type="fix" issue="370">
+                Remove redundant "Bundle-RequiredExecutionEnvironment: J2SE-1.5" (2017-03-16)
+            </action>
+            <action dev="asomov" type="fix" issue="364">
+                Serializing Calendar objects with certain timezone offsets renders invalid YAML (2017-02-28)
+            </action>
+        </release>
+        <release version="1.18" date="2017-02-22" description="Maintenance">
+            <action dev="asomov" type="fix" issue="358">
+                Validate DumperOptions to prevent invalid YAML to be dumped (2017-01-12)
+            </action>
+            <action dev="asomov" type="fix" issue="355">
+                Fix for emitter to split long plain string scalars over multiple lines (2017-01-10)
+            </action>
+            <action dev="asomov" type="update">
+                Let Mark implement Serializable so that ParserException can be serialized (2016-12-15)
+            </action>
+            <action dev="asomov" type="update" issue="354">
+                Add tests for issue 354 (2016-12-12)
+            </action>
+            <action dev="maslovalex" type="fix" issue="337">
+                Throw exception in case of duplicate keys in MappingNode and
+                LoaderOptions.allowDuplicateKeys is false. (2016-11-25)
+            </action>
+            <action dev="maslovalex" type="fix" issue="351">
+                Keep same nodes order on merge (preprocess keys for MappingNode
+                and remove duplicates keeping the last one). (2016-11-22)
+            </action>
+            <action dev="asomov" type="fix" issue="349">
+                Ignore white spaces for base64 encoded scalar (2016-11-17)
+            </action>
+            <action dev="maslovalex" type="fix" issue="348">
+                Not removing parent object when composed object is an anchor. (2016-10-13)
+            </action>
             <action dev="asomov" type="fix" issue="323">
                 Support "Miscellaneous Symbols and Pictographs" (2016-09-05)
             </action>

@@ -55,8 +55,8 @@ public abstract class BaseConstructor {
             NodeId.class);
     /**
      * It maps the (explicit or implicit) tag to the Construct implementation.
-     * It is used: <br/>
-     * 1) explicit tag - if present. <br/>
+     * It is used:
+     * 1) explicit tag - if present.
      * 2) implicit tag - when the runtime class of the instance is unknown (the
      * node has the Object.class)
      */
@@ -76,6 +76,7 @@ public abstract class BaseConstructor {
     protected Tag rootTag;
     private PropertyUtils propertyUtils;
     private boolean explicitPropertyUtils;
+    private boolean allowDuplicateKeys = true;
 
     protected final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
     protected final Map<Tag, Class<? extends Object>> typeTags;
@@ -129,6 +130,7 @@ public abstract class BaseConstructor {
     /**
      * Ensure that the stream contains a single document and construct it
      *
+     * @param type the class of the instance being created
      * @return constructed instance
      * @throws ComposerException
      *             in case there are more documents in the stream
@@ -136,7 +138,7 @@ public abstract class BaseConstructor {
     public Object getSingleData(Class<?> type) {
         // Ensure that the stream contains a single document and construct it
         Node node = composer.getSingleNode();
-        if (node != null) {
+        if (node != null && !Tag.NULL.equals(node.getTag())) {
             if (Object.class != type) {
                 node.setTag(new Tag(type));
             } else if (rootTag != null) {
@@ -387,7 +389,8 @@ public abstract class BaseConstructor {
             if (componentType.isPrimitive()) {
                 // Null values are disallowed for primitives
                 if (value == null) {
-                    throw new NullPointerException("Unable to construct element value for " + child);
+                    throw new NullPointerException(
+                            "Unable to construct element value for " + child);
                 }
 
                 // Primitive arrays require quite a lot of work.
@@ -452,8 +455,8 @@ public abstract class BaseConstructor {
                     key.hashCode();// check circular dependencies
                 } catch (Exception e) {
                     throw new ConstructorException("while constructing a mapping",
-                            node.getStartMark(), "found unacceptable key " + key, tuple
-                                    .getKeyNode().getStartMark(), e);
+                            node.getStartMark(), "found unacceptable key " + key,
+                            tuple.getKeyNode().getStartMark(), e);
                 }
             }
             Object value = constructObject(valueNode);
@@ -570,5 +573,13 @@ public abstract class BaseConstructor {
 
     public final boolean isExplicitPropertyUtils() {
         return explicitPropertyUtils;
+    }
+
+    public boolean isAllowDuplicateKeys() {
+        return allowDuplicateKeys;
+    }
+
+    public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
+        this.allowDuplicateKeys = allowDuplicateKeys;
     }
 }

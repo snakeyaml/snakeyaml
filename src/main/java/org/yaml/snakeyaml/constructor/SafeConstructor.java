@@ -18,16 +18,7 @@ package org.yaml.snakeyaml.constructor;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,15 +60,52 @@ public class SafeConstructor extends BaseConstructor {
 
     protected void flattenMapping(MappingNode node) {
         // perform merging only on nodes containing merge node(s)
+        processDuplicateKeys(node);
         if (node.isMerged()) {
             node.setValue(mergeNode(node, true, new HashMap<Object, Integer>(),
                     new ArrayList<NodeTuple>()));
         }
     }
 
+    protected void processDuplicateKeys(MappingNode node) {
+        List<NodeTuple> nodeValue = node.getValue();
+        Map<Object, Integer> keys = new HashMap<Object, Integer>(nodeValue.size());
+        Deque<Integer> toRemove = new ArrayDeque<Integer>();
+        int i = 0;
+        for (NodeTuple tuple : nodeValue) {
+            Node keyNode = tuple.getKeyNode();
+            if (!keyNode.getTag().equals(Tag.MERGE)) {
+                Object key = constructObject(keyNode);
+                if (key != null) {
+                    try {
+                        key.hashCode();// check circular dependencies
+                    } catch (Exception e) {
+                        throw new ConstructorException("while constructing a mapping",
+                                node.getStartMark(), "found unacceptable key " + key,
+                                tuple.getKeyNode().getStartMark(), e);
+                    }
+                }
+
+                Integer prevIndex = keys.put(key, i);
+                if (prevIndex != null) {
+                    if (!isAllowDuplicateKeys()) {
+                        throw new IllegalStateException("duplicate key: " + key);
+                    }
+                    toRemove.add(prevIndex);
+                }
+            }
+            i = i + 1;
+        }
+
+        Iterator<Integer> indicies2remove = toRemove.descendingIterator();
+        while (indicies2remove.hasNext()) {
+            nodeValue.remove(indicies2remove.next().intValue());
+        }
+    }
+
     /**
      * Does merge for supplied mapping node.
-     * 
+     *
      * @param node
      *            where to merge
      * @param isPreffered
@@ -91,10 +119,8 @@ public class SafeConstructor extends BaseConstructor {
      */
     private List<NodeTuple> mergeNode(MappingNode node, boolean isPreffered,
             Map<Object, Integer> key2index, List<NodeTuple> values) {
-        List<NodeTuple> nodeValue = node.getValue();
-        // reversed for http://code.google.com/p/snakeyaml/issues/detail?id=139
-        Collections.reverse(nodeValue);
-        for (Iterator<NodeTuple> iter = nodeValue.iterator(); iter.hasNext();) {
+        Iterator<NodeTuple> iter = node.getValue().iterator();
+        while (iter.hasNext()) {
             final NodeTuple nodeTuple = iter.next();
             final Node keyNode = nodeTuple.getKeyNode();
             final Node valueNode = nodeTuple.getValueNode();
@@ -113,7 +139,8 @@ public class SafeConstructor extends BaseConstructor {
                             throw new ConstructorException("while constructing a mapping",
                                     node.getStartMark(),
                                     "expected a mapping for merging, but found "
-                                            + subnode.getNodeId(), subnode.getStartMark());
+                                            + subnode.getNodeId(),
+                                    subnode.getStartMark());
                         }
                         MappingNode mnode = (MappingNode) subnode;
                         mergeNode(mnode, false, key2index, values);
@@ -123,7 +150,8 @@ public class SafeConstructor extends BaseConstructor {
                     throw new ConstructorException("while constructing a mapping",
                             node.getStartMark(),
                             "expected a mapping or list of mappings for merging, but found "
-                                    + valueNode.getNodeId(), valueNode.getStartMark());
+                                    + valueNode.getNodeId(),
+                            valueNode.getStartMark());
                 }
             } else {
                 // we need to construct keys to avoid duplications
@@ -267,40 +295,16 @@ public class SafeConstructor extends BaseConstructor {
 
     public class ConstructYamlBinary extends AbstractConstruct {
         public Object construct(Node node) {
-            byte[] decoded = Base64Coder.decode(constructScalar((ScalarNode) node).toString()
-                    .toCharArray());
+            // Ignore white spaces for base64 encoded scalar
+            String noWhiteSpaces = constructScalar((ScalarNode) node).toString().replaceAll("\\s",
+                    "");
+            byte[] decoded = Base64Coder.decode(noWhiteSpaces.toCharArray());
             return decoded;
         }
     }
 
-    public class ConstructYamlNumber extends AbstractConstruct {
-
-        private final NumberFormat nf = NumberFormat.getInstance();
-
-        public Object construct(Node node) {
-            ScalarNode scalar = (ScalarNode) node;
-            try {
-                return nf.parse(scalar.getValue());
-            } catch (ParseException e) {
-                String lowerCaseValue = scalar.getValue().toLowerCase();
-                if (lowerCaseValue.contains("inf") || lowerCaseValue.contains("nan")) {
-                    /*
-                     * Non-finites such as (+/-)infinity and NaN are not
-                     * parseable by NumberFormat when these `Double` values are
-                     * dumped by snakeyaml. Delegate to the `Tag.FLOAT`
-                     * constructor when for this expected failure cause.
-                     */
-                    return (Number) yamlConstructors.get(Tag.FLOAT).construct(node);
-                } else {
-                    throw new IllegalArgumentException("Unable to parse as Number: "
-                            + scalar.getValue());
-                }
-            }
-        }
-    }
-
-    private final static Pattern TIMESTAMP_REGEXP = Pattern
-            .compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:(?:[Tt]|[ \t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \t]*(?:Z|([-+][0-9][0-9]?)(?::([0-9][0-9])?)?))?)?$");
+    private final static Pattern TIMESTAMP_REGEXP = Pattern.compile(
+            "^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:(?:[Tt]|[ \t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \t]*(?:Z|([-+][0-9][0-9]?)(?::([0-9][0-9])?)?))?)?$");
     private final static Pattern YMD_REGEXP = Pattern
             .compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)$");
 
@@ -384,14 +388,16 @@ public class SafeConstructor extends BaseConstructor {
             for (Node subnode : snode.getValue()) {
                 if (!(subnode instanceof MappingNode)) {
                     throw new ConstructorException("while constructing an ordered map",
-                            node.getStartMark(), "expected a mapping of length 1, but found "
-                                    + subnode.getNodeId(), subnode.getStartMark());
+                            node.getStartMark(),
+                            "expected a mapping of length 1, but found " + subnode.getNodeId(),
+                            subnode.getStartMark());
                 }
                 MappingNode mnode = (MappingNode) subnode;
                 if (mnode.getValue().size() != 1) {
                     throw new ConstructorException("while constructing an ordered map",
                             node.getStartMark(), "expected a single mapping item, but found "
-                                    + mnode.getValue().size() + " items", mnode.getStartMark());
+                                    + mnode.getValue().size() + " items",
+                            mnode.getStartMark());
                 }
                 Node keyNode = mnode.getValue().get(0).getKeyNode();
                 Node valueNode = mnode.getValue().get(0).getValueNode();
@@ -424,7 +430,8 @@ public class SafeConstructor extends BaseConstructor {
                 if (mnode.getValue().size() != 1) {
                     throw new ConstructorException("while constructing pairs", node.getStartMark(),
                             "expected a single mapping item, but found " + mnode.getValue().size()
-                                    + " items", mnode.getStartMark());
+                                    + " items",
+                            mnode.getStartMark());
                 }
                 Node keyNode = mnode.getValue().get(0).getKeyNode();
                 Node valueNode = mnode.getValue().get(0).getValueNode();

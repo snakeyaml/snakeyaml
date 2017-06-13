@@ -21,15 +21,27 @@ import org.yaml.snakeyaml.Yaml;
 
 public class NumberBeanTest extends TestCase {
 
-    public void testNumberBean() throws Exception {
+    public void testNumberAsInteger() throws Exception {
 
         NumberBean number = new NumberBean();
         number.number = 1;
+        assertEquals(Integer.class, number.number.getClass());
 
         Yaml yaml = new Yaml();
         String dump = yaml.dump(number);
         NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
-        assertEquals(new Long(1), loaded.number);
+        assertEquals("Integer is converted to Double.", new Double(1), loaded.number);
+    }
+
+    public void testNumberAsDouble() throws Exception {
+
+        NumberBean number = new NumberBean();
+        number.number = 1.0;
+
+        Yaml yaml = new Yaml();
+        String dump = yaml.dump(number);
+        NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
+        assertEquals(number.number, loaded.number);
     }
 
     public void testNumberAsFloatInfinity() throws Exception {

@@ -39,6 +39,8 @@ public abstract class UriEncoder {
 
     /**
      * Escape special characters with '%'
+     * @param uri URI to be escaped
+     * @return encoded URI
      */
     public static String encode(String uri) {
         return escaper.escape(uri);
@@ -46,6 +48,9 @@ public abstract class UriEncoder {
 
     /**
      * Decode '%'-escaped characters. Decoding fails in case of invalid UTF-8
+     * @param buff data to decode
+     * @return decoded data
+     * @throws CharacterCodingException if cannot be decoded
      */
     public static String decode(ByteBuffer buff) throws CharacterCodingException {
         CharBuffer chars = UTF8Decoder.decode(buff);

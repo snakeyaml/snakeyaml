@@ -211,6 +211,8 @@ public class CompactConstructor extends Constructor {
     /**
      * Provide the name of the property which is used when the entries form a
      * sequence. The property must be a List.
+     * @param bean the class to provide exactly one List property
+     * @return name of the List property
      */
     protected String getSequencePropertyName(Class<?> bean) {
         Set<Property> properties = getPropertyUtils().getProperties(bean);

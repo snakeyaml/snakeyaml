@@ -327,6 +327,7 @@ public class DumperOptions {
      * Specify the line break to separate the lines. It is platform specific:
      * Windows - "\r\n", old MacOS - "\r", Unix - "\n". The default value is the
      * one for Unix.
+     * @param lineBreak to be used for the input
      */
     public void setLineBreak(LineBreak lineBreak) {
         if (lineBreak == null) {
@@ -388,6 +389,7 @@ public class DumperOptions {
     /**
      * Set the timezone to be used for Date. If set to <code>null</code> UTC is
      * used.
+     * @param timeZone for created Dates or null to use UTC
      */
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
