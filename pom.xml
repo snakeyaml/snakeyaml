@@ -66,9 +66,6 @@
             <email>jordanangold@gmail.com</email>
         </developer>
     </developers>
-    <prerequisites>
-        <maven>3.0.5</maven>
-    </prerequisites>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -162,7 +159,27 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
+	    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-enforcer-plugin</artifactId>
+		<version>1.4.1</version>
+		<executions>
+		    <execution>
+		        <id>enforce-maven</id>
+			<goals>
+			    <goal>enforce</goal>
+			</goals>
+			<configuration>
+			    <rules>
+			      <requireMavenVersion>
+				<version>3.0.5</version>
+			      </requireMavenVersion>
+			    </rules>
+			</configuration>
+		    </execution>
+		</executions>
+	    </plugin>
+	    <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.0</version>
@@ -644,7 +661,7 @@
 
                                         <!-- compile patched sources -->
                                         <javac srcdir="${android.src}"
-                                               destdir="${android.classes}" 
+                                               destdir="${android.classes}"
                                                classpath="${android.classes}"
                                                encoding="${project.build.sourceEncoding}"
                                                target="1.6"
