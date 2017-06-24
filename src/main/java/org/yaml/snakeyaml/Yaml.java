@@ -117,7 +117,16 @@ public class Yaml {
      *            Representer to emit outgoing objects
      */
     public Yaml(BaseConstructor constructor, Representer representer) {
-        this(constructor, representer, new DumperOptions());
+        this(constructor, representer, initDumperOptions(representer));
+    }
+
+    private static DumperOptions initDumperOptions(Representer representer) {
+        DumperOptions dumperOptions = new DumperOptions();
+        dumperOptions.setDefaultFlowStyle(representer.getDefaultFlowStyle());
+        dumperOptions.setDefaultScalarStyle(representer.getDefaultScalarStyle());
+        dumperOptions.setAllowReadOnlyProperties(representer.getPropertyUtils().isAllowReadOnlyProperties());
+        dumperOptions.setTimeZone(representer.getTimeZone());
+        return dumperOptions;
     }
 
     /**
