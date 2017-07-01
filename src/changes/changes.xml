@@ -7,9 +7,9 @@
     </properties>
     <body>
         <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
-            <aciton dev="maslovalex" type="fix" issue="386">
+            <action dev="maslovalex" type="fix" issue="386">
                 Fix order of duplicate keys indices to prevent wrong removals.
-            </aciton>
+            </action>
             <action dev="maslovalex" type="fix" issue="382">
                 Fix 382: same as 322
             </action>
