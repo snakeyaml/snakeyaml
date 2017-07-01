@@ -16,9 +16,16 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.math.BigInteger;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,7 +77,7 @@ public class SafeConstructor extends BaseConstructor {
     protected void processDuplicateKeys(MappingNode node) {
         List<NodeTuple> nodeValue = node.getValue();
         Map<Object, Integer> keys = new HashMap<Object, Integer>(nodeValue.size());
-        Deque<Integer> toRemove = new ArrayDeque<Integer>();
+        TreeSet<Integer> toRemove = new TreeSet<Integer>();
         int i = 0;
         for (NodeTuple tuple : nodeValue) {
             Node keyNode = tuple.getKeyNode();
@@ -170,6 +177,7 @@ public class SafeConstructor extends BaseConstructor {
         return values;
     }
 
+    @Override
     protected void constructMapping2ndStep(MappingNode node, Map<Object, Object> mapping) {
         flattenMapping(node);
         super.constructMapping2ndStep(node, mapping);
@@ -182,6 +190,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public class ConstructYamlNull extends AbstractConstruct {
+        @Override
         public Object construct(Node node) {
             constructScalar((ScalarNode) node);
             return null;
@@ -199,6 +208,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public class ConstructYamlBool extends AbstractConstruct {
+        @Override
         public Object construct(Node node) {
             String val = (String) constructScalar((ScalarNode) node);
             return BOOL_VALUES.get(val.toLowerCase());
@@ -206,6 +216,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public class ConstructYamlInt extends AbstractConstruct {
+        @Override
         public Object construct(Node node) {
             String value = constructScalar((ScalarNode) node).toString().replaceAll("_", "");
             int sign = +1;
@@ -262,6 +273,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public class ConstructYamlFloat extends AbstractConstruct {
+        @Override
         public Object construct(Node node) {
             String value = constructScalar((ScalarNode) node).toString().replaceAll("_", "");
             int sign = +1;
@@ -294,6 +306,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public class ConstructYamlBinary extends AbstractConstruct {
+        @Override
         public Object construct(Node node) {
             // Ignore white spaces for base64 encoded scalar
             String noWhiteSpaces = constructScalar((ScalarNode) node).toString().replaceAll("\\s",
@@ -315,6 +328,7 @@ public class SafeConstructor extends BaseConstructor {
             return calendar;
         }
 
+        @Override
         public Object construct(Node node) {
             ScalarNode scalar = (ScalarNode) node;
             String nodeValue = scalar.getValue();
@@ -375,6 +389,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public class ConstructYamlOmap extends AbstractConstruct {
+        @Override
         public Object construct(Node node) {
             // Note: we do not check for duplicate keys, because it's too
             // CPU-expensive.
@@ -411,6 +426,7 @@ public class SafeConstructor extends BaseConstructor {
 
     // Note: the same code as `construct_yaml_omap`.
     public class ConstructYamlPairs extends AbstractConstruct {
+        @Override
         public Object construct(Node node) {
             // Note: we do not check for duplicate keys, because it's too
             // CPU-expensive.
@@ -444,6 +460,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public class ConstructYamlSet implements Construct {
+        @Override
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
                 return (constructedObjects.containsKey(node) ? constructedObjects.get(node)
@@ -453,6 +470,7 @@ public class SafeConstructor extends BaseConstructor {
             }
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public void construct2ndStep(Node node, Object object) {
             if (node.isTwoStepsConstruction()) {
@@ -464,12 +482,14 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public class ConstructYamlStr extends AbstractConstruct {
+        @Override
         public Object construct(Node node) {
             return constructScalar((ScalarNode) node);
         }
     }
 
     public class ConstructYamlSeq implements Construct {
+        @Override
         public Object construct(Node node) {
             SequenceNode seqNode = (SequenceNode) node;
             if (node.isTwoStepsConstruction()) {
@@ -479,6 +499,7 @@ public class SafeConstructor extends BaseConstructor {
             }
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public void construct2ndStep(Node node, Object data) {
             if (node.isTwoStepsConstruction()) {
@@ -490,6 +511,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public class ConstructYamlMap implements Construct {
+        @Override
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
                 return createDefaultMap();
@@ -498,6 +520,7 @@ public class SafeConstructor extends BaseConstructor {
             }
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public void construct2ndStep(Node node, Object object) {
             if (node.isTwoStepsConstruction()) {
@@ -509,6 +532,7 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     public static final class ConstructUndefined extends AbstractConstruct {
+        @Override
         public Object construct(Node node) {
             throw new ConstructorException(null, null,
                     "could not determine a constructor for the tag " + node.getTag(),
