@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="maslovalex" type="fix" issue="383">
+                Some configuration properties of Representer are ignored.
+            </action>
             <action dev="maslovalex" type="fix" issue="386">
                 Fix order of duplicate keys indices to prevent wrong removals.
             </action>
