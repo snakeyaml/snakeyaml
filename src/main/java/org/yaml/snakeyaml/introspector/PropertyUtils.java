@@ -188,6 +188,10 @@ public class PropertyUtils {
         }
     }
 
+    public boolean isAllowReadOnlyProperties() {
+        return allowReadOnlyProperties;
+    }
+
     /**
      * Skip properties that are missing during deserialization of YAML to a Java
      * object. The default is false.
@@ -200,5 +204,9 @@ public class PropertyUtils {
             this.skipMissingProperties = skipMissingProperties;
             readableProperties.clear();
         }
+    }
+
+    public boolean isSkipMissingProperties() {
+        return skipMissingProperties;
     }
 }
