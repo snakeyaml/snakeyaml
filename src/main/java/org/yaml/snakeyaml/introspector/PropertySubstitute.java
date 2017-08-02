@@ -15,11 +15,14 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -39,6 +42,9 @@ public class PropertySubstitute extends Property {
     transient private Method read;
     transient private Method write;
     private Field field;
+    protected Class<?>[] parameters;
+    private Property delegate;
+    private boolean filler;
 
     public PropertySubstitute(String name, Class<?> type, String readMethod, String writeMethod,
             Class<?>... params) {
@@ -52,11 +58,6 @@ public class PropertySubstitute extends Property {
     public PropertySubstitute(String name, Class<?> type, Class<?>... params) {
         this(name, type, null, null, params);
     }
-
-    protected Class<?>[] parameters;
-    private Property delegate;
-
-    private boolean filler;
 
     @Override
     public Class<?>[] getActualTypeArguments() {
@@ -128,6 +129,30 @@ public class PropertySubstitute extends Property {
         }
         throw new YAMLException("No getter or delegate for property '" + getName() + "' on object "
                 + object);
+    }
+
+    @Override
+    public List<Annotation> getAnnotations() {
+        Annotation[] annotations = null;
+        if (read != null) {
+            annotations = read.getAnnotations();
+        } else if (field != null) {
+            annotations = field.getAnnotations();
+        }
+        return annotations != null ? Arrays.asList(annotations) : delegate.getAnnotations();
+    }
+
+    @Override
+    public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
+        A annotation;
+        if (read != null) {
+            annotation = read.getAnnotation(annotationType);
+        } else if (field != null) {
+            annotation = field.getAnnotation(annotationType);
+        } else {
+            annotation = delegate.getAnnotation(annotationType);
+        }
+        return annotation;
     }
 
     public void setTargetType(Class<?> targetType) {

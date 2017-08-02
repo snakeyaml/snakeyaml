@@ -15,6 +15,10 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * A property that does not map to a real property; this is used when {@link
  * PropertyUtils}.setSkipMissingProperties(boolean) is set to true.
@@ -41,4 +45,15 @@ public class MissingProperty extends Property {
     public Object get(Object object) {
         return object;
     }
+
+    @Override
+    public List<Annotation> getAnnotations() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
+        return null;
+    }
+
 }

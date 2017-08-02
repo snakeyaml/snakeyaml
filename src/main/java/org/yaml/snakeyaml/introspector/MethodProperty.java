@@ -15,8 +15,10 @@
  */
 package org.yaml.snakeyaml.introspector;
 
-import java.beans.IndexedPropertyDescriptor;
 import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.List;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
@@ -87,6 +89,16 @@ public class MethodProperty extends GenericProperty {
     }
 
     @Override
+    public List<Annotation> getAnnotations() {
+        return Arrays.asList(property.getReadMethod().getAnnotations());
+    }
+
+    @Override
+    public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
+        return property.getReadMethod().getAnnotation(annotationType);
+    }
+
+    @Override
     public boolean isWritable() {
         return writable;
     }
@@ -95,4 +107,5 @@ public class MethodProperty extends GenericProperty {
     public boolean isReadable() {
         return readable;
     }
+
 }

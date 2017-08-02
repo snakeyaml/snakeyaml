@@ -15,6 +15,9 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import java.lang.annotation.Annotation;
+import java.util.List;
+
 /**
  * <p>
  * A <code>Property</code> represents a single member variable of a class,
@@ -68,6 +71,22 @@ public abstract class Property implements Comparable<Property> {
     abstract public void set(Object object, Object value) throws Exception;
 
     abstract public Object get(Object object);
+
+    /**
+     * Returns the annotations that are present on this property or empty {@code List} if there're no annotations.
+     *
+     * @return the annotations that are present on this property or empty {@code List} if there're no annotations
+     */
+    abstract public List<Annotation> getAnnotations();
+
+    /**
+     * Returns property's annotation for the given type or {@code null} if it's not present.
+     *
+     * @param annotationType the type of the annotation to be returned
+     *
+     * @return property's annotation for the given type or {@code null} if it's not present
+     */
+    abstract public <A extends Annotation> A getAnnotation(Class<A> annotationType);
 
     @Override
     public int hashCode() {
