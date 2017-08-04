@@ -17,10 +17,10 @@ package org.yaml.snakeyaml.introspector;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
 
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.util.ArrayUtils;
 
 /**
  * <p>
@@ -56,7 +56,7 @@ public class FieldProperty extends GenericProperty {
 
     @Override
     public List<Annotation> getAnnotations() {
-        return Arrays.asList(field.getAnnotations());
+        return ArrayUtils.toUnmodifiableList(field.getAnnotations());
     }
 
     @Override

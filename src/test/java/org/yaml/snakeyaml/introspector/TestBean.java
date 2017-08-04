@@ -30,10 +30,6 @@ public class TestBean {
         this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
     @TestAnnotation(value = "setter")
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -44,6 +40,7 @@ public class TestBean {
         return age;
     }
 
+    @TestAnnotation(value = "setter")
     public void setAge(Integer age) {
         this.age = age;
     }

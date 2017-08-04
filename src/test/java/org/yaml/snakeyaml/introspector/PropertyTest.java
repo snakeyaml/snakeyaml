@@ -15,6 +15,7 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.constructor.TestBean1;
 
@@ -22,7 +23,10 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -76,7 +80,33 @@ public class PropertyTest {
 
         TestAnnotation annotation = property.getAnnotation(TestAnnotation.class);
         assertNotNull(annotation);
-        assertEquals("getter", annotation.value());
+        assertEquals("getter", annotation.value()); // Annotation on getter takes precedence
+    }
+
+    @Test
+    public void testGetMethodPropertyAnnotationSetterOnly() {
+        PropertyUtils propertyUtils = new PropertyUtils();
+        propertyUtils.setBeanAccess(BeanAccess.PROPERTY);
+
+        Property property = propertyUtils.getProperty(TestBean.class, "lastName");
+        TestAnnotation annotation = property.getAnnotation(TestAnnotation.class);
+        assertNotNull(annotation);
+        assertEquals("setter", annotation.value());
+    }
+
+    @Test
+    public void testGetMethodPropertyAnnotationsSetterOnly() {
+        PropertyUtils propertyUtils = new PropertyUtils();
+        propertyUtils.setBeanAccess(BeanAccess.PROPERTY);
+
+        Property property = propertyUtils.getProperty(TestBean.class, "lastName");
+        List<Annotation> annotations = property.getAnnotations();
+        assertEquals(1, annotations.size());
+
+        Annotation annotation = annotations.get(0);
+
+        Assert.assertEquals(TestAnnotation.class, annotation.annotationType());
+        Assert.assertEquals("setter", ((TestAnnotation) annotation).value());
     }
 
     @Test
@@ -87,11 +117,15 @@ public class PropertyTest {
         Property age = propertyUtils.getProperty(TestBean.class, "age");
 
         List<Annotation> annotations = age.getAnnotations();
-        assertEquals(1, annotations.size());
+        assertEquals(2, annotations.size());
 
-        Annotation annotation = annotations.get(0);
-        assertEquals(annotation.annotationType(), TestAnnotation.class);
-        assertEquals("getter", ((TestAnnotation) annotation).value());
+        Set<String> expectedValues = new HashSet<String>(Arrays.asList("getter", "setter"));
+
+        for (Annotation annotation : annotations) {
+            assertEquals(annotation.annotationType(), TestAnnotation.class);
+            String value = ((TestAnnotation) annotation).value();
+            Assert.assertTrue("The annotation has unexpected value: " + annotation, expectedValues.remove(value));
+        }
     }
 
     @Test

@@ -17,12 +17,12 @@ package org.yaml.snakeyaml.introspector;
 
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.List;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.util.ArrayUtils;
 
 /**
  * <p>
@@ -88,14 +88,42 @@ public class MethodProperty extends GenericProperty {
         }
     }
 
+    /**
+     * Returns the annotations that are present on read and write methods of this property or empty {@code List} if
+     * there're no annotations.
+     *
+     * @return the annotations that are present on this property or empty {@code List} if there're no annotations
+     */
     @Override
     public List<Annotation> getAnnotations() {
-        return Arrays.asList(property.getReadMethod().getAnnotations());
+        List<Annotation> annotations;
+        if (isReadable() && isWritable()) {
+            annotations = ArrayUtils.toUnmodifiableCompositeList(property.getReadMethod().getAnnotations(), property.getWriteMethod().getAnnotations());
+        } else if (isReadable()) {
+            annotations = ArrayUtils.toUnmodifiableList(property.getReadMethod().getAnnotations());
+        } else {
+            annotations = ArrayUtils.toUnmodifiableList(property.getWriteMethod().getAnnotations());
+        }
+        return annotations;
     }
 
+    /**
+     * Returns property's annotation for the given type or {@code null} if it's not present. If the annotation is present
+     * on both read and write methods, the annotation on read method takes precedence.
+     *
+     * @param annotationType the type of the annotation to be returned
+     * @return property's annotation for the given type or {@code null} if it's not present
+     */
     @Override
     public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
-        return property.getReadMethod().getAnnotation(annotationType);
+        A annotation = null;
+        if (isReadable()) {
+            annotation = property.getReadMethod().getAnnotation(annotationType);
+        }
+        if (annotation == null && isWritable()) {
+            annotation = property.getWriteMethod().getAnnotation(annotationType);
+        }
+        return annotation;
     }
 
     @Override
