@@ -7,6 +7,9 @@
     </properties>
     <body>
         <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="maslovalex" type="update">
+                Add getAnnotations() and getAnnotation() methods to Property (2017-08-20)
+            </action>
             <action dev="maslovalex" type="fix" issue="383">
                 Some configuration properties of Representer are ignored.
             </action>
