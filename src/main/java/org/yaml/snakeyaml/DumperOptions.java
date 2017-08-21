@@ -36,8 +36,8 @@ public class DumperOptions {
      * @see <a href="http://yaml.org/spec/1.1/#id858081">2.3. Scalars</a>
      */
     public enum ScalarStyle {
-        DOUBLE_QUOTED(Character.valueOf('"')), SINGLE_QUOTED(Character.valueOf('\'')), LITERAL(
-                Character.valueOf('|')), FOLDED(Character.valueOf('>')), PLAIN(null);
+        DOUBLE_QUOTED('"'), SINGLE_QUOTED('\''), LITERAL(
+                '|'), FOLDED('>'), PLAIN(null);
         private Character styleChar;
 
         private ScalarStyle(Character style) {

@@ -15,6 +15,9 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import java.lang.annotation.Annotation;
+import java.util.List;
+
 /**
  * <p>
  * A <code>Property</code> represents a single member variable of a class,
@@ -22,7 +25,7 @@ package org.yaml.snakeyaml.introspector;
  * class is the actual name of the property as given for the class, not an
  * alias.
  * </p>
- * 
+ *
  * <p>
  * Objects of this class have a total ordering which defaults to ordering based
  * on the name of the property.
@@ -54,7 +57,7 @@ public abstract class Property implements Comparable<Property> {
     }
 
     public int compareTo(Property o) {
-        return name.compareTo(o.name);
+        return getName().compareTo(o.getName());
     }
 
     public boolean isWritable() {
@@ -69,16 +72,32 @@ public abstract class Property implements Comparable<Property> {
 
     abstract public Object get(Object object);
 
+    /**
+     * Returns the annotations that are present on this property or empty {@code List} if there're no annotations.
+     *
+     * @return the annotations that are present on this property or empty {@code List} if there're no annotations
+     */
+    abstract public List<Annotation> getAnnotations();
+
+    /**
+     * Returns property's annotation for the given type or {@code null} if it's not present.
+     *
+     * @param annotationType the type of the annotation to be returned
+     *
+     * @return property's annotation for the given type or {@code null} if it's not present
+     */
+    abstract public <A extends Annotation> A getAnnotation(Class<A> annotationType);
+
     @Override
     public int hashCode() {
-        return name.hashCode() + type.hashCode();
+        return getName().hashCode() + getType().hashCode();
     }
 
     @Override
     public boolean equals(Object other) {
         if (other instanceof Property) {
             Property p = (Property) other;
-            return name.equals(p.getName()) && type.equals(p.getType());
+            return getName().equals(p.getName()) && getType().equals(p.getType());
         }
         return false;
     }

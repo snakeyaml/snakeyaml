@@ -15,9 +15,12 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.util.ArrayUtils;
 
 /**
  * <p>
@@ -27,6 +30,7 @@ import org.yaml.snakeyaml.error.YAMLException;
  * </p>
  */
 public class FieldProperty extends GenericProperty {
+
     private final Field field;
 
     public FieldProperty(Field field) {
@@ -49,4 +53,15 @@ public class FieldProperty extends GenericProperty {
                     + object + " : " + e);
         }
     }
+
+    @Override
+    public List<Annotation> getAnnotations() {
+        return ArrayUtils.toUnmodifiableList(field.getAnnotations());
+    }
+
+    @Override
+    public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
+        return field.getAnnotation(annotationType);
+    }
+
 }

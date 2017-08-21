@@ -15,7 +15,6 @@
  */
 package org.yaml.snakeyaml.extensions.compactnotation;
 
-import java.beans.IntrospectionException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -214,9 +213,8 @@ public class CompactConstructor extends Constructor {
      * sequence. The property must be a List.
      * @param bean the class to provide exactly one List property
      * @return name of the List property
-     * @throws IntrospectionException if the bean cannot be introspected
      */
-    protected String getSequencePropertyName(Class<?> bean) throws IntrospectionException {
+    protected String getSequencePropertyName(Class<?> bean) {
         Set<Property> properties = getPropertyUtils().getProperties(bean);
         for (Iterator<Property> iterator = properties.iterator(); iterator.hasNext();) {
             Property property = iterator.next();

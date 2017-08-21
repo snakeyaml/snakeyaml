@@ -7,6 +7,42 @@
     </properties>
     <body>
         <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="maslovalex" type="update">
+                Add getAnnotations() and getAnnotation() methods to Property (2017-08-20)
+            </action>
+            <action dev="maslovalex" type="fix" issue="383">
+                Some configuration properties of Representer are ignored.
+            </action>
+            <action dev="maslovalex" type="fix" issue="386">
+                Fix order of duplicate keys indices to prevent wrong removals.
+            </action>
+            <action dev="maslovalex" type="fix" issue="382">
+                Fix 382: same as 322
+            </action>
+            <action dev="maslovalex" type="fix" issue="322">
+                Fix 322: if there is no getter try to get type information from a setter
+            </action>
+            <action dev="asomov" type="fix" issue="377">
+                Add test for 'billion laughs attack'
+            </action>
+            <action dev="asomov" type="fix" issue="368">
+                Relax final restriction on TypeDescription (2017-05-05)
+            </action>
+            <action dev="asomov" type="fix" issue="375">
+                Empty yaml file must return null instead of throwing an exception when loading a JavaBean (2017-05-03)
+            </action>
+            <action dev="asomov" type="fix" issue="374">
+                Fix Number when it is used as a JavaBean property with a custom Locale (2017-04-30)
+            </action>
+            <action dev="asomov" type="add" issue="373">
+                Add redundant test (2017-04-06)
+            </action>
+            <action dev="asomov" type="update">
+                Provide access to node's anchor, pull request#20 (2017-03-30)
+            </action>
+            <action dev="asomov" type="fix" issue="370">
+                Remove redundant "Bundle-RequiredExecutionEnvironment: J2SE-1.5" (2017-03-16)
+            </action>
             <action dev="asomov" type="fix" issue="364">
                 Serializing Calendar objects with certain timezone offsets renders invalid YAML (2017-02-28)
             </action>

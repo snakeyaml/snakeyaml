@@ -40,7 +40,7 @@ public class FieldListTest extends TestCase {
             beanLoader.loadAs(Util.getLocalResource("issues/issue55_2.txt"), BlogField.class);
             fail("Private field must not be available");
         } catch (Exception e) {
-            assertTrue(e.getMessage().contains("Unable to find property 'posts'"));
+            assertTrue(e.getMessage().contains("No writable property 'posts'"));
         }
     }
 

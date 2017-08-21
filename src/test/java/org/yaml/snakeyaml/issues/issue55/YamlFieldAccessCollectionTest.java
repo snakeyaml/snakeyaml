@@ -53,7 +53,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
             beanLoader.loadAs(Util.getLocalResource("issues/issue55_1.txt"), Blog.class);
             fail("BeanAccess.FIELD is required.");
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains("Unable to find property 'posts'"));
+            assertTrue(e.getMessage(), e.getMessage().contains("No writable property 'posts'"));
         }
     }
 

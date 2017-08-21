@@ -25,7 +25,7 @@ import org.yaml.snakeyaml.error.Mark;
  * A sequence is a ordered collection of nodes.
  * </p>
  */
-public class SequenceNode extends CollectionNode {
+public class SequenceNode extends CollectionNode<Node> {
     final private List<Node> value;
 
     public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,

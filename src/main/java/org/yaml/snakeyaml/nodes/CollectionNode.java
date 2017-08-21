@@ -15,19 +15,28 @@
  */
 package org.yaml.snakeyaml.nodes;
 
+import java.util.List;
+
 import org.yaml.snakeyaml.error.Mark;
 
 /**
  * Base class for the two collection types {@link MappingNode mapping} and
  * {@link SequenceNode collection}.
  */
-public abstract class CollectionNode extends Node {
+public abstract class CollectionNode<T> extends Node {
     private Boolean flowStyle;
 
     public CollectionNode(Tag tag, Mark startMark, Mark endMark, Boolean flowStyle) {
         super(tag, startMark, endMark);
         this.flowStyle = flowStyle;
     }
+
+    /**
+     * Returns the elements in this sequence.
+     * 
+     * @return Nodes in the specified order.
+     */
+    abstract public List<T> getValue();
 
     /**
      * Serialization style of this collection.

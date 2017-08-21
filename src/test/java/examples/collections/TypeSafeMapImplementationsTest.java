@@ -189,15 +189,14 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         assertEquals("1", first);
     }
 
-    public void testRecursiveNoJavaBeanProperties4() {
+    public void testRecursiveProperties4() {
         Yaml yaml = new Yaml();
         String output = Util.getLocalResource("examples/map-recursive-4.yaml");
         // System.out.println(output);
-        try {
-            yaml.load(output);
-            fail("Recursive Properties are not supported.");
-        } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().contains("Properties must not be recursive."));
-        }
+        Properties p = (Properties) yaml.load(output);
+        assertEquals(3, p.size());
+        assertEquals("value2", p.get("key2"));
+        assertEquals("value1", p.get("key1"));
+        assertSame(p, p.get("key3"));
     }
 }

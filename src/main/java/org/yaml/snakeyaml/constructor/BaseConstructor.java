@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
@@ -26,11 +27,17 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.composer.ComposerException;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
+import org.yaml.snakeyaml.nodes.CollectionNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -61,7 +68,7 @@ public abstract class BaseConstructor {
     protected final Map<String, Construct> yamlMultiConstructors = new HashMap<String, Construct>();
 
     protected Composer composer;
-    private final Map<Node, Object> constructedObjects;
+    final Map<Node, Object> constructedObjects;
     private final Set<Node> recursiveObjects;
     private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>> maps2fill;
     private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
@@ -71,15 +78,26 @@ public abstract class BaseConstructor {
     private boolean explicitPropertyUtils;
     private boolean allowDuplicateKeys = true;
 
+    protected final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
+    protected final Map<Tag, Class<? extends Object>> typeTags;
+
     public BaseConstructor() {
         constructedObjects = new HashMap<Node, Object>();
         recursiveObjects = new HashSet<Node>();
         maps2fill = new ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>>();
         sets2fill = new ArrayList<RecursiveTuple<Set<Object>, Object>>();
+        typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
+        typeTags = new HashMap<Tag, Class<? extends Object>>();
+
         rootTag = null;
         explicitPropertyUtils = false;
-    }
 
+        typeDefinitions.put(SortedMap.class, new TypeDescription(SortedMap.class, Tag.OMAP,
+                TreeMap.class));
+        typeDefinitions.put(SortedSet.class, new TypeDescription(SortedSet.class, Tag.SET,
+                TreeSet.class));
+    }
+    
     public void setComposer(Composer composer) {
         this.composer = composer;
     }
@@ -120,7 +138,7 @@ public abstract class BaseConstructor {
     public Object getSingleData(Class<?> type) {
         // Ensure that the stream contains a single document and construct it
         Node node = composer.getSingleNode();
-        if (node != null) {
+        if (node != null && !Tag.NULL.equals(node.getTag())) {
             if (Object.class != type) {
                 node.setTag(new Tag(type));
             } else if (rootTag != null) {
@@ -175,13 +193,20 @@ public abstract class BaseConstructor {
         if (constructedObjects.containsKey(node)) {
             return constructedObjects.get(node);
         }
+        return constructObjectNoCheck(node);
+    }
+
+    protected Object constructObjectNoCheck(Node node) {
         if (recursiveObjects.contains(node)) {
             throw new ConstructorException(null, null, "found unconstructable recursive node",
                     node.getStartMark());
         }
         recursiveObjects.add(node);
         Construct constructor = getConstructor(node);
-        Object data = constructor.construct(node);
+        Object data = (constructedObjects.containsKey(node)) ? constructedObjects.get(node)
+                : constructor.construct(node);
+
+        finalizeConstruction(node, data);
         constructedObjects.put(node, data);
         recursiveObjects.remove(node);
         if (node.isTwoStepsConstruction()) {
@@ -220,6 +245,7 @@ public abstract class BaseConstructor {
         return node.getValue();
     }
 
+    // >>>> DEFAULTS >>>>
     protected List<Object> createDefaultList(int initSize) {
         return new ArrayList<Object>(initSize);
     }
@@ -228,44 +254,114 @@ public abstract class BaseConstructor {
         return new LinkedHashSet<Object>(initSize);
     }
 
+    protected Map<Object, Object> createDefaultMap() {
+        // respect order from YAML document
+        return new LinkedHashMap<Object, Object>();
+    }
+
+    protected Set<Object> createDefaultSet() {
+        // respect order from YAML document
+        return new LinkedHashSet<Object>();
+    }
+
     protected Object createArray(Class<?> type, int size) {
         return Array.newInstance(type.getComponentType(), size);
     }
 
-    @SuppressWarnings("unchecked")
-    protected List<? extends Object> constructSequence(SequenceNode node) {
-        List<Object> result;
-        if (List.class.isAssignableFrom(node.getType()) && !node.getType().isInterface()) {
-            // the root class may be defined (Vector for instance)
-            try {
-                result = (List<Object>) node.getType().newInstance();
-            } catch (Exception e) {
-                throw new YAMLException(e);
-            }
-        } else {
-            result = createDefaultList(node.getValue().size());
-        }
-        constructSequenceStep2(node, result);
-        return result;
+    // <<<< DEFAULTS <<<<
 
+    protected Object finalizeConstruction(Node node, Object data) {
+        final Class<? extends Object> type = node.getType();
+        if (typeDefinitions.containsKey(type)) {
+            return typeDefinitions.get(type).finalizeConstruction(data);
+        }
+        return data;
+    }
+
+    // >>>> NEW instance
+    protected Object newInstance(Node node) {
+        try {
+            return newInstance(Object.class, node);
+        } catch (InstantiationException e) {
+            throw new YAMLException(e);
+        }
+    }
+
+    final protected Object newInstance(Class<?> ancestor, Node node) throws InstantiationException {
+        return newInstance(ancestor, node, true);
+    }
+
+    protected Object newInstance(Class<?> ancestor, Node node, boolean tryDefault)
+            throws InstantiationException {
+        final Class<? extends Object> type = node.getType();
+        if (typeDefinitions.containsKey(type)) {
+            TypeDescription td = typeDefinitions.get(type);
+            final Object instance = td.newInstance(node);
+            if (instance != null) {
+                return instance;
+            }
+        }
+        if (tryDefault) {
+            /*
+             * Removed <code> have InstantiationException in case of abstract
+             * type
+             */
+            if (ancestor.isAssignableFrom(type) && !Modifier.isAbstract(type.getModifiers())) {
+                try {
+                    java.lang.reflect.Constructor<?> c = type.getDeclaredConstructor();
+                    c.setAccessible(true);
+                    return c.newInstance();
+                } catch (NoSuchMethodException e) {
+                    throw new InstantiationException("NoSuchMethodException:"
+                            + e.getLocalizedMessage());
+                } catch (Exception e) {
+                    throw new YAMLException(e);
+                }
+            }
+        }
+        throw new InstantiationException();
     }
 
     @SuppressWarnings("unchecked")
-    protected Set<? extends Object> constructSet(SequenceNode node) {
-        Set<Object> result;
-        if (!node.getType().isInterface()) {
-            // the root class may be defined
-            try {
-                result = (Set<Object>) node.getType().newInstance();
-            } catch (Exception e) {
-                throw new YAMLException(e);
-            }
-        } else {
-            result = createDefaultSet(node.getValue().size());
+    protected Set<Object> newSet(CollectionNode<?> node) {
+        try {
+            return (Set<Object>) newInstance(Set.class, node);
+        } catch (InstantiationException e) {
+            return createDefaultSet(node.getValue().size());
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected List<Object> newList(SequenceNode node) {
+        try {
+            return (List<Object>) newInstance(List.class, node);
+        } catch (InstantiationException e) {
+            return createDefaultList(node.getValue().size());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Map<Object, Object> newMap(MappingNode node) {
+        try {
+            return (Map<Object, Object>) newInstance(Map.class, node);
+        } catch (InstantiationException e) {
+            return createDefaultMap();
+        }
+    }
+
+    // <<<< NEW instance
+
+    // >>>> Construct => NEW, 2ndStep(filling)
+    protected List<? extends Object> constructSequence(SequenceNode node) {
+        List<Object> result = newList(node);
         constructSequenceStep2(node, result);
         return result;
+    }
 
+    protected Set<? extends Object> constructSet(SequenceNode node) {
+        Set<Object> result = newSet(node);
+        constructSequenceStep2(node, result);
+        return result;
     }
 
     protected Object constructArray(SequenceNode node) {
@@ -336,24 +432,14 @@ public abstract class BaseConstructor {
         return array;
     }
 
-    protected Map<Object, Object> createDefaultMap() {
-        // respect order from YAML document
-        return new LinkedHashMap<Object, Object>();
-    }
-
-    protected Set<Object> createDefaultSet() {
-        // respect order from YAML document
-        return new LinkedHashSet<Object>();
-    }
-
     protected Set<Object> constructSet(MappingNode node) {
-        Set<Object> set = createDefaultSet();
+        final Set<Object> set = newSet(node);
         constructSet2ndStep(node, set);
         return set;
     }
 
     protected Map<Object, Object> constructMapping(MappingNode node) {
-        Map<Object, Object> mapping = createDefaultMap();
+        final Map<Object, Object> mapping = newMap(node);
         constructMapping2ndStep(node, mapping);
         return mapping;
     }
@@ -417,9 +503,27 @@ public abstract class BaseConstructor {
         }
     }
 
+    // <<<< Costruct => NEW, 2ndStep(filling)
+
+    // TODO protected List<Object[]> constructPairs(MappingNode node) {
+    // List<Object[]> pairs = new LinkedList<Object[]>();
+    // List<Node[]> nodeValue = (List<Node[]>) node.getValue();
+    // for (Iterator<Node[]> iter = nodeValue.iterator(); iter.hasNext();) {
+    // Node[] tuple = iter.next();
+    // Object key = constructObject(Object.class, tuple[0]);
+    // Object value = constructObject(Object.class, tuple[1]);
+    // pairs.add(new Object[] { key, value });
+    // }
+    // return pairs;
+    // }
+
     public void setPropertyUtils(PropertyUtils propertyUtils) {
         this.propertyUtils = propertyUtils;
         explicitPropertyUtils = true;
+        Collection<TypeDescription> tds = typeDefinitions.values();
+        for (TypeDescription typeDescription : tds) {
+            typeDescription.setPropertyUtils(propertyUtils);
+        }
     }
 
     public final PropertyUtils getPropertyUtils() {
@@ -427,6 +531,26 @@ public abstract class BaseConstructor {
             propertyUtils = new PropertyUtils();
         }
         return propertyUtils;
+    }
+
+    /**
+     * Make YAML aware how to parse a custom Class. If there is no root Class
+     * assigned in constructor then the 'root' property of this definition is
+     * respected.
+     *
+     * @param definition
+     *            to be added to the Constructor
+     * @return the previous value associated with <tt>definition</tt>, or
+     *         <tt>null</tt> if there was no mapping for <tt>definition</tt>.
+     */
+    public TypeDescription addTypeDescription(TypeDescription definition) {
+        if (definition == null) {
+            throw new NullPointerException("TypeDescription is required.");
+        }
+        Tag tag = definition.getTag();
+        typeTags.put(tag, definition.getType());
+        definition.setPropertyUtils(getPropertyUtils());
+        return typeDefinitions.put(definition.getType(), definition);
     }
 
     private static class RecursiveTuple<T, K> {

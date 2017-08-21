@@ -52,7 +52,7 @@ public class IncompleteBeanConstructorTest extends TestCase {
             fail("'name' property does not have setter.");
         } catch (YAMLException e) {
             assertEquals(
-                    "Unable to find property 'name' on class: org.yaml.snakeyaml.constructor.IncompleteJavaBean",
+                    "No writable property 'name' on class: org.yaml.snakeyaml.constructor.IncompleteJavaBean",
                     e.getCause().getMessage());
         }
     }

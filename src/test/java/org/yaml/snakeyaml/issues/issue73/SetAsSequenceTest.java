@@ -16,7 +16,6 @@
 package org.yaml.snakeyaml.issues.issue73;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -100,7 +99,7 @@ public class SetAsSequenceTest extends TestCase {
         Set<String> strings = (Set<String>) yaml.load(doc);
         // System.out.println(strings);
         assertEquals(3, strings.size());
-        assertEquals(LinkedHashSet.class, strings.getClass());
+        assertEquals(HashSet.class, strings.getClass());
         assertTrue(strings.contains("aaa"));
         assertTrue(strings.contains("bbb"));
         assertTrue(strings.contains("ccc"));

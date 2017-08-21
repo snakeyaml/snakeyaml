@@ -176,6 +176,10 @@ public abstract class BaseRepresenter {
         this.defaultScalarStyle = defaultStyle.getChar();
     }
 
+    public ScalarStyle getDefaultScalarStyle() {
+        return ScalarStyle.createStyle(defaultScalarStyle);
+    }
+
     public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {
         this.defaultFlowStyle = defaultFlowStyle;
     }

@@ -15,13 +15,13 @@
  */
 package org.yaml.snakeyaml.representer;
 
-import java.beans.IntrospectionException;
 import java.util.Set;
 import java.util.TreeSet;
 
 import junit.framework.TestCase;
 
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
 
@@ -61,6 +61,37 @@ public class FilterPropertyToDumpTest extends TestCase {
                 dump);
     }
 
+    public void testFilterPropertyWithTypeDesciptionIncludes() {
+        BeanToRemoveProperty bean = new BeanToRemoveProperty();
+        bean.setNumber(27);
+        bean.setId("ID127");
+        Yaml yaml = new Yaml();
+        TypeDescription td = new TypeDescription(BeanToRemoveProperty.class);
+        td.setIncludes("number");
+        yaml.addTypeDescription(td);
+        String dump = yaml.dump(bean);
+        // System.out.println(dump);
+        assertEquals(
+                "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {number: 27}\n",
+                dump);
+    }
+
+    public void testFilterPropertyWithTypeDesciptionExcludes() {
+        BeanToRemoveProperty bean = new BeanToRemoveProperty();
+        bean.setNumber(28);
+        bean.setId("ID128");
+        Yaml yaml = new Yaml();
+        TypeDescription td = new TypeDescription(BeanToRemoveProperty.class);
+        td.setExcludes("id");
+        yaml.addTypeDescription(td);
+        String dump = yaml.dump(bean);
+        // System.out.println(dump);
+        assertEquals(
+                "!!org.yaml.snakeyaml.representer.FilterPropertyToDumpTest$BeanToRemoveProperty {number: 28}\n",
+                dump);
+    }
+
+    
     public class BeanToRemoveProperty {
         private int number;
         private String id;
@@ -88,8 +119,7 @@ public class FilterPropertyToDumpTest extends TestCase {
 
     private class MyRepresenter extends Representer {
         @Override
-        protected Set<Property> getProperties(Class<? extends Object> type)
-                throws IntrospectionException {
+        protected Set<Property> getProperties(Class<? extends Object> type) {
             Set<Property> set = super.getProperties(type);
             Set<Property> filtered = new TreeSet<Property>();
             if (type.equals(BeanToRemoveProperty.class)) {

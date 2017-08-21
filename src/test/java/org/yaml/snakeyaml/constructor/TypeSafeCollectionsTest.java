@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.introspector.PropertySubstitute;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -50,6 +51,42 @@ public class TypeSafeCollectionsTest extends TestCase {
         Constructor constructor = new Constructor(MyCar.class);
         TypeDescription carDescription = new TypeDescription(MyCar.class);
         carDescription.putMapPropertyType("wheels", MyWheel.class, Object.class);
+        constructor.addTypeDescription(carDescription);
+        Yaml yaml = new Yaml(constructor);
+        MyCar car = (MyCar) yaml.load(Util
+                .getLocalResource("constructor/car-no-root-class-map.yaml"));
+        assertEquals("00-FF-Q2", car.getPlate());
+        Map<MyWheel, Date> wheels = car.getWheels();
+        assertNotNull(wheels);
+        assertEquals(5, wheels.size());
+        for (MyWheel wheel : wheels.keySet()) {
+            assertTrue(wheel.getId() > 0);
+            Date date = wheels.get(wheel);
+            long time = date.getTime();
+            assertTrue("It must be midnight.", time % 10000 == 0);
+        }
+    }
+
+    public void testTypeSafeList2() {
+        Constructor constructor = new Constructor(Car.class);
+        TypeDescription carDescription = new TypeDescription(Car.class);
+        carDescription.addPropertyParameters("wheels", Wheel.class);
+        constructor.addTypeDescription(carDescription);
+        Yaml yaml = new Yaml(constructor);
+        Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
+        assertEquals("12-XP-F4", car.getPlate());
+        List<Wheel> wheels = car.getWheels();
+        assertNotNull(wheels);
+        assertEquals(5, wheels.size());
+        for (Wheel wheel : wheels) {
+            assertTrue(wheel.getId() > 0);
+        }
+    }
+
+    public void testTypeSafeMap2() {
+        Constructor constructor = new Constructor(MyCar.class);
+        TypeDescription carDescription = new TypeDescription(MyCar.class);
+        carDescription.addPropertyParameters("wheels", MyWheel.class, Object.class);
         constructor.addTypeDescription(carDescription);
         Yaml yaml = new Yaml(constructor);
         MyCar car = (MyCar) yaml.load(Util

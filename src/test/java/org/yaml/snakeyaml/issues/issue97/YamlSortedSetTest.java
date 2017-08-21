@@ -22,6 +22,7 @@ import java.util.TreeSet;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -43,6 +44,56 @@ public class YamlSortedSetTest {
         checkTestBlog(rehydrated);
     }
 
+    public void testYaml2() {
+        String serialized = "!!org.yaml.snakeyaml.issues.issue97.Blog\n" + "posts:\n"
+                + "  - text: Dummy\n" + "    title: Test\n" + "  - text: Creative\n"
+                + "    title: Highly\n";
+        // System.out.println(serialized);
+        Yaml yaml2 = constructYamlParser2();
+        Blog rehydrated = (Blog) yaml2.load(serialized);
+        checkTestBlog(rehydrated);
+    }
+
+    public void testYaml3() {
+        String serialized = "!!org.yaml.snakeyaml.issues.issue97.Blog\n" + "posts:\n"
+                + "  - text: Dummy\n" + "    title: Test\n" + "  - text: Creative\n"
+                + "    title: Highly\n";
+        // System.out.println(serialized);
+        Yaml yaml3 = constructYamlParser3();
+        Blog rehydrated = yaml3.loadAs(serialized, Blog.class);
+        checkTestBlog(rehydrated);
+    }
+
+    public void testYamlDefault() {
+        String serialized = "!!org.yaml.snakeyaml.issues.issue97.Blog\n" + "posts:\n"
+                + "  - text: Dummy\n" + "    title: Test\n" + "  - text: Creative\n"
+                + "    title: Highly\n";
+        // System.out.println(serialized);
+        Yaml yaml = new Yaml();
+        yaml.setBeanAccess(BeanAccess.FIELD);
+        Blog rehydrated = yaml.loadAs(serialized, Blog.class);
+        checkTestBlog(rehydrated);
+    }
+
+    protected Yaml constructYamlParser2() {
+        Yaml yaml = new Yaml();
+        yaml.addTypeDescription(new TypeDescription(SortedSet.class) {
+            @Override
+            public Object newInstance(Node node) {
+                return new TreeSet<Object>();
+            }
+        });
+        yaml.setBeanAccess(BeanAccess.FIELD);
+        return yaml;
+    }
+
+    protected Yaml constructYamlParser3() {
+        Yaml yaml = new Yaml();
+        yaml.setBeanAccess(BeanAccess.FIELD);
+        yaml.addTypeDescription(new TypeDescription(SortedSet.class, TreeSet.class));
+        return yaml;
+    }
+
     protected Yaml constructYamlParser() {
         Yaml yaml = new Yaml(new SetContructor());
         yaml.setBeanAccess(BeanAccess.FIELD);
@@ -51,6 +102,7 @@ public class YamlSortedSetTest {
 
     protected void checkTestBlog(Blog blog) {
         Set<Post> posts = blog.getPosts();
+        Assert.assertTrue("posts should be SortedSet", (posts instanceof SortedSet));
         Assert.assertEquals("Blog contains 2 posts", 2, posts.size());
     }
 

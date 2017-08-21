@@ -15,7 +15,6 @@
  */
 package org.yaml.snakeyaml.issues.issue29;
 
-import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -76,8 +75,7 @@ public class FlexibleScalarStylesInJavaBeanTest extends TestCase {
          * Change the default order. Important data goes first.
          */
         @Override
-        protected Set<Property> getProperties(Class<? extends Object> type)
-                throws IntrospectionException {
+        protected Set<Property> getProperties(Class<? extends Object> type) {
             if (type.isAssignableFrom(BigJavaBean.class)) {
                 Set<Property> standard = super.getProperties(type);
                 Set<Property> sorted = new TreeSet<Property>(new PropertyComparator());

@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.issues.issue94;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Construct;
@@ -52,11 +53,42 @@ public class ChangeRuntimeClassTest {
     }
 
     @Test
+    public void testWithGlobalTagUsingTypeDescription() {
+        String yamlText = "!!org.yaml.snakeyaml.issues.issue94.Entity\n" + "name: Matt\n"
+                + "nickName: Java\n";
+
+        Yaml yaml = new Yaml();
+        yaml.addTypeDescription(new TypeDescription(Entity.class, EntityLoadingProxy.class));
+
+        Entity loadedEntity = null;
+        loadedEntity = (Entity) yaml.load(yamlText);
+
+        assertEquals("Matt", loadedEntity.getName());
+
+        // The expectation below is from having intercepted setNickName() with
+        // the artifical subclass and
+        // performed the calculation.
+        assertEquals("JJ-Java", loadedEntity.getNickName());
+        assertEquals(EntityLoadingProxy.class, loadedEntity.getClass());
+    }
+
+    @Test
     public void testNoTag() {
         String yamlText = "name: Matt\n" + "nickName: Java\n";
         Yaml yaml = new Yaml(new MyConstructor(Entity.class));
         Entity loadedEntity = null;
         loadedEntity = (Entity) yaml.load(yamlText);
+        assertEquals("Matt", loadedEntity.getName());
+        assertEquals("JJ-Java", loadedEntity.getNickName());
+    }
+
+    @Test
+    public void testNoTagWithTypeDescription() {
+        String yamlText = "name: Matt\n" + "nickName: Java\n";
+        Yaml yaml = new Yaml();
+        yaml.addTypeDescription(new TypeDescription(Entity.class, EntityLoadingProxy.class));
+        Entity loadedEntity = null;
+        loadedEntity = yaml.loadAs(yamlText, Entity.class);
         assertEquals("Matt", loadedEntity.getName());
         assertEquals("JJ-Java", loadedEntity.getNickName());
     }
