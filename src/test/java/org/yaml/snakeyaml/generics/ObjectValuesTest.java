@@ -88,7 +88,9 @@ public class ObjectValuesTest extends TestCase {
         try {
             ov2.getPossible()[0].toString();
         } catch (Exception e) {
-            assertTrue(e.getMessage(), e.getMessage().startsWith("[Ljava.lang.Object"));
+            boolean java8 = e.getMessage().startsWith("[Ljava.lang.Object");
+            boolean java9 = e.getMessage().startsWith("java.base/[Ljava.lang.Object");
+            assertTrue(e.getMessage(),  java8 || java9);
         }
     }
 }
