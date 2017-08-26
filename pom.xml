@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.yaml</groupId>
     <artifactId>snakeyaml</artifactId>
@@ -164,27 +165,27 @@
             </plugins>
         </pluginManagement>
         <plugins>
-	    <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-enforcer-plugin</artifactId>
-		<version>1.4.1</version>
-		<executions>
-		    <execution>
-		        <id>enforce-maven</id>
-			<goals>
-			    <goal>enforce</goal>
-			</goals>
-			<configuration>
-			    <rules>
-			      <requireMavenVersion>
-				<version>3.0.5</version>
-			      </requireMavenVersion>
-			    </rules>
-			</configuration>
-		    </execution>
-		</executions>
-	    </plugin>
-	    <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.0.5</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.0</version>
@@ -216,33 +217,6 @@
                 <configuration>
                     <buildOutputDirectory>bin</buildOutputDirectory>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <configuration>
-                    <check>
-                        <totalBranchRate>80</totalBranchRate>
-                        <totalLineRate>95</totalLineRate>
-                    </check>
-                    <formats>
-                        <format>html</format>
-                        <format>xml</format>
-                    </formats>
-                    <instrumentation>
-                        <excludes>
-                            <exclude>org/yaml/snakeyaml/external/**</exclude>
-                        </excludes>
-                    </instrumentation>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>clean</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -363,9 +337,9 @@
                 <version>1.6.7</version>
                 <extensions>true</extensions>
                 <configuration>
-                   <serverId>sonatype-nexus-staging</serverId>
-                   <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                   <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                    <serverId>sonatype-nexus-staging</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
         </plugins>
@@ -394,23 +368,6 @@
                 <configuration>
                     <showSuccess>true</showSuccess>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <configuration>
-                    <formats>
-                        <format>html</format>
-                        <format>xml</format>
-                    </formats>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>cobertura</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -475,35 +432,95 @@
             </properties>
         </profile>
         <profile>
-          <id>with-java8-tests</id>
-          <properties>
-            <maven.compiler.source>1.8</maven.compiler.source>
-            <maven.compiler.target>1.8</maven.compiler.target>
-          </properties>
-          <build>
-            <plugins>
-              <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.12</version>
-                <executions>
-                  <execution>
-                    <id>add-java8-test-source</id>
-                    <phase>generate-test-sources</phase>
-                    <goals>
-                      <goal>add-test-source</goal>
-                    </goals>
-                    <configuration>
-                      <sources>
-                        <source>${basedir}/src/test/java7/</source>
-                        <source>${basedir}/src/test/java8/</source>
-                      </sources>
-                    </configuration>
-                  </execution>
-                </executions>
-              </plugin>
-            </plugins>
-          </build>
+            <id>with-coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>cobertura-maven-plugin</artifactId>
+                        <configuration>
+                            <check>
+                                <totalBranchRate>80</totalBranchRate>
+                                <totalLineRate>95</totalLineRate>
+                            </check>
+                            <formats>
+                                <format>html</format>
+                                <format>xml</format>
+                            </formats>
+                            <instrumentation>
+                                <excludes>
+                                    <exclude>org/yaml/snakeyaml/external/**</exclude>
+                                </excludes>
+                            </instrumentation>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>clean</goal>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>cobertura-maven-plugin</artifactId>
+                        <configuration>
+                            <check>
+                                <branchRate>85</branchRate>
+                                <lineRate>85</lineRate>
+                                <haltOnFailure>true</haltOnFailure>
+                            </check>
+                            <formats>
+                                <format>html</format>
+                                <format>xml</format>
+                            </formats>
+                        </configuration>
+                        <reportSets>
+                            <reportSet>
+                                <reports>
+                                    <report>cobertura</report>
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+        <profile>
+            <id>with-java8-tests</id>
+            <properties>
+                <maven.compiler.source>1.8</maven.compiler.source>
+                <maven.compiler.target>1.8</maven.compiler.target>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.12</version>
+                        <executions>
+                            <execution>
+                                <id>add-java8-test-source</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>add-test-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>${basedir}/src/test/java7/</source>
+                                        <source>${basedir}/src/test/java8/</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>release</id>
@@ -620,7 +637,7 @@
                                     <resources>
                                         <resource>
                                             <directory>${basedir}/src/test/resources</directory>
-					                        <filtering>true</filtering>
+                                            <filtering>true</filtering>
                                         </resource>
                                     </resources>
                                 </configuration>
@@ -666,8 +683,8 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <mkdir dir="${android.classes}" />
-                                        <mkdir dir="${android.test.classes}" />
+                                        <mkdir dir="${android.classes}"/>
+                                        <mkdir dir="${android.test.classes}"/>
 
                                         <!-- compile patched sources -->
                                         <javac srcdir="${android.src}"
@@ -678,7 +695,7 @@
                                                source="1.6"
                                                debug="true"
                                                includeantruntime="false"
-                                               fork="true" />
+                                               fork="true"/>
 
                                         <!-- compile test classes. Exclude some - not for BeanAccess.FIELD -->
                                         <javac srcdir="${basedir}/src/test/java:${basedir}/src/test/resources"
