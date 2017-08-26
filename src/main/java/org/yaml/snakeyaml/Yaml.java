@@ -428,6 +428,8 @@ public class Yaml {
      *
      * @param yaml
      *            YAML data to load from (BOM must not be present)
+     * @param <T>
+     *           the class of the instance to be created
      * @return parsed object
      */
     @SuppressWarnings("unchecked")
@@ -441,6 +443,8 @@ public class Yaml {
      *
      * @param io
      *            data to load from (BOM is respected and removed)
+     * @param <T>
+     *           the class of the instance to be created
      * @return parsed object
      */
     @SuppressWarnings("unchecked")
@@ -454,6 +458,8 @@ public class Yaml {
      *
      * @param io
      *            data to load from (BOM must not be present)
+     * @param <T>
+     *           the class of the instance to be created
      * @return parsed object
      */
     @SuppressWarnings("unchecked")

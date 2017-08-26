@@ -83,6 +83,7 @@ public abstract class Property implements Comparable<Property> {
      * Returns property's annotation for the given type or {@code null} if it's not present.
      *
      * @param annotationType the type of the annotation to be returned
+     * @param <A> class of the annotation
      *
      * @return property's annotation for the given type or {@code null} if it's not present
      */

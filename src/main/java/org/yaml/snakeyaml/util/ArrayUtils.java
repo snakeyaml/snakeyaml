@@ -28,6 +28,9 @@ public class ArrayUtils {
     /**
      * Returns an unmodifiable {@code List} backed by the given array. The method doesn't copy the array, so the changes
      * to the array will affect the {@code List} as well.
+     * @param <E> class of the elements in the array
+     * @param elements - array to convert
+     * @return {@code List} backed by the given array
      */
     public static <E> List<E> toUnmodifiableList(E... elements) {
         return elements.length == 0 ? Collections.<E>emptyList() : new UnmodifiableArrayList<E>(elements);
@@ -36,6 +39,10 @@ public class ArrayUtils {
     /**
      * Returns an unmodifiable {@code List} containing the second array appended to the first one. The method doesn't copy
      * the arrays, so the changes to the arrays will affect the {@code List} as well.
+     * @param <E> class of the elements in the array
+     * @param array1 - the array to extend
+     * @param array2 - the array to add to the first
+     * @return {@code List} backed by the given arrays
      */
     public static <E> List<E> toUnmodifiableCompositeList(E[] array1, E[] array2) {
         List<E> result;
