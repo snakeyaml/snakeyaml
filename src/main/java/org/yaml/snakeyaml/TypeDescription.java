@@ -201,12 +201,12 @@ public class TypeDescription {
 
     /**
      * Adds new substitute for property <code>pName</code> parameterized by
-     * <code>classes</classes> to this <code>TypeDescription</code>. If
+     * <code>classes</code> to this <code>TypeDescription</code>. If
      * <code>pName</code> has been added before - updates parameters with
      * <code>classes</code>.
      *
-     * @param pName
-     * @param classes
+     * @param pName - parameter name
+     * @param classes - parameterized by
      */
     public void addPropertyParameters(String pName, Class<?>... classes) {
         if (!properties.containsKey(pName)) {
@@ -263,7 +263,7 @@ public class TypeDescription {
      * @param setter
      *            method name for setter
      * @param argParams
-     *            actual types for parameterized type (List<?>, Map<?>)
+     *            actual types for parameterized type (List&lt;?&gt;, Map&lt;?&gt;)
      */
     public void substituteProperty(String pName, Class<?> pType, String getter, String setter,
             Class<?>... argParams) {
@@ -367,12 +367,13 @@ public class TypeDescription {
     }
 
     /**
-     * This method should be overriden for TypeDescription implementations that are supposed to implement instantiation logic that is different from default one as
-     * implemented in YAML constructors.
-     * Note that even if you override this method, default filling of fields with variables from parsed YAML will still occur later.
+     * This method should be overriden for TypeDescription implementations that are supposed to implement
+     * instantiation logic that is different from default one as implemented in YAML constructors.
+     * Note that even if you override this method, default filling of fields with
+     * variables from parsed YAML will still occur later.
 
-     * @param node
-     * @return
+     * @param node - node to contruct the instance from
+     * @return new instance
      */
     public Object newInstance(Node node) {
         if (impl != null) {

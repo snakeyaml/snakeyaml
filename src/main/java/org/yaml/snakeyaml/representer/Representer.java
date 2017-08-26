@@ -263,7 +263,6 @@ public class Representer extends SafeRepresenter {
      * @param type
      *            - JavaBean to inspect the properties
      * @return properties to serialise
-     * @throws IntrospectionException if the class cannot be introspacted
      */
     protected Set<Property> getProperties(Class<? extends Object> type) {
         if (typeDefinitions.containsKey(type)) {
