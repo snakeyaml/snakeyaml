@@ -116,8 +116,11 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         Yaml yaml = new Yaml();
         String output = yaml.dump(list);
         // System.out.println(output);
-        String etalon = Util.getLocalResource("examples/map-bean-2.yaml");
-        assertEquals(etalon, output);
+        assertTrue("Row 1 expected: " + output, output.contains("- {'1': one, '2': two}"));
+        assertTrue("Row 3 expected: " + output, output.contains("- aaa"));
+        //the key order is not specified
+        assertTrue("Row 2 expected: " + output, output.contains("key1: value1"));
+        assertTrue("Row 2 expected: " + output, output.contains("key2: value2"));
         // load
         List<Object> list2 = (List<Object>) yaml.load(output);
         assertEquals(3, list2.size());
