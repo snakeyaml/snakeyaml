@@ -45,7 +45,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         String output = yaml.dumpAsMap(bean);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-bean-1.yaml");
-        assertEquals(etalon, output);
+        assertTrue("Lines are the same but the order may be different: " + output, Util.compareAllLines(etalon, output));
     }
 
     public void testLoadMap() {
@@ -167,7 +167,8 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         String output = yaml.dump(props);
         // System.out.println(output);
         String etalon = Util.getLocalResource("examples/map-recursive-2.yaml");
-        assertEquals(etalon, output);
+        assertTrue("Lines are the same but the order may be different: " + output, Util.compareAllLines(etalon, output));
+        assertTrue("Should begin with anchor: " + output, output.startsWith("&id001\n"));
         // load
         Map<Object, Object> map2 = (Map<Object, Object>) yaml.load(output);
         assertEquals(3, map2.size());

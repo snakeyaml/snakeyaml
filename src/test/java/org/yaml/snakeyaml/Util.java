@@ -18,6 +18,9 @@ package org.yaml.snakeyaml;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Util {
 
@@ -50,5 +53,11 @@ public class Util {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static boolean compareAllLines(String text1, String text2) {
+        Set<String> split1 = new HashSet<String>(Arrays.asList(text1.trim().split("\n")));
+        Set<String> split2 = new HashSet<String>(Arrays.asList(text2.trim().split("\n")));
+        return split1.containsAll(split2) && split2.containsAll(split1);
     }
 }
