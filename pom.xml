@@ -597,7 +597,9 @@
         <profile>
             <id>android</id>
             <properties>
-                <android.src>${project.build.directory}/android/src/</android.src>
+                <android.src>${project.build.directory}/android/src</android.src>
+                <android.src.main>${android.src}/main/java</android.src.main>
+                <android.src.test>${android.src}/test/java</android.src.test>
                 <android.classes>${project.build.directory}/android/classes/</android.classes>
                 <android.test.classes>${project.build.directory}/android/test-classes/</android.test.classes>
             </properties>
@@ -614,10 +616,29 @@
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
-                                    <outputDirectory>${android.src}</outputDirectory>
+                                    <outputDirectory>${android.src.main}</outputDirectory>
                                     <resources>
                                         <resource>
                                             <directory>${basedir}/src/main/java</directory>
+                                            <filtering>false</filtering>
+                                            <excludes>
+                                                <exclude>org/yaml/snakeyaml/introspector/MethodProperty.java</exclude>
+                                            </excludes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-test-src-for-android</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${android.src.test}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${basedir}/src/test/java</directory>
                                             <filtering>false</filtering>
                                             <excludes>
                                                 <exclude>org/yaml/snakeyaml/introspector/MethodProperty.java</exclude>
@@ -653,7 +674,7 @@
                             <patchDirectory>${basedir}/src/patches/android/</patchDirectory>
                             <targetDirectory>${android.src}</targetDirectory>
                             <skipApplication>false</skipApplication>
-                            <strip>4</strip>
+                            <strip>2</strip>
                         </configuration>
                         <executions>
                             <execution>
@@ -663,8 +684,7 @@
                                     <goal>apply</goal>
                                 </goals>
                                 <configuration>
-                                    <patchTrackingFile>${project.build.directory}/android/patches-applied.txt
-                                    </patchTrackingFile>
+                                    <patchTrackingFile>${project.build.directory}/android/patches-applied.txt</patchTrackingFile>
                                     <naturalOrderProcessing>true</naturalOrderProcessing>
                                 </configuration>
                             </execution>
@@ -687,7 +707,7 @@
                                         <mkdir dir="${android.test.classes}"/>
 
                                         <!-- compile patched sources -->
-                                        <javac srcdir="${android.src}"
+                                        <javac srcdir="${android.src.main}"
                                                destdir="${android.classes}"
                                                classpath="${android.classes}"
                                                encoding="${project.build.sourceEncoding}"
@@ -698,7 +718,7 @@
                                                fork="true"/>
 
                                         <!-- compile test classes. Exclude some - not for BeanAccess.FIELD -->
-                                        <javac srcdir="${basedir}/src/test/java:${basedir}/src/test/resources"
+                                        <javac srcdir="${android.src.test}:${basedir}/src/test/resources"
                                                destdir="${android.test.classes}"
                                                classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.springframework:spring-core:jar}:${org.springframework:spring-beans:jar}:${org.springframework:spring-context:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}:${commons-io:commons-io:jar}:${commons-lang:commons-lang:jar}:${org.hamcrest:hamcrest-core:jar}"
                                                encoding="${project.build.sourceEncoding}"
