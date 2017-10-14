@@ -6,7 +6,9 @@
         <author email="public.somov@gmail.com">Andrey Somov</author>
     </properties>
     <body>
-        <release version="1.19-SNAPSHOT" date="in Mercurial" description="Maintenance">
+        <release version="1.20-SNAPSHOT" date="in Mercurial" description="Maintenance">
+        </release>
+        <release version="1.19" date="2017-10-14" description="Maintenance">
             <action dev="maslovalex" type="update">
                 Only use FIELD access for Android in PropertyUtils (2017-08-20)
             </action>
