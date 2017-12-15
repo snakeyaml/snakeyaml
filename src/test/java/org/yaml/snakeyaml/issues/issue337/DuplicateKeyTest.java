@@ -15,22 +15,19 @@
  */
 package org.yaml.snakeyaml.issues.issue337;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
 public class DuplicateKeyTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     public static class MapProvider<K, V> {
         private Map<K, V> map = new LinkedHashMap<K, V>();
@@ -108,31 +105,36 @@ public class DuplicateKeyTest {
         assertEquals("has-dup-keys", testdata.getName().toString());
         assertEquals(1, testdata.getMap().size());
         assertEquals("daaf8911-36e4-4e92-86ea-eb77ac2c1e91", testdata.getMap().get("someitem").getId().toString());
-
     }
 
     @Test
     public void errorOnDuplicateKeys() {
-        thrown.expect(org.yaml.snakeyaml.constructor.ConstructorException.class);
-        thrown.expectMessage("duplicate key: someitem");
         String input = Util.getLocalResource("issues/issue337-duplicate-keys.yaml");
         LoaderOptions lc = new LoaderOptions();
         lc.setAllowDuplicateKeys(false);
         Yaml yaml = new Yaml(lc);
-        MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
+        try {
+            yaml.loadAs(input, MapProvider.class);
+        } catch (DuplicateKeyException e) {
+            assertTrue(e.getMessage(), e.getMessage().contains("found duplicate key someitem"));
+            assertTrue(e.getMessage(), e.getMessage().contains("line 3, column 3"));
+        }
     }
 
     @Test
     public void errorOnDuplicateKeysInJavaBeanProperty() {
-        thrown.expect(org.yaml.snakeyaml.constructor.ConstructorException.class);
-        thrown.expectMessage("duplicate key: name");
         String input = Util
                 .getLocalResource("issues/issue337-duplicate-keys-javabean-property.yaml");
         LoaderOptions lc = new LoaderOptions();
         lc.setAllowDuplicateKeys(false);
         Yaml yaml = new Yaml(lc);
-        MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
-        assertEquals("has-dup-keys", testdata.getName());
+        try {
+            MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
+            assertEquals("has-dup-keys", testdata.getName());
+        } catch (DuplicateKeyException e) {
+            assertTrue(e.getMessage(), e.getMessage().contains("found duplicate key name"));
+            assertTrue(e.getMessage(), e.getMessage().contains("line 9, column 1"));
+        }
     }
 
     @Test

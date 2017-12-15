@@ -96,7 +96,8 @@ public class SafeConstructor extends BaseConstructor {
                 Integer prevIndex = keys.put(key, i);
                 if (prevIndex != null) {
                     if (!isAllowDuplicateKeys()) {
-                        throw new IllegalStateException("duplicate key: " + key);
+                        throw new DuplicateKeyException(node.getStartMark(),  key,
+                                tuple.getKeyNode().getStartMark());
                     }
                     toRemove.add(prevIndex);
                 }

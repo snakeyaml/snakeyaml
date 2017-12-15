@@ -262,6 +262,8 @@ public class Constructor extends SafeConstructor {
                             || !memberDescription.setProperty(object, key, value)) {
                         property.set(object, value);
                     }
+                } catch (DuplicateKeyException e) {
+                    throw e;
                 } catch (Exception e) {
                     throw new ConstructorException(
                             "Cannot create property=" + key + " for JavaBean=" + object,

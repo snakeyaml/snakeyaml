@@ -7,6 +7,10 @@
     </properties>
     <body>
         <release version="1.20-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="395">
+                Introduce DuplicateKeyException and report line number for duplicate keys
+                when creating non-Javabeans (2017-12-15)
+            </action>
         </release>
         <release version="1.19" date="2017-10-14" description="Maintenance">
             <action dev="maslovalex" type="update">
