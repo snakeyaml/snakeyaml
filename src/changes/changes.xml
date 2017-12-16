@@ -3,7 +3,6 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
     <properties>
         <title>YAML 1.1 parser and emitter</title>
-        <author email="public.somov@gmail.com">Andrey Somov</author>
     </properties>
     <body>
         <release version="1.20-SNAPSHOT" date="in Mercurial" description="Maintenance">
