@@ -18,20 +18,22 @@ package org.yaml.snakeyaml.reader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.scanner.Constant;
 
 /**
- * Reader: checks if code points are in allowed range, adds '\0' to the end.
+ * Reader: checks if code points are in allowed range. Returns '\0' when end of
+ * data has been reached.
  */
 public class StreamReader {
     private String name;
     private final Reader stream;
     private int pointer = 0; //in characters
     private boolean eof = true;
-    private String buffer;
+    private char[] buffer;
     private int index = 0; //in characters
     private int line = 0;
     private int column = 0; //in code points
@@ -41,9 +43,7 @@ public class StreamReader {
 
     public StreamReader(String stream) {
         this.name = "'string'";
-        this.buffer = ""; // to set length to 0
-        checkPrintable(stream);
-        this.buffer = stream + "\0";
+        this.buffer = stream.toCharArray();
         this.stream = null;
         this.eof = true;
         this.data = null;
@@ -51,30 +51,24 @@ public class StreamReader {
 
     public StreamReader(Reader reader) {
         this.name = "'reader'";
-        this.buffer = "";
+        this.buffer = new char[0];
         this.stream = reader;
         this.eof = false;
         this.data = new char[BUFFER_SIZE];
-        this.update();
     }
 
-    void checkPrintable(String data) {
-        final int length = data.length();
-        for (int offset = 0; offset < length; ) {
-            final int codePoint = data.codePointAt(offset);
-
-            if (!isPrintable(codePoint)) {
-                throw new ReaderException(name, offset, codePoint,
-                                          "special characters are not allowed");
-            }
-
-            offset += Character.charCount(codePoint);
+    private int codePointAt(char[] data, int offset) {
+        final int codePoint = Character.codePointAt(data, offset, data.length);
+        if (!isPrintable(codePoint)) {
+            throw new ReaderException(name, offset, codePoint,
+                    "special characters are not allowed");
         }
+        return codePoint;
     }
 
     public static boolean isPrintable(final String data) {
         final int length = data.length();
-        for (int offset = 0; offset < length; ) {
+        for (int offset = 0; offset < length;) {
             final int codePoint = data.codePointAt(offset);
 
             if (!isPrintable(codePoint)) {
@@ -88,9 +82,8 @@ public class StreamReader {
     }
 
     public static boolean isPrintable(final int c) {
-        return (c >= 0x20 && c <= 0x7E) || c == 0x9 || c == 0xA || c == 0xD
-                || c == 0x85 || (c >= 0xA0 && c <= 0xD7FF)
-                || (c >= 0xE000 && c <= 0xFFFD)
+        return (c >= 0x20 && c <= 0x7E) || c == 0x9 || c == 0xA || c == 0xD || c == 0x85
+                || (c >= 0xA0 && c <= 0xD7FF) || (c >= 0xE000 && c <= 0xFFFD)
                 || (c >= 0x10000 && c <= 0x10FFFF);
     }
 
@@ -105,44 +98,26 @@ public class StreamReader {
     /**
      * read the next length characters and move the pointer.
      * if the last character is high surrogate one more character will be read
-     * 
+     *
      * @param length amount of characters to move forward
      */
     public void forward(int length) {
         int c;
-        for (int i = 0; i < length; i++) {
-            if (this.pointer == this.buffer.length()) {
-                update();
-            }
-            if (this.pointer == this.buffer.length()) {
-                break;
-            }
-
-            c = this.buffer.codePointAt(this.pointer);
+        for (int i = 0; i < length && ensureEnoughData(); i++) {
+            c = codePointAt(buffer, pointer);
             this.pointer += Character.charCount(c);
             this.index += Character.charCount(c);
-            if (Constant.LINEBR.has(c) || (c == '\r' && buffer.charAt(pointer) != '\n')) {
+            if (Constant.LINEBR.has(c) || (c == '\r' && buffer[pointer] != '\n')) {
                 this.line++;
                 this.column = 0;
             } else if (c != 0xFEFF) {
                 this.column++;
             }
         }
-
-        if (this.pointer == this.buffer.length()) {
-            update();
-        }
     }
 
     public int peek() {
-        if (this.pointer == this.buffer.length()) {
-            update();
-        }
-        if (this.pointer == this.buffer.length()) {
-            return -1;
-        }
-
-        return this.buffer.codePointAt(this.pointer);
+        return (ensureEnoughData()) ? codePointAt(this.buffer, this.pointer) : '\0';
     }
 
     /**
@@ -154,19 +129,14 @@ public class StreamReader {
     public int peek(int index) {
         int offset = 0;
         int nextIndex = 0;
-        int codePoint;
+        int codePoint = '\0';
         do {
-            if (this.pointer + offset == this.buffer.length()) {
-                update();
+            if (!ensureEnoughData(offset)) {
+                return '\0';
             }
-            if (this.pointer + offset == this.buffer.length()) {
-                return -1;
-            }
-
-            codePoint = this.buffer.codePointAt(this.pointer + offset);
+            codePoint = codePointAt(this.buffer, this.pointer + offset);
             offset += Character.charCount(codePoint);
             nextIndex++;
-
         } while (nextIndex <= index);
 
         return codePoint;
@@ -174,30 +144,19 @@ public class StreamReader {
 
     /**
      * peek the next length code points
-     * 
+     *
      * @param length amount of the characters to peek
      * @return the next length code points
      */
     public String prefix(int length) {
-        final StringBuilder builder = new StringBuilder();
-
         int offset = 0;
-        int resultLength = 0;
-        while (resultLength < length) {
-            if (this.pointer + offset == this.buffer.length()) {
-                update();
-            }
-            if (this.pointer + offset == this.buffer.length()) {
-                break;
-            }
-
-            int c = this.buffer.codePointAt(this.pointer + offset);
-            builder.appendCodePoint(c);
+        for (int resultLength = 0; resultLength < length
+                && ensureEnoughData(offset); resultLength++) {
+            int c = codePointAt(this.buffer, this.pointer + offset);
             offset += Character.charCount(c);
-            resultLength++;
         }
 
-        return builder.toString();
+        return new String(this.buffer, pointer, offset);
     }
 
     /**
@@ -214,46 +173,38 @@ public class StreamReader {
         return prefix;
     }
 
-    private void update() {
-        if (!this.eof) {
-            this.buffer = buffer.substring(this.pointer);
-            this.pointer = 0;
+    private boolean ensureEnoughData() {
+        return ensureEnoughData(0);
+    }
+
+    private boolean ensureEnoughData(int size) {
+        if (!eof && pointer + size >= buffer.length) {
             try {
-                boolean eofDetected = false;
-                int converted = this.stream.read(data, 0, BUFFER_SIZE - 1);
+                int converted = stream.read(data, 0, BUFFER_SIZE - 1);
                 if (converted > 0) {
                     if (Character.isHighSurrogate(data[converted - 1])) {
-                        int oneMore = this.stream.read(data, converted, 1);
-                        if (oneMore != -1) {
-                            converted += oneMore;
+                        if (stream.read(data, converted, 1) == -1) {
+                            eof = true;
                         } else {
-                            eofDetected = true;
+                            converted++;
                         }
                     }
 
-                    /*
-                     * Let's create StringBuilder manually. Anyway str1 + str2
-                     * generates new StringBuilder(str1).append(str2).toSting()
-                     * Giving correct capacity to the constructor prevents
-                     * unnecessary operations in appends.
-                     */
-                    StringBuilder builder  = new StringBuilder(buffer.length() + converted)
-                            .append(buffer)
-                            .append(data, 0, converted);
-                    if (eofDetected) {
-                        this.eof = true;
-                        builder.append('\0');
-                    }
-                    this.buffer = builder.toString();
-                    checkPrintable(this.buffer);
+                    char[] newBuffer = Arrays.copyOfRange(buffer,
+                                                          pointer,
+                                                          buffer.length + converted);
+                    System.arraycopy(data, 0, newBuffer, (buffer.length - pointer), converted);
+
+                    buffer = newBuffer;
+                    pointer = 0;
                 } else {
-                    this.eof = true;
-                    this.buffer += "\0";
+                    eof = true;
                 }
             } catch (IOException ioe) {
                 throw new YAMLException(ioe);
             }
         }
+        return (this.pointer + size) < buffer.length;
     }
 
     public int getColumn() {

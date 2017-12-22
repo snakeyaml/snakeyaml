@@ -15,33 +15,36 @@
  */
 package org.yaml.snakeyaml.reader;
 
+import java.io.StringReader;
+
 import junit.framework.TestCase;
 
 public class ReaderStringTest extends TestCase {
 
     public void testCheckPrintable() {
         StreamReader reader = new StreamReader("test");
-        reader.checkPrintable("test");
+        assertEquals('\0', reader.peek(4));
         assertTrue(StreamReader.isPrintable("test"));
     }
 
     public void testCheckNonPrintable() {
         assertFalse(StreamReader.isPrintable("test\u0005 fail"));
         try {
-            new StreamReader("test\u0005 fail");
+            StreamReader reader = new StreamReader("test\u0005 fail");
+            while (reader.peek() != '\0') {
+                reader.forward();
+            }
             fail("Non printable Unicode code points must not be accepted.");
         } catch (ReaderException e) {
-            assertEquals(
-                    "unacceptable code point '' (0x5) special characters are not allowed\nin \"'string'\", position 4",
-                    e.toString());
+            assertEquals("unacceptable code point '' (0x5) special characters are not allowed\nin \"'string'\", position 4",
+                         e.toString());
         }
     }
 
     /**
-     * test that regular expression and array check work the same
+     * test that Reading date and checking String work the same
      */
     public void testCheckAll() {
-        StreamReader streamReader = new StreamReader("");
         for (char i = 0; i < 256 * 256 - 1; i++) {
             char[] chars = new char[1];
             chars[0] = i;
@@ -50,13 +53,12 @@ public class ReaderStringTest extends TestCase {
 
             boolean charsArrayResult = true;
             try {
-                streamReader.checkPrintable(str);
+                new StreamReader(new StringReader(str)).peek();
             } catch (Exception e) {
                 String error = e.getMessage();
-                assertTrue(
-                        error,
-                        error.startsWith("unacceptable character")
-                                || error.equals("special characters are not allowed"));
+                assertTrue(error,
+                           error.startsWith("unacceptable character")
+                                   || error.equals("special characters are not allowed"));
                 charsArrayResult = false;
             }
             assertEquals("Failed for #" + i, regularExpressionResult, charsArrayResult);

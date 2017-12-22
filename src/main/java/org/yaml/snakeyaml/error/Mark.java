@@ -28,10 +28,15 @@ public final class Mark implements Serializable {
     private int index;
     private int line;
     private int column;
-    private String buffer;
+    private char[] buffer;
     private int pointer;
 
+    @Deprecated
     public Mark(String name, int index, int line, int column, String buffer, int pointer) {
+        this(name, index, line, column, buffer.toCharArray(), pointer);
+    }
+
+    public Mark(String name, int index, int line, int column, char[] buffer, int pointer) {
         super();
         this.name = name;
         this.index = index;
@@ -52,7 +57,7 @@ public final class Mark implements Serializable {
         float half = max_length / 2 - 1;
         int start = pointer;
         String head = "";
-        while ((start > 0) && !isLineBreak(buffer.codePointAt(start - 1))) {
+        while ((start > 0) && !isLineBreak(Character.codePointAt(buffer, start - 1))) {
             start -= 1;
             if (pointer - start > half) {
                 head = " ... ";
@@ -62,7 +67,7 @@ public final class Mark implements Serializable {
         }
         String tail = "";
         int end = pointer;
-        while ((end < buffer.length()) && !isLineBreak(buffer.codePointAt(end))) {
+        while ((end < buffer.length) && !isLineBreak(Character.codePointAt(buffer, end))) {
             end += 1;
             if (end - pointer > half) {
                 tail = " ... ";
@@ -70,13 +75,13 @@ public final class Mark implements Serializable {
                 break;
             }
         }
-        String snippet = buffer.substring(start, end);
+
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < indent; i++) {
             result.append(" ");
         }
         result.append(head);
-        result.append(snippet);
+        result.append(buffer, start, (end - start));
         result.append(tail);
         result.append("\n");
         for (int i = 0; i < indent + pointer - start + head.length(); i++) {
