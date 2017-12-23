@@ -1981,7 +1981,7 @@ public final class ScannerImpl implements Scanner {
      * <pre>
      * See the specification for details.
      * We add an additional restriction for the flow context:
-     *   plain scalars in the flow context cannot contain ',', ':' and '?'.
+     *   plain scalars in the flow context cannot contain ',' or '?'.
      * We also keep track of the `allow_simple_key` flag here.
      * Indentation rules are loosed for the flow context.
      * </pre>
@@ -2002,20 +2002,11 @@ public final class ScannerImpl implements Scanner {
             while (true) {
                 c = reader.peek(length);
                 if (Constant.NULL_BL_T_LINEBR.has(c)
-                        || (this.flowLevel == 0 && c == ':' && Constant.NULL_BL_T_LINEBR
-                                .has(reader.peek(length + 1)))
-                        || (this.flowLevel != 0 && ",:?[]{}".indexOf(c) != -1)) {
+                        || (c == ':' && Constant.NULL_BL_T_LINEBR.has(reader.peek(length + 1)))
+                        || (this.flowLevel != 0 && ",?[]{}".indexOf(c) != -1)) {
                     break;
                 }
                 length++;
-            }
-            // It's not clear what we should do with ':' in the flow context.
-            if (this.flowLevel != 0 && c == ':'
-                    && Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(length + 1), ",[]{}")) {
-                reader.forward(length);
-                throw new ScannerException("while scanning a plain scalar", startMark,
-                        "found unexpected ':'", reader.getMark(),
-                        "Please check http://pyyaml.org/wiki/YAMLColonInFlowContext for details.");
             }
             if (length == 0) {
                 break;

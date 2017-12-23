@@ -174,7 +174,7 @@ public class PyStructureTest extends PyImportTest {
                 while (iter1.hasNext()) {
                     compareNodes(iter1.next(), iter2.next());
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 System.out.println("Failed File: " + file);
                 // fail("Failed File: " + file + "; " + e.getMessage());
                 throw new RuntimeException(e);
