@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.json;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
+
 import java.util.Map;
 
 public class JsonTest extends TestCase {
@@ -36,21 +37,12 @@ public class JsonTest extends TestCase {
     }
 
     public void testCounterintuitiveColon() {
-        //Please check http://pyyaml.org/wiki/YAMLColonInFlowContext for details.
-        Map<String, Integer> map = loader.load("{a:1}"); //this is 'a:1' -> null
-        //this is really ugly and counter intuitive
-        assertTrue(map.containsKey("a:1"));
-        assertNull(map.get("a:1"));
-
-        Map<String, Integer> map2 = loader.load("{a:}"); //this is 'a:' -> null
-        //this is really ugly and counter intuitive
-        assertTrue(map2.containsKey("a:"));
-        assertNull(map2.get("a:"));
-
-        Map<String, Integer> map3 = loader.load("{a :}"); //this is 'a :' -> null
-        //this is really ugly and counter intuitive
-        assertTrue(map3.containsKey("a :"));
-        assertNull(map3.get("a :"));
+        try {
+            loader.load("{a:1}");
+            fail("We agree with libyaml and PyYAML.");
+        } catch (Exception e) {
+            assertTrue("':' in the flow context is a mess.", e.getMessage().contains("Please check http://pyyaml.org/wiki/YAMLColonInFlowContext for details."));
+        }
     }
 
     public void testNoSpace() {
