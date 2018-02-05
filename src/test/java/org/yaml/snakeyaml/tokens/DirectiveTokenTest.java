@@ -26,13 +26,13 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 public class DirectiveTokenTest extends TestCase {
 
     public void testGetArguments() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         DirectiveToken<Integer> token = new DirectiveToken<Integer>("YAML", null, mark, mark);
         assertEquals("name=YAML", token.getArguments());
     }
 
     public void testInvalidList() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         List<Integer> list = new ArrayList<Integer>();
         list.add(new Integer(1));
         try {
@@ -44,7 +44,7 @@ public class DirectiveTokenTest extends TestCase {
     }
 
     public void testTag() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         List<String> list = new ArrayList<String>();
         list.add("!foo");
         list.add("!bar");
@@ -53,7 +53,7 @@ public class DirectiveTokenTest extends TestCase {
     }
 
     public void testList() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         List<Integer> list = new ArrayList<Integer>();
         list.add(new Integer(1));
         list.add(new Integer(1));
@@ -62,7 +62,7 @@ public class DirectiveTokenTest extends TestCase {
     }
 
     public void testGetTokenId() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         DirectiveToken<Integer> token = new DirectiveToken<Integer>("YAML", null, mark, mark);
         assertEquals(ID.Directive, token.getTokenId());
     }

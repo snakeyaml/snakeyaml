@@ -23,7 +23,7 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 public class StreamStartTokenTest extends TestCase {
 
     public void testGetTokenId() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.", 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         StreamStartToken token = new StreamStartToken(mark, mark);
         assertEquals(ID.StreamStart, token.getTokenId());
     }

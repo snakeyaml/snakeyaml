@@ -39,7 +39,7 @@ public class PyMarkTest extends PyImportTest {
                 }
                 index += 1;
             }
-            Mark mark = new Mark("testMarks", index, line, column, input, index);
+            Mark mark = new Mark("testMarks", index, line, column, input.toCharArray(), index);
             String snippet = mark.get_snippet(2, 79);
             assertTrue("Must only have one '\n'.", snippet.indexOf("\n") > -1);
             assertEquals("Must only have only one '\n'.", snippet.indexOf("\n"),

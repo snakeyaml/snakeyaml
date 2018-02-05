@@ -31,11 +31,6 @@ public final class Mark implements Serializable {
     private char[] buffer;
     private int pointer;
 
-    @Deprecated
-    public Mark(String name, int index, int line, int column, String buffer, int pointer) {
-        this(name, index, line, column, buffer.toCharArray(), pointer);
-    }
-
     public Mark(String name, int index, int line, int column, char[] buffer, int pointer) {
         super();
         this.name = name;
