@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 public class MarkedYAMLExceptionTest extends TestCase {
 
     public void testToString1() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         MarkedYAMLException exception = new MarkedYAMLException(null, null, "Error happened", mark);
         assertTrue(exception.toString().contains("Error happened"));
         assertTrue(exception.toString().contains("The first line"));
@@ -28,7 +28,7 @@ public class MarkedYAMLExceptionTest extends TestCase {
     }
 
     public void testToString2() {
-        Mark mark = new Mark("search", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("search", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         MarkedYAMLException exception = new MarkedYAMLException("See http://www.google.com", mark,
                 "Error2 happened", mark);
         assertTrue(exception.toString().contains("Error2 happened"));
@@ -43,14 +43,14 @@ public class MarkedYAMLExceptionTest extends TestCase {
     }
 
     public void testToString4() {
-        Mark mark = new Mark("search", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("search", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         MarkedYAMLException exception = new MarkedYAMLException("See http://www.google.com", mark,
                 null, null, null, null);
         assertTrue(exception.toString().contains("first line"));
     }
 
     public void testGetters() {
-        Mark mark = new Mark("search", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("search", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         MarkedYAMLException exception = new MarkedYAMLException("See http://www.google.com", mark,
                 "Error2 happened", mark);
         assertEquals("See http://www.google.com", exception.getContext());

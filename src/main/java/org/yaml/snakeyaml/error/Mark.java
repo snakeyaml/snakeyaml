@@ -15,9 +15,9 @@
  */
 package org.yaml.snakeyaml.error;
 
-import java.io.Serializable;
-
 import org.yaml.snakeyaml.scanner.Constant;
+
+import java.io.Serializable;
 
 /**
  * It's just a record and its only use is producing nice error messages. Parser
@@ -25,16 +25,14 @@ import org.yaml.snakeyaml.scanner.Constant;
  */
 public final class Mark implements Serializable {
     private String name;
-    private int index;
     private int line;
     private int column;
     private char[] buffer;
     private int pointer;
 
-    public Mark(String name, int index, int line, int column, char[] buffer, int pointer) {
+    public Mark(String name, int line, int column, char[] buffer, int pointer) {
         super();
         this.name = name;
-        this.index = index;
         this.line = line;
         this.column = column;
         this.buffer = buffer;
@@ -93,17 +91,15 @@ public final class Mark implements Serializable {
     @Override
     public String toString() {
         String snippet = get_snippet();
-        StringBuilder where = new StringBuilder(" in ");
-        where.append(name);
-        where.append(", line ");
-        where.append(line + 1);
-        where.append(", column ");
-        where.append(column + 1);
-        if (snippet != null) {
-            where.append(":\n");
-            where.append(snippet);
-        }
-        return where.toString();
+        StringBuilder builder = new StringBuilder(" in ");
+        builder.append(name);
+        builder.append(", line ");
+        builder.append(line + 1);
+        builder.append(", column ");
+        builder.append(column + 1);
+        builder.append(":\n");
+        builder.append(snippet);
+        return builder.toString();
     }
 
     public String getName() {
@@ -124,14 +120,6 @@ public final class Mark implements Serializable {
      */
     public int getColumn() {
         return column;
-    }
-
-    /**
-     * starts with 0
-     * @return character number
-     */
-    public int getIndex() {
-        return index;
     }
 
 }

@@ -20,14 +20,14 @@ import junit.framework.TestCase;
 public class MarkTest extends TestCase {
 
     public void testGet_snippet() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         assertEquals("    *The first line.\n    ^", mark.get_snippet());
-        mark = new Mark("test1", 9, 0, 0, "The first*line.\nThe last line.".toCharArray(), 9);
+        mark = new Mark("test1", 0, 0, "The first*line.\nThe last line.".toCharArray(), 9);
         assertEquals("    The first*line.\n             ^", mark.get_snippet());
     }
 
     public void testToString() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         String[] lines = mark.toString().split("\n");
         assertEquals(" in test1, line 1, column 1:", lines[0]);
         assertEquals("*The first line.", lines[1].trim());
@@ -35,8 +35,7 @@ public class MarkTest extends TestCase {
     }
 
     public void testPosition() {
-        Mark mark = new Mark("test1", 17, 29, 213, "*The first line.\nThe last line.".toCharArray(), 0);
-        assertEquals(17, mark.getIndex());
+        Mark mark = new Mark("test1", 29, 213, "*The first line.\nThe last line.".toCharArray(), 0);
         assertEquals(29, mark.getLine());
         assertEquals(213, mark.getColumn());
     }

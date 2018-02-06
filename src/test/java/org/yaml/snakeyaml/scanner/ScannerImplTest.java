@@ -37,7 +37,7 @@ public class ScannerImplTest extends TestCase {
         String data = "string: abcd";
         StreamReader reader = new StreamReader(data);
         Scanner scanner = new ScannerImpl(reader);
-        Mark dummy = new Mark("dummy", 0, 0, 0, "".toCharArray(), 0);
+        Mark dummy = new Mark("dummy", 0, 0, "".toCharArray(), 0);
         LinkedList<Token> etalonTokens = new LinkedList<Token>();
         etalonTokens.add(new StreamStartToken(dummy, dummy));
         etalonTokens.add(new BlockMappingStartToken(dummy, dummy));

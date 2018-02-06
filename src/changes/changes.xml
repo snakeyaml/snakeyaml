@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.20-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update">
+                Refactor Mark - remove unused code (2018-02-06)
+            </action>
             <action dev="asomov" type="fix" issue="395">
                 Introduce DuplicateKeyException and report line number for duplicate keys
                 when creating non-Javabeans (2017-12-15)

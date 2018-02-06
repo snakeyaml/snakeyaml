@@ -88,7 +88,7 @@ public class StreamReader {
     }
 
     public Mark getMark() {
-        return new Mark(name, this.index, this.line, this.column, this.buffer, this.pointer);
+        return new Mark(name, this.line, this.column, this.buffer, this.pointer);
     }
 
     public void forward() {

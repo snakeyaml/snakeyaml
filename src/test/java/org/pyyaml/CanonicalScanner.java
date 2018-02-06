@@ -58,7 +58,7 @@ public class CanonicalScanner implements Scanner {
         this.index = 0;
         this.tokens = new ArrayList<Token>();
         this.scanned = false;
-        this.mark = new Mark("test", 0, 0, 0, data.toCharArray(), 0);
+        this.mark = new Mark("test", 0, 0, data.toCharArray(), 0);
     }
 
     public boolean checkToken(Token.ID... choices) {

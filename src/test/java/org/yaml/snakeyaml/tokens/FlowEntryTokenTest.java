@@ -23,7 +23,7 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 public class FlowEntryTokenTest extends TestCase {
 
     public void testGetTokenId() {
-        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         FlowEntryToken token = new FlowEntryToken(mark, mark);
         assertEquals(ID.FlowEntry, token.getTokenId());
     }
