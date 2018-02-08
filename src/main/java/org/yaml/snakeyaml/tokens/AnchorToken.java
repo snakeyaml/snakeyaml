@@ -30,11 +30,6 @@ public final class AnchorToken extends Token {
     }
 
     @Override
-    protected String getArguments() {
-        return "value=" + value;
-    }
-
-    @Override
     public Token.ID getTokenId() {
         return ID.Anchor;
     }

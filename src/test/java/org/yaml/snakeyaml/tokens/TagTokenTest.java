@@ -23,12 +23,6 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 
 public class TagTokenTest extends TestCase {
 
-    public void testGetArguments() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
-        TagToken token = new TagToken(new TagTuple("!foo", "!bar"), mark, mark);
-        assertEquals("value=[!foo, !bar]", token.getArguments());
-    }
-
     public void testNoMarks() {
         Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         try {

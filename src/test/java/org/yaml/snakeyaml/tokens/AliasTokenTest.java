@@ -28,12 +28,6 @@ public class AliasTokenTest extends TestCase {
         assertFalse(token.equals(mark));
     }
 
-    public void testGetArguments() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
-        AliasToken token = new AliasToken("*id123", mark, mark);
-        assertEquals("value=*id123", token.getArguments());
-    }
-
     public void testGetTokenId() {
         Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         AliasToken token = new AliasToken("&id123", mark, mark);

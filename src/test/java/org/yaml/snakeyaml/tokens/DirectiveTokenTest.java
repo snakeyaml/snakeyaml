@@ -25,12 +25,6 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 
 public class DirectiveTokenTest extends TestCase {
 
-    public void testGetArguments() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
-        DirectiveToken<Integer> token = new DirectiveToken<Integer>("YAML", null, mark, mark);
-        assertEquals("name=YAML", token.getArguments());
-    }
-
     public void testInvalidList() {
         Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         List<Integer> list = new ArrayList<Integer>();
@@ -41,24 +35,6 @@ public class DirectiveTokenTest extends TestCase {
         } catch (Exception e) {
             assertEquals("Two strings must be provided instead of 1", e.getMessage());
         }
-    }
-
-    public void testTag() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
-        List<String> list = new ArrayList<String>();
-        list.add("!foo");
-        list.add("!bar");
-        DirectiveToken<String> token = new DirectiveToken<String>("TAG", list, mark, mark);
-        assertEquals("name=TAG, value=[!foo, !bar]", token.getArguments());
-    }
-
-    public void testList() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
-        List<Integer> list = new ArrayList<Integer>();
-        list.add(new Integer(1));
-        list.add(new Integer(1));
-        DirectiveToken<Integer> token = new DirectiveToken<Integer>("YAML", list, mark, mark);
-        assertEquals("name=YAML, value=[1, 1]", token.getArguments());
     }
 
     public void testGetTokenId() {

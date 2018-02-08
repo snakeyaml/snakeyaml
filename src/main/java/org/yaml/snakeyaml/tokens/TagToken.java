@@ -30,11 +30,6 @@ public final class TagToken extends Token {
     }
 
     @Override
-    protected String getArguments() {
-        return "value=[" + value.getHandle() + ", " + value.getSuffix() + "]";
-    }
-
-    @Override
     public Token.ID getTokenId() {
         return ID.Tag;
     }

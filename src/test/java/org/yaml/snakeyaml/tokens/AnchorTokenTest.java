@@ -22,12 +22,6 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 
 public class AnchorTokenTest extends TestCase {
 
-    public void testGetArguments() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
-        AnchorToken token = new AnchorToken("&id123", mark, mark);
-        assertEquals("value=&id123", token.getArguments());
-    }
-
     public void testGetTokenId() {
         Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         AnchorToken token = new AnchorToken("&id123", mark, mark);

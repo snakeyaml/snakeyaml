@@ -43,15 +43,6 @@ public final class DirectiveToken<T> extends Token {
     }
 
     @Override
-    protected String getArguments() {
-        if (value != null) {
-            return "name=" + name + ", value=[" + value.get(0) + ", " + value.get(1) + "]";
-        } else {
-            return "name=" + name;
-        }
-    }
-
-    @Override
     public Token.ID getTokenId() {
         return ID.Directive;
     }

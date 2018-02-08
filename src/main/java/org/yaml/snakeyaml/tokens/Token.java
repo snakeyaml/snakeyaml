@@ -34,10 +34,6 @@ public abstract class Token {
         this.endMark = endMark;
     }
 
-    public String toString() {
-        return "<" + this.getClass().getName() + "(" + getArguments() + ")>";
-    }
-
     public Mark getStartMark() {
         return startMark;
     }
@@ -47,38 +43,10 @@ public abstract class Token {
     }
 
     /**
-     * @see "__repr__ for Token in PyYAML"
-     * @return human readable representation
-     */
-    protected String getArguments() {
-        return "";
-    }
-
-    /**
      * For error reporting.
      * 
      * @see "class variable 'id' in PyYAML"
      * @return ID of this token
      */
     public abstract Token.ID getTokenId();
-
-    /*
-     * for tests only
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Token) {
-            return toString().equals(obj.toString());
-        } else {
-            return false;
-        }
-    }
-
-    /*
-     * for tests only
-     */
-    @Override
-    public int hashCode() {
-        return toString().hashCode();
-    }
 }

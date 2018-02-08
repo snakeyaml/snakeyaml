@@ -46,11 +46,6 @@ public final class ScalarToken extends Token {
     }
 
     @Override
-    protected String getArguments() {
-        return "value=" + value + ", plain=" + plain + ", style=" + style;
-    }
-
-    @Override
     public Token.ID getTokenId() {
         return ID.Scalar;
     }

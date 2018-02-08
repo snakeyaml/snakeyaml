@@ -22,12 +22,6 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 
 public class BlockEndTokenTest extends TestCase {
 
-    public void testGetArguments() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
-        BlockEndToken token = new BlockEndToken(mark, mark);
-        assertEquals("", token.getArguments());
-    }
-
     public void testGetTokenId() {
         Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         BlockEndToken token = new BlockEndToken(mark, mark);
