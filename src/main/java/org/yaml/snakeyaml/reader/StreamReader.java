@@ -31,30 +31,42 @@ import org.yaml.snakeyaml.scanner.Constant;
 public class StreamReader {
     private String name;
     private final Reader stream;
-    private int pointer = 0; //in characters
-    private boolean eof = true;
-    private char[] buffer;
+    /**
+     * Read data (as a moving window for input stream)
+     */
+    private char[] dataWindow;
+    /**
+     * The variable points to the current position in the data array
+     * (in characters)
+     */
+    private int pointer = 0;
+    private boolean eof;
+    /**
+     * index is only required to implement 1024 key length restriction
+     * http://yaml.org/spec/1.1/#simple key/
+     * It must count code points, but it counts characters (to be fixed)
+     */
     private int index = 0; //in characters
     private int line = 0;
     private int column = 0; //in code points
-    private char[] data;
+    private char[] buffer; //temp buffer for one read operation (to avoid creating the array in stack)
 
     private static final int BUFFER_SIZE = 1025;
 
     public StreamReader(String stream) {
         this.name = "'string'";
-        this.buffer = stream.toCharArray();
+        this.dataWindow = stream.toCharArray();
         this.stream = null;
         this.eof = true;
-        this.data = null;
+        this.buffer = null;
     }
 
     public StreamReader(Reader reader) {
         this.name = "'reader'";
-        this.buffer = new char[0];
+        this.dataWindow = new char[0];
         this.stream = reader;
         this.eof = false;
-        this.data = new char[BUFFER_SIZE];
+        this.buffer = new char[BUFFER_SIZE];
     }
 
     private int codePointAt(char[] data, int offset) {
@@ -68,7 +80,7 @@ public class StreamReader {
 
     public static boolean isPrintable(final String data) {
         final int length = data.length();
-        for (int offset = 0; offset < length;) {
+        for (int offset = 0; offset < length; ) {
             final int codePoint = data.codePointAt(offset);
 
             if (!isPrintable(codePoint)) {
@@ -88,7 +100,7 @@ public class StreamReader {
     }
 
     public Mark getMark() {
-        return new Mark(name, this.line, this.column, this.buffer, this.pointer);
+        return new Mark(name, this.line, this.column, this.dataWindow, this.pointer);
     }
 
     public void forward() {
@@ -104,10 +116,10 @@ public class StreamReader {
     public void forward(int length) {
         int c;
         for (int i = 0; i < length && ensureEnoughData(); i++) {
-            c = codePointAt(buffer, pointer);
+            c = codePointAt(dataWindow, pointer);
             this.pointer += Character.charCount(c);
             this.index += Character.charCount(c);
-            if (Constant.LINEBR.has(c) || (c == '\r' && buffer[pointer] != '\n')) {
+            if (Constant.LINEBR.has(c) || (c == '\r' && dataWindow[pointer] != '\n')) {
                 this.line++;
                 this.column = 0;
             } else if (c != 0xFEFF) {
@@ -117,7 +129,7 @@ public class StreamReader {
     }
 
     public int peek() {
-        return (ensureEnoughData()) ? codePointAt(this.buffer, this.pointer) : '\0';
+        return (ensureEnoughData()) ? codePointAt(this.dataWindow, this.pointer) : '\0';
     }
 
     /**
@@ -134,7 +146,7 @@ public class StreamReader {
             if (!ensureEnoughData(offset)) {
                 return '\0';
             }
-            codePoint = codePointAt(this.buffer, this.pointer + offset);
+            codePoint = codePointAt(this.dataWindow, this.pointer + offset);
             offset += Character.charCount(codePoint);
             nextIndex++;
         } while (nextIndex <= index);
@@ -152,17 +164,17 @@ public class StreamReader {
         int offset = 0;
         for (int resultLength = 0; resultLength < length
                 && ensureEnoughData(offset); resultLength++) {
-            int c = codePointAt(this.buffer, this.pointer + offset);
+            int c = codePointAt(this.dataWindow, this.pointer + offset);
             offset += Character.charCount(c);
         }
 
-        return new String(this.buffer, pointer, offset);
+        return new String(this.dataWindow, pointer, offset);
     }
 
     /**
      * prefix(length) immediately followed by forward(length)
      * @param length amount of characters to get
-     * @return  the next length code points
+     * @return the next length code points
      */
     public String prefixForward(int length) {
         final String prefix = prefix(length);
@@ -178,24 +190,24 @@ public class StreamReader {
     }
 
     private boolean ensureEnoughData(int size) {
-        if (!eof && pointer + size >= buffer.length) {
+        if (!eof && pointer + size >= dataWindow.length) {
             try {
-                int converted = stream.read(data, 0, BUFFER_SIZE - 1);
+                int converted = stream.read(buffer, 0, BUFFER_SIZE - 1);
                 if (converted > 0) {
-                    if (Character.isHighSurrogate(data[converted - 1])) {
-                        if (stream.read(data, converted, 1) == -1) {
+                    if (Character.isHighSurrogate(buffer[converted - 1])) {
+                        if (stream.read(buffer, converted, 1) == -1) {
                             eof = true;
                         } else {
                             converted++;
                         }
                     }
 
-                    char[] newBuffer = Arrays.copyOfRange(buffer,
+                    char[] newBuffer = Arrays.copyOfRange(dataWindow,
                                                           pointer,
-                                                          buffer.length + converted);
-                    System.arraycopy(data, 0, newBuffer, (buffer.length - pointer), converted);
+                                                          dataWindow.length + converted);
+                    System.arraycopy(buffer, 0, newBuffer, (dataWindow.length - pointer), converted);
 
-                    buffer = newBuffer;
+                    dataWindow = newBuffer;
                     pointer = 0;
                 } else {
                     eof = true;
@@ -204,7 +216,7 @@ public class StreamReader {
                 throw new YAMLException(ioe);
             }
         }
-        return (this.pointer + size) < buffer.length;
+        return (this.pointer + size) < dataWindow.length;
     }
 
     public int getColumn() {
@@ -215,6 +227,9 @@ public class StreamReader {
         return Charset.forName(((UnicodeReader) this.stream).getEncoding());
     }
 
+    /**
+     * @return current position as number (in characters) from the beginning of the stream
+     */
     public int getIndex() {
         return index;
     }
