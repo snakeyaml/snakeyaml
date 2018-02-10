@@ -19,6 +19,7 @@ import java.util.LinkedList;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.reader.StreamReader;
@@ -42,9 +43,9 @@ public class ScannerImplTest extends TestCase {
         etalonTokens.add(new StreamStartToken(dummy, dummy));
         etalonTokens.add(new BlockMappingStartToken(dummy, dummy));
         etalonTokens.add(new KeyToken(dummy, dummy));
-        etalonTokens.add(new ScalarToken("string", true, dummy, dummy, (char) 0));
+        etalonTokens.add(new ScalarToken("string", true, dummy, dummy, DumperOptions.ScalarStyle.PLAIN));
         etalonTokens.add(new ValueToken(dummy, dummy));
-        etalonTokens.add(new ScalarToken("abcd", true, dummy, dummy, (char) 0));
+        etalonTokens.add(new ScalarToken("abcd", true, dummy, dummy, DumperOptions.ScalarStyle.PLAIN));
         etalonTokens.add(new BlockEndToken(dummy, dummy));
         etalonTokens.add(new StreamEndToken(dummy, dummy));
         while (!etalonTokens.isEmpty() && scanner.checkToken(etalonTokens.get(0).getTokenId())) {

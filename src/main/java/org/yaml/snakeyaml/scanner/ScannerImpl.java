@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.reader.StreamReader;
@@ -1646,7 +1647,7 @@ public final class ScannerImpl implements Scanner {
             chunks.append(breaks);
         }
         // We are done.
-        return new ScalarToken(chunks.toString(), false, startMark, endMark, style);
+        return new ScalarToken(chunks.toString(), false, startMark, endMark, DumperOptions.ScalarStyle.createStyle(style));
     }
 
     /**
@@ -1848,7 +1849,7 @@ public final class ScannerImpl implements Scanner {
         }
         reader.forward();
         Mark endMark = reader.getMark();
-        return new ScalarToken(chunks.toString(), false, startMark, endMark, style);
+        return new ScalarToken(chunks.toString(), false, startMark, endMark, DumperOptions.ScalarStyle.createStyle(style));
     }
 
     /**

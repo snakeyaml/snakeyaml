@@ -440,7 +440,7 @@ public class ParserImpl implements Parser {
                         implicitValues = new ImplicitTuple(false, false);
                     }
                     event = new ScalarEvent(anchor, tag, implicitValues, token.getValue(),
-                            startMark, endMark, token.getStyle());
+                            startMark, endMark, token.getStyle().getChar());
                     state = states.pop();
                 } else if (scanner.checkToken(Token.ID.FlowSequenceStart)) {
                     endMark = scanner.peekToken().getEndMark();
