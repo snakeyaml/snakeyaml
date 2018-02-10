@@ -107,11 +107,11 @@ public class Representer extends SafeRepresenter {
             if (tuple == null) {
                 continue;
             }
-            if (((ScalarNode) tuple.getKeyNode()).getStyle() != null) {
+            if (!((ScalarNode) tuple.getKeyNode()).isPlain()) {
                 bestStyle = false;
             }
             Node nodeValue = tuple.getValueNode();
-            if (!(nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null)) {
+            if (!(nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).isPlain())) {
                 bestStyle = false;
             }
             value.add(tuple);

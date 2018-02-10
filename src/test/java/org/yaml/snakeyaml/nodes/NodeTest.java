@@ -17,13 +17,14 @@ package org.yaml.snakeyaml.nodes;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
 public class NodeTest extends TestCase {
 
     public void testNode() {
         try {
-            new ScalarNode(new Tag("!foo"), null, null, null, '"');
+            new ScalarNode(new Tag("!foo"), null, null, null,  DumperOptions.ScalarStyle.DOUBLE_QUOTED);
             fail("Value must be required.");
         } catch (Exception e) {
             assertEquals("value in a Node is required.", e.getMessage());
@@ -32,7 +33,7 @@ public class NodeTest extends TestCase {
 
     public void testSetTag() {
         try {
-            ScalarNode node = new ScalarNode(new Tag("!foo"), "Value1", null, null, '"');
+            ScalarNode node = new ScalarNode(new Tag("!foo"), "Value1", null, null,  DumperOptions.ScalarStyle.DOUBLE_QUOTED);
             node.setTag((Tag) null);
             fail("Value must be required.");
         } catch (Exception e) {
@@ -43,7 +44,7 @@ public class NodeTest extends TestCase {
     public void testGetEndMark() {
         Mark mark1 = new Mark("name", 2, 12, "afd asd asd".toCharArray(), 7);
         Mark mark2 = new Mark("name", 3, 13, "afd asd asd".toCharArray(), 8);
-        Node node = new ScalarNode(new Tag("!foo"), "bla-bla", mark1, mark2, '"');
+        Node node = new ScalarNode(new Tag("!foo"), "bla-bla", mark1, mark2,  DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         assertEquals(mark1, node.getStartMark());
         assertEquals(mark2, node.getEndMark());
     }

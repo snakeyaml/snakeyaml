@@ -16,11 +16,12 @@
 package org.yaml.snakeyaml.nodes;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 
 public class NodeTupleTest extends TestCase {
 
     public void testNodeTuple1() {
-        Node node = new ScalarNode(new Tag("!tag"), "value1", null, null, null);
+        Node node = new ScalarNode(new Tag("!tag"), "value1", null, null, DumperOptions.ScalarStyle.PLAIN);
         try {
             new NodeTuple(null, node);
             fail("Node must be provided.");
@@ -30,7 +31,7 @@ public class NodeTupleTest extends TestCase {
     }
 
     public void testNodeTuple2() {
-        Node node = new ScalarNode(new Tag("!tag"), "value1", null, null, null);
+        Node node = new ScalarNode(new Tag("!tag"), "value1", null, null, DumperOptions.ScalarStyle.PLAIN);
         try {
             new NodeTuple(node, null);
             fail("Node must be provided.");
@@ -40,8 +41,8 @@ public class NodeTupleTest extends TestCase {
     }
 
     public void testToString() {
-        Node key = new ScalarNode(Tag.STR, "key1", null, null, null);
-        Node value = new ScalarNode(Tag.STR, "value1", null, null, null);
+        Node key = new ScalarNode(Tag.STR, "key1", null, null, DumperOptions.ScalarStyle.PLAIN);
+        Node value = new ScalarNode(Tag.STR, "value1", null, null, DumperOptions.ScalarStyle.PLAIN);
         NodeTuple tuple = new NodeTuple(key, value);
         assertEquals(
                 "<NodeTuple keyNode=<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:str, value=key1)>; valueNode=<org.yaml.snakeyaml.nodes.ScalarNode (tag=tag:yaml.org,2002:str, value=value1)>>",

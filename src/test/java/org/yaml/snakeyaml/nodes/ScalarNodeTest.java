@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.nodes;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 
 public class ScalarNodeTest extends TestCase {
 
@@ -24,12 +25,12 @@ public class ScalarNodeTest extends TestCase {
     }
 
     public void testGetNodeId() {
-        Node node = new ScalarNode(new Tag("str"), "text", null, null, '>');
+        Node node = new ScalarNode(new Tag("str"), "text", null, null,  DumperOptions.ScalarStyle.FOLDED);
         assertEquals(NodeId.scalar, node.getNodeId());
     }
 
     public void testToString() {
-        Node node = new ScalarNode(new Tag("str"), "text", null, null, '>');
+        Node node = new ScalarNode(new Tag("str"), "text", null, null,  DumperOptions.ScalarStyle.FOLDED);
         assertTrue(node.toString().contains("ScalarNode"));
         assertTrue(node.toString().contains("tag="));
         assertTrue(node.toString().contains("value="));

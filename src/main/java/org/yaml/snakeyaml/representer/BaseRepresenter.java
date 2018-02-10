@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
@@ -112,7 +113,7 @@ public abstract class BaseRepresenter {
         if (style == null) {
             style = this.defaultScalarStyle;
         }
-        Node node = new ScalarNode(tag, value, null, null, style);
+        Node node = new ScalarNode(tag, value, null, null,  DumperOptions.ScalarStyle.createStyle(style));
         return node;
     }
 
@@ -131,7 +132,7 @@ public abstract class BaseRepresenter {
         boolean bestStyle = true;
         for (Object item : sequence) {
             Node nodeItem = representData(item);
-            if (!(nodeItem instanceof ScalarNode && ((ScalarNode) nodeItem).getStyle() == null)) {
+            if (!(nodeItem instanceof ScalarNode && ((ScalarNode) nodeItem).isPlain())) {
                 bestStyle = false;
             }
             value.add(nodeItem);
@@ -154,10 +155,10 @@ public abstract class BaseRepresenter {
         for (Map.Entry<?, ?> entry : mapping.entrySet()) {
             Node nodeKey = representData(entry.getKey());
             Node nodeValue = representData(entry.getValue());
-            if (!(nodeKey instanceof ScalarNode && ((ScalarNode) nodeKey).getStyle() == null)) {
+            if (!(nodeKey instanceof ScalarNode && ((ScalarNode) nodeKey).isPlain())) {
                 bestStyle = false;
             }
-            if (!(nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).getStyle() == null)) {
+            if (!(nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).isPlain())) {
                 bestStyle = false;
             }
             value.add(new NodeTuple(nodeKey, nodeValue));

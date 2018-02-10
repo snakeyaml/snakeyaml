@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -466,7 +467,7 @@ public class ParserImpl implements Parser {
                     // Empty scalars are allowed even if a tag or an anchor is
                     // specified.
                     event = new ScalarEvent(anchor, tag, new ImplicitTuple(implicit, false), "",
-                            startMark, endMark, (char) 0);
+                            startMark, endMark, DumperOptions.ScalarStyle.PLAIN.getChar());
                     state = states.pop();
                 } else {
                     String node;
@@ -789,6 +790,6 @@ public class ParserImpl implements Parser {
      * </pre>
      */
     private Event processEmptyScalar(Mark mark) {
-        return new ScalarEvent(null, null, new ImplicitTuple(true, false), "", mark, mark, (char) 0);
+        return new ScalarEvent(null, null, new ImplicitTuple(true, false), "", mark, mark, DumperOptions.ScalarStyle.PLAIN.getChar());
     }
 }

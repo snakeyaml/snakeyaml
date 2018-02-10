@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.MappingStartEvent;
@@ -171,7 +172,7 @@ public class Composer {
             nodeTag = new Tag(tag);
         }
         Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(),
-                ev.getEndMark(), ev.getStyle());
+                ev.getEndMark(), DumperOptions.ScalarStyle.createStyle(ev.getStyle()));
         if (anchor != null) {
             node.setAnchor(anchor);
             anchors.put(anchor, node);

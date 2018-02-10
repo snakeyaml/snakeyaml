@@ -98,14 +98,14 @@ public class FlexibleScalarStyleTest extends TestCase {
         private class FlexibleRepresent extends RepresentString {
             public Node representData(Object data) {
                 ScalarNode node = (ScalarNode) super.representData(data);
-                if (node.getStyle() == null) {
+                if (node.isPlain()) {
                     // if Plain scalar style
                     if (node.getValue().length() < 25) {
                         return node;
                     } else {
                         // Folded scalar style
                         return new ScalarNode(node.getTag(), node.getValue(), node.getStartMark(),
-                                node.getEndMark(), '>');
+                                node.getEndMark(),  ScalarStyle.FOLDED);
                     }
                 } else {
                     return node;

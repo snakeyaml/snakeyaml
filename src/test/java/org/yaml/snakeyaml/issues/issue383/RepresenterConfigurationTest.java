@@ -66,7 +66,7 @@ public class RepresenterConfigurationTest {
         Yaml yaml = new Yaml(representer);
 
         ScalarNode node = (ScalarNode) yaml.represent("test");
-        Assert.assertEquals(FOLDED.getChar(), node.getStyle());
+        Assert.assertEquals(FOLDED, node.getStyle());
     }
 
     @Test
@@ -80,14 +80,14 @@ public class RepresenterConfigurationTest {
         Yaml yaml = new Yaml(representer, dumperOptions);
 
         ScalarNode node = (ScalarNode) yaml.represent("test");
-        Assert.assertEquals(node.getStyle(), PLAIN.getChar());
+        Assert.assertEquals(node.getStyle(), PLAIN);
     }
 
     @Test
     public void testPlainStyleByDefault() {
         Yaml yaml = new Yaml();
         ScalarNode node = (ScalarNode) yaml.represent("test");
-        Assert.assertEquals(PLAIN.getChar(), node.getStyle());
+        Assert.assertEquals(PLAIN, node.getStyle());
     }
 
     @Test
