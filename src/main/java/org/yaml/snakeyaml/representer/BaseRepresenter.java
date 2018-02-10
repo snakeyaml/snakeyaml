@@ -47,7 +47,7 @@ public abstract class BaseRepresenter {
     protected Represent nullRepresenter;
     // the order is important (map can be also a sequence of key-values)
     protected final Map<Class<?>, Represent> multiRepresenters = new LinkedHashMap<Class<?>, Represent>();
-    protected Character defaultScalarStyle;
+    protected DumperOptions.ScalarStyle defaultScalarStyle = null; //not explicitly defined
     protected FlowStyle defaultFlowStyle = FlowStyle.AUTO;
     protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>() {
         private static final long serialVersionUID = -5576159264232131854L;
@@ -109,11 +109,11 @@ public abstract class BaseRepresenter {
         return node;
     }
 
-    protected Node representScalar(Tag tag, String value, Character style) {
+    protected Node representScalar(Tag tag, String value, DumperOptions.ScalarStyle style) {
         if (style == null) {
             style = this.defaultScalarStyle;
         }
-        Node node = new ScalarNode(tag, value, null, null,  DumperOptions.ScalarStyle.createStyle(style));
+        Node node = new ScalarNode(tag, value, null, null, style);
         return node;
     }
 
@@ -174,11 +174,14 @@ public abstract class BaseRepresenter {
     }
 
     public void setDefaultScalarStyle(ScalarStyle defaultStyle) {
-        this.defaultScalarStyle = defaultStyle.getChar();
+        this.defaultScalarStyle = defaultStyle;
     }
 
     public ScalarStyle getDefaultScalarStyle() {
-        return ScalarStyle.createStyle(defaultScalarStyle);
+        if (defaultScalarStyle == null) {
+            return ScalarStyle.PLAIN;
+        }
+        return defaultScalarStyle;
     }
 
     public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {

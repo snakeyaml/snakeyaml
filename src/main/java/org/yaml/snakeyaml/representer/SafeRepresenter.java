@@ -31,6 +31,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
@@ -110,7 +111,7 @@ class SafeRepresenter extends BaseRepresenter {
     protected class RepresentString implements Represent {
         public Node representData(Object data) {
             Tag tag = Tag.STR;
-            Character style = null;
+            DumperOptions.ScalarStyle style = null;//not defined
             String value = data.toString();
             if (!StreamReader.isPrintable(value)) {
                 tag = Tag.BINARY;
@@ -129,12 +130,12 @@ class SafeRepresenter extends BaseRepresenter {
                     throw new YAMLException(e);
                 }
                 value = String.valueOf(binary);
-                style = '|';
+                style = DumperOptions.ScalarStyle.LITERAL;
             }
             // if no other scalar style is explicitly set, use literal style for
             // multiline scalars
-            if (defaultScalarStyle == null && MULTILINE_PATTERN.matcher(value).find()) {
-                style = '|';
+            if (defaultScalarStyle == DumperOptions.ScalarStyle.PLAIN && MULTILINE_PATTERN.matcher(value).find()) {
+                style = DumperOptions.ScalarStyle.LITERAL;
             }
             return representScalar(tag, value, style);
         }
@@ -416,7 +417,7 @@ class SafeRepresenter extends BaseRepresenter {
                 buffer.append(partOfHour);
             }
 
-            return representScalar(getTag(data.getClass(), Tag.TIMESTAMP), buffer.toString(), null);
+            return representScalar(getTag(data.getClass(), Tag.TIMESTAMP), buffer.toString(), DumperOptions.ScalarStyle.PLAIN);
         }
     }
 
@@ -430,7 +431,7 @@ class SafeRepresenter extends BaseRepresenter {
     protected class RepresentByteArray implements Represent {
         public Node representData(Object data) {
             char[] binary = Base64Coder.encode((byte[]) data);
-            return representScalar(Tag.BINARY, String.valueOf(binary), '|');
+            return representScalar(Tag.BINARY, String.valueOf(binary), DumperOptions.ScalarStyle.LITERAL);
         }
     }
 
