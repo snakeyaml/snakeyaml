@@ -7,6 +7,9 @@
     <body>
         <release version="1.20-SNAPSHOT" date="in Mercurial" description="Maintenance">
             <action dev="asomov" type="update">
+                Refactor ScalarToken - use enum ScalarStyle instead of Character to avoid using null and 0 (2018-02-10)
+            </action>
+            <action dev="asomov" type="update">
                 Refactor Token - remove unused code (2018-02-08)
             </action>
             <action dev="asomov" type="update">
