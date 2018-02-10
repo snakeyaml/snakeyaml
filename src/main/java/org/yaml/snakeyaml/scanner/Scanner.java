@@ -18,7 +18,7 @@ package org.yaml.snakeyaml.scanner;
 import org.yaml.snakeyaml.tokens.Token;
 
 /**
- * This interface represents an input stream of {@link Token Tokens}.
+ * This interface represents an input stream of {@link Token}s.
  * <p>
  * The parser and the scanner form together the 'Parse' step in the loading
  * process (see chapter 3.1 of the <a href="http://yaml.org/spec/1.1/">YAML

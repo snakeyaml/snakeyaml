@@ -1396,7 +1396,7 @@ public final class ScannerImpl implements Scanner {
         return value;
     }
 
-    private String scanDirectiveIgnoredLine(Mark startMark) {
+    private void scanDirectiveIgnoredLine(Mark startMark) {
         // See the specification for details.
         while (reader.peek() == ' ') {
             reader.forward();
@@ -1414,7 +1414,6 @@ public final class ScannerImpl implements Scanner {
                     "expected a comment or a line break, but found " + s + "(" + c + ")",
                     reader.getMark());
         }
-        return lineBreak;
     }
 
     /**
