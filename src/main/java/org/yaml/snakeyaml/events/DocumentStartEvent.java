@@ -36,10 +36,6 @@ public final class DocumentStartEvent extends Event {
         super(startMark, endMark);
         this.explicit = explicit;
         this.version = version;
-        // TODO enforce not null
-        // if (tags == null) {
-        // throw new NullPointerException("Tags must be provided.");
-        // }
         this.tags = tags;
     }
 
