@@ -145,7 +145,7 @@ public class PyEmitterTest extends PyImportTest {
                                 ScalarEvent scalar = (ScalarEvent) event;
                                 event = new ScalarEvent(scalar.getAnchor(), scalar.getTag(),
                                         scalar.getImplicit(), scalar.getValue(),
-                                        scalar.getStartMark(), scalar.getEndMark(), style.getChar());
+                                        scalar.getStartMark(), scalar.getEndMark(), style);
                             } else if (event instanceof SequenceStartEvent) {
                                 SequenceStartEvent seqStart = (SequenceStartEvent) event;
                                 event = new SequenceStartEvent(seqStart.getAnchor(),

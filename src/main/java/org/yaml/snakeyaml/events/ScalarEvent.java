@@ -15,6 +15,7 @@
  */
 package org.yaml.snakeyaml.events;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
@@ -24,7 +25,7 @@ public final class ScalarEvent extends NodeEvent {
     private final String tag;
     // style flag of a scalar event indicates the style of the scalar. Possible
     // values are None, '', '\'', '"', '|', '>'
-    private final Character style;
+    private final DumperOptions.ScalarStyle style;
     private final String value;
     // The implicit flag of a scalar event is a pair of boolean values that
     // indicate if the tag may be omitted when the scalar is emitted in a plain
@@ -32,17 +33,18 @@ public final class ScalarEvent extends NodeEvent {
     private final ImplicitTuple implicit;
 
     public ScalarEvent(String anchor, String tag, ImplicitTuple implicit, String value,
-            Mark startMark, Mark endMark, Character style) {
+                       Mark startMark, Mark endMark, DumperOptions.ScalarStyle style) {
         super(anchor, startMark, endMark);
         this.tag = tag;
         this.implicit = implicit;
         this.value = value;
+        if (style == null) throw new NullPointerException("Style must be provided.");
         this.style = style;
     }
 
     /**
      * Tag of this scalar.
-     * 
+     *
      * @return The tag of this scalar, or <code>null</code> if no explicit tag
      *         is available.
      */
@@ -64,12 +66,12 @@ public final class ScalarEvent extends NodeEvent {
      * <dt>'&gt;'</dt>
      * <dd>Block Style - Folded</dd>
      * </dl>
-     * 
+     *
      * @see <a href="http://yaml.org/spec/1.1/#id864487">Kind/Style
      *      Combinations</a>
      * @return Style of the scalar.
      */
-    public Character getStyle() {
+    public DumperOptions.ScalarStyle getStyle() {
         return this.style;
     }
 
@@ -78,7 +80,7 @@ public final class ScalarEvent extends NodeEvent {
      * <p>
      * Without quotes and escaping.
      * </p>
-     * 
+     *
      * @return Value as Unicode string.
      */
     public String getValue() {
@@ -97,5 +99,9 @@ public final class ScalarEvent extends NodeEvent {
     @Override
     public boolean is(Event.ID id) {
         return ID.Scalar == id;
+    }
+
+    public boolean isPlain() {
+        return style == DumperOptions.ScalarStyle.PLAIN;
     }
 }

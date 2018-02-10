@@ -15,13 +15,15 @@
  */
 package org.yaml.snakeyaml.events;
 
+import org.yaml.snakeyaml.DumperOptions;
+
 import junit.framework.TestCase;
 
 public class ScalarEventTest extends TestCase {
 
     public void testToString() {
         ScalarEvent event = new ScalarEvent("a2", "str", new ImplicitTuple(true, true), "text",
-                null, null, '"');
+                null, null, DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         assertEquals(
                 "<org.yaml.snakeyaml.events.ScalarEvent(anchor=a2, tag=str, implicit=[true, true], value=text)>",
                 event.toString());
@@ -29,7 +31,7 @@ public class ScalarEventTest extends TestCase {
 
     public void testNotEqual() {
         ScalarEvent event = new ScalarEvent("a2", "str", new ImplicitTuple(true, true), "text",
-                null, null, '"');
+                null, null, DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         assertFalse(event.equals(event.toString()));
     }
 }

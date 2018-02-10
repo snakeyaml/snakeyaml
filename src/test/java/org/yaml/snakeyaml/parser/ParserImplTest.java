@@ -58,9 +58,9 @@ public class ParserImplTest extends TestCase {
         etalonEvents.add(new MappingStartEvent(null, null, true, dummyMark, dummyMark,
                 Boolean.FALSE));
         etalonEvents.add(new ScalarEvent(null, null, new ImplicitTuple(true, false), "string",
-                dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN.getChar()));
+                dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN));
         etalonEvents.add(new ScalarEvent(null, null, new ImplicitTuple(true, false), "abcd",
-                dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN.getChar()));
+                dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN));
         etalonEvents.add(new MappingEndEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentEndEvent(dummyMark, dummyMark, false));
         etalonEvents.add(new StreamEndEvent(dummyMark, dummyMark));
@@ -78,11 +78,11 @@ public class ParserImplTest extends TestCase {
         etalonEvents
                 .add(new MappingStartEvent(null, null, true, dummyMark, dummyMark, Boolean.TRUE));
         etalonEvents.add(new ScalarEvent(null, null, new ImplicitTuple(true, false), "american",
-                dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN.getChar()));
+                dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN));
         etalonEvents.add(new SequenceStartEvent(null, null, true, dummyMark, dummyMark,
                 Boolean.FALSE));
         etalonEvents.add(new ScalarEvent(null, null, new ImplicitTuple(true, false),
-                "Boston Red Sox", dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN.getChar()));
+                "Boston Red Sox", dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN));
         etalonEvents.add(new SequenceEndEvent(dummyMark, dummyMark));
         etalonEvents.add(new MappingEndEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentEndEvent(dummyMark, dummyMark, false));

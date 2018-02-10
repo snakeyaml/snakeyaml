@@ -17,6 +17,7 @@ package org.pyyaml;
 
 import java.util.ArrayList;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
@@ -93,7 +94,7 @@ public class CanonicalParser implements Parser {
             if (scanner.checkToken(Token.ID.Scalar)) {
                 ScalarToken token = (ScalarToken) scanner.getToken();
                 events.add(new ScalarEvent(anchor, tag, new ImplicitTuple(false, false), token
-                        .getValue(), null, null, null));
+                        .getValue(), null, null, DumperOptions.ScalarStyle.PLAIN));
             } else if (scanner.checkToken(Token.ID.FlowSequenceStart)) {
                 events.add(new SequenceStartEvent(anchor, tag, false, null, null, null));
                 parseSequence();

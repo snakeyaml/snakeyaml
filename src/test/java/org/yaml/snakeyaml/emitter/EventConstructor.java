@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -74,7 +75,7 @@ public class EventConstructor extends Constructor {
                             (Boolean) implicitList.get(1));
                 }
                 value = new ScalarEvent((String) mapping.get("anchor"), tag, implicit, v, null,
-                        null, null);
+                        null, DumperOptions.ScalarStyle.PLAIN);
             } else if (className.equals("SequenceStartEvent")) {
                 String tag = (String) mapping.get("tag");
                 Boolean implicit = (Boolean) mapping.get("implicit");

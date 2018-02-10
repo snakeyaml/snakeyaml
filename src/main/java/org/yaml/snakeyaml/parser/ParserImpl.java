@@ -441,7 +441,7 @@ public class ParserImpl implements Parser {
                         implicitValues = new ImplicitTuple(false, false);
                     }
                     event = new ScalarEvent(anchor, tag, implicitValues, token.getValue(),
-                            startMark, endMark, token.getStyle().getChar());
+                            startMark, endMark, token.getStyle());
                     state = states.pop();
                 } else if (scanner.checkToken(Token.ID.FlowSequenceStart)) {
                     endMark = scanner.peekToken().getEndMark();
@@ -467,7 +467,7 @@ public class ParserImpl implements Parser {
                     // Empty scalars are allowed even if a tag or an anchor is
                     // specified.
                     event = new ScalarEvent(anchor, tag, new ImplicitTuple(implicit, false), "",
-                            startMark, endMark, DumperOptions.ScalarStyle.PLAIN.getChar());
+                            startMark, endMark, DumperOptions.ScalarStyle.PLAIN);
                     state = states.pop();
                 } else {
                     String node;
@@ -790,6 +790,6 @@ public class ParserImpl implements Parser {
      * </pre>
      */
     private Event processEmptyScalar(Mark mark) {
-        return new ScalarEvent(null, null, new ImplicitTuple(true, false), "", mark, mark, DumperOptions.ScalarStyle.PLAIN.getChar());
+        return new ScalarEvent(null, null, new ImplicitTuple(true, false), "", mark, mark, DumperOptions.ScalarStyle.PLAIN);
     }
 }

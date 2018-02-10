@@ -172,7 +172,7 @@ public class Composer {
             nodeTag = new Tag(tag);
         }
         Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(),
-                ev.getEndMark(), DumperOptions.ScalarStyle.createStyle(ev.getStyle()));
+                ev.getEndMark(), ev.getStyle());
         if (anchor != null) {
             node.setAnchor(anchor);
             anchors.put(anchor, node);

@@ -129,7 +129,7 @@ public class EmitterTest extends TestCase {
         emitter.emit(new StreamStartEvent(null, null));
         emitter.emit(new DocumentStartEvent(null, null, false, null, null));
         emitter.emit(new ScalarEvent(null, null, new ImplicitTuple(true, false), burger
-                + halfBurger, null, null, '"'));
+                + halfBurger, null, null, DumperOptions.ScalarStyle.DOUBLE_QUOTED));
         String expected = "! \"\\U0001f354\\ud83c\"";
         assertEquals(expected, output.toString());
     }

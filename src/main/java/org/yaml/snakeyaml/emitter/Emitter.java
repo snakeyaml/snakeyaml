@@ -149,7 +149,7 @@ public final class Emitter implements Emitable {
 
     // Scalar analysis and style.
     private ScalarAnalysis analysis;
-    private Character style;
+    private DumperOptions.ScalarStyle style;
 
     public Emitter(Writer stream, DumperOptions opts) {
         // The stream should have the methods `write` and possibly `flush`.
@@ -759,31 +759,31 @@ public final class Emitter implements Emitable {
         preparedTag = null;
     }
 
-    private Character chooseScalarStyle() {
+    private DumperOptions.ScalarStyle chooseScalarStyle() {
         ScalarEvent ev = (ScalarEvent) event;
         if (analysis == null) {
             analysis = analyzeScalar(ev.getValue());
         }
-        if (ev.getStyle() != null && ev.getStyle() == '"' || this.canonical) {
-            return '"';
+        if (!ev.isPlain() && ev.getStyle() == DumperOptions.ScalarStyle.DOUBLE_QUOTED || this.canonical) {
+            return DumperOptions.ScalarStyle.DOUBLE_QUOTED;
         }
-        if (ev.getStyle() == null && ev.getImplicit().canOmitTagInPlainScalar()) {
+        if (ev.isPlain() && ev.getImplicit().canOmitTagInPlainScalar()) {
             if (!(simpleKeyContext && (analysis.empty || analysis.multiline))
                     && ((flowLevel != 0 && analysis.allowFlowPlain) || (flowLevel == 0 && analysis.allowBlockPlain))) {
                 return null;
             }
         }
-        if (ev.getStyle() != null && (ev.getStyle() == '|' || ev.getStyle() == '>')) {
+        if (!ev.isPlain() && (ev.getStyle() == DumperOptions.ScalarStyle.LITERAL || ev.getStyle() == DumperOptions.ScalarStyle.FOLDED)) {
             if (flowLevel == 0 && !simpleKeyContext && analysis.allowBlock) {
                 return ev.getStyle();
             }
         }
-        if (ev.getStyle() == null || ev.getStyle() == '\'') {
+        if (ev.isPlain() || ev.getStyle() == DumperOptions.ScalarStyle.SINGLE_QUOTED) {
             if (analysis.allowSingleQuoted && !(simpleKeyContext && analysis.multiline)) {
-                return '\'';
+                return DumperOptions.ScalarStyle.SINGLE_QUOTED;
             }
         }
-        return '"';
+        return DumperOptions.ScalarStyle.DOUBLE_QUOTED;
     }
 
     private void processScalar() throws IOException {
@@ -799,16 +799,16 @@ public final class Emitter implements Emitable {
             writePlain(analysis.scalar, split);
         } else {
             switch (style) {
-            case '"':
+            case DOUBLE_QUOTED:
                 writeDoubleQuoted(analysis.scalar, split);
                 break;
-            case '\'':
+                case SINGLE_QUOTED:
                 writeSingleQuoted(analysis.scalar, split);
                 break;
-            case '>':
+                case FOLDED:
                 writeFolded(analysis.scalar, split);
                 break;
-            case '|':
+                case LITERAL:
                 writeLiteral(analysis.scalar);
                 break;
             default:
