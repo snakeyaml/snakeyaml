@@ -223,10 +223,6 @@ public class StreamReader {
         return column;
     }
 
-    public Charset getEncoding() {
-        return Charset.forName(((UnicodeReader) this.stream).getEncoding());
-    }
-
     /**
      * @return current position as number (in characters) from the beginning of the stream
      */

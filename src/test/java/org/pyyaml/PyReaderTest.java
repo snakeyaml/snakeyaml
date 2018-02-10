@@ -34,13 +34,14 @@ public class PyReaderTest extends PyImportTest {
         File[] inputs = getStreamsByExtension(".stream-error");
         for (int i = 0; i < inputs.length; i++) {
             InputStream input = new FileInputStream(inputs[i]);
-            StreamReader stream = new StreamReader(new UnicodeReader(input));
+            UnicodeReader unicodeReader = new UnicodeReader(input);
+            StreamReader stream = new StreamReader(unicodeReader);
             try {
                 while (stream.peek() != '\u0000') {
                     stream.forward();
                 }
                 fail("Invalid stream must not be accepted: " + inputs[i].getAbsolutePath()
-                        + "; encoding=" + stream.getEncoding());
+                        + "; encoding=" + unicodeReader.getEncoding());
             } catch (ReaderException e) {
                 assertTrue(e.toString(),
                         e.toString().contains(" special characters are not allowed"));

@@ -45,10 +45,10 @@ public class ReaderBomTest extends TestCase {
     public void testNoBom() throws IOException {
         byte[] data = "test".getBytes("UTF-8");
         ByteArrayInputStream input = new ByteArrayInputStream(data);
-        Reader r = new UnicodeReader(input);
+        UnicodeReader r = new UnicodeReader(input);
         StreamReader reader = new StreamReader(r);
         assertEquals('t', reader.peek());
-        assertEquals(Charset.forName("UTF-8"), reader.getEncoding());
+        assertEquals(Charset.forName("UTF-8"), Charset.forName(r.getEncoding()));
         reader.forward(1);
         assertEquals('e', reader.peek());
         reader.forward(1);
@@ -64,7 +64,8 @@ public class ReaderBomTest extends TestCase {
         File file = new File("src/test/resources/reader/utf-8.txt");
         assertTrue("Test file not found: " + file.getAbsolutePath(), file.exists());
         InputStream input = new FileInputStream(file);
-        StreamReader reader = new StreamReader(new UnicodeReader(input));
+        UnicodeReader unicodeReader = new UnicodeReader(input);
+        StreamReader reader = new StreamReader(unicodeReader);
         assertEquals('t', reader.peek());
         reader.forward(1);
         assertEquals('e', reader.peek());
@@ -74,7 +75,7 @@ public class ReaderBomTest extends TestCase {
         assertEquals('t', reader.peek());
         reader.forward(1);
         assertEquals('\u0000', reader.peek());
-        assertEquals(Charset.forName("UTF-8"), reader.getEncoding());
+        assertEquals(Charset.forName("UTF-8"), Charset.forName(unicodeReader.getEncoding()));
         input.close();
     }
 
@@ -82,7 +83,8 @@ public class ReaderBomTest extends TestCase {
         File file = new File("src/test/resources/reader/unicode-16le.txt");
         assertTrue("Test file not found: " + file.getAbsolutePath(), file.exists());
         InputStream input = new FileInputStream(file);
-        StreamReader reader = new StreamReader(new UnicodeReader(input));
+        UnicodeReader unicodeReader = new UnicodeReader(input);
+        StreamReader reader = new StreamReader(unicodeReader);
         assertEquals('t', reader.peek());
         reader.forward(1);
         assertEquals('e', reader.peek());
@@ -92,7 +94,7 @@ public class ReaderBomTest extends TestCase {
         assertEquals('t', reader.peek());
         reader.forward(1);
         assertEquals('\u0000', reader.peek());
-        assertEquals(Charset.forName("UTF-16LE"), reader.getEncoding());
+        assertEquals(Charset.forName("UTF-16LE"), Charset.forName(unicodeReader.getEncoding()));
         input.close();
     }
 
@@ -100,7 +102,8 @@ public class ReaderBomTest extends TestCase {
         File file = new File("src/test/resources/reader/unicode-16be.txt");
         assertTrue("Test file not found: " + file.getAbsolutePath(), file.exists());
         InputStream input = new FileInputStream(file);
-        StreamReader reader = new StreamReader(new UnicodeReader(input));
+        UnicodeReader unicodeReader = new UnicodeReader(input);
+        StreamReader reader = new StreamReader(unicodeReader);
         assertEquals('t', reader.peek());
         reader.forward(1);
         assertEquals('e', reader.peek());
@@ -110,7 +113,7 @@ public class ReaderBomTest extends TestCase {
         assertEquals('t', reader.peek());
         reader.forward(1);
         assertEquals('\u0000', reader.peek());
-        assertEquals(Charset.forName("UTF-16BE"), reader.getEncoding());
+        assertEquals(Charset.forName("UTF-16BE"), Charset.forName(unicodeReader.getEncoding()));
         input.close();
     }
 }
