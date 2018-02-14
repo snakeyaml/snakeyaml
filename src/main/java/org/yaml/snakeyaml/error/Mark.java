@@ -15,11 +15,9 @@
  */
 package org.yaml.snakeyaml.error;
 
-import org.yaml.snakeyaml.scanner.Constant;
-
 import java.io.Serializable;
 
-import javax.xml.stream.events.Characters;
+import org.yaml.snakeyaml.scanner.Constant;
 
 /**
  * It's just a record and its only use is producing nice error messages. Parser
