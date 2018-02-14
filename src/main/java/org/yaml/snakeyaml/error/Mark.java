@@ -19,6 +19,8 @@ import org.yaml.snakeyaml.scanner.Constant;
 
 import java.io.Serializable;
 
+import javax.xml.stream.events.Characters;
+
 /**
  * It's just a record and its only use is producing nice error messages. Parser
  * does not use it for any other purposes.
@@ -27,10 +29,24 @@ public final class Mark implements Serializable {
     private String name;
     private int line;
     private int column;
-    private char[] buffer;
+    private int[] buffer;
     private int pointer;
 
-    public Mark(String name, int line, int column, char[] buffer, int pointer) {
+    private static int[] toCodePoints(char[] str) {
+        int[] codePoints = new int[Character.codePointCount(str, 0, str.length)];
+        for (int i = 0, c = 0; i < str.length; c++) {
+            int cp = Character.codePointAt(str, i);
+            codePoints[c] = cp;
+            i += Character.charCount(cp);
+        }
+        return codePoints;
+    }
+
+    public Mark(String name, int line, int column, char[] str, int pointer) {
+        this(name, line, column, toCodePoints(str), pointer);
+    }
+
+    public Mark(String name, int line, int column, int[] buffer, int pointer) {
         super();
         this.name = name;
         this.line = line;
@@ -50,7 +66,7 @@ public final class Mark implements Serializable {
         float half = max_length / 2 - 1;
         int start = pointer;
         String head = "";
-        while ((start > 0) && !isLineBreak(Character.codePointAt(buffer, start - 1))) {
+        while ((start > 0) && !isLineBreak(buffer[start - 1])) {
             start -= 1;
             if (pointer - start > half) {
                 head = " ... ";
@@ -60,7 +76,7 @@ public final class Mark implements Serializable {
         }
         String tail = "";
         int end = pointer;
-        while ((end < buffer.length) && !isLineBreak(Character.codePointAt(buffer, end))) {
+        while ((end < buffer.length) && !isLineBreak(buffer[end])) {
             end += 1;
             if (end - pointer > half) {
                 tail = " ... ";
@@ -74,7 +90,9 @@ public final class Mark implements Serializable {
             result.append(" ");
         }
         result.append(head);
-        result.append(buffer, start, (end - start));
+        for (int i = start; i < end; i++) {
+            result.appendCodePoint(buffer[i]);
+        }
         result.append(tail);
         result.append("\n");
         for (int i = 0; i < indent + pointer - start + head.length(); i++) {

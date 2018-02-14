@@ -1,0 +1,1470 @@
+sizes:
+  Basic Latin:
+    ASCII punctuation and symbols: 2
+    ASCII digits: 10
+  Latin 1 Supplement:
+    Latin-1 punctuation and symbols: 2
+  General Punctuation:
+    Double punctuation for vertical text: 2
+  Letterlike Symbols:
+    Letterlike symbol: 2
+  Arrows:
+    Simple arrows: 6
+    Arrows with modifications: 2
+  Miscellaneous Technical:
+    User interface symbols: 16
+    Keyboard symbol: 1
+    Keyboard and UI symbols: 1
+  Enclosed Alphanumerics:
+    Circled Latin letters: 1
+  Geometric Shapes:
+    Geometric shapes: 8
+  Miscellaneous Symbols:
+    Weather and astrological symbols: 5
+    Miscellaneous mark: 10
+    Weather symbol: 1
+    Pointing hand symbols: 1
+    Warning signs: 3
+    Religious and political symbols: 4
+    Emoticons: 2
+    Astrological signs: 2
+    Zodiacal symbol: 13
+    Playing card symbols: 4
+    Recycling symbols: 1
+    Dictionary and map symbols: 8
+    Circles: 2
+    Genealogical symbols: 2
+    Sport symbols: 2
+    Weather symbols from ARIB STD B24: 3
+    Traffic sign from ARIB STD B24: 4
+    Map symbol from ARIB STD B24: 13
+  Dingbats:
+    Miscellaneous: 20
+    Crosses: 1
+    Stars and asterisks: 4
+    Stars, asterisks and snowflakes: 2
+    Punctuation mark ornaments: 2
+    Heavy variants of arithmetic symbols: 3
+    Dingbat arrow: 1
+  Supplemental Arrows B:
+    Miscellaneous curved arrows: 2
+  Miscellaneous Symbols And Arrows:
+    White and black arrows: 3
+    Squares: 2
+    Stars: 1
+    Traffic sign from ARIB STD B24: 1
+  CJK Symbols And Punctuation:
+    CJK symbols: 1
+  CJK Symbols And Punctuation:
+    Other CJK punctuation: 1
+  Enclosed CJK Letters And Months:
+    Circled ideographs: 2
+  Mahjong Tiles:
+    Dragon tiles: 1
+  Playing Cards:
+    Joker: 1
+  Enclosed Alphanumeric Supplement:
+    White on black squared Latin letters: 5
+    Squared Latin letter sequences: 10
+    Regional indicator symbols: 26
+  Enclosed Ideographic Supplement:
+    Squared katakana: 2
+    Squared ideographs and kana from ARIB STD B24: 2
+    Squared ideographs: 9
+    Circled ideographs: 2
+  Miscellaneous Symbols And Pictographs:
+    Weather, landscape, and sky symbols: 13
+    Globe symbols: 4
+    Moon, sun, and star symbols: 16
+    Weather symbol: 10
+    Food symbol: 36
+    Plant symbols: 21
+    Fruit and vegetable symbols: 15
+    Beverage symbols: 8
+    Accommodation symbol: 1
+    Beverage and food symbols: 2
+    Celebration symbols: 22
+    Musical symbols: 11
+    Entertainment symbols: 16
+    Game symbol: 8
+    Sport symbols: 25
+    Building and map symbols: 29
+    Flag symbols: 2
+    Rosettes: 1
+    Miscellaneous mark: 12
+    Emoji modifiers: 5
+    Animal symbols: 49
+    Animal faces: 17
+    Facial parts symbols: 6
+    Hand symbols: 14
+    Clothing and accessories: 19
+    Portrait and role symbols: 20
+    Fairy tale symbols: 9
+    Role symbol: 4
+    Personal care symbols: 5
+    Medical symbols: 2
+    Romance symbols: 8
+    Heart symbol: 14
+    Comic style symbols: 14
+    Japanese school grade symbols: 2
+    Money symbols: 10
+    Office symbols: 36
+    Communication symbols: 31
+    Audio and video symbols: 7
+    Religious symbol: 7
+    User interface symbols: 37
+    Words with arrows: 5
+    Enclosed alphanumeric symbols: 2
+    User interface input status symbols: 5
+    Tool symbols: 10
+    Geometric shapes: 8
+    Clock face symbols: 24
+    Computer symbols: 4
+    Rating symbols: 2
+    Bubble symbols: 2
+    Ballot symbols: 1
+    Map symbol: 1
+    Cultural symbols: 5
+  Emoticons:
+    Faces: 60
+    Cat faces: 9
+    Gesture symbols: 11
+  Transport And Map Symbols:
+    Vehicles: 48
+    Traffic signs: 4
+    Signage and other symbols: 32
+    Accommodation symbol: 5
+    Miscellaneous mark: 5
+  Supplemental Symbols And Pictographs:
+    Emoticon faces: 24
+    Hand symbols: 8
+    Portrait and role symbols: 30
+    Miscellaneous mark: 19
+    Food symbol: 29
+    Animal symbols: 24
+values:
+  Basic Latin:
+    ASCII punctuation and symbols:
+      - "#"      # U+0023        NUMBER SIGN
+      - "*"      # U+002A        ASTERISK
+    ASCII digits:
+      - 0      # U+0030        DIGIT ZERO
+      - 1      # U+0031        DIGIT ONE
+      - 2      # U+0032        DIGIT TWO
+      - 3      # U+0033        DIGIT THREE
+      - 4      # U+0034        DIGIT FOUR
+      - 5      # U+0035        DIGIT FIVE
+      - 6      # U+0036        DIGIT SIX
+      - 7      # U+0037        DIGIT SEVEN
+      - 8      # U+0038        DIGIT EIGHT
+      - 9      # U+0039        DIGIT NINE
+  Latin 1 Supplement:
+    Latin-1 punctuation and symbols:
+      - ©️      # U+00A9        COPYRIGHT SIGN
+      - ®️      # U+00AE        REGISTERED SIGN
+  General Punctuation:
+    Double punctuation for vertical text:
+      - ‼️      # U+203C        DOUBLE EXCLAMATION MARK
+      - ⁉️      # U+2049        EXCLAMATION QUESTION MARK
+  Letterlike Symbols:
+    Letterlike symbol:
+      - ™️      # U+2122        TRADE MARK SIGN
+      - ℹ      # U+2139        INFORMATION SOURCE
+  Arrows:
+    Simple arrows:
+      - ↔️      # U+2194        LEFT RIGHT ARROW
+      - ↕️      # U+2195        UP DOWN ARROW
+      - ↖️      # U+2196        NORTH WEST ARROW
+      - ↗️      # U+2197        NORTH EAST ARROW
+      - ↘️      # U+2198        SOUTH EAST ARROW
+      - ↙️      # U+2199        SOUTH WEST ARROW
+    Arrows with modifications:
+      - ↩️      # U+21A9        LEFTWARDS ARROW WITH HOOK
+      - ↪️      # U+21AA        RIGHTWARDS ARROW WITH HOOK
+  Miscellaneous Technical:
+    User interface symbols:
+      - ⌚️     # U+231A        WATCH
+      - ⌛️     # U+231B        HOURGLASS
+      - ⏩     # U+23E9        BLACK RIGHT-POINTING DOUBLE TRIANGLE
+      - ⏪     # U+23EA        BLACK LEFT-POINTING DOUBLE TRIANGLE
+      - ⏫     # U+23EB        BLACK UP-POINTING DOUBLE TRIANGLE
+      - ⏬     # U+23EC        BLACK DOWN-POINTING DOUBLE TRIANGLE
+      - ⏭      # U+23ED        BLACK RIGHT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR
+      - ⏮      # U+23EE        BLACK LEFT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR
+      - ⏯      # U+23EF        BLACK RIGHT-POINTING TRIANGLE WITH DOUBLE VERTICAL BAR
+      - ⏰     # U+23F0        ALARM CLOCK
+      - ⏱      # U+23F1        STOPWATCH
+      - ⏲      # U+23F2        TIMER CLOCK
+      - ⏳     # U+23F3        HOURGLASS WITH FLOWING SAND
+      - ⏸      # U+23F8        DOUBLE VERTICAL BAR
+      - ⏹      # U+23F9        BLACK SQUARE FOR STOP
+      - ⏺      # U+23FA        BLACK CIRCLE FOR RECORD
+    Keyboard symbol:
+      - ⌨      # U+2328        KEYBOARD
+    Keyboard and UI symbols:
+      - ⏏      # U+23CF        EJECT SYMBOL
+  Enclosed Alphanumerics:
+    Circled Latin letters:
+      - Ⓜ️      # U+24C2        CIRCLED LATIN CAPITAL LETTER M
+  Geometric Shapes:
+    Geometric shapes:
+      - ▪️      # U+25AA        BLACK SMALL SQUARE
+      - ▫️      # U+25AB        WHITE SMALL SQUARE
+      - ▶️      # U+25B6        BLACK RIGHT-POINTING TRIANGLE
+      - ◀️      # U+25C0        BLACK LEFT-POINTING TRIANGLE
+      - ◻️      # U+25FB        WHITE MEDIUM SQUARE
+      - ◼️      # U+25FC        BLACK MEDIUM SQUARE
+      - ◽️     # U+25FD        WHITE MEDIUM SMALL SQUARE
+      - ◾️     # U+25FE        BLACK MEDIUM SMALL SQUARE
+  Miscellaneous Symbols:
+    Weather and astrological symbols:
+      - ☀️      # U+2600        BLACK SUN WITH RAYS
+      - ☁️      # U+2601        CLOUD
+      - ☂      # U+2602        UMBRELLA
+      - ☃      # U+2603        SNOWMAN
+      - ☄      # U+2604        COMET
+    Miscellaneous mark:
+      - ☎️      # U+260E        BLACK TELEPHONE
+      - ☑️      # U+2611        BALLOT BOX WITH CHECK
+      - ☕️     # U+2615        HOT BEVERAGE
+      - ☘      # U+2618        SHAMROCK
+      - ☸      # U+2638        WHEEL OF DHARMA
+      - ♨️      # U+2668        HOT SPRINGS
+      - ♿️     # U+267F        WHEELCHAIR SYMBOL
+      - ⚜      # U+269C        FLEUR-DE-LIS
+      - ⚠️      # U+26A0        WARNING SIGN
+      - ⚡️     # U+26A1        HIGH VOLTAGE SIGN
+    Weather symbol:
+      - ☔️     # U+2614        UMBRELLA WITH RAIN DROPS
+    Pointing hand symbols:
+      - ☝️      # U+261D        WHITE UP POINTING INDEX
+    Warning signs:
+      - ☠      # U+2620        SKULL AND CROSSBONES
+      - ☢      # U+2622        RADIOACTIVE SIGN
+      - ☣      # U+2623        BIOHAZARD SIGN
+    Religious and political symbols:
+      - ☦      # U+2626        ORTHODOX CROSS
+      - ☪      # U+262A        STAR AND CRESCENT
+      - ☮      # U+262E        PEACE SYMBOL
+      - ☯      # U+262F        YIN YANG
+    Emoticons:
+      - ☹      # U+2639        WHITE FROWNING FACE
+      - ☺️      # U+263A        WHITE SMILING FACE
+    Astrological signs:
+      - ♀      # U+2640        FEMALE SIGN
+      - ♂      # U+2642        MALE SIGN
+    Zodiacal symbol:
+      - ♈️     # U+2648        ARIES
+      - ♉️     # U+2649        TAURUS
+      - ♊️     # U+264A        GEMINI
+      - ♋️     # U+264B        CANCER
+      - ♌️     # U+264C        LEO
+      - ♍️     # U+264D        VIRGO
+      - ♎️     # U+264E        LIBRA
+      - ♏️     # U+264F        SCORPIUS
+      - ♐️     # U+2650        SAGITTARIUS
+      - ♑️     # U+2651        CAPRICORN
+      - ♒️     # U+2652        AQUARIUS
+      - ♓️     # U+2653        PISCES
+      - ⛎     # U+26CE        OPHIUCHUS
+    Playing card symbols:
+      - ♠️      # U+2660        BLACK SPADE SUIT
+      - ♣️      # U+2663        BLACK CLUB SUIT
+      - ♥️      # U+2665        BLACK HEART SUIT
+      - ♦️      # U+2666        BLACK DIAMOND SUIT
+    Recycling symbols:
+      - ♻️      # U+267B        BLACK UNIVERSAL RECYCLING SYMBOL
+    Dictionary and map symbols:
+      - ⚒      # U+2692        HAMMER AND PICK
+      - ⚓️     # U+2693        ANCHOR
+      - ⚔      # U+2694        CROSSED SWORDS
+      - ⚕      # U+2695        STAFF OF AESCULAPIUS
+      - ⚖      # U+2696        SCALES
+      - ⚗      # U+2697        ALEMBIC
+      - ⚙      # U+2699        GEAR
+      - ⚛      # U+269B        ATOM SYMBOL
+    Circles:
+      - ⚪️     # U+26AA        MEDIUM WHITE CIRCLE
+      - ⚫️     # U+26AB        MEDIUM BLACK CIRCLE
+    Genealogical symbols:
+      - ⚰      # U+26B0        COFFIN
+      - ⚱      # U+26B1        FUNERAL URN
+    Sport symbols:
+      - ⚽️     # U+26BD        SOCCER BALL
+      - ⚾️     # U+26BE        BASEBALL
+    Weather symbols from ARIB STD B24:
+      - ⛄️     # U+26C4        SNOWMAN WITHOUT SNOW
+      - ⛅️     # U+26C5        SUN BEHIND CLOUD
+      - ⛈      # U+26C8        THUNDER CLOUD AND RAIN
+    Traffic sign from ARIB STD B24:
+      - ⛏      # U+26CF        PICK
+      - ⛑      # U+26D1        HELMET WITH WHITE CROSS
+      - ⛓      # U+26D3        CHAINS
+      - ⛔️     # U+26D4        NO ENTRY
+    Map symbol from ARIB STD B24:
+      - ⛩      # U+26E9        SHINTO SHRINE
+      - ⛪️     # U+26EA        CHURCH
+      - ⛰      # U+26F0        MOUNTAIN
+      - ⛱      # U+26F1        UMBRELLA ON GROUND
+      - ⛲️     # U+26F2        FOUNTAIN
+      - ⛳️     # U+26F3        FLAG IN HOLE
+      - ⛴      # U+26F4        FERRY
+      - ⛵️     # U+26F5        SAILBOAT
+      - ⛷      # U+26F7        SKIER
+      - ⛸      # U+26F8        ICE SKATE
+      - ⛹      # U+26F9        PERSON WITH BALL
+      - ⛺️     # U+26FA        TENT
+      - ⛽️     # U+26FD        FUEL PUMP
+  Dingbats:
+    Miscellaneous:
+      - ✂️      # U+2702        BLACK SCISSORS
+      - ✅     # U+2705        WHITE HEAVY CHECK MARK
+      - ✈️      # U+2708        AIRPLANE
+      - ✉️      # U+2709        ENVELOPE
+      - ✊     # U+270A        RAISED FIST
+      - ✋     # U+270B        RAISED HAND
+      - ✌️      # U+270C        VICTORY HAND
+      - ✍      # U+270D        WRITING HAND
+      - ✏️      # U+270F        PENCIL
+      - ✒️      # U+2712        BLACK NIB
+      - ✔️      # U+2714        HEAVY CHECK MARK
+      - ✖️      # U+2716        HEAVY MULTIPLICATION X
+      - ❌     # U+274C        CROSS MARK
+      - ❎     # U+274E        NEGATIVE SQUARED CROSS MARK
+      - ❓     # U+2753        BLACK QUESTION MARK ORNAMENT
+      - ❔     # U+2754        WHITE QUESTION MARK ORNAMENT
+      - ❕     # U+2755        WHITE EXCLAMATION MARK ORNAMENT
+      - ❗️     # U+2757        HEAVY EXCLAMATION MARK SYMBOL
+      - ➰     # U+27B0        CURLY LOOP
+      - ➿     # U+27BF        DOUBLE CURLY LOOP
+    Crosses:
+      - ✝      # U+271D        LATIN CROSS
+    Stars and asterisks:
+      - ✡      # U+2721        STAR OF DAVID
+      - ✨     # U+2728        SPARKLES
+      - ✳️      # U+2733        EIGHT SPOKED ASTERISK
+      - ✴️      # U+2734        EIGHT POINTED BLACK STAR
+    Stars, asterisks and snowflakes:
+      - ❄️      # U+2744        SNOWFLAKE
+      - ❇️      # U+2747        SPARKLE
+    Punctuation mark ornaments:
+      - ❣      # U+2763        HEAVY HEART EXCLAMATION MARK ORNAMENT
+      - ❤️      # U+2764        HEAVY BLACK HEART
+    Heavy variants of arithmetic symbols:
+      - ➕     # U+2795        HEAVY PLUS SIGN
+      - ➖     # U+2796        HEAVY MINUS SIGN
+      - ➗     # U+2797        HEAVY DIVISION SIGN
+    Dingbat arrow:
+      - ➡️      # U+27A1        BLACK RIGHTWARDS ARROW
+  Supplemental Arrows B:
+    Miscellaneous curved arrows:
+      - ⤴️      # U+2934        ARROW POINTING RIGHTWARDS THEN CURVING UPWARDS
+      - ⤵️      # U+2935        ARROW POINTING RIGHTWARDS THEN CURVING DOWNWARDS
+  Miscellaneous Symbols And Arrows:
+    White and black arrows:
+      - ⬅️      # U+2B05        LEFTWARDS BLACK ARROW
+      - ⬆️      # U+2B06        UPWARDS BLACK ARROW
+      - ⬇️      # U+2B07        DOWNWARDS BLACK ARROW
+    Squares:
+      - ⬛️     # U+2B1B        BLACK LARGE SQUARE
+      - ⬜️     # U+2B1C        WHITE LARGE SQUARE
+    Stars:
+      - ⭐️     # U+2B50        WHITE MEDIUM STAR
+    Traffic sign from ARIB STD B24:
+      - ⭕️     # U+2B55        HEAVY LARGE CIRCLE
+  CJK Symbols And Punctuation:
+    CJK symbols:
+      - 〰️     # U+3030        WAVY DASH
+  CJK Symbols And Punctuation:
+    Other CJK punctuation:
+      - 〽️     # U+303D        PART ALTERNATION MARK
+  Enclosed CJK Letters And Months:
+    Circled ideographs:
+      - ㊗️     # U+3297        CIRCLED IDEOGRAPH CONGRATULATION
+      - ㊙️     # U+3299        CIRCLED IDEOGRAPH SECRET
+  Mahjong Tiles:
+    Dragon tiles:
+      - 🀄️      # U+1F004       MAHJONG TILE RED DRAGON
+  Playing Cards:
+    Joker:
+      - 🃏      # U+1F0CF       PLAYING CARD BLACK JOKER
+  Enclosed Alphanumeric Supplement:
+    White on black squared Latin letters:
+      - 🅰️      # U+1F170       NEGATIVE SQUARED LATIN CAPITAL LETTER A
+      - 🅱️      # U+1F171       NEGATIVE SQUARED LATIN CAPITAL LETTER B
+      - 🅾️      # U+1F17E       NEGATIVE SQUARED LATIN CAPITAL LETTER O
+      - 🅿️      # U+1F17F       NEGATIVE SQUARED LATIN CAPITAL LETTER P
+      - 🆎     # U+1F18E       NEGATIVE SQUARED AB
+    Squared Latin letter sequences:
+      - 🆑     # U+1F191       SQUARED CL
+      - 🆒     # U+1F192       SQUARED COOL
+      - 🆓     # U+1F193       SQUARED FREE
+      - 🆔     # U+1F194       SQUARED ID
+      - 🆕     # U+1F195       SQUARED NEW
+      - 🆖     # U+1F196       SQUARED NG
+      - 🆗     # U+1F197       SQUARED OK
+      - 🆘     # U+1F198       SQUARED SOS
+      - 🆙     # U+1F199       SQUARED UP WITH EXCLAMATION MARK
+      - 🆚     # U+1F19A       SQUARED VS
+    Regional indicator symbols:
+      - 🇦      # U+1F1E6       REGIONAL INDICATOR SYMBOL LETTER A
+      - 🇧      # U+1F1E7       REGIONAL INDICATOR SYMBOL LETTER B
+      - 🇨      # U+1F1E8       REGIONAL INDICATOR SYMBOL LETTER C
+      - 🇩      # U+1F1E9       REGIONAL INDICATOR SYMBOL LETTER D
+      - 🇪      # U+1F1EA       REGIONAL INDICATOR SYMBOL LETTER E
+      - 🇫      # U+1F1EB       REGIONAL INDICATOR SYMBOL LETTER F
+      - 🇬      # U+1F1EC       REGIONAL INDICATOR SYMBOL LETTER G
+      - 🇭      # U+1F1ED       REGIONAL INDICATOR SYMBOL LETTER H
+      - 🇮      # U+1F1EE       REGIONAL INDICATOR SYMBOL LETTER I
+      - 🇯      # U+1F1EF       REGIONAL INDICATOR SYMBOL LETTER J
+      - 🇰      # U+1F1F0       REGIONAL INDICATOR SYMBOL LETTER K
+      - 🇱      # U+1F1F1       REGIONAL INDICATOR SYMBOL LETTER L
+      - 🇲      # U+1F1F2       REGIONAL INDICATOR SYMBOL LETTER M
+      - 🇳      # U+1F1F3       REGIONAL INDICATOR SYMBOL LETTER N
+      - 🇴      # U+1F1F4       REGIONAL INDICATOR SYMBOL LETTER O
+      - 🇵      # U+1F1F5       REGIONAL INDICATOR SYMBOL LETTER P
+      - 🇶      # U+1F1F6       REGIONAL INDICATOR SYMBOL LETTER Q
+      - 🇷      # U+1F1F7       REGIONAL INDICATOR SYMBOL LETTER R
+      - 🇸      # U+1F1F8       REGIONAL INDICATOR SYMBOL LETTER S
+      - 🇹      # U+1F1F9       REGIONAL INDICATOR SYMBOL LETTER T
+      - 🇺      # U+1F1FA       REGIONAL INDICATOR SYMBOL LETTER U
+      - 🇻      # U+1F1FB       REGIONAL INDICATOR SYMBOL LETTER V
+      - 🇼      # U+1F1FC       REGIONAL INDICATOR SYMBOL LETTER W
+      - 🇽      # U+1F1FD       REGIONAL INDICATOR SYMBOL LETTER X
+      - 🇾      # U+1F1FE       REGIONAL INDICATOR SYMBOL LETTER Y
+      - 🇿      # U+1F1FF       REGIONAL INDICATOR SYMBOL LETTER Z
+  Enclosed Ideographic Supplement:
+    Squared katakana:
+      - 🈁     # U+1F201       SQUARED KATAKANA KOKO
+      - 🈂️     # U+1F202       SQUARED KATAKANA SA
+    Squared ideographs and kana from ARIB STD B24:
+      - 🈚️     # U+1F21A       SQUARED CJK UNIFIED IDEOGRAPH-7121
+      - 🈯️     # U+1F22F       SQUARED CJK UNIFIED IDEOGRAPH-6307
+    Squared ideographs:
+      - 🈲     # U+1F232       SQUARED CJK UNIFIED IDEOGRAPH-7981
+      - 🈳     # U+1F233       SQUARED CJK UNIFIED IDEOGRAPH-7A7A
+      - 🈴     # U+1F234       SQUARED CJK UNIFIED IDEOGRAPH-5408
+      - 🈵     # U+1F235       SQUARED CJK UNIFIED IDEOGRAPH-6E80
+      - 🈶     # U+1F236       SQUARED CJK UNIFIED IDEOGRAPH-6709
+      - 🈷️     # U+1F237       SQUARED CJK UNIFIED IDEOGRAPH-6708
+      - 🈸     # U+1F238       SQUARED CJK UNIFIED IDEOGRAPH-7533
+      - 🈹     # U+1F239       SQUARED CJK UNIFIED IDEOGRAPH-5272
+      - 🈺     # U+1F23A       SQUARED CJK UNIFIED IDEOGRAPH-55B6
+    Circled ideographs:
+      - 🉐     # U+1F250       CIRCLED IDEOGRAPH ADVANTAGE
+      - 🉑     # U+1F251       CIRCLED IDEOGRAPH ACCEPT
+  Miscellaneous Symbols And Pictographs:
+    Weather, landscape, and sky symbols:
+      - 🌀     # U+1F300       CYCLONE
+      - 🌁     # U+1F301       FOGGY
+      - 🌂     # U+1F302       CLOSED UMBRELLA
+      - 🌃     # U+1F303       NIGHT WITH STARS
+      - 🌄     # U+1F304       SUNRISE OVER MOUNTAINS
+      - 🌅     # U+1F305       SUNRISE
+      - 🌆     # U+1F306       CITYSCAPE AT DUSK
+      - 🌇     # U+1F307       SUNSET OVER BUILDINGS
+      - 🌈     # U+1F308       RAINBOW
+      - 🌉     # U+1F309       BRIDGE AT NIGHT
+      - 🌊     # U+1F30A       WATER WAVE
+      - 🌋     # U+1F30B       VOLCANO
+      - 🌌     # U+1F30C       MILKY WAY
+    Globe symbols:
+      - 🌍     # U+1F30D       EARTH GLOBE EUROPE-AFRICA
+      - 🌎     # U+1F30E       EARTH GLOBE AMERICAS
+      - 🌏     # U+1F30F       EARTH GLOBE ASIA-AUSTRALIA
+      - 🌐     # U+1F310       GLOBE WITH MERIDIANS
+    Moon, sun, and star symbols:
+      - 🌑     # U+1F311       NEW MOON SYMBOL
+      - 🌒     # U+1F312       WAXING CRESCENT MOON SYMBOL
+      - 🌓     # U+1F313       FIRST QUARTER MOON SYMBOL
+      - 🌔     # U+1F314       WAXING GIBBOUS MOON SYMBOL
+      - 🌕     # U+1F315       FULL MOON SYMBOL
+      - 🌖     # U+1F316       WANING GIBBOUS MOON SYMBOL
+      - 🌗     # U+1F317       LAST QUARTER MOON SYMBOL
+      - 🌘     # U+1F318       WANING CRESCENT MOON SYMBOL
+      - 🌙     # U+1F319       CRESCENT MOON
+      - 🌚     # U+1F31A       NEW MOON WITH FACE
+      - 🌛     # U+1F31B       FIRST QUARTER MOON WITH FACE
+      - 🌜     # U+1F31C       LAST QUARTER MOON WITH FACE
+      - 🌝     # U+1F31D       FULL MOON WITH FACE
+      - 🌞     # U+1F31E       SUN WITH FACE
+      - 🌟     # U+1F31F       GLOWING STAR
+      - 🌠     # U+1F320       SHOOTING STAR
+    Weather symbol:
+      - 🌡     # U+1F321       THERMOMETER
+      - 🌤     # U+1F324       WHITE SUN WITH SMALL CLOUD
+      - 🌥     # U+1F325       WHITE SUN BEHIND CLOUD
+      - 🌦     # U+1F326       WHITE SUN BEHIND CLOUD WITH RAIN
+      - 🌧     # U+1F327       CLOUD WITH RAIN
+      - 🌨     # U+1F328       CLOUD WITH SNOW
+      - 🌩     # U+1F329       CLOUD WITH LIGHTNING
+      - 🌪     # U+1F32A       CLOUD WITH TORNADO
+      - 🌫     # U+1F32B       FOG
+      - 🌬     # U+1F32C       WIND BLOWING FACE
+    Food symbol:
+      - 🌭     # U+1F32D       HOT DOG
+      - 🌮     # U+1F32E       TACO
+      - 🌯     # U+1F32F       BURRITO
+      - 🍔     # U+1F354       HAMBURGER
+      - 🍕     # U+1F355       SLICE OF PIZZA
+      - 🍖     # U+1F356       MEAT ON BONE
+      - 🍗     # U+1F357       POULTRY LEG
+      - 🍘     # U+1F358       RICE CRACKER
+      - 🍙     # U+1F359       RICE BALL
+      - 🍚     # U+1F35A       COOKED RICE
+      - 🍛     # U+1F35B       CURRY AND RICE
+      - 🍜     # U+1F35C       STEAMING BOWL
+      - 🍝     # U+1F35D       SPAGHETTI
+      - 🍞     # U+1F35E       BREAD
+      - 🍟     # U+1F35F       FRENCH FRIES
+      - 🍠     # U+1F360       ROASTED SWEET POTATO
+      - 🍡     # U+1F361       DANGO
+      - 🍢     # U+1F362       ODEN
+      - 🍣     # U+1F363       SUSHI
+      - 🍤     # U+1F364       FRIED SHRIMP
+      - 🍥     # U+1F365       FISH CAKE WITH SWIRL DESIGN
+      - 🍦     # U+1F366       SOFT ICE CREAM
+      - 🍧     # U+1F367       SHAVED ICE
+      - 🍨     # U+1F368       ICE CREAM
+      - 🍩     # U+1F369       DOUGHNUT
+      - 🍪     # U+1F36A       COOKIE
+      - 🍫     # U+1F36B       CHOCOLATE BAR
+      - 🍬     # U+1F36C       CANDY
+      - 🍭     # U+1F36D       LOLLIPOP
+      - 🍮     # U+1F36E       CUSTARD
+      - 🍯     # U+1F36F       HONEY POT
+      - 🍰     # U+1F370       SHORTCAKE
+      - 🍱     # U+1F371       BENTO BOX
+      - 🍲     # U+1F372       POT OF FOOD
+      - 🍳     # U+1F373       COOKING
+      - 🍴     # U+1F374       FORK AND KNIFE
+    Plant symbols:
+      - 🌰     # U+1F330       CHESTNUT
+      - 🌱     # U+1F331       SEEDLING
+      - 🌲     # U+1F332       EVERGREEN TREE
+      - 🌳     # U+1F333       DECIDUOUS TREE
+      - 🌴     # U+1F334       PALM TREE
+      - 🌵     # U+1F335       CACTUS
+      - 🌶     # U+1F336       HOT PEPPER
+      - 🌷     # U+1F337       TULIP
+      - 🌸     # U+1F338       CHERRY BLOSSOM
+      - 🌹     # U+1F339       ROSE
+      - 🌺     # U+1F33A       HIBISCUS
+      - 🌻     # U+1F33B       SUNFLOWER
+      - 🌼     # U+1F33C       BLOSSOM
+      - 🌽     # U+1F33D       EAR OF MAIZE
+      - 🌾     # U+1F33E       EAR OF RICE
+      - 🌿     # U+1F33F       HERB
+      - 🍀     # U+1F340       FOUR LEAF CLOVER
+      - 🍁     # U+1F341       MAPLE LEAF
+      - 🍂     # U+1F342       FALLEN LEAF
+      - 🍃     # U+1F343       LEAF FLUTTERING IN WIND
+      - 🍄     # U+1F344       MUSHROOM
+    Fruit and vegetable symbols:
+      - 🍅     # U+1F345       TOMATO
+      - 🍆     # U+1F346       AUBERGINE
+      - 🍇     # U+1F347       GRAPES
+      - 🍈     # U+1F348       MELON
+      - 🍉     # U+1F349       WATERMELON
+      - 🍊     # U+1F34A       TANGERINE
+      - 🍋     # U+1F34B       LEMON
+      - 🍌     # U+1F34C       BANANA
+      - 🍍     # U+1F34D       PINEAPPLE
+      - 🍎     # U+1F34E       RED APPLE
+      - 🍏     # U+1F34F       GREEN APPLE
+      - 🍐     # U+1F350       PEAR
+      - 🍑     # U+1F351       PEACH
+      - 🍒     # U+1F352       CHERRIES
+      - 🍓     # U+1F353       STRAWBERRY
+    Beverage symbols:
+      - 🍵     # U+1F375       TEACUP WITHOUT HANDLE
+      - 🍶     # U+1F376       SAKE BOTTLE AND CUP
+      - 🍷     # U+1F377       WINE GLASS
+      - 🍸     # U+1F378       COCKTAIL GLASS
+      - 🍹     # U+1F379       TROPICAL DRINK
+      - 🍺     # U+1F37A       BEER MUG
+      - 🍻     # U+1F37B       CLINKING BEER MUGS
+      - 🍼     # U+1F37C       BABY BOTTLE
+    Accommodation symbol:
+      - 🍽     # U+1F37D       FORK AND KNIFE WITH PLATE
+    Beverage and food symbols:
+      - 🍾     # U+1F37E       BOTTLE WITH POPPING CORK
+      - 🍿     # U+1F37F       POPCORN
+    Celebration symbols:
+      - 🎀     # U+1F380       RIBBON
+      - 🎁     # U+1F381       WRAPPED PRESENT
+      - 🎂     # U+1F382       BIRTHDAY CAKE
+      - 🎃     # U+1F383       JACK-O-LANTERN
+      - 🎄     # U+1F384       CHRISTMAS TREE
+      - 🎅     # U+1F385       FATHER CHRISTMAS
+      - 🎆     # U+1F386       FIREWORKS
+      - 🎇     # U+1F387       FIREWORK SPARKLER
+      - 🎈     # U+1F388       BALLOON
+      - 🎉     # U+1F389       PARTY POPPER
+      - 🎊     # U+1F38A       CONFETTI BALL
+      - 🎋     # U+1F38B       TANABATA TREE
+      - 🎌     # U+1F38C       CROSSED FLAGS
+      - 🎍     # U+1F38D       PINE DECORATION
+      - 🎎     # U+1F38E       JAPANESE DOLLS
+      - 🎏     # U+1F38F       CARP STREAMER
+      - 🎐     # U+1F390       WIND CHIME
+      - 🎑     # U+1F391       MOON VIEWING CEREMONY
+      - 🎒     # U+1F392       SCHOOL SATCHEL
+      - 🎓     # U+1F393       GRADUATION CAP
+      - 🎖     # U+1F396       MILITARY MEDAL
+      - 🎗     # U+1F397       REMINDER RIBBON
+    Musical symbols:
+      - 🎙     # U+1F399       STUDIO MICROPHONE
+      - 🎚     # U+1F39A       LEVEL SLIDER
+      - 🎛     # U+1F39B       CONTROL KNOBS
+      - 🎵     # U+1F3B5       MUSICAL NOTE
+      - 🎶     # U+1F3B6       MULTIPLE MUSICAL NOTES
+      - 🎷     # U+1F3B7       SAXOPHONE
+      - 🎸     # U+1F3B8       GUITAR
+      - 🎹     # U+1F3B9       MUSICAL KEYBOARD
+      - 🎺     # U+1F3BA       TRUMPET
+      - 🎻     # U+1F3BB       VIOLIN
+      - 🎼     # U+1F3BC       MUSICAL SCORE
+    Entertainment symbols:
+      - 🎞     # U+1F39E       FILM FRAMES
+      - 🎟     # U+1F39F       ADMISSION TICKETS
+      - 🎠     # U+1F3A0       CAROUSEL HORSE
+      - 🎡     # U+1F3A1       FERRIS WHEEL
+      - 🎢     # U+1F3A2       ROLLER COASTER
+      - 🎣     # U+1F3A3       FISHING POLE AND FISH
+      - 🎤     # U+1F3A4       MICROPHONE
+      - 🎥     # U+1F3A5       MOVIE CAMERA
+      - 🎦     # U+1F3A6       CINEMA
+      - 🎧     # U+1F3A7       HEADPHONE
+      - 🎨     # U+1F3A8       ARTIST PALETTE
+      - 🎩     # U+1F3A9       TOP HAT
+      - 🎪     # U+1F3AA       CIRCUS TENT
+      - 🎫     # U+1F3AB       TICKET
+      - 🎬     # U+1F3AC       CLAPPER BOARD
+      - 🎭     # U+1F3AD       PERFORMING ARTS
+    Game symbol:
+      - 🎮     # U+1F3AE       VIDEO GAME
+      - 🎯     # U+1F3AF       DIRECT HIT
+      - 🎰     # U+1F3B0       SLOT MACHINE
+      - 🎱     # U+1F3B1       BILLIARDS
+      - 🎲     # U+1F3B2       GAME DIE
+      - 🎳     # U+1F3B3       BOWLING
+      - 🎴     # U+1F3B4       FLOWER PLAYING CARDS
+      - 🕹     # U+1F579       JOYSTICK
+    Sport symbols:
+      - 🎽     # U+1F3BD       RUNNING SHIRT WITH SASH
+      - 🎾     # U+1F3BE       TENNIS RACQUET AND BALL
+      - 🎿     # U+1F3BF       SKI AND SKI BOOT
+      - 🏀     # U+1F3C0       BASKETBALL AND HOOP
+      - 🏁     # U+1F3C1       CHEQUERED FLAG
+      - 🏂     # U+1F3C2       SNOWBOARDER
+      - 🏃     # U+1F3C3       RUNNER
+      - 🏄     # U+1F3C4       SURFER
+      - 🏅     # U+1F3C5       SPORTS MEDAL
+      - 🏆     # U+1F3C6       TROPHY
+      - 🏇     # U+1F3C7       HORSE RACING
+      - 🏈     # U+1F3C8       AMERICAN FOOTBALL
+      - 🏉     # U+1F3C9       RUGBY FOOTBALL
+      - 🏊     # U+1F3CA       SWIMMER
+      - 🏋     # U+1F3CB       WEIGHT LIFTER
+      - 🏌     # U+1F3CC       GOLFER
+      - 🏍     # U+1F3CD       RACING MOTORCYCLE
+      - 🏎     # U+1F3CE       RACING CAR
+      - 🏏     # U+1F3CF       CRICKET BAT AND BALL
+      - 🏐     # U+1F3D0       VOLLEYBALL
+      - 🏑     # U+1F3D1       FIELD HOCKEY STICK AND BALL
+      - 🏒     # U+1F3D2       ICE HOCKEY STICK AND PUCK
+      - 🏓     # U+1F3D3       TABLE TENNIS PADDLE AND BALL
+      - 🏸     # U+1F3F8       BADMINTON RACQUET AND SHUTTLECOCK
+      - 🏹     # U+1F3F9       BOW AND ARROW
+    Building and map symbols:
+      - 🏔     # U+1F3D4       SNOW CAPPED MOUNTAIN
+      - 🏕     # U+1F3D5       CAMPING
+      - 🏖     # U+1F3D6       BEACH WITH UMBRELLA
+      - 🏗     # U+1F3D7       BUILDING CONSTRUCTION
+      - 🏘     # U+1F3D8       HOUSE BUILDINGS
+      - 🏙     # U+1F3D9       CITYSCAPE
+      - 🏚     # U+1F3DA       DERELICT HOUSE BUILDING
+      - 🏛     # U+1F3DB       CLASSICAL BUILDING
+      - 🏜     # U+1F3DC       DESERT
+      - 🏝     # U+1F3DD       DESERT ISLAND
+      - 🏞     # U+1F3DE       NATIONAL PARK
+      - 🏟     # U+1F3DF       STADIUM
+      - 🏠     # U+1F3E0       HOUSE BUILDING
+      - 🏡     # U+1F3E1       HOUSE WITH GARDEN
+      - 🏢     # U+1F3E2       OFFICE BUILDING
+      - 🏣     # U+1F3E3       JAPANESE POST OFFICE
+      - 🏤     # U+1F3E4       EUROPEAN POST OFFICE
+      - 🏥     # U+1F3E5       HOSPITAL
+      - 🏦     # U+1F3E6       BANK
+      - 🏧     # U+1F3E7       AUTOMATED TELLER MACHINE
+      - 🏨     # U+1F3E8       HOTEL
+      - 🏩     # U+1F3E9       LOVE HOTEL
+      - 🏪     # U+1F3EA       CONVENIENCE STORE
+      - 🏫     # U+1F3EB       SCHOOL
+      - 🏬     # U+1F3EC       DEPARTMENT STORE
+      - 🏭     # U+1F3ED       FACTORY
+      - 🏮     # U+1F3EE       IZAKAYA LANTERN
+      - 🏯     # U+1F3EF       JAPANESE CASTLE
+      - 🏰     # U+1F3F0       EUROPEAN CASTLE
+    Flag symbols:
+      - 🏳     # U+1F3F3       WAVING WHITE FLAG
+      - 🏴     # U+1F3F4       WAVING BLACK FLAG
+    Rosettes:
+      - 🏵     # U+1F3F5       ROSETTE
+    Miscellaneous mark:
+      - 🏷     # U+1F3F7       LABEL
+      - 🏺     # U+1F3FA       AMPHORA
+      - 🔯     # U+1F52F       SIX POINTED STAR WITH MIDDLE DOT
+      - 🔰     # U+1F530       JAPANESE SYMBOL FOR BEGINNER
+      - 🔱     # U+1F531       TRIDENT EMBLEM
+      - 🕯     # U+1F56F       CANDLE
+      - 🕰     # U+1F570       MANTELPIECE CLOCK
+      - 🕳     # U+1F573       HOLE
+      - 🕴     # U+1F574       MAN IN BUSINESS SUIT LEVITATING
+      - 🕵     # U+1F575       SLEUTH OR SPY
+      - 🕶     # U+1F576       DARK SUNGLASSES
+      - 🗞     # U+1F5DE       ROLLED-UP NEWSPAPER
+    Emoji modifiers:
+      - 🏻     # U+1F3FB       EMOJI MODIFIER FITZPATRICK TYPE-1-2
+      - 🏼     # U+1F3FC       EMOJI MODIFIER FITZPATRICK TYPE-3
+      - 🏽     # U+1F3FD       EMOJI MODIFIER FITZPATRICK TYPE-4
+      - 🏾     # U+1F3FE       EMOJI MODIFIER FITZPATRICK TYPE-5
+      - 🏿     # U+1F3FF       EMOJI MODIFIER FITZPATRICK TYPE-6
+    Animal symbols:
+      - 🐀     # U+1F400       RAT
+      - 🐁     # U+1F401       MOUSE
+      - 🐂     # U+1F402       OX
+      - 🐃     # U+1F403       WATER BUFFALO
+      - 🐄     # U+1F404       COW
+      - 🐅     # U+1F405       TIGER
+      - 🐆     # U+1F406       LEOPARD
+      - 🐇     # U+1F407       RABBIT
+      - 🐈     # U+1F408       CAT
+      - 🐉     # U+1F409       DRAGON
+      - 🐊     # U+1F40A       CROCODILE
+      - 🐋     # U+1F40B       WHALE
+      - 🐌     # U+1F40C       SNAIL
+      - 🐍     # U+1F40D       SNAKE
+      - 🐎     # U+1F40E       HORSE
+      - 🐏     # U+1F40F       RAM
+      - 🐐     # U+1F410       GOAT
+      - 🐑     # U+1F411       SHEEP
+      - 🐒     # U+1F412       MONKEY
+      - 🐓     # U+1F413       ROOSTER
+      - 🐔     # U+1F414       CHICKEN
+      - 🐕     # U+1F415       DOG
+      - 🐖     # U+1F416       PIG
+      - 🐗     # U+1F417       BOAR
+      - 🐘     # U+1F418       ELEPHANT
+      - 🐙     # U+1F419       OCTOPUS
+      - 🐚     # U+1F41A       SPIRAL SHELL
+      - 🐛     # U+1F41B       BUG
+      - 🐜     # U+1F41C       ANT
+      - 🐝     # U+1F41D       HONEYBEE
+      - 🐞     # U+1F41E       LADY BEETLE
+      - 🐟     # U+1F41F       FISH
+      - 🐠     # U+1F420       TROPICAL FISH
+      - 🐡     # U+1F421       BLOWFISH
+      - 🐢     # U+1F422       TURTLE
+      - 🐣     # U+1F423       HATCHING CHICK
+      - 🐤     # U+1F424       BABY CHICK
+      - 🐥     # U+1F425       FRONT-FACING BABY CHICK
+      - 🐦     # U+1F426       BIRD
+      - 🐧     # U+1F427       PENGUIN
+      - 🐨     # U+1F428       KOALA
+      - 🐩     # U+1F429       POODLE
+      - 🐪     # U+1F42A       DROMEDARY CAMEL
+      - 🐫     # U+1F42B       BACTRIAN CAMEL
+      - 🐬     # U+1F42C       DOLPHIN
+      - 🐾     # U+1F43E       PAW PRINTS
+      - 🐿     # U+1F43F       CHIPMUNK
+      - 🕷     # U+1F577       SPIDER
+      - 🕸     # U+1F578       SPIDER WEB
+    Animal faces:
+      - 🐭     # U+1F42D       MOUSE FACE
+      - 🐮     # U+1F42E       COW FACE
+      - 🐯     # U+1F42F       TIGER FACE
+      - 🐰     # U+1F430       RABBIT FACE
+      - 🐱     # U+1F431       CAT FACE
+      - 🐲     # U+1F432       DRAGON FACE
+      - 🐳     # U+1F433       SPOUTING WHALE
+      - 🐴     # U+1F434       HORSE FACE
+      - 🐵     # U+1F435       MONKEY FACE
+      - 🐶     # U+1F436       DOG FACE
+      - 🐷     # U+1F437       PIG FACE
+      - 🐸     # U+1F438       FROG FACE
+      - 🐹     # U+1F439       HAMSTER FACE
+      - 🐺     # U+1F43A       WOLF FACE
+      - 🐻     # U+1F43B       BEAR FACE
+      - 🐼     # U+1F43C       PANDA FACE
+      - 🐽     # U+1F43D       PIG NOSE
+    Facial parts symbols:
+      - 👀     # U+1F440       EYES
+      - 👁     # U+1F441       EYE
+      - 👂     # U+1F442       EAR
+      - 👃     # U+1F443       NOSE
+      - 👄     # U+1F444       MOUTH
+      - 👅     # U+1F445       TONGUE
+    Hand symbols:
+      - 👆     # U+1F446       WHITE UP POINTING BACKHAND INDEX
+      - 👇     # U+1F447       WHITE DOWN POINTING BACKHAND INDEX
+      - 👈     # U+1F448       WHITE LEFT POINTING BACKHAND INDEX
+      - 👉     # U+1F449       WHITE RIGHT POINTING BACKHAND INDEX
+      - 👊     # U+1F44A       FISTED HAND SIGN
+      - 👋     # U+1F44B       WAVING HAND SIGN
+      - 👌     # U+1F44C       OK HAND SIGN
+      - 👍     # U+1F44D       THUMBS UP SIGN
+      - 👎     # U+1F44E       THUMBS DOWN SIGN
+      - 👏     # U+1F44F       CLAPPING HANDS SIGN
+      - 👐     # U+1F450       OPEN HANDS SIGN
+      - 🖐     # U+1F590       RAISED HAND WITH FINGERS SPLAYED
+      - 🖕     # U+1F595       REVERSED HAND WITH MIDDLE FINGER EXTENDED
+      - 🖖     # U+1F596       RAISED HAND WITH PART BETWEEN MIDDLE AND RING FINGERS
+    Clothing and accessories:
+      - 👑     # U+1F451       CROWN
+      - 👒     # U+1F452       WOMANS HAT
+      - 👓     # U+1F453       EYEGLASSES
+      - 👔     # U+1F454       NECKTIE
+      - 👕     # U+1F455       T-SHIRT
+      - 👖     # U+1F456       JEANS
+      - 👗     # U+1F457       DRESS
+      - 👘     # U+1F458       KIMONO
+      - 👙     # U+1F459       BIKINI
+      - 👚     # U+1F45A       WOMANS CLOTHES
+      - 👛     # U+1F45B       PURSE
+      - 👜     # U+1F45C       HANDBAG
+      - 👝     # U+1F45D       POUCH
+      - 👞     # U+1F45E       MANS SHOE
+      - 👟     # U+1F45F       ATHLETIC SHOE
+      - 👠     # U+1F460       HIGH-HEELED SHOE
+      - 👡     # U+1F461       WOMANS SANDAL
+      - 👢     # U+1F462       WOMANS BOOTS
+      - 👣     # U+1F463       FOOTPRINTS
+    Portrait and role symbols:
+      - 👤     # U+1F464       BUST IN SILHOUETTE
+      - 👥     # U+1F465       BUSTS IN SILHOUETTE
+      - 👦     # U+1F466       BOY
+      - 👧     # U+1F467       GIRL
+      - 👨     # U+1F468       MAN
+      - 👩     # U+1F469       WOMAN
+      - 👪     # U+1F46A       FAMILY
+      - 👫     # U+1F46B       MAN AND WOMAN HOLDING HANDS
+      - 👬     # U+1F46C       TWO MEN HOLDING HANDS
+      - 👭     # U+1F46D       TWO WOMEN HOLDING HANDS
+      - 👮     # U+1F46E       POLICE OFFICER
+      - 👯     # U+1F46F       WOMAN WITH BUNNY EARS
+      - 👰     # U+1F470       BRIDE WITH VEIL
+      - 👱     # U+1F471       PERSON WITH BLOND HAIR
+      - 👲     # U+1F472       MAN WITH GUA PI MAO
+      - 👳     # U+1F473       MAN WITH TURBAN
+      - 👴     # U+1F474       OLDER MAN
+      - 👵     # U+1F475       OLDER WOMAN
+      - 👶     # U+1F476       BABY
+      - 👷     # U+1F477       CONSTRUCTION WORKER
+    Fairy tale symbols:
+      - 👸     # U+1F478       PRINCESS
+      - 👹     # U+1F479       JAPANESE OGRE
+      - 👺     # U+1F47A       JAPANESE GOBLIN
+      - 👻     # U+1F47B       GHOST
+      - 👼     # U+1F47C       BABY ANGEL
+      - 👽     # U+1F47D       EXTRATERRESTRIAL ALIEN
+      - 👾     # U+1F47E       ALIEN MONSTER
+      - 👿     # U+1F47F       IMP
+      - 💀     # U+1F480       SKULL
+    Role symbol:
+      - 💁     # U+1F481       INFORMATION DESK PERSON
+      - 💂     # U+1F482       GUARDSMAN
+      - 💃     # U+1F483       DANCER
+      - 🕺     # U+1F57A       MAN DANCING
+    Personal care symbols:
+      - 💄     # U+1F484       LIPSTICK
+      - 💅     # U+1F485       NAIL POLISH
+      - 💆     # U+1F486       FACE MASSAGE
+      - 💇     # U+1F487       HAIRCUT
+      - 💈     # U+1F488       BARBER POLE
+    Medical symbols:
+      - 💉     # U+1F489       SYRINGE
+      - 💊     # U+1F48A       PILL
+    Romance symbols:
+      - 💋     # U+1F48B       KISS MARK
+      - 💌     # U+1F48C       LOVE LETTER
+      - 💍     # U+1F48D       RING
+      - 💎     # U+1F48E       GEM STONE
+      - 💏     # U+1F48F       KISS
+      - 💐     # U+1F490       BOUQUET
+      - 💑     # U+1F491       COUPLE WITH HEART
+      - 💒     # U+1F492       WEDDING
+    Heart symbol:
+      - 💓     # U+1F493       BEATING HEART
+      - 💔     # U+1F494       BROKEN HEART
+      - 💕     # U+1F495       TWO HEARTS
+      - 💖     # U+1F496       SPARKLING HEART
+      - 💗     # U+1F497       GROWING HEART
+      - 💘     # U+1F498       HEART WITH ARROW
+      - 💙     # U+1F499       BLUE HEART
+      - 💚     # U+1F49A       GREEN HEART
+      - 💛     # U+1F49B       YELLOW HEART
+      - 💜     # U+1F49C       PURPLE HEART
+      - 💝     # U+1F49D       HEART WITH RIBBON
+      - 💞     # U+1F49E       REVOLVING HEARTS
+      - 💟     # U+1F49F       HEART DECORATION
+      - 🖤     # U+1F5A4       BLACK HEART
+    Comic style symbols:
+      - 💠     # U+1F4A0       DIAMOND SHAPE WITH A DOT INSIDE
+      - 💡     # U+1F4A1       ELECTRIC LIGHT BULB
+      - 💢     # U+1F4A2       ANGER SYMBOL
+      - 💣     # U+1F4A3       BOMB
+      - 💤     # U+1F4A4       SLEEPING SYMBOL
+      - 💥     # U+1F4A5       COLLISION SYMBOL
+      - 💦     # U+1F4A6       SPLASHING SWEAT SYMBOL
+      - 💧     # U+1F4A7       DROPLET
+      - 💨     # U+1F4A8       DASH SYMBOL
+      - 💩     # U+1F4A9       PILE OF POO
+      - 💪     # U+1F4AA       FLEXED BICEPS
+      - 💫     # U+1F4AB       DIZZY SYMBOL
+      - 💬     # U+1F4AC       SPEECH BALLOON
+      - 💭     # U+1F4AD       THOUGHT BALLOON
+    Japanese school grade symbols:
+      - 💮     # U+1F4AE       WHITE FLOWER
+      - 💯     # U+1F4AF       HUNDRED POINTS SYMBOL
+    Money symbols:
+      - 💰     # U+1F4B0       MONEY BAG
+      - 💱     # U+1F4B1       CURRENCY EXCHANGE
+      - 💲     # U+1F4B2       HEAVY DOLLAR SIGN
+      - 💳     # U+1F4B3       CREDIT CARD
+      - 💴     # U+1F4B4       BANKNOTE WITH YEN SIGN
+      - 💵     # U+1F4B5       BANKNOTE WITH DOLLAR SIGN
+      - 💶     # U+1F4B6       BANKNOTE WITH EURO SIGN
+      - 💷     # U+1F4B7       BANKNOTE WITH POUND SIGN
+      - 💸     # U+1F4B8       MONEY WITH WINGS
+      - 💹     # U+1F4B9       CHART WITH UPWARDS TREND AND YEN SIGN
+    Office symbols:
+      - 💺     # U+1F4BA       SEAT
+      - 💻     # U+1F4BB       PERSONAL COMPUTER
+      - 💼     # U+1F4BC       BRIEFCASE
+      - 💽     # U+1F4BD       MINIDISC
+      - 💾     # U+1F4BE       FLOPPY DISK
+      - 💿     # U+1F4BF       OPTICAL DISC
+      - 📀     # U+1F4C0       DVD
+      - 📁     # U+1F4C1       FILE FOLDER
+      - 📂     # U+1F4C2       OPEN FILE FOLDER
+      - 📃     # U+1F4C3       PAGE WITH CURL
+      - 📄     # U+1F4C4       PAGE FACING UP
+      - 📅     # U+1F4C5       CALENDAR
+      - 📆     # U+1F4C6       TEAR-OFF CALENDAR
+      - 📇     # U+1F4C7       CARD INDEX
+      - 📈     # U+1F4C8       CHART WITH UPWARDS TREND
+      - 📉     # U+1F4C9       CHART WITH DOWNWARDS TREND
+      - 📊     # U+1F4CA       BAR CHART
+      - 📋     # U+1F4CB       CLIPBOARD
+      - 📌     # U+1F4CC       PUSHPIN
+      - 📍     # U+1F4CD       ROUND PUSHPIN
+      - 📎     # U+1F4CE       PAPERCLIP
+      - 📏     # U+1F4CF       STRAIGHT RULER
+      - 📐     # U+1F4D0       TRIANGULAR RULER
+      - 📑     # U+1F4D1       BOOKMARK TABS
+      - 📒     # U+1F4D2       LEDGER
+      - 📓     # U+1F4D3       NOTEBOOK
+      - 📔     # U+1F4D4       NOTEBOOK WITH DECORATIVE COVER
+      - 📕     # U+1F4D5       CLOSED BOOK
+      - 📖     # U+1F4D6       OPEN BOOK
+      - 📗     # U+1F4D7       GREEN BOOK
+      - 📘     # U+1F4D8       BLUE BOOK
+      - 📙     # U+1F4D9       ORANGE BOOK
+      - 📚     # U+1F4DA       BOOKS
+      - 📛     # U+1F4DB       NAME BADGE
+      - 📜     # U+1F4DC       SCROLL
+      - 🖼     # U+1F5BC       FRAME WITH PICTURE
+    Communication symbols:
+      - 📝     # U+1F4DD       MEMO
+      - 📞     # U+1F4DE       TELEPHONE RECEIVER
+      - 📟     # U+1F4DF       PAGER
+      - 📠     # U+1F4E0       FAX MACHINE
+      - 📡     # U+1F4E1       SATELLITE ANTENNA
+      - 📢     # U+1F4E2       PUBLIC ADDRESS LOUDSPEAKER
+      - 📣     # U+1F4E3       CHEERING MEGAPHONE
+      - 📤     # U+1F4E4       OUTBOX TRAY
+      - 📥     # U+1F4E5       INBOX TRAY
+      - 📦     # U+1F4E6       PACKAGE
+      - 📧     # U+1F4E7       E-MAIL SYMBOL
+      - 📨     # U+1F4E8       INCOMING ENVELOPE
+      - 📩     # U+1F4E9       ENVELOPE WITH DOWNWARDS ARROW ABOVE
+      - 📪     # U+1F4EA       CLOSED MAILBOX WITH LOWERED FLAG
+      - 📫     # U+1F4EB       CLOSED MAILBOX WITH RAISED FLAG
+      - 📬     # U+1F4EC       OPEN MAILBOX WITH RAISED FLAG
+      - 📭     # U+1F4ED       OPEN MAILBOX WITH LOWERED FLAG
+      - 📮     # U+1F4EE       POSTBOX
+      - 📯     # U+1F4EF       POSTAL HORN
+      - 📰     # U+1F4F0       NEWSPAPER
+      - 📱     # U+1F4F1       MOBILE PHONE
+      - 📲     # U+1F4F2       MOBILE PHONE WITH RIGHTWARDS ARROW AT LEFT
+      - 📳     # U+1F4F3       VIBRATION MODE
+      - 📴     # U+1F4F4       MOBILE PHONE OFF
+      - 📵     # U+1F4F5       NO MOBILE PHONES
+      - 📶     # U+1F4F6       ANTENNA WITH BARS
+      - 🖇     # U+1F587       LINKED PAPERCLIPS
+      - 🖊     # U+1F58A       LOWER LEFT BALLPOINT PEN
+      - 🖋     # U+1F58B       LOWER LEFT FOUNTAIN PEN
+      - 🖌     # U+1F58C       LOWER LEFT PAINTBRUSH
+      - 🖍     # U+1F58D       LOWER LEFT CRAYON
+    Audio and video symbols:
+      - 📷     # U+1F4F7       CAMERA
+      - 📸     # U+1F4F8       CAMERA WITH FLASH
+      - 📹     # U+1F4F9       VIDEO CAMERA
+      - 📺     # U+1F4FA       TELEVISION
+      - 📻     # U+1F4FB       RADIO
+      - 📼     # U+1F4FC       VIDEOCASSETTE
+      - 📽     # U+1F4FD       FILM PROJECTOR
+    Religious symbol:
+      - 📿     # U+1F4FF       PRAYER BEADS
+      - 🕉     # U+1F549       OM SYMBOL
+      - 🕊     # U+1F54A       DOVE OF PEACE
+      - 🕋     # U+1F54B       KAABA
+      - 🕌     # U+1F54C       MOSQUE
+      - 🕍     # U+1F54D       SYNAGOGUE
+      - 🕎     # U+1F54E       MENORAH WITH NINE BRANCHES
+    User interface symbols:
+      - 🔀     # U+1F500       TWISTED RIGHTWARDS ARROWS
+      - 🔁     # U+1F501       CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS
+      - 🔂     # U+1F502       CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS WITH CIRCLED ONE OVERLAY
+      - 🔃     # U+1F503       CLOCKWISE DOWNWARDS AND UPWARDS OPEN CIRCLE ARROWS
+      - 🔄     # U+1F504       ANTICLOCKWISE DOWNWARDS AND UPWARDS OPEN CIRCLE ARROWS
+      - 🔅     # U+1F505       LOW BRIGHTNESS SYMBOL
+      - 🔆     # U+1F506       HIGH BRIGHTNESS SYMBOL
+      - 🔇     # U+1F507       SPEAKER WITH CANCELLATION STROKE
+      - 🔈     # U+1F508       SPEAKER
+      - 🔉     # U+1F509       SPEAKER WITH ONE SOUND WAVE
+      - 🔊     # U+1F50A       SPEAKER WITH THREE SOUND WAVES
+      - 🔋     # U+1F50B       BATTERY
+      - 🔌     # U+1F50C       ELECTRIC PLUG
+      - 🔍     # U+1F50D       LEFT-POINTING MAGNIFYING GLASS
+      - 🔎     # U+1F50E       RIGHT-POINTING MAGNIFYING GLASS
+      - 🔏     # U+1F50F       LOCK WITH INK PEN
+      - 🔐     # U+1F510       CLOSED LOCK WITH KEY
+      - 🔑     # U+1F511       KEY
+      - 🔒     # U+1F512       LOCK
+      - 🔓     # U+1F513       OPEN LOCK
+      - 🔔     # U+1F514       BELL
+      - 🔕     # U+1F515       BELL WITH CANCELLATION STROKE
+      - 🔖     # U+1F516       BOOKMARK
+      - 🔗     # U+1F517       LINK SYMBOL
+      - 🔘     # U+1F518       RADIO BUTTON
+      - 🔺     # U+1F53A       UP-POINTING RED TRIANGLE
+      - 🔻     # U+1F53B       DOWN-POINTING RED TRIANGLE
+      - 🔼     # U+1F53C       UP-POINTING SMALL RED TRIANGLE
+      - 🔽     # U+1F53D       DOWN-POINTING SMALL RED TRIANGLE
+      - 🗂     # U+1F5C2       CARD INDEX DIVIDERS
+      - 🗃     # U+1F5C3       CARD FILE BOX
+      - 🗄     # U+1F5C4       FILE CABINET
+      - 🗑     # U+1F5D1       WASTEBASKET
+      - 🗒     # U+1F5D2       SPIRAL NOTE PAD
+      - 🗓     # U+1F5D3       SPIRAL CALENDAR PAD
+      - 🗜     # U+1F5DC       COMPRESSION
+      - 🗝     # U+1F5DD       OLD KEY
+    Words with arrows:
+      - 🔙     # U+1F519       BACK WITH LEFTWARDS ARROW ABOVE
+      - 🔚     # U+1F51A       END WITH LEFTWARDS ARROW ABOVE
+      - 🔛     # U+1F51B       ON WITH EXCLAMATION MARK WITH LEFT RIGHT ARROW ABOVE
+      - 🔜     # U+1F51C       SOON WITH RIGHTWARDS ARROW ABOVE
+      - 🔝     # U+1F51D       TOP WITH UPWARDS ARROW ABOVE
+    Enclosed alphanumeric symbols:
+      - 🔞     # U+1F51E       NO ONE UNDER EIGHTEEN SYMBOL
+      - 🔟     # U+1F51F       KEYCAP TEN
+    User interface input status symbols:
+      - 🔠     # U+1F520       INPUT SYMBOL FOR LATIN CAPITAL LETTERS
+      - 🔡     # U+1F521       INPUT SYMBOL FOR LATIN SMALL LETTERS
+      - 🔢     # U+1F522       INPUT SYMBOL FOR NUMBERS
+      - 🔣     # U+1F523       INPUT SYMBOL FOR SYMBOLS
+      - 🔤     # U+1F524       INPUT SYMBOL FOR LATIN LETTERS
+    Tool symbols:
+      - 🔥     # U+1F525       FIRE
+      - 🔦     # U+1F526       ELECTRIC TORCH
+      - 🔧     # U+1F527       WRENCH
+      - 🔨     # U+1F528       HAMMER
+      - 🔩     # U+1F529       NUT AND BOLT
+      - 🔪     # U+1F52A       HOCHO
+      - 🔫     # U+1F52B       PISTOL
+      - 🔬     # U+1F52C       MICROSCOPE
+      - 🔭     # U+1F52D       TELESCOPE
+      - 🔮     # U+1F52E       CRYSTAL BALL
+    Geometric shapes:
+      - 🔲     # U+1F532       BLACK SQUARE BUTTON
+      - 🔳     # U+1F533       WHITE SQUARE BUTTON
+      - 🔴     # U+1F534       LARGE RED CIRCLE
+      - 🔵     # U+1F535       LARGE BLUE CIRCLE
+      - 🔶     # U+1F536       LARGE ORANGE DIAMOND
+      - 🔷     # U+1F537       LARGE BLUE DIAMOND
+      - 🔸     # U+1F538       SMALL ORANGE DIAMOND
+      - 🔹     # U+1F539       SMALL BLUE DIAMOND
+    Clock face symbols:
+      - 🕐     # U+1F550       CLOCK FACE ONE OCLOCK
+      - 🕑     # U+1F551       CLOCK FACE TWO OCLOCK
+      - 🕒     # U+1F552       CLOCK FACE THREE OCLOCK
+      - 🕓     # U+1F553       CLOCK FACE FOUR OCLOCK
+      - 🕔     # U+1F554       CLOCK FACE FIVE OCLOCK
+      - 🕕     # U+1F555       CLOCK FACE SIX OCLOCK
+      - 🕖     # U+1F556       CLOCK FACE SEVEN OCLOCK
+      - 🕗     # U+1F557       CLOCK FACE EIGHT OCLOCK
+      - 🕘     # U+1F558       CLOCK FACE NINE OCLOCK
+      - 🕙     # U+1F559       CLOCK FACE TEN OCLOCK
+      - 🕚     # U+1F55A       CLOCK FACE ELEVEN OCLOCK
+      - 🕛     # U+1F55B       CLOCK FACE TWELVE OCLOCK
+      - 🕜     # U+1F55C       CLOCK FACE ONE-THIRTY
+      - 🕝     # U+1F55D       CLOCK FACE TWO-THIRTY
+      - 🕞     # U+1F55E       CLOCK FACE THREE-THIRTY
+      - 🕟     # U+1F55F       CLOCK FACE FOUR-THIRTY
+      - 🕠     # U+1F560       CLOCK FACE FIVE-THIRTY
+      - 🕡     # U+1F561       CLOCK FACE SIX-THIRTY
+      - 🕢     # U+1F562       CLOCK FACE SEVEN-THIRTY
+      - 🕣     # U+1F563       CLOCK FACE EIGHT-THIRTY
+      - 🕤     # U+1F564       CLOCK FACE NINE-THIRTY
+      - 🕥     # U+1F565       CLOCK FACE TEN-THIRTY
+      - 🕦     # U+1F566       CLOCK FACE ELEVEN-THIRTY
+      - 🕧     # U+1F567       CLOCK FACE TWELVE-THIRTY
+    Computer symbols:
+      - 🖥     # U+1F5A5       DESKTOP COMPUTER
+      - 🖨     # U+1F5A8       PRINTER
+      - 🖱     # U+1F5B1       THREE BUTTON MOUSE
+      - 🖲     # U+1F5B2       TRACKBALL
+    Rating symbols:
+      - 🗡     # U+1F5E1       DAGGER KNIFE
+      - 🗣     # U+1F5E3       SPEAKING HEAD IN SILHOUETTE
+    Bubble symbols:
+      - 🗨     # U+1F5E8       LEFT SPEECH BUBBLE
+      - 🗯     # U+1F5EF       RIGHT ANGER BUBBLE
+    Ballot symbols:
+      - 🗳     # U+1F5F3       BALLOT BOX WITH BALLOT
+    Map symbol:
+      - 🗺     # U+1F5FA       WORLD MAP
+    Cultural symbols:
+      - 🗻     # U+1F5FB       MOUNT FUJI
+      - 🗼     # U+1F5FC       TOKYO TOWER
+      - 🗽     # U+1F5FD       STATUE OF LIBERTY
+      - 🗾     # U+1F5FE       SILHOUETTE OF JAPAN
+      - 🗿     # U+1F5FF       MOYAI
+  Emoticons:
+    Faces:
+      - 😀     # U+1F600       GRINNING FACE
+      - 😁     # U+1F601       GRINNING FACE WITH SMILING EYES
+      - 😂     # U+1F602       FACE WITH TEARS OF JOY
+      - 😃     # U+1F603       SMILING FACE WITH OPEN MOUTH
+      - 😄     # U+1F604       SMILING FACE WITH OPEN MOUTH AND SMILING EYES
+      - 😅     # U+1F605       SMILING FACE WITH OPEN MOUTH AND COLD SWEAT
+      - 😆     # U+1F606       SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES
+      - 😇     # U+1F607       SMILING FACE WITH HALO
+      - 😈     # U+1F608       SMILING FACE WITH HORNS
+      - 😉     # U+1F609       WINKING FACE
+      - 😊     # U+1F60A       SMILING FACE WITH SMILING EYES
+      - 😋     # U+1F60B       FACE SAVOURING DELICIOUS FOOD
+      - 😌     # U+1F60C       RELIEVED FACE
+      - 😍     # U+1F60D       SMILING FACE WITH HEART-SHAPED EYES
+      - 😎     # U+1F60E       SMILING FACE WITH SUNGLASSES
+      - 😏     # U+1F60F       SMIRKING FACE
+      - 😐     # U+1F610       NEUTRAL FACE
+      - 😑     # U+1F611       EXPRESSIONLESS FACE
+      - 😒     # U+1F612       UNAMUSED FACE
+      - 😓     # U+1F613       FACE WITH COLD SWEAT
+      - 😔     # U+1F614       PENSIVE FACE
+      - 😕     # U+1F615       CONFUSED FACE
+      - 😖     # U+1F616       CONFOUNDED FACE
+      - 😗     # U+1F617       KISSING FACE
+      - 😘     # U+1F618       FACE THROWING A KISS
+      - 😙     # U+1F619       KISSING FACE WITH SMILING EYES
+      - 😚     # U+1F61A       KISSING FACE WITH CLOSED EYES
+      - 😛     # U+1F61B       FACE WITH STUCK-OUT TONGUE
+      - 😜     # U+1F61C       FACE WITH STUCK-OUT TONGUE AND WINKING EYE
+      - 😝     # U+1F61D       FACE WITH STUCK-OUT TONGUE AND TIGHTLY-CLOSED EYES
+      - 😞     # U+1F61E       DISAPPOINTED FACE
+      - 😟     # U+1F61F       WORRIED FACE
+      - 😠     # U+1F620       ANGRY FACE
+      - 😡     # U+1F621       POUTING FACE
+      - 😢     # U+1F622       CRYING FACE
+      - 😣     # U+1F623       PERSEVERING FACE
+      - 😤     # U+1F624       FACE WITH LOOK OF TRIUMPH
+      - 😥     # U+1F625       DISAPPOINTED BUT RELIEVED FACE
+      - 😦     # U+1F626       FROWNING FACE WITH OPEN MOUTH
+      - 😧     # U+1F627       ANGUISHED FACE
+      - 😨     # U+1F628       FEARFUL FACE
+      - 😩     # U+1F629       WEARY FACE
+      - 😪     # U+1F62A       SLEEPY FACE
+      - 😫     # U+1F62B       TIRED FACE
+      - 😬     # U+1F62C       GRIMACING FACE
+      - 😭     # U+1F62D       LOUDLY CRYING FACE
+      - 😮     # U+1F62E       FACE WITH OPEN MOUTH
+      - 😯     # U+1F62F       HUSHED FACE
+      - 😰     # U+1F630       FACE WITH OPEN MOUTH AND COLD SWEAT
+      - 😱     # U+1F631       FACE SCREAMING IN FEAR
+      - 😲     # U+1F632       ASTONISHED FACE
+      - 😳     # U+1F633       FLUSHED FACE
+      - 😴     # U+1F634       SLEEPING FACE
+      - 😵     # U+1F635       DIZZY FACE
+      - 😶     # U+1F636       FACE WITHOUT MOUTH
+      - 😷     # U+1F637       FACE WITH MEDICAL MASK
+      - 🙁     # U+1F641       SLIGHTLY FROWNING FACE
+      - 🙂     # U+1F642       SLIGHTLY SMILING FACE
+      - 🙃     # U+1F643       UPSIDE-DOWN FACE
+      - 🙄     # U+1F644       FACE WITH ROLLING EYES
+    Cat faces:
+      - 😸     # U+1F638       GRINNING CAT FACE WITH SMILING EYES
+      - 😹     # U+1F639       CAT FACE WITH TEARS OF JOY
+      - 😺     # U+1F63A       SMILING CAT FACE WITH OPEN MOUTH
+      - 😻     # U+1F63B       SMILING CAT FACE WITH HEART-SHAPED EYES
+      - 😼     # U+1F63C       CAT FACE WITH WRY SMILE
+      - 😽     # U+1F63D       KISSING CAT FACE WITH CLOSED EYES
+      - 😾     # U+1F63E       POUTING CAT FACE
+      - 😿     # U+1F63F       CRYING CAT FACE
+      - 🙀     # U+1F640       WEARY CAT FACE
+    Gesture symbols:
+      - 🙅     # U+1F645       FACE WITH NO GOOD GESTURE
+      - 🙆     # U+1F646       FACE WITH OK GESTURE
+      - 🙇     # U+1F647       PERSON BOWING DEEPLY
+      - 🙈     # U+1F648       SEE-NO-EVIL MONKEY
+      - 🙉     # U+1F649       HEAR-NO-EVIL MONKEY
+      - 🙊     # U+1F64A       SPEAK-NO-EVIL MONKEY
+      - 🙋     # U+1F64B       HAPPY PERSON RAISING ONE HAND
+      - 🙌     # U+1F64C       PERSON RAISING BOTH HANDS IN CELEBRATION
+      - 🙍     # U+1F64D       PERSON FROWNING
+      - 🙎     # U+1F64E       PERSON WITH POUTING FACE
+      - 🙏     # U+1F64F       PERSON WITH FOLDED HANDS
+  Transport And Map Symbols:
+    Vehicles:
+      - 🚀     # U+1F680       ROCKET
+      - 🚁     # U+1F681       HELICOPTER
+      - 🚂     # U+1F682       STEAM LOCOMOTIVE
+      - 🚃     # U+1F683       RAILWAY CAR
+      - 🚄     # U+1F684       HIGH-SPEED TRAIN
+      - 🚅     # U+1F685       HIGH-SPEED TRAIN WITH BULLET NOSE
+      - 🚆     # U+1F686       TRAIN
+      - 🚇     # U+1F687       METRO
+      - 🚈     # U+1F688       LIGHT RAIL
+      - 🚉     # U+1F689       STATION
+      - 🚊     # U+1F68A       TRAM
+      - 🚋     # U+1F68B       TRAM CAR
+      - 🚌     # U+1F68C       BUS
+      - 🚍     # U+1F68D       ONCOMING BUS
+      - 🚎     # U+1F68E       TROLLEYBUS
+      - 🚏     # U+1F68F       BUS STOP
+      - 🚐     # U+1F690       MINIBUS
+      - 🚑     # U+1F691       AMBULANCE
+      - 🚒     # U+1F692       FIRE ENGINE
+      - 🚓     # U+1F693       POLICE CAR
+      - 🚔     # U+1F694       ONCOMING POLICE CAR
+      - 🚕     # U+1F695       TAXI
+      - 🚖     # U+1F696       ONCOMING TAXI
+      - 🚗     # U+1F697       AUTOMOBILE
+      - 🚘     # U+1F698       ONCOMING AUTOMOBILE
+      - 🚙     # U+1F699       RECREATIONAL VEHICLE
+      - 🚚     # U+1F69A       DELIVERY TRUCK
+      - 🚛     # U+1F69B       ARTICULATED LORRY
+      - 🚜     # U+1F69C       TRACTOR
+      - 🚝     # U+1F69D       MONORAIL
+      - 🚞     # U+1F69E       MOUNTAIN RAILWAY
+      - 🚟     # U+1F69F       SUSPENSION RAILWAY
+      - 🚠     # U+1F6A0       MOUNTAIN CABLEWAY
+      - 🚡     # U+1F6A1       AERIAL TRAMWAY
+      - 🚢     # U+1F6A2       SHIP
+      - 🚣     # U+1F6A3       ROWBOAT
+      - 🚤     # U+1F6A4       SPEEDBOAT
+      - 🛥      # U+1F6E5       MOTOR BOAT
+      - 🛩      # U+1F6E9       SMALL AIRPLANE
+      - 🛫     # U+1F6EB       AIRPLANE DEPARTURE
+      - 🛬     # U+1F6EC       AIRPLANE ARRIVING
+      - 🛰      # U+1F6F0       SATELLITE
+      - 🛳      # U+1F6F3       PASSENGER SHIP
+      - 🛴     # U+1F6F4       SCOOTER
+      - 🛵     # U+1F6F5       MOTOR SCOOTER
+      - 🛶     # U+1F6F6       CANOE
+      - 🛷      # U+1F6F7       SLED
+      - 🛸      # U+1F6F8       FLYING SAUCER
+    Traffic signs:
+      - 🚥     # U+1F6A5       HORIZONTAL TRAFFIC LIGHT
+      - 🚦     # U+1F6A6       VERTICAL TRAFFIC LIGHT
+      - 🚧     # U+1F6A7       CONSTRUCTION SIGN
+      - 🚨     # U+1F6A8       POLICE CARS REVOLVING LIGHT
+    Signage and other symbols:
+      - 🚩     # U+1F6A9       TRIANGULAR FLAG ON POST
+      - 🚪     # U+1F6AA       DOOR
+      - 🚫     # U+1F6AB       NO ENTRY SIGN
+      - 🚬     # U+1F6AC       SMOKING SYMBOL
+      - 🚭     # U+1F6AD       NO SMOKING SYMBOL
+      - 🚮     # U+1F6AE       PUT LITTER IN ITS PLACE SYMBOL
+      - 🚯     # U+1F6AF       DO NOT LITTER SYMBOL
+      - 🚰     # U+1F6B0       POTABLE WATER SYMBOL
+      - 🚱     # U+1F6B1       NON-POTABLE WATER SYMBOL
+      - 🚲     # U+1F6B2       BICYCLE
+      - 🚳     # U+1F6B3       NO BICYCLES
+      - 🚴     # U+1F6B4       BICYCLIST
+      - 🚵     # U+1F6B5       MOUNTAIN BICYCLIST
+      - 🚶     # U+1F6B6       PEDESTRIAN
+      - 🚷     # U+1F6B7       NO PEDESTRIANS
+      - 🚸     # U+1F6B8       CHILDREN CROSSING
+      - 🚹     # U+1F6B9       MENS SYMBOL
+      - 🚺     # U+1F6BA       WOMENS SYMBOL
+      - 🚻     # U+1F6BB       RESTROOM
+      - 🚼     # U+1F6BC       BABY SYMBOL
+      - 🚽     # U+1F6BD       TOILET
+      - 🚾     # U+1F6BE       WATER CLOSET
+      - 🚿     # U+1F6BF       SHOWER
+      - 🛀     # U+1F6C0       BATH
+      - 🛁     # U+1F6C1       BATHTUB
+      - 🛂     # U+1F6C2       PASSPORT CONTROL
+      - 🛃     # U+1F6C3       CUSTOMS
+      - 🛄     # U+1F6C4       BAGGAGE CLAIM
+      - 🛅     # U+1F6C5       LEFT LUGGAGE
+      - 🛐     # U+1F6D0       PLACE OF WORSHIP
+      - 🛑     # U+1F6D1       OCTAGONAL SIGN
+      - 🛒     # U+1F6D2       SHOPPING TROLLEY
+    Accommodation symbol:
+      - 🛋      # U+1F6CB       COUCH AND LAMP
+      - 🛌     # U+1F6CC       SLEEPING ACCOMMODATION
+      - 🛍      # U+1F6CD       SHOPPING BAGS
+      - 🛎      # U+1F6CE       BELLHOP BELL
+      - 🛏      # U+1F6CF       BED
+    Miscellaneous mark:
+      - 🛠      # U+1F6E0       HAMMER AND WRENCH
+      - 🛡      # U+1F6E1       SHIELD
+      - 🛢      # U+1F6E2       OIL DRUM
+      - 🛣      # U+1F6E3       MOTORWAY
+      - 🛤      # U+1F6E4       RAILWAY TRACK
+  Supplemental Symbols And Pictographs:
+    Emoticon faces:
+      - 🤐     # U+1F910       ZIPPER-MOUTH FACE
+      - 🤑     # U+1F911       MONEY-MOUTH FACE
+      - 🤒     # U+1F912       FACE WITH THERMOMETER
+      - 🤓     # U+1F913       NERD FACE
+      - 🤔     # U+1F914       THINKING FACE
+      - 🤕     # U+1F915       FACE WITH HEAD-BANDAGE
+      - 🤖     # U+1F916       ROBOT FACE
+      - 🤗     # U+1F917       HUGGING FACE
+      - 🤠     # U+1F920       FACE WITH COWBOY HAT
+      - 🤡     # U+1F921       CLOWN FACE
+      - 🤢     # U+1F922       NAUSEATED FACE
+      - 🤣     # U+1F923       ROLLING ON THE FLOOR LAUGHING
+      - 🤤     # U+1F924       DROOLING FACE
+      - 🤥     # U+1F925       LYING FACE
+      - 🤦     # U+1F926       FACE PALM
+      - 🤧     # U+1F927       SNEEZING FACE
+      - 🤨      # U+1F928       FACE WITH ONE EYEBROW RAISED
+      - 🤩      # U+1F929       GRINNING FACE WITH STAR EYES
+      - 🤪      # U+1F92A       GRINNING FACE WITH ONE LARGE AND ONE SMALL EYE
+      - 🤫      # U+1F92B       FACE WITH FINGER COVERING CLOSED LIPS
+      - 🤬      # U+1F92C       SERIOUS FACE WITH SYMBOLS COVERING MOUTH
+      - 🤭      # U+1F92D       SMILING FACE WITH SMILING EYES AND HAND COVERING MOUTH
+      - 🤮      # U+1F92E       FACE WITH OPEN MOUTH VOMITING
+      - 🤯      # U+1F92F       SHOCKED FACE WITH EXPLODING HEAD
+    Hand symbols:
+      - 🤘     # U+1F918       SIGN OF THE HORNS
+      - 🤙     # U+1F919       CALL ME HAND
+      - 🤚     # U+1F91A       RAISED BACK OF HAND
+      - 🤛     # U+1F91B       LEFT-FACING FIST
+      - 🤜     # U+1F91C       RIGHT-FACING FIST
+      - 🤝     # U+1F91D       HANDSHAKE
+      - 🤞     # U+1F91E       HAND WITH INDEX AND MIDDLE FINGERS CROSSED
+      - 🤟      # U+1F91F       I LOVE YOU HAND SIGN
+    Portrait and role symbols:
+      - 🤰     # U+1F930       PREGNANT WOMAN
+      - 🤱      # U+1F931       BREAST-FEEDING
+      - 🤲      # U+1F932       PALMS UP TOGETHER
+      - 🤳     # U+1F933       SELFIE
+      - 🤴     # U+1F934       PRINCE
+      - 🤵     # U+1F935       MAN IN TUXEDO
+      - 🤶     # U+1F936       MOTHER CHRISTMAS
+      - 🤷     # U+1F937       SHRUG
+      - 🤸     # U+1F938       PERSON DOING CARTWHEEL
+      - 🤹     # U+1F939       JUGGLING
+      - 🤺     # U+1F93A       FENCER
+      - 🤼     # U+1F93C       WRESTLERS
+      - 🤽     # U+1F93D       WATER POLO
+      - 🤾     # U+1F93E       HANDBALL
+      - 🧐      # U+1F9D0       FACE WITH MONOCLE
+      - 🧑      # U+1F9D1       ADULT
+      - 🧒      # U+1F9D2       CHILD
+      - 🧓      # U+1F9D3       OLDER ADULT
+      - 🧔      # U+1F9D4       BEARDED PERSON
+      - 🧕      # U+1F9D5       PERSON WITH HEADSCARF
+      - 🧖      # U+1F9D6       PERSON IN STEAMY ROOM
+      - 🧗      # U+1F9D7       PERSON CLIMBING
+      - 🧘      # U+1F9D8       PERSON IN LOTUS POSITION
+      - 🧙      # U+1F9D9       MAGE
+      - 🧚      # U+1F9DA       FAIRY
+      - 🧛      # U+1F9DB       VAMPIRE
+      - 🧜      # U+1F9DC       MERPERSON
+      - 🧝      # U+1F9DD       ELF
+      - 🧞      # U+1F9DE       GENIE
+      - 🧟      # U+1F9DF       ZOMBIE
+    Miscellaneous mark:
+      - 🥀     # U+1F940       WILTED FLOWER
+      - 🥁     # U+1F941       DRUM WITH DRUMSTICKS
+      - 🥂     # U+1F942       CLINKING GLASSES
+      - 🥃     # U+1F943       TUMBLER GLASS
+      - 🥄     # U+1F944       SPOON
+      - 🥅     # U+1F945       GOAL NET
+      - 🥇     # U+1F947       FIRST PLACE MEDAL
+      - 🥈     # U+1F948       SECOND PLACE MEDAL
+      - 🥉     # U+1F949       THIRD PLACE MEDAL
+      - 🥊     # U+1F94A       BOXING GLOVE
+      - 🥋     # U+1F94B       MARTIAL ARTS UNIFORM
+      - 🥌      # U+1F94C       CURLING STONE
+      - 🧠      # U+1F9E0       BRAIN
+      - 🧡      # U+1F9E1       ORANGE HEART
+      - 🧢      # U+1F9E2       BILLED CAP
+      - 🧣      # U+1F9E3       SCARF
+      - 🧤      # U+1F9E4       GLOVES
+      - 🧥      # U+1F9E5       COAT
+      - 🧦      # U+1F9E6       SOCKS
+    Food symbol:
+      - 🥐     # U+1F950       CROISSANT
+      - 🥑     # U+1F951       AVOCADO
+      - 🥒     # U+1F952       CUCUMBER
+      - 🥓     # U+1F953       BACON
+      - 🥔     # U+1F954       POTATO
+      - 🥕     # U+1F955       CARROT
+      - 🥖     # U+1F956       BAGUETTE BREAD
+      - 🥗     # U+1F957       GREEN SALAD
+      - 🥘     # U+1F958       SHALLOW PAN OF FOOD
+      - 🥙     # U+1F959       STUFFED FLATBREAD
+      - 🥚     # U+1F95A       EGG
+      - 🥛     # U+1F95B       GLASS OF MILK
+      - 🥜     # U+1F95C       PEANUTS
+      - 🥝     # U+1F95D       KIWIFRUIT
+      - 🥞     # U+1F95E       PANCAKES
+      - 🥟      # U+1F95F       DUMPLING
+      - 🥠      # U+1F960       FORTUNE COOKIE
+      - 🥡      # U+1F961       TAKEOUT BOX
+      - 🥢      # U+1F962       CHOPSTICKS
+      - 🥣      # U+1F963       BOWL WITH SPOON
+      - 🥤      # U+1F964       CUP WITH STRAW
+      - 🥥      # U+1F965       COCONUT
+      - 🥦      # U+1F966       BROCCOLI
+      - 🥧      # U+1F967       PIE
+      - 🥨      # U+1F968       PRETZEL
+      - 🥩      # U+1F969       CUT OF MEAT
+      - 🥪      # U+1F96A       SANDWICH
+      - 🥫      # U+1F96B       CANNED FOOD
+      - 🧀     # U+1F9C0       CHEESE WEDGE
+    Animal symbols:
+      - 🦀     # U+1F980       CRAB
+      - 🦁     # U+1F981       LION FACE
+      - 🦂     # U+1F982       SCORPION
+      - 🦃     # U+1F983       TURKEY
+      - 🦄     # U+1F984       UNICORN FACE
+      - 🦅     # U+1F985       EAGLE
+      - 🦆     # U+1F986       DUCK
+      - 🦇     # U+1F987       BAT
+      - 🦈     # U+1F988       SHARK
+      - 🦉     # U+1F989       OWL
+      - 🦊     # U+1F98A       FOX FACE
+      - 🦋     # U+1F98B       BUTTERFLY
+      - 🦌     # U+1F98C       DEER
+      - 🦍     # U+1F98D       GORILLA
+      - 🦎     # U+1F98E       LIZARD
+      - 🦏     # U+1F98F       RHINOCEROS
+      - 🦐     # U+1F990       SHRIMP
+      - 🦑     # U+1F991       SQUID
+      - 🦒      # U+1F992       GIRAFFE FACE
+      - 🦓      # U+1F993       ZEBRA FACE
+      - 🦔      # U+1F994       HEDGEHOG
+      - 🦕      # U+1F995       SAUROPOD
+      - 🦖      # U+1F996       T-REX
+      - 🦗      # U+1F997       CRICKET

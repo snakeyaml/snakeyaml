@@ -15,7 +15,10 @@
  */
 package org.yaml.snakeyaml.issues.issue137;
 
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -25,6 +28,11 @@ import org.yaml.snakeyaml.Yaml;
  * http://java.sun.com/developer/technicalArticles/Intl/Supplementary/
  */
 public class SupplementaryCharactersTest extends TestCase {
+
+    public static class EmojiContainer {
+        public Map<String, Map<String, Integer>> sizes;
+        public Map<String, Map<String, List<String>>> values;
+    }
 
     public void testSupplementaryCharacter() {
         Yaml yaml = new Yaml();
@@ -87,5 +95,34 @@ public class SupplementaryCharactersTest extends TestCase {
         } catch (Exception e) {
             assertEquals("special characters are not allowed", e.getMessage());
         }
+    }
+
+    /*
+     * This method tests loading of the document with a lot of
+     * SupplementaryCharacters. Main purpose is to check that StreamReader
+     * actually reads document fully, but not in one read (since file is bigger
+     * than StreamReader buffer).
+     */
+    public void testLoadingEmoji() {
+        InputStream input = this.getClass().getClassLoader()
+                .getResourceAsStream("issues/emoji.yaml");
+        EmojiContainer emoji = new Yaml().loadAs(input, EmojiContainer.class);
+
+        assertEquals(emoji.sizes.keySet(), emoji.values.keySet());
+
+        for (Map.Entry<String, Map<String, Integer>> mainTopic : emoji.sizes.entrySet()) {
+            String mainName = mainTopic.getKey();
+            Map<String, Integer> subtopic2size = mainTopic.getValue();
+
+            Map<String, List<String>> subtopic2values = emoji.values.get(mainName);
+            assertEquals(subtopic2size.keySet(), subtopic2values.keySet());
+
+            for (Map.Entry<String, Integer> subTopic : subtopic2size.entrySet()) {
+                String subName = subTopic.getKey();
+
+                assertEquals(subTopic.getValue().intValue(), subtopic2values.get(subName).size());
+            }
+        }
+
     }
 }

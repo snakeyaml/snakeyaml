@@ -17,7 +17,7 @@ package org.yaml.snakeyaml.reader;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.charset.Charset;
+import java.io.StringReader;
 import java.util.Arrays;
 
 import org.yaml.snakeyaml.error.Mark;
@@ -34,10 +34,15 @@ public class StreamReader {
     /**
      * Read data (as a moving window for input stream)
      */
-    private char[] dataWindow;
+    private int[] dataWindow;
+
+    /**
+     * Real length of the data in dataWindow
+     */
+    private int dataLength;
+
     /**
      * The variable points to the current position in the data array
-     * (in characters)
      */
     private int pointer = 0;
     private boolean eof;
@@ -46,36 +51,26 @@ public class StreamReader {
      * http://yaml.org/spec/1.1/#simple key/
      * It must count code points, but it counts characters (to be fixed)
      */
-    private int index = 0; //in characters
+    private int index = 0; // in code points
     private int line = 0;
     private int column = 0; //in code points
-    private char[] buffer; //temp buffer for one read operation (to avoid creating the array in stack)
+    private char[] buffer; // temp buffer for one read operation (to avoid
+                          // creating the array in stack)
 
     private static final int BUFFER_SIZE = 1025;
 
     public StreamReader(String stream) {
+        this(new StringReader(stream));
         this.name = "'string'";
-        this.dataWindow = stream.toCharArray();
-        this.stream = null;
-        this.eof = true;
-        this.buffer = null;
     }
 
     public StreamReader(Reader reader) {
         this.name = "'reader'";
-        this.dataWindow = new char[0];
+        this.dataWindow = new int[0];
+        this.dataLength = 0;
         this.stream = reader;
         this.eof = false;
         this.buffer = new char[BUFFER_SIZE];
-    }
-
-    private int codePointAt(char[] data, int offset) {
-        final int codePoint = Character.codePointAt(data, offset, data.length);
-        if (!isPrintable(codePoint)) {
-            throw new ReaderException(name, offset, codePoint,
-                    "special characters are not allowed");
-        }
-        return codePoint;
     }
 
     public static boolean isPrintable(final String data) {
@@ -114,12 +109,11 @@ public class StreamReader {
      * @param length amount of characters to move forward
      */
     public void forward(int length) {
-        int c;
         for (int i = 0; i < length && ensureEnoughData(); i++) {
-            c = codePointAt(dataWindow, pointer);
-            this.pointer += Character.charCount(c);
-            this.index += Character.charCount(c);
-            if (Constant.LINEBR.has(c) || (c == '\r' && dataWindow[pointer] != '\n')) {
+        int c = dataWindow[pointer++];
+        this.index++;
+        if (Constant.LINEBR.has(c)
+                || (c == '\r' && (ensureEnoughData() && dataWindow[pointer] != '\n'))) {
                 this.line++;
                 this.column = 0;
             } else if (c != 0xFEFF) {
@@ -129,7 +123,7 @@ public class StreamReader {
     }
 
     public int peek() {
-        return (ensureEnoughData()) ? codePointAt(this.dataWindow, this.pointer) : '\0';
+        return (ensureEnoughData()) ? dataWindow[pointer] : '\0';
     }
 
     /**
@@ -139,19 +133,7 @@ public class StreamReader {
      * @return the next index-th code point
      */
     public int peek(int index) {
-        int offset = 0;
-        int nextIndex = 0;
-        int codePoint = '\0';
-        do {
-            if (!ensureEnoughData(offset)) {
-                return '\0';
-            }
-            codePoint = codePointAt(this.dataWindow, this.pointer + offset);
-            offset += Character.charCount(codePoint);
-            nextIndex++;
-        } while (nextIndex <= index);
-
-        return codePoint;
+        return (ensureEnoughData(index)) ? dataWindow[pointer + index] : '\0';
     }
 
     /**
@@ -161,14 +143,14 @@ public class StreamReader {
      * @return the next length code points
      */
     public String prefix(int length) {
-        int offset = 0;
-        for (int resultLength = 0; resultLength < length
-                && ensureEnoughData(offset); resultLength++) {
-            int c = codePointAt(this.dataWindow, this.pointer + offset);
-            offset += Character.charCount(c);
+        if (length == 0) {
+            return "";
+        } else if (ensureEnoughData(length)) {
+            return new String(this.dataWindow, pointer, length);
+        } else {
+            return new String(this.dataWindow, pointer,
+                    Math.min(length, dataLength - pointer));
         }
-
-        return new String(this.dataWindow, pointer, offset);
     }
 
     /**
@@ -178,8 +160,8 @@ public class StreamReader {
      */
     public String prefixForward(int length) {
         final String prefix = prefix(length);
-        this.pointer += prefix.length();
-        this.index += prefix.length();
+        this.pointer += length;
+        this.index += length;
         // prefix never contains new line characters
         this.column += length;
         return prefix;
@@ -190,34 +172,53 @@ public class StreamReader {
     }
 
     private boolean ensureEnoughData(int size) {
-        if (!eof && pointer + size >= dataWindow.length) {
-            try {
-                int converted = stream.read(buffer, 0, BUFFER_SIZE - 1);
-                if (converted > 0) {
-                    if (Character.isHighSurrogate(buffer[converted - 1])) {
-                        if (stream.read(buffer, converted, 1) == -1) {
-                            eof = true;
-                        } else {
-                            converted++;
-                        }
-                    }
-
-                    char[] newBuffer = Arrays.copyOfRange(dataWindow,
-                                                          pointer,
-                                                          dataWindow.length + converted);
-                    System.arraycopy(buffer, 0, newBuffer, (dataWindow.length - pointer), converted);
-
-                    dataWindow = newBuffer;
-                    pointer = 0;
-                } else {
-                    eof = true;
-                }
-            } catch (IOException ioe) {
-                throw new YAMLException(ioe);
-            }
+        if (!eof && pointer + size >= dataLength) {
+            update();
         }
-        return (this.pointer + size) < dataWindow.length;
+        return (this.pointer + size) < dataLength;
     }
+
+    private void update() {
+        try {
+            int read = stream.read(buffer, 0, BUFFER_SIZE - 1);
+            if (read > 0) {
+                int cpIndex = (dataLength - pointer);
+                dataWindow = Arrays.copyOfRange(dataWindow, pointer, dataLength + read);
+
+                if (Character.isHighSurrogate(buffer[read - 1])) {
+                    if (stream.read(buffer, read, 1) == -1) {
+                        eof = true;
+                    } else {
+                        read++;
+                    }
+                }
+
+                int nonPrintable = ' ';
+                for (int i = 0; i < read; cpIndex++) {
+                    int codePoint = Character.codePointAt(buffer, i);
+                    dataWindow[cpIndex] = codePoint;
+                    if (isPrintable(codePoint)) {
+                        i += Character.charCount(codePoint);
+                    } else {
+                        nonPrintable = codePoint;
+                        i = read;
+                    }
+                }
+
+                dataLength = cpIndex;
+                pointer = 0;
+                if (nonPrintable != ' ') {
+                    throw new ReaderException(name, cpIndex - 1, nonPrintable,
+                            "special characters are not allowed");
+                }
+            } else {
+                eof = true;
+            }
+        } catch (IOException ioe) {
+            throw new YAMLException(ioe);
+        }
+    }
+
 
     public int getColumn() {
         return column;
