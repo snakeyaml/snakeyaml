@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -118,7 +119,7 @@ public class OptionalTest {
                 Optional<?> opt = (Optional<?>) data;
                 List<Object> seq = new ArrayList<>(1);
                 seq.add(opt.get());
-                return representSequence(Tag.SEQ, seq, true);
+                return representSequence(Tag.SEQ, seq, DumperOptions.FlowStyle.FLOW);
             }
         }
     }
