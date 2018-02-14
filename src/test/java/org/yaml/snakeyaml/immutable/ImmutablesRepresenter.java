@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 import javax.swing.border.MatteBorder;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
@@ -43,7 +44,7 @@ public class ImmutablesRepresenter extends Representer {
             return representSequence(
                     getTag(data.getClass(), new Tag(data.getClass())),
                     Arrays.asList(new Object[] { insets.top, insets.left, insets.bottom,
-                            insets.right }), true);
+                            insets.right }), DumperOptions.FlowStyle.FLOW);
         }
 
     }
@@ -53,7 +54,7 @@ public class ImmutablesRepresenter extends Representer {
         public Node representData(Object data) {
             Rectangle rect = (Rectangle) data;
             return representSequence(getTag(data.getClass(), new Tag(data.getClass())),
-                    Arrays.asList(new Object[] { rect.x, rect.y, rect.width, rect.height }), true);
+                    Arrays.asList(new Object[] { rect.x, rect.y, rect.width, rect.height }), DumperOptions.FlowStyle.FLOW);
         }
 
     }
@@ -63,7 +64,7 @@ public class ImmutablesRepresenter extends Representer {
         public Node representData(Object data) {
             MatteBorder mb = (MatteBorder) data;
             return representSequence(getTag(data.getClass(), new Tag(data.getClass())),
-                    Arrays.asList(new Object[] { mb.getBorderInsets(), mb.getMatteColor() }), true);
+                    Arrays.asList(new Object[] { mb.getBorderInsets(), mb.getMatteColor() }), DumperOptions.FlowStyle.FLOW);
         }
 
     }
@@ -75,7 +76,7 @@ public class ImmutablesRepresenter extends Representer {
             return representSequence(
                     getTag(data.getClass(), new Tag(data.getClass())),
                     Arrays.asList(new Integer[] { color.getRed(), color.getGreen(),
-                            color.getBlue(), color.getAlpha() }), true);
+                            color.getBlue(), color.getAlpha() }), DumperOptions.FlowStyle.FLOW);
         }
 
     }

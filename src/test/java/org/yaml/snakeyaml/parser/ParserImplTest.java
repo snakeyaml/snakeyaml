@@ -56,7 +56,7 @@ public class ParserImplTest extends TestCase {
         etalonEvents.add(new StreamStartEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentStartEvent(dummyMark, dummyMark, false, null, null));
         etalonEvents.add(new MappingStartEvent(null, null, true, dummyMark, dummyMark,
-                Boolean.FALSE));
+                DumperOptions.FlowStyle.BLOCK));
         etalonEvents.add(new ScalarEvent(null, null, new ImplicitTuple(true, false), "string",
                 dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN));
         etalonEvents.add(new ScalarEvent(null, null, new ImplicitTuple(true, false), "abcd",
@@ -76,11 +76,11 @@ public class ParserImplTest extends TestCase {
         etalonEvents.add(new StreamStartEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentStartEvent(dummyMark, dummyMark, false, null, null));
         etalonEvents
-                .add(new MappingStartEvent(null, null, true, dummyMark, dummyMark, Boolean.TRUE));
+                .add(new MappingStartEvent(null, null, true, dummyMark, dummyMark, DumperOptions.FlowStyle.FLOW));
         etalonEvents.add(new ScalarEvent(null, null, new ImplicitTuple(true, false), "american",
                 dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN));
         etalonEvents.add(new SequenceStartEvent(null, null, true, dummyMark, dummyMark,
-                Boolean.FALSE));
+                DumperOptions.FlowStyle.BLOCK));
         etalonEvents.add(new ScalarEvent(null, null, new ImplicitTuple(true, false),
                 "Boston Red Sox", dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN));
         etalonEvents.add(new SequenceEndEvent(dummyMark, dummyMark));

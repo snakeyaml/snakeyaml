@@ -41,7 +41,7 @@ public class RepresenterConfigurationTest {
         Yaml yaml = new Yaml(representer);
 
         MappingNode node = (MappingNode) yaml.represent(new TestObject(27, "test"));
-        Assert.assertEquals(false, node.getFlowStyle());
+        Assert.assertEquals(DumperOptions.FlowStyle.BLOCK, node.getFlowStyle());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class RepresenterConfigurationTest {
         Yaml yaml = new Yaml(representer, dumperOptions);
 
         MappingNode node = (MappingNode) yaml.represent(new TestObject(27, "test"));
-        Assert.assertEquals(true, node.getFlowStyle());
+        Assert.assertEquals(DumperOptions.FlowStyle.FLOW, node.getFlowStyle());
     }
 
     @Test

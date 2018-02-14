@@ -124,7 +124,7 @@ public class FlexibleScalarStylesInJavaBeanTest extends TestCase {
                     if (bean.getNumbers().size() < 5) {
                         SequenceNode n = (SequenceNode) standard.getValueNode();
                         return new NodeTuple(standard.getKeyNode(), new SequenceNode(n.getTag(),
-                                true, n.getValue(), n.getStartMark(), n.getEndMark(), false));
+                                true, n.getValue(), n.getStartMark(), n.getEndMark(), DumperOptions.FlowStyle.BLOCK));
                     }
                 }
                 if (property.getName().equals("description")) {

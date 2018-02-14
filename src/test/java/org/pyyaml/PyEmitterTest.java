@@ -137,7 +137,7 @@ public class PyEmitterTest extends PyImportTest {
                 }
                 input.close();
                 //
-                for (Boolean flowStyle : new Boolean[] { Boolean.FALSE, Boolean.TRUE }) {
+                for (DumperOptions.FlowStyle flowStyle : DumperOptions.FlowStyle.values()) {
                     for (DumperOptions.ScalarStyle style : DumperOptions.ScalarStyle.values()) {
                         List<Event> styledEvents = new ArrayList<Event>();
                         for (Event event : events) {

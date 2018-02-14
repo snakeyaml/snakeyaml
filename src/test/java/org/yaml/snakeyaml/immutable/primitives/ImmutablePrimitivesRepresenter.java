@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.immutable.primitives;
 
 import java.util.Arrays;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
@@ -34,7 +35,7 @@ public class ImmutablePrimitivesRepresenter extends Representer {
             return representSequence(
                     getTag(data.getClass(), new Tag(data.getClass())),
                     Arrays.asList(new Object[] { bunch.getPrimitiveInt(),
-                            bunch.getPrimitiveDouble(), bunch.primitiveBoolean }), true);
+                            bunch.getPrimitiveDouble(), bunch.primitiveBoolean }), DumperOptions.FlowStyle.FLOW);
         }
     }
 }

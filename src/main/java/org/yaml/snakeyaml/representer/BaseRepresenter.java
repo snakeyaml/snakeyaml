@@ -121,7 +121,7 @@ public abstract class BaseRepresenter {
         return representScalar(tag, value, null);
     }
 
-    protected Node representSequence(Tag tag, Iterable<?> sequence, Boolean flowStyle) {
+    protected Node representSequence(Tag tag, Iterable<?> sequence, DumperOptions.FlowStyle flowStyle) {
         int size = 10;// default for ArrayList
         if (sequence instanceof List<?>) {
             size = ((List<?>) sequence).size();
@@ -129,17 +129,17 @@ public abstract class BaseRepresenter {
         List<Node> value = new ArrayList<Node>(size);
         SequenceNode node = new SequenceNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
-        boolean bestStyle = true;
+        DumperOptions.FlowStyle bestStyle = FlowStyle.FLOW;
         for (Object item : sequence) {
             Node nodeItem = representData(item);
             if (!(nodeItem instanceof ScalarNode && ((ScalarNode) nodeItem).isPlain())) {
-                bestStyle = false;
+                bestStyle = FlowStyle.BLOCK;
             }
             value.add(nodeItem);
         }
         if (flowStyle == null) {
             if (defaultFlowStyle != FlowStyle.AUTO) {
-                node.setFlowStyle(defaultFlowStyle.getStyleBoolean());
+                node.setFlowStyle(defaultFlowStyle);
             } else {
                 node.setFlowStyle(bestStyle);
             }
@@ -147,25 +147,25 @@ public abstract class BaseRepresenter {
         return node;
     }
 
-    protected Node representMapping(Tag tag, Map<?, ?> mapping, Boolean flowStyle) {
+    protected Node representMapping(Tag tag, Map<?, ?> mapping, DumperOptions.FlowStyle flowStyle) {
         List<NodeTuple> value = new ArrayList<NodeTuple>(mapping.size());
         MappingNode node = new MappingNode(tag, value, flowStyle);
         representedObjects.put(objectToRepresent, node);
-        boolean bestStyle = true;
+        DumperOptions.FlowStyle bestStyle = FlowStyle.FLOW;
         for (Map.Entry<?, ?> entry : mapping.entrySet()) {
             Node nodeKey = representData(entry.getKey());
             Node nodeValue = representData(entry.getValue());
             if (!(nodeKey instanceof ScalarNode && ((ScalarNode) nodeKey).isPlain())) {
-                bestStyle = false;
+                bestStyle = FlowStyle.BLOCK;
             }
             if (!(nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).isPlain())) {
-                bestStyle = false;
+                bestStyle = FlowStyle.BLOCK;
             }
             value.add(new NodeTuple(nodeKey, nodeValue));
         }
         if (flowStyle == null) {
             if (defaultFlowStyle != FlowStyle.AUTO) {
-                node.setFlowStyle(defaultFlowStyle.getStyleBoolean());
+                node.setFlowStyle(defaultFlowStyle);
             } else {
                 node.setFlowStyle(bestStyle);
             }

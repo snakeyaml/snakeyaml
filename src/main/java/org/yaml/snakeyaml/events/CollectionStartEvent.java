@@ -15,6 +15,7 @@
  */
 package org.yaml.snakeyaml.events;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
@@ -26,13 +27,14 @@ public abstract class CollectionStartEvent extends NodeEvent {
     // omitted when the collection is emitted
     private final boolean implicit;
     // flag indicates if a collection is block or flow
-    private final Boolean flowStyle;
+    private final DumperOptions.FlowStyle flowStyle;
 
     public CollectionStartEvent(String anchor, String tag, boolean implicit, Mark startMark,
-            Mark endMark, Boolean flowStyle) {
+            Mark endMark, DumperOptions.FlowStyle flowStyle) {
         super(anchor, startMark, endMark);
         this.tag = tag;
         this.implicit = implicit;
+        if(flowStyle == null) throw new NullPointerException("Flow style must be provided.");
         this.flowStyle = flowStyle;
     }
 
@@ -62,12 +64,16 @@ public abstract class CollectionStartEvent extends NodeEvent {
      * 
      * @return If this collection is in flow style.
      */
-    public Boolean getFlowStyle() {
+    public DumperOptions.FlowStyle getFlowStyle() {
         return this.flowStyle;
     }
 
     @Override
     protected String getArguments() {
         return super.getArguments() + ", tag=" + tag + ", implicit=" + implicit;
+    }
+
+    public boolean isFlow() {
+        return DumperOptions.FlowStyle.FLOW == flowStyle;
     }
 }

@@ -20,6 +20,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -49,7 +50,7 @@ public class NullAliasTest extends TestCase {
                 Map<String, Object> fields = new LinkedHashMap<String, Object>(2);
                 fields.put("a", bean.getA());
                 fields.put("b", bean.getB());
-                return representMapping(MY_TAG, fields, false);
+                return representMapping(MY_TAG, fields, DumperOptions.FlowStyle.BLOCK);
             }
         }
     }

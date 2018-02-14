@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.introspector.Property;
@@ -97,7 +98,7 @@ public class Representer extends SafeRepresenter {
         // flow style will be chosen by BaseRepresenter
         MappingNode node = new MappingNode(tag, value, null);
         representedObjects.put(javaBean, node);
-        boolean bestStyle = true;
+        DumperOptions.FlowStyle bestStyle = FlowStyle.FLOW;
         for (Property property : properties) {
             Object memberValue = property.get(javaBean);
             Tag customPropertyTag = memberValue == null ? null
@@ -108,16 +109,16 @@ public class Representer extends SafeRepresenter {
                 continue;
             }
             if (!((ScalarNode) tuple.getKeyNode()).isPlain()) {
-                bestStyle = false;
+                bestStyle = FlowStyle.BLOCK;
             }
             Node nodeValue = tuple.getValueNode();
             if (!(nodeValue instanceof ScalarNode && ((ScalarNode) nodeValue).isPlain())) {
-                bestStyle = false;
+                bestStyle = FlowStyle.BLOCK;
             }
             value.add(tuple);
         }
         if (defaultFlowStyle != FlowStyle.AUTO) {
-            node.setFlowStyle(defaultFlowStyle.getStyleBoolean());
+            node.setFlowStyle(defaultFlowStyle);
         } else {
             node.setFlowStyle(bestStyle);
         }

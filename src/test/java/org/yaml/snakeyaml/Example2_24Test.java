@@ -104,7 +104,7 @@ public class Example2_24Test extends TestCase {
             public Node representData(Object data) {
                 Shape shape = (Shape) data;
                 List<Entity> value = shape.getEntities();
-                return representSequence(new Tag("!shape"), value, Boolean.FALSE);
+                return representSequence(new Tag("!shape"), value, DumperOptions.FlowStyle.BLOCK);
             }
         }
 
@@ -114,7 +114,7 @@ public class Example2_24Test extends TestCase {
                 Map<String, Object> map = new TreeMap<String, Object>();
                 map.put("center", circle.getCenter());
                 map.put("radius", circle.getRadius());
-                return representMapping(new Tag("!circle"), map, Boolean.FALSE);
+                return representMapping(new Tag("!circle"), map, DumperOptions.FlowStyle.BLOCK);
             }
         }
 
@@ -124,7 +124,7 @@ public class Example2_24Test extends TestCase {
                 Map<String, Object> map = new TreeMap<String, Object>();
                 map.put("start", line.getStart());
                 map.put("finish", line.getFinish());
-                return representMapping(new Tag("!line"), map, Boolean.FALSE);
+                return representMapping(new Tag("!line"), map, DumperOptions.FlowStyle.BLOCK);
             }
         }
 
@@ -135,7 +135,7 @@ public class Example2_24Test extends TestCase {
                 map.put("start", label.getStart());
                 map.put("color", new HexInteger(label.getColor()));
                 map.put("text", label.getText());
-                return representMapping(new Tag("!label"), map, Boolean.FALSE);
+                return representMapping(new Tag("!label"), map, DumperOptions.FlowStyle.BLOCK);
             }
         }
 

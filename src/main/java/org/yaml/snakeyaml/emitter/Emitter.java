@@ -392,14 +392,14 @@ public final class Emitter implements Emitable {
             if (event instanceof ScalarEvent) {
                 expectScalar();
             } else if (event instanceof SequenceStartEvent) {
-                if (flowLevel != 0 || canonical || ((SequenceStartEvent) event).getFlowStyle()
+                if (flowLevel != 0 || canonical || ((SequenceStartEvent) event).isFlow()
                         || checkEmptySequence()) {
                     expectFlowSequence();
                 } else {
                     expectBlockSequence();
                 }
             } else {// MappingStartEvent
-                if (flowLevel != 0 || canonical || ((MappingStartEvent) event).getFlowStyle()
+                if (flowLevel != 0 || canonical || ((MappingStartEvent) event).isFlow()
                         || checkEmptyMapping()) {
                     expectFlowMapping();
                 } else {

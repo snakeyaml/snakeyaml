@@ -83,7 +83,7 @@ public class EventConstructor extends Constructor {
                     implicit = true;
                 }
                 value = new SequenceStartEvent((String) mapping.get("anchor"), tag, implicit, null,
-                        null, false);
+                        null, DumperOptions.FlowStyle.BLOCK);
             } else if (className.equals("MappingStartEvent")) {
                 String tag = (String) mapping.get("tag");
                 Boolean implicit = (Boolean) mapping.get("implicit");
@@ -91,7 +91,7 @@ public class EventConstructor extends Constructor {
                     implicit = true;
                 }
                 value = new MappingStartEvent((String) mapping.get("anchor"), tag, implicit, null,
-                        null, false);
+                        null, DumperOptions.FlowStyle.BLOCK);
             } else if (className.equals("DocumentEndEvent")) {
                 value = new DocumentEndEvent(null, null, false);
             } else if (className.equals("DocumentStartEvent")) {

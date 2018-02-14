@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.nodes;
 
 import java.util.List;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
@@ -29,7 +30,7 @@ public class SequenceNode extends CollectionNode<Node> {
     final private List<Node> value;
 
     public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,
-            Boolean flowStyle) {
+                        DumperOptions.FlowStyle flowStyle) {
         super(tag, startMark, endMark, flowStyle);
         if (value == null) {
             throw new NullPointerException("value in a Node is required.");
@@ -38,7 +39,7 @@ public class SequenceNode extends CollectionNode<Node> {
         this.resolved = resolved;
     }
 
-    public SequenceNode(Tag tag, List<Node> value, Boolean flowStyle) {
+    public SequenceNode(Tag tag, List<Node> value, DumperOptions.FlowStyle flowStyle) {
         this(tag, true, value, null, null, flowStyle);
     }
 

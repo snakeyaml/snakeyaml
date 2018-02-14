@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.nodes;
 
 import java.util.List;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
@@ -24,9 +25,9 @@ import org.yaml.snakeyaml.error.Mark;
  * {@link SequenceNode collection}.
  */
 public abstract class CollectionNode<T> extends Node {
-    private Boolean flowStyle;
+    private DumperOptions.FlowStyle flowStyle;
 
-    public CollectionNode(Tag tag, Mark startMark, Mark endMark, Boolean flowStyle) {
+    public CollectionNode(Tag tag, Mark startMark, Mark endMark, DumperOptions.FlowStyle flowStyle) {
         super(tag, startMark, endMark);
         this.flowStyle = flowStyle;
     }
@@ -44,11 +45,11 @@ public abstract class CollectionNode<T> extends Node {
      * @return <code>true</code> for flow style, <code>false</code> for block
      *         style.
      */
-    public Boolean getFlowStyle() {
+    public DumperOptions.FlowStyle getFlowStyle() {
         return flowStyle;
     }
 
-    public void setFlowStyle(Boolean flowStyle) {
+    public void setFlowStyle(DumperOptions.FlowStyle flowStyle) {
         this.flowStyle = flowStyle;
     }
 

@@ -16,6 +16,8 @@
 package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
+
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.SequenceNode;
@@ -31,7 +33,7 @@ public class AbstractConstructTest extends TestCase {
                 return null;
             }
         };
-        Node node = new SequenceNode(Tag.SEQ, true, new ArrayList<Node>(), null, null, false);
+        Node node = new SequenceNode(Tag.SEQ, true, new ArrayList<Node>(), null, null, DumperOptions.FlowStyle.BLOCK);
         try {
             abstractConstruct.construct2ndStep(node, "");
             fail();
@@ -47,7 +49,7 @@ public class AbstractConstructTest extends TestCase {
                 return null;
             }
         };
-        Node node = new SequenceNode(Tag.SEQ, true, new ArrayList<Node>(), null, null, false);
+        Node node = new SequenceNode(Tag.SEQ, true, new ArrayList<Node>(), null, null, DumperOptions.FlowStyle.BLOCK);
         node.setTwoStepsConstruction(true);
         try {
             abstractConstruct.construct2ndStep(node, "");

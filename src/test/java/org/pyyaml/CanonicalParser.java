@@ -96,10 +96,10 @@ public class CanonicalParser implements Parser {
                 events.add(new ScalarEvent(anchor, tag, new ImplicitTuple(false, false), token
                         .getValue(), null, null, DumperOptions.ScalarStyle.PLAIN));
             } else if (scanner.checkToken(Token.ID.FlowSequenceStart)) {
-                events.add(new SequenceStartEvent(anchor, tag, false, null, null, null));
+                events.add(new SequenceStartEvent(anchor, tag, false, null, null, DumperOptions.FlowStyle.AUTO));
                 parseSequence();
             } else if (scanner.checkToken(Token.ID.FlowMappingStart)) {
-                events.add(new MappingStartEvent(anchor, tag, false, null, null, null));
+                events.add(new MappingStartEvent(anchor, tag, false, null, null, DumperOptions.FlowStyle.AUTO));
                 parseMapping();
             } else {
                 throw new CanonicalException("SCALAR, '[', or '{' is expected, got "

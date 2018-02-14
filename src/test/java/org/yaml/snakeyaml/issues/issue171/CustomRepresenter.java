@@ -15,6 +15,7 @@
  */
 package org.yaml.snakeyaml.issues.issue171;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
@@ -28,7 +29,7 @@ class CustomRepresenter extends Representer {
     private class RepresentClassX implements Represent {
         public Node representData(Object data) {
             ClassWithGenericMap classX = (ClassWithGenericMap) data;
-            return representMapping(Tag.MAP, classX.services, false);
+            return representMapping(Tag.MAP, classX.services, DumperOptions.FlowStyle.BLOCK);
         }
     }
 }

@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.nodes;
 
 import java.util.List;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
@@ -30,7 +31,7 @@ public class MappingNode extends CollectionNode<NodeTuple> {
     private boolean merged = false;
 
     public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark,
-            Mark endMark, Boolean flowStyle) {
+            Mark endMark, DumperOptions.FlowStyle flowStyle) {
         super(tag, startMark, endMark, flowStyle);
         if (value == null) {
             throw new NullPointerException("value in a Node is required.");
@@ -39,7 +40,7 @@ public class MappingNode extends CollectionNode<NodeTuple> {
         this.resolved = resolved;
     }
 
-    public MappingNode(Tag tag, List<NodeTuple> value, Boolean flowStyle) {
+    public MappingNode(Tag tag, List<NodeTuple> value, DumperOptions.FlowStyle flowStyle) {
         this(tag, true, value, null, null, flowStyle);
     }
 

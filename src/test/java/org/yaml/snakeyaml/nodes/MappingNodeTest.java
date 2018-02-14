@@ -15,13 +15,15 @@
  */
 package org.yaml.snakeyaml.nodes;
 
+import org.yaml.snakeyaml.DumperOptions;
+
 import junit.framework.TestCase;
 
 public class MappingNodeTest extends TestCase {
 
     public void testNullValue() {
         try {
-            new MappingNode(new Tag("!tag"), true, null, null, null, false);
+            new MappingNode(new Tag("!tag"), true, null, null, null, DumperOptions.FlowStyle.BLOCK);
             fail("Value is required.");
         } catch (Exception e) {
             assertEquals("value in a Node is required.", e.getMessage());
