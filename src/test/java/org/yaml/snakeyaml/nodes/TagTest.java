@@ -69,12 +69,6 @@ public class TagTest extends TestCase {
         }
     }
 
-    public void testLength() {
-        String t = Tag.PREFIX + "org.yaml.snakeyaml.nodes.TagTest";
-        Tag tag = new Tag(t);
-        assertEquals(t.length(), tag.getLength());
-    }
-
     public void testToString() {
         Tag tag = new Tag("!car");
         assertEquals("!car", tag.toString());
@@ -88,11 +82,6 @@ public class TagTest extends TestCase {
     public void testUri2() {
         Tag tag = new Tag("!ruby/object:Test::Module::Sub2");
         assertEquals("!ruby/object:Test::Module::Sub2", tag.getValue());
-    }
-
-    public void testCompare() {
-        Tag tag = new Tag("!car");
-        assertEquals(0, tag.compareTo(new Tag("!car")));
     }
 
     public void testEqualsObject() {

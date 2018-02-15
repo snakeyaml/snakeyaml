@@ -28,7 +28,7 @@ import java.util.Set;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.util.UriEncoder;
 
-public final class Tag implements Comparable<Tag> {
+public final class Tag {
     public static final String PREFIX = "tag:yaml.org,2002:";
     public static final Tag YAML = new Tag(PREFIX + "yaml");
     public static final Tag MERGE = new Tag(PREFIX + "merge");
@@ -114,10 +114,6 @@ public final class Tag implements Comparable<Tag> {
         return UriEncoder.decode(value.substring(Tag.PREFIX.length()));
     }
 
-    public int getLength() {
-        return value.length();
-    }
-
     @Override
     public String toString() {
         return value;
@@ -139,7 +135,7 @@ public final class Tag implements Comparable<Tag> {
     /**
      * Java has more then 1 class compatible with a language-independent tag
      * (!!int, !!float, !!timestamp etc)
-     * 
+     *
      * @param clazz
      *            - Class to check compatibility
      * @return true when the Class can be represented by this
@@ -165,7 +161,4 @@ public final class Tag implements Comparable<Tag> {
         return value.equals(Tag.PREFIX + clazz.getName());
     }
 
-    public int compareTo(Tag o) {
-        return value.compareTo(o.getValue());
-    }
 }
