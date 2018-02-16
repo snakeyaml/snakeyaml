@@ -36,7 +36,6 @@ public abstract class Node {
     protected Mark endMark;
     private Class<? extends Object> type;
     private boolean twoStepsConstruction;
-    private String anchor;
 
     /**
      * true when the tag is assigned by the resolver
@@ -166,11 +165,4 @@ public abstract class Node {
         return resolved;
     }
 
-    public String getAnchor() {
-        return anchor;
-    }
-
-    public void setAnchor(String anchor) {
-        this.anchor = anchor;
-    }
 }
