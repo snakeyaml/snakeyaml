@@ -96,7 +96,7 @@ public class Representer extends SafeRepresenter {
         Tag customTag = classTags.get(javaBean.getClass());
         tag = customTag != null ? customTag : new Tag(javaBean.getClass());
         // flow style will be chosen by BaseRepresenter
-        MappingNode node = new MappingNode(tag, value, null);
+        MappingNode node = new MappingNode(tag, value, FlowStyle.AUTO);
         representedObjects.put(javaBean, node);
         DumperOptions.FlowStyle bestStyle = FlowStyle.FLOW;
         for (Property property : properties) {

@@ -181,7 +181,7 @@ class SafeRepresenter extends BaseRepresenter {
     protected class RepresentList implements Represent {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
-            return representSequence(getTag(data.getClass(), Tag.SEQ), (List<Object>) data, null);
+            return representSequence(getTag(data.getClass(), Tag.SEQ), (List<Object>) data, DumperOptions.FlowStyle.AUTO);
         }
     }
 
@@ -190,7 +190,7 @@ class SafeRepresenter extends BaseRepresenter {
         public Node representData(Object data) {
             Iterator<Object> iter = (Iterator<Object>) data;
             return representSequence(getTag(data.getClass(), Tag.SEQ), new IteratorWrapper(iter),
-                    null);
+                    DumperOptions.FlowStyle.AUTO);
         }
     }
 
@@ -210,7 +210,7 @@ class SafeRepresenter extends BaseRepresenter {
         public Node representData(Object data) {
             Object[] array = (Object[]) data;
             List<Object> list = Arrays.asList(array);
-            return representSequence(Tag.SEQ, list, null);
+            return representSequence(Tag.SEQ, list, DumperOptions.FlowStyle.AUTO);
         }
     }
 
@@ -224,21 +224,21 @@ class SafeRepresenter extends BaseRepresenter {
             Class<?> type = data.getClass().getComponentType();
 
             if (byte.class == type) {
-                return representSequence(Tag.SEQ, asByteList(data), null);
+                return representSequence(Tag.SEQ, asByteList(data), DumperOptions.FlowStyle.AUTO);
             } else if (short.class == type) {
-                return representSequence(Tag.SEQ, asShortList(data), null);
+                return representSequence(Tag.SEQ, asShortList(data), DumperOptions.FlowStyle.AUTO);
             } else if (int.class == type) {
-                return representSequence(Tag.SEQ, asIntList(data), null);
+                return representSequence(Tag.SEQ, asIntList(data), DumperOptions.FlowStyle.AUTO);
             } else if (long.class == type) {
-                return representSequence(Tag.SEQ, asLongList(data), null);
+                return representSequence(Tag.SEQ, asLongList(data), DumperOptions.FlowStyle.AUTO);
             } else if (float.class == type) {
-                return representSequence(Tag.SEQ, asFloatList(data), null);
+                return representSequence(Tag.SEQ, asFloatList(data), DumperOptions.FlowStyle.AUTO);
             } else if (double.class == type) {
-                return representSequence(Tag.SEQ, asDoubleList(data), null);
+                return representSequence(Tag.SEQ, asDoubleList(data), DumperOptions.FlowStyle.AUTO);
             } else if (char.class == type) {
-                return representSequence(Tag.SEQ, asCharList(data), null);
+                return representSequence(Tag.SEQ, asCharList(data), DumperOptions.FlowStyle.AUTO);
             } else if (boolean.class == type) {
-                return representSequence(Tag.SEQ, asBooleanList(data), null);
+                return representSequence(Tag.SEQ, asBooleanList(data), DumperOptions.FlowStyle.AUTO);
             }
 
             throw new YAMLException("Unexpected primitive '" + type.getCanonicalName() + "'");
@@ -313,7 +313,7 @@ class SafeRepresenter extends BaseRepresenter {
         @SuppressWarnings("unchecked")
         public Node representData(Object data) {
             return representMapping(getTag(data.getClass(), Tag.MAP), (Map<Object, Object>) data,
-                    null);
+                    DumperOptions.FlowStyle.AUTO);
         }
     }
 
@@ -325,7 +325,7 @@ class SafeRepresenter extends BaseRepresenter {
             for (Object key : set) {
                 value.put(key, null);
             }
-            return representMapping(getTag(data.getClass(), Tag.SET), value, null);
+            return representMapping(getTag(data.getClass(), Tag.SET), value, DumperOptions.FlowStyle.AUTO);
         }
     }
 

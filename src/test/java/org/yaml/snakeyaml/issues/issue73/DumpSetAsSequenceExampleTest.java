@@ -64,7 +64,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
             @SuppressWarnings("unchecked")
             public Node representData(Object data) {
                 return representSequence(getTag(data.getClass(), Tag.SEQ), (Iterable<Object>) data,
-                        null);
+                        DumperOptions.FlowStyle.AUTO);
 
             }
         }
