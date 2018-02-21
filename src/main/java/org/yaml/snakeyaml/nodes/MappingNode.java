@@ -58,8 +58,8 @@ public class MappingNode extends CollectionNode<NodeTuple> {
         return value;
     }
 
-    public void setValue(List<NodeTuple> merge) {
-        value = merge;
+    public void setValue(List<NodeTuple> mergedValue) {
+        value = mergedValue;
     }
 
     public void setOnlyKeyType(Class<? extends Object> keyType) {
