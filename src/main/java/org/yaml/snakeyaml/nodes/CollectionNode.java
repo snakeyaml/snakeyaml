@@ -29,19 +29,19 @@ public abstract class CollectionNode<T> extends Node {
 
     public CollectionNode(Tag tag, Mark startMark, Mark endMark, DumperOptions.FlowStyle flowStyle) {
         super(tag, startMark, endMark);
-        this.flowStyle = flowStyle;
+        setFlowStyle(flowStyle);
     }
 
     /**
      * Returns the elements in this sequence.
-     * 
+     *
      * @return Nodes in the specified order.
      */
     abstract public List<T> getValue();
 
     /**
      * Serialization style of this collection.
-     * 
+     *
      * @return <code>true</code> for flow style, <code>false</code> for block
      *         style.
      */
@@ -50,6 +50,7 @@ public abstract class CollectionNode<T> extends Node {
     }
 
     public void setFlowStyle(DumperOptions.FlowStyle flowStyle) {
+        if (flowStyle == null) throw new NullPointerException("Flow style must be provided.");
         this.flowStyle = flowStyle;
     }
 

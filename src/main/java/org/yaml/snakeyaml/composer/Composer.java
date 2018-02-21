@@ -174,7 +174,6 @@ public class Composer {
         Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(),
                 ev.getEndMark(), ev.getStyle());
         if (anchor != null) {
-            node.setAnchor(anchor);
             anchors.put(anchor, node);
         }
         return node;
@@ -195,7 +194,6 @@ public class Composer {
         SequenceNode node = new SequenceNode(nodeTag, resolved, children, startEvent.getStartMark(),
                 null, startEvent.getFlowStyle());
         if (anchor != null) {
-            node.setAnchor(anchor);
             anchors.put(anchor, node);
         }
         while (!parser.checkEvent(Event.ID.SequenceEnd)) {
@@ -222,7 +220,6 @@ public class Composer {
         MappingNode node = new MappingNode(nodeTag, resolved, children, startEvent.getStartMark(),
                 null, startEvent.getFlowStyle());
         if (anchor != null) {
-            node.setAnchor(anchor);
             anchors.put(anchor, node);
         }
         while (!parser.checkEvent(Event.ID.MappingEnd)) {

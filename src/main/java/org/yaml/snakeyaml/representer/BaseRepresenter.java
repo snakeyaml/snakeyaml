@@ -137,7 +137,7 @@ public abstract class BaseRepresenter {
             }
             value.add(nodeItem);
         }
-        if (flowStyle == null) {
+        if (flowStyle == FlowStyle.AUTO) {
             if (defaultFlowStyle != FlowStyle.AUTO) {
                 node.setFlowStyle(defaultFlowStyle);
             } else {
@@ -163,7 +163,7 @@ public abstract class BaseRepresenter {
             }
             value.add(new NodeTuple(nodeKey, nodeValue));
         }
-        if (flowStyle == null) {
+        if (flowStyle == FlowStyle.AUTO) {
             if (defaultFlowStyle != FlowStyle.AUTO) {
                 node.setFlowStyle(defaultFlowStyle);
             } else {

@@ -7,6 +7,15 @@
     <body>
         <release version="1.20-SNAPSHOT" date="in Mercurial" description="Maintenance">
             <action dev="asomov" type="update">
+                Refactor collection node - flow style must not be null (2018-02-16)
+            </action>
+            <action dev="asomov" type="remove">
+                Refactor: remove unused method isResolved in Node (2018-02-15)
+            </action>
+            <action dev="asomov" type="remove">
+                Refactor: remove unused code in Tag (2018-02-15)
+            </action>
+            <action dev="asomov" type="update">
                 Refactor nodes and events - use enum FlowStyle instead of Boolean (2018-02-10)
             </action>
             <action dev="asomov" type="update">
