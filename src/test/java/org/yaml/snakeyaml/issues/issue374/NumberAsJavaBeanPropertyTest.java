@@ -62,7 +62,7 @@ public class NumberAsJavaBeanPropertyTest {
 
         AmbiguousNumberType interpreted = (AmbiguousNumberType) yaml.load(str);
 
-        assertEquals(new Double(original.number.intValue()), interpreted.number);
+        assertEquals(Double.valueOf(original.number.intValue()), interpreted.number);
     }
 
     @Test
@@ -77,14 +77,14 @@ public class NumberAsJavaBeanPropertyTest {
 
         AmbiguousNumberType interpreted = (AmbiguousNumberType) yaml.load(str);
 
-        assertEquals(new Double(original.number.intValue()), interpreted.number);
+        assertEquals(Double.valueOf(original.number.intValue()), interpreted.number);
     }
 
     @Test
     public void testNumberFormatParse() throws ParseException {
         NumberFormat nf = NumberFormat.getInstance(Locale.US);
-        assertEquals(new Long(1), nf.parse("1"));
+        assertEquals(Long.valueOf(1), nf.parse("1"));
         assertEquals("NumberFormat converts 1.0 to 1 - this is against the specification.",
-                new Long(1), nf.parse("1.0"));
+                Long.valueOf(1), nf.parse("1.0"));
     }
 }

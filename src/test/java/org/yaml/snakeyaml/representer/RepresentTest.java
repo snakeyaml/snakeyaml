@@ -83,7 +83,7 @@ public class RepresentTest extends TestCase {
         private class ConstructDice extends AbstractConstruct {
             public Object construct(Node node) {
                 String val = (String) constructScalar((ScalarNode) node);
-                return new CustomBean(val.substring(0, 1), new Integer(val.substring(2)));
+                return new CustomBean(val.substring(0, 1), Integer.valueOf(val.substring(2)));
             }
         }
     }

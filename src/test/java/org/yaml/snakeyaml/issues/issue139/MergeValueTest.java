@@ -30,7 +30,7 @@ public class MergeValueTest extends TestCase {
         @SuppressWarnings("unchecked")
         Map<String, Integer> map = (Map<String, Integer>) yaml.load(simple);
         assertEquals(1, map.size());
-        assertEquals(new Integer(2), map.get("key"));
+        assertEquals(Integer.valueOf(2), map.get("key"));
     }
 
     public void testMerge() {
@@ -64,7 +64,7 @@ public class MergeValueTest extends TestCase {
         assertEquals(2, map.size());
         Map<String, Integer> common = (Map<String, Integer>) map.get("common");
         Map<String, Integer> production = (Map<String, Integer>) map.get("production");
-        assertEquals(new Integer(2), common.get("key"));
-        assertEquals(new Integer(3), production.get("key"));
+        assertEquals(Integer.valueOf(2), common.get("key"));
+        assertEquals(Integer.valueOf(3), production.get("key"));
     }
 }

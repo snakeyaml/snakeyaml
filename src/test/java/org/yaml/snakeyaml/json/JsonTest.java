@@ -28,12 +28,12 @@ public class JsonTest extends TestCase {
 
     public void testLooksLikeJson() {
         Map<String, Integer> map = (Map<String, Integer>) loader.load("{a: 1}");
-        assertEquals(new Integer(1), map.get("a"));
+        assertEquals(Integer.valueOf(1), map.get("a"));
     }
 
     public void testSpaceAfterColon() {
         Map<String, Integer> map = (Map<String, Integer>) loader.load("{\"a\": 1}");
-        assertEquals(new Integer(1), map.get("a"));
+        assertEquals(Integer.valueOf(1), map.get("a"));
     }
 
     public void testCounterintuitiveColon() {
@@ -47,7 +47,7 @@ public class JsonTest extends TestCase {
 
     public void testNoSpace() {
         Map<String, Integer> map = (Map<String, Integer>) loader.load("{\"a\":1}");
-        assertEquals(new Integer(1), map.get("a"));
+        assertEquals(Integer.valueOf(1), map.get("a"));
     }
 
     public void testNoSpaceBothDoubleQuoted() {
@@ -57,13 +57,13 @@ public class JsonTest extends TestCase {
 
     public void testNoSpaceSingleQouted() {
         Map<String, Integer> map = (Map<String, Integer>) loader.load("{'a':1}");
-        assertEquals(new Integer(1), map.get("a"));
+        assertEquals(Integer.valueOf(1), map.get("a"));
     }
 
     public void testManyValues() {
         Map<String, Object> map = (Map<String, Object>) loader.load("{\"a\":1,\"b\":true,\"c\":\"foo\"}");
         assertEquals(3, map.size());
-        assertEquals(new Integer(1), map.get("a"));
+        assertEquals(Integer.valueOf(1), map.get("a"));
         assertTrue((Boolean) map.get("b"));
         assertEquals("foo", map.get("c"));
     }

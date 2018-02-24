@@ -28,7 +28,7 @@ public class ObjectValuesTest extends TestCase {
 
     public void testObjectValues() {
         ObjectValues ov = new ObjectValues();
-        Integer obj = new Integer(131313);
+        Integer obj = Integer.valueOf(131313);
         ov.setObject(obj);
         final Map<String, Map<Integer, Object>> prop2values = new HashMap<String, Map<Integer, Object>>();
 
@@ -58,7 +58,7 @@ public class ObjectValuesTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testObjectValuesWithParam() {
         ObjectValuesWithParam<String, Integer> ov = new ObjectValuesWithParam<String, Integer>();
-        Integer obj = new Integer(131313);
+        Integer obj = Integer.valueOf(131313);
         ov.setObject(obj);
         final Map<String, Map<Integer, Object>> prop2values = new HashMap<String, Map<Integer, Object>>();
 

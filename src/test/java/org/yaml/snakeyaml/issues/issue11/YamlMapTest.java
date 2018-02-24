@@ -137,7 +137,7 @@ public class YamlMapTest extends TestCase {
         private class ConstructCustom extends AbstractConstruct {
             public Object construct(Node node) {
                 String str = (String) constructScalar((ScalarNode) node);
-                return new Custom(new Integer(str));
+                return new Custom(Integer.valueOf(str));
             }
 
         }

@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 /**
  * Test Chapter 2.5 from the YAML specification
- * 
+ *
  * @see <a href="http://yaml.org/spec/1.1/"></a>
  */
 public class Chapter2_5Test extends TestCase {
@@ -31,7 +31,7 @@ public class Chapter2_5Test extends TestCase {
     @SuppressWarnings("unchecked")
     public void testExample_2_28() {
         YamlStream resource = new YamlStream("example2_28.yaml");
-        List<Object> list = (List<Object>) resource.getNativeData();
+        List<Object> list = resource.getNativeData();
         assertEquals(3, list.size());
         Map<String, Object> data0 = (Map<String, Object>) list.get(0);
         Date date = (Date) data0.get("Time");
@@ -53,11 +53,11 @@ public class Chapter2_5Test extends TestCase {
         List<Map<String, String>> list3 = (List<Map<String, String>>) data3.get("Stack");
         Map<String, String> map1 = list3.get(0);
         assertEquals("TopClass.py", map1.get("file"));
-        assertEquals(new Integer(23), map1.get("line"));
+        assertEquals(Integer.valueOf(23), map1.get("line"));
         assertEquals("x = MoreObject(\"345\\n\")\n", map1.get("code"));
         Map<String, String> map2 = list3.get(1);
         assertEquals("MoreClass.py", map2.get("file"));
-        assertEquals(new Integer(58), map2.get("line"));
+        assertEquals(Integer.valueOf(58), map2.get("line"));
         assertEquals("foo = bar", map2.get("code"));
     }
 }

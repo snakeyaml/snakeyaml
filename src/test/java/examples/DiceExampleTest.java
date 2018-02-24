@@ -74,8 +74,8 @@ public class DiceExampleTest extends TestCase {
             public Object construct(Node node) {
                 String val = (String) constructScalar((ScalarNode) node);
                 int position = val.indexOf('d');
-                Integer a = new Integer(val.substring(0, position));
-                Integer b = new Integer(val.substring(position + 1));
+                Integer a = Integer.valueOf(val.substring(0, position));
+                Integer b = Integer.valueOf(val.substring(position + 1));
                 return new Dice(a, b);
             }
         }

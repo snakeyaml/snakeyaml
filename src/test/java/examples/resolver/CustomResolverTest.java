@@ -51,6 +51,6 @@ public class CustomResolverTest extends TestCase {
         Map<Object, Object> map2 = (Map<Object, Object>) yaml2.load("1.0: 2009-01-01");
         assertEquals(1, map2.size());
         assertFalse(map2.containsKey("1.0"));
-        assertTrue(map2.toString(), map2.containsKey(new Double(1.0)));
+        assertTrue(map2.toString(), map2.containsKey(Double.valueOf(1.0)));
     }
 }

@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 /**
  * Test Chapter 2.1 from the YAML specification
- * 
+ *
  * @see <a href="http://yaml.org/spec/1.1/"></a>
  */
 public class Chapter2_1Test extends TestCase {
@@ -44,12 +44,12 @@ public class Chapter2_1Test extends TestCase {
         Map<String, Object> map = (Map<String, Object>) document.getNativeData();
         assertEquals(3, map.size());
         assertEquals("Expect 65 to be a Integer", Integer.class, map.get("hr").getClass());
-        assertEquals(new Integer(65), map.get("hr"));
-        assertEquals(new Float(0.278), new Float("0.278"));
+        assertEquals(Integer.valueOf(65), map.get("hr"));
+        assertEquals(Float.valueOf(0.278f), Float.valueOf("0.278"));
         assertEquals("Expect 0.278 to be a Float", Double.class, map.get("avg").getClass());
-        assertEquals(new Double(0.278), map.get("avg"));
+        assertEquals(Double.valueOf(0.278), map.get("avg"));
         assertEquals("Expect 147 to be an Integer", Integer.class, map.get("rbi").getClass());
-        assertEquals(new Integer(147), map.get("rbi"));
+        assertEquals(Integer.valueOf(147), map.get("rbi"));
     }
 
     @SuppressWarnings("unchecked")

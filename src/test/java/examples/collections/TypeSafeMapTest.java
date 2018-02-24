@@ -72,13 +72,13 @@ public class TypeSafeMapTest extends TestCase {
         assertNotNull(parsed);
         Map<String, Integer> data = parsed.getData();
         assertEquals(3, data.size());
-        assertEquals(new Integer(1), data.get("aaa"));
-        assertEquals(new Integer(2), data.get("bbb"));
-        assertEquals(new Integer(3), data.get("zzz"));
+        assertEquals(Integer.valueOf(1), data.get("aaa"));
+        assertEquals(Integer.valueOf(2), data.get("bbb"));
+        assertEquals(Integer.valueOf(3), data.get("zzz"));
         Map<String, Developer2> developers = parsed.getDevelopers();
         assertEquals(2, developers.size());
-        assertEquals("Developer must be recognised.", Developer2.class, developers.get("team1")
-                .getClass());
+        assertEquals("Developer must be recognised.", Developer2.class,
+                developers.get("team1").getClass());
         Developer2 fred = developers.get("team1");
         assertEquals("Fred", fred.getName());
         assertEquals("creator", fred.getRole());
@@ -169,9 +169,9 @@ public class TypeSafeMapTest extends TestCase {
         assertNotNull(parsed);
         Map<String, Integer> data = parsed.getData();
         assertEquals(3, data.size());
-        assertEquals(new Integer(1), data.get("aaa"));
-        assertEquals(new Integer(2), data.get("bbb"));
-        assertEquals(new Integer(3), data.get("zzz"));
+        assertEquals(Integer.valueOf(1), data.get("aaa"));
+        assertEquals(Integer.valueOf(2), data.get("bbb"));
+        assertEquals(Integer.valueOf(3), data.get("zzz"));
         Map developers = parsed.getDevelopers();
         assertNotNull(developers);
         assertEquals(2, developers.size());

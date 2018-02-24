@@ -54,7 +54,7 @@ public class ValueTagTest extends AbstractTest {
         Map<String, String> map1 = list2.get(0);
         assertEquals(2, map1.size());
         assertEquals("library1.dll", map1.get("="));
-        assertEquals(new Double(1.2), map1.get("version"));
+        assertEquals(Double.valueOf(1.2), map1.get("version"));
         assertFalse(iter.hasNext());
     }
 }

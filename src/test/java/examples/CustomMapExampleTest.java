@@ -32,9 +32,9 @@ public class CustomMapExampleTest extends TestCase {
         assertTrue(data instanceof TreeMap);
         Object[] keys = data.keySet().toArray();
         // must be sorted
-        assertEquals(new Integer(1), keys[0]);
-        assertEquals(new Integer(2), keys[1]);
-        assertEquals(new Integer(3), keys[2]);
+        assertEquals(Integer.valueOf(1), keys[0]);
+        assertEquals(Integer.valueOf(2), keys[1]);
+        assertEquals(Integer.valueOf(3), keys[2]);
     }
 
     class CustomConstructor extends Constructor {

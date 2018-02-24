@@ -22,8 +22,8 @@ public class ArrayStackTest extends TestCase {
     public void testClear() {
         ArrayStack<Integer> stack = new ArrayStack<Integer>(25);
         assertTrue(stack.isEmpty());
-        stack.push(new Integer(1));
-        stack.push(new Integer(2));
+        stack.push(Integer.valueOf(1));
+        stack.push(Integer.valueOf(2));
         assertFalse(stack.isEmpty());
         stack.clear();
         assertTrue(stack.isEmpty());

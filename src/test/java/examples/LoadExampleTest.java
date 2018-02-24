@@ -42,7 +42,7 @@ public class LoadExampleTest extends TestCase {
         @SuppressWarnings("unchecked")
         Map<String, Integer> map = (Map<String, Integer>) yaml.load(document);
         assertEquals("{hello=25}", map.toString());
-        assertEquals(new Integer(25), map.get("hello"));
+        assertEquals(Integer.valueOf(25), map.get("hello"));
     }
 
     public void testLoadFromStream() throws IOException {
@@ -57,8 +57,8 @@ public class LoadExampleTest extends TestCase {
     }
 
     public void testLoadManyDocuments() throws IOException {
-        InputStream input = new FileInputStream(new File(
-                "src/test/resources/specification/example2_28.yaml"));
+        InputStream input = new FileInputStream(
+                new File("src/test/resources/specification/example2_28.yaml"));
         Yaml yaml = new Yaml();
         int counter = 0;
         for (Object data : yaml.loadAll(input)) {

@@ -66,7 +66,7 @@ public class CustomBeanResolverTest extends TestCase {
                 } else if (node.getType().isAssignableFrom(double.class)) {
                     String val = (String) constructScalar((ScalarNode) node);
                     if (CUSTOM_PATTERN.matcher(val).matches()) {
-                        return new Double(val.substring(0, val.length() - 1)) / 100;
+                        return Double.valueOf(val.substring(0, val.length() - 1)) / 100;
                     }
                 }
                 return super.construct(node);

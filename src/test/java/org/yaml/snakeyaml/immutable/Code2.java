@@ -26,7 +26,7 @@ public class Code2 {
     }
 
     public Code2(String name) {
-        this.code = new Integer(name);
+        this.code = Integer.valueOf(name);
     }
 
     public Integer getCode() {

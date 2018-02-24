@@ -19,7 +19,6 @@ import java.util.AbstractList;
 import java.util.Collections;
 import java.util.List;
 
-
 public class ArrayUtils {
 
     private ArrayUtils() {
@@ -32,8 +31,9 @@ public class ArrayUtils {
      * @param elements - array to convert
      * @return {@code List} backed by the given array
      */
-    public static <E> List<E> toUnmodifiableList(E... elements) {
-        return elements.length == 0 ? Collections.<E>emptyList() : new UnmodifiableArrayList<E>(elements);
+    public static <E> List<E> toUnmodifiableList(E[] elements) {
+        return elements.length == 0 ? Collections.<E> emptyList()
+                : new UnmodifiableArrayList<E>(elements);
     }
 
     /**
@@ -93,7 +93,7 @@ public class ArrayUtils {
             E element;
             if (index < array1.length) {
                 element = array1[index];
-            } else if (index - array1.length < array2.length){
+            } else if (index - array1.length < array2.length) {
                 element = array2[index - array1.length];
             } else {
                 throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size());

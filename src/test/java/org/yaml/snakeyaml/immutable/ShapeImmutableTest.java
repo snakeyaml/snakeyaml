@@ -31,7 +31,7 @@ public class ShapeImmutableTest extends TestCase {
     public void testCode() {
         Yaml yaml = new Yaml();
         Code loaded = (Code) yaml.load("!!org.yaml.snakeyaml.immutable.Code 123");
-        assertEquals(new Integer(123), loaded.getCode());
+        assertEquals(Integer.valueOf(123), loaded.getCode());
     }
 
     public void testSuperColor() {
@@ -57,7 +57,7 @@ public class ShapeImmutableTest extends TestCase {
     public void testCode2() {
         Yaml yaml = new Yaml();
         Code2 code2 = (Code2) yaml.load("!!org.yaml.snakeyaml.immutable.Code2 555");
-        assertEquals(new Integer(555), code2.getCode());
+        assertEquals(Integer.valueOf(555), code2.getCode());
     }
 
     public void testCode3() {
@@ -118,8 +118,8 @@ public class ShapeImmutableTest extends TestCase {
     public void testPoint2() {
         Yaml yaml = new Yaml();
         Point2 loaded = (Point2) yaml.load("!!org.yaml.snakeyaml.immutable.Point2\n- 1\n- 3");
-        assertEquals(new Integer(1), loaded.getX());
-        assertEquals(new Integer(3), loaded.getY());
+        assertEquals(Integer.valueOf(1), loaded.getX());
+        assertEquals(Integer.valueOf(3), loaded.getY());
     }
 
     public void testPoint3d() {
@@ -133,14 +133,14 @@ public class ShapeImmutableTest extends TestCase {
         Yaml yaml = new Yaml();
         String source = Util.getLocalResource("immutable/shape1.yaml");
         Shape loaded = (Shape) yaml.load(source);
-        assertEquals(new Integer(123), loaded.getId());
+        assertEquals(Integer.valueOf(123), loaded.getId());
     }
 
     public void testShapeNoTags() {
         String source = Util.getLocalResource("immutable/shapeNoTags.yaml");
         Yaml beanLoader = new Yaml();
         Shape loaded = beanLoader.loadAs(source, Shape.class);
-        assertEquals(new Integer(123), loaded.getId());
+        assertEquals(Integer.valueOf(123), loaded.getId());
         assertEquals("BLACK", loaded.getColor().getName());
         assertEquals(1.17, loaded.getPoint().getX());
         assertEquals(3.14, loaded.getPoint().getY());

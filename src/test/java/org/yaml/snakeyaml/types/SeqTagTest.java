@@ -33,7 +33,7 @@ public class SeqTagTest extends AbstractTest {
         YamlDocument document = new YamlDocument("types/seq.yaml");
         Map<String, List<String>> map = (Map<String, List<String>>) document.getNativeData();
         assertEquals(2, map.size());
-        List<String> list1 = (List<String>) map.get("Block style");
+        List<String> list1 = map.get("Block style");
         assertEquals(9, list1.size());
         assertEquals("Mercury", list1.get(0));
         assertEquals("Venus", list1.get(1));
@@ -45,7 +45,7 @@ public class SeqTagTest extends AbstractTest {
         assertEquals("Neptune", list1.get(7));
         assertEquals("Pluto", list1.get(8));
         //
-        List<String> list2 = (List<String>) map.get("Flow style");
+        List<String> list2 = map.get("Flow style");
         assertEquals(9, list2.size());
         assertEquals("Mercury", list2.get(0));
         assertEquals("Venus", list2.get(1));
@@ -78,9 +78,9 @@ public class SeqTagTest extends AbstractTest {
 
     public void testArray() {
         Integer[] array = new Integer[3];
-        array[0] = new Integer(1);
-        array[1] = new Integer(1);
-        array[2] = new Integer(2);
+        array[0] = Integer.valueOf(1);
+        array[1] = Integer.valueOf(1);
+        array[2] = Integer.valueOf(2);
         String output = dump(array);
         assertEquals("[1, 1, 2]\n", output);
     }

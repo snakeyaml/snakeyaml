@@ -51,6 +51,6 @@ public class Wheel {
 
     @Override
     public int hashCode() {
-        return new Integer(id).hashCode();
+        return Integer.valueOf(id).hashCode();
     }
 }

@@ -34,7 +34,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Test Chapter 2.4 from the YAML specification
- * 
+ *
  * @see <a href="http://yaml.org/spec/1.1/"></a>
  */
 public class Chapter2_4Test extends TestCase {
@@ -44,13 +44,13 @@ public class Chapter2_4Test extends TestCase {
         YamlDocument document = new YamlDocument("example2_19.yaml");
         Map<String, Object> map = (Map<String, Object>) document.getNativeData();
         assertEquals(5, map.size());
-        assertEquals("Expect 12345 to be an Integer.", Integer.class, map.get("canonical")
-                .getClass());
-        assertEquals(new Integer(12345), map.get("canonical"));
-        assertEquals(new Integer(12345), map.get("decimal"));
-        assertEquals(new Integer(3 * 3600 + 25 * 60 + 45), map.get("sexagesimal"));
-        assertEquals(new Integer(014), map.get("octal"));
-        assertEquals(new Integer(0xC), map.get("hexadecimal"));
+        assertEquals("Expect 12345 to be an Integer.", Integer.class,
+                map.get("canonical").getClass());
+        assertEquals(Integer.valueOf(12345), map.get("canonical"));
+        assertEquals(Integer.valueOf(12345), map.get("decimal"));
+        assertEquals(Integer.valueOf(3 * 3600 + 25 * 60 + 45), map.get("sexagesimal"));
+        assertEquals(Integer.valueOf(014), map.get("octal"));
+        assertEquals(Integer.valueOf(0xC), map.get("hexadecimal"));
     }
 
     @SuppressWarnings("unchecked")
@@ -58,12 +58,12 @@ public class Chapter2_4Test extends TestCase {
         YamlDocument document = new YamlDocument("example2_20.yaml");
         Map<String, Object> map = (Map<String, Object>) document.getNativeData();
         assertEquals(6, map.size());
-        assertEquals("Expect '1.23015e+3' to be a Double.", Double.class, map.get("canonical")
-                .getClass());
-        assertEquals(new Double(1230.15), map.get("canonical"));
-        assertEquals(new Double(12.3015e+02), map.get("exponential"));
-        assertEquals(new Double(20 * 60 + 30.15), map.get("sexagesimal"));
-        assertEquals(new Double(1230.15), map.get("fixed"));
+        assertEquals("Expect '1.23015e+3' to be a Double.", Double.class,
+                map.get("canonical").getClass());
+        assertEquals(Double.valueOf(1230.15), map.get("canonical"));
+        assertEquals(Double.valueOf(12.3015e+02), map.get("exponential"));
+        assertEquals(Double.valueOf(20 * 60 + 30.15), map.get("sexagesimal"));
+        assertEquals(Double.valueOf(1230.15), map.get("fixed"));
         assertEquals(Double.NEGATIVE_INFINITY, map.get("negative infinity"));
         assertEquals(Double.NaN, map.get("not a number"));
     }
@@ -168,9 +168,9 @@ public class Chapter2_4Test extends TestCase {
         Map<String, String> map = (Map<String, String>) document.getNativeData();
         assertEquals(3, map.size());
         assertTrue(map instanceof LinkedHashMap);
-        assertEquals(new Integer(65), map.get("Mark McGwire"));
-        assertEquals(new Integer(63), map.get("Sammy Sosa"));
-        assertEquals(new Integer(58), map.get("Ken Griffy"));
+        assertEquals(Integer.valueOf(65), map.get("Mark McGwire"));
+        assertEquals(Integer.valueOf(63), map.get("Sammy Sosa"));
+        assertEquals(Integer.valueOf(58), map.get("Ken Griffy"));
         List<String> list = new ArrayList<String>();
         for (String key : map.keySet()) {
             list.add(key);

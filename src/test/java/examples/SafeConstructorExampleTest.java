@@ -29,7 +29,7 @@ public class SafeConstructorExampleTest extends TestCase {
         Yaml yaml = new Yaml(new SafeConstructor());
         List<Object> list = (List<Object>) yaml.load(doc);
         assertEquals(3, list.size());
-        assertEquals(new Integer(5), list.get(0));
+        assertEquals(Integer.valueOf(5), list.get(0));
         assertEquals("Person", list.get(1));
         assertEquals(Boolean.TRUE, list.get(2));
     }

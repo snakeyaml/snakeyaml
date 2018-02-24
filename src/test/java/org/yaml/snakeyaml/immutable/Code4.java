@@ -27,7 +27,7 @@ public class Code4 {
     }
 
     public Code4(Double name) {
-        this.code = new Integer(name.intValue());
+        this.code = Integer.valueOf(name.intValue());
     }
 
     public Integer getCode() {

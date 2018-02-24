@@ -25,7 +25,7 @@ public class GenericMapTest extends TestCase {
     public void testMap() throws Exception {
         BeanWithMap fact = new BeanWithMap();
         GenericMap<Integer> shash = fact.getMap();
-        shash.put("toto", new Integer(10));
+        shash.put("toto", Integer.valueOf(10));
         DumperOptions options = new DumperOptions();
         options.setAllowReadOnlyProperties(true);
         Yaml yaml = new Yaml(options);

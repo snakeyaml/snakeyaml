@@ -30,7 +30,7 @@ public class NumberBeanTest extends TestCase {
         Yaml yaml = new Yaml();
         String dump = yaml.dump(number);
         NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
-        assertEquals("Integer is converted to Double.", new Double(1), loaded.number);
+        assertEquals("Integer is converted to Double.", Double.valueOf(1), loaded.number);
     }
 
     public void testNumberAsDouble() throws Exception {

@@ -32,27 +32,27 @@ public class MergeTagTest extends AbstractTest {
         assertEquals(8, list.size());
         Map<Object, Object> center = (Map<Object, Object>) list.get(0);
         assertEquals(2, center.size());
-        assertEquals(new Integer(1), center.get("x"));
-        assertEquals(new Integer(2), center.get("y"));
+        assertEquals(Integer.valueOf(1), center.get("x"));
+        assertEquals(Integer.valueOf(2), center.get("y"));
         //
         Map<Object, Object> left = (Map<Object, Object>) list.get(1);
         assertEquals(2, left.size());
-        assertEquals(left.get("x").getClass().toString(), new Integer(0), left.get("x"));
-        assertEquals(new Integer(2), left.get("y"));
+        assertEquals(left.get("x").getClass().toString(), Integer.valueOf(0), left.get("x"));
+        assertEquals(Integer.valueOf(2), left.get("y"));
         //
         Map<Object, Object> big = (Map<Object, Object>) list.get(2);
         assertEquals(1, big.size());
-        assertEquals(new Integer(10), big.get("r"));
+        assertEquals(Integer.valueOf(10), big.get("r"));
         //
         Map<Object, Object> small = (Map<Object, Object>) list.get(3);
         assertEquals(1, small.size());
-        assertEquals(new Integer(1), small.get("r"));
+        assertEquals(Integer.valueOf(1), small.get("r"));
         // Explicit keys
         Map<Object, Object> explicit = (Map<Object, Object>) list.get(4);
         assertEquals(4, explicit.size());
-        assertEquals(new Integer(1), explicit.get("x"));
-        assertEquals(new Integer(2), explicit.get("y"));
-        assertEquals(new Integer(10), explicit.get("r"));
+        assertEquals(Integer.valueOf(1), explicit.get("x"));
+        assertEquals(Integer.valueOf(2), explicit.get("y"));
+        assertEquals(Integer.valueOf(10), explicit.get("r"));
         assertEquals("center/big", explicit.get("label"));
         // Merge one map
         Map<Object, Object> merged1 = (Map<Object, Object>) list.get(5);

@@ -48,7 +48,7 @@ public class MyWheel implements Comparable<MyWheel> {
 
     @Override
     public int hashCode() {
-        return new Integer(id).hashCode();
+        return Integer.valueOf(id).hashCode();
     }
 
     public String getBrand() {
@@ -60,6 +60,6 @@ public class MyWheel implements Comparable<MyWheel> {
     }
 
     public int compareTo(MyWheel arg0) {
-        return new Integer(id).compareTo(new Integer(arg0.id));
+        return Integer.valueOf(id).compareTo(Integer.valueOf(arg0.id));
     }
 }

@@ -74,7 +74,7 @@ public class PyRecursiveTest extends TestCase {
         List value = new ArrayList();
         value.add(value);
         value.add("test");
-        value.add(new Integer(1));
+        value.add(Integer.valueOf(1));
 
         Yaml yaml = new Yaml();
         String output1 = yaml.dump(value);
@@ -96,7 +96,7 @@ public class PyRecursiveTest extends TestCase {
         List value = new ArrayList();
         value.add(value);
         value.add("test");
-        value.add(new Integer(1));
+        value.add(Integer.valueOf(1));
 
         Yaml yaml = new Yaml(new SafeConstructor());
         String output1 = yaml.dump(value);

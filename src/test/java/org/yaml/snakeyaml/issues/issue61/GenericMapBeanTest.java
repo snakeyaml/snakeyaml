@@ -37,8 +37,8 @@ public class GenericMapBeanTest extends TestCase {
         // parse
         Yaml loader = new Yaml();
         MapProvider<String, Integer> listProvider2 = loader.loadAs(s, MapProvider.class);
-        assertEquals(new Integer(17), listProvider2.getMap().get("foo"));
-        assertEquals(new Integer(19), listProvider2.getMap().get("bar"));
+        assertEquals(Integer.valueOf(17), listProvider2.getMap().get("foo"));
+        assertEquals(Integer.valueOf(19), listProvider2.getMap().get("bar"));
         assertEquals(listProvider, listProvider2);
     }
 

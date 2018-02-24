@@ -186,7 +186,6 @@ public class Constructor extends SafeConstructor {
         // }
         // }
 
-        @SuppressWarnings("unchecked")
         protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
             flattenMapping(node);
             Class<? extends Object> beanType = node.getType();
@@ -216,7 +215,8 @@ public class Constructor extends SafeConstructor {
 
                     valueNode.setType(property.getType());
                     final boolean typeDetected = (memberDescription != null)
-                            ? memberDescription.setupPropertyType(key, valueNode) : false;
+                            ? memberDescription.setupPropertyType(key, valueNode)
+                            : false;
                     if (!typeDetected && valueNode.getNodeId() != NodeId.scalar) {
                         // only if there is no explicit TypeDescription
                         Class<?>[] arguments = property.getActualTypeArguments();
@@ -448,7 +448,7 @@ public class Constructor extends SafeConstructor {
                     Construct doubleConstructor = yamlConstructors.get(Tag.FLOAT);
                     result = doubleConstructor.construct(node);
                     if (type == Float.class || type == Float.TYPE) {
-                        result = new Float((Double) result);
+                        result = Float.valueOf(((Double) result).floatValue());
                     }
                 }
             } else if (type == Byte.class || type == Short.class || type == Integer.class

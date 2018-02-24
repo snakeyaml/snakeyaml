@@ -43,7 +43,7 @@ public class IgnoreTagsExampleTest extends TestCase {
         //
         List<Object> bbb = (List<Object>) result.get("bbb");
         assertEquals(2, bbb.size());
-        assertEquals(new Integer(111), bbb.get(0));
+        assertEquals(Integer.valueOf(111), bbb.get(0));
         assertEquals("ddd", bbb.get(1));
         //
         Map<String, Object> ccc = (Map<String, Object>) result.get("ccc");

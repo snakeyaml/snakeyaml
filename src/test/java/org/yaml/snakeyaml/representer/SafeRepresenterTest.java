@@ -37,16 +37,16 @@ public class SafeRepresenterTest extends TestCase {
     }
 
     public void testFloat() {
-        assertEquals("1.0E12", String.valueOf(new Double("1e12")));
+        assertEquals("1.0E12", String.valueOf(Double.valueOf("1e12")));
     }
 
     public void testNumber() {
         List<Number> list = new ArrayList<Number>();
-        list.add(new Byte((byte) 3));
-        list.add(new Short((short) 4));
-        list.add(new Integer(5));
+        list.add(Byte.valueOf((byte) 3));
+        list.add(Short.valueOf((short) 4));
+        list.add(Integer.valueOf(5));
         list.add(new BigInteger("6"));
-        list.add(new Long(7L));
+        list.add(Long.valueOf(7L));
         list.add(Double.POSITIVE_INFINITY);
         list.add(Double.NEGATIVE_INFINITY);
         list.add(Double.NaN);
@@ -81,8 +81,8 @@ public class SafeRepresenterTest extends TestCase {
 
     public void testStyle() {
         List<Integer> list = new ArrayList<Integer>();
-        list.add(new Integer(1));
-        list.add(new Integer(1));
+        list.add(Integer.valueOf(1));
+        list.add(Integer.valueOf(1));
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("list", list);
         map.put("name", "Ubuntu");
@@ -99,8 +99,8 @@ public class SafeRepresenterTest extends TestCase {
 
     public void testStyle2() {
         List<Integer> list = new ArrayList<Integer>();
-        list.add(new Integer(1));
-        list.add(new Integer(1));
+        list.add(Integer.valueOf(1));
+        list.add(Integer.valueOf(1));
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("age", 5);
         map.put("name", "Ubuntu");
@@ -116,8 +116,8 @@ public class SafeRepresenterTest extends TestCase {
 
     public void testStyle2Pretty() {
         List<Integer> list = new ArrayList<Integer>();
-        list.add(new Integer(1));
-        list.add(new Integer(1));
+        list.add(Integer.valueOf(1));
+        list.add(Integer.valueOf(1));
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("age", 5);
         map.put("name", "Ubuntu");

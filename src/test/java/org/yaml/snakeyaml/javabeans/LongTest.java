@@ -60,7 +60,7 @@ public class LongTest extends TestCase {
         String output = yaml.dump(foo);
         // System.out.println(output);
         Foo foo2 = (Foo) yaml.load(output);
-        assertEquals(new Long(42L), foo2.getBar());
+        assertEquals(Long.valueOf(42L), foo2.getBar());
     }
 
     public void testLongConstructor() {
@@ -68,6 +68,6 @@ public class LongTest extends TestCase {
         // System.out.println(doc);
         Yaml yaml = new Yaml();
         Foo foo2 = (Foo) yaml.load(doc);
-        assertEquals(new Long(42L), foo2.getBar());
+        assertEquals(Long.valueOf(42L), foo2.getBar());
     }
 }

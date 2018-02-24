@@ -33,7 +33,7 @@ public class ParameterizedJavaBeanTest extends TestCase {
         @SuppressWarnings("unchecked")
         ParameterizedBean<Integer, String> beanParsed = (ParameterizedBean<Integer, String>) yaml
                 .load(result);
-        assertEquals(new Integer(13), beanParsed.getK());
+        assertEquals(Integer.valueOf(13), beanParsed.getK());
         assertEquals("ID47", beanParsed.getV());
     }
 
@@ -49,7 +49,7 @@ public class ParameterizedJavaBeanTest extends TestCase {
                 result);
         // load
         IssueBean issueParsed = (IssueBean) yaml.load(result);
-        assertEquals(new Integer(432), issueParsed.getBean().getK());
+        assertEquals(Integer.valueOf(432), issueParsed.getBean().getK());
         assertEquals("Val432", issueParsed.getBean().getV());
     }
 }

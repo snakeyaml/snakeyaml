@@ -31,15 +31,15 @@ public class BeanConstructorTest extends TestCase {
         String document = Util.getLocalResource("constructor/test-primitives1.yaml");
         TestBean1 result = (TestBean1) yaml.load(document);
         assertNotNull(result);
-        assertEquals(new Byte((byte) 1), result.getByteClass());
+        assertEquals(Byte.valueOf((byte) 1), result.getByteClass());
         assertEquals((byte) -3, result.getBytePrimitive());
-        assertEquals(new Short((short) 0), result.getShortClass());
+        assertEquals(Short.valueOf((short) 0), result.getShortClass());
         assertEquals((short) -13, result.getShortPrimitive());
-        assertEquals(new Integer(5), result.getInteger());
+        assertEquals(Integer.valueOf(5), result.getInteger());
         assertEquals(17, result.getIntPrimitive());
         assertEquals("the text", result.getText());
         assertEquals("13", result.getId());
-        assertEquals(new Long(11111111111L), result.getLongClass());
+        assertEquals(Long.valueOf(11111111111L), result.getLongClass());
         assertEquals(9999999999L, result.getLongPrimitive());
         assertEquals(Boolean.TRUE, result.getBooleanClass());
         assertTrue(result.isBooleanPrimitive());
@@ -47,10 +47,10 @@ public class BeanConstructorTest extends TestCase {
         assertEquals('#', result.getCharPrimitive());
         assertEquals(new BigInteger("1234567890123456789012345678901234567890"),
                 result.getBigInteger());
-        assertEquals(new Float(2), result.getFloatClass());
-        assertEquals(new Float(3.1416), result.getFloatPrimitive());
-        assertEquals(new Double(4), result.getDoubleClass());
-        assertEquals(new Double(11200), result.getDoublePrimitive());
+        assertEquals(Float.valueOf(2), result.getFloatClass());
+        assertEquals(Float.valueOf(3.1416f), result.getFloatPrimitive());
+        assertEquals(Double.valueOf(4), result.getDoubleClass());
+        assertEquals(Double.valueOf(11200), result.getDoublePrimitive());
         assertEquals(1199836800000L, result.getDate().getTime());
         assertEquals("public", result.publicField);
         //
@@ -197,7 +197,7 @@ public class BeanConstructorTest extends TestCase {
         Parent1 parent = (Parent1) yaml.load(document);
         assertEquals("123", parent.getId());
         Child1 child = parent.getChild();
-        assertEquals(new Integer(25), child.getCode());
+        assertEquals(Integer.valueOf(25), child.getCode());
     }
 
     public void testScalarContructorException() {
@@ -207,10 +207,8 @@ public class BeanConstructorTest extends TestCase {
             yaml.load(document);
             fail("ExceptionParent should not be created.");
         } catch (Exception e) {
-            assertTrue(
-                    e.getMessage(),
-                    e.getMessage().contains(
-                            "Can't construct a java object for scalar tag:yaml.org,2002:int"));
+            assertTrue(e.getMessage(), e.getMessage()
+                    .contains("Can't construct a java object for scalar tag:yaml.org,2002:int"));
         }
     }
 

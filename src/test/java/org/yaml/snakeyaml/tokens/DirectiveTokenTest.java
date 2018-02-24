@@ -28,7 +28,7 @@ public class DirectiveTokenTest extends TestCase {
     public void testInvalidList() {
         Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         List<Integer> list = new ArrayList<Integer>();
-        list.add(new Integer(1));
+        list.add(Integer.valueOf(1));
         try {
             new DirectiveToken<Integer>("YAML", list, mark, mark);
             fail("List must have 2 values.");

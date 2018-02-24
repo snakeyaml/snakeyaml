@@ -30,7 +30,7 @@ public class ParameterizedTest extends TestCase {
         @SuppressWarnings("unchecked")
         // load
         Parameterized<Integer> parmParsed = (Parameterized<Integer>) yaml.load(result);
-        assertEquals(new Integer(3), parmParsed.t);
+        assertEquals(Integer.valueOf(3), parmParsed.t);
     }
 
     public void testAsJavaBeanProperty() {
@@ -43,7 +43,7 @@ public class ParameterizedTest extends TestCase {
         assertEquals("!!org.yaml.snakeyaml.issues.issue115.Issue\nparm: {t: 555}\n", result);
         // load
         Issue issueParsed = (Issue) yaml.load(result);
-        assertEquals(new Integer(555), issueParsed.parm.t);
+        assertEquals(Integer.valueOf(555), issueParsed.parm.t);
     }
 }
 

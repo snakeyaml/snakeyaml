@@ -96,7 +96,7 @@ public class SafeConstructor extends BaseConstructor {
                 Integer prevIndex = keys.put(key, i);
                 if (prevIndex != null) {
                     if (!isAllowDuplicateKeys()) {
-                        throw new DuplicateKeyException(node.getStartMark(),  key,
+                        throw new DuplicateKeyException(node.getStartMark(), key,
                                 tuple.getKeyNode().getStartMark());
                     }
                     toRemove.add(prevIndex);
@@ -170,7 +170,7 @@ public class SafeConstructor extends BaseConstructor {
                     key2index.put(key, values.size() - 1);
                 } else if (isPreffered) { // there is value for the key, but we
                                           // need to override it
-                    // change value for the key using saved position
+                                          // change value for the key using saved position
                     values.set(key2index.get(key), nodeTuple);
                 }
             }
@@ -287,9 +287,10 @@ public class SafeConstructor extends BaseConstructor {
             }
             String valLower = value.toLowerCase();
             if (".inf".equals(valLower)) {
-                return new Double(sign == -1 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
+                return Double
+                        .valueOf(sign == -1 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
             } else if (".nan".equals(valLower)) {
-                return new Double(Double.NaN);
+                return Double.valueOf(Double.NaN);
             } else if (value.indexOf(':') != -1) {
                 String[] digits = value.split(":");
                 int bes = 1;
@@ -298,10 +299,10 @@ public class SafeConstructor extends BaseConstructor {
                     val += Double.parseDouble(digits[j - i - 1]) * bes;
                     bes *= 60;
                 }
-                return new Double(sign * val);
+                return Double.valueOf(sign * val);
             } else {
                 Double d = Double.valueOf(value);
-                return new Double(d.doubleValue() * sign);
+                return Double.valueOf(d.doubleValue() * sign);
             }
         }
     }

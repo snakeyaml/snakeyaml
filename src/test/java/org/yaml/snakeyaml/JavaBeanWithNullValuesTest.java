@@ -122,8 +122,8 @@ public class JavaBeanWithNullValuesTest extends TestCase {
         assertNull(" expect null, got " + parsed.getString(), parsed.getString());
         assertEquals(1d, parsed.getDouble1());
         assertEquals(1f, parsed.getFloat1());
-        assertEquals(new Integer(1), parsed.getInteger());
-        assertEquals(new Long(1l), parsed.getLong1());
+        assertEquals(Integer.valueOf(1), parsed.getInteger());
+        assertEquals(Long.valueOf(1l), parsed.getLong1());
     }
 
     private String dumpJavaBeanWithNullValues(boolean nullValues) {
