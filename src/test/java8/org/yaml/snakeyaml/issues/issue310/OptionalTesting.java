@@ -15,29 +15,21 @@
  */
 package org.yaml.snakeyaml.issues.issue310;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InaccessibleObjectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
-public class OptionalTest {
+public class OptionalTesting {
 
     public static class Salary {
 
@@ -130,35 +122,9 @@ public class OptionalTest {
         }
     }
 
-    private static Logger log = Logger.getLogger(OptionalTest.class.getPackageName());
-    private static boolean reflectiveAccessDenied = false;
+    static boolean reflectiveAccessDenied = false;
 
-    @BeforeClass
-    public static void checkIllegalAccess() {
-        try {
-            Constructor<?> privateConstructor = Optional.class.getDeclaredConstructor(Object.class);
-            privateConstructor.setAccessible(true);
-            privateConstructor.newInstance("OptionalString");
-        } catch (InaccessibleObjectException | ReflectiveOperationException | SecurityException e) {
-            log.warning(
-                    "Expecting exceptions in these tests because reflective access has been denied: "
-                            + e.getLocalizedMessage());
-            reflectiveAccessDenied = true;
-        }
-    }
-
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
-
-    @Test
-    public void testOptionaStringLoad() {
-
-        if (reflectiveAccessDenied) {
-            expectedException.expect(YAMLException.class);
-            expectedException.expect(
-                    new DeepThrowableCauseMatcher(instanceOf(InaccessibleObjectException.class)));
-        }
-
+    protected void loadOptionalString() {
         final String yamlStr = "name: Neo Anderson\nsalary: [{income: [123456.78]}]\n";
         final Yaml yamlParser = new Yaml(new OptionalRepresenter());
         Person expectedPerson = new Person();
@@ -173,15 +139,7 @@ public class OptionalTest {
         assertEquals(expectedPerson.getSalary(), pFromStr.getSalary());
     }
 
-    @Test
-    public void testOptionalDumpLoad() {
-
-        if (reflectiveAccessDenied) {
-            expectedException.expect(instanceOf(YAMLException.class));
-            expectedException.expect(
-                    new DeepThrowableCauseMatcher(instanceOf(InaccessibleObjectException.class)));
-        }
-
+    protected void dumpLoadOptional() {
         final Yaml yamlParser = new Yaml(new OptionalRepresenter());
         Person expectedPerson = new Person();
         Salary s = new Salary();

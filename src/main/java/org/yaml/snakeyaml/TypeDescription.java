@@ -16,12 +16,14 @@
 package org.yaml.snakeyaml;
 
 import java.util.Collection;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -34,7 +36,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 /**
  * Provides additional runtime information necessary to create a custom Java
  * instance.
- * 
+ *
  * In general this class is thread-safe and can be used as a singleton, the only
  * exception being the PropertyUtils field. A singleton PropertyUtils should be
  * constructed and shared between all YAML Constructors used if a singleton
@@ -43,10 +45,14 @@ import org.yaml.snakeyaml.nodes.Tag;
  * when propertyUtils in TypeDescription is from different Constructor.
  */
 public class TypeDescription {
+    final private static Logger log = Logger
+            .getLogger(TypeDescription.class.getPackage().getName());
+
     private final Class<? extends Object> type;
-    
-    //class that implements the described type; if set, will be used as a source for constructor. If not set - TypeDescription will leave instantiation of an entity to the YAML Constructor
-    private Class<?> impl; 
+
+    // class that implements the described type; if set, will be used as a source for constructor.
+    // If not set - TypeDescription will leave instantiation of an entity to the YAML Constructor
+    private Class<?> impl;
 
     private Tag tag;
 
@@ -314,8 +320,9 @@ public class TypeDescription {
                 return dumpProperties;
             }
 
-            final Set<Property> readableProps = (beanAccess == null) ? propertyUtils
-                    .getProperties(type) : propertyUtils.getProperties(type, beanAccess);
+            final Set<Property> readableProps = (beanAccess == null)
+                    ? propertyUtils.getProperties(type)
+                    : propertyUtils.getProperties(type, beanAccess);
 
             if (properties.isEmpty()) {
                 if (excludes.isEmpty()) {
@@ -371,7 +378,6 @@ public class TypeDescription {
      * instantiation logic that is different from default one as implemented in YAML constructors.
      * Note that even if you override this method, default filling of fields with
      * variables from parsed YAML will still occur later.
-
      * @param node - node to contruct the instance from
      * @return new instance
      */
@@ -382,7 +388,7 @@ public class TypeDescription {
                 c.setAccessible(true);
                 return c.newInstance();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.fine(e.getLocalizedMessage());
                 impl = null;
             }
         }
