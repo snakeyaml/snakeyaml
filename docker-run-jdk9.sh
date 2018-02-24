@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-./docker-run.sh 9
+./docker-run.sh 9 -Pbuild-with-jdk9
 

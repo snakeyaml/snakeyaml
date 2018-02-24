@@ -20,7 +20,6 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
@@ -29,14 +28,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.util.PlatformFeatureDetector;
 
 public class PropertyUtils {
-
-    final private static Logger log = Logger.getLogger(PropertyUtils.class.getPackage().getName());
 
     private final Map<Class<?>, Map<String, Property>> propertiesCache = new HashMap<Class<?>, Map<String, Property>>();
     private final Map<Class<?>, Set<Property>> readableProperties = new HashMap<Class<?>, Set<Property>>();
@@ -118,36 +114,10 @@ public class PropertyUtils {
         return properties;
     }
 
-    private boolean transientMethodChecked;
-    private Method isTransientMethod;
+    private static final String TRANSIENT = "transient";
 
     private boolean isTransient(FeatureDescriptor fd) {
-        if (!transientMethodChecked) {
-            transientMethodChecked = true;
-            try {
-                isTransientMethod = FeatureDescriptor.class.getDeclaredMethod("isTransient");
-                isTransientMethod.setAccessible(true);
-            } catch (NoSuchMethodException e) {
-                log.fine("NoSuchMethod: FeatureDescriptor.isTransient(). Don't check it anymore.");
-            } catch (SecurityException e) {
-                e.printStackTrace();
-                isTransientMethod = null;
-            }
-        }
-
-        if (isTransientMethod != null) {
-            try {
-                return Boolean.TRUE.equals(isTransientMethod.invoke(fd));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-            isTransientMethod = null;
-        }
-        return false;
+        return Boolean.TRUE.equals(fd.getValue(TRANSIENT));
     }
 
     public Set<Property> getProperties(Class<? extends Object> type) {
@@ -193,7 +163,8 @@ public class PropertyUtils {
 
     public void setBeanAccess(BeanAccess beanAccess) {
         if (platformFeatureDetector.isRunningOnAndroid() && beanAccess != BeanAccess.FIELD) {
-            throw new IllegalArgumentException("JVM is Android - only BeanAccess.FIELD is available");
+            throw new IllegalArgumentException(
+                    "JVM is Android - only BeanAccess.FIELD is available");
         }
 
         if (this.beanAccess != beanAccess) {

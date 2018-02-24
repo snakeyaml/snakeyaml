@@ -15,15 +15,23 @@
  */
 package org.yaml.snakeyaml.issues.issue310;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InaccessibleObjectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
@@ -56,8 +64,7 @@ public class OptionalTest {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result
-                    + ((income == null) ? 0 : income.hashCode());
+            result = prime * result + ((income == null) ? 0 : income.hashCode());
             return result;
         }
 
@@ -103,8 +110,7 @@ public class OptionalTest {
 
         @Override
         public String toString() {
-            return "Person{" + "name='" + name + '\'' + ", salary=" + salary
-                    + '}';
+            return "Person{" + "name='" + name + '\'' + ", salary=" + salary + '}';
         }
     }
 
@@ -124,8 +130,35 @@ public class OptionalTest {
         }
     }
 
+    private static Logger log = Logger.getLogger(OptionalTest.class.getPackageName());
+    private static boolean reflectiveAccessDenied = false;
+
+    @BeforeClass
+    public static void checkIllegalAccess() {
+        try {
+            Constructor<?> privateConstructor = Optional.class.getDeclaredConstructor(Object.class);
+            privateConstructor.setAccessible(true);
+            privateConstructor.newInstance("OptionalString");
+        } catch (InaccessibleObjectException | ReflectiveOperationException | SecurityException e) {
+            log.warning(
+                    "Expecting exceptions in these tests because reflective access has been denied: "
+                            + e.getLocalizedMessage());
+            reflectiveAccessDenied = true;
+        }
+    }
+
+    @Rule
+    public final ExpectedException expectedException = ExpectedException.none();
+
     @Test
     public void testOptionaStringLoad() {
+
+        if (reflectiveAccessDenied) {
+            expectedException.expect(YAMLException.class);
+            expectedException.expect(
+                    new DeepThrowableCauseMatcher(instanceOf(InaccessibleObjectException.class)));
+        }
+
         final String yamlStr = "name: Neo Anderson\nsalary: [{income: [123456.78]}]\n";
         final Yaml yamlParser = new Yaml(new OptionalRepresenter());
         Person expectedPerson = new Person();
@@ -142,6 +175,13 @@ public class OptionalTest {
 
     @Test
     public void testOptionalDumpLoad() {
+
+        if (reflectiveAccessDenied) {
+            expectedException.expect(instanceOf(YAMLException.class));
+            expectedException.expect(
+                    new DeepThrowableCauseMatcher(instanceOf(InaccessibleObjectException.class)));
+        }
+
         final Yaml yamlParser = new Yaml(new OptionalRepresenter());
         Person expectedPerson = new Person();
         Salary s = new Salary();
