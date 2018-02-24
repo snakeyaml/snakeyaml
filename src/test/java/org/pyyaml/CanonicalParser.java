@@ -31,6 +31,7 @@ import org.yaml.snakeyaml.events.SequenceEndEvent;
 import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.tokens.AliasToken;
 import org.yaml.snakeyaml.tokens.AnchorToken;
@@ -96,10 +97,10 @@ public class CanonicalParser implements Parser {
                 events.add(new ScalarEvent(anchor, tag, new ImplicitTuple(false, false), token
                         .getValue(), null, null, DumperOptions.ScalarStyle.PLAIN));
             } else if (scanner.checkToken(Token.ID.FlowSequenceStart)) {
-                events.add(new SequenceStartEvent(anchor, tag, false, null, null, DumperOptions.FlowStyle.AUTO));
+                events.add(new SequenceStartEvent(anchor, Tag.SEQ.getValue(), false, null, null, DumperOptions.FlowStyle.AUTO));
                 parseSequence();
             } else if (scanner.checkToken(Token.ID.FlowMappingStart)) {
-                events.add(new MappingStartEvent(anchor, tag, false, null, null, DumperOptions.FlowStyle.AUTO));
+                events.add(new MappingStartEvent(anchor, Tag.MAP.getValue(), false, null, null, DumperOptions.FlowStyle.AUTO));
                 parseMapping();
             } else {
                 throw new CanonicalException("SCALAR, '[', or '{' is expected, got "
