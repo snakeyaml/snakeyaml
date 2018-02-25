@@ -32,7 +32,7 @@ public class Java8OptionalTest extends OptionalTesting {
 
     @Test
     public void testJava8OptionalDumpLoad() {
-        loadOptionalString();
+        dumpLoadOptional();
     }
 
 }

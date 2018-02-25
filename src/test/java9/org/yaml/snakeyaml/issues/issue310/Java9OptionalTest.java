@@ -66,6 +66,6 @@ public class Java9OptionalTest extends OptionalTesting {
 
     @Test
     public void testJava9OptionalDumpLoad() {
-        loadOptionalString();
+        dumpLoadOptional();
     }
 }
