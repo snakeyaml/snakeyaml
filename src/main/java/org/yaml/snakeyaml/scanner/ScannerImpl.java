@@ -1541,7 +1541,6 @@ public final class ScannerImpl implements Scanner {
                 length++;
                 c = reader.peek(length);
             }
-            handle = "!";
             // If we need to use a handle, scan it in; otherwise, the handle is
             // presumed to be '!'.
             if (useHandle) {
@@ -1588,9 +1587,9 @@ public final class ScannerImpl implements Scanner {
         if (minIndent < 1) {
             minIndent = 1;
         }
-        String breaks = null;
-        int maxIndent = 0;
-        int indent = 0;
+        String breaks;
+        int maxIndent;
+        int indent;
         Mark endMark;
         if (increment == -1) {
             Object[] brme = scanBlockScalarIndentation();
@@ -2176,7 +2175,6 @@ public final class ScannerImpl implements Scanner {
         // the loop above.
         if (length != 0) {
             chunks.append(reader.prefixForward(length));
-            length = 0;
         }
         if (chunks.length() == 0) {
             // If no URI was found, an error has occurred.
