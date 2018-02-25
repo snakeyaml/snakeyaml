@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.20-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="maslovalex" type="fix"  issue="393">
+                Improve reflective access operation to avoid warning under Java 9 (2018-02-24)
+            </action>
             <action dev="asomov" type="update">
                 Refactor collection node - flow style must not be null (2018-02-16)
             </action>
