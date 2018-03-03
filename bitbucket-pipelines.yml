@@ -8,5 +8,7 @@ image: maven:3-jdk-9-slim
 pipelines:
   default:
     - step:
+        caches:
+          - maven
         script: # Modify the commands below to build your repository.
           - mvn -V -B -Pwith-java9-tests clean install
