@@ -22,3 +22,4 @@ SnakeYAML is a YAML processor for the Java Virtual Machine.
 * If you find a bug in SnakeYAML, please [file a bug report](https://bitbucket.org/asomov/snakeyaml/issues?status=new&status=open).
 * You may discuss SnakeYAML at
 [the mailing list](http://groups.google.com/group/snakeyaml-core).
+* Feel free to join the [YAML-dev Telegram group](https://t.me/joinchat/A6K7rhBzRfHcP-0XnTxnhA)
