@@ -2001,20 +2001,11 @@ public final class ScannerImpl implements Scanner {
             while (true) {
                 c = reader.peek(length);
                 if (Constant.NULL_BL_T_LINEBR.has(c)
-                        || (this.flowLevel == 0 && c == ':' && Constant.NULL_BL_T_LINEBR
-                                .has(reader.peek(length + 1)))
-                        || (this.flowLevel != 0 && ",:?[]{}".indexOf(c) != -1)) {
+                        || (c == ':' && (Constant.NULL_BL_T_LINEBR.has(reader.peek(length + 1), flowLevel != 0 ? ",[]{}":"")))
+                        || (this.flowLevel != 0 && ",?[]{}".indexOf(c) != -1)) {
                     break;
                 }
                 length++;
-            }
-            // It's not clear what we should do with ':' in the flow context.
-            if (this.flowLevel != 0 && c == ':'
-                    && Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(length + 1), ",[]{}")) {
-                reader.forward(length);
-                throw new ScannerException("while scanning a plain scalar", startMark,
-                        "found unexpected ':'", reader.getMark(),
-                        "Please check http://pyyaml.org/wiki/YAMLColonInFlowContext for details.");
             }
             if (length == 0) {
                 break;

@@ -36,15 +36,6 @@ public class JsonTest extends TestCase {
         assertEquals(Integer.valueOf(1), map.get("a"));
     }
 
-    public void testCounterintuitiveColon() {
-        try {
-            loader.load("{a:1}");
-            fail("We agree with libyaml and PyYAML.");
-        } catch (Exception e) {
-            assertTrue("':' in the flow context is a mess.", e.getMessage().contains("Please check http://pyyaml.org/wiki/YAMLColonInFlowContext for details."));
-        }
-    }
-
     public void testNoSpace() {
         Map<String, Integer> map = (Map<String, Integer>) loader.load("{\"a\":1}");
         assertEquals(Integer.valueOf(1), map.get("a"));
