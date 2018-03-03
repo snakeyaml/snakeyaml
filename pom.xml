@@ -266,7 +266,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <links>
-                        <link>http://java.sun.com/javase/6/docs/api/</link>
+                        <link>https://docs.oracle.com/javase/6/docs/api/</link>
                     </links>
                 </configuration>
                 <executions>
