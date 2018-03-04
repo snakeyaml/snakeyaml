@@ -621,7 +621,6 @@ public class Yaml {
      */
     public Iterable<Node> composeAll(Reader yaml) {
         final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver);
-        constructor.setComposer(composer);
         Iterator<Node> result = new Iterator<Node>() {
             @Override
             public boolean hasNext() {
