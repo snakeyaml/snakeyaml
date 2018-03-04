@@ -85,7 +85,7 @@ public abstract class Node {
     }
 
     /**
-     * Two Nodes are never equal.
+     * Node is only equal to itself
      */
     @Override
     public final boolean equals(Object obj) {

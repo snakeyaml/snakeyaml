@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.MappingStartEvent;
@@ -77,7 +76,7 @@ public class Composer {
      * Reads and composes the next document.
      *
      * @return The root node of the document or <code>null</code> if no more
-     *         documents are available.
+     * documents are available.
      */
     public Node getNode() {
         // Get the root node of the next document.
@@ -95,7 +94,7 @@ public class Composer {
      * </p>
      *
      * @return The root node of the document or <code>null</code> if no document
-     *         is available.
+     * is available.
      */
     public Node getSingleNode() {
         // Drop the STREAM-START event.
@@ -129,8 +128,8 @@ public class Composer {
     }
 
     private Node composeNode(Node parent) {
-        recursiveNodes.add(parent);
-        Node node = null;
+        if (parent != null) recursiveNodes.add(parent);
+        final Node node;
         if (parser.checkEvent(Event.ID.Alias)) {
             AliasEvent event = (AliasEvent) parser.getEvent();
             String anchor = event.getAnchor();

@@ -607,7 +607,6 @@ public class Yaml {
      */
     public Node compose(Reader yaml) {
         Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver);
-        constructor.setComposer(composer);
         return composer.getSingleNode();
     }
 
