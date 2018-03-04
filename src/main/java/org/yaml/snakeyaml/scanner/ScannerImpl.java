@@ -2001,7 +2001,7 @@ public final class ScannerImpl implements Scanner {
             while (true) {
                 c = reader.peek(length);
                 if (Constant.NULL_BL_T_LINEBR.has(c)
-                        || (c == ':' && (Constant.NULL_BL_T_LINEBR.has(reader.peek(length + 1), flowLevel != 0 ? ",[]{}":"")))
+                        || (c == ':' && Constant.NULL_BL_T_LINEBR.has(reader.peek(length + 1), flowLevel != 0 ? ",[]{}":""))
                         || (this.flowLevel != 0 && ",?[]{}".indexOf(c) != -1)) {
                     break;
                 }
