@@ -241,7 +241,7 @@ public abstract class BaseConstructor {
         }
     }
 
-    protected Object constructScalar(ScalarNode node) {
+    protected String constructScalar(ScalarNode node) {
         return node.getValue();
     }
 
