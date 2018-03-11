@@ -466,7 +466,7 @@ public class SafeConstructor extends BaseConstructor {
         public Object construct(Node node) {
             if (node.isTwoStepsConstruction()) {
                 return (constructedObjects.containsKey(node) ? constructedObjects.get(node)
-                        : createDefaultSet());
+                        : createDefaultSet(((MappingNode) node).getValue().size()));
             } else {
                 return constructSet((MappingNode) node);
             }
@@ -515,10 +515,11 @@ public class SafeConstructor extends BaseConstructor {
     public class ConstructYamlMap implements Construct {
         @Override
         public Object construct(Node node) {
+            MappingNode mnode = (MappingNode) node;
             if (node.isTwoStepsConstruction()) {
-                return createDefaultMap();
+                return createDefaultMap(mnode.getValue().size());
             } else {
-                return constructMapping((MappingNode) node);
+                return constructMapping(mnode);
             }
         }
 

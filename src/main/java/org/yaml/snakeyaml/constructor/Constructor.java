@@ -305,16 +305,14 @@ public class Constructor extends SafeConstructor {
         }
 
         public Object construct(Node node) {
-            Object result = null;
             try {
-                result = getConstructor(node).construct(node);
+                return getConstructor(node).construct(node);
             } catch (ConstructorException e) {
                 throw e;
             } catch (Exception e) {
                 throw new ConstructorException(null, null, "Can't construct a java object for "
                         + node.getTag() + "; exception=" + e.getMessage(), node.getStartMark(), e);
             }
-            return result;
         }
 
         public void construct2ndStep(Node node, Object object) {

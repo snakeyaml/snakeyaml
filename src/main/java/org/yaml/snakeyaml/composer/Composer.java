@@ -79,12 +79,15 @@ public class Composer {
      * documents are available.
      */
     public Node getNode() {
-        // Get the root node of the next document.
-        if (!parser.checkEvent(Event.ID.StreamEnd)) {
-            return composeDocument();
-        } else {
-            return null;
-        }
+        // Drop the DOCUMENT-START event.
+        parser.getEvent();
+        // Compose the root node.
+        Node node = composeNode(null);
+        // Drop the DOCUMENT-END event.
+        parser.getEvent();
+        this.anchors.clear();
+        recursiveNodes.clear();
+        return node;
     }
 
     /**
@@ -102,7 +105,7 @@ public class Composer {
         // Compose a document if the stream is not empty.
         Node document = null;
         if (!parser.checkEvent(Event.ID.StreamEnd)) {
-            document = composeDocument();
+            document = getNode();
         }
         // Ensure that the stream contains no more documents.
         if (!parser.checkEvent(Event.ID.StreamEnd)) {
@@ -113,18 +116,6 @@ public class Composer {
         // Drop the STREAM-END event.
         parser.getEvent();
         return document;
-    }
-
-    private Node composeDocument() {
-        // Drop the DOCUMENT-START event.
-        parser.getEvent();
-        // Compose the root node.
-        Node node = composeNode(null);
-        // Drop the DOCUMENT-END event.
-        parser.getEvent();
-        this.anchors.clear();
-        recursiveNodes.clear();
-        return node;
     }
 
     private Node composeNode(Node parent) {

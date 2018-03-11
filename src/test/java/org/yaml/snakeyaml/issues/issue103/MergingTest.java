@@ -40,7 +40,7 @@ public class MergingTest extends TestCase {
         String input = Util.getLocalResource("issues/issue103.yaml");
         // System.out.println(input);
         Constructor c = new Constructor() {
-            protected java.util.Map<Object, Object> createDefaultMap() {
+            protected java.util.Map<Object, Object> createDefaultMap(int size) {
                 return new FakeMap<Object, Object>();
             }
         };

@@ -221,8 +221,8 @@ public abstract class BaseConstructor {
      * Otherwise the constructor is chosen by the tag.
      *
      * @param node
-     *            Node to be constructed
-     * @return Construct implementation for the specified node
+     *            {@link Node} to construct an instance from
+     * @return {@link Construct} implementation for the specified node
      */
     protected Construct getConstructor(Node node) {
         if (node.useClassConstructor()) {
@@ -254,14 +254,9 @@ public abstract class BaseConstructor {
         return new LinkedHashSet<Object>(initSize);
     }
 
-    protected Map<Object, Object> createDefaultMap() {
+    protected Map<Object, Object> createDefaultMap(int initSize) {
         // respect order from YAML document
-        return new LinkedHashMap<Object, Object>();
-    }
-
-    protected Set<Object> createDefaultSet() {
-        // respect order from YAML document
-        return new LinkedHashSet<Object>();
+        return new LinkedHashMap<Object, Object>(initSize);
     }
 
     protected Object createArray(Class<?> type, int size) {
@@ -345,7 +340,7 @@ public abstract class BaseConstructor {
         try {
             return (Map<Object, Object>) newInstance(Map.class, node);
         } catch (InstantiationException e) {
-            return createDefaultMap();
+            return createDefaultMap(node.getValue().size());
         }
     }
 

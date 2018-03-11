@@ -374,11 +374,11 @@ public class TypeDescription {
     }
 
     /**
-     * This method should be overriden for TypeDescription implementations that are supposed to implement
+     * This method should be overridden for TypeDescription implementations that are supposed to implement
      * instantiation logic that is different from default one as implemented in YAML constructors.
      * Note that even if you override this method, default filling of fields with
      * variables from parsed YAML will still occur later.
-     * @param node - node to contruct the instance from
+     * @param node - node to construct the instance from
      * @return new instance
      */
     public Object newInstance(Node node) {

@@ -39,7 +39,7 @@ public class CustomMapExampleTest extends TestCase {
 
     class CustomConstructor extends Constructor {
         @Override
-        protected Map<Object, Object> createDefaultMap() {
+        protected Map<Object, Object> createDefaultMap(int initSize) {
             return new TreeMap<Object, Object>();
         }
     }
