@@ -178,7 +178,7 @@ public class CompactConstructor extends Constructor {
          * compact object's representation (@see getConstructor(Node) above)
          */
         public Object construct(Node node) {
-            ScalarNode tmpNode = null;
+            ScalarNode tmpNode;
             if (node instanceof MappingNode) {
                 // Compact Object Notation may contain only one entry
                 MappingNode mnode = (MappingNode) node;

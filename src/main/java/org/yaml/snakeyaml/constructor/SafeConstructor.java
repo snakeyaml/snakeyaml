@@ -426,7 +426,6 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
-    // Note: the same code as `construct_yaml_omap`.
     public class ConstructYamlPairs extends AbstractConstruct {
         @Override
         public Object construct(Node node) {

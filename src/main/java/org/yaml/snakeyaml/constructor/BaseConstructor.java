@@ -97,7 +97,7 @@ public abstract class BaseConstructor {
         typeDefinitions.put(SortedSet.class, new TypeDescription(SortedSet.class, Tag.SET,
                 TreeSet.class));
     }
-    
+
     public void setComposer(Composer composer) {
         this.composer = composer;
     }
@@ -132,8 +132,7 @@ public abstract class BaseConstructor {
      *
      * @param type the class of the instance being created
      * @return constructed instance
-     * @throws ComposerException
-     *             in case there are more documents in the stream
+     * @throws ComposerException in case there are more documents in the stream
      */
     public Object getSingleData(Class<?> type) {
         // Ensure that the stream contains a single document and construct it
@@ -153,8 +152,7 @@ public abstract class BaseConstructor {
      * Construct complete YAML document. Call the second step in case of
      * recursive structures. At the end cleans all the state.
      *
-     * @param node
-     *            root Node
+     * @param node root Node
      * @return Java instance
      */
     protected final Object constructDocument(Node node) {
@@ -185,8 +183,7 @@ public abstract class BaseConstructor {
      * Construct object from the specified Node. Return existing instance if the
      * node is already constructed.
      *
-     * @param node
-     *            Node to be constructed
+     * @param node Node to be constructed
      * @return Java instance
      */
     protected Object constructObject(Node node) {
@@ -220,8 +217,7 @@ public abstract class BaseConstructor {
      * runtime class is known a dedicated Construct implementation is used.
      * Otherwise the constructor is chosen by the tag.
      *
-     * @param node
-     *            {@link Node} to construct an instance from
+     * @param node {@link Node} to construct an instance from
      * @return {@link Construct} implementation for the specified node
      */
     protected Construct getConstructor(Node node) {
@@ -476,13 +472,12 @@ public abstract class BaseConstructor {
         for (NodeTuple tuple : nodeValue) {
             Node keyNode = tuple.getKeyNode();
             Object key = constructObject(keyNode);
-            if (key != null) {
-                try {
-                    key.hashCode();// check circular dependencies
-                } catch (Exception e) {
-                    throw new ConstructorException("while constructing a Set", node.getStartMark(),
-                            "found unacceptable key " + key, tuple.getKeyNode().getStartMark(), e);
-                }
+            //the key may not be null here
+            try {
+                key.hashCode();// check circular dependencies
+            } catch (Exception e) {
+                throw new ConstructorException("while constructing a Set", node.getStartMark(),
+                        "found unacceptable key " + key, tuple.getKeyNode().getStartMark(), e);
             }
             if (keyNode.isTwoStepsConstruction()) {
                 /*
@@ -533,10 +528,9 @@ public abstract class BaseConstructor {
      * assigned in constructor then the 'root' property of this definition is
      * respected.
      *
-     * @param definition
-     *            to be added to the Constructor
+     * @param definition to be added to the Constructor
      * @return the previous value associated with <tt>definition</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>definition</tt>.
+     * <tt>null</tt> if there was no mapping for <tt>definition</tt>.
      */
     public TypeDescription addTypeDescription(TypeDescription definition) {
         if (definition == null) {
