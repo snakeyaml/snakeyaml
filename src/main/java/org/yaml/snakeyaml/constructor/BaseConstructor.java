@@ -472,12 +472,13 @@ public abstract class BaseConstructor {
         for (NodeTuple tuple : nodeValue) {
             Node keyNode = tuple.getKeyNode();
             Object key = constructObject(keyNode);
-            //the key may not be null here
-            try {
-                key.hashCode();// check circular dependencies
-            } catch (Exception e) {
-                throw new ConstructorException("while constructing a Set", node.getStartMark(),
-                        "found unacceptable key " + key, tuple.getKeyNode().getStartMark(), e);
+            if (key != null) {
+                try {
+                    key.hashCode();// check circular dependencies
+                } catch (Exception e) {
+                    throw new ConstructorException("while constructing a Set", node.getStartMark(),
+                            "found unacceptable key " + key, tuple.getKeyNode().getStartMark(), e);
+                }
             }
             if (keyNode.isTwoStepsConstruction()) {
                 /*

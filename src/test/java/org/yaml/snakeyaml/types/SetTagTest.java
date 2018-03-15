@@ -15,10 +15,11 @@
  */
 package org.yaml.snakeyaml.types;
 
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlDocument;
+
 import java.util.Map;
 import java.util.Set;
-
-import org.yaml.snakeyaml.YamlDocument;
 
 /**
  * @see <a href="http://yaml.org/type/set.html"></a>
@@ -41,5 +42,14 @@ public class SetTagTest extends AbstractTest {
         assertTrue(set2.contains("Boston Red Sox"));
         assertTrue(set2.contains("Detroit Tigers"));
         assertTrue(set2.contains("New York Yankees"));
+    }
+
+    public void testSetNull() {
+        Yaml yaml = new Yaml();
+        Set<Object> set = yaml.load("!!set {1, 2, null}");
+        assertTrue(set.contains(1));
+        assertTrue(set.contains(2));
+        assertTrue(set.contains(null));
+        assertEquals(set.size(), 3);
     }
 }
