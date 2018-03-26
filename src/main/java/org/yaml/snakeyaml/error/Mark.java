@@ -25,6 +25,7 @@ import org.yaml.snakeyaml.scanner.Constant;
  */
 public final class Mark implements Serializable {
     private String name;
+    private int index;
     private int line;
     private int column;
     private int[] buffer;
@@ -40,13 +41,14 @@ public final class Mark implements Serializable {
         return codePoints;
     }
 
-    public Mark(String name, int line, int column, char[] str, int pointer) {
-        this(name, line, column, toCodePoints(str), pointer);
+    public Mark(String name, int index, int line, int column, char[] str, int pointer) {
+        this(name, index, line, column, toCodePoints(str), pointer);
     }
 
-    public Mark(String name, int line, int column, int[] buffer, int pointer) {
+    public Mark(String name, int index, int line, int column, int[] buffer, int pointer) {
         super();
         this.name = name;
+        this.index = index;
         this.line = line;
         this.column = column;
         this.buffer = buffer;
@@ -136,6 +138,14 @@ public final class Mark implements Serializable {
      */
     public int getColumn() {
         return column;
+    }
+
+    /**
+     * starts with 0
+     * @return character number
+     */
+    public int getIndex() {
+        return index;
     }
 
 }

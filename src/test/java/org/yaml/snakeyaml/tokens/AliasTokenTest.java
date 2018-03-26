@@ -23,13 +23,13 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 public class AliasTokenTest extends TestCase {
 
     public void testEquals() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0,0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         AliasToken token = new AliasToken("*id123", mark, mark);
         assertFalse(token.equals(mark));
     }
 
     public void testGetTokenId() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0,0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         AliasToken token = new AliasToken("&id123", mark, mark);
         assertEquals(ID.Alias, token.getTokenId());
     }

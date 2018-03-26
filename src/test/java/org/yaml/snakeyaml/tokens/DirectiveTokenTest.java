@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 public class DirectiveTokenTest extends TestCase {
 
     public void testInvalidList() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         List<Integer> list = new ArrayList<Integer>();
         list.add(Integer.valueOf(1));
         try {
@@ -38,7 +38,7 @@ public class DirectiveTokenTest extends TestCase {
     }
 
     public void testGetTokenId() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         DirectiveToken<Integer> token = new DirectiveToken<Integer>("YAML", null, mark, mark);
         assertEquals(ID.Directive, token.getTokenId());
     }

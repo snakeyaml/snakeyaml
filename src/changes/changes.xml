@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.21-SNAPSHOT" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="401">
+                Restore index in Mark - it is used in JRuby (2018-03-26)
+            </action>
             <action dev="asomov" type="fix"  issue="397">
                 Plain scalars with colons in flow sequences/mappings are valid YAML (2018-03-03)
             </action>

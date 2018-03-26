@@ -42,8 +42,8 @@ public class NodeTest extends TestCase {
     }
 
     public void testGetEndMark() {
-        Mark mark1 = new Mark("name", 2, 12, "afd asd asd".toCharArray(), 7);
-        Mark mark2 = new Mark("name", 3, 13, "afd asd asd".toCharArray(), 8);
+        Mark mark1 = new Mark("name", 0, 2, 12, "afd asd asd".toCharArray(), 7);
+        Mark mark2 = new Mark("name", 0, 3, 13, "afd asd asd".toCharArray(), 8);
         Node node = new ScalarNode(new Tag("!foo"), "bla-bla", mark1, mark2,  DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         assertEquals(mark1, node.getStartMark());
         assertEquals(mark2, node.getEndMark());

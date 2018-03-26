@@ -95,7 +95,7 @@ public class StreamReader {
     }
 
     public Mark getMark() {
-        return new Mark(name, this.line, this.column, this.dataWindow, this.pointer);
+        return new Mark(name, this.index, this.line, this.column, this.dataWindow, this.pointer);
     }
 
     public void forward() {

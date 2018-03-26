@@ -23,7 +23,7 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 public class DocumentStartTokenTest extends TestCase {
 
     public void testGetTokenId() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         DocumentStartToken token = new DocumentStartToken(mark, mark);
         assertEquals(ID.DocumentStart, token.getTokenId());
     }

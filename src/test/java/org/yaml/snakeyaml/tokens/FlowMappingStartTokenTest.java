@@ -23,7 +23,7 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 public class FlowMappingStartTokenTest extends TestCase {
 
     public void testGetTokenId() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         FlowMappingStartToken token = new FlowMappingStartToken(mark, mark);
         assertEquals(ID.FlowMappingStart, token.getTokenId());
     }

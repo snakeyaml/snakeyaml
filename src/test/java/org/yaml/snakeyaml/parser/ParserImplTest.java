@@ -51,7 +51,7 @@ public class ParserImplTest extends TestCase {
         String data = "string: abcd";
         StreamReader reader = new StreamReader(data);
         Parser parser = new ParserImpl(reader);
-        Mark dummyMark = new Mark("dummy", 0, 0, "".toCharArray(), 0);
+        Mark dummyMark = new Mark("dummy", 0, 0, 0, "".toCharArray(), 0);
         LinkedList<Event> etalonEvents = new LinkedList<Event>();
         etalonEvents.add(new StreamStartEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentStartEvent(dummyMark, dummyMark, false, null, null));
@@ -71,7 +71,7 @@ public class ParserImplTest extends TestCase {
         String data = "american:\n  - Boston Red Sox";
         StreamReader reader = new StreamReader(data);
         Parser parser = new ParserImpl(reader);
-        Mark dummyMark = new Mark("dummy", 0, 0, "".toCharArray(), 0);
+        Mark dummyMark = new Mark("dummy", 0, 0, 0, "".toCharArray(), 0);
         LinkedList<Event> etalonEvents = new LinkedList<Event>();
         etalonEvents.add(new StreamStartEvent(dummyMark, dummyMark));
         etalonEvents.add(new DocumentStartEvent(dummyMark, dummyMark, false, null, null));

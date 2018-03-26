@@ -24,7 +24,7 @@ import org.yaml.snakeyaml.tokens.Token.ID;
 public class TagTokenTest extends TestCase {
 
     public void testNoMarks() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         try {
             new TagToken(new TagTuple("!foo", "!bar"), null, mark);
             fail("Token without start mark should not be accepted.");
@@ -41,7 +41,7 @@ public class TagTokenTest extends TestCase {
 
     public void testNoTag() {
         try {
-            Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+            Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
             new TagToken(new TagTuple("!foo", null), mark, mark);
             fail("Marks must be provided.");
         } catch (NullPointerException e) {
@@ -50,7 +50,7 @@ public class TagTokenTest extends TestCase {
     }
 
     public void testGetTokenId() {
-        Mark mark = new Mark("test1", 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
+        Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
         TagToken token = new TagToken(new TagTuple("!foo", "!bar"), mark, mark);
         assertEquals(ID.Tag, token.getTokenId());
     }
