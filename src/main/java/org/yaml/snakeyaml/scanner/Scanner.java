@@ -56,6 +56,7 @@ public interface Scanner {
      * Returns the next token.
      * <p>
      * The token will be removed from the stream.
+     * (Every invocation of this method must happen after calling checkToken())
      * </p>
      * @return the coming token
      * @throws ScannerException
