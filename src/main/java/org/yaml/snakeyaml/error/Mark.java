@@ -148,4 +148,11 @@ public final class Mark implements Serializable {
         return index;
     }
 
+    public int[] getBuffer() {
+        return buffer;
+    }
+
+    public int getPointer() {
+        return pointer;
+    }
 }

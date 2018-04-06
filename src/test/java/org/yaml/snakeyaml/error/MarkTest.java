@@ -40,4 +40,23 @@ public class MarkTest extends TestCase {
         assertEquals(29, mark.getLine());
         assertEquals(213, mark.getColumn());
     }
+
+    public void testGetBuffer() {
+        Mark mark = new Mark("test1", 0, 29, 213, "*The first line.\nThe last line.".toCharArray(), 0);
+        int[] buffer = new int[] { 42, 84, 104, 101, 32, 102, 105, 114, 115, 116, 32, 108, 105, 110, 101, 46, 10, 84, 104, 101, 32, 108, 97, 115, 116, 32, 108, 105, 110, 101, 46 };
+        assertTrue(buffer.length == mark.getBuffer().length);
+        boolean match = true;
+        for (int i = 0; i < buffer.length; i++) {
+            if (buffer[i] != mark.getBuffer()[i]) {
+                match = false;
+                break;
+            }
+        }
+        assertTrue(match);
+    }
+
+    public void testGetPointer() {
+        Mark mark = new Mark("test1", 0, 29, 213, "*The first line.\nThe last line.".toCharArray(), 5);
+        assertEquals(5, mark.getPointer());
+    }
 }
