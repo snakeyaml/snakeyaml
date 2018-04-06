@@ -222,8 +222,8 @@ public class ParserImpl implements Parser {
                 Mark startMark = token.getStartMark();
                 VersionTagsTuple tuple = processDirectives();
                 if (!scanner.checkToken(Token.ID.DocumentStart)) {
-                    throw new ParserException(null, null, "expected '<document start>', but found "
-                            + scanner.peekToken().getTokenId(), scanner.peekToken().getStartMark());
+                    throw new ParserException(null, null, "expected '<document start>', but found '"
+                            + scanner.peekToken().getTokenId() + "'", scanner.peekToken().getStartMark());
                 }
                 token = scanner.getToken();
                 Mark endMark = token.getEndMark();
@@ -478,7 +478,7 @@ public class ParserImpl implements Parser {
                     }
                     Token token = scanner.peekToken();
                     throw new ParserException("while parsing a " + node + " node", startMark,
-                            "expected the node content, but found " + token.getTokenId(),
+                            "expected the node content, but found '" + token.getTokenId() + "'",
                             token.getStartMark());
                 }
             }
@@ -512,7 +512,7 @@ public class ParserImpl implements Parser {
             if (!scanner.checkToken(Token.ID.BlockEnd)) {
                 Token token = scanner.peekToken();
                 throw new ParserException("while parsing a block collection", marks.pop(),
-                        "expected <block end>, but found " + token.getTokenId(),
+                        "expected <block end>, but found '" + token.getTokenId() + "'",
                         token.getStartMark());
             }
             Token token = scanner.getToken();
@@ -568,7 +568,7 @@ public class ParserImpl implements Parser {
             if (!scanner.checkToken(Token.ID.BlockEnd)) {
                 Token token = scanner.peekToken();
                 throw new ParserException("while parsing a block mapping", marks.pop(),
-                        "expected <block end>, but found " + token.getTokenId(),
+                        "expected <block end>, but found '" + token.getTokenId() + "'",
                         token.getStartMark());
             }
             Token token = scanner.getToken();

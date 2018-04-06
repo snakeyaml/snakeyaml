@@ -52,7 +52,7 @@ public class YamlTest extends TestCase {
         } catch (Exception e) {
             assertEquals("while parsing a flow node\n" + " in 'reader', line 2, column 6:\n"
                     + "    --- [:]\n" + "         ^\n"
-                    + "expected the node content, but found Value\n"
+                    + "expected the node content, but found ':'\n"
                     + " in 'reader', line 2, column 6:\n" + "    --- [:]\n" + "         ^\n",
                     e.getMessage());
         }

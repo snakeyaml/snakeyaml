@@ -20,7 +20,41 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 public abstract class Token {
     public enum ID {
-        Alias, Anchor, BlockEnd, BlockEntry, BlockMappingStart, BlockSequenceStart, Directive, DocumentEnd, DocumentStart, FlowEntry, FlowMappingEnd, FlowMappingStart, FlowSequenceEnd, FlowSequenceStart, Key, Scalar, StreamEnd, StreamStart, Tag, Value, Whitespace, Comment, Error
+        Alias("<alias>"),
+        Anchor("<anchor>"),
+        BlockEnd("<block end>"),
+        BlockEntry("-"),
+        BlockMappingStart("<block mapping start>"),
+        BlockSequenceStart("<block sequence start>"),
+        Directive("<directive>"),
+        DocumentEnd("<document end>"),
+        DocumentStart("<document start>"),
+        FlowEntry(","),
+        FlowMappingEnd("}"),
+        FlowMappingStart("{"),
+        FlowSequenceEnd("]"),
+        FlowSequenceStart("["),
+        Key("?"),
+        Scalar("<scalar>"),
+        StreamEnd("<stream end>"),
+        StreamStart("<stream start>"),
+        Tag("<tag>"),
+        Value(":"),
+        Whitespace("<whitespace>"),
+        Comment("#"),
+        Error("<error>");
+
+
+        private final String description;
+
+        ID(String s) {
+            description = s;
+        }
+
+        @Override
+        public String toString() {
+            return description;
+        }
     }
 
     private final Mark startMark;
