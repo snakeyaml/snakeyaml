@@ -7,6 +7,10 @@
     <body>
         <release version="1.21-SNAPSHOT" date="in Mercurial" description="Maintenance">
             <action dev="asomov" type="update">
+                Scanner throws IndexOutOfBoundsException if no more token left but getToken()
+                or peekToken() called (2018-04-10)
+            </action>
+            <action dev="asomov" type="update">
                 Enhance output of token IDs (2018-04-06)
             </action>
             <action dev="asomov" type="add">

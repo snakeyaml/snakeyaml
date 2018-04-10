@@ -256,11 +256,8 @@ public final class ScannerImpl implements Scanner {
      * Return the next token, removing it from the queue.
      */
     public Token getToken() {
-        if (!this.tokens.isEmpty()) {
-            this.tokensTaken++;
-            return this.tokens.remove(0);
-        }
-        return null;
+        this.tokensTaken++;
+        return this.tokens.remove(0);
     }
 
     // Private methods.

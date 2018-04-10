@@ -24,14 +24,14 @@ import org.yaml.snakeyaml.tokens.Token;
  * process (see chapter 3.1 of the <a href="http://yaml.org/spec/1.1/">YAML
  * Specification</a>).
  * </p>
- * 
+ *
  * @see org.yaml.snakeyaml.tokens.Token
  */
 public interface Scanner {
 
     /**
      * Check if the next token is one of the given types.
-     * 
+     *
      * @param choices
      *            token IDs.
      * @return <code>true</code> if the next token can be assigned to a variable
@@ -44,11 +44,11 @@ public interface Scanner {
 
     /**
      * Return the next token, but do not delete it from the stream.
-     * 
-     * @return The token that will be returned on the next call to
-     *         {@link #getToken}
-     * @throws ScannerException
-     *             Thrown in case of malformed input.
+     * The method must be called only after {@link #checkToken}.
+     *
+     * @return The token that will be returned on the next call to {@link #getToken}
+     * @throws ScannerException          Thrown in case of malformed input.
+     * @throws IndexOutOfBoundsException if no more token left
      */
     Token peekToken();
 
@@ -56,11 +56,12 @@ public interface Scanner {
      * Returns the next token.
      * <p>
      * The token will be removed from the stream.
-     * (Every invocation of this method must happen after calling checkToken())
+     * (Every invocation of this method must happen after calling {@link #checkToken}.
      * </p>
+     *
      * @return the coming token
-     * @throws ScannerException
-     *             Thrown in case of malformed input.
+     * @throws ScannerException          Thrown in case of malformed input.
+     * @throws IndexOutOfBoundsException if no more token left
      */
     Token getToken();
 }
