@@ -5,7 +5,7 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.21-SNAPSHOT" date="in Mercurial" description="Maintenance">
+        <release version="1.21" date="2018-04-13" description="Maintenance">
             <action dev="asomov" type="update">
                 Scanner throws IndexOutOfBoundsException if no more token left but getToken()
                 or peekToken() called (2018-04-10)
