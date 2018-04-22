@@ -44,7 +44,6 @@ public abstract class Token {
         Comment("#"),
         Error("<error>");
 
-
         private final String description;
 
         ID(String s) {

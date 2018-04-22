@@ -17,6 +17,9 @@ package org.yaml.snakeyaml.tokens;
 
 import org.yaml.snakeyaml.error.Mark;
 
+/**
+ * @deprecated it will be removed because it is not used
+ */
 public class WhitespaceToken extends Token {
     public WhitespaceToken(Mark startMark, Mark endMark) {
         super(startMark, endMark);
