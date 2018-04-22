@@ -60,9 +60,6 @@ public final class Mark implements Serializable {
     }
 
     public String get_snippet(int indent, int max_length) {
-        if (buffer == null) {
-            return null;
-        }
         float half = max_length / 2 - 1;
         int start = pointer;
         String head = "";
