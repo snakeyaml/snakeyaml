@@ -37,6 +37,7 @@ public final class ScalarEvent extends NodeEvent {
         super(anchor, startMark, endMark);
         this.tag = tag;
         this.implicit = implicit;
+        if (value == null) throw new NullPointerException("Value must be provided.");
         this.value = value;
         if (style == null) throw new NullPointerException("Style must be provided.");
         this.style = style;
