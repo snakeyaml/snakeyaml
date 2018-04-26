@@ -23,6 +23,7 @@ import org.yaml.snakeyaml.error.Mark;
 public final class AliasEvent extends NodeEvent {
     public AliasEvent(String anchor, Mark startMark, Mark endMark) {
         super(anchor, startMark, endMark);
+        if(anchor == null) throw new NullPointerException();
     }
 
     @Override
