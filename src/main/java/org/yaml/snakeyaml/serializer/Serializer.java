@@ -148,6 +148,7 @@ public final class Serializer {
         }
     }
 
+    //parent Node is not used but might be used in the future
     private void serializeNode(Node node, Node parent) throws IOException {
         if (node.getNodeId() == NodeId.anchor) {
             node = ((AnchorNode) node).getRealNode();
