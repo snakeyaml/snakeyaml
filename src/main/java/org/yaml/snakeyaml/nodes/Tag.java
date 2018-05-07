@@ -88,6 +88,10 @@ public final class Tag {
         this.value = Tag.PREFIX + UriEncoder.encode(clazz.getName());
     }
 
+    /**
+     * @deprecated - it will be removed
+     * @param uri - URI to be encoded as tag value
+     */
     public Tag(URI uri) {
         if (uri == null) {
             throw new NullPointerException("URI for tag must be provided.");
