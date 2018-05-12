@@ -3,7 +3,8 @@
 ## Overview ##
 [YAML](http://yaml.org) is a data serialization format designed for human readability and interaction with scripting languages.
 
-SnakeYAML is a YAML processor for the Java Virtual Machine.
+SnakeYAML is a YAML 1.1 processor for the Java Virtual Machine version 6.
+For YAML 1.2 (which is a superset of JSON) you may have a look at [SnakeYAML Engine](https://bitbucket.org/asomov/snakeyaml-engine)
 
 ## SnakeYAML features ##
 
