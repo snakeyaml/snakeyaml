@@ -8,7 +8,7 @@ For YAML 1.2 (which is a superset of JSON) you may have a look at [SnakeYAML Eng
 
 ## SnakeYAML features ##
 
-* a **complete** [YAML 1.1 processor](http://yaml.org/spec/1.1/current.html). In particular, SnakeYAML can parse all examples from the specification.
+* a **complete** [YAML 1.1 processor](http://yaml.org/spec/1.1/current.html). (If you need YAML **1.2** support have a look [here](https://bitbucket.org/asomov/snakeyaml-engine)). In particular, SnakeYAML can parse all examples from the specification.
 * Unicode support including UTF-8/UTF-16 input/output.
 * high-level API for serializing and deserializing native Java objects.
 * support for all types from the [YAML types repository](http://yaml.org/type/index.html).
