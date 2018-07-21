@@ -442,7 +442,7 @@ public class Yaml {
      * Java object.
      *
      * @param io
-     *            data to load from (BOM is respected and removed)
+     *            data to load from (BOM is respected to detect encoding and removed from the data)
      * @param <T>
      *           the class of the instance to be created
      * @return parsed object
@@ -508,7 +508,7 @@ public class Yaml {
      * @param <T>
      *            Class is defined by the second argument
      * @param input
-     *            data to load from (BOM is respected and removed)
+     *            data to load from (BOM is respected to detect encoding and removed from the data)
      * @param type
      *            Class of the object to be created
      * @return parsed object
@@ -525,12 +525,12 @@ public class Yaml {
     }
 
     /**
-     * Parse all YAML documents in a String and produce corresponding Java
+     * Parse all YAML documents in the Reader and produce corresponding Java
      * objects. The documents are parsed only when the iterator is invoked.
      *
      * @param yaml
      *            YAML data to load from (BOM must not be present)
-     * @return an iterator over the parsed Java objects in this String in proper
+     * @return an Iterable over the parsed Java objects in this String in proper
      *         sequence
      */
     public Iterable<Object> loadAll(Reader yaml) {
@@ -575,7 +575,7 @@ public class Yaml {
      *
      * @param yaml
      *            YAML data to load from (BOM must not be present)
-     * @return an iterator over the parsed Java objects in this String in proper
+     * @return an Iterable over the parsed Java objects in this String in proper
      *         sequence
      */
     public Iterable<Object> loadAll(String yaml) {
@@ -587,8 +587,8 @@ public class Yaml {
      * objects. The documents are parsed only when the iterator is invoked.
      *
      * @param yaml
-     *            YAML data to load from (BOM is respected and ignored)
-     * @return an iterator over the parsed Java objects in this stream in proper
+     *            YAML data to load from (BOM is respected to detect encoding and removed from the data)
+     * @return an Iterable over the parsed Java objects in this stream in proper
      *         sequence
      */
     public Iterable<Object> loadAll(InputStream yaml) {
