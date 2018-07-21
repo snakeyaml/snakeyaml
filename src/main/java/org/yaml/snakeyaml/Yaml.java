@@ -746,5 +746,4 @@ public class Yaml {
         constructor.addTypeDescription(td);
         representer.addTypeDescription(td);
     }
-
 }
