@@ -10,3 +10,6 @@ snakeyaml.iml
 snakeyaml.ipr
 snakeyaml.iws
 
+syntax: glob
+
+.DS_Store
