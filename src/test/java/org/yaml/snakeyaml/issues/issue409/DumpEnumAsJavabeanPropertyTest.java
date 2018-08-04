@@ -42,10 +42,8 @@ public class DumpEnumAsJavabeanPropertyTest extends TestCase {
     public void testDumpExtendedEnum() {
         Yaml yaml = new Yaml();
         String text = yaml.dumpAs(new Bean(), Tag.MAP, DumperOptions.FlowStyle.AUTO);
-//        assertEquals("{myEnum: B}\n", text);
-        assertEquals("{myEnum: !!org.yaml.snakeyaml.issues.issue409.DumpEnumAsJavabeanPropertyTest$ExtendedEnum$2 'B'}\n", text);
-        Bean actual = yaml.loadAs("{myEnum: !!org.yaml.snakeyaml.issues.issue409.DumpEnumAsJavabeanPropertyTest$ExtendedEnum 'B'}", Bean.class);
-//        Bean actual = yaml.loadAs(text, Bean.class);
+        assertEquals("{myEnum: B}\n", text);
+        Bean actual = yaml.loadAs(text, Bean.class);
         assertEquals(ExtendedEnum.B, actual.myEnum);
     }
 }

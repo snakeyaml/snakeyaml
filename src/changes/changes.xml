@@ -5,6 +5,14 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
+        <release version="1.22" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix"  issue="409">
+                Dumping Enum breaks when Enum value is Anonymous inner class (2018-08-07)
+                Solution: refactor the way to detect if the full tag can be omitted (and !!str is used instead).
+                Instead of checking whether the class for property and the class for the actual value is the same
+                we can just check that the property class is not java.lang.Enum
+            </action>
+        </release>
         <release version="1.21" date="2018-04-13" description="Maintenance">
             <action dev="asomov" type="update">
                 Scanner throws IndexOutOfBoundsException if no more token left but getToken()
@@ -23,7 +31,7 @@
                 Plain scalars with colons in flow sequences/mappings are valid YAML (2018-03-03)
             </action>
         </release>
-        <release version="1.20-SNAPSHOT" date="2018-02-28" description="Maintenance">
+        <release version="1.20" date="2018-02-28" description="Maintenance">
             <action dev="maslovalex" type="fix"  issue="393">
                 Improve reflective access operation to avoid warning under Java 9 (2018-02-24)
             </action>

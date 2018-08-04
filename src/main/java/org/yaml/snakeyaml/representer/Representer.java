@@ -151,10 +151,8 @@ public class Representer extends SafeRepresenter {
             NodeId nodeId = nodeValue.getNodeId();
             if (customTag == null) {
                 if (nodeId == NodeId.scalar) {
-                    Object propertyType = property.getType();
-                    Object propertyValueClass = propertyValue.getClass();
-                    //FIXME issue 409
-                    if (property.getType() == propertyValue.getClass()) {
+                    //generic Enum requires the full tag
+                    if (property.getType() != java.lang.Enum.class) {
                         if (propertyValue instanceof Enum<?>) {
                             nodeValue.setTag(Tag.STR);
                         }
