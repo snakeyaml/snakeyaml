@@ -36,10 +36,10 @@ public class EnumBeanGenTest extends TestCase {
         map.put(Suit.DIAMONDS, 2);
         bean.setMap(map);
         String output = yaml.dump(bean);
-        yaml.load(output);
         assertEquals(
                 "!!org.yaml.snakeyaml.EnumBeanGen\nid: 17\nmap:\n  !!org.yaml.snakeyaml.Suit 'CLUBS': 1\n  !!org.yaml.snakeyaml.Suit 'DIAMONDS': 2\nsuit: !!org.yaml.snakeyaml.Suit 'SPADES'\n",
                 output);
+        yaml.load(output);//load back
     }
 
     // Loading

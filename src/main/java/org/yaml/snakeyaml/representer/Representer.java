@@ -151,6 +151,9 @@ public class Representer extends SafeRepresenter {
             NodeId nodeId = nodeValue.getNodeId();
             if (customTag == null) {
                 if (nodeId == NodeId.scalar) {
+                    Object propertyType = property.getType();
+                    Object propertyValueClass = propertyValue.getClass();
+                    //FIXME issue 409
                     if (property.getType() == propertyValue.getClass()) {
                         if (propertyValue instanceof Enum<?>) {
                             nodeValue.setTag(Tag.STR);

@@ -15,31 +15,37 @@
  */
 package org.yaml.snakeyaml.issues.issue409;
 
-import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 
+import junit.framework.TestCase;
+
 public class DumpEnumAsJavabeanPropertyTest extends TestCase {
-
     public static class Bean {
-
-        public MyEnum myEnum = MyEnum.B;
-
+        public ExtendedEnum myEnum = ExtendedEnum.B;
     }
 
-    public enum MyEnum {
-        A, B
-        //A{}, B{} // issue 409
+    public enum ExtendedEnum {
+        A {
+            public String toGreek() {
+                return "alpha";
+            }
+        },
+        B {
+            public String toGreek() {
+                return "beta";
+            }
+        } // issue 409
     }
 
-    public void testDumpEnum() {
+    public void testDumpExtendedEnum() {
         Yaml yaml = new Yaml();
         String text = yaml.dumpAs(new Bean(), Tag.MAP, DumperOptions.FlowStyle.AUTO);
-        assertEquals("{myEnum: B}\n", text);
-//        assertEquals("{myEnum: !!org.yaml.snakeyaml.issues.issue409.DumpEnumAsJavabeanPropertyTest$MyEnum$2 'B'}\n", text);
-        Bean actual = yaml.loadAs(text, Bean.class);
-        assertEquals(MyEnum.B, actual.myEnum);
-        assertEquals("{myEnum: B}\n", text);
+//        assertEquals("{myEnum: B}\n", text);
+        assertEquals("{myEnum: !!org.yaml.snakeyaml.issues.issue409.DumpEnumAsJavabeanPropertyTest$ExtendedEnum$2 'B'}\n", text);
+        Bean actual = yaml.loadAs("{myEnum: !!org.yaml.snakeyaml.issues.issue409.DumpEnumAsJavabeanPropertyTest$ExtendedEnum 'B'}", Bean.class);
+//        Bean actual = yaml.loadAs(text, Bean.class);
+        assertEquals(ExtendedEnum.B, actual.myEnum);
     }
 }
