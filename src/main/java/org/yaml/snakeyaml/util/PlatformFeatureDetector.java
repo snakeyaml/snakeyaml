@@ -21,8 +21,8 @@ public class PlatformFeatureDetector {
 
     public boolean isRunningOnAndroid() {
         if (isRunningOnAndroid == null) {
-            // No risk of NPE because this property should always be available
-            isRunningOnAndroid = System.getProperty("java.runtime.name").startsWith("Android Runtime");
+            String name = System.getProperty("java.runtime.name");
+            isRunningOnAndroid = (name != null && name.startsWith("Android Runtime"));
         }
         return isRunningOnAndroid;
     }

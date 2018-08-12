@@ -6,6 +6,10 @@
     </properties>
     <body>
         <release version="1.22" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix"  issue="411">
+                System Property "java.runtime.name" is not required to be defined (2018-08-12)
+                Ensure Compatibility with Graal
+            </action>
             <action dev="asomov" type="fix"  issue="409">
                 Dumping Enum breaks when Enum value is Anonymous inner class (2018-08-07)
                 Solution: refactor the way to detect if the full tag can be omitted (and !!str is used instead).
