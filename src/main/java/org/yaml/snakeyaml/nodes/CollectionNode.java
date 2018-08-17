@@ -32,6 +32,16 @@ public abstract class CollectionNode<T> extends Node {
         setFlowStyle(flowStyle);
     }
 
+    /** 
+     * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
+     * Restored in v1.22 for backwards compatibility.
+     * @deprecated Since restored in v1.22.  Use {@link CollectionNode#CollectionNode(Tag, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
+     */
+    @Deprecated
+    public CollectionNode(Tag tag, Mark startMark, Mark endMark, Boolean flowStyle) {
+        this(tag, startMark, endMark, DumperOptions.FlowStyle.fromBoolean(flowStyle));
+    }
+
     /**
      * Returns the elements in this sequence.
      *

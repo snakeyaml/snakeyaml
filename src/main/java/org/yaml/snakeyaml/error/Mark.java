@@ -44,6 +44,16 @@ public final class Mark implements Serializable {
     public Mark(String name, int index, int line, int column, char[] str, int pointer) {
         this(name, index, line, column, toCodePoints(str), pointer);
     }
+    
+    /** 
+     * Existed in older versions but replaced with {@code char[]}-based constructor.
+     * Restored in v1.22 for backwards compatibility.
+     * @deprecated Since restored in v1.22.  Use {@link Mark#Mark(String, int, int, int, char[], int)}.
+     */
+    @Deprecated
+    public Mark(String name, int index, int line, int column, String buffer, int pointer) {
+        this(name, index, line, column, buffer.toCharArray(), pointer);
+    }
 
     public Mark(String name, int index, int line, int column, int[] buffer, int pointer) {
         super();
