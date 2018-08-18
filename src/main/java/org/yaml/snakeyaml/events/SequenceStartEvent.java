@@ -33,7 +33,7 @@ public final class SequenceStartEvent extends CollectionStartEvent {
         super(anchor, tag, implicit, startMark, endMark, flowStyle);
     }
 
-    /** 
+    /*
      * Existed in older versions but replaced with {@link DumperOptions.SequenceStyle}-based constructor.
      * Restored in v1.22 for backwards compatibility.
      * @deprecated Since restored in v1.22.  Use {@link SequenceStartEvent#SequenceStartEvent(String, String, boolean, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.

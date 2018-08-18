@@ -45,7 +45,7 @@ public final class Mark implements Serializable {
         this(name, index, line, column, toCodePoints(str), pointer);
     }
     
-    /** 
+    /*
      * Existed in older versions but replaced with {@code char[]}-based constructor.
      * Restored in v1.22 for backwards compatibility.
      * @deprecated Since restored in v1.22.  Use {@link Mark#Mark(String, int, int, int, char[], int)}.

@@ -44,7 +44,7 @@ public class ScalarNode extends Node {
         this.resolved = resolved;
     }
 
-    /** 
+    /*
      * Existed in older versions but replaced with {@link DumperOptions.ScalarStyle}-based constructor.
      * Restored in v1.22 for backwards compatibility.
      * @deprecated Since restored in v1.22.  Use {@link ScalarNode#ScalarNode(Tag, String, Mark, Mark, org.yaml.snakeyaml.DumperOptions.ScalarStyle) }.
@@ -54,7 +54,7 @@ public class ScalarNode extends Node {
         this(tag, value, startMark, endMark, DumperOptions.ScalarStyle.createStyle(style));
     }
 
-    /** 
+    /*
      * Existed in older versions but replaced with {@link DumperOptions.ScalarStyle}-based constructor.
      * Restored in v1.22 for backwards compatibility.
      * @deprecated Since restored in v1.22.  Use {@link ScalarNode#ScalarNode(Tag, boolean, String, Mark, Mark, org.yaml.snakeyaml.DumperOptions.ScalarStyle) }.

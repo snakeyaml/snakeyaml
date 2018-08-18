@@ -156,7 +156,7 @@ public abstract class Node {
      * Indicates if the tag was added by
      * {@link org.yaml.snakeyaml.resolver.Resolver}.
      * 
-     * @return <code>true</code> if the tag of this node was resolved</code>
+     * @return true if the tag of this node was resolved
      * 
      * @deprecated Since v1.22.  Absent in immediately prior versions, but present previously.  Restored deprecated for backwards compatibility.
      */

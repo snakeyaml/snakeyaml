@@ -44,7 +44,7 @@ public class MappingNode extends CollectionNode<NodeTuple> {
         this(tag, true, value, null, null, flowStyle);
     }
 
-    /** 
+    /*
      * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
      * Restored in v1.22 for backwards compatibility.
      * @deprecated Since restored in v1.22.  Use {@link MappingNode#MappingNode(Tag, boolean, List, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
@@ -55,7 +55,7 @@ public class MappingNode extends CollectionNode<NodeTuple> {
         this(tag, resolved, value, startMark, endMark, DumperOptions.FlowStyle.fromBoolean(flowStyle));
     }
     
-    /** 
+    /*
      * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
      * Restored in v1.22 for backwards compatibility.
      * @deprecated Since restored in v1.22.  Use {@link MappingNode#MappingNode(Tag, List, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.

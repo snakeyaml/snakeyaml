@@ -43,7 +43,7 @@ public class SequenceNode extends CollectionNode<Node> {
         this(tag, true, value, null, null, flowStyle);
     }
     
-    /** 
+    /*
      * Existed in older versions but replaced with {@link DumperOptions.SequenceStyle}-based constructor.
      * Restored in v1.22 for backwards compatibility.
      * @deprecated Since restored in v1.22.  Use {@link SequenceNode#SequenceNode(Tag, List<Node>, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
@@ -53,7 +53,7 @@ public class SequenceNode extends CollectionNode<Node> {
         this(tag, value, DumperOptions.FlowStyle.fromBoolean(style));
     }
 
-    /** 
+    /*
      * Existed in older versions but replaced with {@link DumperOptions.SequenceStyle}-based constructor.
      * Restored in v1.22 for backwards compatibility.
      * @deprecated Since restored in v1.22.  Use {@link SequenceNode#SequenceNode(Tag, boolean, List<Node>, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
