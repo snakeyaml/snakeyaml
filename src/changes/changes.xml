@@ -5,7 +5,11 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.22" date="in Mercurial" description="Maintenance">
+        <release version="1.22" date="2018-08-18" description="Maintenance">
+            <action dev="asomov" type="fix"  issue="412">
+                Restore the Boolean constructors for Events and Nodes for binary compatibility
+                of dependent projects (2018-08-17)
+            </action>
             <action dev="asomov" type="fix"  issue="411">
                 System Property "java.runtime.name" is not required to be defined (2018-08-12)
                 Ensure Compatibility with Graal
