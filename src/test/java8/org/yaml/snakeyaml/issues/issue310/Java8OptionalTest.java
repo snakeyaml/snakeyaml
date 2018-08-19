@@ -16,7 +16,6 @@
 package org.yaml.snakeyaml.issues.issue310;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InaccessibleObjectException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -25,7 +24,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class Java8OptionalTest extends OptionalTesting {
-    private static Logger log = Logger.getLogger(Java8OptionalTest.class.getPackageName());
 
     @BeforeClass
     public static void checkIllegalAccess() {
@@ -33,10 +31,7 @@ public class Java8OptionalTest extends OptionalTesting {
             Constructor<?> privateConstructor = Optional.class.getDeclaredConstructor(Object.class);
             privateConstructor.setAccessible(true);
             privateConstructor.newInstance("OptionalString");
-        } catch (InaccessibleObjectException | ReflectiveOperationException | SecurityException e) {
-            log.warning(
-                    "Expecting exceptions in these tests because reflective access has been denied: "
-                            + e.getLocalizedMessage());
+        } catch (RuntimeException | ReflectiveOperationException e) {
             reflectiveAccessDenied = true;
         }
     }
