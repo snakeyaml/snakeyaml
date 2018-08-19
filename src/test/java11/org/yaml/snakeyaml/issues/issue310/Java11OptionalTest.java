@@ -29,9 +29,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.yaml.snakeyaml.error.YAMLException;
 
-public class Java9OptionalTest extends OptionalTesting {
+public class Java11OptionalTest extends OptionalTesting {
 
-    private static Logger log = Logger.getLogger(Java9OptionalTest.class.getPackageName());
+    private static Logger log = Logger.getLogger(Java11OptionalTest.class.getPackageName());
 
     @BeforeClass
     public static void checkIllegalAccess() {
@@ -60,12 +60,12 @@ public class Java9OptionalTest extends OptionalTesting {
     }
 
     @Test
-    public void testJava9OptionalStringLoad() {
+    public void testJava11OptionalStringLoad() {
         loadOptionalString();
     }
 
     @Test
-    public void testJava9OptionalDumpLoad() {
+    public void testJava11OptionalDumpLoad() {
         dumpLoadOptional();
     }
 }

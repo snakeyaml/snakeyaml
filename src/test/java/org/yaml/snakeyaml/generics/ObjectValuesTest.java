@@ -90,7 +90,8 @@ public class ObjectValuesTest extends TestCase {
         } catch (Exception e) {
             boolean java8 = e.getMessage().startsWith("[Ljava.lang.Object");
             boolean java9 = e.getMessage().startsWith("java.base/[Ljava.lang.Object");
-            assertTrue(e.getMessage(),  java8 || java9);
+            boolean java11 = e.getMessage().startsWith("class [Ljava.lang.Object; cannot be cast to class [Ljava.lang.String;");
+            assertTrue(e.getMessage(),  java8 || java9 || java11);
         }
     }
 }
