@@ -11,6 +11,7 @@ A new release of SnakeYAML is now available:
     http://www.snakeyaml.org
 
 This release delivers minor changes and bug fixes.
+This is the last release to support Java 6. As of the next release Java 7 will be required.
 
 The complete list of changes is here: https://bitbucket.org/asomov/snakeyaml/wiki/Changes
 
