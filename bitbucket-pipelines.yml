@@ -3,7 +3,7 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: maven:3-jdk-9-slim
+image: maven:3.5.4-jdk-9-slim
 
 pipelines:
   default:
