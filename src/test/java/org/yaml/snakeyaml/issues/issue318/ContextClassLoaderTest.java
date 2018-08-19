@@ -106,6 +106,7 @@ public class ContextClassLoaderTest {
 
     @After
     public void after() {
+        //TODO Java 7
         // URLClassLoader.close is @since 1.7
         // if (yamlCL != null) {
         //   try {
