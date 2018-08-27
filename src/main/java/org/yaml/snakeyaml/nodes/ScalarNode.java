@@ -72,8 +72,22 @@ public class ScalarNode extends Node {
      * @see <a href="http://yaml.org/spec/1.1/#id903915">Chapter 9. Scalar
      *      Styles</a>
      * @return style of this scalar node
+     * @deprecated use getScalarStyle instead
      */
-    public DumperOptions.ScalarStyle getStyle() {
+    @Deprecated
+    public  Character getStyle() {
+        return style.getChar();
+    }
+
+    /**
+     * Get scalar style of this node.
+     *
+     * @see org.yaml.snakeyaml.events.ScalarEvent
+     * @see <a href="http://yaml.org/spec/1.1/#id903915">Chapter 9. Scalar
+     *      Styles</a>
+     * @return style of this scalar node
+     */
+    public DumperOptions.ScalarStyle getScalarStyle() {
         return style;
     }
 

@@ -764,7 +764,7 @@ public final class Emitter implements Emitable {
         if (analysis == null) {
             analysis = analyzeScalar(ev.getValue());
         }
-        if (!ev.isPlain() && ev.getStyle() == DumperOptions.ScalarStyle.DOUBLE_QUOTED || this.canonical) {
+        if (!ev.isPlain() && ev.getScalarStyle() == DumperOptions.ScalarStyle.DOUBLE_QUOTED || this.canonical) {
             return DumperOptions.ScalarStyle.DOUBLE_QUOTED;
         }
         if (ev.isPlain() && ev.getImplicit().canOmitTagInPlainScalar()) {
@@ -773,12 +773,12 @@ public final class Emitter implements Emitable {
                 return null;
             }
         }
-        if (!ev.isPlain() && (ev.getStyle() == DumperOptions.ScalarStyle.LITERAL || ev.getStyle() == DumperOptions.ScalarStyle.FOLDED)) {
+        if (!ev.isPlain() && (ev.getScalarStyle() == DumperOptions.ScalarStyle.LITERAL || ev.getScalarStyle() == DumperOptions.ScalarStyle.FOLDED)) {
             if (flowLevel == 0 && !simpleKeyContext && analysis.allowBlock) {
-                return ev.getStyle();
+                return ev.getScalarStyle();
             }
         }
-        if (ev.isPlain() || ev.getStyle() == DumperOptions.ScalarStyle.SINGLE_QUOTED) {
+        if (ev.isPlain() || ev.getScalarStyle() == DumperOptions.ScalarStyle.SINGLE_QUOTED) {
             if (analysis.allowSingleQuoted && !(simpleKeyContext && analysis.multiline)) {
                 return DumperOptions.ScalarStyle.SINGLE_QUOTED;
             }

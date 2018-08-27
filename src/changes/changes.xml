@@ -5,6 +5,11 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
+        <release version="1.23" date="2018-08-27" description="Maintenance">
+            <action dev="asomov" type="fix" issue="412">
+                Add another getter for ScalarStyle to support backwards compatibility (2018-08-27)
+            </action>
+        </release>
         <release version="1.22" date="2018-08-25" description="Maintenance">
             <action dev="asomov" type="update">
                 Run tests under Java 11  (2018-08-19)

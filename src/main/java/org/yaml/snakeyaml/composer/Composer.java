@@ -161,7 +161,7 @@ public class Composer {
             nodeTag = new Tag(tag);
         }
         Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(),
-                ev.getEndMark(), ev.getStyle());
+                ev.getEndMark(), ev.getScalarStyle());
         if (anchor != null) {
             anchors.put(anchor, node);
         }

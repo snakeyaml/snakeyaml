@@ -83,8 +83,17 @@ public final class ScalarEvent extends NodeEvent {
      *      Combinations</a>
      * @return Style of the scalar.
      */
-    public DumperOptions.ScalarStyle getStyle() {
+    public DumperOptions.ScalarStyle getScalarStyle() {
         return this.style;
+    }
+
+    /**
+     * @deprecated use getScalarStyle()  instead
+     * @return char which is a value behind ScalarStyle
+     */
+    @Deprecated
+    public Character getStyle() {
+        return this.style.getChar();
     }
 
     /**
