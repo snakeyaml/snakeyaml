@@ -166,7 +166,7 @@ public final class Serializer {
                 ImplicitTuple tuple = new ImplicitTuple(node.getTag().equals(detectedTag), node
                         .getTag().equals(defaultTag));
                 ScalarEvent event = new ScalarEvent(tAlias, node.getTag().getValue(), tuple,
-                        scalarNode.getValue(), null, null, scalarNode.getStyle());
+                        scalarNode.getValue(), null, null, scalarNode.getScalarStyle());
                 this.emitter.emit(event);
                 break;
             case sequence:
