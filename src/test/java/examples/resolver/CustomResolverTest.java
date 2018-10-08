@@ -53,4 +53,12 @@ public class CustomResolverTest extends TestCase {
         assertFalse(map2.containsKey("1.0"));
         assertTrue(map2.toString(), map2.containsKey(Double.valueOf(1.0)));
     }
+
+    public void testJsonBooleanResolverToLoad() {
+        Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
+                new JsonBooleanResolver());
+        Map<Object, Object> map = (Map<Object, Object>) yaml.load("no: true");
+        assertEquals(1, map.size());
+        assertEquals(true, map.get("no"));
+    }
 }

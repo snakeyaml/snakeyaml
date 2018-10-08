@@ -20,17 +20,17 @@ import java.util.regex.Pattern;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
 
-public class CustomIntResolver extends Resolver {
-    public static final Pattern PURE_INT = Pattern.compile("^[0-9]+$");
+public class JsonBooleanResolver extends Resolver {
+    public static final Pattern BOOL = Pattern.compile("^(?:true|false)$");
 
     /*
-     * do not resolve int if it has underscores
+     * resolve boolean for only 2 values: true and false
      */
     protected void addImplicitResolvers() {
-        addImplicitResolver(Tag.BOOL, BOOL, "yYnNtTfFoO");
+        addImplicitResolver(Tag.BOOL, BOOL, "tf");
         addImplicitResolver(Tag.FLOAT, FLOAT, "-+0123456789.");
         // define simple int pattern
-        addImplicitResolver(Tag.INT, PURE_INT, "0123456789");
+        addImplicitResolver(Tag.INT, INT, "0123456789");
         addImplicitResolver(Tag.MERGE, MERGE, "<");
         addImplicitResolver(Tag.NULL, NULL, "~nN\0");
         addImplicitResolver(Tag.NULL, EMPTY, null);

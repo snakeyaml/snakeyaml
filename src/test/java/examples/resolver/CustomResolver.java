@@ -25,11 +25,11 @@ public class CustomResolver extends Resolver {
      */
     protected void addImplicitResolvers() {
         addImplicitResolver(Tag.BOOL, BOOL, "yYnNtTfFoO");
-        // addImplicitResolver(Tags.FLOAT, FLOAT, "-+0123456789.");
+        // addImplicitResolver(Tag.FLOAT, FLOAT, "-+0123456789.");
         addImplicitResolver(Tag.INT, INT, "-+0123456789");
         addImplicitResolver(Tag.MERGE, MERGE, "<");
         addImplicitResolver(Tag.NULL, NULL, "~nN\0");
         addImplicitResolver(Tag.NULL, EMPTY, null);
-        // addImplicitResolver(Tags.TIMESTAMP, TIMESTAMP, "0123456789");
+        // addImplicitResolver(Tag.TIMESTAMP, TIMESTAMP, "0123456789");
     }
 }
