@@ -17,7 +17,7 @@
         <maven-bundle-plugin.version>3.5.0</maven-bundle-plugin.version>
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <maven-site-plugin.version>3.6</maven-site-plugin.version>
-        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <jdk9-illegal-access-level>deny</jdk9-illegal-access-level>
     </properties>
     <name>SnakeYAML</name>
@@ -28,7 +28,7 @@
         <system>Bitbucket</system>
         <url>https://bitbucket.org/asomov/snakeyaml/issues</url>
     </issueManagement>
-    <!--ciManagement>
+    <!-- ciManagement>
         <system>jenkins</system>
         <url>https://snakeyaml.ci.cloudbees.com/job/SnakeYAML/</url>
     </ciManagement-->
