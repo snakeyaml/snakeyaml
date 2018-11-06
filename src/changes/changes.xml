@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.24" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update">
+                Require Java 7  (2018-11-06)
+            </action>
             <action dev="asomov" type="fix" issue="423">
                 Date Serialization Fails for TimeZones on Daylight Savings Time (2018-11-06)
             </action>

@@ -48,18 +48,6 @@ public class StackOverflowTest {
         }
     }
 
-    @Test
-    public void testDumpWithTrasitivePropertySinceJava7() {
-
-        org.junit.Assume.assumeFalse(System.getProperty("java.version").startsWith("1.6"));
-
-        Yaml yaml = new Yaml();
-
-        Point point = new Point(1, 2);
-        String output = yaml.dump(point);
-        assertEquals("!!java.awt.Point {x: 1, y: 2}\n", output);
-    }
-
     /**
      * Since Point.getLocation() creates a new instance of Point class,
      * SnakeYAML will fail to dump an instance of Point if 'getLocation()' is

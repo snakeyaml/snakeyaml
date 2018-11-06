@@ -100,23 +100,21 @@ public class ContextClassLoaderTest {
 
         };
 
-        yamlCL = new URLClassLoader(new URL[] { runtimeClassesDir.toURI().toURL() },
+        yamlCL = new URLClassLoader(new URL[]{runtimeClassesDir.toURI().toURL()},
                 noSnakeYAMLClassLoader);
     }
 
     @After
     public void after() {
-        //TODO Java 7
-        // URLClassLoader.close is @since 1.7
-        // if (yamlCL != null) {
-        //   try {
-        //     yamlCL.close();
-        //   } catch (IOException e) {
-        //     e.printStackTrace();
-        //   } finally {
-        yamlCL = null;
-        //   }
-        // }
+        if (yamlCL != null) {
+            try {
+                yamlCL.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                yamlCL = null;
+            }
+        }
     }
 
     @Test(expected = ClassNotFoundException.class)
@@ -141,10 +139,10 @@ public class ContextClassLoaderTest {
 
         Object yaml = yamlClass.newInstance();
 
-        Method dumpMethod = yaml.getClass().getMethod("dump", new Class<?>[] { Object.class });
+        Method dumpMethod = yaml.getClass().getMethod("dump", new Class<?>[]{Object.class});
         String dump = dumpMethod.invoke(yaml, bean).toString();
 
-        Method loadMethod = yaml.getClass().getMethod("load", new Class<?>[] { String.class });
+        Method loadMethod = yaml.getClass().getMethod("load", new Class<?>[]{String.class});
         DomainBean object = (DomainBean) loadMethod.invoke(yaml, dump);
 
         assertEquals(bean, object);
