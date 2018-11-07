@@ -18,7 +18,6 @@ package org.yaml.snakeyaml.nodes;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,8 +60,15 @@ public final class Tag {
         //
         Set<Class<?>> timestampSet = new HashSet<Class<?>>();
         timestampSet.add(Date.class);
-        timestampSet.add(java.sql.Date.class);
-        timestampSet.add(Timestamp.class);
+
+        // java.sql is a separate module since jigsaw was introduced in java9
+        try {
+            timestampSet.add(Class.forName("java.sql.Date"));
+            timestampSet.add(Class.forName("java.sql.Timestamp"));
+        } catch (ClassNotFoundException ignored) {
+            // ignore - we are running in a module path without java.sql
+        }
+
         COMPATIBILITY_MAP.put(TIMESTAMP, timestampSet);
     }
 
