@@ -6,6 +6,12 @@
     </properties>
     <body>
         <release version="1.24" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="426">
+                Fix NPE when duplicate keys are not allowed and the key is null (2018-12-02)
+            </action>
+            <action dev="asomov" type="update">
+                Support java.sql classes without the need to depend on java.sql module in java9+ (2018-11-06)
+            </action>
             <action dev="asomov" type="update">
                 Require Java 7  (2018-11-06)
             </action>
