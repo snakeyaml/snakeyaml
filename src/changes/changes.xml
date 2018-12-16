@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.24" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="429">
+                Provide "Automatic-Module-Name" entry in MANIFEST (2018-12-16)
+            </action>
             <action dev="asomov" type="fix" issue="426">
                 Fix NPE when duplicate keys are not allowed and the key is null (2018-12-02)
             </action>
