@@ -319,6 +319,7 @@
                             !org.yaml.snakeyaml.external*,
                             org.yaml.snakeyaml.*;version=${project.version}
                         </Export-Package>
+                        <Automatic-Module-Name>org.yaml.snakeyaml</Automatic-Module-Name>
                     </instructions>
                 </configuration>
             </plugin>
