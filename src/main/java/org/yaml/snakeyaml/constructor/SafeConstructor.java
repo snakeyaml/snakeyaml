@@ -193,7 +193,7 @@ public class SafeConstructor extends BaseConstructor {
     public class ConstructYamlNull extends AbstractConstruct {
         @Override
         public Object construct(Node node) {
-            constructScalar((ScalarNode) node);
+            if (node != null) constructScalar((ScalarNode) node);
             return null;
         }
     }

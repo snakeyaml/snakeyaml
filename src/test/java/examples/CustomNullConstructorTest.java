@@ -30,20 +30,17 @@ public class CustomNullConstructorTest extends TestCase {
 
     public void testEmpty() {
         Yaml yaml = new Yaml(new NullConstructor());
-        assertNull(yaml.load(""));
-        //TODO assertEquals(1, yaml.load(""));
+        assertEquals(1, yaml.load(""));
     }
 
     public void testNull() {
         Yaml yaml = new Yaml(new NullConstructor());
-        assertNull(yaml.load("null"));
-        //TODO assertEquals(1, yaml.load("null"));
+        assertEquals(1, yaml.load("null"));
     }
 
     public void testNullTag() {
         Yaml yaml = new Yaml(new NullConstructor());
-        assertNull(yaml.load("!!null null"));
-        //TODO assertEquals(1, yaml.load("!!null null"));
+        assertEquals(1, yaml.load("!!null null"));
     }
 
     class NullConstructor extends SafeConstructor {

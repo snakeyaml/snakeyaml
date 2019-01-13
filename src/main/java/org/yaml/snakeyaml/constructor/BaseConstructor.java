@@ -144,8 +144,10 @@ public abstract class BaseConstructor {
                 node.setTag(rootTag);
             }
             return constructDocument(node);
+        } else {
+            Construct construct = yamlConstructors.get(Tag.NULL);
+            return construct.construct(node);
         }
-        return null;
     }
 
     /**

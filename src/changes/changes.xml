@@ -6,6 +6,10 @@
     </properties>
     <body>
         <release version="1.24" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix">
+                Fix: Null tag constructor not called when parsing top-level null value (2019-01-13)
+                (issue reported for snakeyaml-engine)
+            </action>
             <action dev="asomov" type="fix" issue="429">
                 Provide "Automatic-Module-Name" entry in MANIFEST (2018-12-16)
             </action>
