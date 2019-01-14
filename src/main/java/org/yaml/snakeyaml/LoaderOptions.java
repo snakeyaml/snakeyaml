@@ -18,6 +18,7 @@ package org.yaml.snakeyaml;
 public class LoaderOptions {
 
     private boolean allowDuplicateKeys = true;
+    private boolean wrappedToRootException = false;
 
     public boolean isAllowDuplicateKeys() {
         return allowDuplicateKeys;
@@ -42,4 +43,18 @@ public class LoaderOptions {
         this.allowDuplicateKeys = allowDuplicateKeys;
     }
 
+    public boolean isWrappedToRootException() {
+        return wrappedToRootException;
+    }
+
+    /**
+     * Wrap runtime exception to YAMLException during parsing or leave them as they are
+     *
+     * Default is to leave original exceptions
+     *
+     * @param wrappedToRootException - true to convert runtime exception to YAMLException
+     */
+    public void setWrappedToRootException(boolean wrappedToRootException) {
+        this.wrappedToRootException = wrappedToRootException;
+    }
 }

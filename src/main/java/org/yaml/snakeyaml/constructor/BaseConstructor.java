@@ -78,6 +78,8 @@ public abstract class BaseConstructor {
     private boolean explicitPropertyUtils;
     private boolean allowDuplicateKeys = true;
 
+    private boolean wrappedToRootException = false;
+
     protected final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
     protected final Map<Tag, Class<? extends Object>> typeTags;
 
@@ -158,11 +160,19 @@ public abstract class BaseConstructor {
      * @return Java instance
      */
     protected final Object constructDocument(Node node) {
-        Object data = constructObject(node);
-        fillRecursive();
-        constructedObjects.clear();
-        recursiveObjects.clear();
-        return data;
+        try {
+            Object data = constructObject(node);
+            fillRecursive();
+            constructedObjects.clear();
+            recursiveObjects.clear();
+            return data;
+        } catch (RuntimeException e) {
+            if (wrappedToRootException && !(e instanceof YAMLException)) {
+                throw new YAMLException(e);
+            } else {
+                throw e;
+            }
+        }
     }
 
     private void fillRecursive() {
@@ -573,5 +583,13 @@ public abstract class BaseConstructor {
 
     public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
         this.allowDuplicateKeys = allowDuplicateKeys;
+    }
+
+    public boolean isWrappedToRootException() {
+        return wrappedToRootException;
+    }
+
+    public void setWrappedToRootException(boolean wrappedToRootException) {
+        this.wrappedToRootException = wrappedToRootException;
     }
 }

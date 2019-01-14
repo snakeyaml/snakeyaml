@@ -217,6 +217,7 @@ public class Yaml {
         }
         this.constructor = constructor;
         this.constructor.setAllowDuplicateKeys(loadingConfig.isAllowDuplicateKeys());
+        this.constructor.setWrappedToRootException(loadingConfig.isWrappedToRootException());
         if (dumperOptions.getIndent() <= dumperOptions.getIndicatorIndent()) {
             throw new YAMLException("Indicator indent must be smaller then indent.");
         }
