@@ -139,6 +139,7 @@ public final class Emitter implements Emitable {
     private int bestWidth;
     private char[] bestLineBreak;
     private boolean splitLines;
+    private int maxSimpleKeyLength;
 
     // Tag prefixes.
     private Map<String, String> tagPrefixes;
@@ -198,6 +199,7 @@ public final class Emitter implements Emitable {
         }
         this.bestLineBreak = opts.getLineBreak().getString().toCharArray();
         this.splitLines = opts.getSplitLines();
+        this.maxSimpleKeyLength = opts.getMaxSimpleKeyLength();
 
         // Tag prefixes.
         this.tagPrefixes = new LinkedHashMap<String, String>();
@@ -703,7 +705,7 @@ public final class Emitter implements Emitable {
             }
             length += analysis.scalar.length();
         }
-        return length < 128 && (event instanceof AliasEvent
+        return length < maxSimpleKeyLength && (event instanceof AliasEvent
                 || (event instanceof ScalarEvent && !analysis.empty && !analysis.multiline)
                 || checkEmptySequence() || checkEmptyMapping());
     }

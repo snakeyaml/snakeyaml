@@ -27,7 +27,7 @@ public class NullDuplicateKeyTest extends TestCase {
 
     public void testDuplicateKeyIsAllowed() {
         Yaml loader = new Yaml();
-        Map<String, String> duplicateMap = (Map<String, String>) loader.load("~: foo\n" +
+        Map<String, String> duplicateMap = loader.load("~: foo\n" +
                 "~: bar");
         assertEquals(1, duplicateMap.size());
         assertEquals("bar", duplicateMap.get(null));

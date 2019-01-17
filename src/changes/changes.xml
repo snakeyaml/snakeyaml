@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.24" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="431">
+                Customize simple key length when dumping (2019-01-17)
+            </action>
             <action dev="asomov" type="fix" issue="430">
                 Wrap runtime exceptions into YAMLException (2019-01-14)
             </action>

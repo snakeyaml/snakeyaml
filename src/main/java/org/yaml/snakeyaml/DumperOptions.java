@@ -182,6 +182,7 @@ public class DumperOptions {
     private boolean explicitStart = false;
     private boolean explicitEnd = false;
     private TimeZone timeZone = null;
+    private int maxSimpleKeyLength = 128;
 
     private Version version = null;
     private Map<String, String> tags = null;
@@ -414,5 +415,21 @@ public class DumperOptions {
 
     public void setAnchorGenerator(AnchorGenerator anchorGenerator) {
         this.anchorGenerator = anchorGenerator;
+    }
+
+    public int getMaxSimpleKeyLength() {
+        return maxSimpleKeyLength;
+    }
+
+    /**
+     * Define max key length to use simple key (without '?')
+     * More info https://yaml.org/spec/1.1/#id934537
+     * @param maxSimpleKeyLength - the limit after which the key gets explicit key indicator '?'
+     */
+    public void setMaxSimpleKeyLength(int maxSimpleKeyLength) {
+        if(maxSimpleKeyLength > 1024) {
+            throw new YAMLException("The simple key must not span more than 1024 stream characters. See https://yaml.org/spec/1.1/#id934537");
+        }
+        this.maxSimpleKeyLength = maxSimpleKeyLength;
     }
 }
