@@ -27,6 +27,9 @@ import static org.junit.Assert.assertNotNull;
 public class ReferencesTest {
 
     @Test
+    /**
+     * https://en.wikipedia.org/wiki/Billion_laughs_attack#Variations
+     */
     public void billionLaughsAttack() {
         String data = "a: &a [\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\"]\n" +
                 "b: &b [*a,*a,*a,*a,*a,*a,*a,*a,*a]\n" +
@@ -38,7 +41,7 @@ public class ReferencesTest {
                 "h: &h [*g,*g,*g,*g,*g,*g,*g,*g,*g]\n" +
                 "i: &i [*h,*h,*h,*h,*h,*h,*h,*h,*h]";
         Yaml yaml = new Yaml();
-        Map map = (Map) yaml.load(data);
+        Map map = yaml.load(data);
         assertNotNull(map);
     }
 
