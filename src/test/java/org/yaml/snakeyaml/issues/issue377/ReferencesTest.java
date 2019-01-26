@@ -83,6 +83,9 @@ public class ReferencesTest {
             s2 = t2;
         }
 
+        //FIXME
+        // this is VERY BAD code
+        // the map has itself as a key (no idea why it may be used)
         HashMap f = new HashMap();
         f.put(f, "a");
         f.put("g", root);
