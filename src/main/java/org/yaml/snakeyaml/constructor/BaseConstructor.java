@@ -471,7 +471,7 @@ public abstract class BaseConstructor {
         }
     }
 
-    /**
+    /*
      * if keyObject is created it 2 steps we should postpone putting
      * it in map because it may have different hash after
      * initialization compared to clean just created one. And map of
@@ -502,7 +502,7 @@ public abstract class BaseConstructor {
         }
     }
 
-    /**
+    /*
      * if keyObject is created it 2 steps we should postpone putting
      * it into the set because it may have different hash after
      * initialization compared to clean just created one. And set of
