@@ -6,6 +6,11 @@
     </properties>
     <body>
         <release version="1.24" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update">
+                Refactor BaseConstructor: Factored out postponed mapping logic so subclasses can effectively
+                override constructMapping2ndStep() and delegate to the postponed mapping logic.
+                This is backported from SnakeYAML engine (2019-01-26)
+            </action>
             <action dev="asomov" type="fix" issue="431">
                 Customize simple key length when dumping (2019-01-17)
             </action>

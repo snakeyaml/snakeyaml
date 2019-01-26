@@ -464,19 +464,21 @@ public abstract class BaseConstructor {
             }
             Object value = constructObject(valueNode);
             if (keyNode.isTwoStepsConstruction()) {
-                /*
-                 * if keyObject is created it 2 steps we should postpone putting
-                 * it in map because it may have different hash after
-                 * initialization compared to clean just created one. And map of
-                 * course does not observe key hashCode changes.
-                 */
-                maps2fill.add(0,
-                        new RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>(
-                                mapping, new RecursiveTuple<Object, Object>(key, value)));
+                postponeMapFilling(mapping, key, value);
             } else {
                 mapping.put(key, value);
             }
         }
+    }
+
+    /**
+     * if keyObject is created it 2 steps we should postpone putting
+     * it in map because it may have different hash after
+     * initialization compared to clean just created one. And map of
+     * course does not observe key hashCode changes.
+     */
+    protected void postponeMapFilling(Map<Object, Object> mapping, Object key, Object value) {
+        maps2fill.add(0, new RecursiveTuple(mapping, new RecursiveTuple(key, value)));
     }
 
     protected void constructSet2ndStep(MappingNode node, Set<Object> set) {
@@ -493,17 +495,21 @@ public abstract class BaseConstructor {
                 }
             }
             if (keyNode.isTwoStepsConstruction()) {
-                /*
-                 * if keyObject is created it 2 steps we should postpone putting
-                 * it into the set because it may have different hash after
-                 * initialization compared to clean just created one. And set of
-                 * course does not observe value hashCode changes.
-                 */
-                sets2fill.add(0, new RecursiveTuple<Set<Object>, Object>(set, key));
+                postponeSetFilling(set, key);
             } else {
                 set.add(key);
             }
         }
+    }
+
+    /**
+     * if keyObject is created it 2 steps we should postpone putting
+     * it into the set because it may have different hash after
+     * initialization compared to clean just created one. And set of
+     * course does not observe value hashCode changes.
+     */
+    protected void postponeSetFilling(Set<Object> set, Object key) {
+        sets2fill.add(0, new RecursiveTuple<Set<Object>, Object>(set, key));
     }
 
     // <<<< Costruct => NEW, 2ndStep(filling)
