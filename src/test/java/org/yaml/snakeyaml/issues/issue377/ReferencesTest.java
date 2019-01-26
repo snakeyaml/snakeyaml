@@ -26,10 +26,10 @@ import static org.junit.Assert.assertNotNull;
 
 public class ReferencesTest {
 
-    @Test
     /**
      * https://en.wikipedia.org/wiki/Billion_laughs_attack#Variations
      */
+    @Test
     public void billionLaughsAttack() {
         String data = "a: &a [\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\"]\n" +
                 "b: &b [*a,*a,*a,*a,*a,*a,*a,*a,*a]\n" +
