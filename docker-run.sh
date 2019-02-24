@@ -6,5 +6,4 @@ docker run --rm -it               \
     -e "HOME=/my-home"            \
     -w /work                      \
     maven:3.5.4-jdk-$1            \
-    mvn -Dmaven.repo.local=/my-home/.m2/repository clean test $2
-
+    mvn -Dmaven.repo.local=/my-home/.m2/repository clean test ${@:2}

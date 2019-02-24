@@ -1,4 +1,2 @@
 #!/usr/bin/env bash
-./docker-run.sh 7
-
-
+./docker-run.sh 7 $@

@@ -17,7 +17,7 @@
         <maven-bundle-plugin.version>3.5.0</maven-bundle-plugin.version>
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M1</maven-surefire-plugin.version>
         <jdk9-illegal-access-level>deny</jdk9-illegal-access-level>
     </properties>
     <name>SnakeYAML</name>
@@ -767,10 +767,10 @@
                                         <mkdir dir="${android.test.classes}" />
 
                                         <!-- compile patched sources -->
-                                        <javac srcdir="${android.src.main}" destdir="${android.classes}" classpath="${android.classes}" encoding="${project.build.sourceEncoding}" target="1.6" source="1.6" debug="true" includeantruntime="false" fork="true" />
+                                        <javac srcdir="${android.src.main}" destdir="${android.classes}" classpath="${android.classes}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true" />
 
                                         <!-- compile test classes. Exclude some - not for BeanAccess.FIELD -->
-                                        <javac srcdir="${android.src.test}:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.springframework:spring-core:jar}:${org.springframework:spring-beans:jar}:${org.springframework:spring-context:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}:${commons-io:commons-io:jar}:${commons-lang:commons-lang:jar}:${org.hamcrest:hamcrest-core:jar}" encoding="${project.build.sourceEncoding}" target="1.6" source="1.6" debug="true" includeantruntime="false" fork="true">
+                                        <javac srcdir="${android.src.test}:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.springframework:spring-core:jar}:${org.springframework:spring-beans:jar}:${org.springframework:spring-context:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}:${commons-io:commons-io:jar}:${commons-lang:commons-lang:jar}:${org.hamcrest:hamcrest-core:jar}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true">
 
                                             <exclude name="org/yaml/snakeyaml/introspector/MethodPropertyTest.java" />
                                             <exclude name="org/yaml/snakeyaml/representer/FilterPropertyToDumpTest.java" />
@@ -796,8 +796,7 @@
                                 </goals>
                                 <configuration>
                                     <classesDirectory>${android.classes}</classesDirectory>
-                                    <reportsDirectory>${project.build.directory}/android/surefire-reports
-                                    </reportsDirectory>
+                                    <reportsDirectory>${project.build.directory}/android/surefire-reports</reportsDirectory>
                                     <testClassesDirectory>${android.test.classes}</testClassesDirectory>
                                     <!--
                                     We ignore test failures for android build at the moment.

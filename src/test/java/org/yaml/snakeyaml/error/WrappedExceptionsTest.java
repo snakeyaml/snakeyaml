@@ -15,36 +15,46 @@
  */
 package org.yaml.snakeyaml.error;
 
+import org.hamcrest.CoreMatchers;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import junit.framework.TestCase;
-
-public class WrappedExceptionsTest extends TestCase {
+public class WrappedExceptionsTest {
 
     private static final String INVALID_YAML = "!!seq abc";
 
-    public void testWrapped() {
-        LoaderOptions options = new LoaderOptions();
-        options.setWrappedToRootException(true);
-        try {
-            Yaml yaml = new Yaml(options);
-            yaml.load(INVALID_YAML);
-            fail();
-        } catch (YAMLException e) {
-            assertEquals("java.lang.ClassCastException: org.yaml.snakeyaml.nodes.ScalarNode cannot be cast to org.yaml.snakeyaml.nodes.SequenceNode", e.getMessage());
-        }
+    @Rule
+    public final ExpectedException expectedException = ExpectedException.none();
+
+    @Before
+    public void configureExpectedExceptions() {
+        expectedException.expectMessage("org.yaml.snakeyaml.nodes.ScalarNode");
+        expectedException.expectMessage("org.yaml.snakeyaml.nodes.SequenceNode");
     }
 
+    @Test
+    public void testWrapped() {
+        expectedException.expect(YAMLException.class);
+        expectedException
+                .expectCause(CoreMatchers.<Throwable> instanceOf(ClassCastException.class));
+
+        LoaderOptions options = new LoaderOptions();
+        options.setWrappedToRootException(true);
+        Yaml yaml = new Yaml(options);
+        yaml.load(INVALID_YAML);
+    }
+
+    @Test
     public void testUnWrapped() {
+        expectedException.expect(ClassCastException.class);
+
         LoaderOptions options = new LoaderOptions();
         options.setWrappedToRootException(false);
-        try {
-            Yaml yaml = new Yaml(options);
-            yaml.load(INVALID_YAML);
-            fail();
-        } catch (ClassCastException e) {
-            assertEquals("org.yaml.snakeyaml.nodes.ScalarNode cannot be cast to org.yaml.snakeyaml.nodes.SequenceNode", e.getMessage());
-        }
+        Yaml yaml = new Yaml(options);
+        yaml.load(INVALID_YAML);
     }
 }
