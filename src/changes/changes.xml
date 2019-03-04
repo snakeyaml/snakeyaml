@@ -5,6 +5,11 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
+        <release version="1.25" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update">
+                Update plugin versions (2019-03-04)
+            </action>
+        </release>
         <release version="1.24" date="2019-02-28" description="Maintenance">
             <action dev="asomov" type="update">
                 Refactor BaseConstructor: Factored out postponed mapping logic so subclasses can effectively
