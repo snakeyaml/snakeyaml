@@ -15,6 +15,10 @@
  */
 package org.yaml.snakeyaml.issues.issue436;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
@@ -43,5 +47,11 @@ public class NonScalarLineBreakTest extends TestCase {
         assertEquals("{\n" +
                 "  \"response\" : \"\"\n" +
                 "}", noMap);
+    }
+
+    public void testJackson() throws JsonProcessingException {
+        ObjectMapper yamlObjectMapper = new ObjectMapper(new YAMLFactory().enable(YAMLGenerator.Feature.MINIMIZE_QUOTES));
+        String what = yamlObjectMapper.writeValueAsString("{\\n  \"response\" : \"\"\\n}");
+        assertEquals("--- '{\\n  \"response\" : \"\"\\n}'\n", what);
     }
 }
