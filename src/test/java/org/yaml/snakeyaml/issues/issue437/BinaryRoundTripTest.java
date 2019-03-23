@@ -27,10 +27,10 @@ public class BinaryRoundTripTest extends TestCase {
         Yaml underTest = new Yaml();
         String source = "a\u0096b";
         String serialized = underTest.dump(source);
-        byte[] deserialized = underTest.load(serialized);
         assertEquals("!!binary |-\n" +
                 "  YcKWYg==\n", serialized);
-        assertEquals("New line is added at the end.", source.length() + 1, deserialized.length);
+        //parse back to bytes
+        byte[] deserialized = underTest.load(serialized);
         assertEquals(source, new String(deserialized));
     }
 }
