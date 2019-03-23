@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2008, http://www.snakeyaml.org
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,21 +16,60 @@
 package org.yaml.snakeyaml.issues.issue437;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.events.Event;
+import org.yaml.snakeyaml.events.ImplicitTuple;
+import org.yaml.snakeyaml.events.ScalarEvent;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.Tag;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class BinaryRoundTripTest extends TestCase {
 
-    public void testLongKey() {
+    public void testBinary() {
         Yaml underTest = new Yaml();
-        String source = "a\u0096b";
+        String source = "\u0096";
         String serialized = underTest.dump(source);
         assertEquals("!!binary |-\n" +
-                "  YcKWYg==\n", serialized);
+                "  wpY=\n", serialized);
         //parse back to bytes
         byte[] deserialized = underTest.load(serialized);
         assertEquals(source, new String(deserialized));
     }
+
+    public void testBinaryNode() {
+        Yaml underTest = new Yaml();
+        String source = "\u0096";
+        Node node = underTest.represent(source);
+
+        assertEquals(Tag.BINARY, node.getTag());
+        assertEquals(NodeId.scalar, node.getNodeId());
+        ScalarNode scalar = (ScalarNode) node;
+        assertEquals("wpY=", scalar.getValue());
+        List<Event> events = underTest.serialize(node);
+        assertEquals(5, events.size());
+        ScalarEvent data = (ScalarEvent) events.get(2);
+        assertEquals(Tag.BINARY.toString(), data.getTag());
+        assertEquals(DumperOptions.ScalarStyle.LITERAL, data.getScalarStyle());
+        assertEquals("wpY=", data.getValue());
+        ImplicitTuple implicit = data.getImplicit();
+        assertFalse(implicit.canOmitTagInPlainScalar());
+        assertFalse(implicit.canOmitTagInNonPlainScalar());
+    }
+
+    /*
+    public void testStrNode() {
+        Yaml underTest = new Yaml(DumperOptions);
+        String source = "\u0096";
+        Node node = underTest.represent(source);
+        assertEquals(Tag.STR, node.getTag());
+        assertEquals(NodeId.scalar, node.getNodeId());
+        ScalarNode scalar = (ScalarNode) node;
+        assertEquals("\u0096", scalar.getValue());
+    }
+    */
 }
