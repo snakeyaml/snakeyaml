@@ -29,7 +29,8 @@ public class BinaryRoundTripTest extends TestCase {
         String serialized = underTest.dump(source);
         byte[] deserialized = underTest.load(serialized);
         assertEquals("!!binary |-\n" +
-                "  YcKWYg==\n",  serialized);
+                "  YcKWYg==\n", serialized);
         assertEquals("New line is added at the end.", source.length() + 1, deserialized.length);
+        assertEquals(source, new String(deserialized));
     }
 }
