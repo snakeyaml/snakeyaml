@@ -72,7 +72,7 @@ public class Yaml {
      *            DumperOptions to configure outgoing objects
      */
     public Yaml(DumperOptions dumperOptions) {
-        this(new Constructor(), new Representer(), dumperOptions);
+        this(new Constructor(), new Representer(dumperOptions.isKeepBinaryString()), dumperOptions);
     }
 
     /**

@@ -26,7 +26,9 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BinaryRoundTripTest extends TestCase {
 
@@ -62,9 +64,10 @@ public class BinaryRoundTripTest extends TestCase {
         assertFalse(implicit.canOmitTagInNonPlainScalar());
     }
 
-    /*
     public void testStrNode() {
-        Yaml underTest = new Yaml(DumperOptions);
+        DumperOptions options = new DumperOptions();
+        options.setKeepBinaryString(true);
+        Yaml underTest = new Yaml(options);
         String source = "\u0096";
         Node node = underTest.represent(source);
         assertEquals(Tag.STR, node.getTag());
@@ -72,5 +75,17 @@ public class BinaryRoundTripTest extends TestCase {
         ScalarNode scalar = (ScalarNode) node;
         assertEquals("\u0096", scalar.getValue());
     }
-    */
+
+    public void testRoundTripBinary() {
+        DumperOptions options = new DumperOptions();
+        options.setKeepBinaryString(true);
+        Yaml underTest = new Yaml(options);
+        Map<String, String> toSerialized = new HashMap<>();
+        toSerialized.put("key", "a\u0096b");
+        String output = underTest.dump(toSerialized);
+        assertEquals("{key: \"a\\x96b\"}\n", output);
+        Map<String, String> parsed = underTest.load(output);
+        assertEquals(toSerialized.get("key"), parsed.get("key"));
+        assertEquals(toSerialized, parsed);
+    }
 }

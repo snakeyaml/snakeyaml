@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.25" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="437">
+                Introduce setting to keep !!str tag for String even when it contains non-printable chars (2019-03-24)
+            </action>
             <action dev="asomov" type="update">
                 Update plugin versions (2019-03-04)
             </action>

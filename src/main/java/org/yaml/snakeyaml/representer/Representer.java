@@ -50,6 +50,11 @@ public class Representer extends SafeRepresenter {
         this.representers.put(null, new RepresentJavaBean());
     }
 
+    public Representer(boolean keepStringForBinary) {
+        super(keepStringForBinary);
+        this.representers.put(null, new RepresentJavaBean());
+    }
+
     public TypeDescription addTypeDescription(TypeDescription td) {
         if (Collections.EMPTY_MAP == typeDefinitions) {
             typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
@@ -140,7 +145,7 @@ public class Representer extends SafeRepresenter {
      *         property
      */
     protected NodeTuple representJavaBeanProperty(Object javaBean, Property property,
-            Object propertyValue, Tag customTag) {
+                                                  Object propertyValue, Tag customTag) {
         ScalarNode nodeKey = (ScalarNode) representData(property.getName());
         // the first occurrence of the node must keep the tag
         boolean hasAlias = this.representedObjects.containsKey(propertyValue);
