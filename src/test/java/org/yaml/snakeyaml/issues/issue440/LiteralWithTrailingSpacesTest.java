@@ -32,10 +32,15 @@ public class LiteralWithTrailingSpacesTest extends TestCase {
                 "  line breaks\n", correctYaml);
     }
 
-    public void testTrimTrailingSpace() {
+    public void testTrimTrailingWhiteSpace() {
         Yaml yaml = new Yaml();
-        String parsed = yaml.load("trailing ");
-        assertEquals("The trailing space must be removed.", "trailing", parsed);
+        assertEquals("trailing", yaml.load("trailing "));
+        assertEquals("trailing", yaml.load("trailing\r"));
+        assertEquals("trailing", yaml.load("trailing\n"));
+        assertEquals("trailing", yaml.load("trailing\r\n"));
+        assertEquals("trailing", yaml.load("trailing\t\n"));
+        assertEquals("trailing", yaml.load("trailing\n\n"));
+        assertEquals("trailing", yaml.load("trailing\n \r \n"));
     }
 
     public void testLiteralWithNewLine() {
