@@ -50,8 +50,8 @@ public class Representer extends SafeRepresenter {
         this.representers.put(null, new RepresentJavaBean());
     }
 
-    public Representer(boolean keepStringForBinary) {
-        super(keepStringForBinary);
+    public Representer(DumperOptions options) {
+        super(options);
         this.representers.put(null, new RepresentJavaBean());
     }
 

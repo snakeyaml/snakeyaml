@@ -169,6 +169,17 @@ public class DumperOptions {
         }
     }
 
+    public enum NonPrintableStyle {
+        /**
+         * Tranform String to binary if it contains non-printable characters
+         */
+        BINARY,
+        /**
+         * Escape non-printable characters
+         */
+        ESCAPE
+    }
+
     private ScalarStyle defaultStyle = ScalarStyle.PLAIN;
     private FlowStyle defaultFlowStyle = FlowStyle.AUTO;
     private boolean canonical = false;
@@ -183,7 +194,7 @@ public class DumperOptions {
     private boolean explicitEnd = false;
     private TimeZone timeZone = null;
     private int maxSimpleKeyLength = 128;
-    private boolean keepBinaryString = false;
+    private NonPrintableStyle  nonPrintableStyle = NonPrintableStyle.BINARY;
 
     private Version version = null;
     private Map<String, String> tags = null;
@@ -434,16 +445,16 @@ public class DumperOptions {
         this.maxSimpleKeyLength = maxSimpleKeyLength;
     }
 
-    public boolean isKeepBinaryString() {
-        return this.keepBinaryString;
+    public NonPrintableStyle getNonPrintableStyle() {
+        return this.nonPrintableStyle;
     }
 
     /**
      * When String contains non-printable characters SnakeYAML convert it to binary data with the !!binary tag.
-     * Set this to true to keep the !!str tag and escape the non-printable chars with \\x or \\u
-     * @param keepString true to force SnakeYAML to keep !!str tag for non-printable data
+     * Set this to ESCAPE to keep the !!str tag and escape the non-printable chars with \\x or \\u
+     * @param style ESCAPE to force SnakeYAML to keep !!str tag for non-printable data
      */
-    public void setKeepBinaryString(boolean keepString) {
-        this.keepBinaryString = keepString;
+    public void setNonPrintableStyle(NonPrintableStyle style) {
+        this.nonPrintableStyle = style;
     }
 }

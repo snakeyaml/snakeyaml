@@ -66,7 +66,7 @@ public class BinaryRoundTripTest extends TestCase {
 
     public void testStrNode() {
         DumperOptions options = new DumperOptions();
-        options.setKeepBinaryString(true);
+        options.setNonPrintableStyle(DumperOptions.NonPrintableStyle.ESCAPE);
         Yaml underTest = new Yaml(options);
         String source = "\u0096";
         Node node = underTest.represent(source);
@@ -78,7 +78,7 @@ public class BinaryRoundTripTest extends TestCase {
 
     public void testRoundTripBinary() {
         DumperOptions options = new DumperOptions();
-        options.setKeepBinaryString(true);
+        options.setNonPrintableStyle(DumperOptions.NonPrintableStyle.ESCAPE);
         Yaml underTest = new Yaml(options);
         Map<String, String> toSerialized = new HashMap<>();
         toSerialized.put("key", "a\u0096b");

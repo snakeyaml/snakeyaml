@@ -45,13 +45,13 @@ class SafeRepresenter extends BaseRepresenter {
 
     protected Map<Class<? extends Object>, Tag> classTags;
     protected TimeZone timeZone = null;
-    protected boolean keepStringForBinaryData;
+    protected DumperOptions.NonPrintableStyle nonPrintableStyle;
 
     public SafeRepresenter() {
-        this(false);
+        this(new DumperOptions());
     }
 
-    public SafeRepresenter(boolean keepStringForBinaryData) {
+    public SafeRepresenter(DumperOptions options) {
         this.nullRepresenter = new RepresentNull();
         this.representers.put(String.class, new RepresentString());
         this.representers.put(Boolean.class, new RepresentBoolean());
@@ -78,7 +78,7 @@ class SafeRepresenter extends BaseRepresenter {
         this.multiRepresenters.put(Enum.class, new RepresentEnum());
         this.multiRepresenters.put(Calendar.class, new RepresentDate());
         classTags = new HashMap<Class<? extends Object>, Tag>();
-        this.keepStringForBinaryData = keepStringForBinaryData;
+        this.nonPrintableStyle = options.getNonPrintableStyle();
     }
 
     protected Tag getTag(Class<?> clazz, Tag defaultTag) {
@@ -119,7 +119,7 @@ class SafeRepresenter extends BaseRepresenter {
             Tag tag = Tag.STR;
             DumperOptions.ScalarStyle style = null;//not defined
             String value = data.toString();
-            if (!(keepStringForBinaryData || StreamReader.isPrintable(value))) {
+            if (nonPrintableStyle == DumperOptions.NonPrintableStyle.BINARY && !StreamReader.isPrintable(value)) {
                 tag = Tag.BINARY;
                 char[] binary;
                 try {
