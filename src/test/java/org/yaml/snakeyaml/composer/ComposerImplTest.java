@@ -51,6 +51,15 @@ public class ComposerImplTest extends TestCase {
         assertEquals(Object.class, node.getType());
     }
 
+    public void testNodeAnchor() {
+        String data = "--- &113\n{name: Bill, age: 18}";
+        Yaml yaml = new Yaml();
+        Node node = yaml.compose(new StringReader(data));
+        assertNotNull(node);
+        assertTrue(node instanceof MappingNode);
+        assertEquals("113", node.getAnchor());
+    }
+
     public static class BeanToCompose {
         private String name;
         private int age;

@@ -36,6 +36,7 @@ public abstract class Node {
     protected Mark endMark;
     private Class<? extends Object> type;
     private boolean twoStepsConstruction;
+    private String anchor;
 
     /**
      * true when the tag is assigned by the resolver
@@ -69,6 +70,9 @@ public abstract class Node {
     }
 
     /**
+     * For error reporting.
+     * 
+     * @see "class variable 'id' in PyYAML"
      * @return scalar, sequence, mapping
      */
     public abstract NodeId getNodeId();
@@ -151,7 +155,7 @@ public abstract class Node {
     public void setUseClassConstructor(Boolean useClassConstructor) {
         this.useClassConstructor = useClassConstructor;
     }
-    
+
     /**
      * Indicates if the tag was added by
      * {@link org.yaml.snakeyaml.resolver.Resolver}.
@@ -164,5 +168,12 @@ public abstract class Node {
     public boolean isResolved() {
         return resolved;
     }
-    
+
+    public String getAnchor() {
+        return anchor;
+    }
+
+    public void setAnchor(String anchor) {
+        this.anchor = anchor;
+    }
 }
