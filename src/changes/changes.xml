@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.25" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="449">
+                Add test for issue 449 (2019-06-19)
+            </action>
             <action dev="asomov" type="add" issue="441">
                 Restore the way to get anchor for a Node (2019-04-13)
             </action>
