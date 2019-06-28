@@ -7,9 +7,6 @@
     <body>
         <release version="1.25" date="in Mercurial" description="Maintenance">
             <action dev="asomov" type="update">
-                Remove unused code from ConstructScalar (2019-06-23)
-            </action>
-            <action dev="asomov" type="update">
                 Deprecate setting tags in TypeDescription (2019-06-23)
             </action>
             <action dev="asomov" type="fix" issue="449">

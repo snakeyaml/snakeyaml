@@ -336,6 +336,11 @@ public class Constructor extends SafeConstructor {
             ScalarNode node = (ScalarNode) nnode;
             Class<?> type = node.getType();
 
+            try {
+                return newInstance(type, node, false);
+            } catch (InstantiationException e1) {
+            }
+
             Object result;
             if (type.isPrimitive() || type == String.class || Number.class.isAssignableFrom(type)
                     || type == Boolean.class || Date.class.isAssignableFrom(type)
