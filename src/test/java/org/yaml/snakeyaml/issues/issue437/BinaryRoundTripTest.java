@@ -26,13 +26,14 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class BinaryRoundTripTest extends TestCase {
 
-    public void testBinary() {
+    public void testBinary() throws UnsupportedEncodingException {
         Yaml underTest = new Yaml();
         String source = "\u0096";
         String serialized = underTest.dump(source);
@@ -40,7 +41,7 @@ public class BinaryRoundTripTest extends TestCase {
                 "  wpY=\n", serialized);
         //parse back to bytes
         byte[] deserialized = underTest.load(serialized);
-        assertEquals(source, new String(deserialized));
+        assertEquals(source, new String(deserialized, "UTF-8"));
     }
 
     public void testBinaryNode() {
