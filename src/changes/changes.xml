@@ -5,7 +5,12 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.25" date="in Mercurial" description="Maintenance">
+        <release version="1.26" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="add" issue="449">
+                Add example for integer without time pattern (2019-08-22)
+            </action>
+        </release>
+        <release version="1.25" date="2019-08-13" description="Maintenance">
             <action dev="asomov" type="update">
                 Deprecate setting tags in TypeDescription (2019-06-23)
             </action>

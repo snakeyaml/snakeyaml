@@ -54,6 +54,18 @@ public class CustomResolverTest extends TestCase {
         assertTrue(map2.toString(), map2.containsKey(Double.valueOf(1.0)));
     }
 
+    /**
+     * https://bitbucket.org/asomov/snakeyaml/issues/454/snakeyaml-implicitly-converts-time-into
+     */
+    public void testResolverToLoadNoTime() {
+        Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
+                new NoTimeIntResolver());
+        Map<Object, Object> map = (Map<Object, Object>) yaml.load("a: 17:00:00\nb: 17");
+        assertEquals(2, map.size());
+        assertEquals("17:00:00", map.get("a"));
+        assertEquals(17, map.get("b"));
+    }
+
     public void testJsonBooleanResolverToLoad() {
         Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
                 new JsonBooleanResolver());
