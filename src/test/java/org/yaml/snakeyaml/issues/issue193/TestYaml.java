@@ -52,14 +52,11 @@ public class TestYaml {
 
     public static void main(String[] args) {
 
-        System.out.println("test...");
         BeanA1 b = new BeanA1();
         b.setId(2l);
         b.setName("name1");
         Yaml yaml = new Yaml();
         String dump = yaml.dump(b);
-
-        System.out.println("dump:" + dump);
 
         dump = "!!org.yaml.snakeyaml.issues.issue193.TestYaml$BeanA1 {id: 2, name: name1}";
 

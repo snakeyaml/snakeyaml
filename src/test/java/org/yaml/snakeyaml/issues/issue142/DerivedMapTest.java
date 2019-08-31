@@ -64,7 +64,7 @@ public class DerivedMapTest extends TestCase {
 	o.getMoreFeatures().put("Address", "Disney");
 	Yaml yaml = new Yaml();
 	String asYaml = yaml.dump(o);
-	System.out.println(asYaml);
+	//System.out.println(asYaml);
 	MyObject o2 = (MyObject) yaml.load(asYaml);
     }
 

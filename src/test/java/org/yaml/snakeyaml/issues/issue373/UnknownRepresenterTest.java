@@ -48,7 +48,7 @@ public class UnknownRepresenterTest {
 
         Yaml yaml = new Yaml();
         String str = yaml.dump(mv);
-        System.out.println(str);
+        //System.out.println(str);
         assertTrue(str.contains("mapIntegerBigDecimal: {1: 0.01"));
     }
 }
