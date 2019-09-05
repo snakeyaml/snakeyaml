@@ -256,21 +256,50 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
+    private static final int[][]  RADIX_MAX = new int[17][2];
+    static {
+        int[] radixList = new int[] {2, 8, 10, 16};
+        for( int radix : radixList) {
+            RADIX_MAX[radix] = new int[] { maxLen(Integer.MAX_VALUE,radix), maxLen(Long.MAX_VALUE,radix)};
+        }
+    }
+    
+    private static int maxLen(final int max, final int radix) {
+    	return  Integer.toString(max,radix).length();
+    }
+    private static int maxLen(final long max,final int radix) {
+    	return  Long.toString(max,radix).length();
+    }
     private Number createNumber(int sign, String number, int radix) {
-        Number result;
+        final int len = number != null ? number.length() : 0;
         if (sign < 0) {
             number = "-" + number;
         }
+        final int[] maxArr = radix < RADIX_MAX.length ?  RADIX_MAX[radix] : null;
+        if (maxArr != null) {
+            final boolean gtInt = len >maxArr[0];
+            if (gtInt) {
+                if(len > maxArr[1]) {
+                    return new BigInteger(number, radix);
+                }
+                return createLongOrBigInteger(number, radix);
+            }
+        }
+        Number result;
         try {
             result = Integer.valueOf(number, radix);
         } catch (NumberFormatException e) {
-            try {
-                result = Long.valueOf(number, radix);
-            } catch (NumberFormatException e1) {
-                result = new BigInteger(number, radix);
-            }
+            result = createLongOrBigInteger(number, radix);
         }
         return result;
+    }
+
+    protected static Number createLongOrBigInteger(final String number,final  int radix) {
+        try {
+            return Long.valueOf(number, radix);
+        } catch (NumberFormatException e1) {
+            return  new BigInteger(number, radix);
+        }
     }
 
     public class ConstructYamlFloat extends AbstractConstruct {
