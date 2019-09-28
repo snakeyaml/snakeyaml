@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.26" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update">
+                Refactor ScalarAnalysis: make it immutable (2019-09-28)
+            </action>
             <action dev="asomov" type="add" issue="454">
                 Add example for integer without time pattern (2019-08-22)
             </action>

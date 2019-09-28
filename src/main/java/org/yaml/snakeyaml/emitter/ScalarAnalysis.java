@@ -15,17 +15,21 @@
  */
 package org.yaml.snakeyaml.emitter;
 
+
+/**
+ * Accumulate information to choose the scalar style
+ */
 public final class ScalarAnalysis {
-    public String scalar;
-    public boolean empty;
-    public boolean multiline;
-    public boolean allowFlowPlain;
-    public boolean allowBlockPlain;
-    public boolean allowSingleQuoted;
-    public boolean allowBlock;
+    private String scalar;
+    private boolean empty;
+    private boolean multiline;
+    private boolean allowFlowPlain;
+    private boolean allowBlockPlain;
+    private boolean allowSingleQuoted;
+    private boolean allowBlock;
 
     public ScalarAnalysis(String scalar, boolean empty, boolean multiline, boolean allowFlowPlain,
-            boolean allowBlockPlain, boolean allowSingleQuoted, boolean allowBlock) {
+                          boolean allowBlockPlain, boolean allowSingleQuoted, boolean allowBlock) {
         this.scalar = scalar;
         this.empty = empty;
         this.multiline = multiline;
@@ -33,5 +37,33 @@ public final class ScalarAnalysis {
         this.allowBlockPlain = allowBlockPlain;
         this.allowSingleQuoted = allowSingleQuoted;
         this.allowBlock = allowBlock;
+    }
+
+    public String getScalar() {
+        return scalar;
+    }
+
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public boolean isMultiline() {
+        return multiline;
+    }
+
+    public boolean isAllowFlowPlain() {
+        return allowFlowPlain;
+    }
+
+    public boolean isAllowBlockPlain() {
+        return allowBlockPlain;
+    }
+
+    public boolean isAllowSingleQuoted() {
+        return allowSingleQuoted;
+    }
+
+    public boolean isAllowBlock() {
+        return allowBlock;
     }
 }
