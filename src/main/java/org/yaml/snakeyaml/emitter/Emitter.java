@@ -414,8 +414,8 @@ public final class Emitter implements Emitable {
     }
 
     private void expectAlias() throws IOException {
-        if (((NodeEvent) event).getAnchor() == null) {
-            throw new EmitterException("anchor is not specified for alias");
+        if (!(event instanceof AliasEvent)) {
+            throw new EmitterException("Alias must be provided");
         }
         processAnchor("*");
         state = states.pop();
