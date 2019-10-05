@@ -55,7 +55,20 @@ public abstract class Event {
         return "";
     }
 
-    public abstract boolean is(Event.ID id);
+    /**
+     * Check if the Event is of the provided kind
+     * @param id - the Event.ID enum
+     * @return true then this Event of the provided type
+     */
+    public boolean is(Event.ID id) {
+        return getEventId() == id;
+    }
+
+    /**
+     * Get the type (kind) if this Event
+     * @return the ID of this Event
+     */
+    public abstract Event.ID getEventId();
 
     /*
      * for tests only
