@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.26" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="add">
+                Add test for not implemented "!" tag (2019-10-11)
+            </action>
             <action dev="asomov" type="update">
                 Refactor Events: expose Event.ID via a getter (2019-10-05)
             </action>
