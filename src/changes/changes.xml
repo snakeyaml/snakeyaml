@@ -7,6 +7,9 @@
     <body>
         <release version="1.26" date="in Mercurial" description="Maintenance">
             <action dev="asomov" type="update">
+                Refactor Events: expose Event.ID via a getter (2019-10-05)
+            </action>
+            <action dev="asomov" type="update">
                 Refactor ScalarAnalysis: make it immutable (2019-09-28)
             </action>
             <action dev="asomov" type="add" issue="454">

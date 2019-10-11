@@ -27,7 +27,7 @@ public final class AliasEvent extends NodeEvent {
     }
 
     @Override
-    public boolean is(Event.ID id) {
-        return ID.Alias == id;
+    public Event.ID getEventId() {
+        return ID.Alias;
     }
 }

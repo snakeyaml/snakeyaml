@@ -15,10 +15,7 @@
  */
 package org.yaml.snakeyaml.parser;
 
-import java.util.LinkedList;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
@@ -34,17 +31,34 @@ import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.reader.StreamReader;
 
+import java.util.LinkedList;
+
 public class ParserImplTest extends TestCase {
 
     private void check(LinkedList<Event> etalonEvents, Parser parser) {
-        while (parser.checkEvent(null)) {
+        for (Event etalonEvent : etalonEvents) {
+            parser.checkEvent(etalonEvent.getEventId());
             Event event = parser.getEvent();
-            if (etalonEvents.isEmpty()) {
-                fail("unexpected event: " + event);
+            if (event == null) {
+                fail("Missing event: " + etalonEvent);
             }
-            assertEquals(etalonEvents.removeFirst(), event);
+            assertEquals(etalonEvent, event);
         }
-        assertFalse("Must contain no more events: " + parser.getEvent(), parser.checkEvent(null));
+    }
+
+    public void testGetEventWithTag() {
+        String data = "! 12";
+        StreamReader reader = new StreamReader(data);
+        Parser parser = new ParserImpl(reader);
+        Mark dummyMark = new Mark("dummy", 0, 0, 0, "".toCharArray(), 0);
+        LinkedList<Event> etalonEvents = new LinkedList<Event>();
+        etalonEvents.add(new StreamStartEvent(dummyMark, dummyMark));
+        etalonEvents.add(new DocumentStartEvent(dummyMark, dummyMark, false, null, null));
+        etalonEvents.add(new ScalarEvent(null, "!", new ImplicitTuple(true, false), "12",
+                dummyMark, dummyMark, DumperOptions.ScalarStyle.PLAIN));
+        etalonEvents.add(new DocumentEndEvent(dummyMark, dummyMark, false));
+        etalonEvents.add(new StreamEndEvent(dummyMark, dummyMark));
+        check(etalonEvents, parser);
     }
 
     public void testGetEvent() {
