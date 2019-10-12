@@ -19,13 +19,14 @@ import junit.framework.TestCase;
 
 /**
  * The tag "!" must force the parser to use only the node kind (scalar, sequence, mapping)
+ * (issue 459)
  */
 public class ExclamationTagTest extends TestCase {
 
     public void testImplicitTag() {
         Yaml yaml = new Yaml();
-        assertEquals(12, yaml.load("! 12"));
-        //TODO assertEquals("12", yaml.load("! 12"));
+        assertEquals("It works the same way as PyYAML",12, yaml.load("! 12"));
+        //It might be changed -> assertEquals("12", yaml.load("! 12"));
     }
 
     public void testNoImplicitTag() {
