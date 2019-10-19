@@ -93,6 +93,9 @@ public final class Serializer {
         } else if (!Boolean.TRUE.equals(closed)) {
             this.emitter.emit(new StreamEndEvent(null, null));
             this.closed = Boolean.TRUE;
+            // release unused resources
+            this.serializedNodes.clear();
+            this.anchors.clear();
         }
     }
 
