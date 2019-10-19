@@ -46,7 +46,9 @@ import org.yaml.snakeyaml.resolver.Resolver;
 import org.yaml.snakeyaml.serializer.Serializer;
 
 /**
- * Public YAML interface. Each Thread must have its own instance.
+ * Public YAML interface. This class is not thread-safe. Which means that all the methods of the same
+ * instance can be called only by one thread.
+ * It is better to create an instance for every YAML stream.
  */
 public class Yaml {
     protected final Resolver resolver;
@@ -57,8 +59,7 @@ public class Yaml {
     protected LoaderOptions loadingConfig;
 
     /**
-     * Create Yaml instance. It is safe to create a few instances and use them
-     * in different Threads.
+     * Create Yaml instance.
      */
     public Yaml() {
         this(new Constructor(), new Representer(), new DumperOptions(), new LoaderOptions(),
@@ -86,8 +87,7 @@ public class Yaml {
     }
 
     /**
-     * Create Yaml instance. It is safe to create a few instances and use them
-     * in different Threads.
+     * Create Yaml instance.
      *
      * @param representer
      *            Representer to emit outgoing objects
@@ -97,8 +97,7 @@ public class Yaml {
     }
 
     /**
-     * Create Yaml instance. It is safe to create a few instances and use them
-     * in different Threads.
+     * Create Yaml instance.
      *
      * @param constructor
      *            BaseConstructor to construct incoming documents
@@ -108,8 +107,7 @@ public class Yaml {
     }
 
     /**
-     * Create Yaml instance. It is safe to create a few instances and use them
-     * in different Threads.
+     * Create Yaml instance.
      *
      * @param constructor
      *            BaseConstructor to construct incoming documents

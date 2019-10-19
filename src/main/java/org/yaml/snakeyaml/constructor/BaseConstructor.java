@@ -138,7 +138,7 @@ public abstract class BaseConstructor {
      */
     public Object getSingleData(Class<?> type) {
         // Ensure that the stream contains a single document and construct it
-        Node node = composer.getSingleNode();
+        final Node node = composer.getSingleNode();
         if (node != null && !Tag.NULL.equals(node.getTag())) {
             if (Object.class != type) {
                 node.setTag(new Tag(type));
