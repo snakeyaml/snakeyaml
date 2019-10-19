@@ -6,6 +6,13 @@
     </properties>
     <body>
         <release version="1.26" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update" issue="459">
+                The '!' tag now works the same way as for PyYAML. (12 is parsed as int instead of string)
+                The spec files are modified (spec-08-07.canonical spec-08-07.data)
+            </action>
+            <action dev="asomov" type="add">
+                Add test for not implemented "!" tag (2019-10-11)
+            </action>
             <action dev="asomov" type="update">
                 Refactor Events: expose Event.ID via a getter (2019-10-05)
             </action>
