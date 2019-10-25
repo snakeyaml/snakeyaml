@@ -238,4 +238,9 @@ public class Composer {
     protected Node composeValueNode(MappingNode node) {
         return composeNode(node);
     }
+
+    public void clear() {
+        this.recursiveNodes.clear();
+        this.anchors.clear();
+    }
 }

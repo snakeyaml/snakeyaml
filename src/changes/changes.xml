@@ -6,6 +6,10 @@
     </properties>
     <body>
         <release version="1.26" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="update" issue="462">
+                Clean up composer internal maps after construction. Should not have any impact but
+                it does not harm (2019-10-25)
+            </action>
             <action dev="asomov" type="update" issue="459">
                 The '!' tag now works the same way as for PyYAML. (12 is parsed as int instead of string)
                 The spec files are modified (spec-08-07.canonical spec-08-07.data)

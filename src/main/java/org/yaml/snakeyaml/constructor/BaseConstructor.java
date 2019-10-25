@@ -163,8 +163,10 @@ public abstract class BaseConstructor {
         try {
             Object data = constructObject(node);
             fillRecursive();
+            //clean up resources
             constructedObjects.clear();
             recursiveObjects.clear();
+            composer.clear();
             return data;
         } catch (RuntimeException e) {
             if (wrappedToRootException && !(e instanceof YAMLException)) {
@@ -175,6 +177,9 @@ public abstract class BaseConstructor {
         }
     }
 
+    /**
+     * Fill the recursive structures and clean the internal collections
+     */
     private void fillRecursive() {
         if (!maps2fill.isEmpty()) {
             for (RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>> entry : maps2fill) {
