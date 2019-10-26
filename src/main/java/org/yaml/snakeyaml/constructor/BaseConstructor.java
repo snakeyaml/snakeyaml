@@ -175,7 +175,6 @@ public abstract class BaseConstructor {
             //clean up resources
             constructedObjects.clear();
             recursiveObjects.clear();
-            composer.clear();
         }
     }
 

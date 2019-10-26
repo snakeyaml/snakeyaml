@@ -86,8 +86,9 @@ public class Composer {
         Node node = composeNode(null);
         // Drop the DOCUMENT-END event.
         parser.getEvent();
+        //clean up resources
         this.anchors.clear();
-        recursiveNodes.clear();
+        this.recursiveNodes.clear();
         return node;
     }
 
@@ -239,10 +240,5 @@ public class Composer {
 
     protected Node composeValueNode(MappingNode node) {
         return composeNode(node);
-    }
-
-    public void clear() {
-        this.recursiveNodes.clear();
-        this.anchors.clear();
     }
 }
