@@ -164,10 +164,6 @@ public abstract class BaseConstructor {
         try {
             Object data = constructObject(node);
             fillRecursive();
-            //clean up resources
-            constructedObjects.clear();
-            recursiveObjects.clear();
-            composer.clear();
             return data;
         } catch (RuntimeException e) {
             if (wrappedToRootException && !(e instanceof YAMLException)) {
@@ -175,6 +171,11 @@ public abstract class BaseConstructor {
             } else {
                 throw e;
             }
+        } finally {
+            //clean up resources
+            constructedObjects.clear();
+            recursiveObjects.clear();
+            composer.clear();
         }
     }
 
