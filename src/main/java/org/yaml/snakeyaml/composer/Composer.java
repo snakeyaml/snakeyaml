@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.MappingStartEvent;
@@ -110,8 +111,9 @@ public class Composer {
         // Ensure that the stream contains no more documents.
         if (!parser.checkEvent(Event.ID.StreamEnd)) {
             Event event = parser.getEvent();
+            Mark contextMark = document != null ? document.getStartMark(): null;
             throw new ComposerException("expected a single document in the stream",
-                    document.getStartMark(), "but found another document", event.getStartMark());
+                    contextMark, "but found another document", event.getStartMark());
         }
         // Drop the STREAM-END event.
         parser.getEvent();

@@ -70,7 +70,7 @@ public final class Mark implements Serializable {
     }
 
     public String get_snippet(int indent, int max_length) {
-        float half = max_length / 2 - 1;
+        float half = max_length / 2f - 1f;
         int start = pointer;
         String head = "";
         while ((start > 0) && !isLineBreak(buffer[start - 1])) {
