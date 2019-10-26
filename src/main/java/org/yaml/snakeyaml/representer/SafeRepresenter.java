@@ -112,7 +112,7 @@ class SafeRepresenter extends BaseRepresenter {
         }
     }
 
-    public static Pattern MULTILINE_PATTERN = Pattern.compile("\n|\u0085|\u2028|\u2029");
+    private static final Pattern MULTILINE_PATTERN = Pattern.compile("\n|\u0085|\u2028|\u2029");
 
     protected class RepresentString implements Represent {
         public Node representData(Object data) {

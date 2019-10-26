@@ -15,23 +15,6 @@
  */
 package org.yaml.snakeyaml.constructor;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.composer.ComposerException;
@@ -45,6 +28,24 @@ import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public abstract class BaseConstructor {
     /**
@@ -119,9 +120,9 @@ public abstract class BaseConstructor {
      *
      * @return constructed instance
      */
-    public Object getData() {
+    public Object getData() throws NoSuchElementException {
         // Construct and return the next document.
-        composer.checkNode();
+        if (!composer.checkNode()) throw new NoSuchElementException("No document is available.");
         Node node = composer.getNode();
         if (rootTag != null) {
             node.setTag(rootTag);

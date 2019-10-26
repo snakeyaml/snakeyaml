@@ -43,7 +43,7 @@ public final class Tag {
     public static final Tag STR = new Tag(PREFIX + "str");
     public static final Tag SEQ = new Tag(PREFIX + "seq");
     public static final Tag MAP = new Tag(PREFIX + "map");
-    public static final Map<Tag, Set<Class<?>>> COMPATIBILITY_MAP;
+    protected static final Map<Tag, Set<Class<?>>> COMPATIBILITY_MAP;
     static {
         COMPATIBILITY_MAP = new HashMap<Tag, Set<Class<?>>>();
         Set<Class<?>> floatSet = new HashSet<Class<?>>();

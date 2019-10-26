@@ -15,17 +15,18 @@
  */
 package examples;
 
+import junit.framework.TestCase;
+import org.yaml.snakeyaml.Yaml;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.TestCase;
-
-import org.yaml.snakeyaml.Yaml;
+import java.util.NoSuchElementException;
 
 public class LoadExampleTest extends TestCase {
     @SuppressWarnings("unchecked")
@@ -67,6 +68,42 @@ public class LoadExampleTest extends TestCase {
             counter++;
         }
         assertEquals(3, counter);
+        input.close();
+    }
+
+    public void testLoadManyDocumentsWithIterator() throws IOException {
+        InputStream input = new FileInputStream(
+                new File("src/test/resources/specification/example2_28.yaml"));
+        Yaml yaml = new Yaml();
+        int counter = 0;
+        Iterator<Object> iter = yaml.loadAll(input).iterator();
+        while (iter.hasNext()) {
+            Object data = iter.next();
+            assertNotNull(data);
+            assertTrue(data.toString().length() > 1);
+            counter++;
+        }
+        assertEquals(3, counter);
+        input.close();
+    }
+
+    public void testLoadManyDocumentsWithIterator2() throws IOException {
+        InputStream input = new FileInputStream(
+                new File("src/test/resources/specification/example2_28.yaml"));
+        Yaml yaml = new Yaml();
+        Iterator<Object> iter = yaml.loadAll(input).iterator();
+        Object data = iter.next();
+        assertNotNull(data);
+        data = iter.next();
+        assertNotNull(data);
+        data = iter.next();
+        assertNotNull(data);
+        try {
+            iter.next();
+            fail("Expect NoSuchElementException");
+        } catch (NoSuchElementException e) {
+            assertEquals("No document is available.", e.getMessage());
+        }
         input.close();
     }
 }
