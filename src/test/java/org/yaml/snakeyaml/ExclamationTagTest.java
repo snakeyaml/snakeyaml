@@ -15,22 +15,28 @@
  */
 package org.yaml.snakeyaml;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * The tag "!" must force the parser to use only the node kind (scalar, sequence, mapping)
  * (issue 459)
  */
-public class ExclamationTagTest extends TestCase {
+public class ExclamationTagTest {
 
+    @Test
     public void testImplicitTag() {
         Yaml yaml = new Yaml();
-        assertEquals("It works the same way as PyYAML",12, yaml.load("! 12"));
+        Object result = yaml.load("! 12");
+        assertEquals("It works the same way as PyYAML", 12, result);
         //It might be changed -> assertEquals("12", yaml.load("! 12"));
     }
 
+    @Test
     public void testNoImplicitTag() {
         Yaml yaml = new Yaml();
-        assertEquals(12, yaml.load("12"));
+        Object result = yaml.load("12");
+        assertEquals(12, result);
     }
 }
