@@ -15,6 +15,9 @@
  */
 package org.yaml.snakeyaml.nodes;
 
+/**
+ * This class is only used during representation (dumping)
+ */
 public class AnchorNode extends Node {
 
     private Node realNode;
