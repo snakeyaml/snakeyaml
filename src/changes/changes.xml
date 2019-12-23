@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.26" date="in Mercurial" description="Maintenance">
+            <action dev="asomov" type="fix" issue="468">
+                Allow non ASCII characters in the anchor names (2019-12-23)
+            </action>
             <action dev="asomov" type="update" issue="462">
                 Clean up composer internal maps after construction. Should not have any impact but
                 it does not harm (2019-10-25)

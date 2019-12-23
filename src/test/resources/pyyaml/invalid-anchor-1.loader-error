@@ -1,1 +1,1 @@
---- &?  foo # we allow only ascii and numeric characters in anchor names.
+--- &[  foo # we do not allow special characters in anchor names - YAML 1.2

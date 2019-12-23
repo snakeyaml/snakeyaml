@@ -1414,18 +1414,6 @@ public final class ScannerImpl implements Scanner {
         }
     }
 
-    /**
-     * <pre>
-     * The specification does not restrict characters for anchors and
-     * aliases. This may lead to problems, for instance, the document:
-     *   [ *alias, value ]
-     * can be interpreted in two ways, as
-     *   [ &quot;value&quot; ]
-     * and
-     *   [ *alias , &quot;value&quot; ]
-     * Therefore we restrict aliases to numbers and ASCII letters.
-     * </pre>
-     */
     private Token scanAnchor(boolean isAnchor) {
         Mark startMark = reader.getMark();
         int indicator = reader.peek();
@@ -1433,23 +1421,23 @@ public final class ScannerImpl implements Scanner {
         reader.forward();
         int length = 0;
         int c = reader.peek(length);
-        while (Constant.ALPHA.has(c)) {
+        // YAML 1.1 is unclear for the anchor names, we apply YAML 1.2 rules for the names.
+        // Anchor may not contain ",[]{}", the ":" was added by SnakeYAML -> should it be added to the spec 1.2 ?
+        while (Constant.NULL_BL_T_LINEBR.hasNo(c, ":,[]{}")) {
             length++;
             c = reader.peek(length);
         }
         if (length == 0) {
             final String s = String.valueOf(Character.toChars(c));
             throw new ScannerException("while scanning an " + name, startMark,
-                    "expected alphabetic or numeric character, but found " + s + "("
-                    + c + ")", reader.getMark());
+                    "unexpected character found " + s + "(" + c + ")", reader.getMark());
         }
         String value = reader.prefixForward(length);
         c = reader.peek();
         if (Constant.NULL_BL_T_LINEBR.hasNo(c, "?:,]}%@`")) {
             final String s = String.valueOf(Character.toChars(c));
             throw new ScannerException("while scanning an " + name, startMark,
-                    "expected alphabetic or numeric character, but found " + s + "("
-                            + c + ")", reader.getMark());
+                    "unexpected character found " + s + "(" + c + ")", reader.getMark());
         }
         Mark endMark = reader.getMark();
         Token tok;
