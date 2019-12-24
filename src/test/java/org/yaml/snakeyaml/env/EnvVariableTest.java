@@ -23,9 +23,10 @@ import org.yaml.snakeyaml.error.MissingEnvironmentVariableException;
 import java.util.Map;
 
 public class EnvVariableTest extends TestCase {
+    // the variables EnvironmentKey1 and EnvironmentEmpty are set by Maven
     private static final String KEY1 = "EnvironmentKey1";
+    private static final String EMPTY = "EnvironmentEmpty";
     private static final String VALUE1 = "EnvironmentValue1";
-    private static final boolean RUN_WITH_MAVEN = VALUE1.equals(System.getenv(KEY1));
 
     private String load(String template) {
         Yaml yaml = new Yaml(new EnvScalarConstructor());
@@ -35,8 +36,8 @@ public class EnvVariableTest extends TestCase {
     }
 
     public void testEnvironmentSet() {
-        assertEquals(VALUE1, System.getenv(KEY1));
-        assertTrue(VALUE1, RUN_WITH_MAVEN);
+        assertEquals("Surefire plugin must set the variable.", VALUE1, System.getenv(KEY1));
+        assertEquals("Surefire plugin must set the variable.", "", System.getenv(EMPTY));
     }
 
     public void testEnvConstructor() {
