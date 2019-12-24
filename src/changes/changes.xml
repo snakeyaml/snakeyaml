@@ -7,6 +7,9 @@
     <body>
         <release version="1.26" date="in Mercurial" description="Maintenance">
             <action dev="asomov" type="fix" issue="468">
+                Parse ENV variables similar to how it works in docker-compose (2019-12-25)
+            </action>
+            <action dev="asomov" type="fix" issue="468">
                 Allow non ASCII characters in the anchor names (2019-12-23)
             </action>
             <action dev="asomov" type="update" issue="462">

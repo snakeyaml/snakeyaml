@@ -1,0 +1,19 @@
+version: '3'
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8.2-management-alpine
+    ports:
+      - "15672:15672"   # Management
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
+      - "25672:25672"
+    environment:
+      URL1: ${EnvironmentKey1}
+      URL2: ${EnvironmentEmpty}
+      URL3: ${EnvironmentEmpty:-server3}
+      URL4: ${EnvironmentEmpty-server4}
+      URL5: ${NonExistent:-server5}
+      URL6: ${NonExistent-server6}
+
