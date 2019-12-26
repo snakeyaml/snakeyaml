@@ -45,8 +45,8 @@ public class EnvFormatTest extends TestCase {
         Matcher matcher = ENV_FORMAT.matcher("${VARIABLE}");
         matcher.matches();
         assertEquals("VARIABLE", matcher.group("name"));
-        assertNull("VARIABLE", matcher.group("value"));
-        assertNull("VARIABLE", matcher.group("separator"));
+        assertNull(matcher.group("value"));
+        assertNull(matcher.group("separator"));
 
         assertFalse(ENV_FORMAT.matcher("${VARI ABLE}").matches());
     }
