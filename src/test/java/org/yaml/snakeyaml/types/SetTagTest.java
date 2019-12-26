@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @see <a href="http://yaml.org/type/set.html"></a>
+ * @see <a href="http://yaml.org/type/set.html">set</a>
  */
 public class SetTagTest extends AbstractTest {
 

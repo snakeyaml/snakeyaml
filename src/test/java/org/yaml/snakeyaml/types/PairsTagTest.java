@@ -21,7 +21,7 @@ import java.util.Map;
 import org.yaml.snakeyaml.YamlDocument;
 
 /**
- * @see <a href="http://yaml.org/type/pairs.html"></a>
+ * @see <a href="http://yaml.org/type/pairs.html">pairs</a>
  */
 public class PairsTagTest extends AbstractTest {
 

@@ -22,8 +22,6 @@ import junit.framework.TestCase;
 
 /**
  * Test Chapter 2.1 from the YAML specification
- *
- * @see <a href="http://yaml.org/spec/1.1/"></a>
  */
 public class Chapter2_1Test extends TestCase {
 

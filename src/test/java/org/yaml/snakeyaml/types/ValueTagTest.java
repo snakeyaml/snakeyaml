@@ -24,7 +24,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlDocument;
 
 /**
- * @see <a href="http://yaml.org/type/value.html"></a>
+ * @see <a href="http://yaml.org/type/value.html">value</a>
  */
 public class ValueTagTest extends AbstractTest {
 

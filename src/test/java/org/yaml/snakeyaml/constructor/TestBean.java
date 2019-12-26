@@ -17,9 +17,6 @@ package org.yaml.snakeyaml.constructor;
 
 import java.util.Date;
 
-/**
- * @author <a href="mailto:ola.bini@ki.se">Ola Bini</a>
- */
 public class TestBean {
     private String name;
     private int age;

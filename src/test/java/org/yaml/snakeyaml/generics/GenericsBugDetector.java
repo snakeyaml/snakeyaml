@@ -20,6 +20,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
 /**
+ * TODO this bug is fixrd in Java 7
  * @see <a href="http://bugs.sun.com/view_bug.do?bug_id=6528714"></a>
  */
 public class GenericsBugDetector {

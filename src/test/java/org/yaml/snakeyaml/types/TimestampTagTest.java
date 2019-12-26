@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 /**
- * @see <a href="http://yaml.org/type/timestamp.html"></a>
+ * @see <a href="http://yaml.org/type/timestamp.html">timestamp</a>
  */
 public class TimestampTagTest extends AbstractTest {
 

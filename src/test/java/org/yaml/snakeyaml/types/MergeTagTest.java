@@ -21,7 +21,7 @@ import java.util.Map;
 import org.yaml.snakeyaml.YamlDocument;
 
 /**
- * @see <a href="http://yaml.org/type/merge.html"></a>
+ * @see <a href="http://yaml.org/type/merge.html">merge</a>
  */
 public class MergeTagTest extends AbstractTest {
 

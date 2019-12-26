@@ -21,8 +21,6 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 /**
  * Test Example 2.27 from the YAML specification
- * 
- * @see <a href="http://yaml.org/spec/1.1/"></a>
  */
 public class Example2_27Test extends TestCase {
 

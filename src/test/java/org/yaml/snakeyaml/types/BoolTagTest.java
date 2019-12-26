@@ -27,7 +27,7 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 /**
- * @see <a href="http://yaml.org/type/bool.html"></a>
+ * @see <a href="http://yaml.org/type/bool.html">bool</a>
  */
 public class BoolTagTest extends AbstractTest {
     public void testBool() {

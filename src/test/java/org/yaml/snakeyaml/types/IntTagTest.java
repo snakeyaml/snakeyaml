@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @see <a href="http://yaml.org/type/int.html"></a>
+ * @see <a href="http://yaml.org/type/int.html">int</a>
  */
 public class IntTagTest extends AbstractTest {
 

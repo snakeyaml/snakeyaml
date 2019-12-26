@@ -32,8 +32,6 @@ import org.yaml.snakeyaml.representer.Representer;
 
 /**
  * Test Example 2.24 from the YAML specification
- * 
- * @see <a href="http://yaml.org/spec/1.1/"></a>
  */
 public class Example2_24Test extends TestCase {
     class MyConstructor extends Constructor {
