@@ -1361,8 +1361,8 @@ public final class ScannerImpl implements Scanner {
      * Scan a %TAG directive's handle. This is YAML's c-tag-handle.
      * 
      * @see <a href="http://www.yaml.org/spec/1.1/#id896876">7.1.2.2. Tag Handles</a>
-     * @param startMark
-     * @return
+     * @param startMark - beginning of the handle
+     * @return scanned handle
      */
     private String scanTagDirectiveHandle(Mark startMark) {
         // See the specification for details.
@@ -2170,7 +2170,7 @@ public final class ScannerImpl implements Scanner {
      * FIXME This method fails for more than 256 bytes' worth of URI-encoded
      * characters in a row. Is this possible? Is this a use-case?
      * 
-     * @see <a href="http://www.ietf.org/rfc/rfc2396.txt"></a>, section 2.4, Escaped Encoding.
+     * @see <a href="http://www.ietf.org/rfc/rfc2396.txt">section 2.4, Escaped Encoding</a>
      */
     private String scanUriEscapes(String name, Mark startMark) {
         // First, look ahead to see how many URI-escaped characters we should
