@@ -10,6 +10,9 @@ snakeyaml.iml
 snakeyaml.ipr
 snakeyaml.iws
 
+# wrapper will be downloaded
+.mvn/wrapper/maven-wrapper.jar
+
 syntax: glob
 
 .DS_Store
