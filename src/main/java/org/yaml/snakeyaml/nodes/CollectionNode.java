@@ -63,6 +63,10 @@ public abstract class CollectionNode<T> extends Node {
         if (flowStyle == null) throw new NullPointerException("Flow style must be provided.");
         this.flowStyle = flowStyle;
     }
+    
+    public void setFlowStyle(Boolean flowStyle) {     
+        setFlowStyle(DumperOptions.FlowStyle.fromBoolean(flowStyle)); 
+    }
 
     public void setEndMark(Mark endMark) {
         this.endMark = endMark;
