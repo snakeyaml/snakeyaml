@@ -63,7 +63,13 @@ public abstract class CollectionNode<T> extends Node {
         if (flowStyle == null) throw new NullPointerException("Flow style must be provided.");
         this.flowStyle = flowStyle;
     }
-    
+
+    /*
+     * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based method.
+     * Restored in v1.26 for backwards compatibility.
+     * @deprecated Since restored in v1.26.  Use {@link CollectionNode#setFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
+     */
+    @Deprecated
     public void setFlowStyle(Boolean flowStyle) {     
         setFlowStyle(DumperOptions.FlowStyle.fromBoolean(flowStyle)); 
     }
