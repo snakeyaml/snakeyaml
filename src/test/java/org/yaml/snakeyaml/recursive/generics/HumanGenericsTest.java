@@ -29,6 +29,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -226,7 +227,10 @@ public class HumanGenericsTest extends TestCase {
         // load
         TypeDescription humanDescription = new TypeDescription(HumanGen2.class);
         humanDescription.putMapPropertyType("children", HumanGen2.class, String.class);
-        Yaml beanLoader = new Yaml(new Constructor(humanDescription));
+        
+        LoaderOptions options = new LoaderOptions();
+        options.setAllowRecursiveKeys(true);
+        Yaml beanLoader = new Yaml(new Constructor(humanDescription, options));
         //
         HumanGen2 son2 = beanLoader.loadAs(output, HumanGen2.class);
         assertNotNull(son2);

@@ -82,7 +82,7 @@ public class Yaml {
      * @param loadingConfig LoadingConfig to control load behavior
      */
     public Yaml(LoaderOptions loadingConfig) {
-        this(new Constructor(), new Representer(), new DumperOptions(), loadingConfig);
+        this(new Constructor(loadingConfig), new Representer(), new DumperOptions(), loadingConfig);
     }
 
     /**
@@ -467,7 +467,7 @@ public class Yaml {
     }
 
     private Object loadFromReader(StreamReader sreader, Class<?> type) {
-        Composer composer = new Composer(new ParserImpl(sreader), resolver);
+        Composer composer = new Composer(new ParserImpl(sreader), resolver, loadingConfig);
         constructor.setComposer(composer);
         return constructor.getSingleData(type);
     }
@@ -481,7 +481,7 @@ public class Yaml {
      * sequence
      */
     public Iterable<Object> loadAll(Reader yaml) {
-        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver);
+        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver, loadingConfig);
         constructor.setComposer(composer);
         Iterator<Object> result = new Iterator<Object>() {
             @Override
@@ -550,7 +550,7 @@ public class Yaml {
      * Overview</a>
      */
     public Node compose(Reader yaml) {
-        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver);
+        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver, loadingConfig);
         return composer.getSingleNode();
     }
 
@@ -563,7 +563,7 @@ public class Yaml {
      * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
      */
     public Iterable<Node> composeAll(Reader yaml) {
-        final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver);
+        final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver, loadingConfig);
         Iterator<Node> result = new Iterator<Node>() {
             @Override
             public boolean hasNext() {

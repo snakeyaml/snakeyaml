@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.Property;
@@ -46,6 +47,10 @@ public class Constructor extends SafeConstructor {
         this(Object.class);
     }
 
+    public Constructor(LoaderOptions loadingConfig) {
+        this(Object.class, loadingConfig);
+    }
+
     /**
      * Create Constructor for the specified class as the root.
      *
@@ -54,6 +59,10 @@ public class Constructor extends SafeConstructor {
      */
     public Constructor(Class<? extends Object> theRoot) {
         this(new TypeDescription(checkRoot(theRoot)));
+    }
+
+    public Constructor(Class<? extends Object> theRoot, LoaderOptions loadingConfig) {
+        this(new TypeDescription(checkRoot(theRoot)), loadingConfig);
     }
 
     /**
@@ -67,10 +76,19 @@ public class Constructor extends SafeConstructor {
     }
 
     public Constructor(TypeDescription theRoot) {
-        this(theRoot, null);
+        this(theRoot, null, new LoaderOptions());
+    }
+
+    public Constructor(TypeDescription theRoot, LoaderOptions loadingConfig) {
+        this(theRoot, null, loadingConfig);
     }
 
     public Constructor(TypeDescription theRoot, Collection<TypeDescription> moreTDs) {
+    	this(theRoot, moreTDs, new LoaderOptions());
+    }
+
+    public Constructor(TypeDescription theRoot, Collection<TypeDescription> moreTDs, LoaderOptions loadingConfig) {
+    	super(loadingConfig);
         if (theRoot == null) {
             throw new NullPointerException("Root type must be provided.");
         }
@@ -100,6 +118,10 @@ public class Constructor extends SafeConstructor {
      */
     public Constructor(String theRoot) throws ClassNotFoundException {
         this(Class.forName(check(theRoot)));
+    }
+
+    public Constructor(String theRoot, LoaderOptions loadingConfig) throws ClassNotFoundException {
+        this(Class.forName(check(theRoot)), loadingConfig);
     }
 
     private static final String check(String s) {

@@ -22,7 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.error.Mark;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.MappingStartEvent;
@@ -51,12 +53,19 @@ public class Composer {
     private final Resolver resolver;
     private final Map<String, Node> anchors;
     private final Set<Node> recursiveNodes;
+    private int nonScalarAliasesCount = 0;
+    private final LoaderOptions loadingConfig;
 
     public Composer(Parser parser, Resolver resolver) {
+        this(parser, resolver, new LoaderOptions());
+    }
+
+    public Composer(Parser parser, Resolver resolver, LoaderOptions loadingConfig) {
         this.parser = parser;
         this.resolver = resolver;
         this.anchors = new HashMap<String, Node>();
         this.recursiveNodes = new HashSet<Node>();
+        this.loadingConfig = loadingConfig;
     }
 
     /**
@@ -132,6 +141,12 @@ public class Composer {
                         event.getStartMark());
             }
             node = anchors.get(anchor);
+            if (!(node instanceof ScalarNode)) {
+                this.nonScalarAliasesCount++;
+                if (this.nonScalarAliasesCount > loadingConfig.getMaxAliasesForCollections()) {
+                    throw new YAMLException("Number of aliases for non-scalar nodes exceeds the specified max=" + loadingConfig.getMaxAliasesForCollections());
+                }
+            }
             if (recursiveNodes.remove(node)) {
                 node.setTwoStepsConstruction(true);
             }

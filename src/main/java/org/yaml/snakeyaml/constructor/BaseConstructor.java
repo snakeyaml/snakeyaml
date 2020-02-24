@@ -15,6 +15,7 @@
  */
 package org.yaml.snakeyaml.constructor;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.composer.ComposerException;
@@ -84,7 +85,13 @@ public abstract class BaseConstructor {
     protected final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
     protected final Map<Tag, Class<? extends Object>> typeTags;
 
+    protected LoaderOptions loadingConfig;
+
     public BaseConstructor() {
+        this(new LoaderOptions());
+    }
+
+    public BaseConstructor(LoaderOptions loadingConfig) {
         constructedObjects = new HashMap<Node, Object>();
         recursiveObjects = new HashSet<Node>();
         maps2fill = new ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>>();
@@ -99,6 +106,7 @@ public abstract class BaseConstructor {
                 TreeMap.class));
         typeDefinitions.put(SortedSet.class, new TypeDescription(SortedSet.class, Tag.SET,
                 TreeSet.class));
+        this.loadingConfig = loadingConfig;
     }
 
     public void setComposer(Composer composer) {
@@ -470,7 +478,11 @@ public abstract class BaseConstructor {
             }
             Object value = constructObject(valueNode);
             if (keyNode.isTwoStepsConstruction()) {
-                postponeMapFilling(mapping, key, value);
+                if (loadingConfig.getAllowRecursiveKeys()) {
+                    postponeMapFilling(mapping, key, value);
+                } else {
+                    throw new YAMLException("Recursive key for mapping is detected but it is not configured to be allowed.");
+                }
             } else {
                 mapping.put(key, value);
             }

@@ -16,42 +16,29 @@
 package org.yaml.snakeyaml.issues.issue377;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 import java.util.HashMap;
-import java.util.Map;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class ReferencesTest {
 
     /**
-     * https://en.wikipedia.org/wiki/Billion_laughs_attack#Variations
+     * Create data which is difficult to parse.
+     *
+     * @param size - size of the map, defines the complexity
+     * @return YAML to parse
      */
-    @Test
-    public void billionLaughsAttack() {
-        String data = "a: &a [\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\"]\n" +
-                "b: &b [*a,*a,*a,*a,*a,*a,*a,*a,*a]\n" +
-                "c: &c [*b,*b,*b,*b,*b,*b,*b,*b,*b]\n" +
-                "d: &d [*c,*c,*c,*c,*c,*c,*c,*c,*c]\n" +
-                "e: &e [*d,*d,*d,*d,*d,*d,*d,*d,*d]\n" +
-                "f: &f [*e,*e,*e,*e,*e,*e,*e,*e,*e]\n" +
-                "g: &g [*f,*f,*f,*f,*f,*f,*f,*f,*f]\n" +
-                "h: &h [*g,*g,*g,*g,*g,*g,*g,*g,*g]\n" +
-                "i: &i [*h,*h,*h,*h,*h,*h,*h,*h,*h]";
-        Yaml yaml = new Yaml();
-        Map map = yaml.load(data);
-        assertNotNull(map);
-    }
-
-    @Test
-    public void referencesAttack() {
+    private String createDump(int size) {
         HashMap root = new HashMap();
         HashMap s1, s2, t1, t2;
         s1 = root;
         s2 = new HashMap();
-        long time1 = System.currentTimeMillis();
         /*
         the time to parse grows very quickly
         SIZE -> time to parse in seconds
@@ -66,8 +53,7 @@ public class ReferencesTest {
         33 -> 245
         34 -> 500
          */
-        int SIZE = 25;
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < size; i++) {
 
             t1 = new HashMap();
             t2 = new HashMap();
@@ -83,20 +69,73 @@ public class ReferencesTest {
             s2 = t2;
         }
 
-        //FIXME
         // this is VERY BAD code
-        // the map has itself as a key (no idea why it may be used)
+        // the map has itself as a key (no idea why it may be used except of a DoS attack)
         HashMap f = new HashMap();
         f.put(f, "a");
         f.put("g", root);
 
         Yaml yaml = new Yaml(new SafeConstructor());
         String output = yaml.dump(f);
-        //System.out.println(output);
-
-        // Load
-        yaml.load(output);
-        long time2 = System.currentTimeMillis();
-        System.out.println("Time was " + ((time2 - time1) / 1000) + " seconds.");
+        return output;
     }
+
+    @Test
+    public void referencesWithRecursiveKeysNotAllowedByDefault() {
+        String output = createDump(30);
+        //System.out.println(output);
+        long time1 = System.currentTimeMillis();
+        // Load
+        LoaderOptions settings = new LoaderOptions();
+        settings.setMaxAliasesForCollections(150);
+        Yaml yaml = new Yaml(settings);
+        try {
+            yaml.load(output);
+            fail();
+        } catch (Exception e) {
+            assertEquals("Recursive key for mapping is detected but it is not configured to be allowed.", e.getMessage());
+        }
+        long time2 = System.currentTimeMillis();
+        float duration = (time2 - time1) / 1000;
+        assertTrue("It should fail quickly. Time was " + duration + " seconds.", duration < 1.0);
+    }
+
+    @Test
+    public void parseManyAliasesForCollections() {
+        String output = createDump(25);
+        // Load
+        // long time1 = System.currentTimeMillis();
+        LoaderOptions settings = new LoaderOptions();
+        settings.setMaxAliasesForCollections(50);
+        settings.setAllowRecursiveKeys(true);
+        Yaml yaml = new Yaml(settings);
+        yaml.load(output);
+        // Disabling this as it runs slower than 0.9 on my machine
+        // long time2 = System.currentTimeMillis();
+        // double duration = (time2 - time1) / 1000.0;
+        // assertTrue("It should take time. Time was " + duration + " seconds.", duration > 0.9);
+        // assertTrue("Time was " + duration + " seconds.", duration < 5.0);
+    }
+
+    @Test
+    public void referencesWithRestrictedAliases() {
+        // without alias restriction this size should occupy tons of CPU, memory and time to parse
+        String bigYAML = createDump(35);
+        // Load
+        long time1 = System.currentTimeMillis();
+        LoaderOptions settings = new LoaderOptions();
+        settings.setMaxAliasesForCollections(40);
+        settings.setAllowRecursiveKeys(true);
+        Yaml yaml = new Yaml(settings);
+        try {
+            yaml.load(bigYAML);
+            fail();
+        } catch (Exception e) {
+            assertEquals("Number of aliases for non-scalar nodes exceeds the specified max=40", e.getMessage());
+        }
+        long time2 = System.currentTimeMillis();
+        float duration = (time2 - time1) / 1000;
+        assertTrue("It should fail quickly. Time was " + duration + " seconds.", duration < 1.0);
+    }
+
 }
