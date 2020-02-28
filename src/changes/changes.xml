@@ -5,7 +5,7 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.26" date="in Mercurial" description="Maintenance">
+        <release version="1.26" date="2020-02-28" description="Maintenance">
             <action dev="asomov" type="fix" issue="377">
                 Allow configuration for preventing billion laughs attack (2020-02-24)
             </action>
