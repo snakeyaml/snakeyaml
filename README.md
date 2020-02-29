@@ -19,7 +19,7 @@ For YAML 1.2 (which is a superset of JSON) you may have a look at [SnakeYAML Eng
  * [Documentation](https://bitbucket.org/asomov/snakeyaml/wiki/Documentation)
 
 ## Contribute ##
-* Mercurial DVCS is used to dance with the [source code](https://bitbucket.org/asomov/snakeyaml/src).
+* GIT [is now used](https://bitbucket.org/asomov/snakeyaml/wiki/Migration%20to%20Git) to dance with the [source code](https://bitbucket.org/asomov/snakeyaml/src).
 * If you find a bug in SnakeYAML, please [file a bug report](https://bitbucket.org/asomov/snakeyaml/issues?status=new&status=open).
 * You may discuss SnakeYAML at
 [the mailing list](http://groups.google.com/group/snakeyaml-core).
