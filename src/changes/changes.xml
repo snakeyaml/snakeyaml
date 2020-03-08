@@ -7,6 +7,11 @@
     <body>
         <release version="1.27" date="in GIT" description="Maintenance">
             <action dev="asomov" type="update">
+                Fix yet another OWASP false positive. It complains that the Spring controller makes SnakeYAML insecure
+                even though SnakeYAML does not use Spring controller and does not depend on Spring (but the tests do).
+                Bump spring.version from 3.2.17.RELEASE to 5.2.4.RELEASE (2020-03-08)
+            </action>
+            <action dev="asomov" type="update">
                 Migrated to GIT (2020-02-29)
             </action>
         </release>
