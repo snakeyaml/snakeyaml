@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.27" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="add">
+                Add test for different Line Break Characters in the error message (2020-03-09)
+            </action>
             <action dev="asomov" type="update">
                 Fix yet another OWASP false positive. It complains that the Spring controller makes SnakeYAML insecure
                 even though SnakeYAML does not use Spring controller and does not depend on Spring (but the tests do).
