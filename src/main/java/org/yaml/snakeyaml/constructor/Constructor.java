@@ -477,7 +477,7 @@ public class Constructor extends SafeConstructor {
                 Construct intConstructor = yamlConstructors.get(Tag.INT);
                 result = intConstructor.construct(node);
                 if (type == Byte.class || type == Byte.TYPE) {
-                    result = Byte.valueOf(result.toString());
+                    result = Integer.valueOf(result.toString()).byteValue();
                 } else if (type == Short.class || type == Short.TYPE) {
                     result = Short.valueOf(result.toString());
                 } else if (type == Integer.class || type == Integer.TYPE) {
