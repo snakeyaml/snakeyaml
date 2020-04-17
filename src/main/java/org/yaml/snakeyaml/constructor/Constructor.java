@@ -479,7 +479,7 @@ public class Constructor extends SafeConstructor {
                 if (type == Byte.class || type == Byte.TYPE) {
                     result = Integer.valueOf(result.toString()).byteValue();
                 } else if (type == Short.class || type == Short.TYPE) {
-                    result = Short.valueOf(result.toString());
+                    result = Integer.valueOf(result.toString()).shortValue();
                 } else if (type == Integer.class || type == Integer.TYPE) {
                     result = Integer.parseInt(result.toString());
                 } else if (type == Long.class || type == Long.TYPE) {
