@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.27" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="update" issue="476">
+                Make constructor of EnvScalarConstructor public (2020-04-24)
+            </action>
             <action dev="asomov" type="fix" issue="474">
                 Parse the value of byte and short after a narrowing primitive conversion (2020-04-16)
             </action>

@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * @see <a href="https://bitbucket.org/asomov/snakeyaml/wiki/Variable%20substitution">Variable substitution</a>
  * @see <a href="https://docs.docker.com/compose/compose-file/#variable-substitution">Variable substitution</a>
  */
-class EnvScalarConstructor extends Constructor {
+public class EnvScalarConstructor extends Constructor {
     public static final Tag ENV_TAG = new Tag("!ENV");
     public static final Pattern ENV_FORMAT = Pattern.compile("^\\$\\{\\s*((?<name>\\w+)((?<separator>:?(-|\\?))(?<value>\\w+)?)?)\\s*\\}$");
 
