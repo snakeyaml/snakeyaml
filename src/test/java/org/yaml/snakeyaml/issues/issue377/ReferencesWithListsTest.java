@@ -31,7 +31,9 @@ public class ReferencesWithListsTest {
                 "a:\n" +
                         "  b: &test\n" +
                         "  - *test";
-        Yaml yaml = new Yaml();
+        LoaderOptions settings = new LoaderOptions();
+        settings.setAllowRecursiveKeys(true);
+        Yaml yaml = new Yaml(settings);
         //System.out.println(output);
         Map<String, Object> parsed = yaml.load(output);
         assertNotNull(output, parsed);
@@ -47,14 +49,16 @@ public class ReferencesWithListsTest {
         LoaderOptions settings = new LoaderOptions();
         settings.setAllowRecursiveKeys(false);
         Yaml yaml = new Yaml(settings);
-        System.out.println(output);
-
-        try {
-            yaml.load(output);
-            fail("Should not have been reached, expected an exception.");
-        } catch (Exception e) {
-            assertEquals("Recursive key for mapping is detected but it is not configured to be allowed.", e.getMessage());
-        }
+        //System.out.println(output);
+        Map<String, Object> parsed = yaml.load(output);
+        assertNotNull(output, parsed);
+        assertFalse(output, parsed.isEmpty());
+//        try {
+//            yaml.load(output);
+//            fail("Should not have been reached, expected an exception because recursive keys are not allowed.");
+//        } catch (Exception e) {
+//            assertEquals("Recursive key for mapping is detected but it is not configured to be allowed.", e.getMessage());
+//        }
     }
 
 
