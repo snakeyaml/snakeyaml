@@ -20,7 +20,7 @@ public class LoaderOptions {
     private boolean allowDuplicateKeys = true;
     private boolean wrappedToRootException = false;
     private int maxAliasesForCollections = 50; //to prevent YAML at https://en.wikipedia.org/wiki/Billion_laughs_attack
-    private boolean allowRecursiveKeys;
+    private boolean allowRecursiveKeys = false;
 
     public boolean isAllowDuplicateKeys() {
         return allowDuplicateKeys;
@@ -68,6 +68,12 @@ public class LoaderOptions {
     	this.maxAliasesForCollections = maxAliasesForCollections;
     }
 
+    /**
+     * Allow recursive keys for mappings. By default it is not allowed.
+     * This setting only prevents the case when the key is the value. If the key is only a part of the value
+     * (the value is a sequence or a mapping) then this case is not recognised and always allowed.
+     * @param allowRecursiveKeys - false to disable recursive keys
+     */
     public void setAllowRecursiveKeys(boolean allowRecursiveKeys) {
     	this.allowRecursiveKeys = allowRecursiveKeys;
     }
