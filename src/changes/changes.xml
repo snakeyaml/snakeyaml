@@ -6,6 +6,10 @@
     </properties>
     <body>
         <release version="1.27" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="update" issue="remove">
+                Remove Spring related tests because they are outdated and upgrading to Spring 5
+                makes the tests fail under JDK 7 (2020-05-02)
+            </action>
             <action dev="asomov" type="update" issue="476">
                 Make constructor of EnvScalarConstructor public (2020-04-24)
             </action>
