@@ -19,40 +19,57 @@ import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
+import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+/**
+ * Recursive keys setting has no influence on sequences
+ */
 public class ReferencesWithListsTest {
 
     @Test
     public void referencesWithRecursiveKeysInListAllowedByDefault() {
         String output =
-                "a:\n" +
-                        "  b: &test\n" +
-                        "  - *test";
+                        "a: &test\n" +
+                        "- *test";
         LoaderOptions settings = new LoaderOptions();
         settings.setAllowRecursiveKeys(true);
         Yaml yaml = new Yaml(settings);
         //System.out.println(output);
         Map<String, Object> parsed = yaml.load(output);
         assertNotNull(output, parsed);
-        assertFalse(output, parsed.isEmpty());
+        assertEquals(1, parsed.size());
+    }
+
+    @Test
+    public void referencesWithRecursiveSequences() {
+        String output =
+                "&test\n" +
+                        "- *test";
+        LoaderOptions settings = new LoaderOptions();
+        settings.setAllowRecursiveKeys(true);
+        Yaml yaml = new Yaml(settings);
+        System.out.println(output);
+        List<Object> parsed = yaml.load(output);
+        assertNotNull(output, parsed);
+        assertEquals(1, parsed.size());
     }
 
     @Test
     public void referencesWithRecursiveKeysInList() {
         String output =
-                "a:\n" +
-                        "  b: &test\n" +
-                        "  - *test";
+                "a: &test\n" +
+                        "- *test";
         LoaderOptions settings = new LoaderOptions();
         settings.setAllowRecursiveKeys(false);
         Yaml yaml = new Yaml(settings);
         //System.out.println(output);
         Map<String, Object> parsed = yaml.load(output);
         assertNotNull(output, parsed);
-        assertFalse(output, parsed.isEmpty());
+        assertEquals(1, parsed.size());
 //        try {
 //            yaml.load(output);
 //            fail("Should not have been reached, expected an exception because recursive keys are not allowed.");
