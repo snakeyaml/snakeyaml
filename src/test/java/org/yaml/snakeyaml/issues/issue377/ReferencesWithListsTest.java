@@ -77,6 +77,4 @@ public class ReferencesWithListsTest {
 //            assertEquals("Recursive key for mapping is detected but it is not configured to be allowed.", e.getMessage());
 //        }
     }
-
-
 }
