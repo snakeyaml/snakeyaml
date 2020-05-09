@@ -24,13 +24,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class PropertyOrderTest extends TestCase {
+    Set<Property> reverse = new TreeSet<>();
 
     public void testParseBytes() {
         Yaml y = new Yaml(new org.yaml.snakeyaml.representer.Representer() {
             @Override
             protected Set<Property> getProperties(Class<? extends Object> type) {
                 System.out.println("getProperties: reverse order");
-                Set<Property> reverse = new TreeSet<>();
                 Iterator<Property> itr = ((TreeSet) super.getProperties(type)).descendingIterator();
                 while (itr.hasNext()) {
                     Property a = itr.next();
@@ -43,7 +43,8 @@ public class PropertyOrderTest extends TestCase {
         String v = "x: 1\ny: 2\nz: 3\n";
         Location location = y.loadAs(v, Location.class);
 
-        String output = y.dumpAsMap(location);//FIXME the order must be reversed
+        String output = y.dumpAsMap(location);
+        assertEquals("x", reverse.iterator().next().getName());
         assertEquals(v, output);
     }
 }
