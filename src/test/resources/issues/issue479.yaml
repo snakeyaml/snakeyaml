@@ -1,0 +1,29 @@
+.default: &default
+  test1: 1
+  mysql: &mysql_default
+    db_host: mysql.avatar2.test
+    db_port: 3306
+    db_user: &mysql_default_user default
+    db_password: &mysql_default_password secret
+  redis: &redis_default
+    cluster:
+      node:
+        - host: rediscluster.avatar2.test
+          port: 7000
+        - host: rediscluster.avatar2.test
+          port: 7001
+        - host: rediscluster.avatar2.test
+          port: 7002
+        - host: rediscluster.avatar2.test
+          port: 7003
+        - host: rediscluster.avatar2.test
+          port: 7004
+        - host: rediscluster.avatar2.test
+          port: 7005
+
+system:
+  erp:
+    <<: *default
+    test1: 2
+    mysql:
+      db_name: erp
