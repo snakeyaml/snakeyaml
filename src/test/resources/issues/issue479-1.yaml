@@ -18,4 +18,5 @@ system:
     <<: *default
     test1: 2
     mysql:
+      <<: *mysql_default
       db_name: erp

@@ -1,0 +1,13 @@
+.default:
+  test1: 1
+  mysql: {db_host: mysql.avatar2.test, db_port: 3306, db_user: default, db_password: secret}
+  redis: &id001
+    cluster:
+      node:
+      - {host: rediscluster.avatar2.test, port: 7000}
+      - {host: rediscluster.avatar2.test, port: 7001}
+system:
+  erp:
+    test1: 2
+    mysql: {db_name: erp}
+    redis: *id001
