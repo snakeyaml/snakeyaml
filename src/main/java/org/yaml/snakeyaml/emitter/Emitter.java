@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.emitter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.yaml.snakeyaml.DumperOptions;
@@ -60,12 +62,23 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * </pre>
  */
 public final class Emitter implements Emitable {
-    private static final Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
     public static final int MIN_INDENT = 1;
     public static final int MAX_INDENT = 10;
-
     private static final char[] SPACE = { ' ' };
 
+    private static final Pattern SPACES_PATTERN = Pattern.compile("\\s");
+    private static final Set<Character> INVALID_ANCHOR = new HashSet();
+    static {
+        INVALID_ANCHOR.add('[');
+        INVALID_ANCHOR.add(']');
+        INVALID_ANCHOR.add('{');
+        INVALID_ANCHOR.add('}');
+        INVALID_ANCHOR.add(',');
+        INVALID_ANCHOR.add('*');
+        INVALID_ANCHOR.add('&');
+    }
+
+    private static final Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
     static {
         ESCAPE_REPLACEMENTS.put('\0', "0");
         ESCAPE_REPLACEMENTS.put('\u0007', "a");
@@ -891,14 +904,18 @@ public final class Emitter implements Emitable {
         return "!<" + suffixText + ">";
     }
 
-    private final static Pattern ANCHOR_FORMAT = Pattern.compile("^[-_\\w]*$");
-
     static String prepareAnchor(String anchor) {
         if (anchor.length() == 0) {
             throw new EmitterException("anchor must not be empty");
         }
-        if (!ANCHOR_FORMAT.matcher(anchor).matches()) {
-            throw new EmitterException("invalid character in the anchor: " + anchor);
+        for (Character invalid : INVALID_ANCHOR) {
+            if (anchor.indexOf(invalid) > -1) {
+                throw new EmitterException("Invalid character '"+invalid+"' in the anchor: " + anchor);
+            }
+        }
+        Matcher matcher = SPACES_PATTERN.matcher(anchor);
+        if (matcher.find()) {
+            throw new EmitterException("Anchor may not contain spaces: " + anchor);
         }
         return anchor;
     }

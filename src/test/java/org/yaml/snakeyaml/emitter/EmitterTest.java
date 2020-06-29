@@ -260,4 +260,26 @@ public class EmitterTest extends TestCase {
         output = yaml.dump(nonSplitMap);
         assertEquals("{\"1\": \"2\", \"3\": \"4\"}\n", output);
     }
+
+    public void testAnchors() {
+        assertEquals("a", Emitter.prepareAnchor("a"));
+        assertEquals("Anchor may not contain spaces: a ", checkAnchor("a "));
+        assertEquals("Anchor may not contain spaces: a \t", checkAnchor("a \t"));
+        assertEquals("Invalid character '[' in the anchor: a[", checkAnchor("a["));
+        assertEquals("Invalid character ']' in the anchor: a]", checkAnchor("a]"));
+        assertEquals("Invalid character '{' in the anchor: {a", checkAnchor("{a"));
+        assertEquals("Invalid character '}' in the anchor: }a", checkAnchor("}a"));
+        assertEquals("Invalid character ',' in the anchor: a,b", checkAnchor("a,b"));
+        assertEquals("Invalid character '*' in the anchor: a*b", checkAnchor("a*b"));
+        assertEquals("Invalid character '&' in the anchor: a&b", checkAnchor("a&b"));
+    }
+
+    private String checkAnchor(String anchor) {
+        try {
+            Emitter.prepareAnchor(anchor);
+            throw new IllegalStateException("Invalid must not be accepted");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }
