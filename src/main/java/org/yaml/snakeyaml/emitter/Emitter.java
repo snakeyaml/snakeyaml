@@ -15,20 +15,6 @@
  */
 package org.yaml.snakeyaml.emitter;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -51,6 +37,20 @@ import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Constant;
 import org.yaml.snakeyaml.util.ArrayStack;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * <pre>
  * Emitter expects events obeying the following grammar:
@@ -64,7 +64,7 @@ import org.yaml.snakeyaml.util.ArrayStack;
 public final class Emitter implements Emitable {
     public static final int MIN_INDENT = 1;
     public static final int MAX_INDENT = 10;
-    private static final char[] SPACE = { ' ' };
+    private static final char[] SPACE = {' '};
 
     private static final Pattern SPACES_PATTERN = Pattern.compile("\\s");
     private static final Set<Character> INVALID_ANCHOR = new HashSet();
@@ -142,17 +142,17 @@ public final class Emitter implements Emitable {
     private boolean openEnded;
 
     // Formatting details.
-    private Boolean canonical;
+    private final Boolean canonical;
     // pretty print flow by adding extra line breaks
-    private Boolean prettyFlow;
+    private final Boolean prettyFlow;
 
-    private boolean allowUnicode;
+    private final boolean allowUnicode;
     private int bestIndent;
-    private int indicatorIndent;
+    private final int indicatorIndent;
     private int bestWidth;
-    private char[] bestLineBreak;
-    private boolean splitLines;
-    private int maxSimpleKeyLength;
+    private final char[] bestLineBreak;
+    private final boolean splitLines;
+    private final int maxSimpleKeyLength;
 
     // Tag prefixes.
     private Map<String, String> tagPrefixes;
@@ -316,7 +316,7 @@ public final class Emitter implements Emitable {
     }
 
     private class ExpectDocumentStart implements EmitterState {
-        private boolean first;
+        private final boolean first;
 
         public ExpectDocumentStart(boolean first) {
             this.first = first;
@@ -595,7 +595,7 @@ public final class Emitter implements Emitable {
     }
 
     private class ExpectBlockSequenceItem implements EmitterState {
-        private boolean first;
+        private final boolean first;
 
         public ExpectBlockSequenceItem(boolean first) {
             this.first = first;
@@ -628,7 +628,7 @@ public final class Emitter implements Emitable {
     }
 
     private class ExpectBlockMappingKey implements EmitterState {
-        private boolean first;
+        private final boolean first;
 
         public ExpectBlockMappingKey(boolean first) {
             this.first = first;
@@ -814,20 +814,20 @@ public final class Emitter implements Emitable {
             writePlain(analysis.getScalar(), split);
         } else {
             switch (style) {
-            case DOUBLE_QUOTED:
-                writeDoubleQuoted(analysis.getScalar(), split);
-                break;
+                case DOUBLE_QUOTED:
+                    writeDoubleQuoted(analysis.getScalar(), split);
+                    break;
                 case SINGLE_QUOTED:
-                writeSingleQuoted(analysis.getScalar(), split);
-                break;
+                    writeSingleQuoted(analysis.getScalar(), split);
+                    break;
                 case FOLDED:
-                writeFolded(analysis.getScalar(), split);
-                break;
+                    writeFolded(analysis.getScalar(), split);
+                    break;
                 case LITERAL:
-                writeLiteral(analysis.getScalar());
-                break;
-            default:
-                throw new YAMLException("Unexpected style: " + style);
+                    writeLiteral(analysis.getScalar());
+                    break;
+                default:
+                    throw new YAMLException("Unexpected style: " + style);
             }
         }
         analysis = null;
@@ -870,7 +870,7 @@ public final class Emitter implements Emitable {
             end++;
         }
         if (start < end) {
-            chunks.append(prefix.substring(start, end));
+            chunks.append(prefix, start, end);
         }
         return chunks.toString();
     }
@@ -910,7 +910,7 @@ public final class Emitter implements Emitable {
         }
         for (Character invalid : INVALID_ANCHOR) {
             if (anchor.indexOf(invalid) > -1) {
-                throw new EmitterException("Invalid character '"+invalid+"' in the anchor: " + anchor);
+                throw new EmitterException("Invalid character '" + invalid + "' in the anchor: " + anchor);
             }
         }
         Matcher matcher = SPACES_PATTERN.matcher(anchor);
@@ -960,7 +960,7 @@ public final class Emitter implements Emitable {
             // Check for indicators.
             if (index == 0) {
                 // Leading indicators are special characters.
-                if ("#,[]{}&*!|>\'\"%@`".indexOf(c) != -1) {
+                if ("#,[]{}&*!|>'\"%@`".indexOf(c) != -1) {
                     flowIndicators = true;
                     blockIndicators = true;
                 }
@@ -997,8 +997,8 @@ public final class Emitter implements Emitable {
             }
             if (!(c == '\n' || (0x20 <= c && c <= 0x7E))) {
                 if (c == 0x85 || (c >= 0xA0 && c <= 0xD7FF)
-                || (c >= 0xE000 && c <= 0xFFFD)
-                || (c >= 0x10000 && c <= 0x10FFFF)) {
+                        || (c >= 0xE000 && c <= 0xFFFD)
+                        || (c >= 0x10000 && c <= 0x10FFFF)) {
                     // unicode is used
                     if (!this.allowUnicode) {
                         specialCharacters = true;
@@ -1104,7 +1104,7 @@ public final class Emitter implements Emitable {
     }
 
     void writeIndicator(String indicator, boolean needWhitespace, boolean whitespace,
-            boolean indentation) throws IOException {
+                        boolean indentation) throws IOException {
         if (!this.whitespace && needWhitespace) {
             this.column++;
             stream.write(SPACE);
@@ -1212,7 +1212,7 @@ public final class Emitter implements Emitable {
                     start = end;
                 }
             } else {
-                if (Constant.LINEBR.has(ch, "\0 \'")) {
+                if (Constant.LINEBR.has(ch, "\0 '")) {
                     if (start < end) {
                         int len = end - start;
                         this.column += len;
