@@ -18,15 +18,29 @@ package org.yaml.snakeyaml.issues.issue480;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.emitter.EmitterException;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.serializer.AnchorGenerator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AnchorUnicodeTest extends TestCase {
+    private static final Set<Character> INVALID_ANCHOR = new HashSet();
 
-    public void testAnchor() {
+    static {
+        INVALID_ANCHOR.add('[');
+        INVALID_ANCHOR.add(']');
+        INVALID_ANCHOR.add('{');
+        INVALID_ANCHOR.add('}');
+        INVALID_ANCHOR.add(',');
+        INVALID_ANCHOR.add('*');
+        INVALID_ANCHOR.add('&');
+    }
+
+    public void testUnicodeAnchor() {
         DumperOptions options = new DumperOptions();
         options.setAnchorGenerator(new AnchorGenerator() {
             int id = 0;
@@ -46,6 +60,35 @@ public class AnchorUnicodeTest extends TestCase {
         toExport.add(list);
         toExport.add(list);
 
-        yaml.dump(toExport);
+        String output = yaml.dump(toExport);
+        assertEquals("- &タスク0 [abc]\n- *タスク0\n", output);
+    }
+
+    public void testInvalidAnchor() {
+        for (Character ch : INVALID_ANCHOR) {
+            Yaml yaml = new Yaml(createSettings(ch));
+            List<String> list = new ArrayList<>();
+            list.add("abc");
+            List<List<String>> toExport = new ArrayList<>();
+            toExport.add(list);
+            toExport.add(list);
+            try {
+                yaml.dump(toExport);
+                fail();
+            } catch (EmitterException e) {
+                assertTrue(e.getMessage().startsWith("Invalid character"));
+            }
+        }
+    }
+
+    private DumperOptions createSettings(final Character invalid) {
+        DumperOptions options = new DumperOptions();
+        options.setAnchorGenerator(new AnchorGenerator() {
+            @Override
+            public String nextAnchor(Node node) {
+                return "anchor" + invalid;
+            }
+        });
+        return options;
     }
 }
