@@ -49,7 +49,7 @@ public class LiteralWithTrailingSpacesTest extends TestCase {
         Yaml yaml = new Yaml(options);
         String inCorrect = "this is some text with \"quotes\" and \nline breaks";
         String inCorrectYaml = yaml.dump(inCorrect);
-        System.out.println(inCorrectYaml);
+        //System.out.println(inCorrectYaml);
         assertEquals("\"this is some text with \\\"quotes\\\" and \\nline breaks\"\n", inCorrectYaml);
         //TODO assertTrue(inCorrectYaml.contains("|"));
     }

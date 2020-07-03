@@ -30,7 +30,7 @@ public class PropertyOrderTest extends TestCase {
         Yaml y = new Yaml(new org.yaml.snakeyaml.representer.Representer() {
             @Override
             protected Set<Property> getProperties(Class<? extends Object> type) {
-                System.out.println("getProperties: reverse order");
+                //System.out.println("getProperties: reverse order");
                 Iterator<Property> itr = ((TreeSet) super.getProperties(type)).descendingIterator();
                 while (itr.hasNext()) {
                     Property a = itr.next();

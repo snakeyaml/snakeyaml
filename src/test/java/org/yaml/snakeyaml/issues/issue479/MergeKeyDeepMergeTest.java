@@ -47,7 +47,7 @@ public class MergeKeyDeepMergeTest extends TestCase {
         InputStream inputStream = MergeKeyDeepMergeTest.class.getResourceAsStream("/issues/issue479.yaml");
         Object property = yaml.load(inputStream);
         String output = yaml.dump(property);
-        System.out.println(output);
+        //System.out.println(output);
         String expected = Util.getLocalResource("issues/issue479-output.yaml");
         assertEquals(expected, output);
     }
@@ -61,7 +61,7 @@ public class MergeKeyDeepMergeTest extends TestCase {
         InputStream inputStream = MergeKeyDeepMergeTest.class.getResourceAsStream("/issues/issue479-1.yaml");
         DemoProperty property = yaml.load(inputStream);
         String output = yaml.dump(property);
-        System.out.println(output);
+        //System.out.println(output);
 
         String v = "!!org.yaml.snakeyaml.issues.issue479.DemoProperty\n" +
                 "system:\n" +

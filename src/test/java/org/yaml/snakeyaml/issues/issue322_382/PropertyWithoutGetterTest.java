@@ -83,7 +83,7 @@ public class PropertyWithoutGetterTest {
 
         public void setCountryCodes(List<String> countryCodes) {
             for (Object countryCode : countryCodes) {
-                System.out.println(countryCode.getClass().getName());
+                //System.out.println(countryCode.getClass().getName());
             }
             this.countryCodes = countryCodes;
         }
@@ -103,7 +103,7 @@ public class PropertyWithoutGetterTest {
 
         public void setCountryCodes(List<String> countryCodes) {
             for (Object countryCode : countryCodes) {
-                System.out.println(countryCode.getClass().getName());
+                //System.out.println(countryCode.getClass().getName());
             }
             this.countryCodes = countryCodes;
         }

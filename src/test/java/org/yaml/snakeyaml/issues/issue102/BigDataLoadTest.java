@@ -69,7 +69,7 @@ public class BigDataLoadTest extends TestCase {
             }
         }
         String data = builder.toString();
-        System.out.println("Long data size: " + data.length() / 1024 + " kBytes.");
+        //System.out.println("Long data size: " + data.length() / 1024 + " kBytes.");
         return data;
     }
 }

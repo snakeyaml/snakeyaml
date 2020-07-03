@@ -52,7 +52,7 @@ public class ReferencesWithListsTest {
         LoaderOptions settings = new LoaderOptions();
         settings.setAllowRecursiveKeys(true);
         Yaml yaml = new Yaml(settings);
-        System.out.println(output);
+        //System.out.println(output);
         List<Object> parsed = yaml.load(output);
         assertNotNull(output, parsed);
         assertEquals(1, parsed.size());
