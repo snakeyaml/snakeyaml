@@ -17,11 +17,9 @@ package org.yaml.snakeyaml.issues.issue67;
 
 import junit.framework.TestCase;
 
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
-import org.yaml.snakeyaml.scanner.ScannerException;
 
 public class NonAsciiCharsInClassNameTest extends TestCase {
     private String PREFIX = "!!org.yaml.snakeyaml.issues.issue67.NonAsciiCharsInClassNameTest$";

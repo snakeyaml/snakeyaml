@@ -15,7 +15,6 @@
  */
 package org.yaml.snakeyaml.issues.issue61;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

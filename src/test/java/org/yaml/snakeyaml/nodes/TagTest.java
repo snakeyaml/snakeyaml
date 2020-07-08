@@ -15,9 +15,6 @@
  */
 package org.yaml.snakeyaml.nodes;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import junit.framework.TestCase;
 
 public class TagTest extends TestCase {

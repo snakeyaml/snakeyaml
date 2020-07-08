@@ -15,8 +15,6 @@
  */
 package examples;
 
-import junit.framework.TestCase;
-
 import static org.junit.Assert.*;
 
 import org.junit.Test;
