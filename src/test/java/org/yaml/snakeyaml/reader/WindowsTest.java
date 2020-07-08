@@ -16,14 +16,8 @@
 package org.yaml.snakeyaml.reader;
 
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.error.Mark;
-import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.parser.ParserException;
-import org.yaml.snakeyaml.reader.StreamReader;
-
-import java.util.LinkedList;
 
 /**
  * https://yaml.org/spec/1.1/#id871136
