@@ -187,6 +187,7 @@ public class DumperOptions {
     private boolean allowReadOnlyProperties = false;
     private int indent = 2;
     private int indicatorIndent = 0;
+    private boolean indentWithIndicator = false;
     private int bestWidth = 80;
     private boolean splitLines = true;
     private LineBreak lineBreak = LineBreak.UNIX;
@@ -263,6 +264,14 @@ public class DumperOptions {
 
     public int getIndicatorIndent() {
         return this.indicatorIndent;
+    }
+
+    public boolean getIndentWithIndicator() {
+        return indentWithIndicator;
+    }
+
+    public void setIndentWithIndicator(boolean indentWithIndicator) {
+        this.indentWithIndicator = indentWithIndicator;
     }
 
     public void setVersion(Version version) {
