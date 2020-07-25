@@ -135,7 +135,6 @@ public class EmitterTest extends TestCase {
     }
 
     public void testSplitLineExpectFirstFlowSequenceItem() {
-
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
