@@ -149,6 +149,7 @@ public final class Emitter implements Emitable {
     private final boolean allowUnicode;
     private int bestIndent;
     private final int indicatorIndent;
+    private final boolean indentWithIndicator;
     private int bestWidth;
     private final char[] bestLineBreak;
     private final boolean splitLines;
@@ -206,6 +207,7 @@ public final class Emitter implements Emitable {
             this.bestIndent = opts.getIndent();
         }
         this.indicatorIndent = opts.getIndicatorIndent();
+        this.indentWithIndicator = opts.getIndentWithIndicator();
         this.bestWidth = 80;
         if (opts.getWidth() > this.bestIndent * 2) {
             this.bestWidth = opts.getWidth();
@@ -607,8 +609,13 @@ public final class Emitter implements Emitable {
                 state = states.pop();
             } else {
                 writeIndent();
-                writeWhitespace(indicatorIndent);
+                if (!indentWithIndicator || this.first) {
+                    writeWhitespace(indicatorIndent);
+                }
                 writeIndicator("-", true, false, true);
+                if (indentWithIndicator && this.first) {
+                    indent += indicatorIndent;
+                }
                 states.push(new ExpectBlockSequenceItem(false));
                 expectNode(false, false, false);
             }
