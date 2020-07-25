@@ -56,6 +56,21 @@ public class IndentWithIndicatorTest extends TestCase {
         assertEquals(doc, output);
     }
 
+    public void testIndentWithIndicator3() {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setIndentWithIndicator(false);
+        options.setIndent(4);
+        options.setIndicatorIndent(2);
+
+        Yaml yaml = new Yaml(options);
+        String output = yaml.dump(createData());
+
+        String doc = Util.getLocalResource("issues/issue416_3.yml");
+
+        assertEquals(doc, output);
+    }
+
     private Map<String, Object> createData() {
         Map<String, String> fred = new LinkedHashMap<>();
         fred.put("name", "Fred");

@@ -252,6 +252,10 @@ public class DumperOptions {
         return this.indent;
     }
 
+    /**
+     * Set number of white spaces to use for the sequence indicator '-'
+     * @param indicatorIndent value to be used as indent
+     */
     public void setIndicatorIndent(int indicatorIndent) {
         if (indicatorIndent < 0) {
             throw new YAMLException("Indicator indent must be non-negative.");
@@ -270,6 +274,10 @@ public class DumperOptions {
         return indentWithIndicator;
     }
 
+    /**
+     * Set to true to add the indent for sequences to the general indent
+     * @param indentWithIndicator
+     */
     public void setIndentWithIndicator(boolean indentWithIndicator) {
         this.indentWithIndicator = indentWithIndicator;
     }
