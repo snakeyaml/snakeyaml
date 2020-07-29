@@ -30,11 +30,12 @@ public class DumpAnchorTest extends TestCase {
         String str = Util.getLocalResource("issues/issue481.yml");
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setAnchorGenerator(Node::getAnchor);
         Yaml yaml = new Yaml(options);
 
         Node node = yaml.compose(new StringReader(str));
         StringWriter out = new StringWriter();
         yaml.dump(node, out);
-        assertEquals(Util.getLocalResource("issues/issue481-output.yml"), out.toString());
+        assertEquals(str, out.toString());
     }
 }

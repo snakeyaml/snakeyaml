@@ -11,7 +11,6 @@ defines:
   lbPattern2: &lb_Internal
     name: lbForInternal
     vpc: vpc1
-
 current:
   assenbled1:
     server: *server_HighPerformance
