@@ -105,7 +105,7 @@ public final class Emitter implements Emitable {
     // The stream should have the methods `write` and possibly `flush`.
     private final Writer stream;
 
-    // Encoding is defined by Writer (cannot be overriden by STREAM-START.)
+    // Encoding is defined by Writer (cannot be overridden by STREAM-START.)
     // private Charset encoding;
 
     // Emitter is a state machine with a stack of states to handle nested

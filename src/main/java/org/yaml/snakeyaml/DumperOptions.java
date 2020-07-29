@@ -171,7 +171,7 @@ public class DumperOptions {
 
     public enum NonPrintableStyle {
         /**
-         * Tranform String to binary if it contains non-printable characters
+         * Transform String to binary if it contains non-printable characters
          */
         BINARY,
         /**
