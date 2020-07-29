@@ -255,10 +255,10 @@ public class Constructor extends SafeConstructor {
                                 mnode.setOnlyKeyType(t);
                                 mnode.setUseClassConstructor(true);
                             } else if (Map.class.isAssignableFrom(valueNode.getType())) {
-                                Class<?> ketType = arguments[0];
+                                Class<?> keyType = arguments[0];
                                 Class<?> valueType = arguments[1];
                                 MappingNode mnode = (MappingNode) valueNode;
-                                mnode.setTypes(ketType, valueType);
+                                mnode.setTypes(keyType, valueType);
                                 mnode.setUseClassConstructor(true);
                             }
                         }
