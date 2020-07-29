@@ -64,6 +64,10 @@ public class LoaderOptions {
         return maxAliasesForCollections;
     }
 
+    /**
+     * Restrict the amount of aliases for collections (sequences and mappings) to avoid https://en.wikipedia.org/wiki/Billion_laughs_attack
+     * @param maxAliasesForCollections set max allowed value (50 by default)
+     */
     public void setMaxAliasesForCollections(int maxAliasesForCollections) {
     	this.maxAliasesForCollections = maxAliasesForCollections;
     }
