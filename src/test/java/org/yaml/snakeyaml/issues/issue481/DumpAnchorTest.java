@@ -20,6 +20,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.serializer.AnchorGenerator;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -30,7 +31,12 @@ public class DumpAnchorTest extends TestCase {
         String str = Util.getLocalResource("issues/issue481.yml");
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        options.setAnchorGenerator(Node::getAnchor);
+        options.setAnchorGenerator(new AnchorGenerator() {
+            @Override
+            public String nextAnchor(Node node) {
+                return node.getAnchor();
+            }
+        });
         Yaml yaml = new Yaml(options);
 
         Node node = yaml.compose(new StringReader(str));
