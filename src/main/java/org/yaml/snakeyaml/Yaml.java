@@ -257,24 +257,6 @@ public class Yaml {
     }
 
     /**
-     * Serialize a YAML node into a YAML stream.
-     *
-     * @param node   YAML node to be serialized to YAML
-     * @param output stream to write to
-     */
-    public void dump(Node node, Writer output) {
-        Serializer serializer = new Serializer(new Emitter(output, dumperOptions), resolver,
-                dumperOptions, null);
-        try {
-            serializer.open();
-            serializer.serialize(node);
-            serializer.close();
-        } catch (IOException e) {
-            throw new YAMLException(e);
-        }
-    }
-
-    /**
      * Serialize a sequence of Java objects into a YAML stream.
      *
      * @param data   Iterator with Objects
@@ -368,6 +350,24 @@ public class Yaml {
      */
     public String dumpAsMap(Object data) {
         return dumpAs(data, Tag.MAP, FlowStyle.BLOCK);
+    }
+
+    /**
+     * Serialize a YAML node into a YAML stream.
+     *
+     * @param node   YAML node to be serialized to YAML
+     * @param output stream to write to
+     */
+    public void serialize(Node node, Writer output) {
+        Serializer serializer = new Serializer(new Emitter(output, dumperOptions), resolver,
+                dumperOptions, null);
+        try {
+            serializer.open();
+            serializer.serialize(node);
+            serializer.close();
+        } catch (IOException e) {
+            throw new YAMLException(e);
+        }
     }
 
     /**

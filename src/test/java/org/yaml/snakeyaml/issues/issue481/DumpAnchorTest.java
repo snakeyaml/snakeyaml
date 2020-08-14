@@ -28,7 +28,7 @@ import java.io.StringWriter;
 public class DumpAnchorTest extends TestCase {
 
     public void test_anchor_test() {
-        String str = Util.getLocalResource("issues/issue481.yml");
+        String str = Util.getLocalResource("issues/issue481.yaml");
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         options.setAnchorGenerator(new AnchorGenerator() {
@@ -41,7 +41,7 @@ public class DumpAnchorTest extends TestCase {
 
         Node node = yaml.compose(new StringReader(str));
         StringWriter out = new StringWriter();
-        yaml.dump(node, out);
+        yaml.serialize(node, out);
         assertEquals(str, out.toString());
     }
 }
