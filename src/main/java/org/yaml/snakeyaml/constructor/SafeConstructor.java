@@ -111,9 +111,9 @@ public class SafeConstructor extends BaseConstructor {
             i = i + 1;
         }
 
-        Iterator<Integer> indicies2remove = toRemove.descendingIterator();
-        while (indicies2remove.hasNext()) {
-            nodeValue.remove(indicies2remove.next().intValue());
+        Iterator<Integer> indices2remove = toRemove.descendingIterator();
+        while (indices2remove.hasNext()) {
+            nodeValue.remove(indices2remove.next().intValue());
         }
     }
 

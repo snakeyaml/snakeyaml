@@ -1,0 +1,8 @@
+company:
+    developers:
+      - name: Fred
+        role: creator
+      - name: John
+        role: committer
+    name: Yet Another Company
+    location: Maastricht

@@ -579,7 +579,7 @@ public final class ScannerImpl implements Scanner {
     }
 
     private void fetchStreamEnd() {
-        // Set the current intendation to -1.
+        // Set the current indentation to -1.
         unwindIndent(-1);
 
         // Reset simple keys.
@@ -606,7 +606,7 @@ public final class ScannerImpl implements Scanner {
      * @see <a href="http://www.yaml.org/spec/1.1/#id864824">3.2.3.4. Directives</a>
      */
     private void fetchDirective() {
-        // Set the current intendation to -1.
+        // Set the current indentation to -1.
         unwindIndent(-1);
 
         // Reset simple keys.
@@ -637,7 +637,7 @@ public final class ScannerImpl implements Scanner {
      * "..." for "document-end. The type is chosen by the given boolean.
      */
     private void fetchDocumentIndicator(boolean isDocumentStart) {
-        // Set the current intendation to -1.
+        // Set the current indentation to -1.
         unwindIndent(-1);
 
         // Reset simple keys. Note that there could not be a block collection
