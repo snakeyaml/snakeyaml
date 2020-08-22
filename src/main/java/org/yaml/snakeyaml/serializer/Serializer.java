@@ -128,7 +128,7 @@ public final class Serializer {
                 this.anchors.put(node, anchor);
             }
         } else {
-            this.anchors.put(node, null);
+            this.anchors.put(node, node.getAnchor() != null ? this.anchorGenerator.nextAnchor(node) : null);
             switch (node.getNodeId()) {
             case sequence:
                 SequenceNode seqNode = (SequenceNode) node;

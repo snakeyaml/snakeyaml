@@ -1,0 +1,17 @@
+defines:
+  serverPattern1: &server_HighPerformance
+    type: t3
+    strage: 500
+  serverPattern2: &server_LowPerformance
+    type: t2
+    strage: 250
+  lbPattern1: &lb_Public
+    name: lbForPublic
+    vpc: vpc1
+  lbPattern2: &lb_Internal
+    name: lbForInternal
+    vpc: vpc1
+current:
+  assenbled1:
+    server: *server_HighPerformance
+    lb: *lb_Public
