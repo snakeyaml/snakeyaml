@@ -6,6 +6,12 @@
     </properties>
     <body>
         <release version="1.27" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="481">
+                Serialize anchors that are not used by any alias (2020-08-14)
+            </action>
+            <action dev="asomov" type="fix" issue="416">
+                Add indentWithIndicator option to improve dumping sequences (2020-07-14)
+            </action>
             <action dev="asomov" type="fix" issue="480">
                 Anchor should allow non ascii characters while dumping (2020-06-29)
             </action>
