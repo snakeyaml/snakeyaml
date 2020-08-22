@@ -276,7 +276,7 @@ public class DumperOptions {
 
     /**
      * Set to true to add the indent for sequences to the general indent
-     * @param indentWithIndicator
+     * @param indentWithIndicator - true when indent for sequences is added to general
      */
     public void setIndentWithIndicator(boolean indentWithIndicator) {
         this.indentWithIndicator = indentWithIndicator;
