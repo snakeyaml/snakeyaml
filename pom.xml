@@ -650,7 +650,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.0.2</version>
+                        <version>3.2.0</version>
                         <executions>
                             <execution>
                                 <id>copy-src-for-android</id>
@@ -753,7 +753,7 @@
                                         <javac srcdir="${android.src.main}" destdir="${android.classes}" classpath="${android.classes}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true" />
 
                                         <!-- compile test classes. Exclude some - not for BeanAccess.FIELD -->
-                                        <javac srcdir="${android.src.test}:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.springframework:spring-core:jar}:${org.springframework:spring-beans:jar}:${org.springframework:spring-context:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}:${commons-io:commons-io:jar}:${commons-lang:commons-lang:jar}:${org.hamcrest:hamcrest-core:jar}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true">
+                                        <javac srcdir="${android.src.test}:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}:${commons-io:commons-io:jar}:${commons-lang:commons-lang:jar}:${org.hamcrest:hamcrest-core:jar}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true">
 
                                             <exclude name="org/yaml/snakeyaml/introspector/MethodPropertyTest.java" />
                                             <exclude name="org/yaml/snakeyaml/representer/FilterPropertyToDumpTest.java" />
