@@ -14,6 +14,7 @@
         <maven.compiler.target>7</maven.compiler.target>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <maven-bundle-plugin.version>3.5.0</maven-bundle-plugin.version>
+        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version><!-- for Github CI -->
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M1</maven-surefire-plugin.version>
@@ -117,6 +118,11 @@
         </testResources>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
@@ -646,7 +652,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>${maven-resources-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>copy-src-for-android</id>
