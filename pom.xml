@@ -27,10 +27,6 @@
         <system>Bitbucket</system>
         <url>https://bitbucket.org/asomov/snakeyaml/issues</url>
     </issueManagement>
-    <!-- ciManagement>
-        <system>jenkins</system>
-        <url>https://snakeyaml.ci.cloudbees.com/job/SnakeYAML/</url>
-    </ciManagement-->
     <mailingLists>
         <mailingList>
             <name>SnakeYAML developers and users List</name>
@@ -38,8 +34,8 @@
         </mailingList>
     </mailingLists>
     <scm>
-        <connection>scm:hg:http://bitbucket.org/asomov/snakeyaml</connection>
-        <developerConnection>scm:hg:ssh://hg@bitbucket.org/asomov/snakeyaml</developerConnection>
+        <connection>scm:git:http://bitbucket.org/asomov/snakeyaml</connection>
+        <developerConnection>scm:git:ssh://git@bitbucket.org/asomov/snakeyaml</developerConnection>
         <url>https://bitbucket.org/asomov/snakeyaml/src</url>
         <tag>HEAD</tag>
     </scm>
