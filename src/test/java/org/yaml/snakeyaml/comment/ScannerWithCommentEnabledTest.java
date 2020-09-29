@@ -78,7 +78,7 @@ public class ScannerWithCommentEnabledTest {
         assertTrue(sutWithComments.isEmitComments());
     }
 
-        @Test
+    @Test
     public void testEmpty() {
         List<ID> expected = Arrays.asList(new ID[] { Token.ID.StreamStart, ID.StreamEnd });
 
