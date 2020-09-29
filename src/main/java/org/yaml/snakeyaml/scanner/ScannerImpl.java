@@ -304,8 +304,9 @@ public final class ScannerImpl implements Scanner {
      */
     private void fetchMoreTokens() {
         // Eat whitespaces until we reach the next token.
+        int startColumn = reader.getColumn();
         List<Token> blankLines = scanToNextToken();
-        // TODO: Omer Improve
+        startColumn = reader.getColumn() == 0 ? 0 : startColumn;
         // Process blank lines as comments
         fetchBlankLine(blankLines);
         // Remove obsolete possible simple keys.
@@ -322,7 +323,7 @@ public final class ScannerImpl implements Scanner {
             fetchStreamEnd();
             return;
         case '#':
-            fetchComment();
+            fetchComment(startColumn == 0 ? CommentType.BLOCK : CommentType.IN_LINE);
             return;
         case '%':
             // Is it a directive?
@@ -633,9 +634,10 @@ public final class ScannerImpl implements Scanner {
 
     /**
      * Fetch a comment (both block and in-line)
+     * @param type TODO
      */
-    private void fetchComment() {
-        Token tok = scanComment();
+    private void fetchComment(CommentType type) {
+        Token tok = scanComment(type);
         if (emitComments) {
             this.tokens.add(tok);
         }
@@ -1260,7 +1262,7 @@ public final class ScannerImpl implements Scanner {
         return blankLineTokenList;
     }
 
-    private CommentToken scanComment() {
+    private CommentToken scanComment(CommentType type) {
         // See the specification for details.
         Mark startMark = reader.getMark();
         reader.forward();
@@ -1270,7 +1272,7 @@ public final class ScannerImpl implements Scanner {
         }
         Mark endMark = reader.getMark();
         String value = reader.prefixForward(length);
-        return new CommentToken(CommentType.EXPLICIT, value, startMark, endMark);
+        return new CommentToken(type, value, startMark, endMark);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -1468,7 +1470,7 @@ public final class ScannerImpl implements Scanner {
             String comment = reader.prefixForward(length);
             if(emitComments) {
                 Mark commentEndMark = reader.getMark();
-                commentToken = new CommentToken(CommentType.EXPLICIT, comment, commentStartMark, commentEndMark);
+                commentToken = new CommentToken(CommentType.IN_LINE, comment, commentStartMark, commentEndMark);
             }
         }
         int c = reader.peek();
@@ -1789,7 +1791,7 @@ public final class ScannerImpl implements Scanner {
         // If a comment occurs, scan to just before the end of line.
         CommentToken commentToken = null;
         if (reader.peek() == '#') {
-            commentToken = scanComment();
+            commentToken = scanComment(CommentType.IN_LINE);
         }
         // If the next character is not a null or line break, an error has
         // occurred.
@@ -2084,7 +2086,7 @@ public final class ScannerImpl implements Scanner {
             }
         }
         if (reader.peek() == '#') {
-            commentToken = scanComment();
+            commentToken = scanComment(CommentType.IN_LINE);
         }
         ScalarToken scalarToken = new ScalarToken(chunks.toString(), startMark, endMark, true);
         CommentToken blankLineCommentToken = null;

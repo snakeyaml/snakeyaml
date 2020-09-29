@@ -22,7 +22,8 @@ import org.yaml.snakeyaml.error.Mark;
 public final class CommentToken extends Token {
     public static enum CommentType {
         BLANK_LINE, //
-        EXPLICIT; //
+        BLOCK, //
+        IN_LINE; //
     }
 
     private final CommentType type;

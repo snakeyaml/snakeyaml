@@ -32,7 +32,8 @@ public class ScannerWithCommentEnabledTest {
             value = "(value='" + ((ScalarToken) token).getValue() + "')";
             break;
         case Comment:
-            value = "(value='" + ((CommentToken) token).getValue() + "')";
+            CommentToken commentToken = (CommentToken) token;
+            value = "(type='" + commentToken.getCommentType() + ", value='" + commentToken.getValue() + "')";
             break;
         default:
             value = "";
@@ -122,8 +123,7 @@ public class ScannerWithCommentEnabledTest {
     public void testMultiLineComment() {
         List<ID> expected = Arrays.asList(new ID[] { Token.ID.StreamStart, //
                 ID.BlockMappingStart, //
-                ID.Key, ID.Scalar, ID.Value, ID.Comment, //
-                ID.Comment, //
+                ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Comment, //
                 ID.Scalar, //
                 ID.BlockEnd, //
                 ID.StreamEnd });
@@ -156,8 +156,7 @@ public class ScannerWithCommentEnabledTest {
         List<ID> expected = Arrays.asList(new ID[] { Token.ID.StreamStart, //
                 ID.Comment, //
                 ID.BlockMappingStart, //
-                ID.Key, ID.Scalar, ID.Value, ID.Scalar, //
-                ID.Comment, //
+                ID.Key, ID.Scalar, ID.Value, ID.Scalar, ID.Comment, //
                 ID.Comment, //
                 ID.Comment, //
                 ID.BlockEnd, //
