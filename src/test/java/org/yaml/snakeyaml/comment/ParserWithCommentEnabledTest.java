@@ -12,7 +12,6 @@ import org.yaml.snakeyaml.events.Event.ID;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
-import org.yaml.snakeyaml.tokens.Token;
 
 public class ParserWithCommentEnabledTest {
 
