@@ -19,19 +19,39 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
 public class NonAsciiAnchorTest extends TestCase {
-    private final String NON_ANCHORS = ":,[]{}";
+    private final String NON_ANCHORS = ":,[]{}*&./";
 
     public void testNonAsciiAnchor() {
         Yaml loader = new Yaml();
-        String floatValue = loader.load("&something_タスク タスク");
-        assertEquals("タスク", floatValue);
+        String value = loader.load("&something_タスク タスク");
+        assertEquals("タスク", value);
+    }
+
+    public void testUnderscrore() {
+        Yaml loader = new Yaml();
+        String value = loader.load("&_ タスク");
+        assertEquals("タスク", value);
+    }
+
+    public void testSmile() {
+        Yaml loader = new Yaml();
+        String value = loader.load("&\uD83D\uDE01 v1");
+        //System.out.println("&\uD83D\uDE01 v1");
+        assertEquals("v1", value);
+    }
+
+    public void testAlpha() {
+        Yaml loader = new Yaml();
+        String value = loader.load("&kääk v1");
+        assertEquals("v1", value);
     }
 
     public void testNonAllowedAnchor() {
         for (int i = 0; i < NON_ANCHORS.length(); i++) {
             try {
-                loadWith(NON_ANCHORS.charAt(i));
-                fail("Special chars should not be allowed in anchor name");
+                Character c = NON_ANCHORS.charAt(i);
+                loadWith(c);
+                fail("Special chars should not be allowed in anchor name: " + c);
             } catch (Exception e) {
                 assertTrue(e.getMessage(), e.getMessage().contains("while scanning an anchor"));
                 assertTrue(e.getMessage(), e.getMessage().contains("unexpected character found"));

@@ -1414,6 +1414,14 @@ public final class ScannerImpl implements Scanner {
         }
     }
 
+    /**
+     * <pre>
+     * The YAML 1.1 specification does not restrict characters for anchors and
+     * aliases. This may lead to problems.
+     * see https://bitbucket.org/asomov/snakeyaml/issues/485/alias-names-are-too-permissive-compared-to
+     * This implementation tries to follow https://github.com/yaml/yaml-spec/blob/master/rfc/RFC-0003.md
+     * </pre>
+     */
     private Token scanAnchor(boolean isAnchor) {
         Mark startMark = reader.getMark();
         int indicator = reader.peek();
@@ -1421,9 +1429,7 @@ public final class ScannerImpl implements Scanner {
         reader.forward();
         int length = 0;
         int c = reader.peek(length);
-        // YAML 1.1 is unclear for the anchor names, we apply YAML 1.2 rules for the names.
-        // Anchor may not contain ",[]{}", the ":" was added by SnakeYAML -> should it be added to the spec 1.2 ?
-        while (Constant.NULL_BL_T_LINEBR.hasNo(c, ":,[]{}")) {
+        while (Constant.NULL_BL_T_LINEBR.hasNo(c, ":,[]{}/.*&")) {
             length++;
             c = reader.peek(length);
         }
@@ -1454,7 +1460,7 @@ public final class ScannerImpl implements Scanner {
      * Scan a Tag property. A Tag property may be specified in one of three
      * ways: c-verbatim-tag, c-ns-shorthand-tag, or c-ns-non-specific-tag
      * </p>
-     * 
+     *
      * <p>
      * c-verbatim-tag takes the form !&lt;ns-uri-char+&gt; and must be delivered
      * verbatim (as-is) to the application. In particular, verbatim tags are not

@@ -5,7 +5,13 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.27" date="in GIT" description="Maintenance">
+        <release version="1.28" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="485">
+                Alias names are too permissive compared to libyaml and future spec.
+                Follow https://github.com/yaml/yaml-spec/blob/master/rfc/RFC-0003.md (2020-10-06)
+            </action>
+        </release>
+        <release version="1.27" date="2020-08-31" description="Maintenance">
             <action dev="asomov" type="fix" issue="481">
                 Serialize anchors that are not used by any alias (2020-08-14)
             </action>
