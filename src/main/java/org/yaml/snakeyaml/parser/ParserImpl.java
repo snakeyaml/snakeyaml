@@ -206,7 +206,7 @@ public class ParserImpl implements Parser {
             return event;
         }
     }
-    
+
     private class ParseImplicitDocumentStart implements Production {
         public Event produce() {
             // Parse an implicit document.
@@ -409,7 +409,6 @@ public class ParserImpl implements Parser {
         Mark startMark = null;
         Mark endMark = null;
         Mark tagMark = null;
-        
         if (scanner.checkToken(Token.ID.Alias)) {
             AliasToken token = (AliasToken) scanner.getToken();
             event = new AliasEvent(token.getValue(), token.getStartMark(), token.getEndMark());

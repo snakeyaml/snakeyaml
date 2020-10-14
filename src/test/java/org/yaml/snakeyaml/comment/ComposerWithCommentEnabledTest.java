@@ -1,48 +1,44 @@
+/**
+ * Copyright (c) 2020, http://www.snakeyaml.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.yaml.snakeyaml.comment;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.junit.Test;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.comments.CommentLine;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
-import org.yaml.snakeyaml.events.Event;
-import org.yaml.snakeyaml.events.Event.ID;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
-import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 public class ComposerWithCommentEnabledTest {
-
-    @SuppressWarnings("unused")
-    private void assertEventListEquals(List<ID> expectedEventIdList, Parser parser) {
-        for (ID expectedEventId : expectedEventIdList) {
-            parser.checkEvent(expectedEventId);
-            Event event = parser.getEvent();
-            System.out.println(event);
-            if (event == null) {
-                fail("Missing event: " + expectedEventId);
-            }
-            assertEquals(expectedEventId, event.getEventId());
-        }
-    }
 
     private void printBlockComment(Node node, int level, PrintStream out) {
         if (node.getBlockComments() != null) {
@@ -119,7 +115,13 @@ public class ComposerWithCommentEnabledTest {
 
     private void printNodeList(List<Node> nodeList) {
         System.out.println("BEGIN");
+        boolean first = true;
         for (Node node : nodeList) {
+            if(first) {
+                first = false;
+            } else {
+                System.out.println("---");
+            }
             printNodeInternal(node, 1, System.out);
         }
         System.out.println("DONE\n");
@@ -135,8 +137,14 @@ public class ComposerWithCommentEnabledTest {
 
     private void assertNodesEqual(String[] expecteds, List<Node> nodeList) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        boolean first = true;
         try (PrintStream out = new PrintStream(baos)) {
             for (Node node : nodeList) {
+                if(first) {
+                    first = false;
+                } else {
+                    out.println("---");
+                }
                 printNodeInternal(node, 0, out);
             }
         }
@@ -400,8 +408,9 @@ public class ComposerWithCommentEnabledTest {
                 "                            ScalarNode: value3b", //
                 "                        InLine Comment", //
                 "End Comment", //
+                "---", //
                 "Block Comment", //
-                "ScalarNode: ", // FIXME: should not be here
+                "ScalarNode: ", // This is an empty scalar created as this is an empty document
         };
 
         Composer sut = newComposerWithCommentsEnabled(data);
@@ -443,8 +452,6 @@ public class ComposerWithCommentEnabledTest {
 
         Composer sut = newComposerWithCommentsEnabled(data);
         List<Node> result = getNodeList(sut);
-        Node newNode = new Yaml().compose(new StringReader("a: b"));
-        result.add(newNode);
 
         printNodeList(result);
         assertNodesEqual(expecteds, result);

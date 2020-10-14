@@ -23,12 +23,14 @@ import org.yaml.snakeyaml.error.Mark;
 /**
  * Base class for all nodes.
  * <p>
- * The nodes form the node-graph described in the <a href="http://yaml.org/spec/1.1/">YAML Specification</a>.
+ * The nodes form the node-graph described in the <a
+ * href="http://yaml.org/spec/1.1/">YAML Specification</a>.
  * </p>
  * <p>
- * While loading, the node graph is usually created by the {@link org.yaml.snakeyaml.composer.Composer}, and later
- * transformed into application specific Java classes by the classes from the {@link org.yaml.snakeyaml.constructor}
- * package.
+ * While loading, the node graph is usually created by the
+ * {@link org.yaml.snakeyaml.composer.Composer}, and later transformed into
+ * application specific Java classes by the classes from the
+ * {@link org.yaml.snakeyaml.constructor} package.
  * </p>
  */
 public abstract class Node {
@@ -121,11 +123,13 @@ public abstract class Node {
     /**
      * Indicates if this node must be constructed in two steps.
      * <p>
-     * Two-step construction is required whenever a node is a child (direct or indirect) of it self. That is, if a recursive
-     * structure is build using anchors and aliases.
+     * Two-step construction is required whenever a node is a child (direct or
+     * indirect) of it self. That is, if a recursive structure is build using
+     * anchors and aliases.
      * </p>
      * <p>
-     * Set by {@link org.yaml.snakeyaml.composer.Composer}, used during the construction process.
+     * Set by {@link org.yaml.snakeyaml.composer.Composer}, used during the
+     * construction process.
      * </p>
      * <p>
      * Only relevant during loading.
@@ -144,7 +148,8 @@ public abstract class Node {
 
     public boolean useClassConstructor() {
         if (useClassConstructor == null) {
-            if (!tag.isSecondary() && resolved && !Object.class.equals(type) && !tag.equals(Tag.NULL)) {
+            if (!tag.isSecondary() && resolved && !Object.class.equals(type)
+                    && !tag.equals(Tag.NULL)) {
                 return true;
             } else if (tag.isCompatible(getType())) {
                 // the tag is compatible with the runtime class
@@ -162,12 +167,12 @@ public abstract class Node {
     }
 
     /**
-     * Indicates if the tag was added by {@link org.yaml.snakeyaml.resolver.Resolver}.
+     * Indicates if the tag was added by
+     * {@link org.yaml.snakeyaml.resolver.Resolver}.
      * 
      * @return true if the tag of this node was resolved
      * 
-     * @deprecated Since v1.22. Absent in immediately prior versions, but present previously. Restored deprecated for
-     *             backwards compatibility.
+     * @deprecated Since v1.22.  Absent in immediately prior versions, but present previously.  Restored deprecated for backwards compatibility.
      */
     @Deprecated
     public boolean isResolved() {
