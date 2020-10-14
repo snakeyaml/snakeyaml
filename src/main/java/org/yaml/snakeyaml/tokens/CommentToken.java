@@ -17,15 +17,10 @@ package org.yaml.snakeyaml.tokens;
 
 import java.util.Objects;
 
+import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.error.Mark;
 
 public final class CommentToken extends Token {
-    public static enum CommentType {
-        BLANK_LINE, //
-        BLOCK, //
-        IN_LINE; //
-    }
-
     private final CommentType type;
     private final String value;
 

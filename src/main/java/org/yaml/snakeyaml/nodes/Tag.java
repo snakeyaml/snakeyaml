@@ -43,6 +43,8 @@ public final class Tag {
     public static final Tag STR = new Tag(PREFIX + "str");
     public static final Tag SEQ = new Tag(PREFIX + "seq");
     public static final Tag MAP = new Tag(PREFIX + "map");
+    // For use to indicate a DUMMY node that contains comments, when there is no other (empty document)
+    public static final Tag COMMENT = new Tag(PREFIX + "comment");
     protected static final Map<Tag, Set<Class<?>>> COMPATIBILITY_MAP;
     static {
         COMPATIBILITY_MAP = new HashMap<Tag, Set<Class<?>>>();
@@ -96,7 +98,8 @@ public final class Tag {
 
     /**
      * @deprecated - it will be removed
-     * @param uri - URI to be encoded as tag value
+     * @param uri
+     *            - URI to be encoded as tag value
      */
     public Tag(URI uri) {
         if (uri == null) {
@@ -143,13 +146,11 @@ public final class Tag {
     }
 
     /**
-     * Java has more then 1 class compatible with a language-independent tag
-     * (!!int, !!float, !!timestamp etc)
+     * Java has more then 1 class compatible with a language-independent tag (!!int, !!float, !!timestamp etc)
      *
      * @param clazz
      *            - Class to check compatibility
-     * @return true when the Class can be represented by this
-     *         language-independent tag
+     * @return true when the Class can be represented by this language-independent tag
      */
     public boolean isCompatible(Class<?> clazz) {
         Set<Class<?>> set = COMPATIBILITY_MAP.get(this);

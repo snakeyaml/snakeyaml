@@ -15,18 +15,13 @@
  */
 package org.yaml.snakeyaml.events;
 
-import org.yaml.snakeyaml.error.Mark;import org.yaml.snakeyaml.tokens.Token;
+import org.yaml.snakeyaml.comments.CommentType;
+import org.yaml.snakeyaml.error.Mark;
 
 /**
- * Marks a scalar value.
+ * Marks a comment block value.
  */
-public final class CommentEvent extends Event {
-    public static enum CommentType {
-        BLANK_LINE, //
-        BLOCK, //
-        IN_LINE //
-    }
-    
+public final class CommentEvent extends Event {   
     private final CommentType type;
     private final String value;
 
@@ -44,7 +39,7 @@ public final class CommentEvent extends Event {
      * Without quotes and escaping.
      * </p>
      *
-     * @return Value as Unicode string.
+     * @return Value a comment line string without the leading '#' or a blank line.
      */
     public String getValue() {
         return this.value;
@@ -61,7 +56,7 @@ public final class CommentEvent extends Event {
 
     @Override
     protected String getArguments() {
-        return super.getArguments() + ", value=" + value;
+        return super.getArguments() + "type=" + type + ", value=" + value;
     }
 
     @Override

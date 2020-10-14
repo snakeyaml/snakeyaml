@@ -568,7 +568,8 @@ public class Yaml {
      * Overview</a>
      */
     public Node compose(Reader yaml) {
-        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver, loadingConfig);
+        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml), 
+                loadingConfig.isProcessComments()), resolver, loadingConfig);
         return composer.getSingleNode();
     }
 
@@ -581,7 +582,8 @@ public class Yaml {
      * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
      */
     public Iterable<Node> composeAll(Reader yaml) {
-        final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver, loadingConfig);
+        final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml),
+                loadingConfig.isProcessComments()), resolver, loadingConfig);
         Iterator<Node> result = new Iterator<Node>() {
             @Override
             public boolean hasNext() {

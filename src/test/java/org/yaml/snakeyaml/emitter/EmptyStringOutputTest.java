@@ -45,6 +45,9 @@ public class EmptyStringOutputTest extends TestCase {
         emitter.emit(new StreamStartEvent(null, null));
         emitter.emit(new DocumentStartEvent(null, null, false, null, null));
         emitter.emit(new ScalarEvent(null, null, new ImplicitTuple(true, false), value, null, null, DumperOptions.ScalarStyle.PLAIN));
+        // Needed as emitter won't process above event until it peeks at this one 
+        // to be sure it is not a comment
+        emitter.emit(new ScalarEvent(null, null, new ImplicitTuple(true, false), value, null, null, DumperOptions.ScalarStyle.PLAIN));
         return output.toString();
     }
 }

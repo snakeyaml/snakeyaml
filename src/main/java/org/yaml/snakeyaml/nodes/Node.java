@@ -15,19 +15,20 @@
  */
 package org.yaml.snakeyaml.nodes;
 
+import java.util.List;
+
+import org.yaml.snakeyaml.comments.CommentLine;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
  * Base class for all nodes.
  * <p>
- * The nodes form the node-graph described in the <a
- * href="http://yaml.org/spec/1.1/">YAML Specification</a>.
+ * The nodes form the node-graph described in the <a href="http://yaml.org/spec/1.1/">YAML Specification</a>.
  * </p>
  * <p>
- * While loading, the node graph is usually created by the
- * {@link org.yaml.snakeyaml.composer.Composer}, and later transformed into
- * application specific Java classes by the classes from the
- * {@link org.yaml.snakeyaml.constructor} package.
+ * While loading, the node graph is usually created by the {@link org.yaml.snakeyaml.composer.Composer}, and later
+ * transformed into application specific Java classes by the classes from the {@link org.yaml.snakeyaml.constructor}
+ * package.
  * </p>
  */
 public abstract class Node {
@@ -37,6 +38,10 @@ public abstract class Node {
     private Class<? extends Object> type;
     private boolean twoStepsConstruction;
     private String anchor;
+    private List<CommentLine> inLineComments;
+    private List<CommentLine> blockComments;
+    // End Comments are only on the last node in a document
+    private List<CommentLine> endComments;
 
     /**
      * true when the tag is assigned by the resolver
@@ -52,6 +57,9 @@ public abstract class Node {
         this.twoStepsConstruction = false;
         this.resolved = true;
         this.useClassConstructor = null;
+        this.inLineComments = null;
+        this.blockComments = null;
+        this.endComments = null;
     }
 
     /**
@@ -113,13 +121,11 @@ public abstract class Node {
     /**
      * Indicates if this node must be constructed in two steps.
      * <p>
-     * Two-step construction is required whenever a node is a child (direct or
-     * indirect) of it self. That is, if a recursive structure is build using
-     * anchors and aliases.
+     * Two-step construction is required whenever a node is a child (direct or indirect) of it self. That is, if a recursive
+     * structure is build using anchors and aliases.
      * </p>
      * <p>
-     * Set by {@link org.yaml.snakeyaml.composer.Composer}, used during the
-     * construction process.
+     * Set by {@link org.yaml.snakeyaml.composer.Composer}, used during the construction process.
      * </p>
      * <p>
      * Only relevant during loading.
@@ -138,8 +144,7 @@ public abstract class Node {
 
     public boolean useClassConstructor() {
         if (useClassConstructor == null) {
-            if (!tag.isSecondary() && resolved && !Object.class.equals(type)
-                    && !tag.equals(Tag.NULL)) {
+            if (!tag.isSecondary() && resolved && !Object.class.equals(type) && !tag.equals(Tag.NULL)) {
                 return true;
             } else if (tag.isCompatible(getType())) {
                 // the tag is compatible with the runtime class
@@ -157,12 +162,12 @@ public abstract class Node {
     }
 
     /**
-     * Indicates if the tag was added by
-     * {@link org.yaml.snakeyaml.resolver.Resolver}.
+     * Indicates if the tag was added by {@link org.yaml.snakeyaml.resolver.Resolver}.
      * 
      * @return true if the tag of this node was resolved
      * 
-     * @deprecated Since v1.22.  Absent in immediately prior versions, but present previously.  Restored deprecated for backwards compatibility.
+     * @deprecated Since v1.22. Absent in immediately prior versions, but present previously. Restored deprecated for
+     *             backwards compatibility.
      */
     @Deprecated
     public boolean isResolved() {
@@ -175,5 +180,47 @@ public abstract class Node {
 
     public void setAnchor(String anchor) {
         this.anchor = anchor;
+    }
+
+    /**
+     * The ordered list of in-line comments. The first of which appears at the end of the line respresent by this node.
+     * The rest are in the following lines, indented per the Spec to indicate they are continuation of the inline comment.
+     * 
+     * @return the comment line list.
+     */
+    public List<CommentLine> getInLineComments() {
+        return inLineComments;
+    }
+
+    public void setInLineComments(List<CommentLine> inLineComments) {
+        this.inLineComments = inLineComments;
+    }
+
+    /**
+     * The ordered list of blank lines and block comments (full line) that appear before this node.
+     * 
+     * @return the comment line list.
+     */
+    public List<CommentLine> getBlockComments() {
+        return blockComments;
+    }
+
+    public void setBlockComments(List<CommentLine> blockComments) {
+        this.blockComments = blockComments;
+    }
+
+    /**
+     * The ordered list of blank lines and block comments (full line) that appear AFTER this node.
+     * <p>
+     * NOTE: these comment should occur only in the last node in a document, when walking the node tree "in order"
+     * 
+     * @return the comment line list.
+     */
+    public List<CommentLine> getEndComments() {
+        return endComments;
+    }
+
+    public void setEndComments(List<CommentLine> endComments) {
+        this.endComments = endComments;
     }
 }

@@ -24,8 +24,10 @@ import java.util.Set;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
+import org.yaml.snakeyaml.comments.CommentLine;
 import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.events.AliasEvent;
+import org.yaml.snakeyaml.events.CommentEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
 import org.yaml.snakeyaml.events.ImplicitTuple;
@@ -37,7 +39,6 @@ import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamEndEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.nodes.AnchorNode;
-import org.yaml.snakeyaml.nodes.CollectionNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -151,7 +152,7 @@ public final class Serializer {
         }
     }
 
-    //parent Node is not used but might be used in the future
+    // parent Node is not used but might be used in the future
     private void serializeNode(Node node, Node parent) throws IOException {
         if (node.getNodeId() == NodeId.anchor) {
             node = ((AnchorNode) node).getRealNode();
@@ -164,6 +165,7 @@ public final class Serializer {
             switch (node.getNodeId()) {
             case scalar:
                 ScalarNode scalarNode = (ScalarNode) node;
+                serializeComments(node.getBlockComments());
                 Tag detectedTag = this.resolver.resolve(NodeId.scalar, scalarNode.getValue(), true);
                 Tag defaultTag = this.resolver.resolve(NodeId.scalar, scalarNode.getValue(), false);
                 ImplicitTuple tuple = new ImplicitTuple(node.getTag().equals(detectedTag), node
@@ -171,9 +173,12 @@ public final class Serializer {
                 ScalarEvent event = new ScalarEvent(tAlias, node.getTag().getValue(), tuple,
                         scalarNode.getValue(), null, null, scalarNode.getScalarStyle());
                 this.emitter.emit(event);
+                serializeComments(node.getInLineComments());
+                serializeComments(node.getEndComments());
                 break;
             case sequence:
                 SequenceNode seqNode = (SequenceNode) node;
+                serializeComments(node.getBlockComments());
                 boolean implicitS = node.getTag().equals(this.resolver.resolve(NodeId.sequence,
                         null, true));
                 this.emitter.emit(new SequenceStartEvent(tAlias, node.getTag().getValue(),
@@ -183,22 +188,40 @@ public final class Serializer {
                     serializeNode(item, node);
                 }
                 this.emitter.emit(new SequenceEndEvent(null, null));
+                serializeComments(node.getInLineComments());
+                serializeComments(node.getEndComments());
                 break;
             default:// instance of MappingNode
+                serializeComments(node.getBlockComments());
                 Tag implicitTag = this.resolver.resolve(NodeId.mapping, null, true);
                 boolean implicitM = node.getTag().equals(implicitTag);
-                this.emitter.emit(new MappingStartEvent(tAlias, node.getTag().getValue(),
-                        implicitM, null, null, ((CollectionNode) node).getFlowStyle()));
                 MappingNode mnode = (MappingNode) node;
                 List<NodeTuple> map = mnode.getValue();
-                for (NodeTuple row : map) {
-                    Node key = row.getKeyNode();
-                    Node value = row.getValueNode();
-                    serializeNode(key, mnode);
-                    serializeNode(value, mnode);
+                if (mnode.getTag() != Tag.COMMENT ) {
+                    this.emitter.emit(new MappingStartEvent(tAlias, mnode.getTag().getValue(), implicitM, null, null,
+                            mnode.getFlowStyle()));
+                    for (NodeTuple row : map) {
+                        Node key = row.getKeyNode();
+                        Node value = row.getValueNode();
+                        serializeNode(key, mnode);
+                        serializeNode(value, mnode);
+                    }
+                    this.emitter.emit(new MappingEndEvent(null, null));
+                    serializeComments(node.getInLineComments());
+                    serializeComments(node.getEndComments());
                 }
-                this.emitter.emit(new MappingEndEvent(null, null));
             }
+        }
+    }
+
+    private void serializeComments(List<CommentLine> comments) throws IOException {
+        if(comments == null) {
+            return;
+        }
+        for (CommentLine line : comments) {
+            CommentEvent commentEvent = new CommentEvent(line.getCommentType(), line.getValue(), line.getStartMark(),
+                    line.getEndMark());
+            this.emitter.emit(commentEvent);
         }
     }
 }
