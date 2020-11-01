@@ -21,6 +21,7 @@ public class LoaderOptions {
     private boolean wrappedToRootException = false;
     private int maxAliasesForCollections = 50; //to prevent YAML at https://en.wikipedia.org/wiki/Billion_laughs_attack
     private boolean allowRecursiveKeys = false;
+    private boolean processComments = false;
 
     public boolean isAllowDuplicateKeys() {
         return allowDuplicateKeys;
@@ -84,5 +85,18 @@ public class LoaderOptions {
 
     public boolean getAllowRecursiveKeys() {
         return allowRecursiveKeys;
+    }
+    
+    /**
+     * Set the comment processing. By default comments are ignored.
+     * 
+     * @param processComments <code>true</code> to process; <code>false</code> to ignore</code>
+     */
+    public void setProcessComments(boolean processComments) {
+        this.processComments = processComments;
+    }
+
+    public boolean isProcessComments() {
+        return processComments;
     }
 }

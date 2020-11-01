@@ -15,6 +15,9 @@
  */
 package org.yaml.snakeyaml.nodes;
 
+import java.util.List;
+
+import org.yaml.snakeyaml.comments.CommentLine;
 import org.yaml.snakeyaml.error.Mark;
 
 /**
@@ -37,6 +40,10 @@ public abstract class Node {
     private Class<? extends Object> type;
     private boolean twoStepsConstruction;
     private String anchor;
+    private List<CommentLine> inLineComments;
+    private List<CommentLine> blockComments;
+    // End Comments are only on the last node in a document
+    private List<CommentLine> endComments;
 
     /**
      * true when the tag is assigned by the resolver
@@ -52,6 +59,9 @@ public abstract class Node {
         this.twoStepsConstruction = false;
         this.resolved = true;
         this.useClassConstructor = null;
+        this.inLineComments = null;
+        this.blockComments = null;
+        this.endComments = null;
     }
 
     /**
@@ -175,5 +185,47 @@ public abstract class Node {
 
     public void setAnchor(String anchor) {
         this.anchor = anchor;
+    }
+
+    /**
+     * The ordered list of in-line comments. The first of which appears at the end of the line respresent by this node.
+     * The rest are in the following lines, indented per the Spec to indicate they are continuation of the inline comment.
+     * 
+     * @return the comment line list.
+     */
+    public List<CommentLine> getInLineComments() {
+        return inLineComments;
+    }
+
+    public void setInLineComments(List<CommentLine> inLineComments) {
+        this.inLineComments = inLineComments;
+    }
+
+    /**
+     * The ordered list of blank lines and block comments (full line) that appear before this node.
+     * 
+     * @return the comment line list.
+     */
+    public List<CommentLine> getBlockComments() {
+        return blockComments;
+    }
+
+    public void setBlockComments(List<CommentLine> blockComments) {
+        this.blockComments = blockComments;
+    }
+
+    /**
+     * The ordered list of blank lines and block comments (full line) that appear AFTER this node.
+     * <p>
+     * NOTE: these comment should occur only in the last node in a document, when walking the node tree "in order"
+     * 
+     * @return the comment line list.
+     */
+    public List<CommentLine> getEndComments() {
+        return endComments;
+    }
+
+    public void setEndComments(List<CommentLine> endComments) {
+        this.endComments = endComments;
     }
 }

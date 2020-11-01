@@ -21,9 +21,11 @@ import java.util.Map;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
+import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.AliasEvent;
+import org.yaml.snakeyaml.events.CommentEvent;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
 import org.yaml.snakeyaml.events.Event;
@@ -42,6 +44,7 @@ import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.AliasToken;
 import org.yaml.snakeyaml.tokens.AnchorToken;
 import org.yaml.snakeyaml.tokens.BlockEntryToken;
+import org.yaml.snakeyaml.tokens.CommentToken;
 import org.yaml.snakeyaml.tokens.DirectiveToken;
 import org.yaml.snakeyaml.tokens.ScalarToken;
 import org.yaml.snakeyaml.tokens.StreamEndToken;
@@ -132,6 +135,10 @@ public class ParserImpl implements Parser {
         this(new ScannerImpl(reader));
     }
 
+    public ParserImpl(StreamReader reader, boolean emitComments) {
+        this(new ScannerImpl(reader).setEmitComments(emitComments));
+    }
+
     public ParserImpl(Scanner scanner) {
         this.scanner = scanner;
         currentEvent = null;
@@ -171,6 +178,17 @@ public class ParserImpl implements Parser {
         return value;
     }
 
+    private CommentEvent produceCommentEvent(CommentToken token) {
+        Mark startMark = token.getStartMark();
+        Mark endMark = token.getEndMark();
+        String value = token.getValue();
+        CommentType type = token.getCommentType();
+        
+        // state = state, that no change in state
+        
+        return new CommentEvent(type, value, startMark, endMark);
+    }
+
     /**
      * <pre>
      * stream    ::= STREAM-START implicit_document? explicit_document* STREAM-END
@@ -192,7 +210,9 @@ public class ParserImpl implements Parser {
     private class ParseImplicitDocumentStart implements Production {
         public Event produce() {
             // Parse an implicit document.
-            if (!scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart, Token.ID.StreamEnd)) {
+            if (scanner.checkToken(Token.ID.Comment)) {
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            } else if (!scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart, Token.ID.StreamEnd)) {
                 directives = new VersionTagsTuple(null, DEFAULT_TAGS);
                 Token token = scanner.peekToken();
                 Mark startMark = token.getStartMark();
@@ -211,9 +231,15 @@ public class ParserImpl implements Parser {
 
     private class ParseDocumentStart implements Production {
         public Event produce() {
+            if (scanner.checkToken(Token.ID.Comment)) {
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
             // Parse any extra document end indicators.
             while (scanner.checkToken(Token.ID.DocumentEnd)) {
                 scanner.getToken();
+            }
+            if (scanner.checkToken(Token.ID.Comment)) {
+                return produceCommentEvent((CommentToken) scanner.getToken());
             }
             // Parse an explicit document.
             Event event;
@@ -221,28 +247,35 @@ public class ParserImpl implements Parser {
                 Token token = scanner.peekToken();
                 Mark startMark = token.getStartMark();
                 VersionTagsTuple tuple = processDirectives();
-                if (!scanner.checkToken(Token.ID.DocumentStart)) {
-                    throw new ParserException(null, null, "expected '<document start>', but found '"
-                            + scanner.peekToken().getTokenId() + "'", scanner.peekToken().getStartMark());
+                while (scanner.checkToken(Token.ID.Comment)) {
+                    // TODO: till we figure out what todo with the comments
+                    scanner.getToken(); 
                 }
-                token = scanner.getToken();
-                Mark endMark = token.getEndMark();
-                event = new DocumentStartEvent(startMark, endMark, true, tuple.getVersion(),
-                        tuple.getTags());
-                states.push(new ParseDocumentEnd());
-                state = new ParseDocumentContent();
-            } else {
-                // Parse the end of the stream.
-                StreamEndToken token = (StreamEndToken) scanner.getToken();
-                event = new StreamEndEvent(token.getStartMark(), token.getEndMark());
-                if (!states.isEmpty()) {
-                    throw new YAMLException("Unexpected end of stream. States left: " + states);
+                if (!scanner.checkToken(Token.ID.StreamEnd)) {
+                    if (!scanner.checkToken(Token.ID.DocumentStart)) {
+                        throw new ParserException(null, null, "expected '<document start>', but found '"
+                                + scanner.peekToken().getTokenId() + "'", scanner.peekToken().getStartMark());
+                    }
+                    token = scanner.getToken();
+                    Mark endMark = token.getEndMark();
+                    event = new DocumentStartEvent(startMark, endMark, true, tuple.getVersion(),
+                            tuple.getTags());
+                    states.push(new ParseDocumentEnd());
+                    state = new ParseDocumentContent();
+                    return event;
                 }
-                if (!marks.isEmpty()) {
-                    throw new YAMLException("Unexpected end of stream. Marks left: " + marks);
-                }
-                state = null;
             }
+            // Parse the end of the stream.
+            StreamEndToken token = (StreamEndToken) scanner.getToken();
+            event = new StreamEndEvent(token.getStartMark(), token.getEndMark());
+            if (!states.isEmpty()) {
+                throw new YAMLException("Unexpected end of stream. States left: " + states);
+            }
+            if (!marks.isEmpty()) {
+                throw new YAMLException("Unexpected end of stream. Marks left: " + marks);
+            }
+            state = null;
+            
             return event;
         }
     }
@@ -268,6 +301,9 @@ public class ParserImpl implements Parser {
 
     private class ParseDocumentContent implements Production {
         public Event produce() {
+            if (scanner.checkToken(Token.ID.Comment)) {
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
             Event event;
             if (scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart,
                     Token.ID.DocumentEnd, Token.ID.StreamEnd)) {
@@ -443,6 +479,8 @@ public class ParserImpl implements Parser {
                     event = new ScalarEvent(anchor, tag, implicitValues, token.getValue(),
                             startMark, endMark, token.getStyle());
                     state = states.pop();
+                } else if (scanner.checkToken(Token.ID.Comment)) {
+                    event = produceCommentEvent((CommentToken) scanner.getToken());
                 } else if (scanner.checkToken(Token.ID.FlowSequenceStart)) {
                     endMark = scanner.peekToken().getEndMark();
                     event = new SequenceStartEvent(anchor, tag, implicit, startMark, endMark,
@@ -499,6 +537,9 @@ public class ParserImpl implements Parser {
 
     private class ParseBlockSequenceEntry implements Production {
         public Event produce() {
+            if (scanner.checkToken(Token.ID.Comment)) {
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
             if (scanner.checkToken(Token.ID.BlockEntry)) {
                 BlockEntryToken token = (BlockEntryToken) scanner.getToken();
                 if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.BlockEnd)) {
@@ -527,6 +568,9 @@ public class ParserImpl implements Parser {
 
     private class ParseIndentlessSequenceEntry implements Production {
         public Event produce() {
+            if (scanner.checkToken(Token.ID.Comment)) {
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
             if (scanner.checkToken(Token.ID.BlockEntry)) {
                 Token token = scanner.getToken();
                 if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.Key, Token.ID.Value,
@@ -555,6 +599,9 @@ public class ParserImpl implements Parser {
 
     private class ParseBlockMappingKey implements Production {
         public Event produce() {
+            if (scanner.checkToken(Token.ID.Comment)) {
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
             if (scanner.checkToken(Token.ID.Key)) {
                 Token token = scanner.getToken();
                 if (!scanner.checkToken(Token.ID.Key, Token.ID.Value, Token.ID.BlockEnd)) {
@@ -583,17 +630,38 @@ public class ParserImpl implements Parser {
         public Event produce() {
             if (scanner.checkToken(Token.ID.Value)) {
                 Token token = scanner.getToken();
-                if (!scanner.checkToken(Token.ID.Key, Token.ID.Value, Token.ID.BlockEnd)) {
+                if (scanner.checkToken(Token.ID.Comment)) {
+                    state = new ParseBlockMappingValueComment();
+                    return state.produce();
+                } else if (!scanner.checkToken(Token.ID.Key, Token.ID.Value, Token.ID.BlockEnd)) {
                     states.push(new ParseBlockMappingKey());
                     return parseBlockNodeOrIndentlessSequence();
                 } else {
                     state = new ParseBlockMappingKey();
                     return processEmptyScalar(token.getEndMark());
                 }
+            } else if(scanner.checkToken(Token.ID.Scalar)) {
+                states.push(new ParseBlockMappingKey());
+                return parseBlockNodeOrIndentlessSequence();
             }
             state = new ParseBlockMappingKey();
             Token token = scanner.peekToken();
             return processEmptyScalar(token.getStartMark());
+        }
+    }
+
+    private class ParseBlockMappingValueComment implements Production {
+        public Event produce() {
+            if (scanner.checkToken(Token.ID.Comment)) {
+                return parseBlockNodeOrIndentlessSequence();
+            } else if (!scanner.checkToken(Token.ID.Key, Token.ID.Value, Token.ID.BlockEnd)) {
+                states.push(new ParseBlockMappingKey());
+                return parseBlockNodeOrIndentlessSequence();
+            } else {
+                state = new ParseBlockMappingKey();
+                Token token = scanner.getToken();
+                return processEmptyScalar(token.getEndMark());
+            }
         }
     }
 
@@ -650,12 +718,25 @@ public class ParserImpl implements Parser {
             }
             Token token = scanner.getToken();
             Event event = new SequenceEndEvent(token.getStartMark(), token.getEndMark());
-            state = states.pop();
             marks.pop();
+            if(!scanner.checkToken(Token.ID.Comment)) {
+                state = states.pop();               
+            } else {
+                state = new ParseFlowEndComment();
+            }
             return event;
         }
     }
 
+    private class ParseFlowEndComment implements Production {
+        public Event produce() {
+            Event event = produceCommentEvent((CommentToken)scanner.getToken());
+            if(!scanner.checkToken(Token.ID.Comment)) {
+                state = states.pop();               
+            }
+            return event;
+        }
+    }
     private class ParseFlowSequenceEntryMappingKey implements Production {
         public Event produce() {
             Token token = scanner.getToken();
@@ -749,9 +830,13 @@ public class ParserImpl implements Parser {
             }
             Token token = scanner.getToken();
             Event event = new MappingEndEvent(token.getStartMark(), token.getEndMark());
-            state = states.pop();
             marks.pop();
-            return event;
+            if(!scanner.checkToken(Token.ID.Comment)) {
+                state = states.pop();               
+            } else {
+                state = new ParseFlowEndComment();
+            }
+            return event;            
         }
     }
 
