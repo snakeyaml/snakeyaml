@@ -353,7 +353,7 @@ public class Yaml {
     }
 
     /**
-     * Serialize a YAML node into a YAML stream.
+     * Serialize (dump) a YAML node into a YAML stream.
      *
      * @param node   YAML node to be serialized to YAML
      * @param output stream to write to

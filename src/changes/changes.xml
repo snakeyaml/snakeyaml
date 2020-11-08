@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.28" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="add">
+                Allow for read and write YAML with Comments (2020-11-01)
+            </action>
             <action dev="asomov" type="fix" issue="485">
                 Alias names are too permissive compared to libyaml and future spec.
                 Follow https://github.com/yaml/yaml-spec/blob/master/rfc/RFC-0003.md (2020-10-06)

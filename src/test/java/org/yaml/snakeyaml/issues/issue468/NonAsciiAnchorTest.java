@@ -27,7 +27,7 @@ public class NonAsciiAnchorTest extends TestCase {
         assertEquals("タスク", value);
     }
 
-    public void testUnderscrore() {
+    public void testUnderscore() {
         Yaml loader = new Yaml();
         String value = loader.load("&_ タスク");
         assertEquals("タスク", value);
