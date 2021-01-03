@@ -1,0 +1,4 @@
+database:
+  url: ${DATABASE_URL:-jdbc:postgresql://localhost:5432/server493}
+  user: ${DATABASE_USER:-user493}
+  password: ${DATABASE_PASSWORD:-password493}

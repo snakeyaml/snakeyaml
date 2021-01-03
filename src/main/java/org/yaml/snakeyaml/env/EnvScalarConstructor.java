@@ -32,7 +32,9 @@ import java.util.regex.Pattern;
  */
 public class EnvScalarConstructor extends Constructor {
     public static final Tag ENV_TAG = new Tag("!ENV");
-    public static final Pattern ENV_FORMAT = Pattern.compile("^\\$\\{\\s*((?<name>\\w+)((?<separator>:?(-|\\?))(?<value>\\w+)?)?)\\s*\\}$");
+    // name must be a word -> \w+
+    // value can be any non-space -> \S+
+    public static final Pattern ENV_FORMAT = Pattern.compile("^\\$\\{\\s*((?<name>\\w+)((?<separator>:?(-|\\?))(?<value>\\S+)?)?)\\s*\\}$");
 
     public EnvScalarConstructor() {
         this.yamlConstructors.put(ENV_TAG, new ConstructEnv());

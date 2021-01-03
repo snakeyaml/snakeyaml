@@ -86,4 +86,13 @@ public class EnvVariableTest extends TestCase {
         String output = compose.toString();
         assertTrue(output, output.endsWith("environment={URL1=EnvironmentValue1, URL2=, URL3=server3, URL4=, URL5=server5, URL6=server6}}}}"));
     }
+
+    public void testIssue493() {
+        Yaml yaml = new Yaml(new EnvScalarConstructor());
+        yaml.addImplicitResolver(EnvScalarConstructor.ENV_TAG, EnvFormatTest.ENV_FORMAT, "$");
+        String resource = Util.getLocalResource("env/env-493.yaml");
+        Map<String, Object> compose = yaml.load(resource);
+        String output = compose.toString();
+        assertEquals("{database={url=jdbc:postgresql://localhost:5432/server493, user=user493, password=password493}}", output);
+    }
 }
