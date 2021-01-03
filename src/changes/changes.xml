@@ -7,7 +7,7 @@
     <body>
         <release version="1.28" date="in GIT" description="Maintenance">
             <action dev="asomov" type="fix" issue="493">
-                Allow for read and write YAML with Comments (2021-01-03)
+                ENV substitution default can contain special characters (2021-01-03)
             </action>
             <action dev="asomov" type="add">
                 Allow for read and write YAML with Comments (2020-11-01)
