@@ -15,28 +15,16 @@
  */
 package org.yaml.snakeyaml.constructor;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.nodes.MappingNode;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.NodeId;
-import org.yaml.snakeyaml.nodes.NodeTuple;
-import org.yaml.snakeyaml.nodes.ScalarNode;
-import org.yaml.snakeyaml.nodes.SequenceNode;
-import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.nodes.*;
+import org.yaml.snakeyaml.util.EnumUtils;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
 
 /**
  * Construct a custom Java instance.
@@ -491,7 +479,12 @@ public class Constructor extends SafeConstructor {
             } else if (Enum.class.isAssignableFrom(type)) {
                 String enumValueName = node.getValue();
                 try {
-                    result = Enum.valueOf(type, enumValueName);
+                    if(isEnumCaseSensitive()) {
+                        result = Enum.valueOf(type, enumValueName);
+                    } else {
+                        result = EnumUtils.findEnumWithIgnoreCase(type, enumValueName);
+                        if(result == null) throw new RuntimeException();
+                    }
                 } catch (Exception ex) {
                     throw new YAMLException("Unable to find enum value '" + enumValueName
                             + "' for enum class: " + type.getName());

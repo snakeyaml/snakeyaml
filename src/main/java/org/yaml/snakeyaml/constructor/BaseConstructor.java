@@ -79,8 +79,9 @@ public abstract class BaseConstructor {
     private PropertyUtils propertyUtils;
     private boolean explicitPropertyUtils;
     private boolean allowDuplicateKeys = true;
-
     private boolean wrappedToRootException = false;
+
+    private boolean enumCaseSensitive = false;
 
     protected final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
     protected final Map<Tag, Class<? extends Object>> typeTags;
@@ -615,5 +616,13 @@ public abstract class BaseConstructor {
 
     public void setWrappedToRootException(boolean wrappedToRootException) {
         this.wrappedToRootException = wrappedToRootException;
+    }
+
+    public boolean isEnumCaseSensitive() {
+        return enumCaseSensitive;
+    }
+
+    public void setEnumCaseSensitive(boolean enumCaseSensitive) {
+        this.enumCaseSensitive = enumCaseSensitive;
     }
 }

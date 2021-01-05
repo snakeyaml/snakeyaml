@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.28" date="in GIT" description="Maintenance">
+            <action dev="treekt" type="add">
+                Add constructor options to control constructing enum with case sensitivity (2021-01-05)
+            </action>
             <action dev="asomov" type="fix" issue="493">
                 ENV substitution default can contain special characters (2021-01-03)
             </action>

@@ -18,6 +18,7 @@ package org.yaml.snakeyaml.issues.issue395;
 import static junit.framework.TestCase.assertTrue;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.ConstructorOptions;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -37,6 +38,7 @@ public class ReportPositionForDuplicateKeyTest {
                 new Representer(),
                 new DumperOptions(),
                 loaderOptions,
+                new ConstructorOptions(),
                 new Resolver());
         try {
             yaml.load("key1: a\nkey1: b");
