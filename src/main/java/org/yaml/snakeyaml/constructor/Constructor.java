@@ -495,8 +495,7 @@ public class Constructor extends SafeConstructor {
                     if(isEnumCaseSensitive()) {
                         result = Enum.valueOf(type, enumValueName);
                     } else {
-                        result = EnumUtils.findEnumWithIgnoreCase(type, enumValueName);
-                        if(result == null) throw new RuntimeException();
+                        result = EnumUtils.findEnumInsensitiveCase(type, enumValueName);
                     }
                 } catch (Exception ex) {
                     throw new YAMLException("Unable to find enum value '" + enumValueName

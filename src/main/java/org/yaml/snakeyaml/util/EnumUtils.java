@@ -4,17 +4,17 @@ public class EnumUtils {
 
     /**
      * Looks for an enumeration constant that matches the string without being case sensitive
-     * @param enumeration class of the enumeration
-     * @param enumConstantName enumerated constant name
-     * @param <T> enumeration type
-     * @return an enumeration type that matches the name of the enumerated constant
+     * @param enumType the Class object of the enum type from which to return a constant
+     * @param name the name of the constant to return
+     * @param <T> the enum type whose constant is to be returned
+     * @return the enum constant of the specified enum type with the specified name, insensitive to case
      */
-    public static <T extends Enum<?>> T findEnumWithIgnoreCase(Class<T> enumeration, String enumConstantName) {
-        for (T enumConstant : enumeration.getEnumConstants()) {
-            if (enumConstant.name().compareToIgnoreCase(enumConstantName) == 0) {
-                return enumConstant;
+    public static <T extends Enum<?>> T findEnumInsensitiveCase(Class<T> enumType, String name) {
+        for (T constant : enumType.getEnumConstants()) {
+            if (constant.name().compareToIgnoreCase(name) == 0) {
+                return constant;
             }
         }
-        return null;
+        throw new IllegalArgumentException("No enum constant " + enumType.getCanonicalName() + "." + name);
     }
 }
