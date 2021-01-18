@@ -492,7 +492,7 @@ public class Constructor extends SafeConstructor {
             } else if (Enum.class.isAssignableFrom(type)) {
                 String enumValueName = node.getValue();
                 try {
-                    if(isEnumCaseSensitive()) {
+                    if(loadingConfig.isEnumCaseSensitive()) {
                         result = Enum.valueOf(type, enumValueName);
                     } else {
                         result = EnumUtils.findEnumInsensitiveCase(type, enumValueName);

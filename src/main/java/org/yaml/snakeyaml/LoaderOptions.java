@@ -22,6 +22,7 @@ public class LoaderOptions {
     private int maxAliasesForCollections = 50; //to prevent YAML at https://en.wikipedia.org/wiki/Billion_laughs_attack
     private boolean allowRecursiveKeys = false;
     private boolean processComments = false;
+    private boolean enumCaseSensitive = false;
 
     public boolean isAllowDuplicateKeys() {
         return allowDuplicateKeys;
@@ -86,10 +87,10 @@ public class LoaderOptions {
     public boolean getAllowRecursiveKeys() {
         return allowRecursiveKeys;
     }
-    
+
     /**
      * Set the comment processing. By default comments are ignored.
-     * 
+     *
      * @param processComments <code>true</code> to process; <code>false</code> to ignore</code>
      */
     public void setProcessComments(boolean processComments) {
@@ -98,5 +99,19 @@ public class LoaderOptions {
 
     public boolean isProcessComments() {
         return processComments;
+    }
+
+    public boolean isEnumCaseSensitive() {
+        return enumCaseSensitive;
+    }
+
+    /**
+     * Disables or enables case sensitivity during construct enum constant from string value
+     * Default is false.
+     *
+     * @param enumCaseSensitive - true to set enum case sensitive, false the reverse
+     */
+    public void setEnumCaseSensitive(boolean enumCaseSensitive) {
+        this.enumCaseSensitive = enumCaseSensitive;
     }
 }

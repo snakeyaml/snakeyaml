@@ -19,7 +19,7 @@ import java.util.EnumSet;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.yaml.snakeyaml.ConstructorOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -107,9 +107,9 @@ public class YamlEnumSetTest {
     @Test(expected = YAMLException.class)
     public void enumSetLoadWithCaseSensitive() {
         //given
-        ConstructorOptions constructorOptions = new ConstructorOptions();
-        constructorOptions.setEnumCaseSensitive(true);
-        Yaml yaml = new Yaml(constructorOptions);
+        LoaderOptions loaderOptions = new LoaderOptions();
+        loaderOptions.setEnumCaseSensitive(true);
+        Yaml yaml = new Yaml(loaderOptions);
 
         YamlEnumSetTest yEST = new YamlEnumSetTest();
         yEST.day = Day.SUNDAY;
