@@ -1,7 +1,5 @@
 package org.yaml.snakeyaml.util;
 
-import org.jetbrains.annotations.NotNull;
-
 public class EnumUtils {
 
     /**
@@ -13,8 +11,7 @@ public class EnumUtils {
      * @return the enum constant of the specified enum type with the specified name, insensitive to case
      * @throws IllegalArgumentException – if the specified enum type has no constant with the specified name, insensitive case
      */
-    @NotNull
-    public static <T extends Enum<T>> T findEnumInsensitiveCase(@NotNull Class<T> enumType, @NotNull String name) {
+    public static <T extends Enum<T>> T findEnumInsensitiveCase(Class<T> enumType, String name) {
         for (T constant : enumType.getEnumConstants()) {
             if (constant.name().compareToIgnoreCase(name) == 0) {
                 return constant;
