@@ -85,6 +85,9 @@ public class YamlEnumSetTest {
     @Test
     public void enumSetLoadWithoutCaseSensitive() {
         //given
+        LoaderOptions loaderOptions = new LoaderOptions();
+        loaderOptions.setEnumCaseSensitive(false);
+
         YamlEnumSetTest yEST = new YamlEnumSetTest();
         yEST.day = Day.SUNDAY;
         yEST.setOfDays = EnumSet.of(Day.MONDAY, Day.WEDNESDAY, Day.FRIDAY);
@@ -92,7 +95,7 @@ public class YamlEnumSetTest {
         String yamlStr = "day: SUNDAY\nsetOfDays: { MONDAY, wednesday, friDay }\n";
 
         //when
-        YamlEnumSetTest loaded = createYaml().loadAs(yamlStr, YamlEnumSetTest.class);
+        YamlEnumSetTest loaded = createYaml(loaderOptions).loadAs(yamlStr, YamlEnumSetTest.class);
 
         //then
         Assert.assertTrue(loaded.day == Day.SUNDAY);
@@ -106,11 +109,6 @@ public class YamlEnumSetTest {
 
     @Test(expected = YAMLException.class)
     public void enumSetLoadWithCaseSensitive() {
-        //given
-        LoaderOptions loaderOptions = new LoaderOptions();
-        loaderOptions.setEnumCaseSensitive(true);
-        Yaml yaml = new Yaml(loaderOptions);
-
         YamlEnumSetTest yEST = new YamlEnumSetTest();
         yEST.day = Day.SUNDAY;
         yEST.setOfDays = EnumSet.of(Day.MONDAY, Day.WEDNESDAY, Day.FRIDAY);
@@ -118,11 +116,11 @@ public class YamlEnumSetTest {
         String yamlStr = "day: SUNDAY\nsetOfDays: { MONDAY, wednesday, friDay }\n";
 
         //when
-        yaml.loadAs(yamlStr, YamlEnumSetTest.class);
+        createYaml().loadAs(yamlStr, YamlEnumSetTest.class);
     }
 
-    private Yaml createYaml() {
-        Yaml yaml = new Yaml();
+    private Yaml createYaml(LoaderOptions loaderOptions) {
+        Yaml yaml = loaderOptions != null ? new Yaml(loaderOptions) : new Yaml();
 
         TypeDescription yamlEnumSetTD = new TypeDescription(YamlEnumSetTest.class) {
 
@@ -140,5 +138,11 @@ public class YamlEnumSetTest {
 
         return yaml;
     }
+
+    private Yaml createYaml() {
+        return createYaml(null);
+    }
+
+
 
 }
