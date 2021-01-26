@@ -135,8 +135,8 @@ public class ParserImpl implements Parser {
         this(new ScannerImpl(reader));
     }
 
-    public ParserImpl(StreamReader reader, boolean emitComments) {
-        this(new ScannerImpl(reader).setEmitComments(emitComments));
+    public ParserImpl(StreamReader reader, boolean parseComments) {
+        this(new ScannerImpl(reader).setParseComments(parseComments));
     }
 
     public ParserImpl(Scanner scanner) {

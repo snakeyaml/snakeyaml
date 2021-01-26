@@ -178,8 +178,8 @@ public final class ScannerImpl implements Scanner {
     // Past indentation levels.
     private ArrayStack<Integer> indents;
 
-    // A flag that indicates if comments should be emitted
-    private boolean emitComments;
+    // A flag that indicates if comments should be parsed
+    private boolean parseComments;
 
     // Variables related to simple keys treatment. See PyYAML.
 
@@ -217,7 +217,7 @@ public final class ScannerImpl implements Scanner {
     private Map<Integer, SimpleKey> possibleSimpleKeys;
 
     public ScannerImpl(StreamReader reader) {
-        this.emitComments = false;
+        this.parseComments = false;
         this.reader = reader;
         this.tokens = new ArrayList<Token>(100);
         this.indents = new ArrayStack<Integer>(10);
@@ -227,17 +227,17 @@ public final class ScannerImpl implements Scanner {
     }
 
     /**
-     * Set the scanner to ignore comments or emit them as a <code>CommentToken<code>.
+     * Set the scanner to ignore comments or parse them as a <code>CommentToken<code>.
      * 
-     * @param emitComments <code>true</code> to emit; <code>false</code> to ignore</code>
+     * @param parseComments <code>true</code> to parse; <code>false</code> to ignore</code>
      */
-    public ScannerImpl setEmitComments(boolean emitComments) {
-        this.emitComments = emitComments;
+    public ScannerImpl setParseComments(boolean parseComments) {
+        this.parseComments = parseComments;
         return this;
     }
 
-    public boolean isEmitComments() {
-        return emitComments;
+    public boolean isParseComments() {
+        return parseComments;
     }
 
     /**
@@ -1229,7 +1229,7 @@ public final class ScannerImpl implements Scanner {
                     type = CommentType.BLOCK;
                 }
                 CommentToken token = scanComment(type);
-                if (emitComments) {
+                if (parseComments) {
                     this.tokens.add(token);
                 }
             }
@@ -1237,7 +1237,7 @@ public final class ScannerImpl implements Scanner {
             // simple keys may be allowed.
             String breaks = scanLineBreak();
             if (breaks.length() != 0) {// found a line-break
-                if (emitComments && ! commentSeen) {
+                if (parseComments && ! commentSeen) {
                     if (startMark.getColumn() == 0) {
                         Mark endMark = reader.getMark();
                         this.tokens.add(new CommentToken(CommentType.BLANK_LINE, breaks, startMark, endMark));
@@ -1460,7 +1460,7 @@ public final class ScannerImpl implements Scanner {
                 length++;
             }
             String comment = reader.prefixForward(length);
-            if(emitComments) {
+            if(parseComments) {
                 Mark commentEndMark = reader.getMark();
                 commentToken = new CommentToken(CommentType.IN_LINE, comment, commentStartMark, commentEndMark);
             }
@@ -1697,7 +1697,7 @@ public final class ScannerImpl implements Scanner {
         }
         CommentToken blankLineCommentToken = null;
         if (chompi.chompTailIsTrue()) {
-            if (emitComments) {
+            if (parseComments) {
                 blankLineCommentToken = new CommentToken(CommentType.BLANK_LINE, breaks, startMark, endMark);
             }
             chunks.append(breaks);
@@ -2323,7 +2323,7 @@ public final class ScannerImpl implements Scanner {
             if (tokens[ix] == null) {
                 continue;
             }
-            if (!emitComments && (tokens[ix] instanceof CommentToken)) {
+            if (!parseComments && (tokens[ix] instanceof CommentToken)) {
                 continue;
             }
             tokenList.add(tokens[ix]);

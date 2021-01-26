@@ -82,15 +82,15 @@ public class ScannerWithCommentEnabledTest {
     }
 
     private Scanner constructScanner(String input) {
-        return new ScannerImpl(new StreamReader(new StringReader(input))).setEmitComments(true);
+        return new ScannerImpl(new StreamReader(new StringReader(input))).setParseComments(true);
     }
 
     @Test
-    public void testEmitComments() {
-        ScannerImpl sutWithOutComments = new ScannerImpl(new StreamReader(new StringReader(""))).setEmitComments(false);
-        assertFalse(sutWithOutComments.isEmitComments());
-        ScannerImpl sutWithComments = new ScannerImpl(new StreamReader(new StringReader(""))).setEmitComments(true);
-        assertTrue(sutWithComments.isEmitComments());
+    public void testParseComments() {
+        ScannerImpl sutWithOutComments = new ScannerImpl(new StreamReader(new StringReader(""))).setParseComments(false);
+        assertFalse(sutWithOutComments.isParseComments());
+        ScannerImpl sutWithComments = new ScannerImpl(new StreamReader(new StringReader(""))).setParseComments(true);
+        assertTrue(sutWithComments.isParseComments());
     }
 
     @Test
