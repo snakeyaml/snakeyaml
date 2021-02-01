@@ -26,6 +26,15 @@ jobs:
     strategy:
       matrix:
         jdk: [7, 8, 11, 14]
+        include: 
+          - jdk: 7
+            profile: ''
+          - jdk: 8
+            profile: -Pwith-java8-tests
+          - jdk: 11
+            profile: -Pwith-java11-tests
+          - jdk: 14
+            profile: -Pwith-java11-tests
 
     steps:
       - uses: actions/checkout@v2
@@ -34,4 +43,4 @@ jobs:
         with:
           java-version: ${{ matrix.jdk }}
       - name: Build with Maven
-        run: mvn -V package --file pom.xml
+        run: mvn -V -B ${{ matrix.profile }} verify --file pom.xml
