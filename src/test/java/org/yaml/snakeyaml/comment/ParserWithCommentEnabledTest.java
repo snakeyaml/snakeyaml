@@ -52,13 +52,17 @@ public class ParserWithCommentEnabledTest {
         }
     }
 
+    private Parser createParser(String data) {
+        return new ParserImpl(new StreamReader(data), true);
+    }
+
     @Test
     public void testEmpty() {
         List<ID> expectedEventIdList = Arrays.asList(new ID[] { ID.StreamStart, ID.StreamEnd });
 
         String data = "";
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -73,7 +77,7 @@ public class ParserWithCommentEnabledTest {
                 ID.StreamEnd, //
         });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -92,7 +96,7 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -113,7 +117,7 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -127,7 +131,7 @@ public class ParserWithCommentEnabledTest {
                 ID.Comment, //
                 ID.StreamEnd });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -151,7 +155,7 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -175,7 +179,7 @@ public class ParserWithCommentEnabledTest {
                 ID.StreamEnd //
         });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -189,7 +193,7 @@ public class ParserWithCommentEnabledTest {
                 ID.StreamEnd //
         });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
         assertEventListEquals(expectedEventIdList, sut);
     }
     
@@ -218,7 +222,7 @@ public class ParserWithCommentEnabledTest {
                 ID.StreamEnd //
         });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
         
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -291,7 +295,7 @@ public class ParserWithCommentEnabledTest {
                 ID.StreamEnd //
         });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
         //printEventList(sut);
         assertEventListEquals(expectedEventIdList, sut);
@@ -328,7 +332,7 @@ public class ParserWithCommentEnabledTest {
                 ID.StreamEnd //
         });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -360,7 +364,7 @@ public class ParserWithCommentEnabledTest {
                 ID.StreamEnd //
         });
 
-        Parser sut = new ParserImpl(new StreamReader(data), true);
+        Parser sut = createParser(data);
 
 //        printEventList(sut);
         assertEventListEquals(expectedEventIdList, sut);

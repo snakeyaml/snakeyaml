@@ -26,6 +26,7 @@ import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.emitter.Emitter;
+import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
@@ -37,11 +38,10 @@ public class EmitterWithCommentEnabledTest {
     private String runEmitterWithCommentsEnabled(String data) throws IOException {
         StringWriter output = new StringWriter();
 
-        Tag rootTag = null;
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(ScalarStyle.PLAIN);
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
-        Serializer serializer = new Serializer(new Emitter(output, options), new Resolver(), options, rootTag);
+        Serializer serializer = new Serializer(new Emitter(output, options), new Resolver(), options, null);
 
         serializer.open();
         Composer composer = new Composer(new ParserImpl(new StreamReader(data), true), new Resolver());
@@ -108,7 +108,7 @@ public class EmitterWithCommentEnabledTest {
     public void testBlankLineComments() throws Exception {
         String data = "" + //
                 "\n" + //
-                "abc: def # commment\n" + //
+                "abc: def # comment\n" + //
                 "\n" + //
                 "\n";
 
