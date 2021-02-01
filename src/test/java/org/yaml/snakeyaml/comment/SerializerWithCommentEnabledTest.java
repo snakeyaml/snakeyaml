@@ -15,16 +15,6 @@
  */
 package org.yaml.snakeyaml.comment;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import org.junit.Ignore;
 import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.composer.Composer;
@@ -37,16 +27,34 @@ import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 import org.yaml.snakeyaml.serializer.Serializer;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class SerializerWithCommentEnabledTest {
+    private boolean DEBUG = false;
+
+    private void println(String s) {
+        if (DEBUG) println(s);
+    }
+
+    private void println() {
+        if (DEBUG) println();
+    }
 
     private void assertEventListEquals(List<ID> expectedEventIdList, List<Event> actualEvents) {
         Iterator<Event> iterator = actualEvents.iterator();
         for (ID expectedEventId : expectedEventIdList) {
-            System.out.println("Expected: " + expectedEventId);
+            println("Expected: " + expectedEventId);
             assertTrue(iterator.hasNext());
             Event event = iterator.next();
-            System.out.println("Got: " + event);
-            System.out.println();
+            println("Got: " + event);
+            println();
             assertEquals(expectedEventId, event.getEventId());
         }
     }
@@ -67,7 +75,7 @@ public class SerializerWithCommentEnabledTest {
     public List<Event> serializeWithCommentsEnabled(String data) throws IOException {
         TestEmitter emitter = new TestEmitter();
         Tag rootTag = null;
-        Serializer serializer =  new Serializer(emitter, new Resolver(), new DumperOptions(), rootTag);
+        Serializer serializer = new Serializer(emitter, new Resolver(), new DumperOptions(), rootTag);
         serializer.open();
         Composer composer = new Composer(new ParserImpl(new StreamReader(data), true), new Resolver());
         while (composer.checkNode()) {
@@ -75,18 +83,18 @@ public class SerializerWithCommentEnabledTest {
         }
         serializer.close();
         List<Event> events = emitter.getEventList();
-        System.out.println("RESULT: ");
-        for(Event event: events) {
-            System.out.println(event);
+        println("RESULT: ");
+        for (Event event : events) {
+            println(event.toString());
         }
-        System.out.println();
+        println();
         return events;
     }
-    
+
 
     @Test
     public void testEmpty() throws Exception {
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { ID.StreamStart, ID.StreamEnd });
+        List<ID> expectedEventIdList = Arrays.asList(ID.StreamStart, ID.StreamEnd);
 
         String data = "";
 
@@ -99,13 +107,13 @@ public class SerializerWithCommentEnabledTest {
     public void testParseWithOnlyComment() throws Exception {
         String data = "# Comment";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.Comment, //
                 ID.DocumentEnd, //
-                ID.StreamEnd, //
-        });
+                ID.StreamEnd //
+        );
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -118,14 +126,14 @@ public class SerializerWithCommentEnabledTest {
                 "key: # Comment\n" + //
                 "  value\n";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.MappingStart, //
                 ID.Scalar, ID.Comment, ID.Scalar, //
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
-                ID.StreamEnd });
+                ID.StreamEnd);
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -140,13 +148,13 @@ public class SerializerWithCommentEnabledTest {
                 "  value\n" + //
                 "\n";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { ID.StreamStart, //
+        List<ID> expectedEventIdList = Arrays.asList(ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.MappingStart, //
                 ID.Scalar, ID.Comment, ID.Comment, ID.Scalar, //
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
-                ID.StreamEnd });
+                ID.StreamEnd);
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -158,12 +166,12 @@ public class SerializerWithCommentEnabledTest {
         String data = "" + //
                 "\n";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.Comment, //
                 ID.DocumentEnd, //
-                ID.StreamEnd });
+                ID.StreamEnd);
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -178,7 +186,7 @@ public class SerializerWithCommentEnabledTest {
                 "\n" + //
                 "\n";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.Comment, //
@@ -188,7 +196,7 @@ public class SerializerWithCommentEnabledTest {
                 ID.Comment, //
                 ID.Comment, //
                 ID.DocumentEnd, //
-                ID.StreamEnd });
+                ID.StreamEnd);
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -203,7 +211,7 @@ public class SerializerWithCommentEnabledTest {
                 "    hij\n" + //
                 "\n";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.MappingStart, //
@@ -212,7 +220,7 @@ public class SerializerWithCommentEnabledTest {
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
                 ID.StreamEnd //
-        });
+        );
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -223,10 +231,10 @@ public class SerializerWithCommentEnabledTest {
     public void testDirectiveLineEndComment() throws Exception {
         String data = "%YAML 1.1 #Comment\n";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.StreamEnd //
-        });
+        );
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -242,7 +250,7 @@ public class SerializerWithCommentEnabledTest {
                 "- item # InlineComment2\n" + //
                 "# Comment\n";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.Comment, //
@@ -255,7 +263,7 @@ public class SerializerWithCommentEnabledTest {
                 ID.Comment, //
                 ID.DocumentEnd, //
                 ID.StreamEnd //
-        });
+        );
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -284,7 +292,7 @@ public class SerializerWithCommentEnabledTest {
                 "# Block Comment7\n" + //
                 "";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.Comment, //
@@ -328,7 +336,7 @@ public class SerializerWithCommentEnabledTest {
                 ID.Scalar, // Empty
                 ID.DocumentEnd, //
                 ID.StreamEnd //
-        });
+        );
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -348,7 +356,7 @@ public class SerializerWithCommentEnabledTest {
                 "# Block Comment4\n" + //
                 "";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.Comment, //
@@ -364,7 +372,7 @@ public class SerializerWithCommentEnabledTest {
                 ID.Comment, //
                 ID.DocumentEnd, //
                 ID.StreamEnd //
-        });
+        );
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
@@ -379,7 +387,7 @@ public class SerializerWithCommentEnabledTest {
                 "# Block Comment2\n" + //
                 "";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.Comment, //
@@ -395,7 +403,7 @@ public class SerializerWithCommentEnabledTest {
                 ID.Comment, //
                 ID.DocumentEnd, //
                 ID.StreamEnd //
-        });
+        );
 
         List<Event> result = serializeWithCommentsEnabled(data);
 
