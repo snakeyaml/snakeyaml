@@ -72,7 +72,8 @@ public class ComposerWithCommentEnabledTest {
         for (int ix = 0; ix < level; ix++) {
             out.print("    ");
         }
-        out.println(line);
+        out.print(line);
+        out.print("\n");
     }
 
     private void printNodeInternal(Node node, int level, PrintStream out) {
@@ -146,7 +147,7 @@ public class ComposerWithCommentEnabledTest {
                 if (first) {
                     first = false;
                 } else {
-                    out.println("---");
+                    out.print("---\n");
                 }
                 printNodeInternal(node, 0, out);
             }
