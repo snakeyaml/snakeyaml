@@ -90,7 +90,7 @@ public abstract class PyImportTest extends TestCase {
             buffer.appendCodePoint(reader.peek());
             reader.forward();
         }
-        CanonicalParser parser = new CanonicalParser(buffer.toString());
+        CanonicalParser parser = new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n"));
         List<Event> result = new ArrayList<Event>();
         while (parser.peekEvent() != null) {
             result.add(parser.getEvent());

@@ -199,7 +199,7 @@ public class PyStructureTest extends PyImportTest {
             buffer.appendCodePoint(reader.peek());
             reader.forward();
         }
-        CanonicalParser parser = new CanonicalParser(buffer.toString());
+        CanonicalParser parser = new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n"));
         Composer composer = new Composer(parser, new Resolver());
         List<Node> documents = new ArrayList<Node>();
         while (composer.checkNode()) {
@@ -221,7 +221,7 @@ public class PyStructureTest extends PyImportTest {
                 buffer.appendCodePoint(reader.peek());
                 reader.forward();
             }
-            CanonicalParser parser = new CanonicalParser(buffer.toString());
+            CanonicalParser parser = new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n"));
             Composer composer = new Composer(parser, resolver);
             this.constructor.setComposer(composer);
             Iterator<Object> result = new Iterator<Object>() {
