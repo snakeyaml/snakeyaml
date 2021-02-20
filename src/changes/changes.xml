@@ -6,7 +6,10 @@
     </properties>
     <body>
         <release version="1.28" date="in GIT" description="Maintenance">
-            <action dev="treekt" type="add">
+            <action dev="maslovalex" type="fix">
+                Fix tests to work on Windows (2021-02-19)
+            </action>
+            <action dev="asomov" type="add">
                 Add enumCaseSensitive property to LoaderOptions to control constructing enum with case sensitivity (2021-01-05)
             </action>
             <action dev="asomov" type="fix" issue="493">
