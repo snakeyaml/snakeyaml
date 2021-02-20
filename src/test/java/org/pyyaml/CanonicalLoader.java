@@ -33,7 +33,7 @@ public class CanonicalLoader extends Yaml {
                 buffer.append((char) ch);
                 ch = yaml.read();
             }
-            Composer composer = new Composer(new CanonicalParser(buffer.toString()), resolver);
+            Composer composer = new Composer(new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n")), resolver);
             constructor.setComposer(composer);
             return constructor.getSingleData(Object.class);
         } catch (IOException e) {
