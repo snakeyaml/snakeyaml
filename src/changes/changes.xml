@@ -5,7 +5,12 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.28" date="in GIT" description="Maintenance">
+        <release version="1.29" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="remove">
+                Remove unused variable (2021-02-28)
+            </action>
+        </release>
+        <release version="1.28" date="2021-02-22" description="Maintenance">
             <action dev="maslovalex" type="fix">
                 Fix tests to work on Windows (2021-02-19)
             </action>
