@@ -153,6 +153,7 @@ public class SerializerWithCommentEnabledTest {
                 ID.MappingStart, //
                 ID.Scalar, ID.Comment, ID.Comment, ID.Scalar, //
                 ID.MappingEnd, //
+                ID.Comment, //
                 ID.DocumentEnd, //
                 ID.StreamEnd);
 

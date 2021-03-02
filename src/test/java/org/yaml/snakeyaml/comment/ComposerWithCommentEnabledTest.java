@@ -39,7 +39,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ComposerWithCommentEnabledTest {
-    private boolean DEBUG = false;
+    private boolean DEBUG = true;
 
     private void printBlockComment(Node node, int level, PrintStream out) {
         if (node.getBlockComments() != null) {
@@ -228,7 +228,8 @@ public class ComposerWithCommentEnabledTest {
                 "        ScalarNode: key", //
                 "            InLine Comment", //
                 "            InLine Comment", //
-                "        ScalarNode: value" //
+                "        ScalarNode: value", //
+                "End Comment" //
         };
 
         Composer sut = newComposerWithCommentsEnabled(data);
