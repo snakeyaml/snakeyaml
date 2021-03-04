@@ -501,6 +501,7 @@ public class ComposerWithCommentEnabledTest {
                 "\n" + //
                 "\n";
         String[] expecteds = new String[]{ //
+                "Block Comment",
                 "MappingNode", //
                 "    Tuple", //
                 "        ScalarNode: abc", //

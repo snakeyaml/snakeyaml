@@ -136,18 +136,10 @@ public class Composer {
     public Node getSingleNode() {
         // Drop the STREAM-START event.
         parser.getEvent();
-        // Drop any leading comments (though should not have run this case with comments on)
-        while (parser.checkEvent(Event.ID.Comment)) {
-            parser.getEvent();
-        }
         // Compose a document if the stream is not empty.
         Node document = null;
         if (!parser.checkEvent(Event.ID.StreamEnd)) {
             document = getNode();
-        }
-        // Drop any trailing comments (though should not have run this case with comments on)
-        while (parser.checkEvent(Event.ID.Comment)) {
-            parser.getEvent();
         }
         // Ensure that the stream contains no more documents.
         if (!parser.checkEvent(Event.ID.StreamEnd)) {
