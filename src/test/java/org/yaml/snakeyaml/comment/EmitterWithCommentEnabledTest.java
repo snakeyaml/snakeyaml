@@ -39,6 +39,7 @@ public class EmitterWithCommentEnabledTest {
         DumperOptions options = new DumperOptions();
         options.setDefaultScalarStyle(ScalarStyle.PLAIN);
         options.setDefaultFlowStyle(FlowStyle.BLOCK);
+        options.setProcessComments(true);
         Serializer serializer = new Serializer(new Emitter(output, options), new Resolver(), options, null);
 
         serializer.open();
