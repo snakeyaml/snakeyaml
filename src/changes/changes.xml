@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.29" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="add">
+                Add a test for issue 500 (2021-03-14)
+            </action>
             <action dev="asomov" type="remove">
                 Remove unused variable (2021-02-28)
             </action>
