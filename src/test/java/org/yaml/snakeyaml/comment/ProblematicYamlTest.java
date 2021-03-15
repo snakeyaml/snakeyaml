@@ -69,7 +69,7 @@ public class ProblematicYamlTest {
             println("Got: " + event
                     + (event.getEventId() == ID.Comment ? " " + ((CommentEvent) event).getCommentType() : ""));
             println();
-            if (expectedCommentTypeList != null && event.getEventId() == ID.Comment) {
+            if (event.getEventId() == ID.Comment) {
                 assertEquals(commentTypeIterator.next(), ((CommentEvent) event).getCommentType());
             }
             assertEquals(expectedEventId, event.getEventId());
@@ -86,7 +86,7 @@ public class ProblematicYamlTest {
     }
 
     @Test
-    public void testParseProblematicYaml1() throws Exception {
+    public void testParseProblematicYaml1() {
         final String yamlString1 = "" + //
                 "key: value\n" + //
                 "  # Comment 1\n" + // s.b BLOCK, classified as INLINE
@@ -94,7 +94,7 @@ public class ProblematicYamlTest {
                 "  # Comment 2\n" + //
                 "";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.MappingStart, //
@@ -105,11 +105,11 @@ public class ProblematicYamlTest {
                 ID.Comment, //
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
-                ID.StreamEnd, //
-        });
+                ID.StreamEnd //
+        );
 
-        List<CommentType> expectedCommentTypeList = Arrays.asList(new CommentType[] { //
-                CommentType.BLOCK, CommentType.BLANK_LINE, CommentType.BLOCK, });
+        List<CommentType> expectedCommentTypeList = Arrays.asList(//
+                CommentType.BLOCK, CommentType.BLANK_LINE, CommentType.BLOCK);
 
         ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString1)),
                 LOAD_OPTIONS.isProcessComments());
@@ -118,7 +118,7 @@ public class ProblematicYamlTest {
     }
 
     @Test
-    public void testParseProblematicYaml2() throws Exception {
+    public void testParseProblematicYaml2() {
         final String yamlString2 = "" + //
                 "key: value\n" + //
                 "\n" + //
@@ -127,7 +127,7 @@ public class ProblematicYamlTest {
                 "  # Comment 2\n" + //
                 "";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.MappingStart, //
@@ -139,11 +139,11 @@ public class ProblematicYamlTest {
                 ID.Comment, //
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
-                ID.StreamEnd, //
-        });
+                ID.StreamEnd //
+        );
 
-        List<CommentType> expectedCommentTypeList = Arrays.asList(new CommentType[] { //
-                CommentType.BLANK_LINE, CommentType.BLOCK, CommentType.BLANK_LINE, CommentType.BLOCK });
+        List<CommentType> expectedCommentTypeList = Arrays.asList(//
+                CommentType.BLANK_LINE, CommentType.BLOCK, CommentType.BLANK_LINE, CommentType.BLOCK);
 
         ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString2)),
                 LOAD_OPTIONS.isProcessComments());
@@ -152,14 +152,14 @@ public class ProblematicYamlTest {
     }
 
     @Test
-    public void testParseProblematicYaml3() throws Exception {
+    public void testParseProblematicYaml3() {
         final String yamlString3 = "" + //
                 "key: value\n" + //
                 "\n" + //
                 "key: value\n" + //
                 "";
 
-        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+        List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.MappingStart, //
@@ -170,11 +170,10 @@ public class ProblematicYamlTest {
                 ID.Scalar, //
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
-                ID.StreamEnd, //
-        });
+                ID.StreamEnd //
+        );
 
-        List<CommentType> expectedCommentTypeList = Arrays.asList(new CommentType[] { //
-                CommentType.BLANK_LINE });
+        List<CommentType> expectedCommentTypeList = Arrays.asList(CommentType.BLANK_LINE);
 
         ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString3)),
                 LOAD_OPTIONS.isProcessComments());
@@ -183,8 +182,8 @@ public class ProblematicYamlTest {
     }
 
     @Test
-    public void test() throws Exception {
-        String s = "" + //
+    public void testParseProblematicYaml4() {
+        String yamlString4= "" + //
                 "---\n" + //
                 "in the block context:\n" + //
                 "    indentation should be kept: { \n" + //
@@ -203,13 +202,45 @@ public class ProblematicYamlTest {
                 "    bar: 'quoted scalars\n" + //
                 "may not adhere indentation'\n" + //
                 "";
-        Parser parser = new ParserImpl(new StreamReader(new StringReader(s)));
-        List<Event> events = new ArrayList<Event>();
-        while (parser.peekEvent() != null) {
-            Event e = parser.getEvent();
-            println(e.toString());
-            events.add(e);
-        }
+
+        List<ID> expectedEventIdList = Arrays.asList(//
+                ID.StreamStart, //
+                ID.DocumentStart, //
+                ID.MappingStart, //
+                ID.Scalar, //
+                ID.MappingStart, //
+                ID.Scalar, //
+                ID.MappingStart, //
+                ID.Scalar, //
+                ID.SequenceStart, //
+                ID.Scalar, //
+                ID.SequenceEnd, //
+                ID.MappingEnd, //
+                ID.MappingEnd, //
+                ID.MappingEnd, //
+                ID.DocumentEnd, //
+                ID.DocumentStart, //
+                ID.Scalar, //
+                ID.DocumentEnd, //
+                ID.DocumentStart, //
+                ID.Scalar, //
+                ID.DocumentEnd, //
+                ID.DocumentStart, //
+                ID.MappingStart, //
+                ID.Scalar, //
+                ID.MappingStart, //
+                ID.Scalar, //
+                ID.Scalar, //
+                ID.MappingEnd, //
+                ID.MappingEnd, //
+                ID.DocumentEnd, //
+                ID.StreamEnd//
+        );
+
+        ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString4)),
+                LOAD_OPTIONS.isProcessComments());
+
+        assertEventListEquals(expectedEventIdList, new ArrayList<CommentType>(), parser);
     }
    
 }
