@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.29" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix">
+                Fix corner case for comments where blank lines after plain token  (2021-03-02)
+            </action>
             <action dev="asomov" type="add">
                 Add a test for issue 500 (2021-03-14)
             </action>
