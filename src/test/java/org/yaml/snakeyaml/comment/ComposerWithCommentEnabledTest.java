@@ -39,7 +39,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ComposerWithCommentEnabledTest {
-    private boolean DEBUG = true;
+    private boolean DEBUG = false;
 
     private void printBlockComment(Node node, int level, PrintStream out) {
         if (node.getBlockComments() != null) {

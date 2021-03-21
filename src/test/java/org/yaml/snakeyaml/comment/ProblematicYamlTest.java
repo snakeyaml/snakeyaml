@@ -1,3 +1,18 @@
+/**
+ * Copyright (c) 2008, http://www.snakeyaml.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.yaml.snakeyaml.comment;
 
 import static org.junit.Assert.assertEquals;
@@ -22,6 +37,16 @@ import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
 
 public class ProblematicYamlTest {
+    private boolean DEBUG = false;
+
+    private void println(String s) {
+        if (DEBUG) System.out.println(s);
+    }
+
+    private void println() {
+        if (DEBUG) System.out.println();
+    }
+
     private static final LoaderOptions LOAD_OPTIONS = new LoaderOptions();
     static {
         LOAD_OPTIONS.setProcessComments(true);
@@ -37,13 +62,13 @@ public class ProblematicYamlTest {
         for (ID expectedEventId : expectedEventIdList) {
             parser.checkEvent(expectedEventId);
             Event event = parser.getEvent();
-            System.out.println("Expected: " + expectedEventId);
+            println("Expected: " + expectedEventId);
             if (event == null) {
                 fail("Missing event: " + expectedEventId);
             }
-            System.out.println("Got: " + event
+            println("Got: " + event
                     + (event.getEventId() == ID.Comment ? " " + ((CommentEvent) event).getCommentType() : ""));
-            System.out.println();
+            println();
             if (expectedCommentTypeList != null && event.getEventId() == ID.Comment) {
                 assertEquals(commentTypeIterator.next(), ((CommentEvent) event).getCommentType());
             }
@@ -54,9 +79,9 @@ public class ProblematicYamlTest {
     @SuppressWarnings("unused")
     private void printEventList(Parser parser) {
         for (Event event = parser.getEvent(); event != null; event = parser.getEvent()) {
-            System.out.println("Got: " + event
+            println("Got: " + event
                     + (event.getEventId() == ID.Comment ? " " + ((CommentEvent) event).getCommentType() : ""));
-            System.out.println();
+            println();
         }
     }
 
@@ -182,7 +207,7 @@ public class ProblematicYamlTest {
         List<Event> events = new ArrayList<Event>();
         while (parser.peekEvent() != null) {
             Event e = parser.getEvent();
-            System.out.println(e);
+            println(e.toString());
             events.add(e);
         }
     }
