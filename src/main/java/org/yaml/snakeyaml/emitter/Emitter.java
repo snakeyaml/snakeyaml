@@ -547,16 +547,16 @@ public final class Emitter implements Emitable {
                 }
                 state = states.pop();
             } else if (event instanceof CommentEvent) {
-                blockCommentsCollector.collectEvents(event);
-                writeBlockComment();
+                event = blockCommentsCollector.collectEvents(event);
             } else {
                 writeIndicator(",", false, false, false);
+                writeBlockComment();
                 if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
                 states.push(new ExpectFlowSequenceItem());
                 expectNode(false, false, false);
-                inlineCommentsCollector.collectEvents(event);
+                event = inlineCommentsCollector.collectEvents(event);
                 writeInlineComments();
             }
         }
@@ -576,6 +576,8 @@ public final class Emitter implements Emitable {
 
     private class ExpectFirstFlowMappingKey implements EmitterState {
         public void expect() throws IOException {
+            event = blockCommentsCollector.collectEventsAndPoll(event);
+            writeBlockComment();
             if (event instanceof MappingEndEvent) {
                 indent = indents.pop();
                 flowLevel--;
@@ -617,6 +619,8 @@ public final class Emitter implements Emitable {
                 state = states.pop();
             } else {
                 writeIndicator(",", false, false, false);
+                event = blockCommentsCollector.collectEventsAndPoll(event);
+                writeBlockComment();
                 if (canonical || (column > bestWidth && splitLines) || prettyFlow) {
                     writeIndent();
                 }
