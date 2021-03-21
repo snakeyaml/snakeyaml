@@ -140,6 +140,7 @@ public class ScannerWithCommentEnabledTest {
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Comment, //
                 ID.Scalar, //
+                ID.Comment, //
                 ID.BlockEnd, //
                 ID.StreamEnd);
         List<String> expectedScalarValue = Arrays.asList(//

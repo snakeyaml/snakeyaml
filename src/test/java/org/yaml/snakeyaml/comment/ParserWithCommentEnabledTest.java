@@ -29,14 +29,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class ParserWithCommentEnabledTest {
-    private boolean DEBUG = false;
+    private boolean DEBUG = true;
 
     private void println(String s) {
-        if (DEBUG) println(s);
+        if (DEBUG) System.out.println(s);
     }
 
     private void println() {
-        if (DEBUG) println();
+        if (DEBUG) System.out.println();
     }
 
 
@@ -123,6 +123,7 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentStart, //
                 ID.MappingStart, //
                 ID.Scalar, ID.Comment, ID.Comment, ID.Scalar, //
+                ID.Comment, //
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
                 ID.StreamEnd);
@@ -379,4 +380,55 @@ public class ParserWithCommentEnabledTest {
 //        printEventList(sut);
         assertEventListEquals(expectedEventIdList, sut);
     }
+    
+    @Test
+    public void testKeepingNewLineInsideSequence() throws Exception {
+        String data = "" +
+                "\n" + 
+                "key:\n" + 
+                "\n" + 
+                "- item1\n" + 
+                "\n" + // Per Spec this is part of plain scalar above
+                "- item2\n" + 
+                "\n" + // Per Spec this is part of plain scalar above
+                "- item3\n" + 
+                "\n" + // FIXME: ?Should be comment?
+                "key2: value2\n" +
+                "\n" + // FIXME: ?Should be comment?
+                "key3: value3\n" +
+                "\n" + // FIXME: ?Should be comment?
+                "";
+        
+        List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+                ID.StreamStart, //
+                ID.Comment, //
+                ID.DocumentStart, //
+                ID.MappingStart, //
+                ID.Scalar, //
+                ID.Comment, //
+                ID.SequenceStart, //
+                ID.Scalar, //
+                ID.Scalar, //
+                ID.Scalar, //
+                ID.Comment, //
+                ID.SequenceEnd, //
+                ID.Scalar, //
+                ID.Scalar, //
+                ID.Comment, //
+                ID.Scalar, //
+                ID.Scalar, //
+                ID.Comment, //
+                ID.MappingEnd, //
+                ID.DocumentEnd, //
+                ID.StreamEnd //
+        });
+
+        Parser sut = new ParserImpl(new StreamReader(data), true);
+
+        //printEventList(sut);
+        assertEventListEquals(expectedEventIdList, sut);
+
+
+    }
+
 }

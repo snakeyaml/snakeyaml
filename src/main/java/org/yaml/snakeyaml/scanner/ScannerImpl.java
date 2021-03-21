@@ -2081,6 +2081,46 @@ public final class ScannerImpl implements Scanner {
         return new ScalarToken(chunks.toString(), startMark, endMark, true);
     }
 
+    // Helper for scanPlainSpaces method when comments are enabled.
+    // The ensures that blank lines and comments following a multi-line plain token are not swallowed up
+    private boolean atEndOfPlain() {
+        // peak ahead to find end of whitespaces and the column at which it occurs
+        int wsLength = 0;
+        int wsColumn = this.reader.getColumn();
+        {
+            int c;
+            while ((c = reader.peek(wsLength)) != '\0' && Constant.NULL_BL_T_LINEBR.has(c)) {
+                wsLength++;
+                if (!Constant.LINEBR.has(c) && (c != '\r' || reader.peek(wsLength + 1) != '\n') && c != 0xFEFF) {
+                    wsColumn++;
+                } else {
+                    wsColumn = 0;
+                }
+            }
+        }
+
+        // if we see, a comment or end of string or change decrease in indent, we are done
+        // Do not chomp end of lines and blanks, they will be handled by the main loop.
+        if (reader.peek(wsLength) == '#' || reader.peek(wsLength + 1) == '\0'
+                || this.flowLevel == 0 && wsColumn < this.indent) {
+            return true;
+        }
+
+        // if we see, after the space, a key-value followed by a ':', we are done
+        // Do not chomp end of lines and blanks, they will be handled by the main loop.
+        if (this.flowLevel == 0) {
+            int c;
+            for(int extra = 1; (c = reader.peek(wsLength + extra)) != 0 && !Constant.NULL_BL_T_LINEBR.has(c); extra++) {
+                if (c == ':' && Constant.NULL_BL_T_LINEBR.has(reader.peek(wsLength + extra + 1))) {
+                    return true;
+                }
+            }
+        }
+
+        // None of the above so safe to chomp the spaces.
+        return false;
+    }
+
     /**
      * See the specification for details. SnakeYAML and libyaml allow tabs
      * inside plain scalar
@@ -2097,6 +2137,9 @@ public final class ScannerImpl implements Scanner {
             String prefix = reader.prefix(3);
             if ("---".equals(prefix) || "...".equals(prefix)
                     && Constant.NULL_BL_T_LINEBR.has(reader.peek(3))) {
+                return "";
+            }
+            if(emitComments && atEndOfPlain()) {
                 return "";
             }
             StringBuilder breaks = new StringBuilder();
@@ -2241,7 +2284,7 @@ public final class ScannerImpl implements Scanner {
      * 
      * FIXME This method fails for more than 256 bytes' worth of URI-encoded
      * characters in a row. Is this possible? Is this a use-case?
-     * 
+     *
      * @see <a href="http://www.ietf.org/rfc/rfc2396.txt">section 2.4, Escaped Encoding</a>
      */
     private String scanUriEscapes(String name, Mark startMark) {

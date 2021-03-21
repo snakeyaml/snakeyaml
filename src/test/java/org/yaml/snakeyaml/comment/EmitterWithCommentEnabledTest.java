@@ -223,4 +223,70 @@ public class EmitterWithCommentEnabledTest {
 
         assertEquals(data, result);
     }
+    
+    @Test
+    public void testKeepingNewLineInsideSequence() throws Exception {
+        String data = "" +
+                "\n" + 
+                "key:\n" + 
+                "  \n" + 
+                "  - item1\n" + 
+                //"\n" + // Per Spec this is part of plain scalar above
+                "  - item2\n" + 
+                //"\n" + // Per Spec this is part of plain scalar above
+                "  - item3\n" + 
+                "\n" +
+                "key2: value2\n" +
+                "\n" +
+                "key3: value3\n" +
+                "\n" +
+                "";
+
+        String result = runEmitterWithCommentsEnabled(data);
+
+        assertEquals(data, result);
+
+    }
+    
+    @Test
+    public void testKeepingNewLineInsideSequence2() throws Exception {
+        String data = "" +
+                "apiVersion: kustomize.config.k8s.io/v1beta1\n" + 
+                "kind: Kustomization\n" + 
+                "\n" + 
+                "namePrefix: acquisition-gateway-\n" + 
+                "\n" + 
+                "bases:\n" + 
+                "  \n" + 
+                "#- https://github.intuit.com/dev-patterns/intuit-kustomize/intuit-service-appd-noingress-base?ref=v3.1.2\n" + 
+                "# Add the following base and HPA-patch.yaml, fill in correct minReplicas and maxReplcias in Hpa-patch.yaml\n" + 
+                "#- https://github.intuit.com/dev-patterns/intuit-kustomize//intuit-service-hpa-base?ref=v3.1.2\n" + 
+                "  - https://github.intuit.com/dev-patterns/intuit-kustomize//intuit-service-canary-appd-noingress-base?ref=v3.2.0\n" + 
+                "  - https://github.intuit.com/dev-patterns/intuit-kustomize//intuit-service-rollout-hpa-base?ref=v3.2.0\n" + 
+                "# resources:\n" + 
+                "# - Nginx-ConfigMap.yaml\n" + 
+                "\n" + 
+                "resources:\n" + 
+                "- ConfigMap-v1-splunk-sidecar-config.yaml\n" + 
+                "- CronJob-patch.yaml\n" + 
+                "\n" + 
+                "patchesStrategicMerge:\n" + 
+                "- app-rollout-patch.yaml\n" + 
+                "- Service-patch.yaml\n" + 
+                "- Service-metrics-patch.yaml\n" + 
+                // "\n" + 
+                "- Hpa-patch.yaml\n" + 
+                "#- SignalSciences-patch.yaml\n" + 
+                "\n" + 
+                "# Uncomment HPA-patch when you need to enable HPA\n" + 
+                "#- Hpa-patch.yaml\n" + 
+                "# Uncomment SignalSciences-patch when you need to enable Signal Sciences\n" + 
+                "#- SignalSciences-patch.yaml\n" + 
+                "";
+
+        String result = runEmitterWithCommentsEnabled(data);
+
+        assertEquals(data, result);
+
+    }
 }
