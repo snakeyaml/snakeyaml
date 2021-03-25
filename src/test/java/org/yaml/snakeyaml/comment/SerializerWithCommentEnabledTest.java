@@ -190,8 +190,8 @@ public class SerializerWithCommentEnabledTest {
         List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
-                ID.Comment, //
                 ID.MappingStart, //
+                ID.Comment, //
                 ID.Scalar, ID.Scalar, ID.Comment, //
                 ID.MappingEnd, //
                 ID.Comment, //
@@ -254,10 +254,11 @@ public class SerializerWithCommentEnabledTest {
         List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
-                ID.Comment, //
                 ID.MappingStart, //
-                ID.Scalar, ID.Comment, ID.Comment, //
+                ID.Comment, //
+                ID.Scalar, ID.Comment, //
                 ID.SequenceStart, //
+                ID.Comment, //
                 ID.Scalar, ID.Comment, //
                 ID.SequenceEnd, //
                 ID.MappingEnd, //
@@ -296,9 +297,9 @@ public class SerializerWithCommentEnabledTest {
         List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
-                ID.Comment, //
-                ID.Comment, //
                 ID.MappingStart, //
+                ID.Comment, //
+                ID.Comment, //
                 ID.Scalar, ID.Comment, ID.Comment, //
 
                 ID.Comment, ID.Comment, //
@@ -306,10 +307,12 @@ public class SerializerWithCommentEnabledTest {
 
                 ID.Comment, //
                 ID.Scalar, ID.Comment, ID.Comment, //
-                ID.Comment, //
 
                 ID.SequenceStart, //
-                ID.Scalar, ID.Comment, //
+                ID.Comment, //
+                ID.Scalar, //
+                ID.Comment, //
+
                 ID.MappingStart, //
                 ID.Scalar, ID.SequenceStart, ID.Scalar, ID.Scalar, ID.SequenceEnd, ID.Comment, //
                 ID.MappingEnd,
@@ -360,13 +363,13 @@ public class SerializerWithCommentEnabledTest {
         List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
-                ID.Comment, //
-                ID.Comment, //
                 ID.SequenceStart, //
+                ID.Comment, //
+                ID.Comment, //
                 ID.Scalar, ID.Comment, ID.Comment, //
-                ID.Comment, //
-                ID.Comment, //
                 ID.MappingStart, //
+                ID.Comment, //
+                ID.Comment, //
                 ID.Scalar, ID.Scalar, ID.Comment, //
                 ID.MappingEnd, //
                 ID.SequenceEnd, //

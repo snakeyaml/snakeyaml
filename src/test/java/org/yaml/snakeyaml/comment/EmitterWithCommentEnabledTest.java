@@ -201,9 +201,9 @@ public class EmitterWithCommentEnabledTest {
                 "# Block Comment2\n" + //
                 "- item1 # Inline Comment1a\n" + //
                 "        # Inline Comment1b\n" + //
-                "# Block Comment3a\n" + //
-                "# Block Comment3b\n" + //
-                "- item2: value # Inline Comment2\n" + //
+                "- # Block Comment3a\n" + //
+                "  # Block Comment3b\n" + //
+                "  item2: value # Inline Comment2\n" + //
                 "# Block Comment4\n" + //
                 "";
 
