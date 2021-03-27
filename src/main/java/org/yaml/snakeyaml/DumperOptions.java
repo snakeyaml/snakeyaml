@@ -195,6 +195,7 @@ public class DumperOptions {
     private boolean explicitEnd = false;
     private TimeZone timeZone = null;
     private int maxSimpleKeyLength = 128;
+    private boolean processComments = false;
     private NonPrintableStyle  nonPrintableStyle = NonPrintableStyle.BINARY;
 
     private Version version = null;
@@ -460,6 +461,20 @@ public class DumperOptions {
             throw new YAMLException("The simple key must not span more than 1024 stream characters. See https://yaml.org/spec/1.1/#id934537");
         }
         this.maxSimpleKeyLength = maxSimpleKeyLength;
+    }
+
+    /**
+     * Set the comment processing. By default comments are ignored.
+     *
+     * @param processComments <code>true</code> to process; <code>false</code> to ignore</code>
+     */
+
+    public void setProcessComments(boolean processComments) {
+        this.processComments = processComments;
+    }
+
+    public boolean isProcessComments() {
+        return processComments;
     }
 
     public NonPrintableStyle getNonPrintableStyle() {

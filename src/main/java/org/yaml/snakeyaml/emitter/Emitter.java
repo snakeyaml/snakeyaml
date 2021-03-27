@@ -161,6 +161,7 @@ public final class Emitter implements Emitable {
     private final char[] bestLineBreak;
     private final boolean splitLines;
     private final int maxSimpleKeyLength;
+    private final boolean emitComments;
 
     // Tag prefixes.
     private Map<String, String> tagPrefixes;
@@ -227,6 +228,7 @@ public final class Emitter implements Emitable {
         this.bestLineBreak = opts.getLineBreak().getString().toCharArray();
         this.splitLines = opts.getSplitLines();
         this.maxSimpleKeyLength = opts.getMaxSimpleKeyLength();
+        this.emitComments = opts.isProcessComments();
 
         // Tag prefixes.
         this.tagPrefixes = new LinkedHashMap<String, String>();
@@ -1432,23 +1434,25 @@ public final class Emitter implements Emitable {
     }
     
     private boolean writeCommentLines(List<CommentLine> commentLines) throws IOException {
-        int indentColumns = 0;
-        boolean firstComment = true;
         boolean wroteComment = false;
-        for(CommentLine commentLine : commentLines) {
-            if(commentLine.getCommentType() != CommentType.BLANK_LINE) {
-                if(firstComment) {
-                    firstComment = false;
-                    writeIndicator("#", commentLine.getCommentType() == CommentType.IN_LINE, false, false);
-                    indentColumns = this.column > 0 ? this.column - 1 : 0;
-                } else {
-                    writeWhitespace(indentColumns);
-                    writeIndicator("#", false, false, false);
+        if(emitComments) {
+            int indentColumns = 0;
+            boolean firstComment = true;
+            for (CommentLine commentLine : commentLines) {
+                if (commentLine.getCommentType() != CommentType.BLANK_LINE) {
+                    if (firstComment) {
+                        firstComment = false;
+                        writeIndicator("#", commentLine.getCommentType() == CommentType.IN_LINE, false, false);
+                        indentColumns = this.column > 0 ? this.column - 1 : 0;
+                    } else {
+                        writeWhitespace(indentColumns);
+                        writeIndicator("#", false, false, false);
+                    }
+                    stream.write(commentLine.getValue());
                 }
-                stream.write(commentLine.getValue());
+                writeLineBreak(null);
+                wroteComment = true;
             }
-            writeLineBreak(null);
-            wroteComment = true;
         }
         return wroteComment;
     }
