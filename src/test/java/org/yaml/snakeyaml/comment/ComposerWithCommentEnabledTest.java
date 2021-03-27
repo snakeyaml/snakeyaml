@@ -518,6 +518,35 @@ public class ComposerWithCommentEnabledTest {
         assertNodesEqual(expecteds, result);
     }
 
+    @Test
+    public void testGetSingleNodeHeaderComment() {
+        String data = "" + //
+                "\n" + //
+                "# Block Comment1\n" + //
+                "# Block Comment2\n" + //
+                "abc: def # commment\n" + //
+                "\n" + //
+                "\n";
+        String[] expecteds = new String[]{ //
+                "Block Comment",
+                "Block Comment",
+                "Block Comment",
+                "MappingNode", //
+                "    Tuple", //
+                "        ScalarNode: abc", //
+                "        ScalarNode: def", //
+                "            InLine Comment", //
+                "End Comment", //
+                "End Comment", //
+        };
+
+        Composer sut = newComposerWithCommentsEnabled(data);
+        List<Node> result = Arrays.asList(sut.getSingleNode());
+
+        printNodeList(result);
+        assertNodesEqual(expecteds, result);
+    }
+
     private static class TestConstructor extends SafeConstructor {
     }
 
