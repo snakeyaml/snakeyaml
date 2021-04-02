@@ -40,11 +40,11 @@ public class SerializerWithCommentEnabledTest {
     private boolean DEBUG = false;
 
     private void println(String s) {
-        if (DEBUG) println(s);
+        if (DEBUG) System.out.println(s);
     }
 
     private void println() {
-        if (DEBUG) println();
+        if (DEBUG) System.out.println();
     }
 
     private void assertEventListEquals(List<ID> expectedEventIdList, List<Event> actualEvents) {
