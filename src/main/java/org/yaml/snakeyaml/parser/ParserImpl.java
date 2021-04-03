@@ -531,24 +531,19 @@ public class ParserImpl implements Parser {
         public Event produce() {
             Token token = scanner.getToken();
             marks.push(token.getStartMark());
-            return new ParseBlockSequenceEntry().produce();
+            return new ParseBlockSequenceEntryKey().produce();
         }
     }
 
-    private class ParseBlockSequenceEntry implements Production {
+    private class ParseBlockSequenceEntryKey implements Production {
         public Event produce() {
             if (scanner.checkToken(Token.ID.Comment)) {
                 return produceCommentEvent((CommentToken) scanner.getToken());
             }
             if (scanner.checkToken(Token.ID.BlockEntry)) {
                 BlockEntryToken token = (BlockEntryToken) scanner.getToken();
-                if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.BlockEnd)) {
-                    states.push(new ParseBlockSequenceEntry());
-                    return new ParseBlockNode().produce();
-                } else {
-                    state = new ParseBlockSequenceEntry();
-                    return processEmptyScalar(token.getEndMark());
-                }
+                states.push(new ParseBlockSequenceEntryKey());
+                return new ParseBlockSequenceEntryValue(token).produce();
             }
             if (!scanner.checkToken(Token.ID.BlockEnd)) {
                 Token token = scanner.peekToken();
@@ -561,6 +556,26 @@ public class ParserImpl implements Parser {
             state = states.pop();
             marks.pop();
             return event;
+        }
+    }
+
+    private class ParseBlockSequenceEntryValue implements Production {
+        BlockEntryToken token;
+
+        public ParseBlockSequenceEntryValue(final BlockEntryToken token) {
+            this.token = token;
+        }
+
+        public Event produce() {
+            if(scanner.checkToken(Token.ID.Comment)) {
+                state = new ParseBlockSequenceEntryValue(token);
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
+            if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.BlockEnd)) {
+                return new ParseBlockNode().produce();
+            } else {
+                return processEmptyScalar(token.getEndMark());
+            }
         }
     }
 
