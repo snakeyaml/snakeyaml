@@ -1219,7 +1219,7 @@ public final class ScannerImpl implements Scanner {
             if (reader.peek() == '#') {
                 commentSeen = true;
                 CommentType type;
-                if(startMark.getColumn() != 0) {
+                if(startMark.getColumn() != 0 && !Constant.NULL_BL_T_LINEBR.has(reader.peek(0))) {
                     type = CommentType.IN_LINE;
                     inlineStartColumn = reader.getColumn();
                 } else if(inlineStartColumn == reader.getColumn()) {
