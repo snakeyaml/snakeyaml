@@ -185,7 +185,7 @@ public class ParserImpl implements Parser {
         CommentType type = token.getCommentType();
         
         // state = state, that no change in state
-        
+
         return new CommentEvent(type, value, startMark, endMark);
     }
 
@@ -463,7 +463,7 @@ public class ParserImpl implements Parser {
                 endMark = scanner.peekToken().getEndMark();
                 event = new SequenceStartEvent(anchor, tag, implicit, startMark, endMark,
                         DumperOptions.FlowStyle.BLOCK);
-                state = new ParseIndentlessSequenceEntry();
+                state = new ParseIndentlessSequenceEntryKey();
             } else {
                 if (scanner.checkToken(Token.ID.Scalar)) {
                     ScalarToken token = (ScalarToken) scanner.getToken();
@@ -542,7 +542,6 @@ public class ParserImpl implements Parser {
             }
             if (scanner.checkToken(Token.ID.BlockEntry)) {
                 BlockEntryToken token = (BlockEntryToken) scanner.getToken();
-                states.push(new ParseBlockSequenceEntryKey());
                 return new ParseBlockSequenceEntryValue(token).produce();
             }
             if (!scanner.checkToken(Token.ID.BlockEnd)) {
@@ -572,8 +571,10 @@ public class ParserImpl implements Parser {
                 return produceCommentEvent((CommentToken) scanner.getToken());
             }
             if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.BlockEnd)) {
+                states.push(new ParseBlockSequenceEntryKey());
                 return new ParseBlockNode().produce();
             } else {
+                state = new ParseBlockSequenceEntryKey();
                 return processEmptyScalar(token.getEndMark());
             }
         }
@@ -581,26 +582,42 @@ public class ParserImpl implements Parser {
 
     // indentless_sequence ::= (BLOCK-ENTRY block_node?)+
 
-    private class ParseIndentlessSequenceEntry implements Production {
+    private class ParseIndentlessSequenceEntryKey implements Production {
         public Event produce() {
             if (scanner.checkToken(Token.ID.Comment)) {
                 return produceCommentEvent((CommentToken) scanner.getToken());
             }
             if (scanner.checkToken(Token.ID.BlockEntry)) {
-                Token token = scanner.getToken();
-                if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.Key, Token.ID.Value,
-                        Token.ID.BlockEnd)) {
-                    states.push(new ParseIndentlessSequenceEntry());
-                    return new ParseBlockNode().produce();
-                } else {
-                    state = new ParseIndentlessSequenceEntry();
-                    return processEmptyScalar(token.getEndMark());
-                }
+                BlockEntryToken token = (BlockEntryToken) scanner.getToken();
+                return new ParseIndentlessSequenceEntryValue(token).produce();
             }
             Token token = scanner.peekToken();
             Event event = new SequenceEndEvent(token.getStartMark(), token.getEndMark());
             state = states.pop();
             return event;
+        }
+    }
+
+    private class ParseIndentlessSequenceEntryValue implements Production {
+        BlockEntryToken token;
+
+        public ParseIndentlessSequenceEntryValue(final BlockEntryToken token) {
+            this.token = token;
+        }
+
+        public Event produce() {
+            if(scanner.checkToken(Token.ID.Comment)) {
+                state = new ParseIndentlessSequenceEntryValue(token);
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
+            if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.Key, Token.ID.Value,
+                    Token.ID.BlockEnd)) {
+                states.push(new ParseIndentlessSequenceEntryKey());
+                return new ParseBlockNode().produce();
+            } else {
+                state = new ParseIndentlessSequenceEntryKey();
+                return processEmptyScalar(token.getEndMark());
+            }
         }
     }
 
