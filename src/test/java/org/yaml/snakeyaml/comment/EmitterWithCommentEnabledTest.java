@@ -200,19 +200,22 @@ public class EmitterWithCommentEnabledTest {
                 "key:\n" +
                 "  key:\n" +
                 "    key:\n" +
-                "    - #Test\n" +
-                "      item\n" +
-                "    - #asd\n" +
-                "    - sdf\n" +
+                "    - # Block Comment1\n" +
+                "      item1a\n" +
+                "    - # Block Comment2\n" +
+                "    - item1b\n" +
+                "    - # Block Comment3\n" +
+                "      MapKey_1: MapValue1\n" +
+                "      MapKey_2: MapValue2\n" +
                 "key2:\n" +
-                "- # Block Comment1\n" + //
-                "  # Block Comment2\n" + //
+                "- # Block Comment4\n" + //
+                "  # Block Comment5\n" + //
                 "  item1 # Inline Comment1a\n" + //
                 "        # Inline Comment1b\n" + //
-                "- # Block Comment3a\n" + //
-                "  # Block Comment3b\n" + //
+                "- # Block Comment6a\n" + //
+                "  # Block Comment6b\n" + //
                 "  item2: value # Inline Comment2\n" + //
-                "# Block Comment4\n" + //
+                "# Block Comment7\n" + //
                 "";
 
         String result = runEmitterWithCommentsEnabled(data);
