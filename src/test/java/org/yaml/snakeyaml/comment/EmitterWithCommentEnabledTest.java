@@ -143,8 +143,8 @@ public class EmitterWithCommentEnabledTest {
         String data = "" + //
                 "# Comment\n" + //
                 "list: # InlineComment1\n" + //
-                "  # Block Comment\n" + //
-                "  - item # InlineComment2\n" + //
+                "  - # Block Comment\n" + //
+                "    item # InlineComment2\n" + //
                 "# Comment\n";
 
         String result = runEmitterWithCommentsEnabled(data);
@@ -165,8 +165,8 @@ public class EmitterWithCommentEnabledTest {
                 "# Block Comment4\n" + //
                 "list: # InlineComment3a\n" + //
                 "      # InlineComment3b\n" + //
-                "  # Block Comment5\n" + //
-                "  - item1 # InlineComment4\n" + //
+                "  - # Block Comment5\n" + //
+                "    item1 # InlineComment4\n" + //
                 "  - item2: [value2a, value2b] # InlineComment5\n" + //
                 "  - item3: {key3a: [value3a1, value3a2], key3b: value3b} # InlineComment6\n" + //
                 "# Block Comment6\n" + //
@@ -197,9 +197,17 @@ public class EmitterWithCommentEnabledTest {
     @Test
     public void testAllComments2() throws Exception {
         String data = "" + //
-                "# Block Comment1\n" + //
-                "# Block Comment2\n" + //
-                "- item1 # Inline Comment1a\n" + //
+                "key:\n" +
+                "  key:\n" +
+                "    key:\n" +
+                "    - #Test\n" +
+                "      item\n" +
+                "    - #asd\n" +
+                "    - sdf\n" +
+                "key2:\n" +
+                "- # Block Comment1\n" + //
+                "  # Block Comment2\n" + //
+                "  item1 # Inline Comment1a\n" + //
                 "        # Inline Comment1b\n" + //
                 "- # Block Comment3a\n" + //
                 "  # Block Comment3b\n" + //
@@ -230,12 +238,12 @@ public class EmitterWithCommentEnabledTest {
         String data = "" +
                 "\n" + 
                 "key:\n" + 
-                "  \n" + 
-                "  - item1\n" + 
+                //"  \n" + // only supported in a sequence right now
+                "- item1\n" +
                 //"\n" + // Per Spec this is part of plain scalar above
-                "  - item2\n" + 
+                "- item2\n" +
                 //"\n" + // Per Spec this is part of plain scalar above
-                "  - item3\n" + 
+                "- item3\n" +
                 "\n" +
                 "key2: value2\n" +
                 "\n" +
@@ -257,13 +265,15 @@ public class EmitterWithCommentEnabledTest {
                 "\n" + 
                 "namePrefix: acquisition-gateway-\n" + 
                 "\n" + 
-                "bases:\n" + 
+                "bases:\n" +
+                /** Not supported right now
                 "  \n" + 
                 "#- https://github.intuit.com/dev-patterns/intuit-kustomize/intuit-service-appd-noingress-base?ref=v3.1.2\n" + 
                 "# Add the following base and HPA-patch.yaml, fill in correct minReplicas and maxReplcias in Hpa-patch.yaml\n" + 
-                "#- https://github.intuit.com/dev-patterns/intuit-kustomize//intuit-service-hpa-base?ref=v3.1.2\n" + 
-                "  - https://github.intuit.com/dev-patterns/intuit-kustomize//intuit-service-canary-appd-noingress-base?ref=v3.2.0\n" + 
-                "  - https://github.intuit.com/dev-patterns/intuit-kustomize//intuit-service-rollout-hpa-base?ref=v3.2.0\n" + 
+                "#- https://github.intuit.com/dev-patterns/intuit-kustomize//intuit-service-hpa-base?ref=v3.1.2\n" +
+                */
+                "- https://github.intuit.com/dev-patterns/intuit-kustomize//intuit-service-canary-appd-noingress-base?ref=v3.2.0\n" +
+                "- https://github.intuit.com/dev-patterns/intuit-kustomize//intuit-service-rollout-hpa-base?ref=v3.2.0\n" +
                 "# resources:\n" + 
                 "# - Nginx-ConfigMap.yaml\n" + 
                 "\n" + 

@@ -686,7 +686,6 @@ public final class Emitter implements Emitable {
                 state = states.pop();
             } else if( event instanceof CommentEvent) {
                 blockCommentsCollector.collectEvents(event);
-                writeBlockComment();
             } else {
                 writeIndent();
                 if (!indentWithIndicator || this.first) {
@@ -695,6 +694,17 @@ public final class Emitter implements Emitable {
                 writeIndicator("-", true, false, true);
                 if (indentWithIndicator && this.first) {
                     indent += indicatorIndent;
+                }
+                if (!blockCommentsCollector.isEmpty()) {
+                    increaseIndent(false, false);
+                    writeBlockComment();
+                    if(event instanceof ScalarEvent) {
+                        analysis = analyzeScalar(((ScalarEvent)event).getValue());
+                        if (!analysis.isEmpty()) {
+                            writeIndent();
+                        }
+                    }
+                    indent = indents.pop();
                 }
                 states.push(new ExpectBlockSequenceItem(false));
                 expectNode(false, false, false);
@@ -1460,8 +1470,8 @@ public final class Emitter implements Emitable {
     private void writeBlockComment() throws IOException {
         if(!blockCommentsCollector.isEmpty()) {
             writeIndent();
+            writeCommentLines(blockCommentsCollector.consume());
         }
-        writeCommentLines(blockCommentsCollector.consume());
     }
 
     private boolean writeInlineComments() throws IOException {
