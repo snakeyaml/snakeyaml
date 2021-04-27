@@ -51,10 +51,6 @@ public class ProblematicYamlTest {
     static {
         LOAD_OPTIONS.setProcessComments(true);
     }
-    private static final DumperOptions DUMPER_OPTIONS = new DumperOptions();
-    static {
-        DUMPER_OPTIONS.setDefaultFlowStyle(FlowStyle.BLOCK);
-    }
 
     private void assertEventListEquals(List<ID> expectedEventIdList, List<CommentType> expectedCommentTypeList,
             Parser parser) {
