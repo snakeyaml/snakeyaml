@@ -1459,8 +1459,11 @@ public final class Emitter implements Emitable {
                         writeIndicator("#", false, false, false);
                     }
                     stream.write(commentLine.getValue());
+                    writeLineBreak(null);
+                } else {
+                    writeLineBreak(null);
+                    writeIndent();
                 }
-                writeLineBreak(null);
                 wroteComment = true;
             }
         }

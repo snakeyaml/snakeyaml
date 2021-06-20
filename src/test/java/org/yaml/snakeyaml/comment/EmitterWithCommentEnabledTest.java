@@ -57,7 +57,6 @@ public class EmitterWithCommentEnabledTest {
         String data = "";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -66,7 +65,6 @@ public class EmitterWithCommentEnabledTest {
         String data = "# Comment\n\n";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -77,7 +75,6 @@ public class EmitterWithCommentEnabledTest {
                 "  value\n";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -89,7 +86,6 @@ public class EmitterWithCommentEnabledTest {
                 "  value\n";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -99,7 +95,6 @@ public class EmitterWithCommentEnabledTest {
                 "\n";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -112,7 +107,6 @@ public class EmitterWithCommentEnabledTest {
                 "\n";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -124,7 +118,6 @@ public class EmitterWithCommentEnabledTest {
                 "  hij\n";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -133,7 +126,6 @@ public class EmitterWithCommentEnabledTest {
         String data = "%YAML 1.1 #Comment\n";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         // We currently strip Directive comments
         assertEquals("", result);
     }
@@ -148,7 +140,6 @@ public class EmitterWithCommentEnabledTest {
                 "# Comment\n";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -175,7 +166,6 @@ public class EmitterWithCommentEnabledTest {
                 "";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -190,7 +180,6 @@ public class EmitterWithCommentEnabledTest {
                 "";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -219,7 +208,6 @@ public class EmitterWithCommentEnabledTest {
                 "";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
 
@@ -232,7 +220,6 @@ public class EmitterWithCommentEnabledTest {
                 "";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
     }
     
@@ -255,9 +242,7 @@ public class EmitterWithCommentEnabledTest {
                 "";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
-
     }
     
     @Test
@@ -299,8 +284,26 @@ public class EmitterWithCommentEnabledTest {
                 "";
 
         String result = runEmitterWithCommentsEnabled(data);
-
         assertEquals(data, result);
+    }
 
+    @Test
+    public void testCommentsIndentFirstLineBlank() throws Exception {
+        String data = "# Comment 1\n" +
+                "key1:\n" +
+                "  \n" +
+                "  # Comment 2\n" +
+                "  # Comment 3\n" +
+                "  key2: value1\n" +
+                "# \"Fun\" options\n" +
+                "key3:\n" +
+                "  # Comment 4\n" +
+                "  # Comment 5\n" +
+                "  key4: value2\n" +
+                "key5:\n" +
+                "  key6: value3\n";
+
+        String result = runEmitterWithCommentsEnabled(data);
+        assertEquals(data, result);
     }
 }
