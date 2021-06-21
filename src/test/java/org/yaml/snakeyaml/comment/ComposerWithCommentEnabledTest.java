@@ -567,4 +567,28 @@ public class ComposerWithCommentEnabledTest {
         assertEquals(1, map.size());
         assertEquals(map.get("abc"), "def");
     }
+
+    @Test
+    public void testEmptyEntryInMap() {
+        String data =
+                "userProps:\n" + //
+                "#password\n"+ //
+                "pass: mySecret\n";
+        String[] expected = new String[]{ //
+                "MappingNode", //
+                "    Tuple", //
+                "        ScalarNode: userProps", //
+                "        ScalarNode: ", //
+                "    Tuple", //
+                "        Block Comment", //
+                "        ScalarNode: pass", //
+                "        ScalarNode: mySecret", //
+        };
+
+        Composer sut = newComposerWithCommentsEnabled(data);
+        List<Node> result = Arrays.asList(sut.getSingleNode());
+
+        printNodeList(result);
+        assertNodesEqual(expected, result);
+    }
 }
