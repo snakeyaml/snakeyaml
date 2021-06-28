@@ -5,7 +5,13 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.29" date="in GIT" description="Maintenance">
+        <release version="1.30" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="506">
+                Improve parsing a number starting with 0x (2021-06-28)
+                Take the Float pattern from ruamel: https://pypi.org/project/ruamel.yaml
+            </action>
+        </release>
+        <release version="1.29" date="2021-06-08" description="Maintenance">
             <action dev="Wolf2323" type="fix">
                 Fix Events ordering and improve Node-Comment association (2021-05-13)
             </action>

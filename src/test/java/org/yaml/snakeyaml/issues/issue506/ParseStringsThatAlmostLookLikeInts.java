@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021, http://www.snakeyaml.org
+ * Copyright (c) 2008, http://www.snakeyaml.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,7 +73,7 @@ public class ParseStringsThatAlmostLookLikeInts extends TestCase {
         assertEquals(expected, out);
     }
 
-    public void testRootCause() {
+    public void testIntPattern() {
         Pattern regexp = Resolver.INT;
         assertTrue(regexp.matcher("0xabc").matches());
         assertTrue(regexp.matcher("0x_abc").matches());
@@ -82,5 +82,29 @@ public class ParseStringsThatAlmostLookLikeInts extends TestCase {
         assertFalse(regexp.matcher("0b_").matches());
         assertTrue(regexp.matcher("0_77").matches());
         assertFalse(regexp.matcher("0_").matches());
+    }
+
+    public void testFloatPattern() {
+        Pattern regexp = Resolver.FLOAT;
+        assertFalse(regexp.matcher("0123456789").matches());
+        assertFalse(regexp.matcher("123456789").matches());
+
+        assertTrue(regexp.matcher("00.3").matches());
+        assertTrue(regexp.matcher("00.003").matches());
+        assertTrue(regexp.matcher("02.003").matches());
+        assertTrue(regexp.matcher("-02.003").matches());
+        assertTrue(regexp.matcher("-02.003_001").matches());
+        assertTrue(regexp.matcher("-2_000.003_001").matches());
+        assertTrue(regexp.matcher(".3").matches());
+        assertTrue(regexp.matcher("-.3").matches());
+        assertTrue(regexp.matcher("+0.3").matches());
+        assertTrue(regexp.matcher("8.1e-06").matches());
+        assertTrue(regexp.matcher("8e-06").matches());
+        assertTrue(regexp.matcher("8e06").matches());
+        assertTrue(regexp.matcher("8e6").matches());
+        assertTrue(regexp.matcher("8E6").matches());
+        assertTrue(regexp.matcher("8E+06").matches());
+        assertTrue(regexp.matcher("8e+6").matches());
+        assertTrue(regexp.matcher("+8e+6").matches());
     }
 }
