@@ -19,10 +19,14 @@ import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
+import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.resolver.Resolver;
 import org.yaml.snakeyaml.serializer.Serializer;
 
@@ -305,5 +309,50 @@ public class EmitterWithCommentEnabledTest {
 
         String result = runEmitterWithCommentsEnabled(data);
         assertEquals(data, result);
+    }
+
+    @Test
+    public void testCommentsAtDataWindowBreak() {
+        String data = getComplexConfig();
+
+        final DumperOptions yamlOptions = new DumperOptions();
+        final LoaderOptions loaderOptions = new LoaderOptions();
+        final Representer yamlRepresenter = new Representer();
+
+        yamlOptions.setIndent(4);
+        yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        loaderOptions.setMaxAliasesForCollections(Integer.MAX_VALUE);
+        final Yaml yaml = new Yaml(new SafeConstructor(), yamlRepresenter, yamlOptions, loaderOptions);
+
+        yaml.load(data);
+    }
+
+    private String getComplexConfig() {
+        return "# Core configurable options for LWC\n"
+                + "core:\n"
+                + "\n"
+                + "    # The language LWC will use, specified by the shortname. For example, English = en, French = fr, German = de,\n"
+                + "    # and so on\n"
+                + "    locale: en\n"
+                + "\n"
+                + "    # How often updates are batched to the database (in seconds). If set to a higher value than 10, you may have\n"
+                + "    # some unexpected results, especially if your server is prone to crashing.\n"
+                + "    flushInterval: 10\n"
+                + "\n"
+                + "    # LWC regularly caches protections locally to prevent the database from being queried as often. The default is 10000\n"
+                + "    # and for most servers is OK. LWC will also fill up to <precache> when the server is started automatically.\n"
+                + "    cacheSize: 10000\n"
+                + "\n"
+                + "    # How many protections are precached on startup. If set to -1, it will use the cacheSize value instead and precache\n"
+                + "    # as much as possible\n"
+                + "    precache: -1\n"
+                + "\n"
+                + "    # If true, players will be sent a notice in their chat box when they open a protection they have access to, but\n"
+                + "    # not their own unless <showMyNotices> is set to true\n"
+                + "    showNotices: true\n"
+                + "\n"
+                + "    # If true, players will be sent a notice in their chat box when they open a protection they own.\n"
+                + "    showMyNotices: false\n";
     }
 }
