@@ -21,13 +21,13 @@ import org.yaml.snakeyaml.resolver.Resolver;
 
 import java.util.regex.Pattern;
 
-public class LeadingZeroDoubleTest extends TestCase {
+public class LeadingZeroStringTest extends TestCase {
 
-    public void testDouble() {
+    public void testString() {
         Yaml loader = new Yaml();
-        //since the octal number contains 8 it will be parsed as double
-        Double floatValue = loader.load("0123456789");
-        assertEquals(1.23456789E8, floatValue);
+        // this almost looks like an octal, but it contains digits greater than 7, so it's a string
+        Object result = loader.load("0123456789");
+        assertEquals("0123456789", result);
     }
 
     public void testLeadingZeroForIntIsAccepted() {
