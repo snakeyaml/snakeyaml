@@ -685,7 +685,7 @@ public class ParserImpl implements Parser {
     private class ParseBlockMappingValueComment implements Production {
         public Event produce() {
             if (scanner.checkToken(Token.ID.Comment)) {
-                return parseBlockNodeOrIndentlessSequence();
+                return produceCommentEvent((CommentToken) scanner.getToken());
             } else if (!scanner.checkToken(Token.ID.Key, Token.ID.Value, Token.ID.BlockEnd)) {
                 states.push(new ParseBlockMappingKey());
                 return parseBlockNodeOrIndentlessSequence();
