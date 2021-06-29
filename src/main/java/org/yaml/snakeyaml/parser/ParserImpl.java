@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.parser;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -683,17 +684,37 @@ public class ParserImpl implements Parser {
     }
 
     private class ParseBlockMappingValueComment implements Production {
+        List<CommentToken> tokens = new LinkedList<>();
+
         public Event produce() {
             if (scanner.checkToken(Token.ID.Comment)) {
-                return produceCommentEvent((CommentToken) scanner.getToken());
+                tokens.add((CommentToken) scanner.getToken());
+                return produce();
             } else if (!scanner.checkToken(Token.ID.Key, Token.ID.Value, Token.ID.BlockEnd)) {
+                if(!tokens.isEmpty()) {
+                    return produceCommentEvent(tokens.remove(0));
+                }
                 states.push(new ParseBlockMappingKey());
                 return parseBlockNodeOrIndentlessSequence();
             } else {
-                state = new ParseBlockMappingKey();
-                Token token = scanner.getToken();
-                return processEmptyScalar(token.getEndMark());
+                state = new ParseBlockMappingValueCommentList(tokens);
+                return processEmptyScalar(scanner.peekToken().getStartMark());
             }
+        }
+    }
+
+    private class ParseBlockMappingValueCommentList implements Production {
+        List<CommentToken> tokens;
+
+        public ParseBlockMappingValueCommentList(final List<CommentToken> tokens) {
+            this.tokens = tokens;
+        }
+
+        public Event produce() {
+            if(!tokens.isEmpty()) {
+                return produceCommentEvent(tokens.remove(0));
+            }
+            return new ParseBlockMappingKey().produce();
         }
     }
 
