@@ -1474,15 +1474,9 @@ public final class ScannerImpl implements Scanner {
         }
         CommentToken commentToken = null;
         if (reader.peek() == '#') {
-            Mark commentStartMark = reader.getMark();
-            int length = 0;
-            while (Constant.NULL_OR_LINEBR.hasNo(reader.peek(length))) {
-                length++;
-            }
-            String comment = reader.prefixForward(length);
+            CommentToken comment = scanComment(CommentType.IN_LINE);
             if(emitComments) {
-                Mark commentEndMark = reader.getMark();
-                commentToken = new CommentToken(CommentType.IN_LINE, comment, commentStartMark, commentEndMark);
+                commentToken = comment;
             }
         }
         int c = reader.peek();
