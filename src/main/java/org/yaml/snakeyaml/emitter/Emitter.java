@@ -263,29 +263,30 @@ public final class Emitter implements Emitable {
         if (events.isEmpty()) {
             return true;
         }
+
         Iterator<Event> iter = events.iterator();
-        Event event = null;
-        while(iter.hasNext()) {
+        Event event = iter.next();
+        while(event instanceof CommentEvent) {
+            if (!iter.hasNext()) {
+                return true;
+            }
             event = iter.next();
-            if (event instanceof CommentEvent) {
-                continue;
-            }
-            if (event instanceof DocumentStartEvent) {
-                return needEvents(iter, 1);
-            } else if (event instanceof SequenceStartEvent) {
-                return needEvents(iter, 2);
-            } else if (event instanceof MappingStartEvent) {
-                return needEvents(iter, 3);
-            } else if (event instanceof StreamStartEvent) {
-                return needEvents(iter, 2);
-            } else if (event instanceof StreamEndEvent) {
-                return false;
-            } else {
-                // To collect any comment events
-                return needEvents(iter, 1);
-            }
         }
-        return true;
+
+        if (event instanceof DocumentStartEvent) {
+            return needEvents(iter, 1);
+        } else if (event instanceof SequenceStartEvent) {
+            return needEvents(iter, 2);
+        } else if (event instanceof MappingStartEvent) {
+            return needEvents(iter, 3);
+        } else if (event instanceof StreamStartEvent) {
+            return needEvents(iter, 2);
+        } else if (event instanceof StreamEndEvent) {
+            return false;
+        } else if (emitComments) {
+            return needEvents(iter, 1);
+        }
+        return false;
     }
     
     private boolean needEvents(Iterator<Event> iter, int count) {
@@ -303,7 +304,6 @@ public final class Emitter implements Emitable {
                 level--;
             } else if (event instanceof StreamEndEvent) {
                 level = -1;
-            } else if (event instanceof CommentEvent) {
             }
             if (level < 0) {
                 return false;

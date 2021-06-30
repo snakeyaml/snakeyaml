@@ -130,10 +130,6 @@ public class EmitterTest extends TestCase {
         emitter.emit(new DocumentStartEvent(null, null, false, null, null));
         emitter.emit(new ScalarEvent(null, null, new ImplicitTuple(true, false), burger
                 + halfBurger, null, null, DumperOptions.ScalarStyle.DOUBLE_QUOTED));
-        // Needed as emitter won't process above event until it peeks at this one 
-        // to be sure it is not a comment
-        emitter.emit(new ScalarEvent(null, null, new ImplicitTuple(true, false), "", null,
-                null, DumperOptions.ScalarStyle.PLAIN));
         String expected = "! \"\\U0001f354\\ud83c\"";
         assertEquals(expected, output.toString());
     }
