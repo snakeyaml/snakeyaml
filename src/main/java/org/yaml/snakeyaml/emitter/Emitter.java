@@ -538,6 +538,8 @@ public final class Emitter implements Emitable {
                 if (canonical) {
                     writeIndicator(",", false, false, false);
                     writeIndent();
+                } else if (prettyFlow) {
+                    writeIndent();
                 }
                 writeIndicator("]", false, false, false);
                 inlineCommentsCollector.collectEvents();

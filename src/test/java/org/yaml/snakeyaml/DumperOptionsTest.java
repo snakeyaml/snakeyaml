@@ -75,7 +75,7 @@ public class DumperOptionsTest extends TestCase {
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
         options.setPrettyFlow(true);
         yaml = new Yaml(options);
-        assertEquals("[\n  1,\n  2,\n  3]\n", yaml.dump(list));
+        assertEquals("[\n  1,\n  2,\n  3\n]\n", yaml.dump(list));
         //
         options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -113,7 +113,7 @@ public class DumperOptionsTest extends TestCase {
         options.setPrettyFlow(true);
         yaml = new Yaml(options);
         result = yaml.dump(map);
-        assertEquals("{\n  a: b,\n  c: [\n    1,\n    2,\n    3]\n  \n}\n", result);
+        assertEquals("{\n  a: b,\n  c: [\n    1,\n    2,\n    3\n  ]\n  \n}\n", result);
         //
         options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
