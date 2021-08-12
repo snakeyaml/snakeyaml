@@ -430,7 +430,7 @@ public class EmitterWithCommentEnabledTest {
             + "  # red\n"
             + "  one,\n"
             + "  # blue\n"
-            + "  two" // XX: there is intentionally no newline here, prettyFlow doesn't seem to insert one
+            + "  two\n"
             + "]\n" ;
 
         assertEquals(data, result);
