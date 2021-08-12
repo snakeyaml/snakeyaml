@@ -129,7 +129,7 @@ public class SafeRepresenterTest extends TestCase {
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(map);
         assertEquals(
-                "{\n  'age': !!int '5',\n  'name': 'Ubuntu',\n  'list': [\n    !!int '1',\n    !!int '1']\n  \n}\n",
+                "{\n  'age': !!int '5',\n  'name': 'Ubuntu',\n  'list': [\n    !!int '1',\n    !!int '1'\n  ]\n  \n}\n",
                 output);
     }
 }
