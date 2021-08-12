@@ -21,9 +21,21 @@ import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.emitter.Emitter;
+import org.yaml.snakeyaml.events.CommentEvent;
+import org.yaml.snakeyaml.events.DocumentEndEvent;
+import org.yaml.snakeyaml.events.DocumentStartEvent;
+import org.yaml.snakeyaml.events.ImplicitTuple;
+import org.yaml.snakeyaml.events.MappingEndEvent;
+import org.yaml.snakeyaml.events.MappingStartEvent;
+import org.yaml.snakeyaml.events.ScalarEvent;
+import org.yaml.snakeyaml.events.SequenceEndEvent;
+import org.yaml.snakeyaml.events.SequenceStartEvent;
+import org.yaml.snakeyaml.events.StreamEndEvent;
+import org.yaml.snakeyaml.events.StreamStartEvent;
 import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.representer.Representer;
@@ -54,6 +66,15 @@ public class EmitterWithCommentEnabledTest {
         serializer.close();
 
         return output.toString();
+    }
+
+    private Emitter producePrettyFlowEmitter(StringWriter output) {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultScalarStyle(ScalarStyle.PLAIN);
+        options.setDefaultFlowStyle(FlowStyle.FLOW);
+        options.setProcessComments(true);
+        options.setPrettyFlow(true);
+        return new Emitter(output, options);
     }
 
     @Test
@@ -326,6 +347,114 @@ public class EmitterWithCommentEnabledTest {
         final Yaml yaml = new Yaml(new SafeConstructor(), yamlRepresenter, yamlOptions, loaderOptions);
 
         yaml.load(data);
+    }
+
+    @Test
+    public void testCommentsInFlowMapping() throws IOException {
+        StringWriter output = new StringWriter();
+        Emitter emitter = producePrettyFlowEmitter(output);
+
+        emitter.emit(new StreamStartEvent(null, null));
+        emitter.emit(new DocumentStartEvent(null, null, false, null, null));
+        emitter.emit(new MappingStartEvent(null, "yaml.org,2002:map", true, null, null, FlowStyle.FLOW));
+        emitter.emit(new CommentEvent(CommentType.BLOCK, " I'm first", null, null));
+        ImplicitTuple allImplicit = new ImplicitTuple(true, true);
+        emitter.emit(new ScalarEvent(null, "yaml.org,2002:str", allImplicit, "a", null, null, ScalarStyle.PLAIN));
+        emitter.emit(new ScalarEvent(null, "yaml.org,2002:str", allImplicit, "Hello", null, null, ScalarStyle.PLAIN));
+        emitter.emit(new ScalarEvent(null, "yaml.org,2002:str", allImplicit, "b", null, null, ScalarStyle.PLAIN));
+        emitter.emit(new MappingStartEvent(null, "yaml.org,2002:map", true, null, null, FlowStyle.FLOW));
+        emitter.emit(new ScalarEvent(null, "yaml.org,2002:str", allImplicit, "one", null, null, ScalarStyle.PLAIN));
+        emitter.emit(new ScalarEvent(null, "yaml.org,2002:str", allImplicit, "World", null, null, ScalarStyle.PLAIN));
+        emitter.emit(new CommentEvent(CommentType.BLOCK, " also me", null, null));
+        emitter.emit(new ScalarEvent(null, "yaml.org,2002:str", allImplicit, "two", null, null, ScalarStyle.PLAIN));
+        emitter.emit(new ScalarEvent(null, "yaml.org,2002:str", allImplicit, "eee", null, null, ScalarStyle.PLAIN));
+        emitter.emit(new MappingEndEvent(null, null));
+        emitter.emit(new MappingEndEvent(null, null));
+        emitter.emit(new DocumentEndEvent(null, null, false));
+        emitter.emit(new StreamEndEvent(null, null));
+
+        String result = output.toString();
+        final String data = "{\n"
+            + "  # I'm first\n"
+            + "  a: Hello,\n"
+            + "  b: {\n"
+            + "    one: World,\n"
+            + "    # also me\n"
+            + "    two: eee\n"
+            + "  }\n"
+            + "}\n" ;
+
+        assertEquals(data, result);
+    }
+
+    @Test
+    public void testCommentInEmptyFlowMapping() throws IOException {
+        StringWriter output = new StringWriter();
+        Emitter emitter = producePrettyFlowEmitter(output);
+
+        emitter.emit(new StreamStartEvent(null, null));
+        emitter.emit(new DocumentStartEvent(null, null, false, null, null));
+        emitter.emit(new MappingStartEvent(null, "yaml.org,2002:map", true, null, null, FlowStyle.FLOW));
+        emitter.emit(new CommentEvent(CommentType.BLOCK, " nobody home", null, null));
+        emitter.emit(new MappingEndEvent(null, null));
+        emitter.emit(new DocumentEndEvent(null, null, false));
+        emitter.emit(new StreamEndEvent(null, null));
+
+        String result = output.toString();
+        final String data = "{\n"
+            + "  # nobody home\n"
+            + "}\n" ;
+
+        assertEquals(data, result);
+    }
+
+    @Test
+    public void testCommentInFlowSequence() throws IOException {
+        StringWriter output = new StringWriter();
+        Emitter emitter = producePrettyFlowEmitter(output);
+        ImplicitTuple allImplicit = new ImplicitTuple(true, true);
+
+        emitter.emit(new StreamStartEvent(null, null));
+        emitter.emit(new DocumentStartEvent(null, null, false, null, null));
+        emitter.emit(new SequenceStartEvent(null, "yaml.org,2002:seq", true, null, null, FlowStyle.FLOW));
+        emitter.emit(new CommentEvent(CommentType.BLOCK, " red", null, null));
+        emitter.emit(new ScalarEvent(null, "yaml.org,2002:str", allImplicit, "one", null, null, ScalarStyle.PLAIN));
+        emitter.emit(new CommentEvent(CommentType.BLOCK, " blue", null, null));
+        emitter.emit(new ScalarEvent(null, "yaml.org,2002:str", allImplicit, "two", null, null, ScalarStyle.PLAIN));
+        emitter.emit(new SequenceEndEvent(null, null));
+        emitter.emit(new DocumentEndEvent(null, null, false));
+        emitter.emit(new StreamEndEvent(null, null));
+
+        String result = output.toString();
+        final String data = "[\n"
+            + "  # red\n"
+            + "  one,\n"
+            + "  # blue\n"
+            + "  two" // XX: there is intentionally no newline here, prettyFlow doesn't seem to insert one
+            + "]\n" ;
+
+        assertEquals(data, result);
+    }
+
+    @Test
+    public void testCommentInEmptySequence() throws IOException {
+        StringWriter output = new StringWriter();
+        Emitter emitter = producePrettyFlowEmitter(output);
+
+        emitter.emit(new StreamStartEvent(null, null));
+        emitter.emit(new DocumentStartEvent(null, null, false, null, null));
+        emitter.emit(new SequenceStartEvent(null, "yaml.org,2002:seq", true, null, null, FlowStyle.FLOW));
+        emitter.emit(new CommentEvent(CommentType.BLOCK, " nobody home", null, null));
+        emitter.emit(new SequenceEndEvent(null, null));
+        emitter.emit(new DocumentEndEvent(null, null, false));
+        emitter.emit(new StreamEndEvent(null, null));
+
+        String result = output.toString();
+        final String data = "[\n"
+            + "  # nobody home\n"
+            + "]\n" ;
+
+        assertEquals(data, result);
     }
 
     private String getComplexConfig() {
