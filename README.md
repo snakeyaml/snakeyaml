@@ -24,3 +24,4 @@ For YAML 1.2 (which is a superset of JSON) you may have a look at [SnakeYAML Eng
 * You may discuss SnakeYAML at
 [the mailing list](http://groups.google.com/group/snakeyaml-core).
 * Telegram group is removed because of the spam
+* [YAML community](https://matrix.to/#/%23chat:yaml.io)
