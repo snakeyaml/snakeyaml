@@ -485,7 +485,8 @@ public class Yaml {
     }
 
     private Object loadFromReader(StreamReader sreader, Class<?> type) {
-        Composer composer = new Composer(new ParserImpl(sreader), resolver, loadingConfig);
+        Composer composer = new Composer(new ParserImpl(sreader,
+                loadingConfig.isProcessComments()), resolver, loadingConfig);
         constructor.setComposer(composer);
         return constructor.getSingleData(type);
     }
@@ -499,7 +500,8 @@ public class Yaml {
      * sequence
      */
     public Iterable<Object> loadAll(Reader yaml) {
-        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml)), resolver, loadingConfig);
+        Composer composer = new Composer(new ParserImpl(new StreamReader(yaml),
+                loadingConfig.isProcessComments()), resolver, loadingConfig);
         constructor.setComposer(composer);
         Iterator<Object> result = new Iterator<Object>() {
             @Override
@@ -667,7 +669,8 @@ public class Yaml {
      * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
      */
     public Iterable<Event> parse(Reader yaml) {
-        final Parser parser = new ParserImpl(new StreamReader(yaml));
+        final Parser parser = new ParserImpl(new StreamReader(yaml),
+                loadingConfig.isProcessComments());
         Iterator<Event> result = new Iterator<Event>() {
             @Override
             public boolean hasNext() {

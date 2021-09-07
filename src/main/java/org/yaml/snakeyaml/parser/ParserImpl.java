@@ -16,6 +16,7 @@
 package org.yaml.snakeyaml.parser;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -185,7 +186,7 @@ public class ParserImpl implements Parser {
         CommentType type = token.getCommentType();
         
         // state = state, that no change in state
-        
+
         return new CommentEvent(type, value, startMark, endMark);
     }
 
@@ -463,7 +464,7 @@ public class ParserImpl implements Parser {
                 endMark = scanner.peekToken().getEndMark();
                 event = new SequenceStartEvent(anchor, tag, implicit, startMark, endMark,
                         DumperOptions.FlowStyle.BLOCK);
-                state = new ParseIndentlessSequenceEntry();
+                state = new ParseIndentlessSequenceEntryKey();
             } else {
                 if (scanner.checkToken(Token.ID.Scalar)) {
                     ScalarToken token = (ScalarToken) scanner.getToken();
@@ -531,24 +532,18 @@ public class ParserImpl implements Parser {
         public Event produce() {
             Token token = scanner.getToken();
             marks.push(token.getStartMark());
-            return new ParseBlockSequenceEntry().produce();
+            return new ParseBlockSequenceEntryKey().produce();
         }
     }
 
-    private class ParseBlockSequenceEntry implements Production {
+    private class ParseBlockSequenceEntryKey implements Production {
         public Event produce() {
             if (scanner.checkToken(Token.ID.Comment)) {
                 return produceCommentEvent((CommentToken) scanner.getToken());
             }
             if (scanner.checkToken(Token.ID.BlockEntry)) {
                 BlockEntryToken token = (BlockEntryToken) scanner.getToken();
-                if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.BlockEnd)) {
-                    states.push(new ParseBlockSequenceEntry());
-                    return new ParseBlockNode().produce();
-                } else {
-                    state = new ParseBlockSequenceEntry();
-                    return processEmptyScalar(token.getEndMark());
-                }
+                return new ParseBlockSequenceEntryValue(token).produce();
             }
             if (!scanner.checkToken(Token.ID.BlockEnd)) {
                 Token token = scanner.peekToken();
@@ -564,28 +559,66 @@ public class ParserImpl implements Parser {
         }
     }
 
+    private class ParseBlockSequenceEntryValue implements Production {
+        BlockEntryToken token;
+
+        public ParseBlockSequenceEntryValue(final BlockEntryToken token) {
+            this.token = token;
+        }
+
+        public Event produce() {
+            if(scanner.checkToken(Token.ID.Comment)) {
+                state = new ParseBlockSequenceEntryValue(token);
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
+            if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.BlockEnd)) {
+                states.push(new ParseBlockSequenceEntryKey());
+                return new ParseBlockNode().produce();
+            } else {
+                state = new ParseBlockSequenceEntryKey();
+                return processEmptyScalar(token.getEndMark());
+            }
+        }
+    }
+
     // indentless_sequence ::= (BLOCK-ENTRY block_node?)+
 
-    private class ParseIndentlessSequenceEntry implements Production {
+    private class ParseIndentlessSequenceEntryKey implements Production {
         public Event produce() {
             if (scanner.checkToken(Token.ID.Comment)) {
                 return produceCommentEvent((CommentToken) scanner.getToken());
             }
             if (scanner.checkToken(Token.ID.BlockEntry)) {
-                Token token = scanner.getToken();
-                if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.Key, Token.ID.Value,
-                        Token.ID.BlockEnd)) {
-                    states.push(new ParseIndentlessSequenceEntry());
-                    return new ParseBlockNode().produce();
-                } else {
-                    state = new ParseIndentlessSequenceEntry();
-                    return processEmptyScalar(token.getEndMark());
-                }
+                BlockEntryToken token = (BlockEntryToken) scanner.getToken();
+                return new ParseIndentlessSequenceEntryValue(token).produce();
             }
             Token token = scanner.peekToken();
             Event event = new SequenceEndEvent(token.getStartMark(), token.getEndMark());
             state = states.pop();
             return event;
+        }
+    }
+
+    private class ParseIndentlessSequenceEntryValue implements Production {
+        BlockEntryToken token;
+
+        public ParseIndentlessSequenceEntryValue(final BlockEntryToken token) {
+            this.token = token;
+        }
+
+        public Event produce() {
+            if(scanner.checkToken(Token.ID.Comment)) {
+                state = new ParseIndentlessSequenceEntryValue(token);
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
+            if (!scanner.checkToken(Token.ID.BlockEntry, Token.ID.Key, Token.ID.Value,
+                    Token.ID.BlockEnd)) {
+                states.push(new ParseIndentlessSequenceEntryKey());
+                return new ParseBlockNode().produce();
+            } else {
+                state = new ParseIndentlessSequenceEntryKey();
+                return processEmptyScalar(token.getEndMark());
+            }
         }
     }
 
@@ -651,17 +684,37 @@ public class ParserImpl implements Parser {
     }
 
     private class ParseBlockMappingValueComment implements Production {
+        List<CommentToken> tokens = new LinkedList<>();
+
         public Event produce() {
             if (scanner.checkToken(Token.ID.Comment)) {
-                return parseBlockNodeOrIndentlessSequence();
+                tokens.add((CommentToken) scanner.getToken());
+                return produce();
             } else if (!scanner.checkToken(Token.ID.Key, Token.ID.Value, Token.ID.BlockEnd)) {
+                if(!tokens.isEmpty()) {
+                    return produceCommentEvent(tokens.remove(0));
+                }
                 states.push(new ParseBlockMappingKey());
                 return parseBlockNodeOrIndentlessSequence();
             } else {
-                state = new ParseBlockMappingKey();
-                Token token = scanner.getToken();
-                return processEmptyScalar(token.getEndMark());
+                state = new ParseBlockMappingValueCommentList(tokens);
+                return processEmptyScalar(scanner.peekToken().getStartMark());
             }
+        }
+    }
+
+    private class ParseBlockMappingValueCommentList implements Production {
+        List<CommentToken> tokens;
+
+        public ParseBlockMappingValueCommentList(final List<CommentToken> tokens) {
+            this.tokens = tokens;
+        }
+
+        public Event produce() {
+            if(!tokens.isEmpty()) {
+                return produceCommentEvent(tokens.remove(0));
+            }
+            return new ParseBlockMappingKey().produce();
         }
     }
 

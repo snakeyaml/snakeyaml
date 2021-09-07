@@ -29,7 +29,6 @@ public final class Constant {
     private final static String URI_CHARS_S = ALPHA_S + "-;/?:@&=+$,_.!~*\'()[]%";
 
     public final static Constant LINEBR = new Constant(LINEBR_S);
-    public final static Constant FULL_LINEBR = new Constant(FULL_LINEBR_S);
     public final static Constant NULL_OR_LINEBR = new Constant(NULL_OR_LINEBR_S);
     public final static Constant NULL_BL_LINEBR = new Constant(NULL_BL_LINEBR_S);
     public final static Constant NULL_BL_T_LINEBR = new Constant(NULL_BL_T_LINEBR_S);

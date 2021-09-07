@@ -42,7 +42,7 @@ public class StringArrayTest extends TestCase {
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(a);
         assertEquals(
-                "!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [\n  aaa,\n  bbb,\n  ccc]\n",
+                "!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [\n  aaa,\n  bbb,\n  ccc\n]\n",
                 output);
         A b = (A) yaml.load(output);
         assertTrue(Arrays.equals(a.getNames(), b.getNames()));

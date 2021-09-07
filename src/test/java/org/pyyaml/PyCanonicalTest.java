@@ -48,7 +48,7 @@ public class PyCanonicalTest extends PyImportTest {
             buffer.append((char) ch);
             ch = input.read();
         }
-        CanonicalScanner scanner = new CanonicalScanner(buffer.toString());
+        CanonicalScanner scanner = new CanonicalScanner(buffer.toString().replace(System.lineSeparator(), "\n"));
         List<Token> result = new ArrayList<Token>();
         while (scanner.peekToken() != null) {
             result.add(scanner.getToken());

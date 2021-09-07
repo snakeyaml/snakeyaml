@@ -36,9 +36,22 @@ public class Resolver {
      * added to keep backwards compatibility
      */
     public static final Pattern FLOAT = Pattern
-            .compile("^([-+]?(\\.[0-9]+|[0-9_]+(\\.[0-9_]*)?)([eE][-+]?[0-9]+)?|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$");
+            .compile("^(" +
+                    "[-+]?(?:[0-9][0-9_]*)\\.[0-9_]*(?:[eE][-+]?[0-9]+)?" + // (base 10)
+                    "|[-+]?(?:[0-9][0-9_]*)(?:[eE][-+]?[0-9]+)" + // (base 10, scientific notation without .)
+                    "|[-+]?\\.[0-9_]+(?:[eE][-+]?[0-9]+)?" + // (base 10, starting with .)
+                    "|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*" + // (base 60)
+                    "|[-+]?\\.(?:inf|Inf|INF)" +
+                    "|\\.(?:nan|NaN|NAN)" +
+                    ")$");
     public static final Pattern INT = Pattern
-            .compile("^(?:[-+]?0b[0-1_]+|[-+]?0[0-7_]+|[-+]?(?:0|[1-9][0-9_]*)|[-+]?0x[0-9a-fA-F_]+|[-+]?[1-9][0-9_]*(?::[0-5]?[0-9])+)$");
+            .compile("^(?:" +
+                    "[-+]?0b_*[0-1]+[0-1_]*" + // (base 2)
+                    "|[-+]?0_*[0-7]+[0-7_]*" + // (base 8)
+                    "|[-+]?(?:0|[1-9][0-9_]*)" + // (base 10)
+                    "|[-+]?0x_*[0-9a-fA-F]+[0-9a-fA-F_]*" + // (base 16)
+                    "|[-+]?[1-9][0-9_]*(?::[0-5]?[0-9])+" + // (base 60)
+                    ")$");
     public static final Pattern MERGE = Pattern.compile("^(?:<<)$");
     public static final Pattern NULL = Pattern.compile("^(?:~|null|Null|NULL| )$");
     public static final Pattern EMPTY = Pattern.compile("^$");

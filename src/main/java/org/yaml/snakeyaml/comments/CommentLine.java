@@ -38,34 +38,12 @@ public class CommentLine {
         this.commentType = commentType;
     }
 
-    /**
-     * CommentLine is only equal to itself
-     */
-    @Override
-    public final boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public final int hashCode() {
-        return super.hashCode();
-    }
-
     public Mark getEndMark() {
         return endMark;
     }
 
     public Mark getStartMark() {
         return startMark;
-    }
-
-    /**
-     * Is this comment blank lines or a regular comment (starts with '#').
-     *
-     * @return <code>true</code> if blank lines; Otherwise, <code>false</code>.
-     */
-    public boolean isBlankLines() {
-        return commentType == CommentType.BLANK_LINE;
     }
 
     public CommentType getCommentType() {

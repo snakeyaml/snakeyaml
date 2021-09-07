@@ -15,16 +15,6 @@
  */
 package org.yaml.snakeyaml.comment;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
-import java.io.StringReader;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Test;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
@@ -33,6 +23,16 @@ import org.yaml.snakeyaml.tokens.CommentToken;
 import org.yaml.snakeyaml.tokens.ScalarToken;
 import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.Token.ID;
+
+import java.io.StringReader;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class ScannerWithCommentEnabledTest {
 
@@ -43,22 +43,22 @@ public class ScannerWithCommentEnabledTest {
     private void printToken(Token token) {
         String value;
         switch (token.getTokenId()) {
-        case Scalar:
-            value = "(value='" + ((ScalarToken) token).getValue() + "')";
-            break;
-        case Comment:
-            CommentToken commentToken = (CommentToken) token;
-            value = "(type='" + commentToken.getCommentType() + ", value='" + commentToken.getValue() + "')";
-            break;
-        default:
-            value = "";
-            break;
+            case Scalar:
+                value = "(value='" + ((ScalarToken) token).getValue() + "')";
+                break;
+            case Comment:
+                CommentToken commentToken = (CommentToken) token;
+                value = "(type='" + commentToken.getCommentType() + ", value='" + commentToken.getValue() + "')";
+                break;
+            default:
+                value = "";
+                break;
         }
-        System.out.println(token.getTokenId().name() + value);
+        //System.out.println(token.getTokenId().name() + value);
     }
 
     private void assertTokenEquals(Iterator<ID> expectedIdIterator, Iterator<String> expectedScalarValueIterator,
-            Token token) {
+                                   Token token) {
         printToken(token);
         assertTrue(expectedIdIterator.hasNext());
         ID expectedValue = expectedIdIterator.next();
@@ -95,7 +95,7 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void testEmpty() {
-        List<ID> expected = Arrays.asList(new ID[] { Token.ID.StreamStart, ID.StreamEnd });
+        List<ID> expected = Arrays.asList(ID.StreamStart, ID.StreamEnd);
 
         Scanner sut = constructScanner("");
 
@@ -104,10 +104,10 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void testOnlyCommentLines() {
-        List<ID> expected = Arrays.asList(new ID[] { Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(ID.StreamStart, //
                 ID.Comment, //
                 ID.Comment, //
-                ID.StreamEnd });
+                ID.StreamEnd);
 
         Scanner sut = constructScanner("" + //
                 "# This stream contains no\n" + //
@@ -118,14 +118,14 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void testCommentEndingALine() {
-        List<ID> expected = Arrays.asList(new ID[] { Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, //
                 ID.Scalar, //
                 ID.BlockEnd, //
-                ID.StreamEnd });
-        List<String> expectedScalarValue = Arrays.asList(new String[] { //
-                "key", "value" });
+                ID.StreamEnd);
+        List<String> expectedScalarValue = Arrays.asList(//
+                "key", "value");
 
         Scanner sut = constructScanner("" + //
                 "key: # Comment\n" + //
@@ -136,14 +136,15 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void testMultiLineComment() {
-        List<ID> expected = Arrays.asList(new ID[] { Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Comment, //
                 ID.Scalar, //
+                ID.Comment, //
                 ID.BlockEnd, //
-                ID.StreamEnd });
-        List<String> expectedScalarValue = Arrays.asList(new String[] { //
-                "key", "value" });
+                ID.StreamEnd);
+        List<String> expectedScalarValue = Arrays.asList(//
+                "key", "value");
 
         Scanner sut = constructScanner("" + //
                 "key: # Comment\n" + //
@@ -156,9 +157,9 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void testBlankLine() {
-        List<ID> expected = Arrays.asList(new ID[] { Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(ID.StreamStart, //
                 ID.Comment, //
-                ID.StreamEnd });
+                ID.StreamEnd);
 
         Scanner sut = constructScanner("" + //
                 "\n");
@@ -168,14 +169,14 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void testBlankLineComments() {
-        List<ID> expected = Arrays.asList(new ID[] { Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(ID.StreamStart, //
                 ID.Comment, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Scalar, ID.Comment, //
                 ID.Comment, //
                 ID.Comment, //
                 ID.BlockEnd, //
-                ID.StreamEnd });
+                ID.StreamEnd);
 
         Scanner sut = constructScanner("" + //
                 "\n" + //
@@ -188,16 +189,16 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void test_blockScalar_replaceNLwithSpaces_singleNLatEnd() {
-        List<ID> expected = Arrays.asList(new ID[] { //
-                Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(//
+                ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, //
                 ID.Scalar, //
                 ID.BlockEnd, //
                 ID.StreamEnd //
-        });
-        List<String> expectedScalarValue = Arrays.asList(new String[] { //
-                "abc", "def hij\n" });
+        );
+        List<String> expectedScalarValue = Arrays.asList(//
+                "abc", "def hij\n");
 
         Scanner sut = constructScanner("abc: > # Comment\n    def\n    hij\n\n");
 
@@ -207,15 +208,15 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void test_blockScalar_replaceNLwithSpaces_noNLatEnd() {
-        List<ID> expected = Arrays.asList(new ID[] { //
-                Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(//
+                ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Scalar, //
                 ID.BlockEnd, //
                 ID.StreamEnd //
-        });
-        List<String> expectedScalarValue = Arrays.asList(new String[] { //
-                "abc", "def hij" });
+        );
+        List<String> expectedScalarValue = Arrays.asList(//
+                "abc", "def hij");
 
         Scanner sut = constructScanner("abc: >- # Comment\n    def\n    hij\n\n");
 
@@ -224,16 +225,16 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void test_blockScalar_replaceNLwithSpaces_allNLatEnd() {
-        List<ID> expected = Arrays.asList(new ID[] { //
-                Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(//
+                ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Scalar, //
                 ID.Comment, //
                 ID.BlockEnd, //
                 ID.StreamEnd //
-        });
-        List<String> expectedScalarValue = Arrays.asList(new String[] { //
-                "abc", "def hij\n\n" });
+        );
+        List<String> expectedScalarValue = Arrays.asList(//
+                "abc", "def hij\n\n");
 
         Scanner sut = constructScanner("abc: >+ # Comment\n    def\n    hij\n\n");
 
@@ -242,15 +243,15 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void test_blockScalar_keepNL_singleNLatEnd() {
-        List<ID> expected = Arrays.asList(new ID[] { //
-                Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(//
+                ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Scalar, //
                 ID.BlockEnd, //
                 ID.StreamEnd //
-        });
-        List<String> expectedScalarValue = Arrays.asList(new String[] { //
-                "abc", "def\nhij\n" });
+        );
+        List<String> expectedScalarValue = Arrays.asList(//
+                "abc", "def\nhij\n");
 
         Scanner sut = constructScanner("abc: | # Comment\n    def\n    hij\n\n");
 
@@ -259,15 +260,15 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void test_blockScalar_keepNL_noNLatEnd() {
-        List<ID> expected = Arrays.asList(new ID[] { //
-                Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(//
+                ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Scalar, //
                 ID.BlockEnd, //
                 ID.StreamEnd //
-        });
-        List<String> expectedScalarValue = Arrays.asList(new String[] { //
-                "abc", "def\nhij" });
+        );
+        List<String> expectedScalarValue = Arrays.asList(//
+                "abc", "def\nhij");
 
         Scanner sut = constructScanner("abc: |- # Comment\n    def\n    hij\n\n");
 
@@ -276,16 +277,16 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void test_blockScalar_keepNL_allNLatEnd() {
-        List<ID> expected = Arrays.asList(new ID[] { //
-                Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(//
+                ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Scalar, //
                 ID.Comment, //
                 ID.BlockEnd, //
                 ID.StreamEnd //
-        });
-        List<String> expectedScalarValue = Arrays.asList(new String[] { //
-                "abc", "def\nhij\n\n" });
+        );
+        List<String> expectedScalarValue = Arrays.asList(//
+                "abc", "def\nhij\n\n");
 
         Scanner sut = constructScanner("abc: |+ # Comment\n    def\n    hij\n\n");
 
@@ -294,12 +295,12 @@ public class ScannerWithCommentEnabledTest {
 
     @Test
     public void testDirectiveLineEndComment() {
-        List<ID> expected = Arrays.asList(new ID[] { //
-                Token.ID.StreamStart, //
+        List<ID> expected = Arrays.asList(//
+                ID.StreamStart, //
                 ID.Directive, //
                 ID.Comment, //
                 ID.StreamEnd //
-        });
+        );
 
         Scanner sut = constructScanner("%YAML 1.1 #Comment\n");
 

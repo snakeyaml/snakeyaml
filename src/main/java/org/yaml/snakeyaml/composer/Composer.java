@@ -112,7 +112,7 @@ public class Composer {
         // Drop the DOCUMENT-START event.
         parser.getEvent();
         // Compose the root node.
-        Node node = composeNode(null, blockCommentsCollector.collectEvents().consume());
+        Node node = composeNode(null);
         // Drop the DOCUMENT-END event.
         blockCommentsCollector.collectEvents();
         if(!blockCommentsCollector.isEmpty()) {
@@ -136,18 +136,10 @@ public class Composer {
     public Node getSingleNode() {
         // Drop the STREAM-START event.
         parser.getEvent();
-        // Drop any leading comments (though should not have run this case with comments on)
-        while (parser.checkEvent(Event.ID.Comment)) {
-            parser.getEvent();
-        }
         // Compose a document if the stream is not empty.
         Node document = null;
         if (!parser.checkEvent(Event.ID.StreamEnd)) {
             document = getNode();
-        }
-        // Drop any trailing comments (though should not have run this case with comments on)
-        while (parser.checkEvent(Event.ID.Comment)) {
-            parser.getEvent();
         }
         // Ensure that the stream contains no more documents.
         if (!parser.checkEvent(Event.ID.StreamEnd)) {
@@ -161,7 +153,8 @@ public class Composer {
         return document;
     }
 
-    private Node composeNode(Node parent, List<CommentLine> blockComments) {
+    private Node composeNode(Node parent) {
+        blockCommentsCollector.collectEvents();
         if (parent != null)
             recursiveNodes.add(parent);
         final Node node;
@@ -182,17 +175,17 @@ public class Composer {
             if (recursiveNodes.remove(node)) {
                 node.setTwoStepsConstruction(true);
             }
-            node.setBlockComments(blockComments);
+            node.setBlockComments(blockCommentsCollector.consume());
         } else {
             NodeEvent event = (NodeEvent) parser.peekEvent();
             String anchor = event.getAnchor();
             // the check for duplicate anchors has been removed (issue 174)
             if (parser.checkEvent(Event.ID.Scalar)) {
-                node = composeScalarNode(anchor, blockComments);
+                node = composeScalarNode(anchor, blockCommentsCollector.consume());
             } else if (parser.checkEvent(Event.ID.SequenceStart)) {
-                node = composeSequenceNode(anchor, blockComments);
+                node = composeSequenceNode(anchor);
             } else {
-                node = composeMappingNode(anchor, blockComments);
+                node = composeMappingNode(anchor);
             }
         }
         recursiveNodes.remove(parent);
@@ -222,7 +215,7 @@ public class Composer {
         return node;
     }
 
-    protected Node composeSequenceNode(String anchor, List<CommentLine> blockComments) {
+    protected Node composeSequenceNode(String anchor) {
         SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
         Tag nodeTag;
@@ -237,18 +230,22 @@ public class Composer {
         final ArrayList<Node> children = new ArrayList<Node>();
         SequenceNode node = new SequenceNode(nodeTag, resolved, children, startEvent.getStartMark(),
                 null, startEvent.getFlowStyle());
+        if (startEvent.isFlow()) {
+            node.setBlockComments(blockCommentsCollector.consume());
+        }
         if (anchor != null) {
             node.setAnchor(anchor);
             anchors.put(anchor, node);
         }
-        node.setBlockComments(blockComments);
-        node.setInLineComments(inlineCommentsCollector.collectEvents().consume());
         while (!parser.checkEvent(Event.ID.SequenceEnd)) {
             blockCommentsCollector.collectEvents();
             if (parser.checkEvent(Event.ID.SequenceEnd)) {
                 break;
             }
-            children.add(composeNode(node, blockCommentsCollector.consume()));
+            children.add(composeNode(node));
+        }
+        if (startEvent.isFlow()) {
+            node.setInLineComments(inlineCommentsCollector.collectEvents().consume());
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());
@@ -259,7 +256,7 @@ public class Composer {
         return node;
     }
 
-    protected Node composeMappingNode(String anchor, List<CommentLine> blockComments) {
+    protected Node composeMappingNode(String anchor) {
         MappingStartEvent startEvent = (MappingStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
         Tag nodeTag;
@@ -274,18 +271,22 @@ public class Composer {
         final List<NodeTuple> children = new ArrayList<NodeTuple>();
         MappingNode node = new MappingNode(nodeTag, resolved, children, startEvent.getStartMark(),
                 null, startEvent.getFlowStyle());
+        if (startEvent.isFlow()) {
+            node.setBlockComments(blockCommentsCollector.consume());
+        }
         if (anchor != null) {
             node.setAnchor(anchor);
             anchors.put(anchor, node);
         }
-        node.setBlockComments(blockComments);
-        node.setInLineComments(inlineCommentsCollector.collectEvents().consume());
         while (!parser.checkEvent(Event.ID.MappingEnd)) {
             blockCommentsCollector.collectEvents();
             if (parser.checkEvent(Event.ID.MappingEnd)) {
                 break;
             }
-            composeMappingChildren(children, node, blockCommentsCollector.consume());
+            composeMappingChildren(children, node);
+        }
+        if (startEvent.isFlow()) {
+            node.setInLineComments(inlineCommentsCollector.collectEvents().consume());
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());
@@ -296,20 +297,20 @@ public class Composer {
         return node;
     }
 
-    protected void composeMappingChildren(List<NodeTuple> children, MappingNode node, List<CommentLine> keyBlockComments) {
-        Node itemKey = composeKeyNode(node, keyBlockComments);
+    protected void composeMappingChildren(List<NodeTuple> children, MappingNode node) {
+        Node itemKey = composeKeyNode(node);
         if (itemKey.getTag().equals(Tag.MERGE)) {
             node.setMerged(true);
         }
-        Node itemValue = composeValueNode(node, blockCommentsCollector.collectEvents().consume());
+        Node itemValue = composeValueNode(node);
         children.add(new NodeTuple(itemKey, itemValue));
     }
 
-    protected Node composeKeyNode(MappingNode node, List<CommentLine> blockComments) {
-        return composeNode(node, blockComments);
+    protected Node composeKeyNode(MappingNode node) {
+        return composeNode(node);
     }
 
-    protected Node composeValueNode(MappingNode node, List<CommentLine> blockComments) {
-        return composeNode(node, blockComments);
+    protected Node composeValueNode(MappingNode node) {
+        return composeNode(node);
     }
 }

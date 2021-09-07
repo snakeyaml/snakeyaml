@@ -38,7 +38,7 @@ public class OrderTest extends TestCase {
         String s = Util.getLocalResource("issues/issue307-order.yaml");
         OrderBean orderBean = yaml.loadAs(s, OrderBean.class);
         String dump = yaml.dump(orderBean);
-        System.out.println(dump);
+        //System.out.println(dump);
         String str = "!!org.yaml.snakeyaml.issues.issue307.OrderBean\n" +
                 "name: tian\n" +
                 "type: {z: 256, y: 255, x: 254}\n" +
@@ -55,7 +55,7 @@ public class OrderTest extends TestCase {
         CustomerBean orderBean2 = yaml.loadAs(s, CustomerBean.class);
         orderBean2.setCustomerName("customer");
         String dump = yaml.dump(orderBean2);
-        System.out.println(dump);
+        //System.out.println(dump);
         String str = "!!org.yaml.snakeyaml.issues.issue307.CustomerBean\n" +
                 "customerName: customer\n" +
                 "name: tian\n" +
