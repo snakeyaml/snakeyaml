@@ -20,6 +20,8 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
+import java.util.List;
+
 public class ListWithCommentTest extends TestCase {
 
   public void testList() {
@@ -27,7 +29,7 @@ public class ListWithCommentTest extends TestCase {
     LoaderOptions options = new LoaderOptions();
     options.setProcessComments(true);
     Yaml yaml = new Yaml(options);
-    //FIXME 512 List<String> obj = yaml.load(str);
-    //assertEquals(2, obj.size());
+    List<String> obj = yaml.load(str);
+    assertEquals(2, obj.size());
   }
 }
