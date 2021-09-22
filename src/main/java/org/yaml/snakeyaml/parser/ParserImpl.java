@@ -476,9 +476,6 @@ public class ParserImpl implements Parser {
                     event = new ScalarEvent(anchor, tag, implicitValues, token.getValue(),
                             startMark, endMark, token.getStyle());
                     state = states.pop();
-                } else if (scanner.checkToken(Token.ID.Comment)) {
-                    // TODO check need
-                    event = produceCommentEvent((CommentToken) scanner.getToken());
                 } else if (scanner.checkToken(Token.ID.FlowSequenceStart)) {
                     endMark = scanner.peekToken().getEndMark();
                     event = new SequenceStartEvent(anchor, tag, implicit, startMark, endMark,
