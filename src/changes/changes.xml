@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.30" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="update">
+                Migrate to https://bitbucket.org/snakeyaml/snakeyaml (2021-10-23)
+            </action>
             <action dev="asomov" type="fix" issue="506">
                 Improve parsing a number starting with 0x (2021-06-28)
                 Take the Float pattern from ruamel: https://pypi.org/project/ruamel.yaml

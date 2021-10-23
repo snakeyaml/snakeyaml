@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 /**
- * https://bitbucket.org/asomov/snakeyaml-engine/issues/23/emitting-only-an-empty-string-adds-to
+ * https://bitbucket.org/snakeyaml/snakeyaml-engine/issues/23/emitting-only-an-empty-string-adds-to
  */
 public class EmptyStringOutputTest extends TestCase {
 

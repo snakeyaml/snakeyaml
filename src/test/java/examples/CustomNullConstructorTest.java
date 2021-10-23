@@ -24,7 +24,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 
 /**
  * Issue 1 for snakeyaml-engine
- * https://bitbucket.org/asomov/snakeyaml-engine/issues/1/null-tag-constructor-not-called-when
+ * https://bitbucket.org/snakeyaml/snakeyaml-engine/issues/1/null-tag-constructor-not-called-when
  */
 public class CustomNullConstructorTest extends TestCase {
 
