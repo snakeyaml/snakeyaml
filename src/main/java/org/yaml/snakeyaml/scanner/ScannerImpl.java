@@ -1494,7 +1494,7 @@ public final class ScannerImpl implements Scanner {
      * <pre>
      * The YAML 1.1 specification does not restrict characters for anchors and
      * aliases. This may lead to problems.
-     * see https://bitbucket.org/asomov/snakeyaml/issues/485/alias-names-are-too-permissive-compared-to
+     * see https://bitbucket.org/snakeyaml/snakeyaml/issues/485/alias-names-are-too-permissive-compared-to
      * This implementation tries to follow https://github.com/yaml/yaml-spec/blob/master/rfc/RFC-0003.md
      * </pre>
      */

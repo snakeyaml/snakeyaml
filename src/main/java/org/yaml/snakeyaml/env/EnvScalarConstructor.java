@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 /**
  * Construct scalar for format ${VARIABLE} replacing the template with the value from environment.
- * @see <a href="https://bitbucket.org/asomov/snakeyaml/wiki/Variable%20substitution">Variable substitution</a>
+ * @see <a href="https://bitbucket.org/snakeyaml/snakeyaml/wiki/Variable%20substitution">Variable substitution</a>
  * @see <a href="https://docs.docker.com/compose/compose-file/#variable-substitution">Variable substitution</a>
  */
 public class EnvScalarConstructor extends Constructor {

@@ -55,7 +55,7 @@ public class CustomResolverTest extends TestCase {
     }
 
     /**
-     * https://bitbucket.org/asomov/snakeyaml/issues/454/snakeyaml-implicitly-converts-time-into
+     * https://bitbucket.org/snakeyaml/snakeyaml/issues/454/snakeyaml-implicitly-converts-time-into
      */
     public void testResolverToLoadNoTime() {
         Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),

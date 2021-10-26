@@ -12,13 +12,13 @@ A new release of SnakeYAML is now available:
 
 This release delivers minor changes and bug fixes
 
-The complete list of changes is here: https://bitbucket.org/asomov/snakeyaml/wiki/Changes
+The complete list of changes is here: https://bitbucket.org/snakeyaml/snakeyaml/wiki/Changes
 
 Resources
 ==========
 
 SnakeYAML homepage: http://www.snakeyaml.org
-SnakeYAML documentation: https://bitbucket.org/asomov/snakeyaml/wiki/Home
+SnakeYAML documentation: https://bitbucket.org/snakeyaml/snakeyaml/wiki/Home
 
 JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.25/snakeyaml-1.25.jar
 Android: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.25/snakeyaml-1.25-android.jar

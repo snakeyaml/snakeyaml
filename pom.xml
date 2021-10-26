@@ -26,7 +26,7 @@
     <url>http://www.snakeyaml.org</url>
     <issueManagement>
         <system>Bitbucket</system>
-        <url>https://bitbucket.org/asomov/snakeyaml/issues</url>
+        <url>https://bitbucket.org/snakeyaml/snakeyaml/issues</url>
     </issueManagement>
     <mailingLists>
         <mailingList>
@@ -35,9 +35,9 @@
         </mailingList>
     </mailingLists>
     <scm>
-        <connection>scm:git:http://bitbucket.org/asomov/snakeyaml</connection>
-        <developerConnection>scm:git:ssh://git@bitbucket.org/asomov/snakeyaml</developerConnection>
-        <url>https://bitbucket.org/asomov/snakeyaml/src</url>
+        <connection>scm:git:http://bitbucket.org/snakeyaml/snakeyaml</connection>
+        <developerConnection>scm:git:ssh://git@bitbucket.org/snakeyaml/snakeyaml</developerConnection>
+        <url>https://bitbucket.org/snakeyaml/snakeyaml/src</url>
         <tag>HEAD</tag>
     </scm>
     <licenses>
@@ -339,7 +339,7 @@
                 <artifactId>maven-changes-plugin</artifactId>
                 <version>2.11</version>
                 <configuration>
-                    <issueLinkTemplate>https://bitbucket.org/asomov/snakeyaml/issues/%ISSUE%</issueLinkTemplate>
+                    <issueLinkTemplate>https://bitbucket.org/snakeyaml/snakeyaml/issues/%ISSUE%</issueLinkTemplate>
                 </configuration>
                 <reportSets>
                     <reportSet>
