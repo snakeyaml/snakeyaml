@@ -23,7 +23,7 @@
     <name>SnakeYAML</name>
     <description>YAML 1.1 parser and emitter for Java</description>
     <inceptionYear>2008</inceptionYear>
-    <url>http://www.snakeyaml.org</url>
+    <url>https://bitbucket.org/snakeyaml/snakeyaml</url>
     <issueManagement>
         <system>Bitbucket</system>
         <url>https://bitbucket.org/snakeyaml/snakeyaml/issues</url>
