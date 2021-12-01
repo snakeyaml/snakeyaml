@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run-in-docker.sh 3.6.3-jdk-8 -Pwith-java8-tests $@
+./run-in-docker.sh openjdk:8-alpine -Pwith-java8-tests $@

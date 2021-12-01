@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run-in-docker.sh 3.6-jdk-7 $@
+./run-in-docker.sh openjdk:7-alpine $@
