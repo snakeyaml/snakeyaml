@@ -284,6 +284,8 @@ public final class ScannerImpl implements Scanner {
         return this.tokens.remove(0);
     }
 
+    // Private methods.
+
     private void addToken(Token token) {
         lastToken = token;
         this.tokens.add(token);
@@ -301,7 +303,6 @@ public final class ScannerImpl implements Scanner {
         this.tokens.addAll(tokens);
     }
 
-    // Private methods.
     /**
      * Returns true if more tokens should be scanned.
      */
@@ -579,7 +580,7 @@ public final class ScannerImpl implements Scanner {
      */
     private void unwindIndent(int col) {
         // In the flow context, indentation is ignored. We make the scanner less
-        // restrictive then specification requires.
+        // restrictive than specification requires.
         if (this.flowLevel != 0) {
             return;
         }

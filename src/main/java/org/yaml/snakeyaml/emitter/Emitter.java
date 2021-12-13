@@ -265,7 +265,7 @@ public final class Emitter implements Emitable {
         }
 
         Iterator<Event> iter = events.iterator();
-        Event event = iter.next();
+        Event event = iter.next(); // TODO why without check ???
         while(event instanceof CommentEvent) {
             if (!iter.hasNext()) {
                 return true;

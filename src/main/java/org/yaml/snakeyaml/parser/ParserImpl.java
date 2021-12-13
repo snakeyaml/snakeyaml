@@ -184,6 +184,9 @@ public class ParserImpl implements Parser {
         Mark endMark = token.getEndMark();
         String value = token.getValue();
         CommentType type = token.getCommentType();
+
+        // state = state, that no change in state
+
         return new CommentEvent(type, value, startMark, endMark);
     }
 

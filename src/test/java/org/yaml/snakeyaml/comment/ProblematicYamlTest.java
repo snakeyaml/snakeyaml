@@ -103,13 +103,10 @@ public class ProblematicYamlTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd //
         );
-
         List<CommentType> expectedCommentTypeList = Arrays.asList(//
                 CommentType.BLOCK, CommentType.BLANK_LINE, CommentType.BLOCK);
-
         ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString1)),
                 LOAD_OPTIONS.isProcessComments());
-
         assertEventListEquals(expectedEventIdList, expectedCommentTypeList, parser);
     }
 
@@ -122,7 +119,6 @@ public class ProblematicYamlTest {
                 "\n" + //
                 "  # Comment 2\n" + //
                 "";
-
         List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
@@ -137,13 +133,10 @@ public class ProblematicYamlTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd //
         );
-
         List<CommentType> expectedCommentTypeList = Arrays.asList(//
                 CommentType.BLANK_LINE, CommentType.BLOCK, CommentType.BLANK_LINE, CommentType.BLOCK);
-
         ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString2)),
                 LOAD_OPTIONS.isProcessComments());
-
         assertEventListEquals(expectedEventIdList, expectedCommentTypeList, parser);
     }
 
@@ -154,7 +147,6 @@ public class ProblematicYamlTest {
                 "\n" + //
                 "key: value\n" + //
                 "";
-
         List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
@@ -168,12 +160,9 @@ public class ProblematicYamlTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd //
         );
-
         List<CommentType> expectedCommentTypeList = Arrays.asList(CommentType.BLANK_LINE);
-
         ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString3)),
                 LOAD_OPTIONS.isProcessComments());
-
         assertEventListEquals(expectedEventIdList, expectedCommentTypeList, parser);
     }
 
@@ -198,7 +187,6 @@ public class ProblematicYamlTest {
                 "    bar: 'quoted scalars\n" + //
                 "may not adhere indentation'\n" + //
                 "";
-
         List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.DocumentStart, //
@@ -232,11 +220,8 @@ public class ProblematicYamlTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd//
         );
-
         ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString4)),
                 LOAD_OPTIONS.isProcessComments());
-
         assertEventListEquals(expectedEventIdList, new ArrayList<CommentType>(), parser);
     }
-   
 }

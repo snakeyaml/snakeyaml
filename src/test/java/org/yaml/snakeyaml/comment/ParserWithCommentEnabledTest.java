@@ -69,26 +69,20 @@ public class ParserWithCommentEnabledTest {
     @Test
     public void testEmpty() {
         List<ID> expectedEventIdList = Arrays.asList(ID.StreamStart, ID.StreamEnd);
-
         String data = "";
-
         Parser sut = createParser(data);
-
         assertEventListEquals(expectedEventIdList, sut);
     }
 
     @Test
     public void testParseWithOnlyComment() {
         String data = "# Comment";
-
         List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.Comment, //
                 ID.StreamEnd //
         );
-
         Parser sut = createParser(data);
-
         assertEventListEquals(expectedEventIdList, sut);
     }
 
@@ -105,9 +99,7 @@ public class ParserWithCommentEnabledTest {
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
                 ID.StreamEnd);
-
         Parser sut = createParser(data);
-
         assertEventListEquals(expectedEventIdList, sut);
     }
 
@@ -118,7 +110,6 @@ public class ParserWithCommentEnabledTest {
                 "     # lines\n" + //
                 "  value\n" + //
                 "\n";
-
         List<ID> expectedEventIdList = Arrays.asList(ID.StreamStart, //
                 ID.DocumentStart, //
                 ID.MappingStart, //
@@ -127,9 +118,7 @@ public class ParserWithCommentEnabledTest {
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
                 ID.StreamEnd);
-
         Parser sut = createParser(data);
-
         assertEventListEquals(expectedEventIdList, sut);
     }
 
@@ -137,13 +126,10 @@ public class ParserWithCommentEnabledTest {
     public void testBlankLine() {
         String data = "" + //
                 "\n";
-
         List<ID> expectedEventIdList = Arrays.asList(ID.StreamStart, //
                 ID.Comment, //
                 ID.StreamEnd);
-
         Parser sut = createParser(data);
-
         assertEventListEquals(expectedEventIdList, sut);
     }
 
@@ -165,9 +151,7 @@ public class ParserWithCommentEnabledTest {
                 ID.MappingEnd, //
                 ID.DocumentEnd, //
                 ID.StreamEnd);
-
         Parser sut = createParser(data);
-
         assertEventListEquals(expectedEventIdList, sut);
     }
 
@@ -189,21 +173,17 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd //
         );
-
         Parser sut = createParser(data);
-
         assertEventListEquals(expectedEventIdList, sut);
     }
 
     @Test
     public void testDirectiveLineEndComment() {
         String data = "%YAML 1.1 #Comment\n";
-
         List<ID> expectedEventIdList = Arrays.asList(//
                 ID.StreamStart, //
                 ID.StreamEnd //
         );
-
         Parser sut = createParser(data);
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -232,9 +212,7 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd //
         );
-
         Parser sut = createParser(data);
-
         assertEventListEquals(expectedEventIdList, sut);
     }
 
@@ -305,9 +283,7 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd //
         );
-
         Parser sut = createParser(data);
-
         //printEventList(sut);
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -342,9 +318,7 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd //
         );
-
         Parser sut = createParser(data);
-
         assertEventListEquals(expectedEventIdList, sut);
     }
 
@@ -374,9 +348,7 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd //
         );
-
         Parser sut = createParser(data);
-
 //        printEventList(sut);
         assertEventListEquals(expectedEventIdList, sut);
     }
@@ -398,7 +370,6 @@ public class ParserWithCommentEnabledTest {
                 "key3: value3\n" +
                 "\n" + // FIXME: ?Should be comment?
                 "";
-        
         List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
                 ID.StreamStart, //
                 ID.Comment, //
@@ -422,13 +393,8 @@ public class ParserWithCommentEnabledTest {
                 ID.DocumentEnd, //
                 ID.StreamEnd //
         });
-
         Parser sut = new ParserImpl(new StreamReader(data), true);
-
         //printEventList(sut);
         assertEventListEquals(expectedEventIdList, sut);
-
-
     }
-
 }

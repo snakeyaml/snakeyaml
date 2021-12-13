@@ -183,7 +183,7 @@ public class SerializerWithCommentEnabledTest {
     public void testBlankLineComments() throws Exception {
         String data = "" + //
                 "\n" + //
-                "abc: def # commment\n" + //
+                "abc: def # comment\n" + //
                 "\n" + //
                 "\n";
 
