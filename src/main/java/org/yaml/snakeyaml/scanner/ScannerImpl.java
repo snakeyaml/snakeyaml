@@ -365,7 +365,7 @@ public final class ScannerImpl implements Scanner {
                 return;
             }
             break;
-        // TODO support for BOM within a stream. (not implemented in PyYAML)
+        // TODO support for BOM within a stream. (also not implemented in PyYAML)
         case '[':
             // Is it the flow sequence start indicator?
             fetchFlowSequenceStart();

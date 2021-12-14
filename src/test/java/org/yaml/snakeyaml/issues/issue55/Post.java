@@ -21,7 +21,7 @@ class Post {
     public static String description;
     public transient String cache;
 
-    // TODO empty constructor is required to support 2 step construction
+    // empty constructor is required to support 2 step construction
     protected Post() {
         description = "I should not be dumped.";
         cache = "Q34598723SDW234";

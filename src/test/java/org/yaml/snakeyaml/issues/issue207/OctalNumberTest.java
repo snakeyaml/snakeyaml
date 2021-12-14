@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 
+import java.util.Map;
+
 public class OctalNumberTest {
 
     @Test
@@ -31,11 +33,9 @@ public class OctalNumberTest {
         assertEquals("0A", yaml.load("0A"));
         assertEquals("09", yaml.load("!!str 09"));
 
-        /* TODO fix 207 and 130
         assertEquals("08", yaml.load("08"));
         assertEquals("09", yaml.load("09"));
         Map<String, String> parsed9 = (Map<String, String>) yaml.load("a: 09");
         assertEquals("09", parsed9.get("a"));
-        */
     }
 }

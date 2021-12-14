@@ -83,7 +83,7 @@ public class ObjectValuesTest extends TestCase {
         assertEquals(ov.getObject(), ov2.getObject());
         assertEquals(ov.getValues(), ov2.getValues());
         assertArrayEquals(ov.getPossible(), ov2.getPossible());
-        // TODO: This actually FAILS. Use of GenericArrays is ..... no words.
+        // This actually FAILS. Use of GenericArrays is ..... no words.
         // assertEquals(ov.getPossible()[0], ov2.getPossible()[0]);
         try {
             ov2.getPossible()[0].toString();
