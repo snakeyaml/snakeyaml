@@ -1222,6 +1222,7 @@ public final class ScannerImpl implements Scanner {
         int inlineStartColumn = -1;
         while (!found) {
             Mark startMark = reader.getMark();
+            int columnBeforeComment = reader.getColumn();
             boolean commentSeen = false;
             int ff = 0;
             // Peek ahead until we find the first non-space character, then
@@ -1239,8 +1240,7 @@ public final class ScannerImpl implements Scanner {
             if (reader.peek() == '#') {
                 commentSeen = true;
                 CommentType type;
-                if(startMark.getColumn() != 0
-                        && !(lastToken != null && lastToken.getTokenId() == Token.ID.BlockEntry)) {
+                if(columnBeforeComment != 0 && !(lastToken != null && lastToken.getTokenId() == Token.ID.BlockEntry)) {
                     type = CommentType.IN_LINE;
                     inlineStartColumn = reader.getColumn();
                 } else if(inlineStartColumn == reader.getColumn()) {
@@ -1259,7 +1259,7 @@ public final class ScannerImpl implements Scanner {
             String breaks = scanLineBreak();
             if (breaks.length() != 0) {// found a line-break
                 if (parseComments && ! commentSeen) {
-                    if (startMark.getColumn() == 0) {
+                    if (columnBeforeComment == 0) {
                         Mark endMark = reader.getMark();
                         addToken(new CommentToken(CommentType.BLANK_LINE, breaks, startMark, endMark));
                     }
