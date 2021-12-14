@@ -265,7 +265,7 @@ public final class Emitter implements Emitable {
         }
 
         Iterator<Event> iter = events.iterator();
-        Event event = iter.next(); // TODO why without check ???
+        Event event = iter.next(); // FIXME why without check ???
         while(event instanceof CommentEvent) {
             if (!iter.hasNext()) {
                 return true;
@@ -396,11 +396,6 @@ public final class Emitter implements Emitable {
                 }
                 state = new ExpectDocumentRoot();
             } else if (event instanceof StreamEndEvent) {
-                // TODO fix 313 PyYAML changeset
-                // if (openEnded) {
-                // writeIndicator("...", true, false, false);
-                // writeIndent();
-                // }
                 writeStreamEnd();
                 state = new ExpectNothing();
             } else if (event instanceof CommentEvent) {

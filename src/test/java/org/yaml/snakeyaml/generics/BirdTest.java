@@ -35,22 +35,11 @@ public class BirdTest extends TestCase {
         Bird parsed;
         String javaVendor = System.getProperty("java.vm.name");
         Yaml loader = new Yaml();
-        if (GenericsBugDetector.isProperIntrospection()) {
-            // no global tags
-            System.out.println("java.vm.name: " + javaVendor);
-            assertEquals("no global tags must be emitted.", "home:\n  height: 3\nname: Eagle\n",
-                    output);
+        // no global tags
+        System.out.println("java.vm.name: " + javaVendor);
+        assertEquals("no global tags must be emitted.", "home:\n  height: 3\nname: Eagle\n",
+                output);
             parsed = loader.loadAs(output, Bird.class);
-
-        } else {
-            // with global tags
-            System.out
-                    .println("JDK requires global tags for JavaBean properties with Java Generics. java.vm.name: "
-                            + javaVendor);
-            assertEquals("global tags are inevitable here.",
-                    "home: !!org.yaml.snakeyaml.generics.Nest\n  height: 3\nname: Eagle\n", output);
-            parsed = loader.loadAs(output, Bird.class);
-        }
         assertEquals(bird.getName(), parsed.getName());
         assertEquals(bird.getHome().getHeight(), parsed.getHome().getHeight());
     }

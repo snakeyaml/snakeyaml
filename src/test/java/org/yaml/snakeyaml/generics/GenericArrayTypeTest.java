@@ -32,19 +32,9 @@ public class GenericArrayTypeTest extends TestCase {
         String etalon = "!!org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray\n"
                 + "home: [1, 2, 3]\n" + "name: Array3\n";
         assertEquals(etalon, doc);
-        if (GenericsBugDetector.isProperIntrospection()) {
-            GenericArray parsed = (GenericArray) yaml.load(doc);
-            assertEquals("Array3", parsed.getName());
-            assertEquals(3, parsed.getHome().length);
-        } else {
-            try {
-                yaml.load(doc);
-            } catch (Exception e) {
-                // TODO Check GenericArrayType
-                String message = "Cannot create property=home for JavaBean=org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray";
-                assertTrue(e.getMessage(), e.getMessage().contains(message));
-            }
-        }
+        GenericArray parsed = (GenericArray) yaml.load(doc);
+        assertEquals("Array3", parsed.getName());
+        assertEquals(3, parsed.getHome().length);
     }
 
     public static class GenericArray extends AbstractAnimal<Integer[]> {
@@ -80,20 +70,10 @@ public class GenericArrayTypeTest extends TestCase {
         assertEquals(Util.getLocalResource("javabeans/genericArray-1.yaml"), doc);
         //
         Yaml beanLoader = new Yaml();
-        if (GenericsBugDetector.isProperIntrospection()) {
-            ArrayBean loaded = beanLoader.loadAs(doc, ArrayBean.class);
-            assertEquals("ID556677", loaded.getId());
-            assertEquals("Array3", loaded.getGa().getName());
-            assertEquals(3, loaded.getGa().getHome().length);
-        } else {
-            try {
-                beanLoader.load(doc);
-            } catch (Exception e) {
-                // TODO Check GenericArrayType
-                String message = "Cannot create property=home for JavaBean=org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray";
-                assertTrue(e.getMessage(), e.getMessage().contains(message));
-            }
-        }
+        ArrayBean loaded = beanLoader.loadAs(doc, ArrayBean.class);
+        assertEquals("ID556677", loaded.getId());
+        assertEquals("Array3", loaded.getGa().getName());
+        assertEquals(3, loaded.getGa().getHome().length);
     }
 
     public static class ArrayBean {

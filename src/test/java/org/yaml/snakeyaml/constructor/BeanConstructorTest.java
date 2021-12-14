@@ -145,7 +145,6 @@ public class BeanConstructorTest extends TestCase {
     }
 
     public void testPrivateMethod() {
-        // TODO: Are we sure no private ????
         Yaml yaml = new Yaml(new Constructor(TestBean2.class));
         String document = "text: qwerty";
         try {

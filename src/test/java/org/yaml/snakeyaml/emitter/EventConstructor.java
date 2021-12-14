@@ -98,7 +98,6 @@ public class EventConstructor extends Constructor {
                 Map<String, String> tags = (Map<String, String>) mapping.get("tags");
                 List<Integer> versionList = (List<Integer>) mapping.get("version");
                 Version version = null;
-                // TODO ???
                 if (versionList != null) {
                     Integer major = versionList.get(0).intValue();
                     if (major != 1) {

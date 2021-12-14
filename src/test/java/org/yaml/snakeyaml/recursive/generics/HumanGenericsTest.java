@@ -34,16 +34,12 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.generics.GenericsBugDetector;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class HumanGenericsTest extends TestCase {
 
     public void testNoChildren() throws IOException, IntrospectionException {
-        if (!GenericsBugDetector.isProperIntrospection()) {
-            return;
-        }
         HumanGen father = new HumanGen();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -75,9 +71,6 @@ public class HumanGenericsTest extends TestCase {
      * @throws IntrospectionException
      */
     public void testNoChildren2() throws IOException, IntrospectionException {
-        if (!GenericsBugDetector.isProperIntrospection()) {
-            return;
-        }
         HumanGen father = new HumanGen();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -105,9 +98,6 @@ public class HumanGenericsTest extends TestCase {
     }
 
     public void testChildren() throws IOException, IntrospectionException {
-        if (!GenericsBugDetector.isProperIntrospection()) {
-            return;
-        }
         HumanGen father = new HumanGen();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -178,9 +168,6 @@ public class HumanGenericsTest extends TestCase {
     }
 
     public void testChildren2() throws IOException, IntrospectionException {
-        if (!GenericsBugDetector.isProperIntrospection()) {
-            return;
-        }
         HumanGen2 father = new HumanGen2();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -250,9 +237,6 @@ public class HumanGenericsTest extends TestCase {
     }
 
     public void testChildren3() throws IOException, IntrospectionException {
-        if (!GenericsBugDetector.isProperIntrospection()) {
-            return;
-        }
         HumanGen3 father = new HumanGen3();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -329,9 +313,6 @@ public class HumanGenericsTest extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testChildrenSetAsRoot() throws IOException, IntrospectionException {
-        if (!GenericsBugDetector.isProperIntrospection()) {
-            return;
-        }
         String etalon = Util.getLocalResource("recursive/generics/with-children-as-set.yaml");
 
         Constructor constructor = new Constructor();
@@ -367,9 +348,6 @@ public class HumanGenericsTest extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testChildrenMapAsRoot() throws IOException, IntrospectionException {
-        if (!GenericsBugDetector.isProperIntrospection()) {
-            return;
-        }
         String etalon = Util.getLocalResource("recursive/generics/with-children-as-map.yaml");
 
         Constructor constructor = new Constructor();
@@ -401,9 +379,6 @@ public class HumanGenericsTest extends TestCase {
      */
     @SuppressWarnings("unchecked")
     public void testChildrenListRoot() throws IOException, IntrospectionException {
-        if (!GenericsBugDetector.isProperIntrospection()) {
-            return;
-        }
         HumanGen3 father = new HumanGen3();
         father.setName("Father");
         father.setBirthday(new Date(1000000000));
@@ -474,9 +449,6 @@ public class HumanGenericsTest extends TestCase {
     }
 
     public void testBeanRing() throws IOException, IntrospectionException {
-        if (!GenericsBugDetector.isProperIntrospection()) {
-            return;
-        }
         HumanGen man1 = new HumanGen();
         man1.setName("Man 1");
         HumanGen man2 = new HumanGen();
