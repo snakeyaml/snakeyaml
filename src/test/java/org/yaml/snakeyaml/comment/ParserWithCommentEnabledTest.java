@@ -397,4 +397,33 @@ public class ParserWithCommentEnabledTest {
         //printEventList(sut);
         assertEventListEquals(expectedEventIdList, sut);
     }
+
+    @Test
+    public void testCommentsInFlowMapping() {
+        String data = "" +
+                "# Beginning\n" +
+                "{\n" +
+                "    # Hello\n" +
+                "    key1: meow,\n" +
+                "    # World\n" +
+                "    key2: purr\n" +
+                "}\n";
+
+        List<ID> expectedEventIdList = Arrays.asList(
+                ID.StreamStart,
+                ID.Comment,
+                ID.DocumentStart,
+                ID.MappingStart,
+                ID.Comment,
+                ID.Scalar, ID.Scalar,
+                ID.Comment,
+                ID.Scalar, ID.Scalar,
+                ID.MappingEnd,
+                ID.DocumentEnd,
+                ID.StreamEnd
+        );
+        Parser sut = new ParserImpl(new StreamReader(data), true);
+        //printEventList(sut);
+        assertEventListEquals(expectedEventIdList, sut);
+    }
 }
