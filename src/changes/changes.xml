@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.31" date="in Git" description="Maintenance">
+            <action dev="asomov" type="update">
+                Fix issues with comments
+            </action>
             <action dev="asomov" type="fix" issue="517">
                 Ignore trailing TAB
             </action>
