@@ -851,17 +851,25 @@ public class ParserImpl implements Parser {
     }
 
     private class ParseFlowMappingKey implements Production {
-        private boolean first = false;
+        private final boolean first;
 
         public ParseFlowMappingKey(boolean first) {
             this.first = first;
         }
 
         public Event produce() {
+            if (scanner.checkToken(Token.ID.Comment)) {
+                state = new ParseFlowMappingKey(first);
+                return produceCommentEvent((CommentToken) scanner.getToken());
+            }
             if (!scanner.checkToken(Token.ID.FlowMappingEnd)) {
                 if (!first) {
                     if (scanner.checkToken(Token.ID.FlowEntry)) {
                         scanner.getToken();
+                        if (scanner.checkToken(Token.ID.Comment)) {
+                            state = new ParseFlowMappingKey(true);
+                            return produceCommentEvent((CommentToken) scanner.getToken());
+                        }
                     } else {
                         Token token = scanner.peekToken();
                         throw new ParserException("while parsing a flow mapping", marks.pop(),
