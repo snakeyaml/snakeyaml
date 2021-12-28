@@ -18,7 +18,8 @@ package org.yaml.snakeyaml.env;
 import junit.framework.TestCase;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_FORMAT;
 
 /*
 ${VARIABLE:-default} evaluates to default if VARIABLE is unset or empty in the environment.
@@ -30,7 +31,6 @@ ${VARIABLE:?err} exits with an error message containing err if VARIABLE is unset
 ${VARIABLE?err} exits with an error message containing err if VARIABLE is unset in the environment.
  */
 public class EnvFormatTest extends TestCase {
-    public static final Pattern ENV_FORMAT = EnvScalarConstructor.ENV_FORMAT;
 
     public void testMatchBasic() {
         assertTrue(ENV_FORMAT.matcher("${V}").matches());
