@@ -45,6 +45,7 @@ import org.yaml.snakeyaml.util.ArrayStack;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -187,7 +188,7 @@ public final class Emitter implements Emitable {
         this.states = new ArrayStack<EmitterState>(100);
         this.state = new ExpectStreamStart();
         // Current event and the event queue.
-        this.events = new ArrayBlockingQueue<Event>(100);
+        this.events = new ArrayDeque<>(100);
         this.event = null;
         // The current indentation level and the stack of previous indents.
         this.indents = new ArrayStack<Integer>(10);
