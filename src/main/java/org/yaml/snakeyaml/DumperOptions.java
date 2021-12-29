@@ -466,7 +466,7 @@ public class DumperOptions {
     /**
      * Set the comment processing. By default comments are ignored.
      *
-     * @param processComments <code>true</code> to process; <code>false</code> to ignore</code>
+     * @param processComments <code>true</code> to process; <code>false</code> to ignore
      */
 
     public void setProcessComments(boolean processComments) {

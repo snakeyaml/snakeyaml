@@ -230,9 +230,9 @@ public final class ScannerImpl implements Scanner {
     }
 
     /**
-     * Set the scanner to ignore comments or parse them as a <code>CommentToken<code>.
+     * Set the scanner to ignore comments or parse them as a <code>CommentToken</code>.
      * 
-     * @param parseComments <code>true</code> to parse; <code>false</code> to ignore</code>
+     * @param parseComments <code>true</code> to parse; <code>false</code> to ignore
      */
     public ScannerImpl setParseComments(boolean parseComments) {
         this.parseComments = parseComments;
