@@ -15,6 +15,8 @@
  */
 package org.yaml.snakeyaml.env;
 
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.MissingEnvironmentVariableException;
@@ -22,11 +24,13 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
 
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Construct scalar for format ${VARIABLE} replacing the template with the value from environment.
+ * It can also be used to create JavaBeans when the all the arguments are provided.
  * @see <a href="https://bitbucket.org/snakeyaml/snakeyaml/wiki/Variable%20substitution">Variable substitution</a>
  * @see <a href="https://docs.docker.com/compose/compose-file/#variable-substitution">Variable substitution</a>
  */
@@ -36,7 +40,21 @@ public class EnvScalarConstructor extends Constructor {
     // value can be any non-space -> \S+
     public static final Pattern ENV_FORMAT = Pattern.compile("^\\$\\{\\s*((?<name>\\w+)((?<separator>:?(-|\\?))(?<value>\\S+)?)?)\\s*\\}$");
 
+    /**
+     * For simple cases when no JavaBeans are needed
+     */
     public EnvScalarConstructor() {
+        this.yamlConstructors.put(ENV_TAG, new ConstructEnv());
+    }
+
+    /**
+     * Create EnvScalarConstructor which can create JavaBeans with variable substitution
+     * @param theRoot - the class (usually JavaBean) to be constructed
+     * @param moreTDs - collection of classes used by the root class
+     * @param loadingConfig - configuration
+     */
+    public EnvScalarConstructor(TypeDescription theRoot, Collection<TypeDescription> moreTDs, LoaderOptions loadingConfig) {
+        super(theRoot, moreTDs, loadingConfig);
         this.yamlConstructors.put(ENV_TAG, new ConstructEnv());
     }
 

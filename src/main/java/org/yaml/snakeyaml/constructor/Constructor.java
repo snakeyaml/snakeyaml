@@ -88,6 +88,12 @@ public class Constructor extends SafeConstructor {
     	this(theRoot, moreTDs, new LoaderOptions());
     }
 
+    /**
+     * Create with all possible arguments
+     * @param theRoot - the class (usually JavaBean) to be constructed
+     * @param moreTDs - collection of classes used by the root class
+     * @param loadingConfig - configuration
+     */
     public Constructor(TypeDescription theRoot, Collection<TypeDescription> moreTDs, LoaderOptions loadingConfig) {
     	super(loadingConfig);
         if (theRoot == null) {
