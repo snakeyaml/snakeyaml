@@ -69,7 +69,8 @@ public class BillionLaughsAttackTest {
             map.toString();
             fail("Expected overflow");
         } catch (Throwable e) {
-            assertTrue(e.getMessage().contains("heap"));
+            assertTrue(e.getMessage(), e.getMessage().contains("heap") ||
+                    e.getMessage().contains("Required array length too large"));
         }
     }
 
