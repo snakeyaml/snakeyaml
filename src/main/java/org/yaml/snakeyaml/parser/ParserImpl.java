@@ -143,7 +143,7 @@ public class ParserImpl implements Parser {
     public ParserImpl(Scanner scanner) {
         this.scanner = scanner;
         currentEvent = null;
-        directives = new VersionTagsTuple(null, new HashMap<String, String>(DEFAULT_TAGS));
+        directives = new VersionTagsTuple(null, new HashMap<String, String>());
         states = new ArrayStack<Production>(100);
         marks = new ArrayStack<Mark>(10);
         state = new ParseStreamStart();
@@ -319,13 +319,13 @@ public class ParserImpl implements Parser {
 
     @SuppressWarnings("unchecked")
     private VersionTagsTuple processDirectives() {
-        Version yamlVersion = null;
         HashMap<String, String> tagHandles = new HashMap<String, String>();
+        directives = new VersionTagsTuple(null, tagHandles);
         while (scanner.checkToken(Token.ID.Directive)) {
             @SuppressWarnings("rawtypes")
             DirectiveToken token = (DirectiveToken) scanner.getToken();
             if (token.getName().equals("YAML")) {
-                if (yamlVersion != null) {
+                if (directives.getVersion() != null) {
                     throw new ParserException(null, null, "found duplicate YAML directive",
                             token.getStartMark());
                 }
@@ -339,11 +339,11 @@ public class ParserImpl implements Parser {
                 Integer minor = value.get(1);
                 switch (minor) {
                 case 0:
-                    yamlVersion = Version.V1_0;
+                    directives = new VersionTagsTuple(Version.V1_0, tagHandles);
                     break;
 
                 default:
-                    yamlVersion = Version.V1_1;
+                    directives = new VersionTagsTuple(Version.V1_1, tagHandles);
                     break;
                 }
             } else if (token.getName().equals("TAG")) {
@@ -357,17 +357,18 @@ public class ParserImpl implements Parser {
                 tagHandles.put(handle, prefix);
             }
         }
-        if (yamlVersion != null || !tagHandles.isEmpty()) {
-            // directives in the document found - drop the previous
-            for (String key : DEFAULT_TAGS.keySet()) {
-                // do not overwrite re-defined tags
-                if (!tagHandles.containsKey(key)) {
-                    tagHandles.put(key, DEFAULT_TAGS.get(key));
-                }
-            }
-            directives = new VersionTagsTuple(yamlVersion, tagHandles);
+        HashMap<String, String> detectedTagHandles = new HashMap<String, String>();
+        if (!tagHandles.isEmpty()) {
+            // copy from tagHandles
+            detectedTagHandles = new HashMap<String, String>(tagHandles);
         }
-        return directives;
+        for (String key : DEFAULT_TAGS.keySet()) {
+            // do not overwrite re-defined tags
+            if (!tagHandles.containsKey(key)) {
+                tagHandles.put(key, DEFAULT_TAGS.get(key));
+            }
+        }
+        return new VersionTagsTuple(directives.getVersion(), detectedTagHandles);
     }
 
     /**

@@ -6,14 +6,18 @@
     </properties>
     <body>
         <release version="1.31" date="in Git" description="Maintenance">
+            <action dev="asomov" type="update">
+                Do not emit global TAGs by not keeping them in Parser
+                (breaks https://code.google.com/archive/p/snakeyaml/issues/149)
+            </action>
             <action dev="asomov" type="add">
                 Add an example with Lombok and ENV variable substitution (2021-12-29)
             </action>
             <action dev="asomov" type="update">
                 Fix issues with comments
             </action>
-            <action dev="asomov" type="fix" issue="517">
-                Ignore trailing TAB
+            <action dev="asomov" type="update" issue="517">
+                Recognise issue with trailing TAB
             </action>
         </release>
         <release version="1.30" date="2021-12-14" description="Maintenance">
