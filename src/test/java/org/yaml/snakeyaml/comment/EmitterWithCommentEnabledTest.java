@@ -333,6 +333,21 @@ public class EmitterWithCommentEnabledTest {
     }
 
     @Test
+    public void test100Comments() throws IOException {
+        StringBuilder commentBuilder = new StringBuilder();
+        for (int i = 0; i < 100; i++) {
+            commentBuilder.append("# Comment ").append(i).append("\n");
+        }
+        final String data = ""
+                + commentBuilder
+                + "simpleKey: simpleValue\n"
+                + "\n";
+
+        String result = runEmitterWithCommentsEnabled(data);
+        assertEquals(data, result);
+    }
+
+    @Test
     public void testCommentsAtDataWindowBreak() {
         String data = getComplexConfig();
 
