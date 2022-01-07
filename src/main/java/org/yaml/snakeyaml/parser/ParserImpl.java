@@ -317,6 +317,14 @@ public class ParserImpl implements Parser {
         }
     }
 
+    /**
+     * https://yaml.org/spec/1.1/#id898785 says "If the document specifies no directives,
+     * it is parsed using the same settings as the previous document.
+     * If the document does specify any directives,
+     * all directives of previous documents, if any, are ignored."
+     * TODO the last statement is not respected (as in PyYAML, to work the same)
+     * @return directives to be applied for the current document
+     */
     @SuppressWarnings("unchecked")
     private VersionTagsTuple processDirectives() {
         HashMap<String, String> tagHandles = new HashMap<String, String>();
