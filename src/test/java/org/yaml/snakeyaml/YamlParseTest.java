@@ -49,10 +49,7 @@ public class YamlParseTest extends TestCase {
         DocumentStartEvent documentStartEvent = (DocumentStartEvent) events.next();
         assertTrue(documentStartEvent.getExplicit());
         assertEquals(DumperOptions.Version.V1_1, documentStartEvent.getVersion());
-        Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();
-        DEFAULT_TAGS.put("!", "!");
-        DEFAULT_TAGS.put("!!", Tag.PREFIX);
-        assertEquals(DEFAULT_TAGS, documentStartEvent.getTags());
+        assertEquals(new HashMap<String, String>(), documentStartEvent.getTags());
         ScalarEvent scalarEvent = (ScalarEvent) events.next();
         assertNull(scalarEvent.getAnchor());
         assertNull(scalarEvent.getTag());

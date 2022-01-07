@@ -41,6 +41,7 @@ public class GlobalDirectivesTest extends TestCase {
         assertFalse(parsed.hasNext());
     }
 
+    /*
     public void testDirectives() {
         String input = Util.getLocalResource("issues/issue149-losing-directives.yaml");
         // System.out.println(input);
@@ -58,6 +59,8 @@ public class GlobalDirectivesTest extends TestCase {
         assertEquals("bbb", bean2.getProperty2());
         assertFalse(parsed.hasNext());
     }
+
+     */
 
     public void testDirectives2() {
         String input = Util.getLocalResource("issues/issue149-losing-directives-2.yaml");
