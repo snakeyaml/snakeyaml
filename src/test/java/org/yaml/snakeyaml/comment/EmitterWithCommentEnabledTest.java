@@ -351,11 +351,14 @@ public class EmitterWithCommentEnabledTest {
     public void testCommentsOnReference() throws Exception {
         String data = "dummy: &a test\n"
                 + "conf:\n"
-                + "- # Test\n"
+                + "- # comment not ok here\n"
                 + "  *a #comment not ok here\n";
+        String expected = "dummy: &a test\n"
+                + "conf:\n"
+                + "- *a\n";
 
         String result = runEmitterWithCommentsEnabled(data);
-        assertEquals(data.replace("a", "id001"), result);
+        assertEquals(expected.replace("a", "id001"), result);
     }
 
     @Test
