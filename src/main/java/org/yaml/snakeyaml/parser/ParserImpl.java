@@ -143,7 +143,7 @@ public class ParserImpl implements Parser {
     public ParserImpl(Scanner scanner) {
         this.scanner = scanner;
         currentEvent = null;
-        directives = new VersionTagsTuple(null, new HashMap<String, String>());
+        directives = new VersionTagsTuple(null, new HashMap<String, String>(DEFAULT_TAGS));
         states = new ArrayStack<Production>(100);
         marks = new ArrayStack<Mark>(10);
         state = new ParseStreamStart();
@@ -216,7 +216,6 @@ public class ParserImpl implements Parser {
                 return produceCommentEvent((CommentToken) scanner.getToken());
             }
             if (!scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart, Token.ID.StreamEnd)) {
-                directives = new VersionTagsTuple(null, DEFAULT_TAGS);
                 Token token = scanner.peekToken();
                 Mark startMark = token.getStartMark();
                 Mark endMark = startMark;
@@ -327,7 +326,11 @@ public class ParserImpl implements Parser {
      */
     @SuppressWarnings("unchecked")
     private VersionTagsTuple processDirectives() {
-        HashMap<String, String> tagHandles = new HashMap<String, String>();
+        HashMap<String, String> tagHandles = new HashMap<String, String>(directives.getTags());
+        for (String key : DEFAULT_TAGS.keySet()) {
+            tagHandles.remove(key);
+        }
+        // keep only added tag handlers
         directives = new VersionTagsTuple(null, tagHandles);
         while (scanner.checkToken(Token.ID.Directive)) {
             @SuppressWarnings("rawtypes")
@@ -370,12 +373,14 @@ public class ParserImpl implements Parser {
             // copy from tagHandles
             detectedTagHandles = new HashMap<String, String>(tagHandles);
         }
+        // add default tag handlers to resolve tags
         for (String key : DEFAULT_TAGS.keySet()) {
             // do not overwrite re-defined tags
             if (!tagHandles.containsKey(key)) {
                 tagHandles.put(key, DEFAULT_TAGS.get(key));
             }
         }
+        // data for the events (no default tags added)
         return new VersionTagsTuple(directives.getVersion(), detectedTagHandles);
     }
 
