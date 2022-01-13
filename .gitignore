@@ -76,3 +76,6 @@ nb-configuration.xml
 ## OS X
 ##############################
 .DS_Store
+
+# ignore docker build files
+?/
