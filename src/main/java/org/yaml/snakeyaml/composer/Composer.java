@@ -36,6 +36,7 @@ import org.yaml.snakeyaml.events.MappingStartEvent;
 import org.yaml.snakeyaml.events.NodeEvent;
 import org.yaml.snakeyaml.events.ScalarEvent;
 import org.yaml.snakeyaml.events.SequenceStartEvent;
+import org.yaml.snakeyaml.nodes.AnchorNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -175,7 +176,9 @@ public class Composer {
             if (recursiveNodes.remove(node)) {
                 node.setTwoStepsConstruction(true);
             }
-            node.setBlockComments(blockCommentsCollector.consume());
+            // drop comments, they can not be supported here
+            blockCommentsCollector.consume();
+            inlineCommentsCollector.collectEvents().consume();
         } else {
             NodeEvent event = (NodeEvent) parser.peekEvent();
             String anchor = event.getAnchor();

@@ -348,6 +348,20 @@ public class EmitterWithCommentEnabledTest {
     }
 
     @Test
+    public void testCommentsOnReference() throws Exception {
+        String data = "dummy: &a test\n"
+                + "conf:\n"
+                + "- # comment not ok here\n"
+                + "  *a #comment not ok here\n";
+        String expected = "dummy: &a test\n"
+                + "conf:\n"
+                + "- *a\n";
+
+        String result = runEmitterWithCommentsEnabled(data);
+        assertEquals(expected.replace("a", "id001"), result);
+    }
+
+    @Test
     public void testCommentsAtDataWindowBreak() {
         String data = getComplexConfig();
 
