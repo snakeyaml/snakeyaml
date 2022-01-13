@@ -229,7 +229,6 @@ public class ScannerWithCommentEnabledTest {
                 ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Scalar, //
-                ID.Comment, //
                 ID.BlockEnd, //
                 ID.StreamEnd //
         );
@@ -281,7 +280,6 @@ public class ScannerWithCommentEnabledTest {
                 ID.StreamStart, //
                 ID.BlockMappingStart, //
                 ID.Key, ID.Scalar, ID.Value, ID.Comment, ID.Scalar, //
-                ID.Comment, //
                 ID.BlockEnd, //
                 ID.StreamEnd //
         );

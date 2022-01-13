@@ -333,6 +333,21 @@ public class EmitterWithCommentEnabledTest {
     }
 
     @Test
+    public void testMultiLineString() throws Exception {
+        String data = "# YAML load and save bug with keep block chomping indicator\n" +
+                "example:\n" +
+                "  description: |+\n" +
+                "    These lines have a carrage return after them.\n" +
+                "    And the carrage return will be duplicated with each save if the\n" +
+                "    block chomping indicator + is used. (\"keep\": keep the line feed, keep trailing blank lines.)\n" +
+                "\n" +
+                "successfully-loaded: test\n";
+
+        String result = runEmitterWithCommentsEnabled(data);
+        assertEquals(data, result);
+    }
+
+    @Test
     public void test100Comments() throws IOException {
         StringBuilder commentBuilder = new StringBuilder();
         for (int i = 0; i < 100; i++) {
