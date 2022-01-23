@@ -91,7 +91,7 @@ public final class ScannerImpl implements Scanner {
     private final static Pattern NOT_HEXA = Pattern.compile("[^0-9A-Fa-f]");
 
     /**
-     * A mapping from an escaped character in the input stream to the character
+     * A mapping from an escaped character in the input stream to the string representation
      * that they should be replaced with.
      * 
      * YAML defines several common and a few uncommon escape sequences.
@@ -444,14 +444,7 @@ public final class ScannerImpl implements Scanner {
         // No? It's an error. Let's produce a nice error message.We do this by
         // converting escaped characters into their escape sequences. This is a
         // backwards use of the ESCAPE_REPLACEMENTS map.
-        String chRepresentation = String.valueOf(Character.toChars(c));
-        for (Character s : ESCAPE_REPLACEMENTS.keySet()) {
-            String v = ESCAPE_REPLACEMENTS.get(s);
-            if (v.equals(chRepresentation)) {
-                chRepresentation = "\\" + s;// ' ' -> '\t'
-                break;
-            }
-        }
+        String chRepresentation = escapeChar(String.valueOf(Character.toChars(c)));
         if (c == '\t')
             chRepresentation += "(TAB)";
         String text = String
@@ -459,6 +452,19 @@ public final class ScannerImpl implements Scanner {
                         chRepresentation, chRepresentation);
         throw new ScannerException("while scanning for the next token", null, text,
                 reader.getMark());
+    }
+
+    /**
+     * This is implemented in CharConstants in SnakeYAML Engine
+     */
+    private String escapeChar(String chRepresentation) {
+        for (Character s : ESCAPE_REPLACEMENTS.keySet()) {
+            String v = ESCAPE_REPLACEMENTS.get(s);
+            if (v.equals(chRepresentation)) {
+                return "\\" + s;// ' ' -> '\t'
+            }
+        }
+        return chRepresentation;
     }
 
     // Simple keys treatment.
