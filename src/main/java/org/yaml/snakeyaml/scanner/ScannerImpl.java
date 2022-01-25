@@ -162,8 +162,7 @@ public final class ScannerImpl implements Scanner {
     // Had we reached the end of the stream?
     private boolean done = false;
 
-    // The number of unclosed '{' and '['. `flow_level == 0` means block
-    // context.
+    // The number of unclosed '{' and '['. `flow_level == 0` means block context.
     private int flowLevel = 0;
 
     // List of processed tokens that are not yet emitted.
@@ -172,7 +171,7 @@ public final class ScannerImpl implements Scanner {
     // The last added token
     private Token lastToken;
 
-    // Number of tokens that were emitted through the `get_token` method.
+    // Number of tokens that were emitted through the `getToken()` method.
     private int tokensTaken = 0;
 
     // The current indentation level.
@@ -212,7 +211,7 @@ public final class ScannerImpl implements Scanner {
 
     /*
      * Keep track of possible simple keys. This is a dictionary. The key is
-     * `flow_level`; there can be no more that one possible simple key for each
+     * `flow_level`; there can be no more than one possible simple key for each
      * level. The value is a SimpleKey record: (token_number, required, index,
      * line, column, mark) A simple key may start with ALIAS, ANCHOR, TAG,
      * SCALAR(flow), '[', or '{' tokens.
@@ -2357,12 +2356,6 @@ public final class ScannerImpl implements Scanner {
      * </pre>
      */
     private String scanLineBreak() {
-        // Transforms:
-        // '\r\n' : '\n'
-        // '\r' : '\n'
-        // '\n' : '\n'
-        // '\x85' : '\n'
-        // default : ''
         int c = reader.peek();
         if (c == '\r' || c == '\n' || c == '\u0085') {
             if (c == '\r' && '\n' == reader.peek(1)) {

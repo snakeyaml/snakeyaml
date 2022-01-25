@@ -33,10 +33,9 @@ public interface Scanner {
      * Check if the next token is one of the given types.
      *
      * @param choices
-     *            token IDs.
-     * @return <code>true</code> if the next token can be assigned to a variable
-     *         of at least one of the given types. Returns <code>false</code> if
-     *         no more tokens are available.
+     *            token IDs to match with
+     * @return <code>true</code> if the next token is one of the given types.
+     * Returns <code>false</code> if no more tokens are available.
      * @throws ScannerException
      *             Thrown in case of malformed input.
      */
@@ -44,7 +43,6 @@ public interface Scanner {
 
     /**
      * Return the next token, but do not delete it from the stream.
-     * The method must be called only after {@link #checkToken}.
      *
      * @return The token that will be returned on the next call to {@link #getToken}
      * @throws ScannerException          Thrown in case of malformed input.
@@ -56,7 +54,8 @@ public interface Scanner {
      * Returns the next token.
      * <p>
      * The token will be removed from the stream.
-     * (Every invocation of this method must happen after calling {@link #checkToken}.
+     * (Every invocation of this method must happen after calling either {@link #checkToken}
+     * or {@link #peekToken()}
      * </p>
      *
      * @return the coming token
