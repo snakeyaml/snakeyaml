@@ -1715,13 +1715,12 @@ public final class ScannerImpl implements Scanner {
         if (chompi.chompTailIsNotFalse()) {
             chunks.append(lineBreak);
         }
-        CommentToken blankLineCommentToken = null;
         if (chompi.chompTailIsTrue()) {
             chunks.append(breaks);
         }
         // We are done.
         ScalarToken scalarToken = new ScalarToken(chunks.toString(), false, startMark, endMark, DumperOptions.ScalarStyle.createStyle(style));
-        return makeTokenList(commentToken, scalarToken, blankLineCommentToken);
+        return makeTokenList(commentToken, scalarToken);
     }
 
     /**
