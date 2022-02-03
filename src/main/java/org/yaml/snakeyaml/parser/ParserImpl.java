@@ -231,17 +231,9 @@ public class ParserImpl implements Parser {
 
     private class ParseDocumentStart implements Production {
         public Event produce() {
-            if (scanner.checkToken(Token.ID.Comment)) {
-                state = new ParseDocumentStart();
-                return produceCommentEvent((CommentToken) scanner.getToken());
-            }
             // Parse any extra document end indicators.
             while (scanner.checkToken(Token.ID.DocumentEnd)) {
                 scanner.getToken();
-            }
-            if (scanner.checkToken(Token.ID.Comment)) {
-                state = new ParseDocumentStart();
-                return produceCommentEvent((CommentToken) scanner.getToken());
             }
             // Parse an explicit document.
             Event event;
