@@ -16,7 +16,6 @@
 package org.yaml.snakeyaml;
 
 import java.util.Collection;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -82,11 +81,11 @@ public class TypeDescription {
     }
 
     public TypeDescription(Class<? extends Object> clazz) {
-        this(clazz, (Tag) null, null);
+        this(clazz, new Tag(clazz), null);
     }
 
     public TypeDescription(Class<? extends Object> clazz, Class<?> impl) {
-        this(clazz, null, impl);
+        this(clazz, new Tag(clazz), impl);
     }
 
     /**
