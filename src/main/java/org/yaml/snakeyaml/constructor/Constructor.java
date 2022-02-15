@@ -216,7 +216,7 @@ public class Constructor extends SafeConstructor {
         // }
 
         protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
-            flattenMapping(node);
+            flattenMapping(node, true);
             Class<? extends Object> beanType = node.getType();
             List<NodeTuple> nodeValue = node.getValue();
             for (NodeTuple tuple : nodeValue) {
@@ -229,8 +229,7 @@ public class Constructor extends SafeConstructor {
                             "Keys must be scalars but found: " + tuple.getKeyNode());
                 }
                 Node valueNode = tuple.getValueNode();
-                // keys can only be Strings
-                keyNode.setType(String.class);
+                // flattenMapping enforces keys to be Strings
                 String key = (String) constructObject(keyNode);
                 try {
                     TypeDescription memberDescription = typeDefinitions.get(beanType);
