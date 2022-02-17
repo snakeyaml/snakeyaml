@@ -101,6 +101,7 @@ public final class Tag {
      * @param uri
      *            - URI to be encoded as tag value
      */
+    @Deprecated
     public Tag(URI uri) {
         if (uri == null) {
             throw new NullPointerException("URI for tag must be provided.");
