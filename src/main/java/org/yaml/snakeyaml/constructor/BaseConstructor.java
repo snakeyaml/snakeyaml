@@ -79,6 +79,7 @@ public abstract class BaseConstructor {
     private PropertyUtils propertyUtils;
     private boolean explicitPropertyUtils;
     private boolean allowDuplicateKeys = true;
+    private boolean mergeDuplicates = false;
     private boolean wrappedToRootException = false;
 
     private boolean enumCaseSensitive = false;
@@ -108,6 +109,7 @@ public abstract class BaseConstructor {
         typeDefinitions.put(SortedSet.class, new TypeDescription(SortedSet.class, Tag.SET,
                 TreeSet.class));
         this.loadingConfig = loadingConfig;
+        mergeDuplicates = loadingConfig.mergeDuplicates();
     }
 
     public void setComposer(Composer composer) {
@@ -594,6 +596,14 @@ public abstract class BaseConstructor {
 
     public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
         this.allowDuplicateKeys = allowDuplicateKeys;
+    }
+
+    public void setMergeDuplicates(boolean merge) {
+        mergeDuplicates = merge;
+    }
+
+    public boolean mergeDuplicates() {
+        return mergeDuplicates;
     }
 
     public boolean isWrappedToRootException() {

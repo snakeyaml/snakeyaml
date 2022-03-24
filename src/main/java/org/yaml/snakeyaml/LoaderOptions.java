@@ -23,6 +23,7 @@ public class LoaderOptions {
     private boolean allowRecursiveKeys = false;
     private boolean processComments = false;
     private boolean enumCaseSensitive = true;
+    private boolean mergeDuplicates = false;
 
     public boolean isAllowDuplicateKeys() {
         return allowDuplicateKeys;
@@ -45,6 +46,25 @@ public class LoaderOptions {
      */
     public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
         this.allowDuplicateKeys = allowDuplicateKeys;
+    }
+
+    public boolean mergeDuplicates() {
+        return mergeDuplicates;
+    }
+
+    /**
+     * If duplicated map keys are allowed, per default the previous value list
+     * of the duplicated key gets replaced by the value list of the new one.
+     * This is often unintentional and not what is needed. So if this option is
+     * set to {@code true}, the value list of the previous key gets prepend to
+     * the value list of the duplicate, and finally the previous key/value list
+     * deleted. This makes e.g. anchors/aliases much more useful as before.
+     *
+     * @param merge	If {@code true}, join the value lists of duplicated keys.
+     * 	Default is {@code false} to comply to YAML 1.2.
+     */
+    public void setMergeDuplicates(boolean merge) {
+        mergeDuplicates = merge;
     }
 
     public boolean isWrappedToRootException() {

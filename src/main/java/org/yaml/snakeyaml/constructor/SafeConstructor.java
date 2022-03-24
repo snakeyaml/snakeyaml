@@ -12,6 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Portions Copyright (c) 2022, Jens Elkner (jel+snakeyaml@cs.uni-magdeburg.de)
+ * - merge duplicated keys feature.
  */
 package org.yaml.snakeyaml.constructor;
 
@@ -32,6 +35,7 @@ import java.util.regex.Pattern;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
+import org.yaml.snakeyaml.nodes.CollectionNode;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -80,6 +84,7 @@ public class SafeConstructor extends BaseConstructor {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     protected void processDuplicateKeys(MappingNode node) {
         List<NodeTuple> nodeValue = node.getValue();
         Map<Object, Integer> keys = new HashMap<Object, Integer>(nodeValue.size());
@@ -101,9 +106,18 @@ public class SafeConstructor extends BaseConstructor {
 
                 Integer prevIndex = keys.put(key, i);
                 if (prevIndex != null) {
-                    if (!isAllowDuplicateKeys()) {
+                    if (!isAllowDuplicateKeys())
                         throw new DuplicateKeyException(node.getStartMark(), key,
                                 tuple.getKeyNode().getStartMark());
+                    if (mergeDuplicates()) {
+	                    Node newn = tuple.getValueNode();
+	                    Node oldn = nodeValue.get(prevIndex).getValueNode();
+	                    if ((newn instanceof CollectionNode)
+	                        && (oldn instanceof CollectionNode))
+	                    {
+	                        ((CollectionNode) newn).getValue()
+	                            .addAll(0, ((CollectionNode) oldn).getValue());
+	                    }
                     }
                     toRemove.add(prevIndex);
                 }
