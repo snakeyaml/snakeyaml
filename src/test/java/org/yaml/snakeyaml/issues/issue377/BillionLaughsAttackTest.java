@@ -69,7 +69,8 @@ public class BillionLaughsAttackTest {
             map.toString();
             fail("Expected overflow");
         } catch (Throwable e) {
-            assertTrue("Catched exception " + e + " is not an instance of OutOfMemoryError", e instanceof OutOfMemoryError);
+            assertTrue("Catched exception " + e +
+                " is not an instance of OutOfMemoryError", e instanceof OutOfMemoryError);
         }
     }
 

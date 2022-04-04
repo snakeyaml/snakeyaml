@@ -7,6 +7,9 @@
     <body>
         <release version="1.31" date="in Git" description="Maintenance">
             <action dev="asomov" type="update">
+                Merged PR #7: https://bitbucket.org/snakeyaml/snakeyaml/pull-requests/7 (2022-04-04)
+            </action>
+            <action dev="asomov" type="update">
                 Do not emit global TAGs by not keeping them in Parser
                 (breaks https://code.google.com/archive/p/snakeyaml/issues/149)
             </action>
