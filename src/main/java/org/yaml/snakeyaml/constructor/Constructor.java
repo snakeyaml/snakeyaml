@@ -220,17 +220,9 @@ public class Constructor extends SafeConstructor {
             Class<? extends Object> beanType = node.getType();
             List<NodeTuple> nodeValue = node.getValue();
             for (NodeTuple tuple : nodeValue) {
-                ScalarNode keyNode;
-                if (tuple.getKeyNode() instanceof ScalarNode) {
-                    // key must be scalar
-                    keyNode = (ScalarNode) tuple.getKeyNode();
-                } else {
-                    throw new YAMLException(
-                            "Keys must be scalars but found: " + tuple.getKeyNode());
-                }
                 Node valueNode = tuple.getValueNode();
                 // flattenMapping enforces keys to be Strings
-                String key = (String) constructObject(keyNode);
+                String key = (String) constructObject(tuple.getKeyNode());
                 try {
                     TypeDescription memberDescription = typeDefinitions.get(beanType);
                     Property property = memberDescription == null ? getProperty(beanType, key)

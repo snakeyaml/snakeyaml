@@ -97,8 +97,13 @@ public class SafeConstructor extends BaseConstructor {
             Node keyNode = tuple.getKeyNode();
             if (!keyNode.getTag().equals(Tag.MERGE)) {
                 if (forceStringKeys) {
-                    keyNode.setType(String.class);
-                    keyNode.setTag(Tag.STR);
+                    if (keyNode instanceof ScalarNode) {
+                        keyNode.setType(String.class);
+                        keyNode.setTag(Tag.STR);
+                    } else {
+                        throw new YAMLException(
+                             "Keys must be scalars but found: " + keyNode);
+                    }
                 }
                 Object key = constructObject(keyNode);
                 if (key != null && !forceStringKeys) {
@@ -182,8 +187,12 @@ public class SafeConstructor extends BaseConstructor {
             } else {
                 // we need to construct keys to avoid duplications
                 if (forceStringKeys) {
-                    keyNode.setType(String.class);
-                    keyNode.setTag(Tag.STR);
+                    if (keyNode instanceof ScalarNode) {
+                        keyNode.setType(String.class);
+                        keyNode.setTag(Tag.STR);
+                    } else {
+                        throw new YAMLException("Keys must be scalars but found: " + keyNode);
+                    }
                 }
                 Object key = constructObject(keyNode);
                 if (!key2index.containsKey(key)) { // 1st time merging key
