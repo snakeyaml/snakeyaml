@@ -72,15 +72,23 @@ public class SafeConstructor extends BaseConstructor {
     }
 
     protected void flattenMapping(MappingNode node) {
+        flattenMapping(node, false);
+    }
+
+    protected void flattenMapping(MappingNode node, boolean forceStringKeys) {
         // perform merging only on nodes containing merge node(s)
-        processDuplicateKeys(node);
+        processDuplicateKeys(node, forceStringKeys);
         if (node.isMerged()) {
             node.setValue(mergeNode(node, true, new HashMap<Object, Integer>(),
-                    new ArrayList<NodeTuple>()));
+                    new ArrayList<NodeTuple>(), forceStringKeys));
         }
     }
 
     protected void processDuplicateKeys(MappingNode node) {
+        processDuplicateKeys(node, false);
+    }
+
+    protected void processDuplicateKeys(MappingNode node, boolean forceStringKeys) {
         List<NodeTuple> nodeValue = node.getValue();
         Map<Object, Integer> keys = new HashMap<Object, Integer>(nodeValue.size());
         TreeSet<Integer> toRemove = new TreeSet<Integer>();
@@ -88,8 +96,17 @@ public class SafeConstructor extends BaseConstructor {
         for (NodeTuple tuple : nodeValue) {
             Node keyNode = tuple.getKeyNode();
             if (!keyNode.getTag().equals(Tag.MERGE)) {
+                if (forceStringKeys) {
+                    if (keyNode instanceof ScalarNode) {
+                        keyNode.setType(String.class);
+                        keyNode.setTag(Tag.STR);
+                    } else {
+                        throw new YAMLException(
+                             "Keys must be scalars but found: " + keyNode);
+                    }
+                }
                 Object key = constructObject(keyNode);
-                if (key != null) {
+                if (key != null && !forceStringKeys) {
                     try {
                         key.hashCode();// check circular dependencies
                     } catch (Exception e) {
@@ -132,7 +149,7 @@ public class SafeConstructor extends BaseConstructor {
      *         MappingNode)
      */
     private List<NodeTuple> mergeNode(MappingNode node, boolean isPreffered,
-            Map<Object, Integer> key2index, List<NodeTuple> values) {
+            Map<Object, Integer> key2index, List<NodeTuple> values, boolean forceStringKeys) {
         Iterator<NodeTuple> iter = node.getValue().iterator();
         while (iter.hasNext()) {
             final NodeTuple nodeTuple = iter.next();
@@ -143,7 +160,7 @@ public class SafeConstructor extends BaseConstructor {
                 switch (valueNode.getNodeId()) {
                 case mapping:
                     MappingNode mn = (MappingNode) valueNode;
-                    mergeNode(mn, false, key2index, values);
+                    mergeNode(mn, false, key2index, values, forceStringKeys);
                     break;
                 case sequence:
                     SequenceNode sn = (SequenceNode) valueNode;
@@ -157,7 +174,7 @@ public class SafeConstructor extends BaseConstructor {
                                     subnode.getStartMark());
                         }
                         MappingNode mnode = (MappingNode) subnode;
-                        mergeNode(mnode, false, key2index, values);
+                        mergeNode(mnode, false, key2index, values,forceStringKeys);
                     }
                     break;
                 default:
@@ -169,6 +186,14 @@ public class SafeConstructor extends BaseConstructor {
                 }
             } else {
                 // we need to construct keys to avoid duplications
+                if (forceStringKeys) {
+                    if (keyNode instanceof ScalarNode) {
+                        keyNode.setType(String.class);
+                        keyNode.setTag(Tag.STR);
+                    } else {
+                        throw new YAMLException("Keys must be scalars but found: " + keyNode);
+                    }
+                }
                 Object key = constructObject(keyNode);
                 if (!key2index.containsKey(key)) { // 1st time merging key
                     values.add(nodeTuple);
@@ -269,7 +294,7 @@ public class SafeConstructor extends BaseConstructor {
             RADIX_MAX[radix] = new int[] { maxLen(Integer.MAX_VALUE,radix), maxLen(Long.MAX_VALUE,radix)};
         }
     }
-    
+
     private static int maxLen(final int max, final int radix) {
     	return  Integer.toString(max,radix).length();
     }

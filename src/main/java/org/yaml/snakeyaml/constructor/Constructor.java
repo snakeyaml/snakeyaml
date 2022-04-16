@@ -85,7 +85,7 @@ public class Constructor extends SafeConstructor {
     }
 
     public Constructor(TypeDescription theRoot, Collection<TypeDescription> moreTDs) {
-    	this(theRoot, moreTDs, new LoaderOptions());
+        this(theRoot, moreTDs, new LoaderOptions());
     }
 
     /**
@@ -95,7 +95,7 @@ public class Constructor extends SafeConstructor {
      * @param loadingConfig - configuration
      */
     public Constructor(TypeDescription theRoot, Collection<TypeDescription> moreTDs, LoaderOptions loadingConfig) {
-    	super(loadingConfig);
+        super(loadingConfig);
         if (theRoot == null) {
             throw new NullPointerException("Root type must be provided.");
         }
@@ -216,22 +216,13 @@ public class Constructor extends SafeConstructor {
         // }
 
         protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
-            flattenMapping(node);
+            flattenMapping(node, true);
             Class<? extends Object> beanType = node.getType();
             List<NodeTuple> nodeValue = node.getValue();
             for (NodeTuple tuple : nodeValue) {
-                ScalarNode keyNode;
-                if (tuple.getKeyNode() instanceof ScalarNode) {
-                    // key must be scalar
-                    keyNode = (ScalarNode) tuple.getKeyNode();
-                } else {
-                    throw new YAMLException(
-                            "Keys must be scalars but found: " + tuple.getKeyNode());
-                }
                 Node valueNode = tuple.getValueNode();
-                // keys can only be Strings
-                keyNode.setType(String.class);
-                String key = (String) constructObject(keyNode);
+                // flattenMapping enforces keys to be Strings
+                String key = (String) constructObject(tuple.getKeyNode());
                 try {
                     TypeDescription memberDescription = typeDefinitions.get(beanType);
                     Property property = memberDescription == null ? getProperty(beanType, key)
@@ -256,16 +247,16 @@ public class Constructor extends SafeConstructor {
                                 Class<?> t = arguments[0];
                                 SequenceNode snode = (SequenceNode) valueNode;
                                 snode.setListType(t);
-                            } else if (Set.class.isAssignableFrom(valueNode.getType())) {
-                                Class<?> t = arguments[0];
-                                MappingNode mnode = (MappingNode) valueNode;
-                                mnode.setOnlyKeyType(t);
-                                mnode.setUseClassConstructor(true);
                             } else if (Map.class.isAssignableFrom(valueNode.getType())) {
                                 Class<?> keyType = arguments[0];
                                 Class<?> valueType = arguments[1];
                                 MappingNode mnode = (MappingNode) valueNode;
                                 mnode.setTypes(keyType, valueType);
+                                mnode.setUseClassConstructor(true);
+                            } else if (Collection.class.isAssignableFrom(valueNode.getType())) {
+                                Class<?> t = arguments[0];
+                                MappingNode mnode = (MappingNode) valueNode;
+                                mnode.setOnlyKeyType(t);
                                 mnode.setUseClassConstructor(true);
                             }
                         }
