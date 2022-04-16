@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.31" date="in Git" description="Maintenance">
+            <action dev="maslovalex" type="fix" issue="522">
+                Deserializing key "on" fails with Exception
+            </action>
             <action dev="asomov" type="update">
                 Merged PR #7: https://bitbucket.org/snakeyaml/snakeyaml/pull-requests/7 (2022-04-04)
             </action>
