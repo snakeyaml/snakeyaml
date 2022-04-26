@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.31" date="in Git" description="Maintenance">
+            <action dev="asomov" type="add" issue="525">
+                Add test for stackoverflow
+            </action>
             <action dev="maslovalex" type="fix" issue="522">
                 Deserializing key "on" fails with Exception
             </action>
