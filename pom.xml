@@ -288,6 +288,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
+						<Main-Class>org.yaml.snakeyaml.Yaml2Yaml</Main-Class>
                         <_nouses>true</_nouses>
                         <Export-Package>
                             !org.yaml.snakeyaml.external*,
