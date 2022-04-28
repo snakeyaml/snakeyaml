@@ -23,6 +23,7 @@ public class LoaderOptions {
     private boolean allowRecursiveKeys = false;
     private boolean processComments = false;
     private boolean enumCaseSensitive = true;
+    private int nestingDepthLimit = 50;
 
     public boolean isAllowDuplicateKeys() {
         return allowDuplicateKeys;
@@ -67,7 +68,8 @@ public class LoaderOptions {
     }
 
     /**
-     * Restrict the amount of aliases for collections (sequences and mappings) to avoid https://en.wikipedia.org/wiki/Billion_laughs_attack
+     * Restrict the amount of aliases for collections (sequences and mappings)
+     * to avoid https://en.wikipedia.org/wiki/Billion_laughs_attack
      * @param maxAliasesForCollections set max allowed value (50 by default)
      */
     public void setMaxAliasesForCollections(int maxAliasesForCollections) {
@@ -75,7 +77,7 @@ public class LoaderOptions {
     }
 
     /**
-     * Allow recursive keys for mappings. By default it is not allowed.
+     * Allow recursive keys for mappings. By default, it is not allowed.
      * This setting only prevents the case when the key is the value. If the key is only a part of the value
      * (the value is a sequence or a mapping) then this case is not recognized and always allowed.
      * @param allowRecursiveKeys - false to disable recursive keys
@@ -113,5 +115,19 @@ public class LoaderOptions {
      */
     public void setEnumCaseSensitive(boolean enumCaseSensitive) {
         this.enumCaseSensitive = enumCaseSensitive;
+    }
+
+    public int getNestingDepthLimit() {
+        return nestingDepthLimit;
+    }
+
+    /**
+     * Set max depth of nested collections. When the limit is exceeded an exception is thrown.
+     * Aliases/Anchors are not counted.
+     * This is to prevent a DoS attack
+     * @param nestingDepthLimit - depth to be accepted (50 by default)
+     */
+    public void setNestingDepthLimit(int nestingDepthLimit) {
+        this.nestingDepthLimit = nestingDepthLimit;
     }
 }

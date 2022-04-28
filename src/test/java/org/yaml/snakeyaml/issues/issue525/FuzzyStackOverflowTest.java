@@ -15,16 +15,17 @@
  */
 package org.yaml.snakeyaml.issues.issue525;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class FuzzyStackOverflowTest {
-
   @Test
   public void parseOpenUnmatchedMappings() {
     try {
@@ -33,9 +34,21 @@ public class FuzzyStackOverflowTest {
       yaml.load(strYaml);
       fail("Should report invalid YAML");
     } catch (YAMLException e) {
-      assertTrue(false);
-    } catch (Error e) {
-      //TODO FIXME stackoverflow
+      assertEquals("Nesting Depth exceeded max 50", e.getMessage());
+    }
+  }
+
+  @Test
+  public void parseOpenUnmatchedMappingsWithCustomLimit() {
+    try {
+      LoaderOptions options = new LoaderOptions();
+      options.setNestingDepthLimit(1000);
+      Yaml yaml = new Yaml(options);
+      String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-4626423186325504");
+      yaml.load(strYaml);
+      fail("Should report invalid YAML");
+    } catch (YAMLException e) {
+      assertEquals("Nesting Depth exceeded max 1000", e.getMessage());
     }
   }
 }

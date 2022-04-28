@@ -118,20 +118,22 @@ public class ReferencesTest {
     }
 
     @Test
-    public void referencesWithRestrictedAliases() {
+    public void referencesWithRestrictedNesting() {
         // without alias restriction this size should occupy tons of CPU, memory and time to parse
-        String bigYAML = createDump(35);
+        int depth = 35;
+        String bigYAML = createDump(depth);
         // Load
         long time1 = System.currentTimeMillis();
         LoaderOptions settings = new LoaderOptions();
-        settings.setMaxAliasesForCollections(40);
+        settings.setMaxAliasesForCollections(1000);
         settings.setAllowRecursiveKeys(true);
+        settings.setNestingDepthLimit(depth);
         Yaml yaml = new Yaml(settings);
         try {
             yaml.load(bigYAML);
             fail();
         } catch (Exception e) {
-            assertEquals("Number of aliases for non-scalar nodes exceeds the specified max=40", e.getMessage());
+            assertEquals("Nesting Depth exceeded max 35", e.getMessage());
         }
         long time2 = System.currentTimeMillis();
         float duration = (time2 - time1) / 1000;
