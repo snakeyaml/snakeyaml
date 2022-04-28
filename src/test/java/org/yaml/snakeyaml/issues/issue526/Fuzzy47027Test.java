@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml.issues.issue525;
+package org.yaml.snakeyaml.issues.issue526;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -23,13 +23,14 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
-public class FuzzyTest {
+//OSS-Fuzz - 47027
+public class Fuzzy47027Test {
 
   @Test
-  public void parseOpenUnmatchedMappings() {
+  public void parseOpenUnmatchedSequences_47027() {
     try {
       Yaml yaml = new Yaml();
-      String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-4626423186325504");
+      String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-5427149240139776");
       yaml.load(strYaml);
       fail("Should report invalid YAML");
     } catch (YAMLException e) {
