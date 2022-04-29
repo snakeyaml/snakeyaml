@@ -16,34 +16,34 @@
 package org.yaml.snakeyaml.resolver;
 
 import java.util.regex.Pattern;
-
 import org.yaml.snakeyaml.nodes.Tag;
 
 final class ResolverTuple {
-    private final Tag tag;
-    private final Pattern regexp;
-    private final int limit;
 
-    public ResolverTuple(Tag tag, Pattern regexp, int limit) {
-        this.tag = tag;
-        this.regexp = regexp;
-        this.limit = limit;
-    }
+  private final Tag tag;
+  private final Pattern regexp;
+  private final int limit;
 
-    public Tag getTag() {
-        return tag;
-    }
+  public ResolverTuple(Tag tag, Pattern regexp, int limit) {
+    this.tag = tag;
+    this.regexp = regexp;
+    this.limit = limit;
+  }
 
-    public Pattern getRegexp() {
-        return regexp;
-    }
+  public Tag getTag() {
+    return tag;
+  }
 
-    public int getLimit() {
-        return limit;
-    }
+  public Pattern getRegexp() {
+    return regexp;
+  }
 
-    @Override
-    public String toString() {
-        return "Tuple tag=" + tag + " regexp=" + regexp;
-    }
+  public int getLimit() {
+    return limit;
+  }
+
+  @Override
+  public String toString() {
+    return "Tuple tag=" + tag + " regexp=" + regexp + " limit=" + limit;
+  }
 }

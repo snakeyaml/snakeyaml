@@ -28,15 +28,27 @@ import org.yaml.snakeyaml.error.YAMLException;
 public class Fuzzy47028Test {
 
   @Test
-  public void parseKeyIndicators_47028() {
+  public void parseEmptyFloat_47028() {
     try {
       LoaderOptions options = new LoaderOptions();
       Yaml yaml = new Yaml(options);
-      String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-5463307412176896");
-      yaml.load(strYaml);
+      yaml.load("- !!float");
       fail("Should report invalid YAML");
     } catch (YAMLException e) {
       assertTrue(e.getMessage().contains("while constructing a float"));
+      assertTrue(e.getMessage().contains("found empty value"));
+    }
+  }
+
+  @Test
+  public void parseEmptyInt_47028() {
+    try {
+      LoaderOptions options = new LoaderOptions();
+      Yaml yaml = new Yaml(options);
+      yaml.load("- !!int");
+      fail("Should report invalid YAML");
+    } catch (YAMLException e) {
+      assertTrue(e.getMessage().contains("while constructing an int"));
       assertTrue(e.getMessage().contains("found empty value"));
     }
   }

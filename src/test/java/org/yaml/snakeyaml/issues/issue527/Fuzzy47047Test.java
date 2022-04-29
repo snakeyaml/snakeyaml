@@ -32,7 +32,8 @@ public class Fuzzy47047Test {
     try {
       LoaderOptions options = new LoaderOptions();
       options.setNestingDepthLimit(30);
-      Yaml yaml = new Yaml(options);      String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-5868638424399872");
+      Yaml yaml = new Yaml(options);
+      String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-5868638424399872");
       yaml.load(strYaml);
       fail("Should report invalid YAML");
     } catch (YAMLException e) {
