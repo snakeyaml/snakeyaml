@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml.issues.issue527;
+package org.yaml.snakeyaml.issues.issue529;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -24,20 +24,32 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
-// Stackoverflow [OSS-Fuzz - 47047]
-public class Fuzzy47047Test {
+// StringIndexOutOfBoundsException [OSS-Fuzz 47028]
+public class Fuzzy47028Test {
 
   @Test
-  public void parseKeyIndicators_47047() {
+  public void parseEmptyFloat_47028() {
     try {
       LoaderOptions options = new LoaderOptions();
-      options.setNestingDepthLimit(30);
       Yaml yaml = new Yaml(options);
-      String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-5868638424399872");
-      yaml.load(strYaml);
+      yaml.load("- !!float");
       fail("Should report invalid YAML");
     } catch (YAMLException e) {
-      assertEquals("Nesting Depth exceeded max 30", e.getMessage());
+      assertTrue(e.getMessage().contains("while constructing a float"));
+      assertTrue(e.getMessage().contains("found empty value"));
+    }
+  }
+
+  @Test
+  public void parseEmptyInt_47028() {
+    try {
+      LoaderOptions options = new LoaderOptions();
+      Yaml yaml = new Yaml(options);
+      yaml.load("- !!int");
+      fail("Should report invalid YAML");
+    } catch (YAMLException e) {
+      assertTrue(e.getMessage().contains("while constructing an int"));
+      assertTrue(e.getMessage().contains("found empty value"));
     }
   }
 }

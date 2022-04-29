@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.31" date="in Git" description="Maintenance">
+            <action dev="asomov" type="fix" issue="529">
+                Show proper error message for invalid float and int scalar (detected by OSS-Fuzz)
+            </action>
             <action dev="asomov" type="fix" issue="525">
                 Restrict nested depth for collections to avoid DoS attacks (detected by OSS-Fuzz)
             </action>

@@ -250,7 +250,12 @@ public class SafeConstructor extends BaseConstructor {
     public class ConstructYamlInt extends AbstractConstruct {
         @Override
         public Object construct(Node node) {
-            String value = constructScalar((ScalarNode) node).toString().replaceAll("_", "");
+            String value = constructScalar((ScalarNode) node).replaceAll("_", "");
+            if (value.isEmpty()) {
+                throw new ConstructorException("while constructing an int",
+                    node.getStartMark(), "found empty value",
+                    node.getStartMark());
+            }
             int sign = +1;
             char first = value.charAt(0);
             if (first == '-') {
@@ -336,7 +341,12 @@ public class SafeConstructor extends BaseConstructor {
     public class ConstructYamlFloat extends AbstractConstruct {
         @Override
         public Object construct(Node node) {
-            String value = constructScalar((ScalarNode) node).toString().replaceAll("_", "");
+            String value = constructScalar((ScalarNode) node).replaceAll("_", "");
+            if (value.isEmpty()) {
+                throw new ConstructorException("while constructing a float",
+                    node.getStartMark(), "found empty value",
+                    node.getStartMark());
+            }
             int sign = +1;
             char first = value.charAt(0);
             if (first == '-') {
