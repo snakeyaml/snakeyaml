@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -29,12 +30,13 @@ public class Fuzzy47047Test {
   @Test
   public void parseKeyIndicators_47047() {
     try {
-      Yaml yaml = new Yaml();
-      String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-5868638424399872");
-      //yaml.load(strYaml);
-      //TODO FIXME fail("Should report invalid YAML");
+      LoaderOptions options = new LoaderOptions();
+      options.setNestingDepthLimit(30);
+      Yaml yaml = new Yaml(options);      String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-5868638424399872");
+      yaml.load(strYaml);
+      fail("Should report invalid YAML");
     } catch (YAMLException e) {
-      assertEquals("Nesting Depth exceeded max 25", e.getMessage());
+      assertEquals("Nesting Depth exceeded max 30", e.getMessage());
     }
   }
 }
