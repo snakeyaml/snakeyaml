@@ -636,6 +636,20 @@ public class Yaml {
         resolver.addImplicitResolver(tag, regexp, first);
     }
 
+    /**
+     * Add an implicit scalar detector. If an implicit scalar value matches the
+     * given regexp, the corresponding tag is assigned to the scalar.
+     *
+     * @param tag    tag to assign to the node
+     * @param regexp regular expression to match against
+     * @param first  a sequence of possible initial characters or null (which means
+     *               any).
+     * @param limit the max length of the value which may match the regular expression
+     */
+    public void addImplicitResolver(Tag tag, Pattern regexp, String first, int limit) {
+        resolver.addImplicitResolver(tag, regexp, first, limit);
+    }
+
     @Override
     public String toString() {
         return name;

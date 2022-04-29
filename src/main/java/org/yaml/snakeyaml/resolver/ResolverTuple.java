@@ -22,10 +22,12 @@ import org.yaml.snakeyaml.nodes.Tag;
 final class ResolverTuple {
     private final Tag tag;
     private final Pattern regexp;
+    private final int limit;
 
-    public ResolverTuple(Tag tag, Pattern regexp) {
+    public ResolverTuple(Tag tag, Pattern regexp, int limit) {
         this.tag = tag;
         this.regexp = regexp;
+        this.limit = limit;
     }
 
     public Tag getTag() {
@@ -34,6 +36,10 @@ final class ResolverTuple {
 
     public Pattern getRegexp() {
         return regexp;
+    }
+
+    public int getLimit() {
+        return limit;
     }
 
     @Override

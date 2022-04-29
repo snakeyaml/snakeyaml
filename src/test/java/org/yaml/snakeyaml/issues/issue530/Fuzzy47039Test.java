@@ -13,18 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml.resolver;
+package org.yaml.snakeyaml.issues.issue530;
 
-import java.util.regex.Pattern;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
-import org.yaml.snakeyaml.nodes.Tag;
+// Stackoverflow [OSS-Fuzz - 47039]
+public class Fuzzy47039Test {
 
-public class ResolverTupleTest extends TestCase {
-
-    public void testToString() {
-        ResolverTuple tuple = new ResolverTuple(new Tag("dice"), Pattern.compile("\\d+"), 5);
-        assertEquals("Tuple tag=dice regexp=\\d+", tuple.toString());
-    }
+  @Test
+  public void parseKeyIndicators_47039() {
+    LoaderOptions options = new LoaderOptions();
+    Yaml yaml = new Yaml(options);
+    String strYaml = Util.getLocalResource("fuzzer/YamlFuzzer-5110034188599296");
+    String parsed = yaml.load(strYaml);
+    assertEquals(strYaml.trim(), parsed);
+  }
 }

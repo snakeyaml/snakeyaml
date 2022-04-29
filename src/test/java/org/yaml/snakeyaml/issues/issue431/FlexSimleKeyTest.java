@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 public class FlexSimleKeyTest extends TestCase {
 
-    private int len = 130;
+    private int len = 90;
 
     public void testLongKey() {
         Yaml dumper = new Yaml(createOptions(len));
