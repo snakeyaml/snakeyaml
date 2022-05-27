@@ -131,10 +131,11 @@ public class Resolver {
                 }
             }
             if (yamlImplicitResolvers.containsKey(null)) {
+                // check null resolver
                 for (ResolverTuple v : yamlImplicitResolvers.get(null)) {
                     Tag tag = v.getTag();
                     Pattern regexp = v.getRegexp();
-                    if (regexp.matcher(value).matches()) {
+                    if (value.length() <= v.getLimit() && regexp.matcher(value).matches()) {
                         return tag;
                     }
                 }
