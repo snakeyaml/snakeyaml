@@ -298,7 +298,8 @@ public class Constructor extends SafeConstructor {
             Object newInstance = memberDescription.newInstance(propertyName, node);
             if (newInstance != null) {
                 constructedObjects.put(node, newInstance);
-                return constructObjectNoCheck(node);
+                return
+                    constructObjectNoCheck(node);
             }
             return constructObject(node);
         }

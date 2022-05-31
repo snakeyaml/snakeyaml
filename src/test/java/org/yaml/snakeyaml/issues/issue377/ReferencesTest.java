@@ -15,16 +15,16 @@
  */
 package org.yaml.snakeyaml.issues.issue377;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.HashMap;
+
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
-
-import java.util.HashMap;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class ReferencesTest {
 
@@ -93,7 +93,7 @@ public class ReferencesTest {
             yaml.load(output);
             fail();
         } catch (Exception e) {
-            assertEquals("Recursive key for mapping is detected but it is not configured to be allowed.", e.getMessage());
+            assertEquals("Recursive key is detected but it is not configured to be allowed.", e.getMessage());
         }
         long time2 = System.currentTimeMillis();
         float duration = (time2 - time1) / 1000;

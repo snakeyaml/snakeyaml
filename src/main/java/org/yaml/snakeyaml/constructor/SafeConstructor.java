@@ -107,12 +107,19 @@ public class SafeConstructor extends BaseConstructor {
                 }
                 Object key = constructObject(keyNode);
                 if (key != null && !forceStringKeys) {
-                    try {
-                        key.hashCode();// check circular dependencies
-                    } catch (Exception e) {
-                        throw new ConstructorException("while constructing a mapping",
-                                node.getStartMark(), "found unacceptable key " + key,
-                                tuple.getKeyNode().getStartMark(), e);
+                    if (keyNode.isTwoStepsConstruction()) {
+                        if(!loadingConfig.getAllowRecursiveKeys()) {
+                          throw new YAMLException(
+                                "Recursive key is detected but it is not configured to be allowed.");
+                        } else {
+                            try {
+                                key.hashCode();// check circular dependencies
+                            } catch (Exception e) {
+                                throw new ConstructorException("while constructing a mapping",
+                                        node.getStartMark(), "found unacceptable key " + key,
+                                        tuple.getKeyNode().getStartMark(), e);
+                            }
+                        }
                     }
                 }
 

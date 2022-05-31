@@ -25,16 +25,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.representer.Representer;
+
+import junit.framework.TestCase;
 
 public class HumanTest extends TestCase {
 
@@ -137,7 +137,10 @@ public class HumanTest extends TestCase {
         assertEquals(etalon, output);
         TypeDescription humanDescription = new TypeDescription(Human.class);
         humanDescription.putMapPropertyType("children", Human.class, Object.class);
-        Yaml beanLoader = new Yaml(new Constructor(humanDescription));
+        
+        LoaderOptions loaderOptions = new LoaderOptions();
+        loaderOptions.setAllowRecursiveKeys(true);
+        Yaml beanLoader = new Yaml(new Constructor(humanDescription, loaderOptions));
         //
         Human son2 = beanLoader.loadAs(output, Human.class);
         assertNotNull(son2);
@@ -210,7 +213,10 @@ public class HumanTest extends TestCase {
         assertEquals(etalon, output);
         TypeDescription humanDescription = new TypeDescription(Human.class);
         humanDescription.putMapPropertyType("children", Human.class, Object.class);
-        Yaml beanLoader = new Yaml(new Constructor(humanDescription));
+        
+        LoaderOptions loaderOptions = new LoaderOptions();
+        loaderOptions.setAllowRecursiveKeys(true);
+        Yaml beanLoader = new Yaml(new Constructor(humanDescription, loaderOptions));
         //
         Human son2 = beanLoader.loadAs(output, Human.class);
         assertNotNull(son2);
@@ -634,7 +640,9 @@ public class HumanTest extends TestCase {
         assertEquals(etalon, output);
         TypeDescription humanDescription = new TypeDescription(Human.class);
         humanDescription.putMapPropertyType("children", Human.class, Object.class);
-        Yaml beanLoader = new Yaml(new Constructor(humanDescription));
+        LoaderOptions options = new LoaderOptions();
+        options.setAllowRecursiveKeys(true);
+        Yaml beanLoader = new Yaml(new Constructor(humanDescription, options));
         //
         Human son2 = beanLoader.loadAs(output, Human.class);
         assertNotNull(son2);

@@ -15,21 +15,6 @@
  */
 package org.yaml.snakeyaml.constructor;
 
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.composer.Composer;
-import org.yaml.snakeyaml.composer.ComposerException;
-import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.introspector.PropertyUtils;
-import org.yaml.snakeyaml.nodes.CollectionNode;
-import org.yaml.snakeyaml.nodes.MappingNode;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.NodeId;
-import org.yaml.snakeyaml.nodes.NodeTuple;
-import org.yaml.snakeyaml.nodes.ScalarNode;
-import org.yaml.snakeyaml.nodes.SequenceNode;
-import org.yaml.snakeyaml.nodes.Tag;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -47,6 +32,21 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.composer.Composer;
+import org.yaml.snakeyaml.composer.ComposerException;
+import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
+import org.yaml.snakeyaml.nodes.CollectionNode;
+import org.yaml.snakeyaml.nodes.MappingNode;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.NodeTuple;
+import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public abstract class BaseConstructor {
     /**
@@ -214,6 +214,8 @@ public abstract class BaseConstructor {
      * @return Java instance
      */
     protected Object constructObject(Node node) {
+//        System.out.println(" <<<< " + node.getAnchor() + " : " + node.getTag() + " : "
+//                + System.identityHashCode(node));
         if (constructedObjects.containsKey(node)) {
             return constructedObjects.get(node);
         }
@@ -221,10 +223,6 @@ public abstract class BaseConstructor {
     }
 
     protected Object constructObjectNoCheck(Node node) {
-        if (recursiveObjects.contains(node)) {
-            throw new ConstructorException(null, null, "found unconstructable recursive node",
-                    node.getStartMark());
-        }
         recursiveObjects.add(node);
         Construct constructor = getConstructor(node);
         Object data = (constructedObjects.containsKey(node)) ? constructedObjects.get(node)
@@ -232,10 +230,10 @@ public abstract class BaseConstructor {
 
         finalizeConstruction(node, data);
         constructedObjects.put(node, data);
-        recursiveObjects.remove(node);
         if (node.isTwoStepsConstruction()) {
             constructor.construct2ndStep(node, data);
         }
+        recursiveObjects.remove(node);
         return data;
     }
 
@@ -467,6 +465,10 @@ public abstract class BaseConstructor {
         for (NodeTuple tuple : nodeValue) {
             Node keyNode = tuple.getKeyNode();
             Node valueNode = tuple.getValueNode();
+
+//            System.out.println(
+//                    " >>>> " + keyNode.isTwoStepsConstruction() + " : " + keyNode.getStartMark());
+
             Object key = constructObject(keyNode);
             if (key != null) {
                 try {

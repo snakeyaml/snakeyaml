@@ -19,10 +19,11 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+
+import junit.framework.TestCase;
 
 public class RecursiveSetTest extends TestCase {
     public void testDumpException() {
@@ -58,7 +59,9 @@ public class RecursiveSetTest extends TestCase {
     public void testLoadRecursiveTest() {
         String doc = Util.getLocalResource("issues/issue73-recursive5.txt");
         // System.out.println(doc);
-        Yaml yaml = new Yaml();
+        LoaderOptions options = new LoaderOptions();
+        options.setAllowRecursiveKeys(true);
+        Yaml yaml = new Yaml(options);
         Bean1 obj = (Bean1) yaml.load(doc);
         Set<Object> set = obj.getSet();
         // System.out.println(set);

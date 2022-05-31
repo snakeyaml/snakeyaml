@@ -33,6 +33,7 @@ public class Fuzzy47081Test {
   public void parse47081() {
     try {
       LoaderOptions options = new LoaderOptions();
+      options.setAllowRecursiveKeys(true);
       Yaml yaml = new Yaml(options);
       String strYaml = "&a\n"
           + "- *a\n"  // if this line is removed, the test properly complains about the recursive keys in map -> Recursive key for mapping is detected, but it is not configured to be allowed.
