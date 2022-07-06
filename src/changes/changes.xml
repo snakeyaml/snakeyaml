@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.31" date="in Git" description="Maintenance">
+            <action dev="asomov" type="fix" issue="537">
+                Improved RE for integers (thanks to Petr Pucil)
+            </action>
             <action dev="asomov" type="fix" issue="530">
                 Add an opportunity to restrict data matched with Regular Expressions
                 to avoid possible attack when RE takes too many resources (detected by OSS-Fuzz)

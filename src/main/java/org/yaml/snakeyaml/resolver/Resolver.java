@@ -46,12 +46,12 @@ public class Resolver {
                     ")$");
     public static final Pattern INT = Pattern
             .compile("^(?:" +
-                    "[-+]?0b_*[0-1]+[0-1_]*" + // (base 2)
-                    "|[-+]?0_*[0-7]+[0-7_]*" + // (base 8)
-                    "|[-+]?(?:0|[1-9][0-9_]*)" + // (base 10)
-                    "|[-+]?0x_*[0-9a-fA-F]+[0-9a-fA-F_]*" + // (base 16)
-                    "|[-+]?[1-9][0-9_]*(?::[0-5]?[0-9])+" + // (base 60)
-                    ")$");
+                "[-+]?0b_*[0-1][0-1_]*" + // (base 2)
+                "|[-+]?0_*[0-7][0-7_]*" + // (base 8)
+                "|[-+]?(?:0|[1-9][0-9_]*)" + // (base 10)
+                "|[-+]?0x_*[0-9a-fA-F][0-9a-fA-F_]*" + // (base 16)
+                "|[-+]?[1-9][0-9_]*(?::[0-5]?[0-9])+" + // (base 60)
+                ")$");
     public static final Pattern MERGE = Pattern.compile("^(?:<<)$");
     public static final Pattern NULL = Pattern.compile("^(?:~|null|Null|NULL| )$");
     public static final Pattern EMPTY = Pattern.compile("^$");
