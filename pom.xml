@@ -12,6 +12,8 @@
         <snapshot.repo.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.repo.url>
         <maven.compiler.source>7</maven.compiler.source>
         <maven.compiler.target>7</maven.compiler.target>
+        <maven.compiler.testSource>8</maven.compiler.testSource>
+        <maven.compiler.testTarget>8</maven.compiler.testTarget>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <maven-bundle-plugin.version>3.5.0</maven-bundle-plugin.version>
         <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version><!-- for Github CI -->
@@ -403,7 +405,7 @@
                         <configuration>
                             <toolchains>
                                 <jdk>
-                                    <version>${maven.compiler.target}</version>
+                                    <version>${maven.compiler.testTarget}</version>
                                 </jdk>
                             </toolchains>
                         </configuration>
@@ -483,8 +485,8 @@
         <profile>
             <id>with-java8-tests</id>
             <properties>
-                <maven.compiler.source>1.8</maven.compiler.source>
-                <maven.compiler.target>1.8</maven.compiler.target>
+                <maven.compiler.testSource>1.8</maven.compiler.testSource>
+                <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
             </properties>
             <build>
                 <plugins>
@@ -512,8 +514,8 @@
         <profile>
           <id>with-java11-tests</id>
           <properties>
-            <maven.compiler.source>11</maven.compiler.source>
-            <maven.compiler.target>11</maven.compiler.target>
+            <maven.compiler.testSource>11</maven.compiler.testSource>
+            <maven.compiler.testTarget>11</maven.compiler.testTarget>
           </properties>
           <build>
             <plugins>
@@ -744,7 +746,7 @@
                                         <javac srcdir="${android.src.main}" destdir="${android.classes}" classpath="${android.classes}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true" />
 
                                         <!-- compile test classes. Exclude some - not for BeanAccess.FIELD -->
-                                        <javac srcdir="${android.src.test}:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}:${commons-io:commons-io:jar}:${commons-lang:commons-lang:jar}:${org.hamcrest:hamcrest-core:jar}:${org.projectlombok:lombok:jar}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true">
+                                        <javac srcdir="${android.src.test}:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.apache.velocity:velocity-engine-core:jar}:${joda-time:joda-time:jar}:${commons-io:commons-io:jar}:${commons-lang:commons-lang:jar}:${org.hamcrest:hamcrest-core:jar}:${org.projectlombok:lombok:jar}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true">
 
                                             <exclude name="org/yaml/snakeyaml/introspector/MethodPropertyTest.java" />
                                             <exclude name="org/yaml/snakeyaml/representer/FilterPropertyToDumpTest.java" />
