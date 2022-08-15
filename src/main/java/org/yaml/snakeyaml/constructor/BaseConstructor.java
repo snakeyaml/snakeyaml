@@ -49,6 +49,12 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 public abstract class BaseConstructor {
+
+    /**
+     * An instance returned by newInstance methods when instantiation has not been performed.
+     */
+    protected static final Object NOT_INSTANTIATED_OBJECT = new Object();
+
     /**
      * It maps the node kind to the the Construct implementation. When the
      * runtime class is known then the implicit tag is ignored.
@@ -298,71 +304,80 @@ public abstract class BaseConstructor {
 
     // >>>> NEW instance
     protected Object newInstance(Node node) {
-        try {
-            return newInstance(Object.class, node);
-        } catch (InstantiationException e) {
-            throw new YAMLException(e);
-        }
+        return newInstance(Object.class, node);
     }
 
-    final protected Object newInstance(Class<?> ancestor, Node node) throws InstantiationException {
+    final protected Object newInstance(Class<?> ancestor, Node node) {
         return newInstance(ancestor, node, true);
     }
 
-    protected Object newInstance(Class<?> ancestor, Node node, boolean tryDefault)
-            throws InstantiationException {
-        final Class<? extends Object> type = node.getType();
-        if (typeDefinitions.containsKey(type)) {
-            TypeDescription td = typeDefinitions.get(type);
-            final Object instance = td.newInstance(node);
-            if (instance != null) {
-                return instance;
+    /**
+     * Tries to create a new object for the node.
+     *
+     * @param ancestor expected ancestor of the {@code node.getType()}
+     * @param node for which to create a corresponding java object
+     * @param tryDefault should default constructor to be tried when there is no corresponding
+     * {@code TypeDescription} or {@code TypeDescription.newInstance(node)} returns {@code null}.
+     *
+     * @return - a new object created for {@code node.getType()} by using corresponding
+     *           TypeDescription.newInstance or default constructor.
+     *         - {@code NOT_INSTANTIATED_OBJECT} in case no object has been created
+     */
+    protected Object newInstance(Class<?> ancestor, Node node, boolean tryDefault) {
+        try {
+            final Class<? extends Object> type = node.getType();
+            if (typeDefinitions.containsKey(type)) {
+                TypeDescription td = typeDefinitions.get(type);
+                final Object instance = td.newInstance(node);
+                if (instance != null) {
+                    return instance;
+                }
             }
-        }
-        if (tryDefault) {
-            /*
-             * Removed <code> have InstantiationException in case of abstract
-             * type
-             */
-            if (ancestor.isAssignableFrom(type) && !Modifier.isAbstract(type.getModifiers())) {
-                try {
+
+            if (tryDefault) {
+                /*
+                 * Removed <code> have InstantiationException in case of
+                 * abstract type
+                 */
+                if (ancestor.isAssignableFrom(type) && !Modifier.isAbstract(type.getModifiers())) {
                     java.lang.reflect.Constructor<?> c = type.getDeclaredConstructor();
                     c.setAccessible(true);
                     return c.newInstance();
-                } catch (NoSuchMethodException e) {
-                    throw new InstantiationException("NoSuchMethodException:"
-                            + e.getLocalizedMessage());
-                } catch (Exception e) {
-                    throw new YAMLException(e);
                 }
             }
+        } catch (Exception e) {
+            throw new YAMLException(e);
         }
-        throw new InstantiationException();
+
+        return NOT_INSTANTIATED_OBJECT;
     }
 
     @SuppressWarnings("unchecked")
     protected Set<Object> newSet(CollectionNode<?> node) {
-        try {
-            return (Set<Object>) newInstance(Set.class, node);
-        } catch (InstantiationException e) {
+        Object instance = newInstance(Set.class, node);
+        if (instance != NOT_INSTANTIATED_OBJECT) {
+            return (Set<Object>) instance;
+        } else {
             return createDefaultSet(node.getValue().size());
         }
     }
 
     @SuppressWarnings("unchecked")
     protected List<Object> newList(SequenceNode node) {
-        try {
-            return (List<Object>) newInstance(List.class, node);
-        } catch (InstantiationException e) {
+        Object instance = newInstance(List.class, node);
+        if (instance != NOT_INSTANTIATED_OBJECT) {
+            return (List<Object>) instance;
+        } else {
             return createDefaultList(node.getValue().size());
         }
     }
 
     @SuppressWarnings("unchecked")
     protected Map<Object, Object> newMap(MappingNode node) {
-        try {
-            return (Map<Object, Object>) newInstance(Map.class, node);
-        } catch (InstantiationException e) {
+        Object instance = newInstance(Map.class, node);
+        if (instance != NOT_INSTANTIATED_OBJECT) {
+            return (Map<Object, Object>) instance;
+        } else {
             return createDefaultMap(node.getValue().size());
         }
     }

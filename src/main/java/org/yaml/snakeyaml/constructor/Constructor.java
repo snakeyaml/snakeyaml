@@ -172,10 +172,15 @@ public class Constructor extends SafeConstructor {
                 }
             } else {
                 Object obj = Constructor.this.newInstance(mnode);
-                if (node.isTwoStepsConstruction()) {
-                    return obj;
+                if (obj != NOT_INSTANTIATED_OBJECT) {
+                    if (node.isTwoStepsConstruction()) {
+                        return obj;
+                    } else {
+                        return constructJavaBean2ndStep(mnode, obj);
+                    }
                 } else {
-                    return constructJavaBean2ndStep(mnode, obj);
+                    throw new ConstructorException(null, null, "Can't create an instance for " + mnode.getTag(),
+                            node.getStartMark());
                 }
             }
         }
@@ -356,9 +361,10 @@ public class Constructor extends SafeConstructor {
             ScalarNode node = (ScalarNode) nnode;
             Class<?> type = node.getType();
 
-            try {
-                return newInstance(type, node, false);
-            } catch (InstantiationException e1) {
+            // In case there is TypeDefinition for the 'type'
+            Object instance =  newInstance(type, node, false);
+            if (instance != NOT_INSTANTIATED_OBJECT) {
+                return instance;
             }
 
             Object result;
@@ -384,12 +390,7 @@ public class Constructor extends SafeConstructor {
                 }
                 Object argument;
                 if (javaConstructor == null) {
-                    try {
-                        return newInstance(type, node, false);
-                    } catch (InstantiationException ie) {
-                        throw new YAMLException("No single argument constructor found for " + type
-                                + " : " + ie.getMessage());
-                    }
+                    throw new YAMLException("No single argument constructor found for " + type);
                 } else if (oneArgCount == 1) {
                     argument = constructStandardJavaInstance(javaConstructor.getParameterTypes()[0],
                             node);

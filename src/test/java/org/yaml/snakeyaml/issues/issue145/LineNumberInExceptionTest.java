@@ -28,11 +28,14 @@ public class LineNumberInExceptionTest extends TestCase {
             fail("Instances for abstract classes cannot be created");
         } catch (Exception e) {
             assertTrue(e.toString().contains("line 2, column 1"));
-            assertEquals(
-                    "Can't construct a java object for tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue145.AbstractThing; exception=java.lang.InstantiationException\n"
-                            + " in 'string', line 2, column 1:\n"
-                            + "    !!org.yaml.snakeyaml.issues.issu ... \n" + "    ^\n",
-                    e.getMessage());
+
+            String tag = "tag:yaml.org,2002:org.yaml.snakeyaml.issues.issue145.AbstractThing";
+            String expectedError = String.format("Can't create an instance for %s\n" +
+                                                 " in 'string', line 2, column 1:\n" +
+                                                 "    !!org.yaml.snakeyaml.issues.issu ... \n" +
+                                                 "    ^\n", tag);
+
+            assertEquals(expectedError, e.getMessage());
         }
     }
 
