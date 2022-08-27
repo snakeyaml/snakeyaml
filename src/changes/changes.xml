@@ -5,7 +5,10 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.31" date="in Git" description="Maintenance">
+        <release version="1.31" date="2022-08-27" description="Maintenance">
+            <action dev="maslovalex" type="update">
+                JDK 8 is required for tests
+            </action>
             <action dev="asomov" type="update" issue="539">
                 Fix false positive CVE-2020-13936 (thanks to Gaétan Collaud)
             </action>
