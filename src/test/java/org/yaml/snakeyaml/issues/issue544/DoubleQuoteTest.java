@@ -61,7 +61,7 @@ public class DoubleQuoteTest {
     yaml.serialize(mappingNode, writer);
 
     String output = writer.toString();
-    String expectedOutput = "double_quoted: \"\\U0001f510This process is simple and secure.\"\n"
+    String expectedOutput = "double_quoted: \"🔐This process is simple and secure.\"\n"
         + "single_quoted: '🔐This process is simple and secure.'\n";
 
     assertEquals(expectedOutput, output);
