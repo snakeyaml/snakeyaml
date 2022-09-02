@@ -32,8 +32,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 
 public class DoubleQuoteTest {
 
-  @Test
-  public void test() {
+  private MappingNode create() {
     String content = "🔐This process is simple and secure.";
 
     ScalarNode doubleQuotedKey = new ScalarNode(Tag.STR, "double_quoted", null, null,
@@ -54,17 +53,39 @@ public class DoubleQuoteTest {
 
     MappingNode mappingNode = new MappingNode(Tag.MAP, nodeTuples, FlowStyle.BLOCK);
 
+    return mappingNode;
+  }
+
+  @Test
+  public void testUnicode() {
     DumperOptions dumperOptions = new DumperOptions();
     dumperOptions.setAllowUnicode(true);
 
     Yaml yaml = new Yaml(dumperOptions);
 
     StringWriter writer = new StringWriter();
-    yaml.serialize(mappingNode, writer);
+    yaml.serialize(create(), writer);
 
     String output = writer.toString();
     String expectedOutput = "double_quoted: \"🔐This process is simple and secure.\"\n"
         + "single_quoted: '🔐This process is simple and secure.'\n";
+
+    assertEquals(expectedOutput, output);
+  }
+
+  @Test
+  public void testSubstitution() {
+    DumperOptions dumperOptions = new DumperOptions();
+    dumperOptions.setAllowUnicode(false); // substitute with U notation
+
+    Yaml yaml = new Yaml(dumperOptions);
+
+    StringWriter writer = new StringWriter();
+    yaml.serialize(create(), writer);
+
+    String output = writer.toString();
+    String expectedOutput = "double_quoted: \"\\U0001f510This process is simple and secure.\"\n"
+        + "single_quoted: \"\\U0001f510This process is simple and secure.\"\n";
 
     assertEquals(expectedOutput, output);
   }
