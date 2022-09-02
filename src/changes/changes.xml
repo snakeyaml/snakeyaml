@@ -5,6 +5,11 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
+        <release version="1.32-SNAPSHOT" date="in GIT" description="Maintenance">
+            <action dev="maslovalex" type="fix" issue="544">
+                Support unescaped unicode characters for double-quoted scalars (thanks to Florian Waltenberger)
+            </action>
+        </release>
         <release version="1.31" date="2022-08-27" description="Maintenance">
             <action dev="maslovalex" type="update">
                 JDK 8 is required for tests
