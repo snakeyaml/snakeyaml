@@ -56,17 +56,20 @@ public class DoubleQuoteTest {
     return mappingNode;
   }
 
-  @Test
-  public void testUnicode() {
-    DumperOptions dumperOptions = new DumperOptions();
-    dumperOptions.setAllowUnicode(true);
-
+  private String emit(DumperOptions dumperOptions) {
     Yaml yaml = new Yaml(dumperOptions);
 
     StringWriter writer = new StringWriter();
     yaml.serialize(create(), writer);
 
-    String output = writer.toString();
+    return writer.toString();
+  }
+
+  @Test
+  public void testUnicode() {
+    DumperOptions dumperOptions = new DumperOptions();
+    dumperOptions.setAllowUnicode(true); // use as is
+    String output = emit(dumperOptions);
     String expectedOutput = "double_quoted: \"🔐This process is simple and secure.\"\n"
         + "single_quoted: '🔐This process is simple and secure.'\n";
 
@@ -77,15 +80,19 @@ public class DoubleQuoteTest {
   public void testSubstitution() {
     DumperOptions dumperOptions = new DumperOptions();
     dumperOptions.setAllowUnicode(false); // substitute with U notation
-
-    Yaml yaml = new Yaml(dumperOptions);
-
-    StringWriter writer = new StringWriter();
-    yaml.serialize(create(), writer);
-
-    String output = writer.toString();
+    String output = emit(dumperOptions);
     String expectedOutput = "double_quoted: \"\\U0001f510This process is simple and secure.\"\n"
         + "single_quoted: \"\\U0001f510This process is simple and secure.\"\n";
+
+    assertEquals(expectedOutput, output);
+  }
+
+  @Test
+  public void testDefault() {
+    DumperOptions dumperOptions = new DumperOptions();
+    String output = emit(dumperOptions);
+    String expectedOutput = "double_quoted: \"🔐This process is simple and secure.\"\n"
+        + "single_quoted: '🔐This process is simple and secure.'\n";
 
     assertEquals(expectedOutput, output);
   }
