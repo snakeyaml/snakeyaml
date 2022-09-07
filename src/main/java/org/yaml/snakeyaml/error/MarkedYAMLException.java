@@ -16,11 +16,11 @@ package org.yaml.snakeyaml.error;
 public class MarkedYAMLException extends YAMLException {
 
   private static final long serialVersionUID = -9119388488683035101L;
-  private String context;
-  private Mark contextMark;
-  private String problem;
-  private Mark problemMark;
-  private String note;
+  private final String context;
+  private final Mark contextMark;
+  private final String problem;
+  private final Mark problemMark;
+  private final String note;
 
   protected MarkedYAMLException(String context, Mark contextMark, String problem, Mark problemMark,
       String note) {
@@ -63,7 +63,7 @@ public class MarkedYAMLException extends YAMLException {
         || contextMark.getName().equals(problemMark.getName())
         || (contextMark.getLine() != problemMark.getLine())
         || (contextMark.getColumn() != problemMark.getColumn()))) {
-      lines.append(contextMark.toString());
+      lines.append(contextMark);
       lines.append("\n");
     }
     if (problem != null) {
@@ -71,7 +71,7 @@ public class MarkedYAMLException extends YAMLException {
       lines.append("\n");
     }
     if (problemMark != null) {
-      lines.append(problemMark.toString());
+      lines.append(problemMark);
       lines.append("\n");
     }
     if (note != null) {

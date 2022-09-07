@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.tokens;
 import org.yaml.snakeyaml.error.Mark;
 
 public final class AnchorToken extends Token {
+
   private final String value;
 
   public AnchorToken(String value, Mark startMark, Mark endMark) {

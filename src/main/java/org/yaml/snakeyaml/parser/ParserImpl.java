@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.comments.CommentType;
@@ -117,7 +116,9 @@ import org.yaml.snakeyaml.util.ArrayStack;
  * comments here.
  */
 public class ParserImpl implements Parser {
+
   private static final Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();
+
   static {
     DEFAULT_TAGS.put("!", "!");
     DEFAULT_TAGS.put("!!", Tag.PREFIX);
@@ -196,6 +197,7 @@ public class ParserImpl implements Parser {
    * </pre>
    */
   private class ParseStreamStart implements Production {
+
     public Event produce() {
       // Parse the stream start.
       StreamStartToken token = (StreamStartToken) scanner.getToken();
@@ -207,6 +209,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseImplicitDocumentStart implements Production {
+
     public Event produce() {
       // Parse an implicit document.
       if (scanner.checkToken(Token.ID.Comment)) {
@@ -228,6 +231,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseDocumentStart implements Production {
+
     public Event produce() {
       // Parse any extra document end indicators.
       while (scanner.checkToken(Token.ID.DocumentEnd)) {
@@ -273,6 +277,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseDocumentEnd implements Production {
+
     public Event produce() {
       // Parse the document end.
       Token token = scanner.peekToken();
@@ -292,6 +297,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseDocumentContent implements Production {
+
     public Event produce() {
       if (scanner.checkToken(Token.ID.Comment)) {
         state = new ParseDocumentContent();
@@ -338,14 +344,11 @@ public class ParserImpl implements Parser {
               "found incompatible YAML document (version 1.* is required)", token.getStartMark());
         }
         Integer minor = value.get(1);
-        switch (minor) {
-          case 0:
-            directives = new VersionTagsTuple(Version.V1_0, tagHandles);
-            break;
-
-          default:
-            directives = new VersionTagsTuple(Version.V1_1, tagHandles);
-            break;
+        //TODO refactor with ternary
+        if (minor == 0) {
+          directives = new VersionTagsTuple(Version.V1_0, tagHandles);
+        } else {
+          directives = new VersionTagsTuple(Version.V1_1, tagHandles);
         }
       } else if (token.getName().equals("TAG")) {
         List<String> value = (List<String>) token.getValue();
@@ -395,6 +398,7 @@ public class ParserImpl implements Parser {
    */
 
   private class ParseBlockNode implements Production {
+
     public Event produce() {
       return parseNode(true, false);
     }
@@ -524,6 +528,7 @@ public class ParserImpl implements Parser {
   // BLOCK-END
 
   private class ParseBlockSequenceFirstEntry implements Production {
+
     public Event produce() {
       Token token = scanner.getToken();
       marks.push(token.getStartMark());
@@ -532,6 +537,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseBlockSequenceEntryKey implements Production {
+
     public Event produce() {
       if (scanner.checkToken(Token.ID.Comment)) {
         state = new ParseBlockSequenceEntryKey();
@@ -555,6 +561,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseBlockSequenceEntryValue implements Production {
+
     BlockEntryToken token;
 
     public ParseBlockSequenceEntryValue(final BlockEntryToken token) {
@@ -579,6 +586,7 @@ public class ParserImpl implements Parser {
   // indentless_sequence ::= (BLOCK-ENTRY block_node?)+
 
   private class ParseIndentlessSequenceEntryKey implements Production {
+
     public Event produce() {
       if (scanner.checkToken(Token.ID.Comment)) {
         state = new ParseIndentlessSequenceEntryKey();
@@ -596,6 +604,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseIndentlessSequenceEntryValue implements Production {
+
     BlockEntryToken token;
 
     public ParseIndentlessSequenceEntryValue(final BlockEntryToken token) {
@@ -619,6 +628,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseBlockMappingFirstKey implements Production {
+
     public Event produce() {
       Token token = scanner.getToken();
       marks.push(token.getStartMark());
@@ -627,6 +637,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseBlockMappingKey implements Production {
+
     public Event produce() {
       if (scanner.checkToken(Token.ID.Comment)) {
         state = new ParseBlockMappingKey();
@@ -656,6 +667,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseBlockMappingValue implements Production {
+
     public Event produce() {
       if (scanner.checkToken(Token.ID.Value)) {
         Token token = scanner.getToken();
@@ -680,6 +692,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseBlockMappingValueComment implements Production {
+
     List<CommentToken> tokens = new LinkedList<>();
 
     public Event produce() {
@@ -700,6 +713,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseBlockMappingValueCommentList implements Production {
+
     List<CommentToken> tokens;
 
     public ParseBlockMappingValueCommentList(final List<CommentToken> tokens) {
@@ -728,6 +742,7 @@ public class ParserImpl implements Parser {
    * </pre>
    */
   private class ParseFlowSequenceFirstEntry implements Production {
+
     public Event produce() {
       Token token = scanner.getToken();
       marks.push(token.getStartMark());
@@ -736,6 +751,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseFlowSequenceEntry implements Production {
+
     private final boolean first;
 
     public ParseFlowSequenceEntry(boolean first) {
@@ -785,6 +801,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseFlowEndComment implements Production {
+
     public Event produce() {
       Event event = produceCommentEvent((CommentToken) scanner.getToken());
       if (!scanner.checkToken(Token.ID.Comment)) {
@@ -795,6 +812,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseFlowSequenceEntryMappingKey implements Production {
+
     public Event produce() {
       Token token = scanner.getToken();
       if (!scanner.checkToken(Token.ID.Value, Token.ID.FlowEntry, Token.ID.FlowSequenceEnd)) {
@@ -808,6 +826,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseFlowSequenceEntryMappingValue implements Production {
+
     public Event produce() {
       if (scanner.checkToken(Token.ID.Value)) {
         Token token = scanner.getToken();
@@ -827,6 +846,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseFlowSequenceEntryMappingEnd implements Production {
+
     public Event produce() {
       state = new ParseFlowSequenceEntry(false);
       Token token = scanner.peekToken();
@@ -844,6 +864,7 @@ public class ParserImpl implements Parser {
    * </pre>
    */
   private class ParseFlowMappingFirstKey implements Production {
+
     public Event produce() {
       Token token = scanner.getToken();
       marks.push(token.getStartMark());
@@ -852,6 +873,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseFlowMappingKey implements Production {
+
     private final boolean first;
 
     public ParseFlowMappingKey(boolean first) {
@@ -904,6 +926,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseFlowMappingValue implements Production {
+
     public Event produce() {
       if (scanner.checkToken(Token.ID.Value)) {
         Token token = scanner.getToken();
@@ -923,6 +946,7 @@ public class ParserImpl implements Parser {
   }
 
   private class ParseFlowMappingEmptyValue implements Production {
+
     public Event produce() {
       state = new ParseFlowMappingKey(false);
       return processEmptyScalar(scanner.peekToken().getStartMark());

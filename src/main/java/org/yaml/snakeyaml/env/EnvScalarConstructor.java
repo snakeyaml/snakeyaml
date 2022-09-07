@@ -13,6 +13,9 @@
  */
 package org.yaml.snakeyaml.env;
 
+import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -21,10 +24,6 @@ import org.yaml.snakeyaml.error.MissingEnvironmentVariableException;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
-
-import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Construct scalar for format ${VARIABLE} replacing the template with the value from environment.
@@ -36,6 +35,7 @@ import java.util.regex.Pattern;
  *      substitution</a>
  */
 public class EnvScalarConstructor extends Constructor {
+
   public static final Tag ENV_TAG = new Tag("!ENV");
   // name must be a word -> \w+
   // value can be any non-space -> \S+
@@ -63,6 +63,7 @@ public class EnvScalarConstructor extends Constructor {
   }
 
   private class ConstructEnv extends AbstractConstruct {
+
     public Object construct(Node node) {
       String val = constructScalar((ScalarNode) node);
       Matcher matcher = ENV_FORMAT.matcher(val);
@@ -84,30 +85,36 @@ public class EnvScalarConstructor extends Constructor {
    * @return the value to apply in the template
    */
   public String apply(String name, String separator, String value, String environment) {
-    if (environment != null && !environment.isEmpty())
+    if (environment != null && !environment.isEmpty()) {
       return environment;
+    }
     // variable is either unset or empty
     if (separator != null) {
       // there is a default value or error
       if (separator.equals("?")) {
-        if (environment == null)
+        if (environment == null) {
           throw new MissingEnvironmentVariableException(
               "Missing mandatory variable " + name + ": " + value);
+        }
       }
       if (separator.equals(":?")) {
-        if (environment == null)
+        if (environment == null) {
           throw new MissingEnvironmentVariableException(
               "Missing mandatory variable " + name + ": " + value);
-        if (environment.isEmpty())
+        }
+        if (environment.isEmpty()) {
           throw new MissingEnvironmentVariableException(
               "Empty mandatory variable " + name + ": " + value);
+        }
       }
       if (separator.startsWith(":")) {
-        if (environment == null || environment.isEmpty())
+        if (environment == null || environment.isEmpty()) {
           return value;
+        }
       } else {
-        if (environment == null)
+        if (environment == null) {
           return value;
+        }
       }
     }
     return "";

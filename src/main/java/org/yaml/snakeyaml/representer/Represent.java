@@ -21,6 +21,7 @@ import org.yaml.snakeyaml.nodes.Node;
  * @see <a href="http://yaml.org/spec/1.1/#id859109">Chapter 3. Processing YAML Information</a>
  */
 public interface Represent {
+
   /**
    * Create a Node
    *

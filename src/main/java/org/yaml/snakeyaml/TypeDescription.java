@@ -21,7 +21,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
@@ -40,6 +39,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  * when propertyUtils in TypeDescription is from different Constructor.
  */
 public class TypeDescription {
+
   final private static Logger log = Logger.getLogger(TypeDescription.class.getPackage().getName());
 
   private final Class<? extends Object> type;
@@ -284,9 +284,7 @@ public class TypeDescription {
   public void setExcludes(String... propNames) {
     if (propNames != null && propNames.length > 0) {
       excludes = new HashSet<String>();
-      for (String name : propNames) {
-        excludes.add(name);
-      }
+      Collections.addAll(excludes, propNames);
     } else {
       excludes = Collections.emptySet();
     }

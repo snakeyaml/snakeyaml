@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
@@ -73,6 +72,7 @@ public class Representer extends SafeRepresenter {
   }
 
   protected class RepresentJavaBean implements Represent {
+
     public Node representData(Object data) {
       return representJavaBean(getProperties(data.getClass()), data);
     }
@@ -200,10 +200,11 @@ public class Representer extends SafeRepresenter {
           for (Node childNode : snode.getValue()) {
             Object member = iter.next();
             if (member != null) {
-              if (t.equals(member.getClass()))
+              if (t.equals(member.getClass())) {
                 if (childNode.getNodeId() == NodeId.mapping) {
                   childNode.setTag(Tag.MAP);
                 }
+              }
             }
           }
         }

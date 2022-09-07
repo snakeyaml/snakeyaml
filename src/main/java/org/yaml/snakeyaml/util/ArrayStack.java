@@ -16,7 +16,8 @@ package org.yaml.snakeyaml.util;
 import java.util.ArrayList;
 
 public class ArrayStack<T> {
-  private ArrayList<T> stack;
+
+  private final ArrayList<T> stack;
 
   public ArrayStack(int initSize) {
     stack = new ArrayList<T>(initSize);

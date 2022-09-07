@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.nodes;
 
 import java.util.List;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
@@ -25,6 +24,7 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public class SequenceNode extends CollectionNode<Node> {
+
   final private List<Node> value;
 
   public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,

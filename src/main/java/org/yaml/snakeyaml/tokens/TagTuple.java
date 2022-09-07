@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.tokens;
 
 public final class TagTuple {
+
   private final String handle;
   private final String suffix;
 

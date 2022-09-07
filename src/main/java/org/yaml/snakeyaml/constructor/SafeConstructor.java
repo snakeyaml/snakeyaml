@@ -26,7 +26,6 @@ import java.util.TimeZone;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -210,15 +209,18 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlNull extends AbstractConstruct {
+
     @Override
     public Object construct(Node node) {
-      if (node != null)
+      if (node != null) {
         constructScalar((ScalarNode) node);
+      }
       return null;
     }
   }
 
   private final static Map<String, Boolean> BOOL_VALUES = new HashMap<String, Boolean>();
+
   static {
     BOOL_VALUES.put("yes", Boolean.TRUE);
     BOOL_VALUES.put("no", Boolean.FALSE);
@@ -229,14 +231,16 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlBool extends AbstractConstruct {
+
     @Override
     public Object construct(Node node) {
-      String val = (String) constructScalar((ScalarNode) node);
+      String val = constructScalar((ScalarNode) node);
       return BOOL_VALUES.get(val.toLowerCase());
     }
   }
 
   public class ConstructYamlInt extends AbstractConstruct {
+
     @Override
     public Object construct(Node node) {
       String value = constructScalar((ScalarNode) node).replaceAll("_", "");
@@ -281,6 +285,7 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   private static final int[][] RADIX_MAX = new int[17][2];
+
   static {
     int[] radixList = new int[] {2, 8, 10, 16};
     for (int radix : radixList) {
@@ -330,6 +335,7 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlFloat extends AbstractConstruct {
+
     @Override
     public Object construct(Node node) {
       String value = constructScalar((ScalarNode) node).replaceAll("_", "");
@@ -367,10 +373,11 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlBinary extends AbstractConstruct {
+
     @Override
     public Object construct(Node node) {
       // Ignore white spaces for base64 encoded scalar
-      String noWhiteSpaces = constructScalar((ScalarNode) node).toString().replaceAll("\\s", "");
+      String noWhiteSpaces = constructScalar((ScalarNode) node).replaceAll("\\s", "");
       byte[] decoded = Base64Coder.decode(noWhiteSpaces.toCharArray());
       return decoded;
     }
@@ -382,6 +389,7 @@ public class SafeConstructor extends BaseConstructor {
       Pattern.compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)$");
 
   public static class ConstructYamlTimestamp extends AbstractConstruct {
+
     private Calendar calendar;
 
     public Calendar getCalendar() {
@@ -449,6 +457,7 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlOmap extends AbstractConstruct {
+
     @Override
     public Object construct(Node node) {
       // Note: we do not check for duplicate keys, because it's too
@@ -482,6 +491,7 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlPairs extends AbstractConstruct {
+
     @Override
     public Object construct(Node node) {
       // Note: we do not check for duplicate keys, because it's too
@@ -515,6 +525,7 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlSet implements Construct {
+
     @Override
     public Object construct(Node node) {
       if (node.isTwoStepsConstruction()) {
@@ -537,6 +548,7 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlStr extends AbstractConstruct {
+
     @Override
     public Object construct(Node node) {
       return constructScalar((ScalarNode) node);
@@ -544,6 +556,7 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlSeq implements Construct {
+
     @Override
     public Object construct(Node node) {
       SequenceNode seqNode = (SequenceNode) node;
@@ -566,6 +579,7 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public class ConstructYamlMap implements Construct {
+
     @Override
     public Object construct(Node node) {
       MappingNode mnode = (MappingNode) node;
@@ -588,6 +602,7 @@ public class SafeConstructor extends BaseConstructor {
   }
 
   public static final class ConstructUndefined extends AbstractConstruct {
+
     @Override
     public Object construct(Node node) {
       throw new ConstructorException(null, null,

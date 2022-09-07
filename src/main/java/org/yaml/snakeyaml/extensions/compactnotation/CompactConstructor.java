@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -35,6 +34,7 @@ import org.yaml.snakeyaml.nodes.SequenceNode;
  * Construct a custom Java instance out of a compact object notation format.
  */
 public class CompactConstructor extends Constructor {
+
   private static final Pattern GUESS_COMPACT = Pattern
       .compile("\\p{Alpha}.*\\s*\\((?:,?\\s*(?:(?:\\w*)|(?:\\p{Alpha}\\w*\\s*=.+))\\s*)+\\)");
   private static final Pattern FIRST_PATTERN = Pattern.compile("(\\p{Alpha}.*)(\\s*)\\((.*?)\\)");
@@ -94,8 +94,9 @@ public class CompactConstructor extends Constructor {
       String tag = m.group(1).trim();
       String content = m.group(3);
       CompactData data = new CompactData(tag);
-      if (content.length() == 0)
+      if (content.length() == 0) {
         return data;
+      }
       String[] names = content.split("\\s*,\\s*");
       for (int i = 0; i < names.length; i++) {
         String section = names[i];

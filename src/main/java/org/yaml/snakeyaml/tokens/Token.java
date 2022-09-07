@@ -17,6 +17,7 @@ import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public abstract class Token {
+
   public enum ID {
     Alias("<alias>"), Anchor("<anchor>"), BlockEnd("<block end>"), BlockEntry(
         "-"), BlockMappingStart("<block mapping start>"), BlockSequenceStart(

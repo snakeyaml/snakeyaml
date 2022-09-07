@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.comments.CommentEventsCollector;
@@ -52,6 +51,7 @@ import org.yaml.snakeyaml.resolver.Resolver;
  * </p>
  */
 public class Composer {
+
   protected final Parser parser;
   private final Resolver resolver;
   private final Map<String, Node> anchors;
@@ -155,8 +155,9 @@ public class Composer {
 
   private Node composeNode(Node parent) {
     blockCommentsCollector.collectEvents();
-    if (parent != null)
+    if (parent != null) {
       recursiveNodes.add(parent);
+    }
     final Node node;
     if (parser.checkEvent(Event.ID.Alias)) {
       AliasEvent event = (AliasEvent) parser.getEvent();

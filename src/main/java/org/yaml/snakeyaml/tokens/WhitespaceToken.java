@@ -20,6 +20,7 @@ import org.yaml.snakeyaml.error.Mark;
  */
 @Deprecated
 public class WhitespaceToken extends Token {
+
   public WhitespaceToken(Mark startMark, Mark endMark) {
     super(startMark, endMark);
   }

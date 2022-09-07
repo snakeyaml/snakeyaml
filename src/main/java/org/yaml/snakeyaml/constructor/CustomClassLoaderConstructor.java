@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.constructor;
  * Construct instances with a custom Class Loader.
  */
 public class CustomClassLoaderConstructor extends Constructor {
+
   private ClassLoader loader = CustomClassLoaderConstructor.class.getClassLoader();
 
   public CustomClassLoaderConstructor(ClassLoader cLoader) {

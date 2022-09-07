@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.events;
 
 import java.util.Map;
-
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 
@@ -25,6 +24,7 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public final class DocumentStartEvent extends Event {
+
   private final boolean explicit;
   private final Version version;
   private final Map<String, String> tags;

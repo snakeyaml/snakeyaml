@@ -18,7 +18,7 @@ public class LoaderOptions {
   private boolean allowDuplicateKeys = true;
   private boolean wrappedToRootException = false;
   private int maxAliasesForCollections = 50; // to prevent YAML at
-                                             // https://en.wikipedia.org/wiki/Billion_laughs_attack
+  // https://en.wikipedia.org/wiki/Billion_laughs_attack
   private boolean allowRecursiveKeys = false;
   private boolean processComments = false;
   private boolean enumCaseSensitive = true;

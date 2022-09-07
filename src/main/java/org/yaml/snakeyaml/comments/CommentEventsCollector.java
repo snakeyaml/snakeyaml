@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
-
 import org.yaml.snakeyaml.events.CommentEvent;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.parser.Parser;
@@ -28,9 +27,10 @@ import org.yaml.snakeyaml.parser.Parser;
  * point in the process.
  */
 public class CommentEventsCollector {
+
   private List<CommentLine> commentLineList;
-  private Queue<Event> eventSource;
-  private CommentType[] expectedCommentTypes;
+  private final Queue<Event> eventSource;
+  private final CommentType[] expectedCommentTypes;
 
   /**
    * Constructor used to collect comment events emitted by a Parser.

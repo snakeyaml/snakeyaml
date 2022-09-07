@@ -13,6 +13,17 @@
  */
 package org.yaml.snakeyaml;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.regex.Pattern;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
@@ -32,24 +43,13 @@ import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.resolver.Resolver;
 import org.yaml.snakeyaml.serializer.Serializer;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.regex.Pattern;
-
 /**
  * Public YAML interface. This class is not thread-safe. Which means that all the methods of the
  * same instance can be called only by one thread. It is better to create an instance for every YAML
  * stream.
  */
 public class Yaml {
+
   protected final Resolver resolver;
   private String name;
   protected BaseConstructor constructor;
@@ -380,7 +380,8 @@ public class Yaml {
   }
 
   private static class SilentEmitter implements Emitable {
-    private List<Event> events = new ArrayList<Event>(100);
+
+    private final List<Event> events = new ArrayList<Event>(100);
 
     public List<Event> getEvents() {
       return events;
@@ -508,7 +509,8 @@ public class Yaml {
   }
 
   private static class YamlIterable implements Iterable<Object> {
-    private Iterator<Object> iterator;
+
+    private final Iterator<Object> iterator;
 
     public YamlIterable(Iterator<Object> iterator) {
       this.iterator = iterator;
@@ -595,7 +597,8 @@ public class Yaml {
   }
 
   private static class NodeIterable implements Iterable<Node> {
-    private Iterator<Node> iterator;
+
+    private final Iterator<Node> iterator;
 
     public NodeIterable(Iterator<Node> iterator) {
       this.iterator = iterator;
@@ -690,7 +693,8 @@ public class Yaml {
   }
 
   private static class EventIterable implements Iterable<Event> {
-    private Iterator<Event> iterator;
+
+    private final Iterator<Event> iterator;
 
     public EventIterable(Iterator<Event> iterator) {
       this.iterator = iterator;

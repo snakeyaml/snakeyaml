@@ -14,7 +14,8 @@
 package org.yaml.snakeyaml.extensions.compactnotation;
 
 public class PackageCompactConstructor extends CompactConstructor {
-  private String packageName;
+
+  private final String packageName;
 
   public PackageCompactConstructor(String packageName) {
     this.packageName = packageName;

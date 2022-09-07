@@ -15,13 +15,13 @@ package org.yaml.snakeyaml;
 
 import java.util.Map;
 import java.util.TimeZone;
-
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.serializer.AnchorGenerator;
 import org.yaml.snakeyaml.serializer.NumberAnchorGenerator;
 
 public class DumperOptions {
+
   /**
    * YAML provides a rich set of scalar styles. Block scalar styles include the literal style and
    * the folded style; flow scalar styles include the plain style and two quoted styles, the
@@ -34,9 +34,9 @@ public class DumperOptions {
   public enum ScalarStyle {
     DOUBLE_QUOTED('"'), SINGLE_QUOTED('\''), LITERAL('|'), FOLDED('>'), PLAIN(null);
 
-    private Character styleChar;
+    private final Character styleChar;
 
-    private ScalarStyle(Character style) {
+    ScalarStyle(Character style) {
       this.styleChar = style;
     }
 
@@ -79,9 +79,9 @@ public class DumperOptions {
   public enum FlowStyle {
     FLOW(Boolean.TRUE), BLOCK(Boolean.FALSE), AUTO(null);
 
-    private Boolean styleBoolean;
+    private final Boolean styleBoolean;
 
-    private FlowStyle(Boolean flowStyle) {
+    FlowStyle(Boolean flowStyle) {
       styleBoolean = flowStyle;
     }
 
@@ -113,9 +113,9 @@ public class DumperOptions {
   public enum LineBreak {
     WIN("\r\n"), MAC("\r"), UNIX("\n");
 
-    private String lineBreak;
+    private final String lineBreak;
 
-    private LineBreak(String lineBreak) {
+    LineBreak(String lineBreak) {
       this.lineBreak = lineBreak;
     }
 
@@ -145,9 +145,9 @@ public class DumperOptions {
   public enum Version {
     V1_0(new Integer[] {1, 0}), V1_1(new Integer[] {1, 1});
 
-    private Integer[] version;
+    private final Integer[] version;
 
-    private Version(Integer[] version) {
+    Version(Integer[] version) {
       this.version = version;
     }
 

@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 
 abstract public class GenericProperty extends Property {
 
-  private Type genType;
+  private final Type genType;
 
   public GenericProperty(String name, Class<?> aClass, Type aType) {
     super(name, aClass);
@@ -65,7 +65,7 @@ abstract public class GenericProperty extends Property {
           actualClasses = new Class<?>[] {(Class<?>) componentType};
         }
       } else if (genType instanceof Class<?>) {// XXX this check is only
-                                               // required for IcedTea6
+        // required for IcedTea6
         Class<?> classType = (Class<?>) genType;
         if (classType.isArray()) {
           actualClasses = new Class<?>[1];

@@ -13,21 +13,6 @@
  */
 package org.yaml.snakeyaml.constructor;
 
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.composer.Composer;
-import org.yaml.snakeyaml.composer.ComposerException;
-import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.introspector.PropertyUtils;
-import org.yaml.snakeyaml.nodes.CollectionNode;
-import org.yaml.snakeyaml.nodes.MappingNode;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.NodeId;
-import org.yaml.snakeyaml.nodes.NodeTuple;
-import org.yaml.snakeyaml.nodes.ScalarNode;
-import org.yaml.snakeyaml.nodes.SequenceNode;
-import org.yaml.snakeyaml.nodes.Tag;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -45,6 +30,20 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.composer.Composer;
+import org.yaml.snakeyaml.composer.ComposerException;
+import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
+import org.yaml.snakeyaml.nodes.CollectionNode;
+import org.yaml.snakeyaml.nodes.MappingNode;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.NodeId;
+import org.yaml.snakeyaml.nodes.NodeTuple;
+import org.yaml.snakeyaml.nodes.ScalarNode;
+import org.yaml.snakeyaml.nodes.SequenceNode;
+import org.yaml.snakeyaml.nodes.Tag;
 
 public abstract class BaseConstructor {
 
@@ -134,8 +133,9 @@ public abstract class BaseConstructor {
    */
   public Object getData() throws NoSuchElementException {
     // Construct and return the next document.
-    if (!composer.checkNode())
+    if (!composer.checkNode()) {
       throw new NoSuchElementException("No document is available.");
+    }
     Node node = composer.getNode();
     if (rootTag != null) {
       node.setTag(rootTag);
@@ -575,6 +575,7 @@ public abstract class BaseConstructor {
   }
 
   private static class RecursiveTuple<T, K> {
+
     private final T _1;
     private final K _2;
 

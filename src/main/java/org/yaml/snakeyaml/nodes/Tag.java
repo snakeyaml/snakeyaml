@@ -21,11 +21,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.util.UriEncoder;
 
 public final class Tag {
+
   public static final String PREFIX = "tag:yaml.org,2002:";
   public static final Tag YAML = new Tag(PREFIX + "yaml");
   public static final Tag MERGE = new Tag(PREFIX + "merge");
@@ -44,7 +44,8 @@ public final class Tag {
   // For use to indicate a DUMMY node that contains comments, when there is no other (empty
   // document)
   public static final Tag COMMENT = new Tag(PREFIX + "comment");
-  protected static final Map<Tag, Set<Class<?>>> COMPATIBILITY_MAP;
+  private static final Map<Tag, Set<Class<?>>> COMPATIBILITY_MAP;
+
   static {
     COMPATIBILITY_MAP = new HashMap<Tag, Set<Class<?>>>();
     Set<Class<?>> floatSet = new HashSet<Class<?>>();
@@ -135,8 +136,9 @@ public final class Tag {
   public boolean equals(Object obj) {
     if (obj instanceof Tag) {
       return value.equals(((Tag) obj).getValue());
-    } else
+    } else {
       return false;
+    }
   }
 
   @Override

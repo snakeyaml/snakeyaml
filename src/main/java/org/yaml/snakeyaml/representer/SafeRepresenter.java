@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.representer;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,7 +29,6 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.UUID;
 import java.util.regex.Pattern;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -102,6 +102,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentNull implements Represent {
+
     public Node representData(Object data) {
       return representScalar(Tag.NULL, "null");
     }
@@ -110,6 +111,7 @@ class SafeRepresenter extends BaseRepresenter {
   private static final Pattern MULTILINE_PATTERN = Pattern.compile("\n|\u0085|\u2028|\u2029");
 
   protected class RepresentString implements Represent {
+
     public Node representData(Object data) {
       Tag tag = Tag.STR;
       DumperOptions.ScalarStyle style = null;// not defined
@@ -118,19 +120,15 @@ class SafeRepresenter extends BaseRepresenter {
           && !StreamReader.isPrintable(value)) {
         tag = Tag.BINARY;
         char[] binary;
-        try {
-          final byte[] bytes = value.getBytes("UTF-8");
-          // sometimes above will just silently fail - it will return incomplete data
-          // it happens when String has invalid code points
-          // (for example half surrogate character without other half)
-          final String checkValue = new String(bytes, "UTF-8");
-          if (!checkValue.equals(value)) {
-            throw new YAMLException("invalid string value has occurred");
-          }
-          binary = Base64Coder.encode(bytes);
-        } catch (UnsupportedEncodingException e) {
-          throw new YAMLException(e);
+        final byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
+        // sometimes above will just silently fail - it will return incomplete data
+        // it happens when String has invalid code points
+        // (for example half surrogate character without other half)
+        final String checkValue = new String(bytes, StandardCharsets.UTF_8);
+        if (!checkValue.equals(value)) {
+          throw new YAMLException("invalid string value has occurred");
         }
+        binary = Base64Coder.encode(bytes);
         value = String.valueOf(binary);
         style = DumperOptions.ScalarStyle.LITERAL;
       }
@@ -145,6 +143,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentBoolean implements Represent {
+
     public Node representData(Object data) {
       String value;
       if (Boolean.TRUE.equals(data)) {
@@ -157,6 +156,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentNumber implements Represent {
+
     public Node representData(Object data) {
       Tag tag;
       String value;
@@ -182,6 +182,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentList implements Represent {
+
     @SuppressWarnings("unchecked")
     public Node representData(Object data) {
       return representSequence(getTag(data.getClass(), Tag.SEQ), (List<Object>) data,
@@ -190,6 +191,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentIterator implements Represent {
+
     @SuppressWarnings("unchecked")
     public Node representData(Object data) {
       Iterator<Object> iter = (Iterator<Object>) data;
@@ -199,7 +201,8 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   private static class IteratorWrapper implements Iterable<Object> {
-    private Iterator<Object> iter;
+
+    private final Iterator<Object> iter;
 
     public IteratorWrapper(Iterator<Object> iter) {
       this.iter = iter;
@@ -211,6 +214,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentArray implements Represent {
+
     public Node representData(Object data) {
       Object[] array = (Object[]) data;
       List<Object> list = Arrays.asList(array);
@@ -223,6 +227,7 @@ class SafeRepresenter extends BaseRepresenter {
    * List<Short> and List<Float> using the appropriate autoboxing type.
    */
   protected class RepresentPrimitiveArray implements Represent {
+
     public Node representData(Object data) {
       Class<?> type = data.getClass().getComponentType();
 
@@ -250,69 +255,78 @@ class SafeRepresenter extends BaseRepresenter {
     private List<Byte> asByteList(Object in) {
       byte[] array = (byte[]) in;
       List<Byte> list = new ArrayList<Byte>(array.length);
-      for (int i = 0; i < array.length; ++i)
+      for (int i = 0; i < array.length; ++i) {
         list.add(array[i]);
+      }
       return list;
     }
 
     private List<Short> asShortList(Object in) {
       short[] array = (short[]) in;
       List<Short> list = new ArrayList<Short>(array.length);
-      for (int i = 0; i < array.length; ++i)
+      for (int i = 0; i < array.length; ++i) {
         list.add(array[i]);
+      }
       return list;
     }
 
     private List<Integer> asIntList(Object in) {
       int[] array = (int[]) in;
       List<Integer> list = new ArrayList<Integer>(array.length);
-      for (int i = 0; i < array.length; ++i)
+      for (int i = 0; i < array.length; ++i) {
         list.add(array[i]);
+      }
       return list;
     }
 
     private List<Long> asLongList(Object in) {
       long[] array = (long[]) in;
       List<Long> list = new ArrayList<Long>(array.length);
-      for (int i = 0; i < array.length; ++i)
+      for (int i = 0; i < array.length; ++i) {
         list.add(array[i]);
+      }
       return list;
     }
 
     private List<Float> asFloatList(Object in) {
       float[] array = (float[]) in;
       List<Float> list = new ArrayList<Float>(array.length);
-      for (int i = 0; i < array.length; ++i)
+      for (int i = 0; i < array.length; ++i) {
         list.add(array[i]);
+      }
       return list;
     }
 
     private List<Double> asDoubleList(Object in) {
       double[] array = (double[]) in;
       List<Double> list = new ArrayList<Double>(array.length);
-      for (int i = 0; i < array.length; ++i)
+      for (int i = 0; i < array.length; ++i) {
         list.add(array[i]);
+      }
       return list;
     }
 
     private List<Character> asCharList(Object in) {
       char[] array = (char[]) in;
       List<Character> list = new ArrayList<Character>(array.length);
-      for (int i = 0; i < array.length; ++i)
+      for (int i = 0; i < array.length; ++i) {
         list.add(array[i]);
+      }
       return list;
     }
 
     private List<Boolean> asBooleanList(Object in) {
       boolean[] array = (boolean[]) in;
       List<Boolean> list = new ArrayList<Boolean>(array.length);
-      for (int i = 0; i < array.length; ++i)
+      for (int i = 0; i < array.length; ++i) {
         list.add(array[i]);
+      }
       return list;
     }
   }
 
   protected class RepresentMap implements Represent {
+
     @SuppressWarnings("unchecked")
     public Node representData(Object data) {
       return representMapping(getTag(data.getClass(), Tag.MAP), (Map<Object, Object>) data,
@@ -321,6 +335,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentSet implements Represent {
+
     @SuppressWarnings("unchecked")
     public Node representData(Object data) {
       Map<Object, Object> value = new LinkedHashMap<Object, Object>();
@@ -334,6 +349,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentDate implements Represent {
+
     public Node representData(Object data) {
       // because SimpleDateFormat ignores timezone we have to use Calendar
       Calendar calendar;
@@ -360,27 +376,27 @@ class SafeRepresenter extends BaseRepresenter {
       if (months < 10) {
         buffer.append("0");
       }
-      buffer.append(String.valueOf(months));
+      buffer.append(months);
       buffer.append("-");
       if (days < 10) {
         buffer.append("0");
       }
-      buffer.append(String.valueOf(days));
+      buffer.append(days);
       buffer.append("T");
       if (hour24 < 10) {
         buffer.append("0");
       }
-      buffer.append(String.valueOf(hour24));
+      buffer.append(hour24);
       buffer.append(":");
       if (minutes < 10) {
         buffer.append("0");
       }
-      buffer.append(String.valueOf(minutes));
+      buffer.append(minutes);
       buffer.append(":");
       if (seconds < 10) {
         buffer.append("0");
       }
-      buffer.append(String.valueOf(seconds));
+      buffer.append(seconds);
       if (millis > 0) {
         if (millis < 10) {
           buffer.append(".00");
@@ -389,7 +405,7 @@ class SafeRepresenter extends BaseRepresenter {
         } else {
           buffer.append(".");
         }
-        buffer.append(String.valueOf(millis));
+        buffer.append(millis);
       }
 
       // Get the offset from GMT taking DST into account
@@ -424,6 +440,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentEnum implements Represent {
+
     public Node representData(Object data) {
       Tag tag = new Tag(data.getClass());
       return representScalar(getTag(data.getClass(), tag), ((Enum<?>) data).name());
@@ -431,6 +448,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentByteArray implements Represent {
+
     public Node representData(Object data) {
       char[] binary = Base64Coder.encode((byte[]) data);
       return representScalar(Tag.BINARY, String.valueOf(binary), DumperOptions.ScalarStyle.LITERAL);
@@ -446,6 +464,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected class RepresentUuid implements Represent {
+
     public Node representData(Object data) {
       return representScalar(getTag(data.getClass(), new Tag(UUID.class)), data.toString());
     }

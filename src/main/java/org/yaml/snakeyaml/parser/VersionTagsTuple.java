@@ -14,15 +14,15 @@
 package org.yaml.snakeyaml.parser;
 
 import java.util.Map;
-
 import org.yaml.snakeyaml.DumperOptions.Version;
 
 /**
  * Store the internal state for directives
  */
 class VersionTagsTuple {
-  private Version version;
-  private Map<String, String> tags;
+
+  private final Version version;
+  private final Map<String, String> tags;
 
   public VersionTagsTuple(Version version, Map<String, String> tags) {
     this.version = version;

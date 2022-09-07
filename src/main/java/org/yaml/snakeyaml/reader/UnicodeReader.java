@@ -34,15 +34,17 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Generic unicode textreader, which will use BOM mark to identify the encoding to be used. If BOM
  * is not found then use a given default or system encoding.
  */
 public class UnicodeReader extends Reader {
-  private static final Charset UTF8 = Charset.forName("UTF-8");
-  private static final Charset UTF16BE = Charset.forName("UTF-16BE");
-  private static final Charset UTF16LE = Charset.forName("UTF-16LE");
+
+  private static final Charset UTF8 = StandardCharsets.UTF_8;
+  private static final Charset UTF16BE = StandardCharsets.UTF_16BE;
+  private static final Charset UTF16LE = StandardCharsets.UTF_16LE;
 
   PushbackInputStream internalIn;
   InputStreamReader internalIn2 = null;
@@ -73,11 +75,12 @@ public class UnicodeReader extends Reader {
    * @throws IOException if InputStream cannot be created
    */
   protected void init() throws IOException {
-    if (internalIn2 != null)
+    if (internalIn2 != null) {
       return;
+    }
 
     Charset encoding;
-    byte bom[] = new byte[BOM_SIZE];
+    byte[] bom = new byte[BOM_SIZE];
     int n, unread;
     n = internalIn.read(bom, 0, bom.length);
 
@@ -96,8 +99,9 @@ public class UnicodeReader extends Reader {
       unread = n;
     }
 
-    if (unread > 0)
+    if (unread > 0) {
       internalIn.unread(bom, (n - unread), unread);
+    }
 
     // Use given encoding
     CharsetDecoder decoder = encoding.newDecoder().onUnmappableCharacter(CodingErrorAction.REPORT);

@@ -20,16 +20,19 @@ import org.yaml.snakeyaml.error.Mark;
  * Marks a comment block value.
  */
 public final class CommentEvent extends Event {
+
   private final CommentType type;
   private final String value;
 
   public CommentEvent(CommentType type, String value, Mark startMark, Mark endMark) {
     super(startMark, endMark);
-    if (type == null)
+    if (type == null) {
       throw new NullPointerException("Event Type must be provided.");
+    }
     this.type = type;
-    if (value == null)
+    if (value == null) {
       throw new NullPointerException("Value must be provided.");
+    }
     this.value = value;
   }
 

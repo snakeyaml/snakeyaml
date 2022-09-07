@@ -19,10 +19,12 @@ import org.yaml.snakeyaml.error.Mark;
  * Marks the inclusion of a previously anchored node.
  */
 public final class AliasEvent extends NodeEvent {
+
   public AliasEvent(String anchor, Mark startMark, Mark endMark) {
     super(anchor, startMark, endMark);
-    if (anchor == null)
+    if (anchor == null) {
       throw new NullPointerException("anchor is not specified for alias");
+    }
   }
 
   @Override

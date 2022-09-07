@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.scanner;
 import java.util.Arrays;
 
 public final class Constant {
+
   private final static String ALPHA_S =
       "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
 
@@ -25,7 +26,7 @@ public final class Constant {
   private final static String NULL_BL_LINEBR_S = " " + NULL_OR_LINEBR_S;
   private final static String NULL_BL_T_LINEBR_S = "\t" + NULL_BL_LINEBR_S;
   private final static String NULL_BL_T_S = "\0 \t";
-  private final static String URI_CHARS_S = ALPHA_S + "-;/?:@&=+$,_.!~*\'()[]%";
+  private final static String URI_CHARS_S = ALPHA_S + "-;/?:@&=+$,_.!~*'()[]%";
 
   public final static Constant LINEBR = new Constant(LINEBR_S);
   public final static Constant NULL_OR_LINEBR = new Constant(NULL_OR_LINEBR_S);
@@ -45,10 +46,11 @@ public final class Constant {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < content.length(); i++) {
       int c = content.codePointAt(i);
-      if (c < 128)
+      if (c < 128) {
         contains[c] = true;
-      else
+      } else {
         sb.appendCodePoint(c);
+      }
     }
     if (sb.length() > 0) {
       noASCII = true;
@@ -57,7 +59,7 @@ public final class Constant {
   }
 
   public boolean has(int c) {
-    return (c < 128) ? contains[c] : noASCII && content.indexOf(c, 0) != -1;
+    return (c < 128) ? contains[c] : noASCII && content.indexOf(c) != -1;
   }
 
   public boolean hasNo(int c) {
@@ -65,7 +67,7 @@ public final class Constant {
   }
 
   public boolean has(int c, String additional) {
-    return has(c) || additional.indexOf(c, 0) != -1;
+    return has(c) || additional.indexOf(c) != -1;
   }
 
   public boolean hasNo(int c, String additional) {

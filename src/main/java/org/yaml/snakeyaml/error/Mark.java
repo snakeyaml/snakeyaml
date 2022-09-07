@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.error;
 
 import java.io.Serializable;
-
 import org.yaml.snakeyaml.scanner.Constant;
 
 /**
@@ -22,12 +21,13 @@ import org.yaml.snakeyaml.scanner.Constant;
  * any other purposes.
  */
 public final class Mark implements Serializable {
-  private String name;
-  private int index;
-  private int line;
-  private int column;
-  private int[] buffer;
-  private int pointer;
+
+  private final String name;
+  private final int index;
+  private final int line;
+  private final int column;
+  private final int[] buffer;
+  private final int pointer;
 
   private static int[] toCodePoints(char[] str) {
     int[] codePoints = new int[Character.codePointCount(str, 0, str.length)];
@@ -115,15 +115,9 @@ public final class Mark implements Serializable {
   @Override
   public String toString() {
     String snippet = get_snippet();
-    StringBuilder builder = new StringBuilder(" in ");
-    builder.append(name);
-    builder.append(", line ");
-    builder.append(line + 1);
-    builder.append(", column ");
-    builder.append(column + 1);
-    builder.append(":\n");
-    builder.append(snippet);
-    return builder.toString();
+    String builder =
+        " in " + name + ", line " + (line + 1) + ", column " + (column + 1) + ":\n" + snippet;
+    return builder;
   }
 
   public String getName() {

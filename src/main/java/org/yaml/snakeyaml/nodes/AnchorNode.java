@@ -18,7 +18,7 @@ package org.yaml.snakeyaml.nodes;
  */
 public class AnchorNode extends Node {
 
-  private Node realNode;
+  private final Node realNode;
 
   public AnchorNode(Node realNode) {
     super(realNode.getTag(), realNode.getStartMark(), realNode.getEndMark());

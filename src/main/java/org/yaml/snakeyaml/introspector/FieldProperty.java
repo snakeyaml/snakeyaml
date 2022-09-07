@@ -16,7 +16,6 @@ package org.yaml.snakeyaml.introspector;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.List;
-
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.util.ArrayUtils;
 

@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.nodes;
 
 import java.util.List;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
@@ -25,6 +24,7 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public class MappingNode extends CollectionNode<NodeTuple> {
+
   private List<NodeTuple> value;
   private boolean merged = false;
 
@@ -111,7 +111,7 @@ public class MappingNode extends CollectionNode<NodeTuple> {
         // to avoid overflow in case of recursive structures
         buf.append(System.identityHashCode(node.getValueNode()));
       } else {
-        buf.append(node.toString());
+        buf.append(node);
       }
       buf.append(" }");
     }

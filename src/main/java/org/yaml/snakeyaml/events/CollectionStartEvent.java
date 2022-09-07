@@ -20,6 +20,7 @@ import org.yaml.snakeyaml.error.Mark;
  * Base class for the start events of the collection nodes.
  */
 public abstract class CollectionStartEvent extends NodeEvent {
+
   private final String tag;
   // The implicit flag of a collection start event indicates if the tag may be
   // omitted when the collection is emitted
@@ -32,8 +33,9 @@ public abstract class CollectionStartEvent extends NodeEvent {
     super(anchor, startMark, endMark);
     this.tag = tag;
     this.implicit = implicit;
-    if (flowStyle == null)
+    if (flowStyle == null) {
       throw new NullPointerException("Flow style must be provided.");
+    }
     this.flowStyle = flowStyle;
   }
 

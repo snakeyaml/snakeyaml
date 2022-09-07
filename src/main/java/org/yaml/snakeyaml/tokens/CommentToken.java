@@ -14,11 +14,11 @@
 package org.yaml.snakeyaml.tokens;
 
 import java.util.Objects;
-
 import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.error.Mark;
 
 public final class CommentToken extends Token {
+
   private final CommentType type;
   private final String value;
 

@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.nodes;
 
 import java.util.List;
-
 import org.yaml.snakeyaml.comments.CommentLine;
 import org.yaml.snakeyaml.error.Mark;
 
@@ -31,8 +30,9 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public abstract class Node {
+
   private Tag tag;
-  private Mark startMark;
+  private final Mark startMark;
   protected Mark endMark;
   private Class<? extends Object> type;
   private boolean twoStepsConstruction;
@@ -143,15 +143,12 @@ public abstract class Node {
 
   public boolean useClassConstructor() {
     if (useClassConstructor == null) {
+      // the tag is compatible with the runtime class
+      // the tag will be ignored
       if (!tag.isSecondary() && resolved && !Object.class.equals(type) && !tag.equals(Tag.NULL)) {
         return true;
-      } else if (tag.isCompatible(getType())) {
-        // the tag is compatible with the runtime class
-        // the tag will be ignored
-        return true;
-      } else {
-        return false;
-      }
+      } else
+        return tag.isCompatible(getType());
     }
     return useClassConstructor.booleanValue();
   }

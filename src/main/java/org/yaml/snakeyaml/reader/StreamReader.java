@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Arrays;
-
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.scanner.Constant;
@@ -27,6 +26,7 @@ import org.yaml.snakeyaml.scanner.Constant;
  * reached.
  */
 public class StreamReader {
+
   private String name;
   private final Reader stream;
   /**
@@ -52,8 +52,8 @@ public class StreamReader {
   private int index = 0; // in code points
   private int line = 0;
   private int column = 0; // in code points
-  private char[] buffer; // temp buffer for one read operation (to avoid
-                         // creating the array in stack)
+  private final char[] buffer; // temp buffer for one read operation (to avoid
+  // creating the array in stack)
 
   private static final int BUFFER_SIZE = 1025;
 

@@ -18,13 +18,14 @@ package org.yaml.snakeyaml.emitter;
  * Accumulate information to choose the scalar style
  */
 public final class ScalarAnalysis {
-  private String scalar;
-  private boolean empty;
-  private boolean multiline;
-  private boolean allowFlowPlain;
-  private boolean allowBlockPlain;
-  private boolean allowSingleQuoted;
-  private boolean allowBlock;
+
+  private final String scalar;
+  private final boolean empty;
+  private final boolean multiline;
+  private final boolean allowFlowPlain;
+  private final boolean allowBlockPlain;
+  private final boolean allowSingleQuoted;
+  private final boolean allowBlock;
 
   public ScalarAnalysis(String scalar, boolean empty, boolean multiline, boolean allowFlowPlain,
       boolean allowBlockPlain, boolean allowSingleQuoted, boolean allowBlock) {

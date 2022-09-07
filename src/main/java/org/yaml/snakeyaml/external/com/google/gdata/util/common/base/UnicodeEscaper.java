@@ -45,11 +45,12 @@ import java.io.IOException;
  * <p>
  * Several popular escapers are defined as constants in the class {@link CharEscapers}. To create
  * your own escapers extend this class and implement the {@link #escape(int)} method.
- *
- *
  */
 public abstract class UnicodeEscaper implements Escaper {
-  /** The amount of padding (chars) to use when growing the escape buffer. */
+
+  /**
+   * The amount of padding (chars) to use when growing the escape buffer.
+   */
   private static final int DEST_PAD = 32;
 
   /**
@@ -246,14 +247,13 @@ public abstract class UnicodeEscaper implements Escaper {
    * @return an {@code Appendable} which passes text to {@code out} after escaping it
    * @throws NullPointerException if {@code out} is null
    * @throws IllegalArgumentException if invalid surrogate characters are encountered
-   *
    */
   public Appendable escape(final Appendable out) {
     assert out != null;
 
     return new Appendable() {
       int pendingHighSurrogate = -1;
-      char[] decodedChars = new char[2];
+      final char[] decodedChars = new char[2];
 
       public Appendable append(CharSequence csq) throws IOException {
         return append(csq, 0, csq.length());

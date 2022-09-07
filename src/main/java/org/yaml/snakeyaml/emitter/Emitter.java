@@ -13,6 +13,20 @@
  */
 package org.yaml.snakeyaml.emitter;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.DumperOptions.Version;
@@ -41,22 +55,6 @@ import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Constant;
 import org.yaml.snakeyaml.util.ArrayStack;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * <pre>
  * Emitter expects events obeying the following grammar:
@@ -68,12 +66,14 @@ import java.util.regex.Pattern;
  * </pre>
  */
 public final class Emitter implements Emitable {
+
   public static final int MIN_INDENT = 1;
   public static final int MAX_INDENT = 10;
   private static final char[] SPACE = {' '};
 
   private static final Pattern SPACES_PATTERN = Pattern.compile("\\s");
   private static final Set<Character> INVALID_ANCHOR = new HashSet();
+
   static {
     INVALID_ANCHOR.add('[');
     INVALID_ANCHOR.add(']');
@@ -86,6 +86,7 @@ public final class Emitter implements Emitable {
 
   private static final Map<Character, String> ESCAPE_REPLACEMENTS =
       new HashMap<Character, String>();
+
   static {
     ESCAPE_REPLACEMENTS.put('\0', "0");
     ESCAPE_REPLACEMENTS.put('\u0007', "a");
@@ -106,10 +107,12 @@ public final class Emitter implements Emitable {
 
   private final static Map<String, String> DEFAULT_TAG_PREFIXES =
       new LinkedHashMap<String, String>();
+
   static {
     DEFAULT_TAG_PREFIXES.put("!", "!");
     DEFAULT_TAG_PREFIXES.put(Tag.PREFIX, "!!");
   }
+
   // The stream should have the methods `write` and possibly `flush`.
   private final Writer stream;
 
@@ -330,6 +333,7 @@ public final class Emitter implements Emitable {
   // Stream handlers.
 
   private class ExpectStreamStart implements EmitterState {
+
     public void expect() throws IOException {
       if (event instanceof StreamStartEvent) {
         writeStreamStart();
@@ -341,6 +345,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectNothing implements EmitterState {
+
     public void expect() throws IOException {
       throw new EmitterException("expecting nothing, but got " + event);
     }
@@ -349,12 +354,14 @@ public final class Emitter implements Emitable {
   // Document handlers.
 
   private class ExpectFirstDocumentStart implements EmitterState {
+
     public void expect() throws IOException {
       new ExpectDocumentStart(true).expect();
     }
   }
 
   private class ExpectDocumentStart implements EmitterState {
+
     private final boolean first;
 
     public ExpectDocumentStart(boolean first) {
@@ -407,6 +414,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectDocumentEnd implements EmitterState {
+
     public void expect() throws IOException {
       event = blockCommentsCollector.collectEventsAndPoll(event);
       writeBlockComment();
@@ -425,6 +433,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectDocumentRoot implements EmitterState {
+
     public void expect() throws IOException {
       event = blockCommentsCollector.collectEventsAndPoll(event);
       if (!blockCommentsCollector.isEmpty()) {
@@ -500,6 +509,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectFirstFlowSequenceItem implements EmitterState {
+
     public void expect() throws IOException {
       if (event instanceof SequenceEndEvent) {
         indent = indents.pop();
@@ -524,6 +534,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectFlowSequenceItem implements EmitterState {
+
     public void expect() throws IOException {
       if (event instanceof SequenceEndEvent) {
         indent = indents.pop();
@@ -570,6 +581,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectFirstFlowMappingKey implements EmitterState {
+
     public void expect() throws IOException {
       event = blockCommentsCollector.collectEventsAndPoll(event);
       writeBlockComment();
@@ -597,6 +609,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectFlowMappingKey implements EmitterState {
+
     public void expect() throws IOException {
       if (event instanceof MappingEndEvent) {
         indent = indents.pop();
@@ -632,6 +645,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectFlowMappingSimpleValue implements EmitterState {
+
     public void expect() throws IOException {
       writeIndicator(":", false, false, false);
       event = inlineCommentsCollector.collectEventsAndPoll(event);
@@ -644,6 +658,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectFlowMappingValue implements EmitterState {
+
     public void expect() throws IOException {
       if (canonical || (column > bestWidth) || prettyFlow) {
         writeIndent();
@@ -667,12 +682,14 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectFirstBlockSequenceItem implements EmitterState {
+
     public void expect() throws IOException {
       new ExpectBlockSequenceItem(true).expect();
     }
   }
 
   private class ExpectBlockSequenceItem implements EmitterState {
+
     private final boolean first;
 
     public ExpectBlockSequenceItem(boolean first) {
@@ -720,12 +737,14 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectFirstBlockMappingKey implements EmitterState {
+
     public void expect() throws IOException {
       new ExpectBlockMappingKey(true).expect();
     }
   }
 
   private class ExpectBlockMappingKey implements EmitterState {
+
     private final boolean first;
 
     public ExpectBlockMappingKey(boolean first) {
@@ -762,6 +781,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectBlockMappingSimpleValue implements EmitterState {
+
     public void expect() throws IOException {
       writeIndicator(":", false, false, false);
       event = inlineCommentsCollector.collectEventsAndPoll(event);
@@ -787,6 +807,7 @@ public final class Emitter implements Emitable {
   }
 
   private class ExpectBlockMappingValue implements EmitterState {
+
     public void expect() throws IOException {
       writeIndent();
       writeIndicator(":", true, false, true);

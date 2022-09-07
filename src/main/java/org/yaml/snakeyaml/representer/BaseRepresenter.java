@@ -19,7 +19,6 @@ import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
@@ -36,6 +35,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  * Represent basic YAML structures: scalar, sequence, mapping
  */
 public abstract class BaseRepresenter {
+
   protected final Map<Class<?>, Represent> representers = new HashMap<Class<?>, Represent>();
   /**
    * in Java 'null' is not a type. So we have to keep the null representer separately otherwise it

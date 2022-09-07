@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.comments.CommentLine;
@@ -47,17 +46,18 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 public final class Serializer {
+
   private final Emitable emitter;
   private final Resolver resolver;
-  private boolean explicitStart;
-  private boolean explicitEnd;
+  private final boolean explicitStart;
+  private final boolean explicitEnd;
   private Version useVersion;
-  private Map<String, String> useTags;
-  private Set<Node> serializedNodes;
-  private Map<Node, String> anchors;
-  private AnchorGenerator anchorGenerator;
+  private final Map<String, String> useTags;
+  private final Set<Node> serializedNodes;
+  private final Map<Node, String> anchors;
+  private final AnchorGenerator anchorGenerator;
   private Boolean closed;
-  private Tag explicitRoot;
+  private final Tag explicitRoot;
 
   public Serializer(Emitable emitter, Resolver resolver, DumperOptions opts, Tag rootTag) {
     this.emitter = emitter;

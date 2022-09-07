@@ -26,6 +26,7 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public final class StreamEndEvent extends Event {
+
   public StreamEndEvent(Mark startMark, Mark endMark) {
     super(startMark, endMark);
   }

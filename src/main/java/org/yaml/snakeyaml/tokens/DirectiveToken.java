@@ -14,11 +14,11 @@
 package org.yaml.snakeyaml.tokens;
 
 import java.util.List;
-
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public final class DirectiveToken<T> extends Token {
+
   private final String name;
   private final List<T> value;
 
@@ -26,8 +26,7 @@ public final class DirectiveToken<T> extends Token {
     super(startMark, endMark);
     this.name = name;
     if (value != null && value.size() != 2) {
-      throw new YAMLException(
-          "Two strings must be provided instead of " + String.valueOf(value.size()));
+      throw new YAMLException("Two strings must be provided instead of " + value.size());
     }
     this.value = value;
   }

@@ -20,6 +20,7 @@ import org.yaml.snakeyaml.error.Mark;
  * Marks a scalar value.
  */
 public final class ScalarEvent extends NodeEvent {
+
   private final String tag;
   // style flag of a scalar event indicates the style of the scalar. Possible
   // values are None, '', '\'', '"', '|', '>'
@@ -35,11 +36,13 @@ public final class ScalarEvent extends NodeEvent {
     super(anchor, startMark, endMark);
     this.tag = tag;
     this.implicit = implicit;
-    if (value == null)
+    if (value == null) {
       throw new NullPointerException("Value must be provided.");
+    }
     this.value = value;
-    if (style == null)
+    if (style == null) {
       throw new NullPointerException("Style must be provided.");
+    }
     this.style = style;
   }
 

@@ -23,8 +23,9 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public class ScalarNode extends Node {
-  private DumperOptions.ScalarStyle style;
-  private String value;
+
+  private final DumperOptions.ScalarStyle style;
+  private final String value;
 
   public ScalarNode(Tag tag, String value, Mark startMark, Mark endMark,
       DumperOptions.ScalarStyle style) {
@@ -38,8 +39,9 @@ public class ScalarNode extends Node {
       throw new NullPointerException("value in a Node is required.");
     }
     this.value = value;
-    if (style == null)
+    if (style == null) {
       throw new NullPointerException("Scalar style must be provided.");
+    }
     this.style = style;
     this.resolved = resolved;
   }

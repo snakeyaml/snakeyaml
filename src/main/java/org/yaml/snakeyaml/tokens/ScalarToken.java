@@ -17,6 +17,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
 public final class ScalarToken extends Token {
+
   private final String value;
   private final boolean plain;
   private final DumperOptions.ScalarStyle style;
@@ -30,8 +31,9 @@ public final class ScalarToken extends Token {
     super(startMark, endMark);
     this.value = value;
     this.plain = plain;
-    if (style == null)
+    if (style == null) {
       throw new NullPointerException("Style must be provided.");
+    }
     this.style = style;
   }
 

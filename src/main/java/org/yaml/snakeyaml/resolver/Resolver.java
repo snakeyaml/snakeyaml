@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.Tag;
 
@@ -26,6 +25,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  * Resolver tries to detect a type by content (when the tag is implicit)
  */
 public class Resolver {
+
   public static final Pattern BOOL = Pattern
       .compile("^(?:yes|Yes|YES|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF)$");
 

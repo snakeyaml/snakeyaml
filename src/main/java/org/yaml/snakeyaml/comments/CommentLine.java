@@ -20,10 +20,11 @@ import org.yaml.snakeyaml.events.CommentEvent;
  * A comment line. May be a block comment, blank line, or inline comment.
  */
 public class CommentLine {
-  private Mark startMark;
-  private Mark endMark;
-  private String value;
-  private CommentType commentType;
+
+  private final Mark startMark;
+  private final Mark endMark;
+  private final String value;
+  private final CommentType commentType;
 
   public CommentLine(CommentEvent event) {
     this(event.getStartMark(), event.getEndMark(), event.getValue(), event.getCommentType());

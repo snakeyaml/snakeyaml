@@ -58,13 +58,11 @@ package org.yaml.snakeyaml.external.com.google.gdata.util.common.base;
  * <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:<br>
  * <i>"URI producers and normalizers should use uppercase hexadecimal digits for all
  * percent-encodings."</i>
- *
- *
  */
 public class PercentEscaper extends UnicodeEscaper {
+
   /**
    * A string of safe characters that mimics the behavior of {@link java.net.URLEncoder}.
-   *
    */
   public static final String SAFECHARS_URLENCODER = "-_.*";
 

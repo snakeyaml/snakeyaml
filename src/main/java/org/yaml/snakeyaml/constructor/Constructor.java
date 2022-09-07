@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -69,8 +68,9 @@ public class Constructor extends SafeConstructor {
   private static Class<? extends Object> checkRoot(Class<? extends Object> theRoot) {
     if (theRoot == null) {
       throw new NullPointerException("Root class must be provided.");
-    } else
+    } else {
       return theRoot;
+    }
   }
 
   public Constructor(TypeDescription theRoot) {
@@ -235,8 +235,7 @@ public class Constructor extends SafeConstructor {
 
           valueNode.setType(property.getType());
           final boolean typeDetected =
-              (memberDescription != null) ? memberDescription.setupPropertyType(key, valueNode)
-                  : false;
+              memberDescription != null && memberDescription.setupPropertyType(key, valueNode);
           if (!typeDetected && valueNode.getNodeId() != NodeId.scalar) {
             // only if there is no explicit TypeDescription
             Class<?>[] arguments = property.getActualTypeArguments();
@@ -350,6 +349,7 @@ public class Constructor extends SafeConstructor {
    * supported.
    */
   protected class ConstructScalar extends AbstractConstruct {
+
     public Object construct(Node nnode) {
       ScalarNode node = (ScalarNode) nnode;
       Class<?> type = node.getType();
@@ -510,6 +510,7 @@ public class Constructor extends SafeConstructor {
    * Construct sequence (List, Array, or immutable object) when the runtime class is known.
    */
   protected class ConstructSequence implements Construct {
+
     @SuppressWarnings("unchecked")
     public Object construct(Node node) {
       SequenceNode snode = (SequenceNode) node;
@@ -589,8 +590,8 @@ public class Constructor extends SafeConstructor {
             }
           }
         }
-        throw new YAMLException("No suitable constructor with "
-            + String.valueOf(snode.getValue().size()) + " arguments found for " + node.getType());
+        throw new YAMLException("No suitable constructor with " + snode.getValue().size()
+            + " arguments found for " + node.getType());
 
       }
     }

@@ -24,12 +24,13 @@ import org.yaml.snakeyaml.error.Mark;
  * @see ScannerImpl
  */
 final class SimpleKey {
-  private int tokenNumber;
-  private boolean required;
-  private int index;
-  private int line;
-  private int column;
-  private Mark mark;
+
+  private final int tokenNumber;
+  private final boolean required;
+  private final int index;
+  private final int line;
+  private final int column;
+  private final Mark mark;
 
   public SimpleKey(int tokenNumber, boolean required, int index, int line, int column, Mark mark) {
     this.tokenNumber = tokenNumber;

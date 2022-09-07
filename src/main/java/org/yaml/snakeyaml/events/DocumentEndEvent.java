@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public final class DocumentEndEvent extends Event {
+
   private final boolean explicit;
 
   public DocumentEndEvent(Mark startMark, Mark endMark, boolean explicit) {

@@ -22,7 +22,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.error.Mark;
@@ -82,6 +81,7 @@ import org.yaml.snakeyaml.util.UriEncoder;
  * </pre>
  */
 public final class ScannerImpl implements Scanner {
+
   /**
    * A regular expression matching characters which are not in the hexadecimal set (0-9, A-F, a-f).
    */
@@ -153,6 +153,7 @@ public final class ScannerImpl implements Scanner {
     // 32-bit Unicode (Supplementary characters are supported)
     ESCAPE_CODES.put(Character.valueOf('U'), 8);
   }
+
   private final StreamReader reader;
   // Had we reached the end of the stream?
   private boolean done = false;
@@ -161,7 +162,7 @@ public final class ScannerImpl implements Scanner {
   private int flowLevel = 0;
 
   // List of processed tokens that are not yet emitted.
-  private List<Token> tokens;
+  private final List<Token> tokens;
 
   // The last added token
   private Token lastToken;
@@ -173,7 +174,7 @@ public final class ScannerImpl implements Scanner {
   private int indent = -1;
 
   // Past indentation levels.
-  private ArrayStack<Integer> indents;
+  private final ArrayStack<Integer> indents;
 
   // A flag that indicates if comments should be parsed
   private boolean parseComments;
@@ -210,7 +211,7 @@ public final class ScannerImpl implements Scanner {
    * (token_number, required, index, line, column, mark) A simple key may start with ALIAS, ANCHOR,
    * TAG, SCALAR(flow), '[', or '{' tokens.
    */
-  private Map<Integer, SimpleKey> possibleSimpleKeys;
+  private final Map<Integer, SimpleKey> possibleSimpleKeys;
 
   public ScannerImpl(StreamReader reader) {
     this.parseComments = false;
@@ -438,8 +439,9 @@ public final class ScannerImpl implements Scanner {
     // converting escaped characters into their escape sequences. This is a
     // backwards use of the ESCAPE_REPLACEMENTS map.
     String chRepresentation = escapeChar(String.valueOf(Character.toChars(c)));
-    if (c == '\t')
+    if (c == '\t') {
       chRepresentation += "(TAB)";
+    }
     String text = String.format(
         "found character '%s' that cannot start any token. (Do not use %s for indentation)",
         chRepresentation, chRepresentation);
@@ -1077,6 +1079,7 @@ public final class ScannerImpl implements Scanner {
   }
 
   // Checkers.
+
   /**
    * Returns true if the next thing on the reader is a directive, given that the leading '%' has
    * already been checked.
@@ -1096,9 +1099,7 @@ public final class ScannerImpl implements Scanner {
   private boolean checkDocumentStart() {
     // DOCUMENT-START: ^ '---' (' '|'\n')
     if (reader.getColumn() == 0) {
-      if ("---".equals(reader.prefix(3)) && Constant.NULL_BL_T_LINEBR.has(reader.peek(3))) {
-        return true;
-      }
+      return "---".equals(reader.prefix(3)) && Constant.NULL_BL_T_LINEBR.has(reader.peek(3));
     }
     return false;
   }
@@ -1110,9 +1111,7 @@ public final class ScannerImpl implements Scanner {
   private boolean checkDocumentEnd() {
     // DOCUMENT-END: ^ '...' (' '|'\n')
     if (reader.getColumn() == 0) {
-      if ("...".equals(reader.prefix(3)) && Constant.NULL_BL_T_LINEBR.has(reader.peek(3))) {
-        return true;
-      }
+      return "...".equals(reader.prefix(3)) && Constant.NULL_BL_T_LINEBR.has(reader.peek(3));
     }
     return false;
   }
@@ -1174,7 +1173,7 @@ public final class ScannerImpl implements Scanner {
     int c = reader.peek();
     // If the next char is NOT one of the forbidden chars above or
     // whitespace, then this is the start of a plain scalar.
-    return Constant.NULL_BL_T_LINEBR.hasNo(c, "-?:,[]{}#&*!|>\'\"%@`")
+    return Constant.NULL_BL_T_LINEBR.hasNo(c, "-?:,[]{}#&*!|>'\"%@`")
         || (Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(1))
             && (c == '-' || (this.flowLevel == 0 && "?:".indexOf(c) != -1)));
   }
@@ -1618,11 +1617,7 @@ public final class ScannerImpl implements Scanner {
     boolean folded;
     // Depending on the given style, we determine whether the scalar is
     // folded ('>') or literal ('|')
-    if (style == '>') {
-      folded = true;
-    } else {
-      folded = false;
-    }
+    folded = style == '>';
     StringBuilder chunks = new StringBuilder();
     Mark startMark = reader.getMark();
     // Scan the header.
@@ -1877,11 +1872,7 @@ public final class ScannerImpl implements Scanner {
     boolean _double;
     // The style will be either single- or double-quoted; we determine this
     // by the first character in the entry (supplied)
-    if (style == '"') {
-      _double = true;
-    } else {
-      _double = false;
-    }
+    _double = style == '"';
     StringBuilder chunks = new StringBuilder();
     Mark startMark = reader.getMark();
     int quote = reader.peek();
@@ -1907,7 +1898,7 @@ public final class ScannerImpl implements Scanner {
       // Scan through any number of characters which are not: NUL, blank,
       // tabs, line breaks, single-quotes, double-quotes, or backslashes.
       int length = 0;
-      while (Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(length), "\'\"\\")) {
+      while (Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(length), "'\"\\")) {
         length++;
       }
       if (length != 0) {
@@ -2362,6 +2353,7 @@ public final class ScannerImpl implements Scanner {
    * Chomping the tail may have 3 values - yes, no, not defined.
    */
   private static class Chomping {
+
     private final Boolean value;
     private final int increment;
 

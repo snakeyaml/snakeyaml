@@ -20,6 +20,7 @@ import org.yaml.snakeyaml.error.Mark;
  * {@link org.yaml.snakeyaml.emitter.Emitter}.
  */
 public abstract class Event {
+
   public enum ID {
     Alias, Comment, DocumentEnd, DocumentStart, MappingEnd, MappingStart, Scalar, SequenceEnd, SequenceStart, StreamEnd, StreamStart
   }

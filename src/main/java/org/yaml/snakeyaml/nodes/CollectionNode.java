@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.nodes;
 
 import java.util.List;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
@@ -23,6 +22,7 @@ import org.yaml.snakeyaml.error.Mark;
  * collection}.
  */
 public abstract class CollectionNode<T> extends Node {
+
   private DumperOptions.FlowStyle flowStyle;
 
   public CollectionNode(Tag tag, Mark startMark, Mark endMark, DumperOptions.FlowStyle flowStyle) {
@@ -59,8 +59,9 @@ public abstract class CollectionNode<T> extends Node {
   }
 
   public void setFlowStyle(DumperOptions.FlowStyle flowStyle) {
-    if (flowStyle == null)
+    if (flowStyle == null) {
       throw new NullPointerException("Flow style must be provided.");
+    }
     this.flowStyle = flowStyle;
   }
 

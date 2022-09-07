@@ -20,6 +20,7 @@ import org.yaml.snakeyaml.error.MarkedYAMLException;
  * Exception thrown by the {@link Parser} implementations in case of malformed input.
  */
 public class ParserException extends MarkedYAMLException {
+
   private static final long serialVersionUID = -2349253802798398038L;
 
   /**
