@@ -15,7 +15,6 @@ package org.yaml.snakeyaml.javabeans;
 
 import static org.junit.Assert.assertArrayEquals;
 
-import java.util.Arrays;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;

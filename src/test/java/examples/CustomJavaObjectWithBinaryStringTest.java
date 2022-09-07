@@ -59,8 +59,9 @@ public class CustomJavaObjectWithBinaryStringTest extends TestCase {
       Pojo other = (Pojo) obj;
       if (data == null) {
         return other.data == null;
-      } else
+      } else {
         return data.equals(other.data);
+      }
     }
 
   }

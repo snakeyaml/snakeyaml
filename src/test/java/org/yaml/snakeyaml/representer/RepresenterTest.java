@@ -16,7 +16,6 @@ package org.yaml.snakeyaml.representer;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class RepresenterTest extends TestCase {
 

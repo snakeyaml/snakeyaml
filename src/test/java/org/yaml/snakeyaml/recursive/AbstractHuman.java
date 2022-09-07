@@ -83,8 +83,9 @@ public abstract class AbstractHuman {
     }
     if (name == null) {
       return other.name == null;
-    } else
+    } else {
       return name.equals(other.name);
+    }
   }
 
 }

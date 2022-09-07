@@ -129,7 +129,8 @@ public class BigJavaBean {
     }
     if (numbers == null) {
       return other.numbers == null;
-    } else
+    } else {
       return numbers.equals(other.numbers);
+    }
   }
 }
