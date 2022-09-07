@@ -147,8 +147,9 @@ public abstract class Node {
       // the tag will be ignored
       if (!tag.isSecondary() && resolved && !Object.class.equals(type) && !tag.equals(Tag.NULL)) {
         return true;
-      } else
+      } else {
         return tag.isCompatible(getType());
+      }
     }
     return useClassConstructor.booleanValue();
   }

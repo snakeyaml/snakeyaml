@@ -187,8 +187,8 @@ public class SafeConstructor extends BaseConstructor {
           // keep track where tuple for the key is
           key2index.put(key, values.size() - 1);
         } else if (isPreffered) { // there is value for the key, but we
-                                  // need to override it
-                                  // change value for the key using saved position
+          // need to override it
+          // change value for the key using saved position
           values.set(key2index.get(key), nodeTuple);
         }
       }

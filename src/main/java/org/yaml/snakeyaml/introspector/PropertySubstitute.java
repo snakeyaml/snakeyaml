@@ -89,10 +89,8 @@ public class PropertySubstitute extends Property {
           for (Entry<?, ?> entry : map.entrySet()) {
             write.invoke(object, entry.getKey(), entry.getValue());
           }
-        } else if (value.getClass().isArray()) { // TODO: maybe arrays
-                                                 // need 2 fillers like
-                                                 // SET(index, value)
-                                                 // add ADD(value)
+        } else if (value.getClass().isArray()) {
+          // TODO: maybe arrays need 2 fillers like SET(index, value) add ADD(value)
           int len = Array.getLength(value);
           for (int i = 0; i < len; i++) {
             write.invoke(object, Array.get(value, i));

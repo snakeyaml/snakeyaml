@@ -13,7 +13,6 @@
  */
 package org.yaml.snakeyaml.representer;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
