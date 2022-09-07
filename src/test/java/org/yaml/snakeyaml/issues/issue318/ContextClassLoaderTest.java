@@ -1,17 +1,15 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.issues.issue318;
 
@@ -35,117 +33,115 @@ import org.yaml.snakeyaml.Yaml;
 
 public class ContextClassLoaderTest {
 
-    static public class DomainBean {
+  static public class DomainBean {
 
-        private int value = 0;
+    private int value = 0;
 
-        public void setValue(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + value;
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            DomainBean other = (DomainBean) obj;
-            if (value != other.value)
-                return false;
-            return true;
-        }
-
+    public void setValue(int value) {
+      this.value = value;
     }
 
-    private URLClassLoader yamlCL;
+    public int getValue() {
+      return value;
+    }
 
-    @Before
-    public void before() throws MalformedURLException {
-        Properties classpath = new Properties();
-        InputStream cpProperties = getClass().getResourceAsStream("classpath.properties");
-        try {
-            classpath.load(cpProperties);
-        } catch (IOException e2) {
-            fail(e2.getLocalizedMessage());
-        }
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + value;
+      return result;
+    }
 
-        File runtimeClassesDir = new File(classpath.getProperty("runtime_classes_dir"));
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      DomainBean other = (DomainBean) obj;
+      if (value != other.value)
+        return false;
+      return true;
+    }
 
-        ClassLoader noSnakeYAMLClassLoader = new ClassLoader(
-                Thread.currentThread().getContextClassLoader()) {
+  }
 
-            @Override
-            protected Class<?> loadClass(String name, boolean resolve)
-                    throws ClassNotFoundException {
-                if (!name.startsWith("org.yaml.snakeyaml")) {
-                    return super.loadClass(name, resolve);
-                }
-                throw new ClassNotFoundException(
-                        "Can't load SnakeYaml classes by this ClassLoader");
+  private URLClassLoader yamlCL;
+
+  @Before
+  public void before() throws MalformedURLException {
+    Properties classpath = new Properties();
+    InputStream cpProperties = getClass().getResourceAsStream("classpath.properties");
+    try {
+      classpath.load(cpProperties);
+    } catch (IOException e2) {
+      fail(e2.getLocalizedMessage());
+    }
+
+    File runtimeClassesDir = new File(classpath.getProperty("runtime_classes_dir"));
+
+    ClassLoader noSnakeYAMLClassLoader =
+        new ClassLoader(Thread.currentThread().getContextClassLoader()) {
+
+          @Override
+          protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+            if (!name.startsWith("org.yaml.snakeyaml")) {
+              return super.loadClass(name, resolve);
             }
+            throw new ClassNotFoundException("Can't load SnakeYaml classes by this ClassLoader");
+          }
 
         };
 
-        yamlCL = new URLClassLoader(new URL[]{runtimeClassesDir.toURI().toURL()},
-                noSnakeYAMLClassLoader);
+    yamlCL =
+        new URLClassLoader(new URL[] {runtimeClassesDir.toURI().toURL()}, noSnakeYAMLClassLoader);
+  }
+
+  @After
+  public void after() {
+    if (yamlCL != null) {
+      try {
+        yamlCL.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      } finally {
+        yamlCL = null;
+      }
     }
+  }
 
-    @After
-    public void after() {
-        if (yamlCL != null) {
-            try {
-                yamlCL.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                yamlCL = null;
-            }
-        }
-    }
+  @Test(expected = ClassNotFoundException.class)
+  public void expectNoDomainClassInYamlCL() throws ClassNotFoundException {
+    yamlCL.loadClass(DomainBean.class.getName());
+  }
 
-    @Test(expected = ClassNotFoundException.class)
-    public void expectNoDomainClassInYamlCL() throws ClassNotFoundException {
-        yamlCL.loadClass(DomainBean.class.getName());
-    }
+  @Test
+  public void yamlClassInYAMLCL() throws ClassNotFoundException {
+    yamlCL.loadClass(Yaml.class.getName());
+  }
 
-    @Test
-    public void yamlClassInYAMLCL() throws ClassNotFoundException {
-        yamlCL.loadClass(Yaml.class.getName());
-    }
+  @Test
+  public void domainInDifferentConstructor() throws ClassNotFoundException, InstantiationException,
+      IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException,
+      InvocationTargetException {
 
-    @Test
-    public void domainInDifferentConstructor() throws ClassNotFoundException,
-            InstantiationException, IllegalAccessException, NoSuchMethodException,
-            SecurityException, IllegalArgumentException, InvocationTargetException {
+    Class<?> yamlClass = yamlCL.loadClass(Yaml.class.getName());
 
-        Class<?> yamlClass = yamlCL.loadClass(Yaml.class.getName());
+    DomainBean bean = new DomainBean();
+    bean.setValue(13);
 
-        DomainBean bean = new DomainBean();
-        bean.setValue(13);
+    Object yaml = yamlClass.newInstance();
 
-        Object yaml = yamlClass.newInstance();
+    Method dumpMethod = yaml.getClass().getMethod("dump", new Class<?>[] {Object.class});
+    String dump = dumpMethod.invoke(yaml, bean).toString();
 
-        Method dumpMethod = yaml.getClass().getMethod("dump", new Class<?>[]{Object.class});
-        String dump = dumpMethod.invoke(yaml, bean).toString();
+    Method loadMethod = yaml.getClass().getMethod("load", new Class<?>[] {String.class});
+    DomainBean object = (DomainBean) loadMethod.invoke(yaml, dump);
 
-        Method loadMethod = yaml.getClass().getMethod("load", new Class<?>[]{String.class});
-        DomainBean object = (DomainBean) loadMethod.invoke(yaml, dump);
-
-        assertEquals(bean, object);
-    }
+    assertEquals(bean, object);
+  }
 
 }

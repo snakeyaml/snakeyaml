@@ -1,17 +1,15 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.nodes;
 
@@ -27,108 +25,111 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public class MappingNode extends CollectionNode<NodeTuple> {
-    private List<NodeTuple> value;
-    private boolean merged = false;
+  private List<NodeTuple> value;
+  private boolean merged = false;
 
-    public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark,
-            Mark endMark, DumperOptions.FlowStyle flowStyle) {
-        super(tag, startMark, endMark, flowStyle);
-        if (value == null) {
-            throw new NullPointerException("value in a Node is required.");
-        }
-        this.value = value;
-        this.resolved = resolved;
+  public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark, Mark endMark,
+      DumperOptions.FlowStyle flowStyle) {
+    super(tag, startMark, endMark, flowStyle);
+    if (value == null) {
+      throw new NullPointerException("value in a Node is required.");
     }
+    this.value = value;
+    this.resolved = resolved;
+  }
 
-    public MappingNode(Tag tag, List<NodeTuple> value, DumperOptions.FlowStyle flowStyle) {
-        this(tag, true, value, null, null, flowStyle);
-    }
+  public MappingNode(Tag tag, List<NodeTuple> value, DumperOptions.FlowStyle flowStyle) {
+    this(tag, true, value, null, null, flowStyle);
+  }
 
-    /*
-     * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
-     * Restored in v1.22 for backwards compatibility.
-     * @deprecated Since restored in v1.22.  Use {@link MappingNode#MappingNode(Tag, boolean, List, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
-     */
-    @Deprecated
-    public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark,
-            Mark endMark, Boolean flowStyle) {
-        this(tag, resolved, value, startMark, endMark, DumperOptions.FlowStyle.fromBoolean(flowStyle));
-    }
-    
-    /*
-     * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
-     * Restored in v1.22 for backwards compatibility.
-     * @deprecated Since restored in v1.22.  Use {@link MappingNode#MappingNode(Tag, List, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
-     */
-    @Deprecated
-    public MappingNode(Tag tag, List<NodeTuple> value, Boolean flowStyle) {
-        this(tag, value, DumperOptions.FlowStyle.fromBoolean(flowStyle));
-        
-    }
-    
-    @Override
-    public NodeId getNodeId() {
-        return NodeId.mapping;
-    }
+  /*
+   * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
+   * Restored in v1.22 for backwards compatibility.
+   *
+   * @deprecated Since restored in v1.22. Use {@link MappingNode#MappingNode(Tag, boolean, List,
+   * Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
+   */
+  @Deprecated
+  public MappingNode(Tag tag, boolean resolved, List<NodeTuple> value, Mark startMark, Mark endMark,
+      Boolean flowStyle) {
+    this(tag, resolved, value, startMark, endMark, DumperOptions.FlowStyle.fromBoolean(flowStyle));
+  }
 
-    /**
-     * Returns the entries of this map.
-     * 
-     * @return List of entries.
-     */
-    public List<NodeTuple> getValue() {
-        return value;
-    }
+  /*
+   * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
+   * Restored in v1.22 for backwards compatibility.
+   *
+   * @deprecated Since restored in v1.22. Use {@link MappingNode#MappingNode(Tag, List,
+   * org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
+   */
+  @Deprecated
+  public MappingNode(Tag tag, List<NodeTuple> value, Boolean flowStyle) {
+    this(tag, value, DumperOptions.FlowStyle.fromBoolean(flowStyle));
 
-    public void setValue(List<NodeTuple> mergedValue) {
-        value = mergedValue;
-    }
+  }
 
-    public void setOnlyKeyType(Class<? extends Object> keyType) {
-        for (NodeTuple nodes : value) {
-            nodes.getKeyNode().setType(keyType);
-        }
-    }
+  @Override
+  public NodeId getNodeId() {
+    return NodeId.mapping;
+  }
 
-    public void setTypes(Class<? extends Object> keyType, Class<? extends Object> valueType) {
-        for (NodeTuple nodes : value) {
-            nodes.getValueNode().setType(valueType);
-            nodes.getKeyNode().setType(keyType);
-        }
-    }
+  /**
+   * Returns the entries of this map.
+   *
+   * @return List of entries.
+   */
+  public List<NodeTuple> getValue() {
+    return value;
+  }
 
-    @Override
-    public String toString() {
-        String values;
-        StringBuilder buf = new StringBuilder();
-        for (NodeTuple node : getValue()) {
-            buf.append("{ key=");
-            buf.append(node.getKeyNode());
-            buf.append("; value=");
-            if (node.getValueNode() instanceof CollectionNode) {
-                // to avoid overflow in case of recursive structures
-                buf.append(System.identityHashCode(node.getValueNode()));
-            } else {
-                buf.append(node.toString());
-            }
-            buf.append(" }");
-        }
-        values = buf.toString();
-        return "<" + this.getClass().getName() + " (tag=" + getTag() + ", values=" + values + ")>";
-    }
+  public void setValue(List<NodeTuple> mergedValue) {
+    value = mergedValue;
+  }
 
-    /**
-     * @param merged
-     *            - true if map contains merge node
-     */
-    public void setMerged(boolean merged) {
-        this.merged = merged;
+  public void setOnlyKeyType(Class<? extends Object> keyType) {
+    for (NodeTuple nodes : value) {
+      nodes.getKeyNode().setType(keyType);
     }
+  }
 
-    /**
-     * @return true if map contains merge node
-     */
-    public boolean isMerged() {
-        return merged;
+  public void setTypes(Class<? extends Object> keyType, Class<? extends Object> valueType) {
+    for (NodeTuple nodes : value) {
+      nodes.getValueNode().setType(valueType);
+      nodes.getKeyNode().setType(keyType);
     }
+  }
+
+  @Override
+  public String toString() {
+    String values;
+    StringBuilder buf = new StringBuilder();
+    for (NodeTuple node : getValue()) {
+      buf.append("{ key=");
+      buf.append(node.getKeyNode());
+      buf.append("; value=");
+      if (node.getValueNode() instanceof CollectionNode) {
+        // to avoid overflow in case of recursive structures
+        buf.append(System.identityHashCode(node.getValueNode()));
+      } else {
+        buf.append(node.toString());
+      }
+      buf.append(" }");
+    }
+    values = buf.toString();
+    return "<" + this.getClass().getName() + " (tag=" + getTag() + ", values=" + values + ")>";
+  }
+
+  /**
+   * @param merged - true if map contains merge node
+   */
+  public void setMerged(boolean merged) {
+    this.merged = merged;
+  }
+
+  /**
+   * @return true if map contains merge node
+   */
+  public boolean isMerged() {
+    return merged;
+  }
 }

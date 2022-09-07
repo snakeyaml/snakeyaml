@@ -1,17 +1,15 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.issues.issue544;
 
@@ -35,16 +33,16 @@ public class DoubleQuoteTest {
   private MappingNode create() {
     String content = "🔐This process is simple and secure.";
 
-    ScalarNode doubleQuotedKey = new ScalarNode(Tag.STR, "double_quoted", null, null,
-        ScalarStyle.PLAIN);
-    ScalarNode doubleQuotedValue = new ScalarNode(Tag.STR, content, null, null,
-        ScalarStyle.DOUBLE_QUOTED);
+    ScalarNode doubleQuotedKey =
+        new ScalarNode(Tag.STR, "double_quoted", null, null, ScalarStyle.PLAIN);
+    ScalarNode doubleQuotedValue =
+        new ScalarNode(Tag.STR, content, null, null, ScalarStyle.DOUBLE_QUOTED);
     NodeTuple doubleQuotedTuple = new NodeTuple(doubleQuotedKey, doubleQuotedValue);
 
-    ScalarNode singleQuotedKey = new ScalarNode(Tag.STR, "single_quoted", null, null,
-        ScalarStyle.PLAIN);
-    ScalarNode singleQuotedValue = new ScalarNode(Tag.STR, content, null, null,
-        ScalarStyle.SINGLE_QUOTED);
+    ScalarNode singleQuotedKey =
+        new ScalarNode(Tag.STR, "single_quoted", null, null, ScalarStyle.PLAIN);
+    ScalarNode singleQuotedValue =
+        new ScalarNode(Tag.STR, content, null, null, ScalarStyle.SINGLE_QUOTED);
     NodeTuple singleQuotedTuple = new NodeTuple(singleQuotedKey, singleQuotedValue);
 
     List<NodeTuple> nodeTuples = new ArrayList<>();
