@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bean124 {
+
   private String a;
   private List<Integer> numbers;
 

@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue10;
 import java.util.List;
 
 public class DataSources {
+
   List<DataSource> dataSources;
 
   public List<DataSource> getDataSources() {

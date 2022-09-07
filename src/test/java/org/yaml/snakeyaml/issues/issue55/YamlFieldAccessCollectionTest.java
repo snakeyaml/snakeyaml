@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue55;
 
 import java.util.Collection;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -40,8 +38,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
   @SuppressWarnings("unchecked")
   public void testYamlWithoutConfiguration() {
     Yaml yaml = new Yaml();
-    Map<String, Object> map =
-        (Map<String, Object>) yaml.load(Util.getLocalResource("issues/issue55_1.txt"));
+    Map<String, Object> map = yaml.load(Util.getLocalResource("issues/issue55_1.txt"));
     assertEquals(1, map.size());
   }
 
@@ -61,7 +58,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
     Blog original = createTestBlog();
     String serialized = yaml.dump(original);
     assertEquals(Util.getLocalResource("issues/issue55_1_rootTag.txt"), serialized);
-    Blog rehydrated = (Blog) yaml.load(serialized);
+    Blog rehydrated = yaml.load(serialized);
     checkTestBlog(rehydrated);
   }
 

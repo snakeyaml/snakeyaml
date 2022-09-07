@@ -14,12 +14,12 @@
 package org.yaml.snakeyaml.issues.issue47;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class ReadOnlyPropertiesTest extends TestCase {
+
   public void testBean1() {
     IncompleteBean bean = new IncompleteBean();
     bean.setName("lunch");

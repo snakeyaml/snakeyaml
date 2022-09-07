@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.issues.issue139;
 
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -26,7 +24,7 @@ public class MergeValueTest extends TestCase {
     String simple = "{key: 1, key: 2}";
     Yaml yaml = new Yaml();
     @SuppressWarnings("unchecked")
-    Map<String, Integer> map = (Map<String, Integer>) yaml.load(simple);
+    Map<String, Integer> map = yaml.load(simple);
     assertEquals(1, map.size());
     assertEquals(Integer.valueOf(2), map.get("key"));
   }
@@ -41,7 +39,7 @@ public class MergeValueTest extends TestCase {
     // System.out.println(input);
     Yaml yaml = new Yaml();
     @SuppressWarnings("unchecked")
-    Map<String, Object> map = (Map<String, Object>) yaml.load(input);
+    Map<String, Object> map = yaml.load(input);
     assertEquals(2, map.size());
     assertTrue(map.containsKey("common"));
     assertTrue(map.containsKey("production"));
@@ -58,7 +56,7 @@ public class MergeValueTest extends TestCase {
     String input = Util.getLocalResource("issues/issue139-3.yaml");
     // System.out.println(input);
     Yaml yaml = new Yaml();
-    Map<String, Object> map = (Map<String, Object>) yaml.load(input);
+    Map<String, Object> map = yaml.load(input);
     assertEquals(2, map.size());
     Map<String, Integer> common = (Map<String, Integer>) map.get("common");
     Map<String, Integer> production = (Map<String, Integer>) map.get("production");

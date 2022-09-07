@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue52;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.Yaml;
@@ -23,6 +22,7 @@ import org.yaml.snakeyaml.Yaml;
  * @see <a href="http://code.google.com/p/snakeyaml/issues/detail?id=52">Issue</a>
  */
 public class LineBreakDooubleQuotedTest extends TestCase {
+
   public void testDoubleQuotedStyle() {
     DumperOptions options = new DumperOptions();
     options.setDefaultScalarStyle(ScalarStyle.DOUBLE_QUOTED);
@@ -33,7 +33,7 @@ public class LineBreakDooubleQuotedTest extends TestCase {
     String output = yaml.dump(etalon);
     // System.out.println(output);
     assertEquals("\"12345678901234567890\\n\\\n    \\n123  456\"\n", output);
-    String parsed = (String) yaml.load(output);
+    String parsed = yaml.load(output);
     assertEquals(etalon, parsed);
   }
 
@@ -48,7 +48,7 @@ public class LineBreakDooubleQuotedTest extends TestCase {
     String output = yaml.dump(etalon);
     // System.out.println(output);
     assertEquals("\"12345678901234567890\\n\\n123  456\"\n", output);
-    String parsed = (String) yaml.load(output);
+    String parsed = yaml.load(output);
     assertEquals(etalon, parsed);
   }
 }

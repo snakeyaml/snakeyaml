@@ -13,25 +13,26 @@
  */
 package examples;
 
-import junit.framework.TestCase;
-import org.yaml.snakeyaml.Yaml;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import junit.framework.TestCase;
+import org.yaml.snakeyaml.Yaml;
 
 public class LoadExampleTest extends TestCase {
+
   @SuppressWarnings("unchecked")
   public void testLoad() {
     Yaml yaml = new Yaml();
     String document = "\n- Hesperiidae\n- Papilionidae\n- Apatelodidae\n- Epiplemidae";
-    List<String> list = (List<String>) yaml.load(document);
+    List<String> list = yaml.load(document);
     assertEquals("[Hesperiidae, Papilionidae, Apatelodidae, Epiplemidae]", list.toString());
   }
 
@@ -39,7 +40,7 @@ public class LoadExampleTest extends TestCase {
     Yaml yaml = new Yaml();
     String document = "hello: 25";
     @SuppressWarnings("unchecked")
-    Map<String, Integer> map = (Map<String, Integer>) yaml.load(document);
+    Map<String, Integer> map = yaml.load(document);
     assertEquals("{hello=25}", map.toString());
     assertEquals(Integer.valueOf(25), map.get("hello"));
   }
@@ -50,7 +51,7 @@ public class LoadExampleTest extends TestCase {
     Object data = yaml.load(input);
     assertEquals("test", data);
     //
-    data = yaml.load(new ByteArrayInputStream("test2".getBytes("UTF-8")));
+    data = yaml.load(new ByteArrayInputStream("test2".getBytes(StandardCharsets.UTF_8)));
     assertEquals("test2", data);
     input.close();
   }

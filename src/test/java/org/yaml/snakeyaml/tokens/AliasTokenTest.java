@@ -13,8 +13,9 @@
  */
 package org.yaml.snakeyaml.tokens;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotEquals;
 
+import junit.framework.TestCase;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.tokens.Token.ID;
 
@@ -23,7 +24,7 @@ public class AliasTokenTest extends TestCase {
   public void testEquals() {
     Mark mark = new Mark("test1", 0, 0, 0, "*The first line.\nThe last line.".toCharArray(), 0);
     AliasToken token = new AliasToken("*id123", mark, mark);
-    assertFalse(token.equals(mark));
+    assertNotEquals(token, mark);
   }
 
   public void testGetTokenId() {

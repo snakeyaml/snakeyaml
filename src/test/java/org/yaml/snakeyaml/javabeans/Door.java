@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.javabeans;
 
 public class Door {
+
   private String id;
   private int height;
 

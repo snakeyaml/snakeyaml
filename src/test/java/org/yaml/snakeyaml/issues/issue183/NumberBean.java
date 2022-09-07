@@ -14,5 +14,6 @@
 package org.yaml.snakeyaml.issues.issue183;
 
 public class NumberBean {
+
   public Number number;
 }

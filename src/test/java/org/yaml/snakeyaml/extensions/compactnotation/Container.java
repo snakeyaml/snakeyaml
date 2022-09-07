@@ -14,7 +14,8 @@
 package org.yaml.snakeyaml.extensions.compactnotation;
 
 public class Container {
-  private String title;
+
+  private final String title;
   private String name;
   private String id;
 

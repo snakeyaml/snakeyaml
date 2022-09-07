@@ -16,6 +16,7 @@ package org.yaml.snakeyaml;
 import java.util.LinkedHashMap;
 
 public class EnumBeanGen<T extends Enum<T>> {
+
   private int id;
   private Enum<T> suit;
   private LinkedHashMap<T, Integer> map = new LinkedHashMap<T, Integer>();

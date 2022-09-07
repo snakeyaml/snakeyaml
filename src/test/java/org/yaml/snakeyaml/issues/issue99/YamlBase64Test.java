@@ -17,9 +17,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlDocument;
@@ -58,7 +56,7 @@ public class YamlBase64Test extends TestCase {
     Yaml yaml = new Yaml();
     InputStream inputStream =
         YamlBase64Test.class.getResourceAsStream("/issues/issue99-base64_double_quoted.yaml");
-    Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
+    Map<String, Object> bean = yaml.load(inputStream);
     byte[] jpeg = (byte[]) bean.get("jpegPhoto");
     checkBytes(jpeg);
     inputStream.close();
@@ -90,7 +88,7 @@ public class YamlBase64Test extends TestCase {
     Yaml yaml = new Yaml();
     InputStream inputStream =
         YamlBase64Test.class.getResourceAsStream("/issues/issue99-base64_literal.yaml");
-    Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
+    Map<String, Object> bean = yaml.load(inputStream);
     byte[] jpeg = (byte[]) bean.get("jpegPhoto");
     checkBytes(jpeg);
     inputStream.close();
@@ -105,20 +103,22 @@ public class YamlBase64Test extends TestCase {
     Yaml yaml = new Yaml(new SpecialContructor(Tag.BINARY));
     InputStream inputStream =
         YamlBase64Test.class.getResourceAsStream("/issues/issue99-base64_literal.yaml");
-    Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
+    Map<String, Object> bean = yaml.load(inputStream);
     byte[] jpeg = (byte[]) bean.get("jpegPhoto");
     checkBytes(jpeg);
     inputStream.close();
   }
 
   private class SpecialContructor extends Constructor {
+
     public SpecialContructor(Tag tag) {
       this.yamlConstructors.put(tag, new MyBinaryConstructor());
     }
 
     private class MyBinaryConstructor extends AbstractConstruct {
+
       public Object construct(Node node) {
-        String contentWithNewLines = constructScalar((ScalarNode) node).toString();
+        String contentWithNewLines = constructScalar((ScalarNode) node);
         String noNewLines = contentWithNewLines.replaceAll("\\s", "");
         byte[] decoded = Base64Coder.decode(noNewLines.toCharArray());
         return decoded;
@@ -134,7 +134,7 @@ public class YamlBase64Test extends TestCase {
     Yaml yaml = new Yaml(new SpecialContructor(new Tag("!beautiful")));
     InputStream inputStream =
         YamlBase64Test.class.getResourceAsStream("/issues/issue99-base64_literal_custom_tag.yaml");
-    Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
+    Map<String, Object> bean = yaml.load(inputStream);
     byte[] jpeg = (byte[]) bean.get("jpegPhoto");
     checkBytes(jpeg);
     inputStream.close();

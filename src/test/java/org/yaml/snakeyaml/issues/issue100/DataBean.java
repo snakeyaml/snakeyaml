@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue100;
 
 public class DataBean {
+
   private String id;
   private Data data;
   private DataMore more;

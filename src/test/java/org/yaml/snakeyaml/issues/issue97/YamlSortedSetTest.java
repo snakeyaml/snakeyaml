@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.TypeDescription;
@@ -38,7 +37,7 @@ public class YamlSortedSetTest {
             + "    title: Test\n" + "  - text: Creative\n" + "    title: Highly\n";
     // System.out.println(serialized);
     Yaml yaml2 = constructYamlParser();
-    Blog rehydrated = (Blog) yaml2.load(serialized);
+    Blog rehydrated = yaml2.load(serialized);
     checkTestBlog(rehydrated);
   }
 
@@ -48,7 +47,7 @@ public class YamlSortedSetTest {
             + "    title: Test\n" + "  - text: Creative\n" + "    title: Highly\n";
     // System.out.println(serialized);
     Yaml yaml2 = constructYamlParser2();
-    Blog rehydrated = (Blog) yaml2.load(serialized);
+    Blog rehydrated = yaml2.load(serialized);
     checkTestBlog(rehydrated);
   }
 
@@ -105,11 +104,13 @@ public class YamlSortedSetTest {
   }
 
   private class SetContructor extends Constructor {
+
     public SetContructor() {
       yamlClassConstructors.put(NodeId.sequence, new ConstructSetFromSequence());
     }
 
     private class ConstructSetFromSequence extends ConstructSequence {
+
       @Override
       public Object construct(Node node) {
         if (SortedSet.class.isAssignableFrom(node.getType())) {

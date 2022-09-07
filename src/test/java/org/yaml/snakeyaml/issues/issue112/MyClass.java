@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue112;
 
 public class MyClass<T extends Object> {
+
   T name;
 
   public void setName(T name) {

@@ -19,9 +19,7 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class EnumTest extends TestCase {
@@ -119,7 +117,7 @@ public class EnumTest extends TestCase {
   // Loading
   public void testLoadEnum() {
     Yaml yaml = new Yaml();
-    Suit suit = (Suit) yaml.load("!!org.yaml.snakeyaml.Suit 'CLUBS'\n");
+    Suit suit = yaml.load("!!org.yaml.snakeyaml.Suit 'CLUBS'\n");
     assertEquals(Suit.CLUBS, suit);
   }
 
@@ -132,7 +130,7 @@ public class EnumTest extends TestCase {
   @SuppressWarnings("unchecked")
   public void testLoadEnumList() {
     Yaml yaml = new Yaml();
-    List<Suit> list = (List<Suit>) yaml.load(
+    List<Suit> list = yaml.load(
         "- !!org.yaml.snakeyaml.Suit 'CLUBS'\n- !!org.yaml.snakeyaml.Suit 'DIAMONDS'\n- !!org.yaml.snakeyaml.Suit 'HEARTS'\n- !!org.yaml.snakeyaml.Suit 'SPADES'");
     assertEquals(4, list.size());
     assertEquals(Suit.CLUBS, list.get(0));
@@ -144,8 +142,8 @@ public class EnumTest extends TestCase {
   @SuppressWarnings("unchecked")
   public void testLoadEnumMap() {
     Yaml yaml = new Yaml();
-    Map<Integer, Suit> map = (Map<Integer, Suit>) yaml
-        .load("1: !!org.yaml.snakeyaml.Suit 'HEARTS'\n2: !!org.yaml.snakeyaml.Suit 'DIAMONDS'");
+    Map<Integer, Suit> map =
+        yaml.load("1: !!org.yaml.snakeyaml.Suit 'HEARTS'\n2: !!org.yaml.snakeyaml.Suit 'DIAMONDS'");
     assertEquals(2, map.size());
     assertEquals(Suit.HEARTS, map.get(1));
     assertEquals(Suit.DIAMONDS, map.get(2));
@@ -153,7 +151,7 @@ public class EnumTest extends TestCase {
 
   public void testLoadEnumBean() {
     Yaml yaml = new Yaml();
-    EnumBean bean = (EnumBean) yaml.load(
+    EnumBean bean = yaml.load(
         "!!org.yaml.snakeyaml.EnumBean\nid: 174\nmap:\n  !!org.yaml.snakeyaml.Suit 'CLUBS': 1\n  !!org.yaml.snakeyaml.Suit 'DIAMONDS': 2\nsuit: CLUBS");
 
     LinkedHashMap<Suit, Integer> map = new LinkedHashMap<Suit, Integer>();
@@ -171,7 +169,7 @@ public class EnumTest extends TestCase {
     td.putMapPropertyType("map", Suit.class, Object.class);
     c.addTypeDescription(td);
     Yaml yaml = new Yaml(c);
-    EnumBean bean = (EnumBean) yaml.load(
+    EnumBean bean = yaml.load(
         "!!org.yaml.snakeyaml.EnumBean\nid: 174\nmap:\n  CLUBS: 1\n  DIAMONDS: 2\nsuit: CLUBS");
 
     LinkedHashMap<Suit, Integer> map = new LinkedHashMap<Suit, Integer>();

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BigJavaBean {
+
   private String name;
   private String address;
   private String description;
@@ -85,40 +86,50 @@ public class BigJavaBean {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     BigJavaBean other = (BigJavaBean) obj;
     if (address == null) {
-      if (other.address != null)
+      if (other.address != null) {
         return false;
-    } else if (!address.equals(other.address))
+      }
+    } else if (!address.equals(other.address)) {
       return false;
+    }
     if (data == null) {
-      if (other.data != null)
+      if (other.data != null) {
         return false;
-    } else if (!data.equals(other.data))
+      }
+    } else if (!data.equals(other.data)) {
       return false;
+    }
     if (description == null) {
-      if (other.description != null)
+      if (other.description != null) {
         return false;
-    } else if (!description.equals(other.description))
+      }
+    } else if (!description.equals(other.description)) {
       return false;
-    if (id != other.id)
+    }
+    if (id != other.id) {
       return false;
+    }
     if (name == null) {
-      if (other.name != null)
+      if (other.name != null) {
         return false;
-    } else if (!name.equals(other.name))
+      }
+    } else if (!name.equals(other.name)) {
       return false;
+    }
     if (numbers == null) {
-      if (other.numbers != null)
-        return false;
-    } else if (!numbers.equals(other.numbers))
-      return false;
-    return true;
+      return other.numbers == null;
+    } else
+      return numbers.equals(other.numbers);
   }
 }

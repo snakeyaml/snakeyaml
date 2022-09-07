@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue145;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class LineNumberInExceptionTest extends TestCase {
@@ -38,8 +37,8 @@ public class LineNumberInExceptionTest extends TestCase {
 
   public void testCompleteThing() {
     Yaml yaml = new Yaml();
-    CompleteThing thing = (CompleteThing) yaml
-        .load("---\n!!org.yaml.snakeyaml.issues.issue145.CompleteThing { id: QQQ }");
+    CompleteThing thing =
+        yaml.load("---\n!!org.yaml.snakeyaml.issues.issue145.CompleteThing { id: QQQ }");
     assertEquals("QQQ", thing.getId());
   }
 

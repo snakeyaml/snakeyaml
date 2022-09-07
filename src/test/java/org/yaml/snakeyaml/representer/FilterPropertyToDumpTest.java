@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.representer;
 
 import java.util.Set;
 import java.util.TreeSet;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
@@ -91,6 +89,7 @@ public class FilterPropertyToDumpTest extends TestCase {
 
 
   public class BeanToRemoveProperty {
+
     private int number;
     private String id;
 
@@ -116,6 +115,7 @@ public class FilterPropertyToDumpTest extends TestCase {
   }
 
   private class MyRepresenter extends Representer {
+
     @Override
     protected Set<Property> getProperties(Class<? extends Object> type) {
       Set<Property> set = super.getProperties(type);

@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -33,7 +31,7 @@ public class PrefixConstructorTest extends TestCase {
     Yaml yaml = new Yaml(new CustomConstructor());
     String input =
         "- !org.yaml.Foo 123\n- !org.yaml.Bar 456\n- !org.yaml.Exact 789\n- !Immutable [aaa, bbb]";
-    List<Extra> list = (List<Extra>) yaml.load(input);
+    List<Extra> list = yaml.load(input);
     assertEquals(4, list.size());
     Extra foo = list.get(0);
     assertEquals("Foo", foo.getName());
@@ -53,6 +51,7 @@ public class PrefixConstructorTest extends TestCase {
   }
 
   private class CustomConstructor extends SafeConstructor {
+
     public CustomConstructor() {
       // define tags which begin with !org.yaml.
       String prefix = "!org.yaml.";
@@ -67,8 +66,9 @@ public class PrefixConstructorTest extends TestCase {
    * Process tags which start with '!org.yaml.'
    */
   private class PrefixConstruct extends AbstractConstruct {
-    private String prefix;
-    private BaseConstructor con;
+
+    private final String prefix;
+    private final BaseConstructor con;
 
     public PrefixConstruct(String prefix, BaseConstructor con) {
       this.prefix = prefix;
@@ -77,7 +77,7 @@ public class PrefixConstructorTest extends TestCase {
 
     public Object construct(Node node) {
       String suffix = node.getTag().getValue().substring(prefix.length());
-      return new Extra(suffix, con.constructScalar((ScalarNode) node).toString());
+      return new Extra(suffix, con.constructScalar((ScalarNode) node));
     }
   }
 
@@ -85,14 +85,15 @@ public class PrefixConstructorTest extends TestCase {
    * This has more priority then PrefixConstruct
    */
   private class ExactConstruct extends AbstractConstruct {
-    private BaseConstructor con;
+
+    private final BaseConstructor con;
 
     public ExactConstruct(BaseConstructor con) {
       this.con = con;
     }
 
     public Object construct(Node node) {
-      return new Extra("Item", con.constructScalar((ScalarNode) node).toString());
+      return new Extra("Item", con.constructScalar((ScalarNode) node));
     }
   }
 
@@ -100,7 +101,8 @@ public class PrefixConstructorTest extends TestCase {
    * Process unrecognised tags
    */
   private class ConstructUnknown extends AbstractConstruct {
-    private BaseConstructor con;
+
+    private final BaseConstructor con;
 
     public ConstructUnknown(BaseConstructor con) {
       this.con = con;
@@ -114,8 +116,9 @@ public class PrefixConstructorTest extends TestCase {
   }
 
   private class Extra {
-    private String name;
-    private String value;
+
+    private final String name;
+    private final String value;
 
     public Extra(String name, String value) {
       this.name = name;

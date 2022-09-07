@@ -13,27 +13,26 @@
  */
 package org.yaml.snakeyaml.issues.issue397;
 
+import java.util.List;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
-import java.util.List;
-
 public class ColonInFlowContextInListTest extends TestCase {
 
-  private Yaml loader = new Yaml();
+  private final Yaml loader = new Yaml();
 
   public void testList() {
-    List<String> list = (List<String>) loader.load("[ http://foo ]");
+    List<String> list = loader.load("[ http://foo ]");
     assertTrue(list.contains("http://foo"));
   }
 
   public void testListNoSpaces() {
-    List<String> list = (List<String>) loader.load("[http://foo]");
+    List<String> list = loader.load("[http://foo]");
     assertTrue(list.contains("http://foo"));
   }
 
   public void testList2() {
-    List<String> list = (List<String>) loader.load("[ http://foo,http://bar ]");
+    List<String> list = loader.load("[ http://foo,http://bar ]");
     assertTrue(list.contains("http://foo"));
     assertTrue(list.contains("http://bar"));
   }

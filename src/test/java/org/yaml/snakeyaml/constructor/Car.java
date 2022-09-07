@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.constructor;
 import java.util.List;
 
 public class Car {
+
   private String plate;
   private List<Wheel> wheels;
 

@@ -14,14 +14,14 @@
 package org.yaml.snakeyaml.issues.issue147;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class PrintableTest extends TestCase {
+
   // http://code.google.com/p/snakeyaml/issues/detail?id=147
   public void testFFFD() {
     Yaml yaml = new Yaml();
-    String fffd = (String) yaml.load(yaml.dump("\uFFFD"));
+    String fffd = yaml.load(yaml.dump("\uFFFD"));
     assertEquals("\uFFFD", fffd);
   }
 }

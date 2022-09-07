@@ -18,24 +18,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class BigDataLoadTest extends TestCase {
+
   private static final int SIZE = 5000;
 
   public void testBigStringData() {
     Yaml yaml = new Yaml();
-    List<?> loaded = (List<?>) yaml.load(getLongYamlDocument(SIZE));
+    List<?> loaded = yaml.load(getLongYamlDocument(SIZE));
     assertEquals(SIZE, loaded.size());
   }
 
   public void testBigStreamData() {
     Yaml yaml = new Yaml();
     StringReader buffer = new StringReader(getLongYamlDocument(SIZE));
-    List<?> loaded = (List<?>) yaml.load(buffer);
+    List<?> loaded = yaml.load(buffer);
     assertEquals(SIZE, loaded.size());
   }
 

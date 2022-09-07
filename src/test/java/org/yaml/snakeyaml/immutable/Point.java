@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.immutable;
 
 public class Point {
+
   private final double x;
   private final double y;
 
@@ -32,7 +33,7 @@ public class Point {
 
   @Override
   public String toString() {
-    return "<Point x=" + String.valueOf(x) + " y=" + String.valueOf(y) + ">";
+    return "<Point x=" + x + " y=" + y + ">";
   }
 
   @Override

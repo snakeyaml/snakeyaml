@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue97;
 import java.util.SortedSet;
 
 public class Blog {
+
   private SortedSet<Post> posts;
 
   public void addPost(Post p) {

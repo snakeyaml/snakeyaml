@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.immutable;
 
 public class Code {
+
   private final Integer code;
 
   public Code(Integer name) {

@@ -13,16 +13,16 @@
  */
 package org.yaml.snakeyaml.env;
 
+import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_FORMAT;
+
+import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.MissingEnvironmentVariableException;
 
-import java.util.Map;
-
-import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_FORMAT;
-
 public class EnvVariableTest extends TestCase {
+
   // the variables EnvironmentKey1 and EnvironmentEmpty are set by Maven
   private static final String KEY1 = "EnvironmentKey1";
   private static final String EMPTY = "EnvironmentEmpty";

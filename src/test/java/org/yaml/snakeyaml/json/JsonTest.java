@@ -13,45 +13,42 @@
  */
 package org.yaml.snakeyaml.json;
 
+import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
-
-import java.util.Map;
-
 public class JsonTest extends TestCase {
 
-  private Yaml loader = new Yaml();
+  private final Yaml loader = new Yaml();
 
 
   public void testLooksLikeJson() {
-    Map<String, Integer> map = (Map<String, Integer>) loader.load("{a: 1}");
+    Map<String, Integer> map = loader.load("{a: 1}");
     assertEquals(Integer.valueOf(1), map.get("a"));
   }
 
   public void testSpaceAfterColon() {
-    Map<String, Integer> map = (Map<String, Integer>) loader.load("{\"a\": 1}");
+    Map<String, Integer> map = loader.load("{\"a\": 1}");
     assertEquals(Integer.valueOf(1), map.get("a"));
   }
 
   public void testNoSpace() {
-    Map<String, Integer> map = (Map<String, Integer>) loader.load("{\"a\":1}");
+    Map<String, Integer> map = loader.load("{\"a\":1}");
     assertEquals(Integer.valueOf(1), map.get("a"));
   }
 
   public void testNoSpaceBothDoubleQuoted() {
-    Map<String, Integer> map = (Map<String, Integer>) loader.load("{\"a\":\"1\"}");
+    Map<String, Integer> map = loader.load("{\"a\":\"1\"}");
     assertEquals("1", map.get("a"));
   }
 
   public void testNoSpaceSingleQouted() {
-    Map<String, Integer> map = (Map<String, Integer>) loader.load("{'a':1}");
+    Map<String, Integer> map = loader.load("{'a':1}");
     assertEquals(Integer.valueOf(1), map.get("a"));
   }
 
   public void testManyValues() {
-    Map<String, Object> map =
-        (Map<String, Object>) loader.load("{\"a\":1,\"b\":true,\"c\":\"foo\"}");
+    Map<String, Object> map = loader.load("{\"a\":1,\"b\":true,\"c\":\"foo\"}");
     assertEquals(3, map.size());
     assertEquals(Integer.valueOf(1), map.get("a"));
     assertTrue((Boolean) map.get("b"));
@@ -59,19 +56,19 @@ public class JsonTest extends TestCase {
   }
 
   public void testConstructNull() {
-    Map<String, Object> map = (Map<String, Object>) loader.load("{a: null}");
+    Map<String, Object> map = loader.load("{a: null}");
     assertEquals(1, map.size());
     assertNull(map.get("a"));
   }
 
   public void testConstructNullFromEmpty() {
-    Map<String, Object> map = (Map<String, Object>) loader.load("{a: }");
+    Map<String, Object> map = loader.load("{a: }");
     assertEquals(1, map.size());
     assertNull(map.get("a"));
   }
 
   public void testConstructBoolean() {
-    Map<String, Object> map = (Map<String, Object>) loader.load("{a: true}");
+    Map<String, Object> map = loader.load("{a: true}");
     assertEquals(1, map.size());
     assertEquals(Boolean.TRUE, map.get("a"));
   }

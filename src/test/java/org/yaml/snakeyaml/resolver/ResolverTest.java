@@ -19,9 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -47,7 +45,7 @@ public class ResolverTest extends TestCase {
     etalonList.add(phone3);
     String output = yaml.dump(etalonList);
     assertEquals("[12-34-567, 11-22-333, 44-55-777]\n", output);
-    List<Phone> parsedList = (List<Phone>) yaml.load(output);
+    List<Phone> parsedList = yaml.load(output);
     assertEquals(3, parsedList.size());
     assertEquals(phone1, parsedList.get(0));
     assertEquals(phone2, parsedList.get(1));
@@ -70,7 +68,8 @@ public class ResolverTest extends TestCase {
   }
 
   class Phone {
-    private String number;
+
+    private final String number;
 
     public Phone(String n) {
       this.number = n;
@@ -95,11 +94,13 @@ public class ResolverTest extends TestCase {
   }
 
   class MyRepresenter extends Representer {
+
     public MyRepresenter() {
       this.representers.put(Phone.class, new RepresentPhone());
     }
 
     private class RepresentPhone implements Represent {
+
       public Node representData(Object data) {
         Phone phone = (Phone) data;
         String value = phone.getNumber();
@@ -109,25 +110,29 @@ public class ResolverTest extends TestCase {
   }
 
   class MyConstructor extends Constructor {
+
     public MyConstructor() {
       this.yamlConstructors.put(new Tag(Tag.PREFIX + "Phone"), new ConstructPhone());
     }
 
     private class ConstructPhone extends AbstractConstruct {
+
       public Object construct(Node node) {
-        String val = (String) constructScalar((ScalarNode) node);
+        String val = constructScalar((ScalarNode) node);
         return new Phone(val);
       }
     }
   }
 
   class PointRepresenter extends Representer {
+
     public PointRepresenter() {
       this.representers.put(Point.class, new RepresentPoint());
       this.representers.put(Phone.class, new RepresentPhone());
     }
 
     private class RepresentPoint implements Represent {
+
       public Node representData(Object data) {
         Point phone = (Point) data;
         String value = "x" + (int) phone.getX() + "_y" + (int) phone.getY();
@@ -136,6 +141,7 @@ public class ResolverTest extends TestCase {
     }
 
     private class RepresentPhone implements Represent {
+
       public Node representData(Object data) {
         Phone phone = (Phone) data;
         String value = phone.getNumber();

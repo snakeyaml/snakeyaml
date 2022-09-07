@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue115;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class ParameterizedJavaBeanTest extends TestCase {
@@ -29,8 +28,7 @@ public class ParameterizedJavaBeanTest extends TestCase {
         result);
     // load
     @SuppressWarnings("unchecked")
-    ParameterizedBean<Integer, String> beanParsed =
-        (ParameterizedBean<Integer, String>) yaml.load(result);
+    ParameterizedBean<Integer, String> beanParsed = yaml.load(result);
     assertEquals(Integer.valueOf(13), beanParsed.getK());
     assertEquals("ID47", beanParsed.getV());
   }
@@ -46,7 +44,7 @@ public class ParameterizedJavaBeanTest extends TestCase {
     assertEquals("!!org.yaml.snakeyaml.issues.issue115.IssueBean\nbean: {k: 432, v: Val432}\n",
         result);
     // load
-    IssueBean issueParsed = (IssueBean) yaml.load(result);
+    IssueBean issueParsed = yaml.load(result);
     assertEquals(Integer.valueOf(432), issueParsed.getBean().getK());
     assertEquals("Val432", issueParsed.getBean().getV());
   }

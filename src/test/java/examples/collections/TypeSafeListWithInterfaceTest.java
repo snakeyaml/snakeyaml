@@ -15,9 +15,7 @@ package examples.collections;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -26,6 +24,7 @@ import org.yaml.snakeyaml.Yaml;
  * Human is an interface and the global tags are required
  */
 public class TypeSafeListWithInterfaceTest extends TestCase {
+
   public void testDumpList() {
     ListBean bean = new ListBean();
     List<String> list = new ArrayList<String>();
@@ -78,6 +77,7 @@ public class TypeSafeListWithInterfaceTest extends TestCase {
   }
 
   public static class ListBean {
+
     private List<String> children;
     private String name;
     private List<Human> developers;
@@ -111,15 +111,16 @@ public class TypeSafeListWithInterfaceTest extends TestCase {
     }
   }
 
-  public static interface Human {
+  public interface Human {
 
-    public String getName();
+    String getName();
 
-    public void setName(String name);
+    void setName(String name);
 
   }
 
   public static class Developer implements Human {
+
     private String name;
     private String role;
 
@@ -148,6 +149,7 @@ public class TypeSafeListWithInterfaceTest extends TestCase {
   }
 
   public static class Committer extends Developer {
+
     private int key;
 
     public Committer() {}

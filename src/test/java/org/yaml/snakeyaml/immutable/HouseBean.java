@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.immutable;
 
 public class HouseBean {
+
   private String name;
   private Animal animal;
 

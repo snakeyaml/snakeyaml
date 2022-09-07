@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.immutable.primitives;
 
 import java.util.Arrays;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -22,17 +21,18 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class ImmutablePrimitivesRepresenter extends Representer {
+
   public ImmutablePrimitivesRepresenter() {
     super();
     this.representers.put(BunchOfPrimitives.class, new RepresentPrimitives());
   }
 
   class RepresentPrimitives implements Represent {
+
     public Node representData(Object data) {
       BunchOfPrimitives bunch = (BunchOfPrimitives) data;
-      return representSequence(
-          getTag(data.getClass(), new Tag(data.getClass())), Arrays.asList(new Object[] {
-              bunch.getPrimitiveInt(), bunch.getPrimitiveDouble(), bunch.primitiveBoolean}),
+      return representSequence(getTag(data.getClass(), new Tag(data.getClass())), Arrays
+          .asList(bunch.getPrimitiveInt(), bunch.getPrimitiveDouble(), bunch.primitiveBoolean),
           DumperOptions.FlowStyle.FLOW);
     }
   }

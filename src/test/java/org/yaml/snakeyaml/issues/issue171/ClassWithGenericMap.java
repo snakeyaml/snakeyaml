@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class ClassWithGenericMap {
+
   public final Map<String, Collection<Integer>> services =
       new HashMap<String, Collection<Integer>>();
 }

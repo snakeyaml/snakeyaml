@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue127;
 
 public class Bean {
+
   private String a;
   private String b;
 

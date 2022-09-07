@@ -16,7 +16,8 @@ package org.yaml.snakeyaml.extensions.compactnotation;
 import java.util.List;
 
 public class ManyListsTable {
-  private String id;
+
+  private final String id;
   private List<Row> rows;
   private List<String> names;
 

@@ -13,12 +13,11 @@
  */
 package org.yaml.snakeyaml.issues.issue423;
 
+import java.util.Calendar;
+import java.util.TimeZone;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-
-import java.util.Calendar;
-import java.util.TimeZone;
 
 public class DaylightSavingsTest extends TestCase {
 
@@ -38,7 +37,7 @@ public class DaylightSavingsTest extends TestCase {
     midnightBeforeFallback.set(2018, Calendar.NOVEMBER, 4, 0, 0);
 
     String dateString = yaml.dump(midnightBeforeFallback).trim(); // Trim to remove the new line
-                                                                  // character
+    // character
 
     assertTrue("Timezone value should be -06:00", dateString.endsWith("-06:00"));
 

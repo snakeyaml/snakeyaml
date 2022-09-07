@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.representer;
 
 public class WrongJavaBean {
+
   String packageField;
   static String staticField;
   public transient String dynamo;

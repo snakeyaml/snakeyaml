@@ -14,13 +14,13 @@
 package examples;
 
 import java.io.StringReader;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class CustomJavaObjectWithBinaryStringTest extends TestCase {
+
   public static class Pojo {
+
     private String data;
 
     public Pojo() {}
@@ -47,19 +47,20 @@ public class CustomJavaObjectWithBinaryStringTest extends TestCase {
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj)
+      if (this == obj) {
         return true;
-      if (obj == null)
+      }
+      if (obj == null) {
         return false;
-      if (getClass() != obj.getClass())
+      }
+      if (getClass() != obj.getClass()) {
         return false;
+      }
       Pojo other = (Pojo) obj;
       if (data == null) {
-        if (other.data != null)
-          return false;
-      } else if (!data.equals(other.data))
-        return false;
-      return true;
+        return other.data == null;
+      } else
+        return data.equals(other.data);
     }
 
   }
@@ -72,7 +73,7 @@ public class CustomJavaObjectWithBinaryStringTest extends TestCase {
     assertTrue(output.contains("data: !!binary |-"));
     assertTrue(output.contains("DQ4PEA=="));
 
-    Pojo actual = (Pojo) yaml.load(new StringReader(output));
+    Pojo actual = yaml.load(new StringReader(output));
     assertEquals(expected, actual);
   }
 

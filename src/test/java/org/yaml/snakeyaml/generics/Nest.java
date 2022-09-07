@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.generics;
 
 public class Nest {
+
   private int height;
 
   public int getHeight() {

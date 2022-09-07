@@ -15,9 +15,7 @@ package examples.jodatime;
 
 import java.util.Date;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.yaml.snakeyaml.DumperOptions;
@@ -32,6 +30,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.Tag;
 
 public class JodaTimeFlowStylesTest extends TestCase {
+
   private static final long timestamp = 1000000000000L;
 
   /**
@@ -91,7 +90,7 @@ public class JodaTimeFlowStylesTest extends TestCase {
     // we have to provide a special way to create JodaTime instances from
     // scalars
     Yaml loader2 = new Yaml(new JodaPropertyConstructor());
-    MyBean parsed = (MyBean) loader2.load(doc1);
+    MyBean parsed = loader2.load(doc1);
     assertEquals(etalon, parsed.getDate());
   }
 
@@ -119,16 +118,18 @@ public class JodaTimeFlowStylesTest extends TestCase {
     assertEquals(
         "!!examples.jodatime.MyBean {date: !!timestamp '2001-09-09T01:46:40Z', id: id123}\n", doc);
     Yaml loader = new Yaml(new JodaTimeImplicitContructor());
-    MyBean parsed = (MyBean) loader.load(doc);
+    MyBean parsed = loader.load(doc);
     assertEquals(etalon, parsed.getDate());
   }
 
   private class JodaPropertyConstructor extends Constructor {
+
     public JodaPropertyConstructor() {
       yamlClassConstructors.put(NodeId.scalar, new TimeStampConstruct());
     }
 
     class TimeStampConstruct extends Constructor.ConstructScalar {
+
       @Override
       public Object construct(Node nnode) {
         if (nnode.getTag().equals(new Tag("tag:yaml.org,2002:timestamp"))) {

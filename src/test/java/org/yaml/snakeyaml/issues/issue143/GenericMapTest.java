@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue143;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -32,10 +31,12 @@ public class GenericMapTest extends TestCase {
   }
 
   public static class GenericMap<T> extends java.util.HashMap<String, T> {
+
     private static final long serialVersionUID = -6833859369398863926L;
   }
 
   public class BeanWithMap {
+
     public GenericMap<Integer> getMap() {
       return new GenericMap<Integer>();
     }

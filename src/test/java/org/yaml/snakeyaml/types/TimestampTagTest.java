@@ -145,9 +145,8 @@ public class TimestampTagTest extends AbstractTest {
     int minutes = cal.get(Calendar.MINUTE); // 0..59
     int seconds = cal.get(Calendar.SECOND); // 0..59
     int millis = cal.get(Calendar.MILLISECOND);
-    String result = String.valueOf(years) + "-" + String.valueOf(months) + "-"
-        + String.valueOf(days) + " at " + String.valueOf(hour24) + ":" + String.valueOf(minutes)
-        + ":" + String.valueOf(seconds) + " (" + String.valueOf(millis) + ")";
+    String result = years + "-" + months + "-" + days + " at " + hour24 + ":" + minutes + ":"
+        + seconds + " (" + millis + ")";
     return result;
   }
 

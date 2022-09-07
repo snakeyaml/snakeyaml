@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue116;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -53,18 +52,19 @@ public class NoFieldsTest extends TestCase {
       assertEquals(e.getMessage(),
           "No JavaBean properties found in org.yaml.snakeyaml.issues.issue116.HiddenSpecial");
     }
-    HiddenSpecial hs =
-        (HiddenSpecial) yaml.load("!!org.yaml.snakeyaml.issues.issue116.HiddenSpecial foo\n");
+    HiddenSpecial hs = yaml.load("!!org.yaml.snakeyaml.issues.issue116.HiddenSpecial foo\n");
     assertEquals("foo".hashCode(), hs.retrieveMyVerySpecialField());
   }
 }
 
 
 class Empty {
+
 }
 
 
 class Hidden {
+
   @SuppressWarnings("unused")
   private int inaccessableField;
 }

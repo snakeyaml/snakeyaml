@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.constructor;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class AtomicJavaBean {
+
   private float amount;
   private AtomicLong atomic;
 

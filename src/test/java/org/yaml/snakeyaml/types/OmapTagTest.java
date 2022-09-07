@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.types;
 
 import java.util.Map;
-
 import org.yaml.snakeyaml.YamlDocument;
 
 /**
@@ -28,13 +27,13 @@ public class OmapTagTest extends AbstractTest {
     Map<String, Map<String, String>> map =
         (Map<String, Map<String, String>>) document.getNativeData();
     assertEquals(2, map.size());
-    Map<String, String> map1 = (Map<String, String>) map.get("Bestiary");
+    Map<String, String> map1 = map.get("Bestiary");
     assertEquals(3, map1.size());
     assertEquals("African pig-like ant eater. Ugly.", map1.get("aardvark"));
     assertEquals("South-American ant eater. Two species.", map1.get("anteater"));
     assertEquals("South-American constrictor snake. Scaly.", map1.get("anaconda"));
     //
-    Map<String, String> map2 = (Map<String, String>) map.get("Numbers");
+    Map<String, String> map2 = map.get("Numbers");
     assertEquals(3, map2.size());
     assertEquals(Integer.valueOf(1), map2.get("one"));
     assertEquals(Integer.valueOf(2), map2.get("two"));

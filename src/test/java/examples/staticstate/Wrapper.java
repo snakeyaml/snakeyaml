@@ -14,6 +14,7 @@
 package examples.staticstate;
 
 public class Wrapper {
+
   private String name;
   private int age;
   private String color;

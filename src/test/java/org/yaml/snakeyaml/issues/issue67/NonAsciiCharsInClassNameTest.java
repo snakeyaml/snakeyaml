@@ -14,13 +14,13 @@
 package org.yaml.snakeyaml.issues.issue67;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class NonAsciiCharsInClassNameTest extends TestCase {
-  private String PREFIX = "!!org.yaml.snakeyaml.issues.issue67.NonAsciiCharsInClassNameTest$";
+
+  private final String PREFIX = "!!org.yaml.snakeyaml.issues.issue67.NonAsciiCharsInClassNameTest$";
 
   public void testDump() {
     Académico obj = new Académico();
@@ -33,7 +33,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
 
   public void testLoad() {
     Yaml yaml = new Yaml();
-    Académico obj = (Académico) yaml.load(PREFIX + "Acad%C3%A9mico {id: 3, name: Foo bar}");
+    Académico obj = yaml.load(PREFIX + "Acad%C3%A9mico {id: 3, name: Foo bar}");
     assertEquals(3, obj.getId());
     assertEquals("Foo bar", obj.getName());
   }
@@ -54,6 +54,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
   }
 
   public static class Académico {
+
     public int getId() {
       return id;
     }

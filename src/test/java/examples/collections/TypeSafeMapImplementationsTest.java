@@ -19,9 +19,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -29,6 +27,7 @@ import org.yaml.snakeyaml.Yaml;
  * Test different Map implementations as JavaBean properties
  */
 public class TypeSafeMapImplementationsTest extends TestCase {
+
   public void testDumpMap() {
     MapBean bean = new MapBean();
     SortedMap<String, String> sortedMap = new TreeMap<String, String>();
@@ -67,6 +66,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
   }
 
   public static class MapBean {
+
     private SortedMap<String, String> sorted;
     private Properties properties;
     private String name;
@@ -121,15 +121,15 @@ public class TypeSafeMapImplementationsTest extends TestCase {
     assertTrue("Row 2 expected: " + output, output.contains("key1: value1"));
     assertTrue("Row 2 expected: " + output, output.contains("key2: value2"));
     // load
-    List<Object> list2 = (List<Object>) yaml.load(output);
+    List<Object> list2 = yaml.load(output);
     assertEquals(3, list2.size());
     Map<Object, Object> map1 = (Map<Object, Object>) list.get(0);// it was
-                                                                 // SortedMap
+    // SortedMap
     assertEquals(2, map1.size());
     assertEquals("one", map1.get("1"));
     assertEquals("two", map1.get("2"));
     Map<Object, Object> map2 = (Map<Object, Object>) list.get(1);// it was
-                                                                 // Properties
+    // Properties
     assertEquals(2, map2.size());
     assertEquals("value1", map2.get("key1"));
     assertEquals("value2", map2.get("key2"));
@@ -148,8 +148,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
     assertEquals(etalon, output);
     // load with different order
     @SuppressWarnings("unchecked")
-    Map<Object, Object> map1 =
-        (Map<Object, Object>) yaml.load(Util.getLocalResource("examples/map-recursive-1_1.yaml"));
+    Map<Object, Object> map1 = yaml.load(Util.getLocalResource("examples/map-recursive-1_1.yaml"));
     assertEquals(3, map1.size());
     assertEquals("one", map1.get("1"));
     assertEquals("two", map1.get("2"));
@@ -173,7 +172,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
         Util.compareAllLines(etalon, output));
     assertTrue("Should begin with anchor: " + output, output.startsWith("&id001\n"));
     // load
-    Map<Object, Object> map2 = (Map<Object, Object>) yaml.load(output);
+    Map<Object, Object> map2 = yaml.load(output);
     assertEquals(3, map2.size());
     assertEquals("value1", map2.get("key1"));
     assertEquals("value2", map2.get("key2"));
@@ -184,7 +183,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
     String output = Util.getLocalResource("examples/map-recursive-3.yaml");
     // System.out.println(output);
     @SuppressWarnings("unchecked")
-    SortedMap<Object, Object> map1 = (SortedMap<Object, Object>) yaml.load(output);
+    SortedMap<Object, Object> map1 = yaml.load(output);
     assertEquals(3, map1.size());
     assertEquals("one", map1.get("1"));
     assertEquals("two", map1.get("2"));
@@ -197,7 +196,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
     Yaml yaml = new Yaml();
     String output = Util.getLocalResource("examples/map-recursive-4.yaml");
     // System.out.println(output);
-    Properties p = (Properties) yaml.load(output);
+    Properties p = yaml.load(output);
     assertEquals(3, p.size());
     assertEquals("value2", p.get("key2"));
     assertEquals("value1", p.get("key1"));

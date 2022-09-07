@@ -13,15 +13,15 @@
  */
 package org.yaml.snakeyaml.issues.issue82;
 
+import static org.junit.Assert.assertNotEquals;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -33,10 +33,12 @@ import org.yaml.snakeyaml.representer.Representer;
  */
 public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCase {
 
-  public static interface Account {
+  public interface Account {
+
   }
 
   public static class GeneralAccount implements Account {
+
     public String name = "General";
   }
 
@@ -48,6 +50,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
   }
 
   public static class CustomerAB {
+
     public Collection<Account> aAll;
     public Collection<GeneralAccount> bGeneral;
 
@@ -58,11 +61,13 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
   }
 
   public static class CustomerBA {
+
     public Collection<GeneralAccount> aGeneral;
     public Collection<Account> bAll;
   }
 
   public static class CustomerAB_MapValue {
+
     public Collection<Account> aAll;
     public Map<String, GeneralAccount> bGeneralMap;
 
@@ -73,6 +78,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
   }
 
   public static class CustomerAB_MapKey {
+
     public Collection<Account> aAll;
     public Map<GeneralAccount, String> bGeneralMap;
 
@@ -83,6 +89,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
   }
 
   public static class CustomerAB_Property {
+
     public Account acc;
     public Collection<GeneralAccount> bGeneral;
 
@@ -110,7 +117,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     Yaml yaml = new Yaml();
     String dump = yaml.dump(customerAB);
     // System.out.println(dump);
-    CustomerAB parsed = (CustomerAB) yaml.load(dump);
+    CustomerAB parsed = yaml.load(dump);
     assertNotNull(parsed);
   }
 
@@ -132,7 +139,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     Yaml yaml = new Yaml();
     String dump = yaml.dump(customerAB);
     // System.out.println(dump);
-    CustomerAB parsed = (CustomerAB) yaml.load(dump);
+    CustomerAB parsed = yaml.load(dump);
     assertNotNull(parsed);
   }
 
@@ -160,7 +167,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     Yaml yaml = new Yaml(constructor, representer);
     String dump = yaml.dump(customerAB);
     // System.out.println(dump);
-    CustomerAB parsed = (CustomerAB) yaml.load(dump);
+    CustomerAB parsed = yaml.load(dump);
     assertNotNull(parsed);
   }
 
@@ -185,7 +192,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     Yaml yaml = new Yaml(constructor, representer);
     String dump = yaml.dump(customerAB_property);
     // System.out.println(dump);
-    CustomerAB_Property parsed = (CustomerAB_Property) yaml.load(dump);
+    CustomerAB_Property parsed = yaml.load(dump);
     assertNotNull(parsed);
   }
 
@@ -214,7 +221,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     Yaml yaml = new Yaml(constructor, representer);
     String dump = yaml.dump(customerAB_property);
     // System.out.println(dump);
-    CustomerAB_Property parsed = (CustomerAB_Property) yaml.load(dump);
+    CustomerAB_Property parsed = yaml.load(dump);
     assertNotNull(parsed);
   }
 
@@ -259,7 +266,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     Yaml yaml = new Yaml();
     String dump = yaml.dump(customerAB_mapValue);
     // System.out.println(dump);
-    CustomerAB_MapValue parsed = (CustomerAB_MapValue) yaml.load(dump);
+    CustomerAB_MapValue parsed = yaml.load(dump);
     assertNotNull(parsed);
   }
 
@@ -281,7 +288,7 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     Yaml yaml = new Yaml();
     String dump = yaml.dump(customerAB_mapKey);
     // System.out.println(dump);
-    CustomerAB_MapKey parsed = (CustomerAB_MapKey) yaml.load(dump);
+    CustomerAB_MapKey parsed = yaml.load(dump);
     assertNotNull(parsed);
   }
 
@@ -304,10 +311,10 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     String dump = yaml.dump(customerBA);
     // System.out.println(dump);
     //
-    CustomerBA parsed = (CustomerBA) yaml.load(dump);
+    CustomerBA parsed = yaml.load(dump);
     assertEquals(2, parsed.bAll.size());
     assertEquals(2, parsed.aGeneral.size());
-    assertFalse(parsed.bAll.equals(parsed.aGeneral));
+    assertNotEquals(parsed.bAll, parsed.aGeneral);
     GeneralAccount[] array = parsed.aGeneral.toArray(new GeneralAccount[2]);
     assertEquals(GeneralAccount.class, array[0].getClass());
     assertEquals(SuperSaverAccount.class, array[1].getClass());

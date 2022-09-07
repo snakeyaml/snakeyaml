@@ -13,9 +13,10 @@
  */
 package org.yaml.snakeyaml.events;
 
-import org.yaml.snakeyaml.DumperOptions;
+import static org.junit.Assert.assertNotEquals;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 
 public class ScalarEventTest extends TestCase {
 
@@ -30,6 +31,6 @@ public class ScalarEventTest extends TestCase {
   public void testNotEqual() {
     ScalarEvent event = new ScalarEvent("a2", "str", new ImplicitTuple(true, true), "text", null,
         null, DumperOptions.ScalarStyle.DOUBLE_QUOTED);
-    assertFalse(event.equals(event.toString()));
+    assertNotEquals(event, event.toString());
   }
 }

@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue100;
 
 public class Data {
+
   private String id;
   private int age;
 

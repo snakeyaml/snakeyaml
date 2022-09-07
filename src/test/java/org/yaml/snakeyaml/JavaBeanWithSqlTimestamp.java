@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml;
 
 public class JavaBeanWithSqlTimestamp {
+
   private java.sql.Timestamp timestamp;
   private java.sql.Date date;
 

@@ -24,9 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -55,7 +53,7 @@ public class HumanGenericsTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/generics/no-children-1.yaml");
     assertEquals(etalon, output);
     //
-    HumanGen father2 = (HumanGen) yaml.load(output);
+    HumanGen father2 = yaml.load(output);
     assertNotNull(father2);
     assertEquals("Father", father2.getName());
     assertEquals("Mother", father2.getPartner().getName());
@@ -87,7 +85,7 @@ public class HumanGenericsTest extends TestCase {
     assertEquals(etalon, output);
     //
     Yaml loader = new Yaml();
-    HumanGen father2 = (HumanGen) loader.loadAs(etalon, HumanGen.class);
+    HumanGen father2 = loader.loadAs(etalon, HumanGen.class);
     assertNotNull(father2);
     assertEquals("Father", father2.getName());
     assertEquals("Mother", father2.getPartner().getName());
@@ -144,7 +142,7 @@ public class HumanGenericsTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/generics/with-children.yaml");
     assertEquals(etalon, output);
     //
-    HumanGen son2 = (HumanGen) yaml.load(output);
+    HumanGen son2 = yaml.load(output);
     assertNotNull(son2);
     assertEquals("Son", son.getName());
 
@@ -283,7 +281,7 @@ public class HumanGenericsTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/generics/with-children-3.yaml");
     assertEquals(etalon, output);
     //
-    HumanGen3 son2 = (HumanGen3) yaml.load(output);
+    HumanGen3 son2 = yaml.load(output);
     assertNotNull(son2);
     assertEquals("Son", son.getName());
 
@@ -318,7 +316,7 @@ public class HumanGenericsTest extends TestCase {
     constructor.addTypeDescription(humanDescription);
 
     Yaml yaml = new Yaml(constructor);
-    Set<HumanGen> children2 = (Set<HumanGen>) yaml.load(etalon);
+    Set<HumanGen> children2 = yaml.load(etalon);
     assertNotNull(children2);
     assertEquals(2, children2.size());
 
@@ -352,7 +350,7 @@ public class HumanGenericsTest extends TestCase {
     constructor.addTypeDescription(Human2Description);
 
     Yaml yaml = new Yaml(constructor);
-    Map<HumanGen2, String> children2 = (Map<HumanGen2, String>) yaml.load(etalon);
+    Map<HumanGen2, String> children2 = yaml.load(etalon);
     assertNotNull(children2);
     assertEquals(2, children2.size());
 
@@ -422,7 +420,7 @@ public class HumanGenericsTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/generics/with-children-as-list.yaml");
     assertEquals(etalon, output);
     //
-    List<HumanGen3> children2 = (List<HumanGen3>) yaml.load(output);
+    List<HumanGen3> children2 = yaml.load(output);
     assertNotNull(children2);
     HumanGen3 son2 = children2.iterator().next();
     assertEquals(2, children2.size());
@@ -460,7 +458,7 @@ public class HumanGenericsTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/generics/beanring-3.yaml");
     assertEquals(etalon, output);
     //
-    HumanGen loadedMan1 = (HumanGen) yaml.load(output);
+    HumanGen loadedMan1 = yaml.load(output);
     assertNotNull(loadedMan1);
     assertEquals("Man 1", loadedMan1.getName());
     HumanGen loadedMan2 = loadedMan1.getBankAccountOwner();

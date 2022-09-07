@@ -14,14 +14,13 @@
 package org.yaml.snakeyaml.issues.issue111;
 
 import java.io.StringReader;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 
 public class LongUriTest extends TestCase {
+
   /**
    * Try loading a tag with a very long escaped URI section (over 256 bytes' worth).
    */

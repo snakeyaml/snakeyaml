@@ -16,13 +16,16 @@ package org.yaml.snakeyaml.env;
 import junit.framework.TestCase;
 
 public class EnvScalarConstructorTest extends TestCase {
+
   private static final EnvScalarConstructor env = new EnvScalarConstructor() {
     @Override
     public String getEnv(String key) {
-      if (key.endsWith("Empty"))
+      if (key.endsWith("Empty")) {
         return "";
-      if (key.endsWith("Unset"))
+      }
+      if (key.endsWith("Unset")) {
         return null;
+      }
       return key + "Value";
     }
   };

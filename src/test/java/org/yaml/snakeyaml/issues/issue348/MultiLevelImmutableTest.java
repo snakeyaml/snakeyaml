@@ -13,18 +13,18 @@
  */
 package org.yaml.snakeyaml.issues.issue348;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Test;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.issues.issue348.model.Bar;
 import org.yaml.snakeyaml.issues.issue348.model.Baz;
 import org.yaml.snakeyaml.issues.issue348.model.Foo;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 public class MultiLevelImmutableTest {
 

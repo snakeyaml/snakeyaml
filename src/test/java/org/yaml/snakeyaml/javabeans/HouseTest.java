@@ -17,9 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
@@ -28,6 +26,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class HouseTest extends TestCase {
+
   /**
    * no root global tag
    */
@@ -86,10 +85,10 @@ public class HouseTest extends TestCase {
     TypeDescription description = new TypeDescription(House.class);
     description.putListPropertyType("rooms", Room.class);
     Yaml beanLoader = new Yaml(new Constructor(description));
-    House loadedHouse = (House) beanLoader.load(yaml);
-    House loadedHouse2 = (House) beanLoader.loadAs(yaml, House.class);
+    House loadedHouse = beanLoader.load(yaml);
+    House loadedHouse2 = beanLoader.loadAs(yaml, House.class);
     assertNotNull(loadedHouse);
-    assertFalse(loadedHouse == loadedHouse2);
+    assertNotSame(loadedHouse, loadedHouse2);
     assertEquals("Wall Street", loadedHouse.getStreet());
     assertEquals(1, loadedHouse.getNumber());
     assertEquals(1, loadedHouse2.getNumber());

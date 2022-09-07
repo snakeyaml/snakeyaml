@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue479;
 
 public class Mysql {
+
   private String db_host;
   private String db_name;
   private Integer db_port;

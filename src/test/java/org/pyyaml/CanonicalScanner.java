@@ -16,7 +16,6 @@ package org.pyyaml;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.scanner.Scanner;
@@ -40,16 +39,17 @@ import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.ValueToken;
 
 public class CanonicalScanner implements Scanner {
+
   private static final String DIRECTIVE = "%YAML 1.1";
   private final static Map<Character, Integer> QUOTE_CODES = ScannerImpl.ESCAPE_CODES;
 
   private final static Map<Character, String> QUOTE_REPLACES = ScannerImpl.ESCAPE_REPLACEMENTS;
 
-  private String data;
+  private final String data;
   private int index;
   public ArrayList<Token> tokens;
   private boolean scanned;
-  private Mark mark;
+  private final Mark mark;
 
   public CanonicalScanner(String data) {
     this.data = data + "\0";
@@ -200,11 +200,7 @@ public class CanonicalScanner implements Scanner {
   private Token scanAlias() {
     boolean isTokenClassAlias;
     final int c = data.codePointAt(index);
-    if (c == '*') {
-      isTokenClassAlias = true;
-    } else {
-      isTokenClassAlias = false;
-    }
+    isTokenClassAlias = c == '*';
     index += Character.charCount(c);
     int start = index;
     while (", \n\0".indexOf(data.charAt(index)) == -1) {
@@ -247,28 +243,26 @@ public class CanonicalScanner implements Scanner {
     while (data.charAt(index) != '"') {
       if (data.charAt(index) == '\\') {
         ignoreSpaces = false;
-        chunks.append(data.substring(start, index));
+        chunks.append(data, start, index);
         index += Character.charCount(data.codePointAt(index));
         int c = data.codePointAt(index);
         index += Character.charCount(data.codePointAt(index));
         if (c == '\n') {
           ignoreSpaces = true;
-        } else if (!Character.isSupplementaryCodePoint(c)
-            && QUOTE_CODES.keySet().contains((char) c)) {
+        } else if (!Character.isSupplementaryCodePoint(c) && QUOTE_CODES.containsKey((char) c)) {
           int length = QUOTE_CODES.get((char) c);
           int code = Integer.parseInt(data.substring(index, index + length), 16);
-          chunks.append(String.valueOf((char) code));
+          chunks.append((char) code);
           index += length;
         } else {
-          if (Character.isSupplementaryCodePoint(c)
-              || !QUOTE_REPLACES.keySet().contains((char) c)) {
+          if (Character.isSupplementaryCodePoint(c) || !QUOTE_REPLACES.containsKey((char) c)) {
             throw new CanonicalException("invalid escape code");
           }
           chunks.append(QUOTE_REPLACES.get((char) c));
         }
         start = index;
       } else if (data.charAt(index) == '\n') {
-        chunks.append(data.substring(start, index));
+        chunks.append(data, start, index);
         chunks.append(" ");
         index += Character.charCount(data.codePointAt(index));
         start = index;
@@ -281,7 +275,7 @@ public class CanonicalScanner implements Scanner {
         index += Character.charCount(data.codePointAt(index));
       }
     }
-    chunks.append(data.substring(start, index));
+    chunks.append(data, start, index);
     index += Character.charCount(data.codePointAt(index));
     return new ScalarToken(chunks.toString(), mark, mark, false);
   }

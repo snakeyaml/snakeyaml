@@ -14,19 +14,18 @@
 package org.yaml.snakeyaml.javabeans;
 
 import java.io.Serializable;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class ConstructEmptyBeanTest extends TestCase {
+
   /**
    * standard Yaml
    */
   public void testEmptyBean() {
     Yaml yaml = new Yaml();
     EmptyBean bean =
-        (EmptyBean) yaml.load("!!org.yaml.snakeyaml.javabeans.ConstructEmptyBeanTest$EmptyBean {}");
+        yaml.load("!!org.yaml.snakeyaml.javabeans.ConstructEmptyBeanTest$EmptyBean {}");
     assertNotNull(bean);
     assertNull(bean.getFirstName());
     assertEquals(5, bean.getHatSize());
@@ -102,6 +101,7 @@ public class ConstructEmptyBeanTest extends TestCase {
   }
 
   public static class EmptyBean implements Serializable {
+
     private static final long serialVersionUID = -8001155967276657180L;
     private String firstName;
     private int hatSize = 5;

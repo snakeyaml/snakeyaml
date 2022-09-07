@@ -16,12 +16,14 @@ package org.yaml.snakeyaml;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-
 import junit.framework.TestCase;
-
-import org.yaml.snakeyaml.events.*;
-import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.events.DocumentEndEvent;
+import org.yaml.snakeyaml.events.DocumentStartEvent;
+import org.yaml.snakeyaml.events.Event;
+import org.yaml.snakeyaml.events.ImplicitTuple;
+import org.yaml.snakeyaml.events.ScalarEvent;
+import org.yaml.snakeyaml.events.StreamEndEvent;
+import org.yaml.snakeyaml.events.StreamStartEvent;
 
 public class YamlParseTest extends TestCase {
 

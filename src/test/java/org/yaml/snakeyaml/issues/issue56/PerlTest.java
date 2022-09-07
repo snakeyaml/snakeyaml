@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.issues.issue56;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -57,6 +55,7 @@ public class PerlTest extends TestCase {
   }
 
   private class CustomConstructor extends SafeConstructor {
+
     public CustomConstructor() {
       // define tags which begin with !org.yaml.
       String prefix = "!de.oddb.org,2007/ODDB";
@@ -102,6 +101,7 @@ public class PerlTest extends TestCase {
   }
 
   private class CustomBeanConstructor extends Constructor {
+
     public CustomBeanConstructor() {
       // define tags which begin with !org.yaml.
       String prefix = "!de.oddb.org,2007/ODDB";

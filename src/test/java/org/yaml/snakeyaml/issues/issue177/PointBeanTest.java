@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue177;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 

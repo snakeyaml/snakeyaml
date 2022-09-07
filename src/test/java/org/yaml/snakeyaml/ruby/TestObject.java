@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.ruby;
 
 public class TestObject {
+
   private Sub1 sub1;
   private Sub2 sub2;
 

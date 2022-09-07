@@ -21,9 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -123,14 +121,16 @@ public class Chapter2_4Test extends TestCase {
   }
 
   class SomethingConstructor extends Constructor {
+
     public SomethingConstructor() {
       this.yamlConstructors.put(new Tag("!something"), new ConstructSomething());
     }
 
     private class ConstructSomething extends AbstractConstruct {
+
       public Object construct(Node node) {
         // convert to upper case
-        String val = (String) constructScalar((ScalarNode) node);
+        String val = constructScalar((ScalarNode) node);
         return val.toUpperCase().replace('\n', ' ').trim();
       }
     }

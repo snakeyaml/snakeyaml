@@ -14,7 +14,6 @@
 package org.pyyaml;
 
 import java.util.ArrayList;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.events.AliasEvent;
@@ -38,9 +37,10 @@ import org.yaml.snakeyaml.tokens.TagToken;
 import org.yaml.snakeyaml.tokens.Token;
 
 public class CanonicalParser implements Parser {
-  private ArrayList<Event> events;
+
+  private final ArrayList<Event> events;
   private boolean parsed;
-  private CanonicalScanner scanner;
+  private final CanonicalScanner scanner;
 
   public CanonicalParser(String data) {
     events = new ArrayList<Event>();
@@ -169,9 +169,7 @@ public class CanonicalParser implements Parser {
       parse();
     }
     if (!events.isEmpty()) {
-      if (events.get(0).is(choice)) {
-        return true;
-      }
+      return events.get(0).is(choice);
     }
     return false;
   }

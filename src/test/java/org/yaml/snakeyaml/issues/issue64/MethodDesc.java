@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue64;
 import java.util.List;
 
 public class MethodDesc {
+
   private String name;
   private List<Class<?>> argTypes;
 

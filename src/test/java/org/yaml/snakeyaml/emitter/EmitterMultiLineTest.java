@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.emitter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
@@ -31,7 +29,7 @@ public class EmitterMultiLineTest extends TestCase {
     String output = yaml.dump(plain);
     // System.out.println(output);
     assertEquals("|-\n  mama\n  mila\n  ramu\n", output);
-    String parsed = (String) yaml.load(output);
+    String parsed = yaml.load(output);
     // System.out.println(parsed);
     assertEquals(plain, parsed);
   }
@@ -53,7 +51,7 @@ public class EmitterMultiLineTest extends TestCase {
         "- |-\n  first\n  second\n  third\n- |\n  one\n  two\n  three\n- !!binary |-\n  CA4PCn4gQUFB\n";
     assertEquals(etalon, output);
     @SuppressWarnings("unchecked")
-    List<Object> parsed = (List<Object>) yaml.load(etalon);
+    List<Object> parsed = yaml.load(etalon);
     assertEquals(3, parsed.size());
     assertEquals(one, parsed.get(0));
     assertEquals(two, parsed.get(1));
@@ -65,7 +63,7 @@ public class EmitterMultiLineTest extends TestCase {
     // System.out.println("Source:\n" + source);
     Yaml yaml = new Yaml();
     @SuppressWarnings("unchecked")
-    Map<String, Object> parsed = (Map<String, Object>) yaml.load(source);
+    Map<String, Object> parsed = yaml.load(source);
     String value = (String) parsed.get("b");
     // System.out.println(value);
     assertEquals("mama\nmila\nramu\n", value);
@@ -81,7 +79,7 @@ public class EmitterMultiLineTest extends TestCase {
     options.setDefaultFlowStyle(FlowStyle.FLOW);
     Yaml yaml = new Yaml(options);
     @SuppressWarnings("unchecked")
-    Map<String, Object> parsed = (Map<String, Object>) yaml.load(source);
+    Map<String, Object> parsed = yaml.load(source);
     String value = (String) parsed.get("b");
     // System.out.println(value);
     assertEquals("mama\nmila\nramu", value);
@@ -97,7 +95,7 @@ public class EmitterMultiLineTest extends TestCase {
     options.setDefaultFlowStyle(FlowStyle.BLOCK);
     Yaml yaml = new Yaml(options);
     @SuppressWarnings("unchecked")
-    Map<String, Object> parsed = (Map<String, Object>) yaml.load(source);
+    Map<String, Object> parsed = yaml.load(source);
     String value = (String) parsed.get("b");
     // System.out.println(value);
     assertEquals("mama\nmila\nramu", value);

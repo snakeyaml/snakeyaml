@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue124;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;

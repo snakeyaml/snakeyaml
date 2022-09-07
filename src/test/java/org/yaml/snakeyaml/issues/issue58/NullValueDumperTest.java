@@ -14,14 +14,13 @@
 package org.yaml.snakeyaml.issues.issue58;
 
 import java.util.ArrayList;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class NullValueDumperTest extends TestCase {
 
   public static class Foo {
+
     private ArrayList<Object> bar = new ArrayList<Object>();
 
     public ArrayList<Object> getBar() {

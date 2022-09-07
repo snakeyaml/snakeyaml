@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.nodes;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
@@ -33,7 +32,7 @@ public class NodeTest extends TestCase {
     try {
       ScalarNode node = new ScalarNode(new Tag("!foo"), "Value1", null, null,
           DumperOptions.ScalarStyle.DOUBLE_QUOTED);
-      node.setTag((Tag) null);
+      node.setTag(null);
       fail("Value must be required.");
     } catch (Exception e) {
       assertEquals("tag in a Node is required.", e.getMessage());

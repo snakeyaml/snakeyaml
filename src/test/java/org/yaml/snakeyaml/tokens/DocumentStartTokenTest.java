@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.tokens;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.tokens.Token.ID;
 

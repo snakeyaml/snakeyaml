@@ -13,6 +13,16 @@
  */
 package org.pyyaml;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.scanner.Scanner;
@@ -20,12 +30,6 @@ import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.StreamEndToken;
 import org.yaml.snakeyaml.tokens.StreamStartToken;
 import org.yaml.snakeyaml.tokens.Token;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * imported from PyYAML
@@ -63,16 +67,14 @@ public class PyTokensTest extends PyImportTest {
       String tokenFileData = getResource(name);
       String[] split = tokenFileData.split("\\s+");
       List<String> tokens2 = new ArrayList<String>();
-      for (int j = 0; j < split.length; j++) {
-        tokens2.add(split[j]);
-      }
+      Collections.addAll(tokens2, split);
       //
       List<String> tokens1 = new ArrayList<String>();
       StreamReader reader =
           new StreamReader(new UnicodeReader(new FileInputStream(getFileByName(dataName))));
       Scanner scanner = new ScannerImpl(reader);
       try {
-        while (scanner.checkToken(new Token.ID[0])) {
+        while (scanner.checkToken()) {
           Token token = scanner.getToken();
           if (!(token instanceof StreamStartToken || token instanceof StreamEndToken)) {
             String replacement = replaces.get(token.getTokenId());
@@ -103,7 +105,7 @@ public class PyTokensTest extends PyImportTest {
       StreamReader reader = new StreamReader(new UnicodeReader(input));
       Scanner scanner = new ScannerImpl(reader);
       try {
-        while (scanner.checkToken(new Token.ID[0])) {
+        while (scanner.checkToken()) {
           Token token = scanner.getToken();
           tokens.add(token.getClass().getName());
         }

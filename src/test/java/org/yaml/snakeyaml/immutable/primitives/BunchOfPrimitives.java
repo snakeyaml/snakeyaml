@@ -14,7 +14,8 @@
 package org.yaml.snakeyaml.immutable.primitives;
 
 public class BunchOfPrimitives {
-  private int primitiveInt;
+
+  private final int primitiveInt;
   private double primitiveDouble;
   public boolean primitiveBoolean;
 

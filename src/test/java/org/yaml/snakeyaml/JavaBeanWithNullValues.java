@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class JavaBeanWithNullValues {
+
   private String string;
   private Integer integer;
   private Float float1;

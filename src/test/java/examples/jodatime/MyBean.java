@@ -16,6 +16,7 @@ package examples.jodatime;
 import org.joda.time.DateTime;
 
 public class MyBean {
+
   private String id;
   private DateTime date;
 

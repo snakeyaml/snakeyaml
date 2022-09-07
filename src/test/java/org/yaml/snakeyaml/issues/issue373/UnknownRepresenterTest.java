@@ -13,14 +13,13 @@
  */
 package org.yaml.snakeyaml.issues.issue373;
 
-import org.junit.Test;
-import org.yaml.snakeyaml.Yaml;
+import static junit.framework.TestCase.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-
-import static junit.framework.TestCase.assertTrue;
+import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Redundant test - it does not test anything. It is here only to prove that SnakeYAML does what it
@@ -34,7 +33,7 @@ public class UnknownRepresenterTest {
 
     Map<Integer, BigDecimal> m = new HashMap<Integer, BigDecimal>();
     Integer a = 1;
-    BigDecimal b = new BigDecimal(0.01);
+    BigDecimal b = new BigDecimal("0.01");
     m.put(a, b);
     mv.setMapIntegerBigDecimal(m);
 

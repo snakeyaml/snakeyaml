@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.constructor;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
@@ -57,6 +55,7 @@ public class ConstructorMappingTest extends TestCase {
   }
 
   class CustomConstructor extends Constructor {
+
     @Override
     protected Map<Object, Object> createDefaultMap(int initSize) {
       return new TreeMap<Object, Object>();

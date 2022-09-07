@@ -20,11 +20,13 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 class CustomRepresenter extends Representer {
+
   public CustomRepresenter() {
     this.representers.put(ClassWithGenericMap.class, new RepresentClassX());
   }
 
   private class RepresentClassX implements Represent {
+
     public Node representData(Object data) {
       ClassWithGenericMap classX = (ClassWithGenericMap) data;
       return representMapping(Tag.MAP, classX.services, DumperOptions.FlowStyle.BLOCK);

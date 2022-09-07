@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue94;
 
 public class Entity {
+
   private String name;
   private String nickName;
 

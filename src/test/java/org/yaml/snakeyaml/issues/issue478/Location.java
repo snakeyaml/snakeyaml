@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue478;
 
 public class Location {
+
   int x;
   int y;
   int z;

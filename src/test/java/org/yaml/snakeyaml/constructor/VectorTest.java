@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.util.Vector;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class VectorTest extends TestCase {
@@ -35,7 +33,7 @@ public class VectorTest extends TestCase {
     // System.out.println("YAML String: " + instance);
     yaml = new Yaml(new Constructor("java.util.Vector"));
     // If I try to get a Vector I receive a class cast exception.
-    Vector<String> vector = (Vector<String>) yaml.load(instance);
+    Vector<String> vector = yaml.load(instance);
     // System.out.println("Vector: " + vector);
     assertEquals(4, vector.size());
     assertEquals("this", vector.firstElement());

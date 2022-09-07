@@ -15,10 +15,9 @@ package examples;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -30,6 +29,7 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class DiceExampleTest extends TestCase {
+
   public void testRepresenter() {
     Dice dice = new Dice(3, 6);
     DumperOptions options = new DumperOptions();
@@ -49,11 +49,13 @@ public class DiceExampleTest extends TestCase {
   }
 
   class DiceRepresenter extends Representer {
+
     public DiceRepresenter() {
       this.representers.put(Dice.class, new RepresentDice());
     }
 
     private class RepresentDice implements Represent {
+
       public Node representData(Object data) {
         Dice dice = (Dice) data;
         String value = dice.getA() + "d" + dice.getB();
@@ -63,13 +65,15 @@ public class DiceExampleTest extends TestCase {
   }
 
   class DiceConstructor extends Constructor {
+
     public DiceConstructor() {
       this.yamlConstructors.put(new Tag("!dice"), new ConstructDice());
     }
 
     private class ConstructDice extends AbstractConstruct {
+
       public Object construct(Node node) {
-        String val = (String) constructScalar((ScalarNode) node);
+        String val = constructScalar((ScalarNode) node);
         int position = val.indexOf('d');
         Integer a = Integer.valueOf(val.substring(0, position));
         Integer b = Integer.valueOf(val.substring(position + 1));
@@ -121,19 +125,20 @@ public class DiceExampleTest extends TestCase {
   }
 
   static class DiceBean {
+
     public Dice treasure;
 
     @Override
     public boolean equals(Object o) {
-      if (this == o)
+      if (this == o) {
         return true;
-      if (!(o instanceof DiceBean))
+      }
+      if (!(o instanceof DiceBean)) {
         return false;
+      }
 
       DiceBean diceBean = (DiceBean) o;
-      if (treasure != null ? !treasure.equals(diceBean.treasure) : diceBean.treasure != null)
-        return false;
-      return true;
+      return Objects.equals(treasure, diceBean.treasure);
     }
 
     @Override

@@ -13,6 +13,8 @@
  */
 package org.yaml.snakeyaml.nodes;
 
+import static org.junit.Assert.assertNotEquals;
+
 import junit.framework.TestCase;
 
 public class TagTest extends TestCase {
@@ -83,8 +85,8 @@ public class TagTest extends TestCase {
     Tag tag = new Tag("!car");
     assertEquals(tag, tag);
     assertEquals(tag, new Tag("!car"));
-    assertFalse(tag.equals(new Tag("!!str")));
-    assertFalse(tag.equals(null));
-    assertFalse(tag.equals(25));
+    assertNotEquals(tag, new Tag("!!str"));
+    assertNotEquals(null, tag);
+    assertNotEquals(25, tag);
   }
 }

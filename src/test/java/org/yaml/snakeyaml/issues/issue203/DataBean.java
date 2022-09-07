@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue203;
 
 public class DataBean {
+
   private String id;
   private ContentIdentifier content;
 

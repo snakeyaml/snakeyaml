@@ -14,7 +14,8 @@
 package org.yaml.snakeyaml.issues.issue47;
 
 public class IncompleteBean {
-  private int id;
+
+  private final int id;
   private String name;
 
   public IncompleteBean() {

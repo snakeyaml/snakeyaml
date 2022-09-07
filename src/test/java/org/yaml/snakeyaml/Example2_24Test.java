@@ -16,9 +16,7 @@ package org.yaml.snakeyaml;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -32,7 +30,9 @@ import org.yaml.snakeyaml.representer.Representer;
  * Test Example 2.24 from the YAML specification
  */
 public class Example2_24Test extends TestCase {
+
   class MyConstructor extends Constructor {
+
     public MyConstructor() {
       this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:shape"), new ConstructShape());
       this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:circle"), new ConstructCircle());
@@ -41,6 +41,7 @@ public class Example2_24Test extends TestCase {
     }
 
     private class ConstructShape extends AbstractConstruct {
+
       @SuppressWarnings("unchecked")
       public Object construct(Node node) {
         SequenceNode snode = (SequenceNode) node;
@@ -51,6 +52,7 @@ public class Example2_24Test extends TestCase {
     }
 
     private class ConstructCircle extends AbstractConstruct {
+
       @SuppressWarnings("unchecked")
       public Object construct(Node node) {
         MappingNode mnode = (MappingNode) node;
@@ -62,6 +64,7 @@ public class Example2_24Test extends TestCase {
     }
 
     private class ConstructLine extends AbstractConstruct {
+
       @SuppressWarnings("unchecked")
       public Object construct(Node node) {
         MappingNode mnode = (MappingNode) node;
@@ -73,6 +76,7 @@ public class Example2_24Test extends TestCase {
     }
 
     private class ConstructLabel extends AbstractConstruct {
+
       @SuppressWarnings("unchecked")
       public Object construct(Node node) {
         MappingNode mnode = (MappingNode) node;
@@ -85,6 +89,7 @@ public class Example2_24Test extends TestCase {
   }
 
   class MyRepresenter extends Representer {
+
     public MyRepresenter() {
       this.representers.put(Shape.class, new RepresentShape());
       this.representers.put(Circle.class, new RepresentCircle());
@@ -94,6 +99,7 @@ public class Example2_24Test extends TestCase {
     }
 
     private class RepresentShape implements Represent {
+
       public Node representData(Object data) {
         Shape shape = (Shape) data;
         List<Entity> value = shape.getEntities();
@@ -102,6 +108,7 @@ public class Example2_24Test extends TestCase {
     }
 
     private class RepresentCircle implements Represent {
+
       public Node representData(Object data) {
         Circle circle = (Circle) data;
         Map<String, Object> map = new TreeMap<String, Object>();
@@ -112,6 +119,7 @@ public class Example2_24Test extends TestCase {
     }
 
     private class RepresentLine implements Represent {
+
       public Node representData(Object data) {
         Line line = (Line) data;
         Map<String, Object> map = new TreeMap<String, Object>();
@@ -122,6 +130,7 @@ public class Example2_24Test extends TestCase {
     }
 
     private class RepresentLabel implements Represent {
+
       public Node representData(Object data) {
         Label label = (Label) data;
         Map<String, Object> map = new TreeMap<String, Object>();
@@ -133,6 +142,7 @@ public class Example2_24Test extends TestCase {
     }
 
     private class RepresentHex implements Represent {
+
       public Node representData(Object data) {
         HexInteger hex = (HexInteger) data;
         return representScalar(Tag.INT, "0x" + Integer.toHexString(hex.getColor()).toUpperCase(),
@@ -142,7 +152,8 @@ public class Example2_24Test extends TestCase {
   }
 
   private class HexInteger {
-    private Integer color;
+
+    private final Integer color;
 
     public HexInteger(Integer color) {
       this.color = color;
@@ -154,7 +165,8 @@ public class Example2_24Test extends TestCase {
   }
 
   private class Shape {
-    private List<Entity> entities;
+
+    private final List<Entity> entities;
 
     public List<Entity> getEntities() {
       return entities;
@@ -166,11 +178,13 @@ public class Example2_24Test extends TestCase {
   }
 
   private class Entity {
+
   }
 
   private class Circle extends Entity {
-    private Map<String, Integer> center;
-    private Integer radius;
+
+    private final Map<String, Integer> center;
+    private final Integer radius;
 
     public Circle(Map<String, Integer> center, Integer radius) {
       this.center = center;
@@ -187,8 +201,9 @@ public class Example2_24Test extends TestCase {
   }
 
   private class Line extends Entity {
-    private Map<String, Integer> start;
-    private Map<String, Integer> finish;
+
+    private final Map<String, Integer> start;
+    private final Map<String, Integer> finish;
 
     public Line(Map<String, Integer> start, Map<String, Integer> finish) {
       this.start = start;
@@ -205,9 +220,10 @@ public class Example2_24Test extends TestCase {
   }
 
   private class Label extends Entity {
-    private Map<String, Integer> start;
-    private Integer color;
-    private String text;
+
+    private final Map<String, Integer> start;
+    private final Integer color;
+    private final String text;
 
     public Label(Map<String, Integer> start, Integer color, String text) {
       this.start = start;
@@ -230,7 +246,7 @@ public class Example2_24Test extends TestCase {
 
   public void testExample_2_24() {
     Yaml yaml = new Yaml(new MyConstructor());
-    Shape shape = (Shape) yaml.load(Util.getLocalResource("specification/example2_24.yaml"));
+    Shape shape = yaml.load(Util.getLocalResource("specification/example2_24.yaml"));
     assertNotNull(shape);
     yaml = new Yaml(new MyRepresenter());
     String output = yaml.dump(shape);

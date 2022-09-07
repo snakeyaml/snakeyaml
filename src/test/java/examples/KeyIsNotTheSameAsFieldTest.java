@@ -13,7 +13,7 @@
  */
 package examples;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.TypeDescription;
@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.Yaml;
 public class KeyIsNotTheSameAsFieldTest {
 
   public static class Param {
+
     private String name;
     private String inputPart;
     private String more;

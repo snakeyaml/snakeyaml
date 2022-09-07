@@ -14,9 +14,8 @@
 package biz.source_code.base64Coder;
 
 import java.io.UnsupportedEncodingException;
-
+import java.nio.charset.StandardCharsets;
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 public class Base64CoderTest extends TestCase {
@@ -60,11 +59,11 @@ public class Base64CoderTest extends TestCase {
   }
 
   private void check(String text, String encoded) throws UnsupportedEncodingException {
-    char[] s1 = Base64Coder.encode(text.getBytes("UTF-8"));
+    char[] s1 = Base64Coder.encode(text.getBytes(StandardCharsets.UTF_8));
     String t1 = new String(s1);
     assertEquals(encoded, t1);
     byte[] s2 = Base64Coder.decode(encoded.toCharArray());
-    String t2 = new String(s2, "UTF-8");
+    String t2 = new String(s2, StandardCharsets.UTF_8);
     assertEquals(text, t2);
   }
 }

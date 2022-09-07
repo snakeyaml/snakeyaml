@@ -15,12 +15,11 @@ package org.yaml.snakeyaml;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 
 public class JavaBeanTimeStampTest extends TestCase {
+
   public void testLoadDefaultJavaSqlTimestamp() {
     JavaBeanWithSqlTimestamp javaBeanToDump = new JavaBeanWithSqlTimestamp();
     Timestamp stamp = new Timestamp(1000000000000L);

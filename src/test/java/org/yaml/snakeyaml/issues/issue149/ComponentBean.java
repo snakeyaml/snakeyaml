@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue149;
 
 public class ComponentBean {
+
   private int property1;
   private String property2;
 

@@ -13,10 +13,10 @@
  */
 package org.yaml.snakeyaml.issues.issue341;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
-
-import static org.junit.Assert.*;
 
 public class MultiRepresenterTest {
 

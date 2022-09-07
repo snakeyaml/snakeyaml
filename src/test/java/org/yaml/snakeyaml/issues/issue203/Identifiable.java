@@ -16,5 +16,6 @@ package org.yaml.snakeyaml.issues.issue203;
 import java.io.Serializable;
 
 public interface Identifiable<ID extends Serializable> {
-  public ID getId();
+
+  ID getId();
 }

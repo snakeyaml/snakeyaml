@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue64;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -44,7 +42,7 @@ public class ParameterizedTypeTest extends TestCase {
     assertEquals(
         "!!org.yaml.snakeyaml.issues.issue64.MethodDesc\nargTypes: [!clazz 'String', !clazz 'Integer', !clazz 'Boolean']\nname: testMethod\n",
         out);
-    MethodDesc parsed = (MethodDesc) yaml.load(out);
+    MethodDesc parsed = yaml.load(out);
     assertEquals(methodName, parsed.getName());
     List<Class<?>> argTypes2 = parsed.getArgTypes();
     assertEquals(3, argTypes2.size());
@@ -52,11 +50,13 @@ public class ParameterizedTypeTest extends TestCase {
   }
 
   static class ClassRepresenter extends Representer {
+
     public ClassRepresenter() {
       this.representers.put(Class.class, new RepresentClass());
     }
 
     private class RepresentClass implements Represent {
+
       public Node representData(Object data) {
         Class<?> clazz = (Class<?>) data;
         return representScalar(new Tag("!clazz"), clazz.getSimpleName());
@@ -65,6 +65,7 @@ public class ParameterizedTypeTest extends TestCase {
   }
 
   static class ClassConstructor extends Constructor {
+
     public ClassConstructor() {
       this.yamlConstructors.put(new Tag("!clazz"), new ConstructClass());
     }
@@ -72,7 +73,7 @@ public class ParameterizedTypeTest extends TestCase {
     private class ConstructClass extends AbstractConstruct {
 
       public Object construct(Node node) {
-        String clazz = (String) constructScalar((ScalarNode) node);
+        String clazz = constructScalar((ScalarNode) node);
         try {
           return Class.forName("java.lang." + clazz);
         } catch (ClassNotFoundException e) {

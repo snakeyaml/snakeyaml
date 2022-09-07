@@ -51,7 +51,7 @@ public class TestYaml {
   public static void main(String[] args) {
 
     BeanA1 b = new BeanA1();
-    b.setId(2l);
+    b.setId(2L);
     b.setName("name1");
     Yaml yaml = new Yaml();
     String dump = yaml.dump(b);

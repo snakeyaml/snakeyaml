@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue56;
 
 public class CodeBean {
+
   private String country;
   private String type;
   private String value;

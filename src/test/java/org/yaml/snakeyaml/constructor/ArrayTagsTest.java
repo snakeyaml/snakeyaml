@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
@@ -59,7 +57,7 @@ public class ArrayTagsTest extends TestCase {
     Constructor constructor = new Constructor();
     constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
     Yaml yaml = new Yaml(constructor);
-    Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
+    Car car = yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
     assertEquals("12-XP-F4", car.getPlate());
     List<Wheel> wheels = car.getWheels();
     assertNotNull(wheels);
@@ -79,8 +77,7 @@ public class ArrayTagsTest extends TestCase {
   public void testLoadClassNoRoot() {
     Constructor constructor = new Constructor(new TypeDescription(CarWithArray.class));
     Yaml yaml = new Yaml(constructor);
-    CarWithArray car =
-        (CarWithArray) yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
+    CarWithArray car = yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
     assertEquals("12-XP-F4", car.getPlate());
     Wheel[] wheels = car.getWheels();
     assertNotNull(wheels);
@@ -88,6 +85,7 @@ public class ArrayTagsTest extends TestCase {
   }
 
   public static class CarWithArray {
+
     private String plate;
     private Wheel[] wheels;
 

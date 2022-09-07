@@ -14,9 +14,10 @@
 package examples;
 
 public class Hero {
-  private String name;
-  private Integer sp;
-  private Integer hp;
+
+  private final String name;
+  private final Integer sp;
+  private final Integer hp;
 
   public Hero(String name, Integer hp, Integer sp) {
     super();

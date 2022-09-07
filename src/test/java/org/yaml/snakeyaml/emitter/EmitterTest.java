@@ -21,13 +21,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
+import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
 import org.yaml.snakeyaml.events.ImplicitTuple;
 import org.yaml.snakeyaml.events.ScalarEvent;
@@ -146,7 +144,7 @@ public class EmitterTest extends TestCase {
     Yaml yaml;
     String output;
     Map<String, Object> map = new TreeMap<String, Object>();
-    map.put("12345", Arrays.asList("1111111111"));
+    map.put("12345", Collections.singletonList("1111111111"));
 
     // Split lines enabled (default)
     yaml = new Yaml(options);

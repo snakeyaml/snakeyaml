@@ -16,7 +16,6 @@ package org.yaml.snakeyaml;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
 
 /**

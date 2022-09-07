@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue73;
 
 import java.util.Set;
 import java.util.TreeSet;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Util;
@@ -54,11 +52,13 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
   }
 
   private class SetRepresenter extends Representer {
+
     public SetRepresenter() {
       this.multiRepresenters.put(Set.class, new RepresentIterable());
     }
 
     private class RepresentIterable implements Represent {
+
       @SuppressWarnings("unchecked")
       public Node representData(Object data) {
         return representSequence(getTag(data.getClass(), Tag.SEQ), (Iterable<Object>) data,
@@ -85,7 +85,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
   private void check(String doc) {
     Yaml yamlLoader = new Yaml();
     yamlLoader.setBeanAccess(BeanAccess.FIELD);
-    Blog blog = (Blog) yamlLoader.load(doc);
+    Blog blog = yamlLoader.load(doc);
     assertEquals("Test Me!", blog.getName());
     assertEquals(2, blog.numbers.size());
     assertEquals(2, blog.getPosts().size());

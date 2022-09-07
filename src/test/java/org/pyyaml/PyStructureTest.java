@@ -20,7 +20,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -208,6 +207,7 @@ public class PyStructureTest extends PyImportTest {
   }
 
   class CanonicalLoader extends Yaml {
+
     public CanonicalLoader() {
       super(new MyConstructor());
     }
@@ -241,7 +241,8 @@ public class PyStructureTest extends PyImportTest {
     }
 
     private class YamlIterable implements Iterable<Object> {
-      private Iterator<Object> iterator;
+
+      private final Iterator<Object> iterator;
 
       public YamlIterable(Iterator<Object> iterator) {
         this.iterator = iterator;
@@ -256,11 +257,13 @@ public class PyStructureTest extends PyImportTest {
   }
 
   private class MyConstructor extends Constructor {
+
     public MyConstructor() {
       this.yamlConstructors.put(null, new ConstructUndefined());
     }
 
     private class ConstructUndefined extends AbstractConstruct {
+
       public Object construct(Node node) {
         return constructScalar((ScalarNode) node);
       }

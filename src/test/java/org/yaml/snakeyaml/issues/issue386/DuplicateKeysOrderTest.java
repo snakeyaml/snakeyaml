@@ -13,11 +13,11 @@
  */
 package org.yaml.snakeyaml.issues.issue386;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.Map;
-
 import org.junit.Test;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;

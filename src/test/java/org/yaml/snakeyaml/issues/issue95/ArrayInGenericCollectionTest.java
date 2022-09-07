@@ -19,9 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import junit.framework.TestCase;
-
 import org.junit.Assert;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
@@ -33,11 +31,13 @@ import org.yaml.snakeyaml.nodes.Tag;
 public class ArrayInGenericCollectionTest extends TestCase {
 
   public static class A {
-    private Map<String, String[]> meta = new HashMap<String, String[]>();
+
+    private final Map<String, String[]> meta = new HashMap<String, String[]>();
   }
 
   public static class B {
-    private List<String[]> meta = new ArrayList<String[]>();
+
+    private final List<String[]> meta = new ArrayList<String[]>();
   }
 
   private A createA() {
@@ -63,7 +63,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
 
     Yaml yaml2load = new Yaml();
     yaml2load.setBeanAccess(BeanAccess.FIELD);
-    A loaded = (A) yaml2load.load(dump);
+    A loaded = yaml2load.load(dump);
 
     assertEquals(data.meta.size(), loaded.meta.size());
     Set<Entry<String, String[]>> loadedMeta = loaded.meta.entrySet();
@@ -88,7 +88,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     Yaml yaml2load = new Yaml(c);
     yaml2load.setBeanAccess(BeanAccess.FIELD);
 
-    A loaded = (A) yaml2load.load(dump);
+    A loaded = yaml2load.load(dump);
 
     assertEquals(data.meta.size(), loaded.meta.size());
     Set<Entry<String, String[]>> loadedMeta = loaded.meta.entrySet();
@@ -107,7 +107,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
 
     Yaml yaml2load = new Yaml();
     yaml2load.setBeanAccess(BeanAccess.FIELD);
-    B loaded = (B) yaml2load.load(dump);
+    B loaded = yaml2load.load(dump);
 
     Assert.assertArrayEquals(data.meta.toArray(), loaded.meta.toArray());
   }
@@ -127,7 +127,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     Yaml yaml2load = new Yaml(c);
     yaml2load.setBeanAccess(BeanAccess.FIELD);
 
-    B loaded = (B) yaml2load.load(dump);
+    B loaded = yaml2load.load(dump);
 
     Assert.assertArrayEquals(data.meta.toArray(), loaded.meta.toArray());
   }
@@ -143,7 +143,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     Constructor constr = new Constructor(B.class);
     Yaml yaml2load = new Yaml(constr);
     yaml2load.setBeanAccess(BeanAccess.FIELD);
-    B loaded = (B) yaml2load.load(dump);
+    B loaded = yaml2load.load(dump);
 
     Assert.assertArrayEquals(data.meta.toArray(), loaded.meta.toArray());
   }

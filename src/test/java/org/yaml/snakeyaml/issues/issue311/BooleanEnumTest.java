@@ -13,6 +13,8 @@
  */
 package org.yaml.snakeyaml.issues.issue311;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -23,8 +25,6 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
-
-import static org.junit.Assert.assertEquals;
 
 public class BooleanEnumTest {
 
@@ -60,11 +60,13 @@ public class BooleanEnumTest {
   }
 
   class MyRepresenter extends Representer {
+
     public MyRepresenter() {
       this.representers.put(BooleanEnum.class, new RepresentEnum());
     }
 
     private class RepresentEnum implements Represent {
+
       public Node representData(Object data) {
         BooleanEnum myEnum = (BooleanEnum) data;
         String value;
@@ -90,20 +92,23 @@ public class BooleanEnumTest {
   }
 
   class MyConstructor extends Constructor {
+
     public MyConstructor() {
       this.yamlClassConstructors.put(NodeId.scalar, new ConstructEnum());
     }
 
     private class ConstructEnum extends ConstructScalar {
+
       public Object construct(Node node) {
         if (node.getType().equals(BooleanEnum.class)) {
-          String val = (String) constructScalar((ScalarNode) node);
+          String val = constructScalar((ScalarNode) node);
           if ("true".equals(val)) {
             return BooleanEnum.TRUE;
           } else if ("false".equals(val)) {
             return BooleanEnum.FALSE;
-          } else
+          } else {
             return BooleanEnum.UNKNOWN;
+          }
         }
         return super.construct(node);
       }

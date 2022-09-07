@@ -15,7 +15,6 @@ package org.yaml.snakeyaml.types;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
@@ -28,6 +27,7 @@ import org.yaml.snakeyaml.representer.Representer;
  * @see <a href="http://yaml.org/type/bool.html">bool</a>
  */
 public class BoolTagTest extends AbstractTest {
+
   public void testBool() {
     assertEquals(Boolean.TRUE, getMapValue("canonical: true", "canonical"));
     assertEquals(Boolean.FALSE, getMapValue("answer: NO", "answer"));
@@ -105,7 +105,8 @@ public class BoolTagTest extends AbstractTest {
   }
 
   private class BoolRepresenter extends Representer {
-    private String value;
+
+    private final String value;
 
     public BoolRepresenter(String value) {
       super();
@@ -116,6 +117,7 @@ public class BoolTagTest extends AbstractTest {
     // possible values are here http://yaml.org/type/bool.html
     // y, Y, n, N should not be used
     private class RepresentBool implements Represent {
+
       public Node representData(Object data) {
         String v;
         if (Boolean.TRUE.equals(data)) {

@@ -16,6 +16,7 @@ package org.yaml.snakeyaml;
 import java.util.List;
 
 public class Invoice {
+
   public Integer invoice; // invoice
   public String date; // date
   public Person billTo;// bill-to

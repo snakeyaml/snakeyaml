@@ -13,18 +13,19 @@
  */
 package org.yaml.snakeyaml.issues.issue142;
 
-import junit.framework.TestCase;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
+import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
 public class DerivedMapTest extends TestCase {
 
   public static class Features extends LinkedHashMap<String, Object> {
+
   }
 
   public static class MyObject {
+
     private String name;
     private Map<String, Object> features = new LinkedHashMap<String, Object>();
     private Features moreFeatures = new Features();
@@ -63,7 +64,7 @@ public class DerivedMapTest extends TestCase {
     Yaml yaml = new Yaml();
     String asYaml = yaml.dump(o);
     // System.out.println(asYaml);
-    MyObject o2 = (MyObject) yaml.load(asYaml);
+    MyObject o2 = yaml.load(asYaml);
   }
 
 }

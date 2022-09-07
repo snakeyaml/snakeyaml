@@ -16,12 +16,12 @@ package org.pyyaml;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class CanonicalLoader extends Yaml {
+
   @Override
   public Object load(Reader yaml) {
     try {
@@ -70,7 +70,8 @@ public class CanonicalLoader extends Yaml {
   }
 
   private class YamlIterable implements Iterable<Object> {
-    private Iterator<Object> iterator;
+
+    private final Iterator<Object> iterator;
 
     public YamlIterable(Iterator<Object> iterator) {
       this.iterator = iterator;

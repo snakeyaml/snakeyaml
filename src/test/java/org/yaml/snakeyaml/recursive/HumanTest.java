@@ -22,12 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -54,7 +52,7 @@ public class HumanTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/no-children-1.yaml");
     assertEquals(etalon, output);
     //
-    Human father2 = (Human) yaml.load(output);
+    Human father2 = yaml.load(output);
     assertNotNull(father2);
     assertEquals("Father", father2.getName());
     assertEquals("Mother", father2.getPartner().getName());
@@ -83,7 +81,7 @@ public class HumanTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/no-children-1-pretty.yaml");
     assertEquals(etalon, output);
     //
-    Human father2 = (Human) yaml.load(output);
+    Human father2 = yaml.load(output);
     assertNotNull(father2);
     assertEquals("Father", father2.getName());
     assertEquals("Mother", father2.getPartner().getName());
@@ -285,7 +283,7 @@ public class HumanTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/with-children-2.yaml");
     assertEquals(etalon, output);
     //
-    Human2 son2 = (Human2) yaml.load(output);
+    Human2 son2 = yaml.load(output);
     assertNotNull(son2);
     assertEquals("Son", son.getName());
 
@@ -352,7 +350,7 @@ public class HumanTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/with-children-3.yaml");
     assertEquals(etalon, output);
     //
-    Human3 son2 = (Human3) yaml.load(output);
+    Human3 son2 = yaml.load(output);
     assertNotNull(son2);
     assertEquals("Son", son.getName());
 
@@ -386,7 +384,7 @@ public class HumanTest extends TestCase {
     constructor.addTypeDescription(humanDescription);
 
     Yaml yaml = new Yaml(constructor);
-    Set<Human> children2 = (Set<Human>) yaml.load(etalon);
+    Set<Human> children2 = yaml.load(etalon);
     assertNotNull(children2);
     assertEquals(2, children2.size());
 
@@ -422,7 +420,7 @@ public class HumanTest extends TestCase {
     constructor.addTypeDescription(Human2Description);
 
     Yaml yaml = new Yaml(constructor);
-    Map<Human2, String> children2 = (Map<Human2, String>) yaml.load(etalon);
+    Map<Human2, String> children2 = yaml.load(etalon);
     assertNotNull(children2);
     assertEquals(2, children2.size());
 
@@ -494,7 +492,7 @@ public class HumanTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/with-children-as-list.yaml");
     assertEquals(etalon, output);
     //
-    List<Human3> children2 = (List<Human3>) yaml.load(output);
+    List<Human3> children2 = yaml.load(output);
     assertNotNull(children2);
     Human3 son2 = children2.iterator().next();
     assertEquals(2, children2.size());
@@ -531,7 +529,7 @@ public class HumanTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/beanring-3.yaml");
     assertEquals(etalon, output);
     //
-    Human loadedMan1 = (Human) yaml.load(output);
+    Human loadedMan1 = yaml.load(output);
     assertNotNull(loadedMan1);
     assertEquals("Man 1", loadedMan1.getName());
     Human loadedMan2 = loadedMan1.getBankAccountOwner();

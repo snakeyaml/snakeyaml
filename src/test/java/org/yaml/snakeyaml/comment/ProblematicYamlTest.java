@@ -19,12 +19,10 @@ import static org.junit.Assert.fail;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import org.junit.Test;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.events.CommentEvent;
@@ -35,19 +33,23 @@ import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
 
 public class ProblematicYamlTest {
-  private boolean DEBUG = false;
+
+  private final boolean DEBUG = false;
 
   private void println(String s) {
-    if (DEBUG)
+    if (DEBUG) {
       System.out.println(s);
+    }
   }
 
   private void println() {
-    if (DEBUG)
+    if (DEBUG) {
       System.out.println();
+    }
   }
 
   private static final LoaderOptions LOAD_OPTIONS = new LoaderOptions();
+
   static {
     LOAD_OPTIONS.setProcessComments(true);
   }
@@ -162,7 +164,7 @@ public class ProblematicYamlTest {
         ID.DocumentEnd, //
         ID.StreamEnd //
     );
-    List<CommentType> expectedCommentTypeList = Arrays.asList(CommentType.BLANK_LINE);
+    List<CommentType> expectedCommentTypeList = Collections.singletonList(CommentType.BLANK_LINE);
     ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString3)),
         LOAD_OPTIONS.isProcessComments());
     assertEventListEquals(expectedEventIdList, expectedCommentTypeList, parser);

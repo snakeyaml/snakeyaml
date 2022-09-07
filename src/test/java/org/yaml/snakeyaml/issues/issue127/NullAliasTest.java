@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue127;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
@@ -26,6 +24,7 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class NullAliasTest extends TestCase {
+
   private static final Tag MY_TAG = new Tag("tag:example.com,2011:bean");
 
   public void testRespresenter() {
@@ -38,11 +37,13 @@ public class NullAliasTest extends TestCase {
   }
 
   class BeanRepresenter extends Representer {
+
     public BeanRepresenter() {
       this.representers.put(Bean.class, new RepresentBean());
     }
 
     private class RepresentBean implements Represent {
+
       public Node representData(Object data) {
         Bean bean = (Bean) data;
         Map<String, Object> fields = new LinkedHashMap<String, Object>(2);

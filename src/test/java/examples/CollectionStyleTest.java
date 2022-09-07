@@ -14,11 +14,11 @@
 package examples;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 public class CollectionStyleTest extends TestCase {
+
   public void testNestedStyle() {
     Yaml yaml = new Yaml();
     String document = "  a: 1\n  b:\n    c: 3\n    d: 4\n";

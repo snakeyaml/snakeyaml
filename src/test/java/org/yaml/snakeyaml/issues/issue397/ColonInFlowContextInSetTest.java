@@ -13,27 +13,26 @@
  */
 package org.yaml.snakeyaml.issues.issue397;
 
+import java.util.Set;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
-import java.util.Set;
-
 public class ColonInFlowContextInSetTest extends TestCase {
 
-  private Yaml loader = new Yaml();
+  private final Yaml loader = new Yaml();
 
   public void testSet() {
-    Set<String> set = (Set<String>) loader.load("!!set { http://foo }");
+    Set<String> set = loader.load("!!set { http://foo }");
     assertTrue(set.contains("http://foo"));
   }
 
   public void testSetNoSpaces() {
-    Set<String> set = (Set<String>) loader.load("!!set {http://foo}");
+    Set<String> set = loader.load("!!set {http://foo}");
     assertTrue(set.contains("http://foo"));
   }
 
   public void testSet2() {
-    Set<String> set = (Set<String>) loader.load("!!set { http://foo,http://bar }");
+    Set<String> set = loader.load("!!set { http://foo,http://bar }");
     assertTrue(set.contains("http://foo"));
     assertTrue(set.contains("http://bar"));
   }

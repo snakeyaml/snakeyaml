@@ -15,9 +15,7 @@ package org.yaml.snakeyaml;
 
 import java.io.InputStream;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 
 /**
@@ -45,7 +43,7 @@ public class Chapter2_3Test extends TestCase {
     DumperOptions options = new DumperOptions();
     options.setDefaultScalarStyle(ScalarStyle.FOLDED);
     Yaml yaml = new Yaml(options);
-    String data = (String) yaml.load(input);
+    String data = yaml.load(input);
     assertEquals(etalon, data);
     //
     String dumped = yaml.dump(data);

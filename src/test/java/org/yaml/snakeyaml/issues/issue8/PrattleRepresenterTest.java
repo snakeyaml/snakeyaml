@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue8;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -22,6 +21,7 @@ import org.yaml.snakeyaml.Yaml;
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=8
  */
 public class PrattleRepresenterTest extends TestCase {
+
   public void test() {
     Yaml yaml = new Yaml();
     Person person = new Person("Alan", "Gutierrez", 9);
@@ -46,8 +46,9 @@ public class PrattleRepresenterTest extends TestCase {
   }
 
   public static class Horse {
-    private String name;
-    private Person owner;
+
+    private final String name;
+    private final Person owner;
 
     public Horse(String name, Person owner) {
       super();

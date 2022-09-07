@@ -13,18 +13,18 @@
  */
 package org.yaml.snakeyaml.env;
 
+import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_FORMAT;
+
+import java.io.StringReader;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
-
-import java.io.StringReader;
-
-import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_FORMAT;
 
 /**
  * test that implicit resolver assigns the tag
  */
 public class EnvTagTest extends TestCase {
+
   public void testImplicitResolverForEnvConstructor() {
     Yaml yaml = new Yaml();
     yaml.addImplicitResolver(EnvScalarConstructor.ENV_TAG, ENV_FORMAT, "$");

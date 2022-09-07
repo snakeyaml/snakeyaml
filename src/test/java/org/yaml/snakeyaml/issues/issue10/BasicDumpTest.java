@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue10;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 

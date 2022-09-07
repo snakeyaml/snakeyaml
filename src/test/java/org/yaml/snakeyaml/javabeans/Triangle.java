@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.javabeans;
 
 public class Triangle implements Shape {
+
   private String name;
 
   public String getName() {

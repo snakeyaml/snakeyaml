@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.immutable;
  * Two constructors with 1 argument. None of them has String as the argument class.
  */
 public class Code4 {
+
   private final Integer code;
 
   public Code4(Integer name) {

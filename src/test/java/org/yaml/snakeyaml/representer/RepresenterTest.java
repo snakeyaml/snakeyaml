@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.representer;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -33,6 +32,7 @@ public class RepresenterTest extends TestCase {
   }
 
   public static class MyBean {
+
     private String name;
     private Boolean valid;
     private boolean primitive;
@@ -72,6 +72,7 @@ public class RepresenterTest extends TestCase {
   }
 
   public static class MyBean2 {
+
     private String name;
     private Boolean valid;
 
@@ -120,9 +121,10 @@ public class RepresenterTest extends TestCase {
   }
 
   public static class MyBean3 {
-    private String name;
-    private Boolean valid;
-    private boolean boolProperty;
+
+    private final String name;
+    private final Boolean valid;
+    private final boolean boolProperty;
 
     public MyBean3(String name, Boolean valid) {
       this.name = name;
@@ -155,7 +157,7 @@ public class RepresenterTest extends TestCase {
   public void testRepresenterAddNull() {
     Representer representer = new Representer();
     try {
-      representer.addClassTag(EmptyBean.class, (Tag) null);
+      representer.addClassTag(EmptyBean.class, null);
       fail("Tag must be provided.");
     } catch (Exception e) {
       assertEquals("Tag must be provided.", e.getMessage());
@@ -176,6 +178,7 @@ public class RepresenterTest extends TestCase {
   }
 
   public static class EmptyBean {
+
     private int number;
 
     public void process() {

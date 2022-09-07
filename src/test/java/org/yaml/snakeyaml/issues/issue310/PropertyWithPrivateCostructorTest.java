@@ -31,6 +31,7 @@ public class PropertyWithPrivateCostructorTest {
     }
 
     private class RepresentOption implements Represent {
+
       public Node representData(Object data) {
         Option<?> opt = (Option<?>) data;
         return represent(opt.getValue());

@@ -14,8 +14,9 @@
 package org.yaml.snakeyaml.extensions.compactnotation;
 
 public class Box {
-  private String id;
-  private String name;
+
+  private final String id;
+  private final String name;
   private Item top;
   private Item bottom;
 

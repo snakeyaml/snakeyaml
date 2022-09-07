@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue115;
 
 public class ParameterizedBean<K, V> {
+
   private K k;
   private V v;
 

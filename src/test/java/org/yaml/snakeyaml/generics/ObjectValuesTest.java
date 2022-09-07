@@ -17,9 +17,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class ObjectValuesTest extends TestCase {
@@ -86,7 +84,7 @@ public class ObjectValuesTest extends TestCase {
     // This actually FAILS. Use of GenericArrays is ..... no words.
     // assertEquals(ov.getPossible()[0], ov2.getPossible()[0]);
     try {
-      ov2.getPossible()[0].toString();
+      ov2.getPossible();
     } catch (Exception e) {
       boolean java8 = e.getMessage().startsWith("[Ljava.lang.Object");
       boolean java9 = e.getMessage().startsWith("java.base/[Ljava.lang.Object");

@@ -13,11 +13,10 @@
  */
 package org.yaml.snakeyaml.issues.issue449;
 
+import java.util.regex.Pattern;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.resolver.Resolver;
-
-import java.util.regex.Pattern;
 
 public class LeadingZeroStringTest extends TestCase {
 

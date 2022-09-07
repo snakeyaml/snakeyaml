@@ -21,7 +21,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
@@ -88,13 +87,14 @@ public class YamlLoadAsIssueTest {
   }
 
   private class MyConstructor extends Constructor {
+
     public MyConstructor() {
       yamlConstructors.put(new Tag("!car"), new ConstructCar());
       yamlConstructors.put(new Tag("!wheel"), new ConstructWheel());
     }
 
     private String toScalarString(Node node) {
-      return (String) constructScalar((ScalarNode) node);
+      return constructScalar((ScalarNode) node);
     }
 
     private class ConstructCar extends AbstractConstruct {

@@ -15,15 +15,14 @@ package org.yaml.snakeyaml;
 
 import java.sql.Timestamp;
 import java.util.Date;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class JavaBeanWithNullValuesTest extends TestCase {
+
   private Yaml loader;
 
   @Override
@@ -35,7 +34,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     String dumpStr = dumpJavaBeanWithNullValues(false);
     // System.out.println(dumpStr);
     Yaml yaml = new Yaml();
-    JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
+    JavaBeanWithNullValues parsed = yaml.load(dumpStr);
     assertNotNull(parsed.getString());
     assertNotNull(parsed.getBoolean1());
     assertNotNull(parsed.getDate());
@@ -61,7 +60,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
   public void testNull() {
     String dumpStr = dumpJavaBeanWithNullValues(true);
     Yaml yaml = new Yaml();
-    JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
+    JavaBeanWithNullValues parsed = yaml.load(dumpStr);
     assertNull(parsed.getString());
     //
     parsed = loader.loadAs(dumpStr, JavaBeanWithNullValues.class);
@@ -80,7 +79,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     javaBeanWithNullValues.setDouble1(1d);
     javaBeanWithNullValues.setFloat1(1f);
     javaBeanWithNullValues.setInteger(1);
-    javaBeanWithNullValues.setLong1(1l);
+    javaBeanWithNullValues.setLong1(1L);
     javaBeanWithNullValues.setSqlDate(new java.sql.Date(System.currentTimeMillis()));
     javaBeanWithNullValues.setString(null); // ok
     javaBeanWithNullValues.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -88,7 +87,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     String dumpStr = yaml.dump(javaBeanWithNullValues);
     // System.out.println(dumpStr);
     yaml = new Yaml();
-    JavaBeanWithNullValues parsed = (JavaBeanWithNullValues) yaml.load(dumpStr);
+    JavaBeanWithNullValues parsed = yaml.load(dumpStr);
     assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
     assertNull(" expect null, got " + parsed.getString(), parsed.getString());
   }
@@ -105,7 +104,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     javaBeanWithNullValues.setDouble1(1d);
     javaBeanWithNullValues.setFloat1(1f);
     javaBeanWithNullValues.setInteger(1);
-    javaBeanWithNullValues.setLong1(1l);
+    javaBeanWithNullValues.setLong1(1L);
     javaBeanWithNullValues.setSqlDate(new java.sql.Date(System.currentTimeMillis()));
     javaBeanWithNullValues.setString(null); // ok
     javaBeanWithNullValues.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -120,7 +119,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     assertEquals(1d, parsed.getDouble1());
     assertEquals(1f, parsed.getFloat1());
     assertEquals(Integer.valueOf(1), parsed.getInteger());
-    assertEquals(Long.valueOf(1l), parsed.getLong1());
+    assertEquals(Long.valueOf(1L), parsed.getLong1());
   }
 
   private String dumpJavaBeanWithNullValues(boolean nullValues) {
@@ -138,7 +137,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     javaBeanWithNullValues.setDouble1(1d);
     javaBeanWithNullValues.setFloat1(1f);
     javaBeanWithNullValues.setInteger(1);
-    javaBeanWithNullValues.setLong1(1l);
+    javaBeanWithNullValues.setLong1(1L);
     javaBeanWithNullValues.setSqlDate(new java.sql.Date(System.currentTimeMillis()));
     javaBeanWithNullValues.setString(""); // ok
     javaBeanWithNullValues.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -146,6 +145,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
   }
 
   public class CustomRepresenter extends Representer {
+
     public CustomRepresenter() {
       this.representers.put(Float.class, new RepresentFloat());
       this.representers.put(Long.class, new RepresentLong());
@@ -154,28 +154,30 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     }
 
     private class RepresentFloat implements Represent {
+
       public Node representData(Object data) {
-        return representScalar(new Tag(Tag.PREFIX + "java.lang.Float"), ((Float) data).toString());
+        return representScalar(new Tag(Tag.PREFIX + "java.lang.Float"), data.toString());
       }
     }
 
     private class RepresentLong implements Represent {
+
       public Node representData(Object data) {
         return representScalar(new Tag(Tag.PREFIX + "java.lang.Long"), ((Long) data).toString());
       }
     }
 
     private class RepresentDate implements Represent {
+
       public Node representData(Object data) {
-        return representScalar(new Tag(Tag.PREFIX + "java.sql.Date"),
-            ((java.sql.Date) data).toString());
+        return representScalar(new Tag(Tag.PREFIX + "java.sql.Date"), data.toString());
       }
     }
 
     private class RepresentTime implements Represent {
+
       public Node representData(Object data) {
-        return representScalar(new Tag(Tag.PREFIX + "java.sql.Timestamp"),
-            ((java.sql.Timestamp) data).toString());
+        return representScalar(new Tag(Tag.PREFIX + "java.sql.Timestamp"), data.toString());
       }
     }
   }

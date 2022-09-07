@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.constructor;
 import java.util.Date;
 
 public class TestBean {
+
   private String name;
   private int age;
   private Date born;

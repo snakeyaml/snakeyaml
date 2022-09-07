@@ -19,9 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -32,6 +30,7 @@ import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 
 public abstract class PyImportTest extends TestCase {
+
   public static final String PATH = "pyyaml";
 
   protected Object load(String data) {
@@ -110,8 +109,9 @@ public abstract class PyImportTest extends TestCase {
   }
 
   private class PyFilenameFilter implements FilenameFilter {
-    private String extension;
-    private boolean onlyIfCanonicalPresent;
+
+    private final String extension;
+    private final boolean onlyIfCanonicalPresent;
 
     public PyFilenameFilter(String extension, boolean onlyIfCanonicalPresent) {
       this.extension = extension;

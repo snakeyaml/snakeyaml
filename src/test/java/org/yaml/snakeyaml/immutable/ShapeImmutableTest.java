@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.immutable;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -22,19 +21,19 @@ public class ShapeImmutableTest extends TestCase {
 
   public void testColor() {
     Yaml yaml = new Yaml();
-    Color loaded = (Color) yaml.load("!!org.yaml.snakeyaml.immutable.Color BLACK");
+    Color loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Color BLACK");
     assertEquals("BLACK", loaded.getName());
   }
 
   public void testCode() {
     Yaml yaml = new Yaml();
-    Code loaded = (Code) yaml.load("!!org.yaml.snakeyaml.immutable.Code 123");
+    Code loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Code 123");
     assertEquals(Integer.valueOf(123), loaded.getCode());
   }
 
   public void testSuperColor() {
     Yaml yaml = new Yaml();
-    SuperColor superColor = (SuperColor) yaml.load(
+    SuperColor superColor = yaml.load(
         "!!org.yaml.snakeyaml.immutable.SuperColor [!!org.yaml.snakeyaml.immutable.Color BLACK]");
     assertEquals("BLACK", superColor.getColor().getName());
   }
@@ -52,7 +51,7 @@ public class ShapeImmutableTest extends TestCase {
 
   public void testCode2() {
     Yaml yaml = new Yaml();
-    Code2 code2 = (Code2) yaml.load("!!org.yaml.snakeyaml.immutable.Code2 555");
+    Code2 code2 = yaml.load("!!org.yaml.snakeyaml.immutable.Code2 555");
     assertEquals(Integer.valueOf(555), code2.getCode());
   }
 
@@ -83,14 +82,14 @@ public class ShapeImmutableTest extends TestCase {
 
   public void testPoint() {
     Yaml yaml = new Yaml();
-    Point loaded = (Point) yaml.load("!!org.yaml.snakeyaml.immutable.Point [1.17, 3.14]");
+    Point loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Point [1.17, 3.14]");
     assertEquals(1.17, loaded.getX());
     assertEquals(3.14, loaded.getY());
   }
 
   public void testPointBlock() {
     Yaml yaml = new Yaml();
-    Point loaded = (Point) yaml.load("!!org.yaml.snakeyaml.immutable.Point\n- 1.17\n- 3.14");
+    Point loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Point\n- 1.17\n- 3.14");
     assertEquals(1.17, loaded.getX());
     assertEquals(3.14, loaded.getY());
   }
@@ -111,14 +110,14 @@ public class ShapeImmutableTest extends TestCase {
 
   public void testPoint2() {
     Yaml yaml = new Yaml();
-    Point2 loaded = (Point2) yaml.load("!!org.yaml.snakeyaml.immutable.Point2\n- 1\n- 3");
+    Point2 loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Point2\n- 1\n- 3");
     assertEquals(Integer.valueOf(1), loaded.getX());
     assertEquals(Integer.valueOf(3), loaded.getY());
   }
 
   public void testPoint3d() {
     Yaml yaml = new Yaml();
-    Point3d loaded = (Point3d) yaml.load(
+    Point3d loaded = yaml.load(
         "!!org.yaml.snakeyaml.immutable.Point3d [!!org.yaml.snakeyaml.immutable.Point [1.17, 3.14], 345.1]");
     assertEquals(345.1, loaded.getZ());
   }
@@ -126,7 +125,7 @@ public class ShapeImmutableTest extends TestCase {
   public void testShape() {
     Yaml yaml = new Yaml();
     String source = Util.getLocalResource("immutable/shape1.yaml");
-    Shape loaded = (Shape) yaml.load(source);
+    Shape loaded = yaml.load(source);
     assertEquals(Integer.valueOf(123), loaded.getId());
   }
 

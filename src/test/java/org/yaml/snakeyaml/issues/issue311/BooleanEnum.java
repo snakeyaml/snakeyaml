@@ -17,8 +17,8 @@ public enum BooleanEnum {
 
   TRUE(true), FALSE(false), UNKNOWN();
 
-  private boolean boolValue;
-  private boolean defined;
+  private final boolean boolValue;
+  private final boolean defined;
 
   BooleanEnum(boolean p) {
     boolValue = p;
@@ -31,10 +31,11 @@ public enum BooleanEnum {
   }
 
   boolean getBoolValue() {
-    if (!defined)
+    if (!defined) {
       throw new IllegalArgumentException("Undefined has no value");
-    else
+    } else {
       return boolValue;
+    }
   }
 
   boolean isDefined() {

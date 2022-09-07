@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue341;
 
 public class MultiBean {
+
   private Long id;
   private String name;
 

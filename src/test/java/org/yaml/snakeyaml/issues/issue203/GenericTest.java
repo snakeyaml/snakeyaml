@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue203;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class GenericTest extends TestCase {
@@ -23,7 +22,7 @@ public class GenericTest extends TestCase {
     Yaml yaml = new Yaml();
     String uuu = "!!org.yaml.snakeyaml.issues.issue203.DataBean\n"
         + "content: !!org.yaml.snakeyaml.issues.issue203.ContentIdentifierImpl 33\n" + "id: 555";
-    DataBean obj = (DataBean) yaml.load(uuu);
+    DataBean obj = yaml.load(uuu);
     assertEquals(33, obj.getContent().getId().intValue());
   }
 }

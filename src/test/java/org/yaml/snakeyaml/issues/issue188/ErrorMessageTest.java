@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue188;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class ErrorMessageTest extends TestCase {

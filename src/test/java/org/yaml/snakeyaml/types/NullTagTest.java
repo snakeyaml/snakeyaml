@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
@@ -123,6 +122,7 @@ public class NullTagTest extends AbstractTest {
   }
 
   private class NullRepresenter extends Representer {
+
     public NullRepresenter() {
       super();
       // null representer is exceptional and it is stored as an instance
@@ -131,6 +131,7 @@ public class NullTagTest extends AbstractTest {
     }
 
     private class RepresentNull implements Represent {
+
       public Node representData(Object data) {
         // possible values are here http://yaml.org/type/null.html
         return representScalar(Tag.NULL, "");

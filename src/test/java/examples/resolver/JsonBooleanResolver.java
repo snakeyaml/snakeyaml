@@ -14,11 +14,11 @@
 package examples.resolver;
 
 import java.util.regex.Pattern;
-
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 public class JsonBooleanResolver extends Resolver {
+
   public static final Pattern BOOL = Pattern.compile("^(?:true|false)$");
 
   /*

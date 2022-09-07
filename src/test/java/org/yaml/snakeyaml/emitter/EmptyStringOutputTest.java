@@ -13,15 +13,14 @@
  */
 package org.yaml.snakeyaml.emitter;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
 import org.yaml.snakeyaml.events.ImplicitTuple;
 import org.yaml.snakeyaml.events.ScalarEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
-
-import java.io.IOException;
-import java.io.StringWriter;
 
 /**
  * https://bitbucket.org/snakeyaml/snakeyaml-engine/issues/23/emitting-only-an-empty-string-adds-to

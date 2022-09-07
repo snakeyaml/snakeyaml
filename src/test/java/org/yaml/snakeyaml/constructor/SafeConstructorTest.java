@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class SafeConstructorTest extends TestCase {

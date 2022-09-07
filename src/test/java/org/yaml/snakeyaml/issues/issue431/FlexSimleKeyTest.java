@@ -15,16 +15,14 @@ package org.yaml.snakeyaml.issues.issue431;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
-import junit.framework.TestCase;
-
 public class FlexSimleKeyTest extends TestCase {
 
-  private int len = 130;
+  private final int len = 130;
 
   public void testLongKey() {
     Yaml dumper = new Yaml(createOptions(len));
@@ -73,8 +71,9 @@ public class FlexSimleKeyTest extends TestCase {
     String prefix = String.valueOf(length);
     String result =
         prefix + "_" + outputBuffer.toString().substring(0, length - prefix.length() - 1);
-    if (result.length() != length)
+    if (result.length() != length) {
       throw new RuntimeException("It was: " + result.length());
+    }
     return result;
   }
 }

@@ -15,9 +15,7 @@ package examples.collections;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -26,6 +24,7 @@ import org.yaml.snakeyaml.Yaml;
  * Developer class must be properly recognised
  */
 public class TypeSafeListTest extends TestCase {
+
   public void testDumpList() {
     ListBean1 bean = new ListBean1();
     List<String> list = new ArrayList<String>();
@@ -62,6 +61,7 @@ public class TypeSafeListTest extends TestCase {
   }
 
   public static class ListBean1 {
+
     private List<String> children;
     private String name;
     private List<Developer> developers;
@@ -96,6 +96,7 @@ public class TypeSafeListTest extends TestCase {
   }
 
   public static class Developer {
+
     private String name;
     private String role;
 

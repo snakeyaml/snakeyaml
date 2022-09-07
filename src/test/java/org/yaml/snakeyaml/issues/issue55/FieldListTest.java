@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue55;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -43,7 +41,8 @@ public class FieldListTest extends TestCase {
   }
 
   public static class BlogField {
-    private List<Integer> posts;
+
+    private final List<Integer> posts;
 
     public BlogField() {
       posts = new LinkedList<Integer>();

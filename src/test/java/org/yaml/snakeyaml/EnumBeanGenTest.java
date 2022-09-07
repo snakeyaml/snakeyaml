@@ -14,13 +14,12 @@
 package org.yaml.snakeyaml;
 
 import java.util.LinkedHashMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.PropertySubstitute;
 
 public class EnumBeanGenTest extends TestCase {
+
   // Dumping
   public void testDumpEnumBean() {
     DumperOptions options = new DumperOptions();
@@ -44,7 +43,7 @@ public class EnumBeanGenTest extends TestCase {
   public void testLoadEnumBeanExplicitTags() {
     Yaml yaml = new Yaml();
     @SuppressWarnings("unchecked")
-    EnumBeanGen<Suit> bean = (EnumBeanGen<Suit>) yaml.load(
+    EnumBeanGen<Suit> bean = yaml.load(
         "!!org.yaml.snakeyaml.EnumBeanGen\nid: 174\nmap:\n  !!org.yaml.snakeyaml.Suit 'CLUBS': 1\n  !!org.yaml.snakeyaml.Suit 'DIAMONDS': 2\nsuit: !!org.yaml.snakeyaml.Suit 'CLUBS'");
 
     LinkedHashMap<Suit, Integer> map = new LinkedHashMap<Suit, Integer>();
@@ -65,7 +64,7 @@ public class EnumBeanGenTest extends TestCase {
     Yaml yaml = new Yaml(constructor);
 
     @SuppressWarnings("unchecked")
-    EnumBeanGen<Suit> bean = (EnumBeanGen<Suit>) yaml.load(
+    EnumBeanGen<Suit> bean = yaml.load(
         "!!org.yaml.snakeyaml.EnumBeanGen\nid: 174\nmap:\n  !!org.yaml.snakeyaml.Suit 'CLUBS': 1\n  !!org.yaml.snakeyaml.Suit 'DIAMONDS': 2\nsuit: CLUBS");
 
     LinkedHashMap<Suit, Integer> map = new LinkedHashMap<Suit, Integer>();
@@ -86,7 +85,7 @@ public class EnumBeanGenTest extends TestCase {
     c.addTypeDescription(td);
     Yaml yaml = new Yaml(c);
     @SuppressWarnings("unchecked")
-    EnumBeanGen<Suit> bean = (EnumBeanGen<Suit>) yaml.load(
+    EnumBeanGen<Suit> bean = yaml.load(
         "!!org.yaml.snakeyaml.EnumBeanGen\nid: 174\nmap:\n  CLUBS: 1\n  DIAMONDS: 2\nsuit: CLUBS");
 
     LinkedHashMap<Suit, Integer> map = new LinkedHashMap<Suit, Integer>();

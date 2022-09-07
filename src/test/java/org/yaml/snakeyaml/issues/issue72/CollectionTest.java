@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.issues.issue72;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class CollectionTest extends TestCase {
@@ -36,6 +34,7 @@ public class CollectionTest extends TestCase {
   }
 
   public static class CollectionList {
+
     private Collection<String> names;
 
     public CollectionList() {
@@ -66,6 +65,7 @@ public class CollectionTest extends TestCase {
   }
 
   public static class CollectionSet {
+
     private Collection<Integer> roles;
 
     public CollectionSet() {

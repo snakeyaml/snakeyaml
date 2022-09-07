@@ -18,9 +18,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -28,6 +26,7 @@ import org.yaml.snakeyaml.Yaml;
  * Test different Map implementations as JavaBean properties
  */
 public class TypeSafeSetImplementationsTest extends TestCase {
+
   public void testDumpSet() {
     SetBean bean = new SetBean();
     SortedSet<String> sortedSet = new TreeSet<String>();
@@ -107,6 +106,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
   }
 
   public static class SetBean {
+
     private SortedSet<String> sorted;
     private SortedSet<Developer> developers;
     private String name;
@@ -141,6 +141,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
   }
 
   public static class Developer implements Comparable<Developer> {
+
     private String name;
     private String role;
 
@@ -204,13 +205,14 @@ public class TypeSafeSetImplementationsTest extends TestCase {
     assertTrue(output.contains("set: *id001"));
     assertTrue(output.contains("111: null"));
     // load
-    Set<Object> list2 = (Set<Object>) yaml.load(output);
+    Set<Object> list2 = yaml.load(output);
     assertEquals(3, list2.size());
     assertTrue(list2.contains("aaa"));
     assertTrue(list2.contains(111));
   }
 
   public static class Box {
+
     private String id;
     private Set<Object> set;
 
@@ -237,7 +239,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
     String output = Util.getLocalResource("examples/set-bean-4.yaml");
     // System.out.println(output);
     // load
-    Set<String> set = (Set<String>) yaml.load(output);
+    Set<String> set = yaml.load(output);
     assertEquals(3, set.size());
     assertTrue(set.contains("aaa"));
     assertTrue(set.contains("bbb"));
@@ -254,7 +256,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
     String output = Util.getLocalResource("examples/set-bean-5.yaml");
     // System.out.println(output);
     // load and sort
-    Set<String> set = (Set<String>) yaml.load(output);
+    Set<String> set = yaml.load(output);
     assertEquals(3, set.size());
     assertTrue(set.contains("aaa"));
     assertTrue(set.contains("bbb"));

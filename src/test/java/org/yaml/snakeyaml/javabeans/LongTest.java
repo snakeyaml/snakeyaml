@@ -14,13 +14,13 @@
 package org.yaml.snakeyaml.javabeans;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class LongTest extends TestCase {
+
   public void testLongFail() {
     DumperOptions options = new DumperOptions();
     options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
@@ -36,6 +36,7 @@ public class LongTest extends TestCase {
   }
 
   public static class Foo {
+
     private Long bar = Long.valueOf(42L);
 
     public Long getBar() {
@@ -57,7 +58,7 @@ public class LongTest extends TestCase {
     Foo foo = new Foo();
     String output = yaml.dump(foo);
     // System.out.println(output);
-    Foo foo2 = (Foo) yaml.load(output);
+    Foo foo2 = yaml.load(output);
     assertEquals(Long.valueOf(42L), foo2.getBar());
   }
 
@@ -65,7 +66,7 @@ public class LongTest extends TestCase {
     String doc = "!!org.yaml.snakeyaml.javabeans.LongTest$Foo\n\"bar\": !!int \"42\"";
     // System.out.println(doc);
     Yaml yaml = new Yaml();
-    Foo foo2 = (Foo) yaml.load(doc);
+    Foo foo2 = yaml.load(doc);
     assertEquals(Long.valueOf(42L), foo2.getBar());
   }
 }

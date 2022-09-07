@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 class FragmentComposer extends Composer {
+
   String nodeName;
 
   public FragmentComposer(Parser parser, Resolver resolver, String nodeName) {

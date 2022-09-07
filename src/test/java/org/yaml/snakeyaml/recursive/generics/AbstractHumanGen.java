@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.recursive.generics;
 import java.util.Date;
 
 public abstract class AbstractHumanGen<T, K extends AbstractHumanGen<T, ?>> {
+
   private String name;
   private Date birthday;
   private String birthPlace;

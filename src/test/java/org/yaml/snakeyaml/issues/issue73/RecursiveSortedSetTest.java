@@ -16,13 +16,12 @@ package org.yaml.snakeyaml.issues.issue73;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class RecursiveSortedSetTest extends TestCase {
+
   public void testDumpException() {
     SortedSet<Object> set = new TreeSet<Object>();
     Bean11 bean = new Bean11();
@@ -56,7 +55,7 @@ public class RecursiveSortedSetTest extends TestCase {
     String doc = Util.getLocalResource("issues/issue73-recursive9.txt");
     // System.out.println(doc);
     Yaml yaml = new Yaml();
-    Bean11 beanWithSet = (Bean11) yaml.load(doc);
+    Bean11 beanWithSet = yaml.load(doc);
     Set<Object> set = beanWithSet.getSet();
     assertEquals(TreeSet.class, set.getClass());
     assertEquals("ID555", beanWithSet.getId());
@@ -79,6 +78,7 @@ public class RecursiveSortedSetTest extends TestCase {
   }
 
   public static class Bean11 implements Comparable<Object> {
+
     private SortedSet<Object> set;
     private String id;
 

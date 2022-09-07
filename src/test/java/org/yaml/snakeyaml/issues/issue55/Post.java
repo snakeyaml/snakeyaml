@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue55;
 
 class Post {
+
   private String title;
   private String text;
   public static String description;

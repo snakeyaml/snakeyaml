@@ -13,14 +13,13 @@
  */
 package org.yaml.snakeyaml.issues.issue374;
 
-import org.junit.Test;
-import org.yaml.snakeyaml.Yaml;
+import static org.junit.Assert.assertEquals;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
 
 
 public class NumberAsJavaBeanPropertyTest {
@@ -38,13 +37,14 @@ public class NumberAsJavaBeanPropertyTest {
     Yaml yaml = new Yaml();
     String str = yaml.dump(original);
 
-    AmbiguousNumberType interpreted = (AmbiguousNumberType) yaml.load(str);
+    AmbiguousNumberType interpreted = yaml.load(str);
 
     Locale.setDefault(originalLocale);
     assertEquals(original.number, interpreted.number);
   }
 
   public static class AmbiguousNumberType {
+
     public Number number;
   }
 
@@ -54,11 +54,10 @@ public class NumberAsJavaBeanPropertyTest {
     original.number = 1;
     assertEquals(Integer.class, original.number.getClass());
 
-
     Yaml yaml = new Yaml();
     String str = yaml.dump(original);
 
-    AmbiguousNumberType interpreted = (AmbiguousNumberType) yaml.load(str);
+    AmbiguousNumberType interpreted = yaml.load(str);
 
     assertEquals(Double.valueOf(original.number.intValue()), interpreted.number);
   }
@@ -69,11 +68,10 @@ public class NumberAsJavaBeanPropertyTest {
     original.number = 1L;
     assertEquals(Long.class, original.number.getClass());
 
-
     Yaml yaml = new Yaml();
     String str = yaml.dump(original);
 
-    AmbiguousNumberType interpreted = (AmbiguousNumberType) yaml.load(str);
+    AmbiguousNumberType interpreted = yaml.load(str);
 
     assertEquals(Double.valueOf(original.number.intValue()), interpreted.number);
   }

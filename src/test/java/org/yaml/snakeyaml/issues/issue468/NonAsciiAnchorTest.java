@@ -17,6 +17,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
 public class NonAsciiAnchorTest extends TestCase {
+
   private final String NON_ANCHORS = ":,[]{}*&./";
 
   public void testNonAsciiAnchor() {

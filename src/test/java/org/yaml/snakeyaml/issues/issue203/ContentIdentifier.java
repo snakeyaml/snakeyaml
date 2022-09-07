@@ -14,5 +14,6 @@
 package org.yaml.snakeyaml.issues.issue203;
 
 public interface ContentIdentifier extends Identifiable<Long> {
-};
+
+}
 

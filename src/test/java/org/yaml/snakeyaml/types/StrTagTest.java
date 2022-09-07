@@ -18,11 +18,11 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.Yaml;
@@ -31,6 +31,7 @@ import org.yaml.snakeyaml.Yaml;
  * @see <a href="http://yaml.org/type/str.html">str</a>
  */
 public class StrTagTest extends AbstractTest {
+
   private String getData(String data, String key) {
     return (String) getMapValue(data, key);
   }
@@ -161,14 +162,13 @@ public class StrTagTest extends AbstractTest {
 
   public void testDumpUtf16() throws UnsupportedEncodingException {
     String str = "xxx";
-    assertEquals(3, str.toString().length());
+    assertEquals(3, str.length());
     Yaml yaml = new Yaml();
-    Charset charset = Charset.forName("UTF-16");
+    Charset charset = StandardCharsets.UTF_16;
     ByteArrayOutputStream stream = new ByteArrayOutputStream();
     Writer writer = new OutputStreamWriter(stream, charset);
     yaml.dump(str, writer);
     assertEquals(str + "\n", stream.toString("UTF-16"));
-    assertEquals("Must include BOM: " + stream.toString(), (1 + 3 + 1) * 2,
-        stream.toString().length());
+    assertEquals("Must include BOM: " + stream, (1 + 3 + 1) * 2, stream.toString().length());
   }
 }

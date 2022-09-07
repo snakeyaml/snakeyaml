@@ -14,9 +14,7 @@
 package examples.jodatime;
 
 import java.util.Date;
-
 import junit.framework.TestCase;
-
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -29,6 +27,7 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.Tag;
 
 public class JodaTimeExampleTest extends TestCase {
+
   private static final long timestamp = 1000000000000L;
 
   public void testDump() {
@@ -42,7 +41,7 @@ public class JodaTimeExampleTest extends TestCase {
 
   public void testLoad() {
     Yaml yaml = new Yaml(new JodaTimeImplicitContructor());
-    DateTime time = (DateTime) yaml.load("2001-09-09T01:46:40Z");
+    DateTime time = yaml.load("2001-09-09T01:46:40Z");
     assertEquals(new DateTime(timestamp, DateTimeZone.UTC), time);
   }
 
@@ -60,11 +59,13 @@ public class JodaTimeExampleTest extends TestCase {
   }
 
   class JodaPropertyConstructor extends Constructor {
+
     public JodaPropertyConstructor() {
       yamlClassConstructors.put(NodeId.scalar, new TimeStampConstruct());
     }
 
     class TimeStampConstruct extends Constructor.ConstructScalar {
+
       @Override
       public Object construct(Node nnode) {
         if (nnode.getTag().equals("tag:yaml.org,2002:timestamp")) {
@@ -82,6 +83,7 @@ public class JodaTimeExampleTest extends TestCase {
    * This class should be used if JodaTime may appear with a tag or as a JavaBean property
    */
   public class JodaTimeConstructor extends Constructor {
+
     private final Construct javaDateConstruct;
     private final Construct jodaDateConstruct;
 
@@ -97,6 +99,7 @@ public class JodaTimeExampleTest extends TestCase {
     }
 
     public class ConstructJodaTimestamp extends AbstractConstruct {
+
       public Object construct(Node node) {
         Date date = (Date) javaDateConstruct.construct(node);
         return new DateTime(date, DateTimeZone.UTC);
@@ -104,6 +107,7 @@ public class JodaTimeExampleTest extends TestCase {
     }
 
     class TimeStampConstruct extends Constructor.ConstructScalar {
+
       @Override
       public Object construct(Node nnode) {
         if (nnode.getTag().equals(Tag.TIMESTAMP)) {

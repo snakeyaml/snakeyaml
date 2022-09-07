@@ -14,7 +14,6 @@
 package examples.enumset;
 
 import java.util.EnumSet;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -53,7 +52,7 @@ public class YamlEnumSetTest {
 
     String output = createYaml().dump(yEST);
     YamlEnumSetTest loaded = createYaml().loadAs(output, YamlEnumSetTest.class);
-    Assert.assertTrue(loaded.day == Day.SUNDAY);
+    Assert.assertSame(loaded.day, Day.SUNDAY);
 
     Object[] expected = yEST.setOfDays.toArray();
     Object[] actual = loaded.setOfDays.toArray();
@@ -71,7 +70,7 @@ public class YamlEnumSetTest {
 
     String yamlStr = "day: SUNDAY\nsetOfDays: { MONDAY, WEDNESDAY, FRIDAY }\n";
     YamlEnumSetTest loaded = createYaml().loadAs(yamlStr, YamlEnumSetTest.class);
-    Assert.assertTrue(loaded.day == Day.SUNDAY);
+    Assert.assertSame(loaded.day, Day.SUNDAY);
 
     Object[] expected = yEST.setOfDays.toArray();
     Object[] actual = loaded.setOfDays.toArray();
@@ -96,7 +95,7 @@ public class YamlEnumSetTest {
     YamlEnumSetTest loaded = createYaml(loaderOptions).loadAs(yamlStr, YamlEnumSetTest.class);
 
     // then
-    Assert.assertTrue(loaded.day == Day.SUNDAY);
+    Assert.assertSame(loaded.day, Day.SUNDAY);
 
     Object[] expected = yEST.setOfDays.toArray();
     Object[] actual = loaded.setOfDays.toArray();
@@ -140,7 +139,6 @@ public class YamlEnumSetTest {
   private Yaml createYaml() {
     return createYaml(null);
   }
-
 
 
 }

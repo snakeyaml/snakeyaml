@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.generics;
 
 import java.beans.IntrospectionException;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class BirdTest extends TestCase {

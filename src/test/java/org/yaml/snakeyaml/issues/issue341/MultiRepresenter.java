@@ -17,6 +17,7 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
 
 class MultiRepresenter extends Representer {
+
   public MultiRepresenter() {
     multiRepresenters.put(null, new RepresentAsSring());
   }

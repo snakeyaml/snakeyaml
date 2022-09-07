@@ -15,13 +15,12 @@ package org.yaml.snakeyaml.issues.issue61;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class GenericMapBeanTest extends TestCase {
+
   @SuppressWarnings("unchecked")
   public void testGenericMap() {
     Yaml yaml = new Yaml();
@@ -66,6 +65,7 @@ public class GenericMapBeanTest extends TestCase {
   }
 
   public static class MapProvider<K, V> {
+
     private Map<K, V> map = new LinkedHashMap<K, V>();
 
     public Map<K, V> getMap() {
@@ -93,6 +93,7 @@ public class GenericMapBeanTest extends TestCase {
   }
 
   public static class Bean {
+
     private String name;
     private int number;
 

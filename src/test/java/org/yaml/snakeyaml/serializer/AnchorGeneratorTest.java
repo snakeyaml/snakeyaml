@@ -13,14 +13,13 @@
  */
 package org.yaml.snakeyaml.serializer;
 
+import java.util.ArrayList;
+import java.util.List;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AnchorGeneratorTest extends TestCase {
 
@@ -38,7 +37,6 @@ public class AnchorGeneratorTest extends TestCase {
     String output = yaml1.dump(list);
     assertEquals("&id001\n" + "- data123\n" + "- *id001\n", output);
 
-
     DumperOptions options = new DumperOptions();
     Yaml yaml2 = new Yaml(options);
     options.setAnchorGenerator(new Gener(3));
@@ -53,10 +51,11 @@ public class AnchorGeneratorTest extends TestCase {
     }
 
     public String nextAnchor(Node node) {
-      if (node.getTag() == Tag.SEQ)
+      if (node.getTag() == Tag.SEQ) {
         return "list-" + super.nextAnchor(node);
-      else
+      } else {
         return super.nextAnchor(node);
+      }
     }
   }
 }

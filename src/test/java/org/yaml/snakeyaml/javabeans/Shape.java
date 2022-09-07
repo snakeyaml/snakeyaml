@@ -15,5 +15,5 @@ package org.yaml.snakeyaml.javabeans;
 
 public interface Shape {
 
-  public int process();
+  int process();
 }

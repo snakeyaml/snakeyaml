@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.constructor;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.parser.Parser;
@@ -75,6 +73,7 @@ public class ConstructorSequenceTest extends TestCase {
   }
 
   class CustomConstructor extends Constructor {
+
     @Override
     protected List<Object> createDefaultList(int initSize) {
       return new ArrayList<Object>(initSize);

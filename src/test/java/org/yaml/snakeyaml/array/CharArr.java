@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.array;
 import java.util.Arrays;
 
 public class CharArr {
+
   private char[] chars;
 
   public CharArr() {}

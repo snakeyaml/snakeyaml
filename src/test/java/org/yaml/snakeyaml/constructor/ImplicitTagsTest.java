@@ -17,9 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -42,7 +40,7 @@ public class ImplicitTagsTest extends TestCase {
     car1.setYear("2008");
     String carYaml1 = new Yaml().dump(car1);
     assertEquals(Util.getLocalResource("constructor/carwheel-without-tags.yaml"), carYaml1);
-    CarWithWheel car2 = (CarWithWheel) new Yaml().load(carYaml1);
+    CarWithWheel car2 = new Yaml().load(carYaml1);
     String carYaml2 = new Yaml().dump(car2);
     assertEquals(carYaml1, carYaml2);
   }
@@ -61,7 +59,7 @@ public class ImplicitTagsTest extends TestCase {
     assertEquals(Util.getLocalResource("constructor/car-without-root-tag.yaml"), carYaml1);
     //
     Constructor contructor = new Constructor(CarWithWheel.class);
-    CarWithWheel car2 = (CarWithWheel) new Yaml(contructor).load(carYaml1);
+    CarWithWheel car2 = new Yaml(contructor).load(carYaml1);
     String carYaml2 = new Yaml().dumpAs(car2, Tag.MAP, FlowStyle.AUTO);
     assertEquals(carYaml1, carYaml2);
   }
@@ -80,7 +78,7 @@ public class ImplicitTagsTest extends TestCase {
 
     String carYaml1 = new Yaml().dump(car1);
     assertEquals(Util.getLocalResource("constructor/carwheel-root-map.yaml"), carYaml1);
-    Map<Object, Object> car2 = (Map<Object, Object>) new Yaml().load(carYaml1);
+    Map<Object, Object> car2 = new Yaml().load(carYaml1);
     assertEquals(car1, car2);
     assertEquals(carYaml1, new Yaml().dump(car2));
   }
@@ -89,7 +87,7 @@ public class ImplicitTagsTest extends TestCase {
     Constructor constructor = new Constructor();
     constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
     Yaml yaml = new Yaml(constructor);
-    Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
+    Car car = yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
     assertEquals("12-XP-F4", car.getPlate());
     List<Wheel> wheels = car.getWheels();
     assertNotNull(wheels);
@@ -108,6 +106,7 @@ public class ImplicitTagsTest extends TestCase {
   }
 
   public static class CarWithWheel {
+
     private String plate;
     private String year;
     private Wheel wheel;

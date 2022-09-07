@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.math.BigDecimal;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class BigDecimalBeanConstructorTest extends TestCase {
@@ -35,7 +33,7 @@ public class BigDecimalBeanConstructorTest extends TestCase {
     String className = "!!" + this.getClass().getPackage().getName()
         + ".BigDecimalJavaBean {amount: 1.5, number: 3.1416}";
     Yaml yaml = new Yaml();
-    BigDecimalJavaBean bean = (BigDecimalJavaBean) yaml.load(className);
+    BigDecimalJavaBean bean = yaml.load(className);
     assertNotNull(bean);
     assertTrue(1.5 - bean.getAmount() < 0.0000001);
     assertTrue((new BigDecimal("3.1416")).add(bean.getNumber().negate()).doubleValue() < 0.0000001);

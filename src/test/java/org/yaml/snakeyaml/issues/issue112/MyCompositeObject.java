@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue112;
 import java.util.Collection;
 
 public class MyCompositeObject {
+
   Collection<MyClass<? extends Object>> things;
 
   public Collection<MyClass<? extends Object>> getThings() {

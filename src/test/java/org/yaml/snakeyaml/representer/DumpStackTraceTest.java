@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.representer;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -54,7 +53,7 @@ public class DumpStackTraceTest extends TestCase {
   public void testJavaStackTraceWithoutTabs() {
     Yaml yaml = new Yaml();
     String input = Util.getLocalResource("representer/stacktrace1.txt");
-    String result = (String) yaml.dump(input);
+    String result = yaml.dump(input);
     // System.out.println(result);
     String etalon = Util.getLocalResource("representer/stacktrace1.yaml");
     // http://code.google.com/p/snakeyaml/issues/detail?id=66

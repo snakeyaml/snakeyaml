@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.emitter.template;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -29,6 +27,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.immutable.Point;
 
 public class VelocityTest extends TestCase {
+
   public void testNoTemplate() {
     DumperOptions options = new DumperOptions();
     options.setAllowReadOnlyProperties(true);

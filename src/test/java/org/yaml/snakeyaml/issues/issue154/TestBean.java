@@ -14,5 +14,6 @@
 package org.yaml.snakeyaml.issues.issue154;
 
 public class TestBean {
+
   public int hello;
 }

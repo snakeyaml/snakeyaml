@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class House {
+
   private String street;
   private int number;
   private List<Room> rooms;

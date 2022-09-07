@@ -13,16 +13,14 @@
  */
 package org.yaml.snakeyaml.issues.issue322_382;
 
-import org.junit.Test;
-
-import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class PropertyWithoutGetterTest {
 
@@ -74,6 +72,7 @@ public class PropertyWithoutGetterTest {
   }
 
   public static class StaticFooWithoutGetter {
+
     private List<String> countryCodes = new ArrayList<String>();
     private String some;
 
@@ -90,6 +89,7 @@ public class PropertyWithoutGetterTest {
   }
 
   public static class StaticFooWithGetter {
+
     private List<String> countryCodes = new ArrayList<String>();
     private String some;
 

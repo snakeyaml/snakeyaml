@@ -15,10 +15,10 @@ package org.yaml.snakeyaml.emitter.template;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.yaml.snakeyaml.immutable.Point;
 
 public class MyBean {
+
   private Point point;
   private List<String> list;
   private List<Integer> empty = new ArrayList<Integer>();
@@ -69,10 +69,7 @@ public class MyBean {
       if (!list.equals(bean.list)) {
         return false;
       }
-      if (!empty.equals(bean.empty)) {
-        return false;
-      }
-      return true;
+      return empty.equals(bean.empty);
     } else {
       return false;
     }

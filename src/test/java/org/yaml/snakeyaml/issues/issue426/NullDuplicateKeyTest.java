@@ -14,12 +14,10 @@
 package org.yaml.snakeyaml.issues.issue426;
 
 import java.util.Map;
-
+import junit.framework.TestCase;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
-
-import junit.framework.TestCase;
 
 public class NullDuplicateKeyTest extends TestCase {
 

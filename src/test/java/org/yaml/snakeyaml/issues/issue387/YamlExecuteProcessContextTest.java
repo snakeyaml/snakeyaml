@@ -19,18 +19,16 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 import java.util.Set;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 public class YamlExecuteProcessContextTest {
 
-  public static enum ExecuteProcessConstants {
+  public enum ExecuteProcessConstants {
     EXECUTE_ID, EXECUTE_STATUS_START, EXECUTE_STATUS_DONE
   }
 
@@ -38,6 +36,7 @@ public class YamlExecuteProcessContextTest {
   @AllArgsConstructor
   @Data
   public static class YamlExecuteProcessContext {
+
     private String executionID;
     private String schemaName;
     private String username;
@@ -51,6 +50,7 @@ public class YamlExecuteProcessContextTest {
   @AllArgsConstructor
   @Data
   public static class YamlExecuteProcessUnit {
+
     private String unitID;
     private ExecuteProcessConstants status;
   }

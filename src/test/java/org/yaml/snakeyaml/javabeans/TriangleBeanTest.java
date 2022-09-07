@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.javabeans;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class TriangleBeanTest extends TestCase {

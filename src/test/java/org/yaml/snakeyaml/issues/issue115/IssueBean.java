@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue115;
 
 public class IssueBean {
+
   private ParameterizedBean<Integer, String> bean = new ParameterizedBean<Integer, String>();
 
   public ParameterizedBean<Integer, String> getBean() {

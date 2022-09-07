@@ -18,13 +18,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 public class DumpExampleTest extends TestCase {
+
   public void testDump() {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put("name", "Silenthand Olleander");

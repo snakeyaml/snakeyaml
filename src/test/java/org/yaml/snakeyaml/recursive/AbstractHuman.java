@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.recursive;
 import java.util.Date;
 
 public abstract class AbstractHuman {
+
   private String name;
   private Date birthday;
   private String birthPlace;
@@ -56,29 +57,34 @@ public abstract class AbstractHuman {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     AbstractHuman other = (AbstractHuman) obj;
     if (birthPlace == null) {
-      if (other.birthPlace != null)
+      if (other.birthPlace != null) {
         return false;
-    } else if (!birthPlace.equals(other.birthPlace))
+      }
+    } else if (!birthPlace.equals(other.birthPlace)) {
       return false;
+    }
     if (birthday == null) {
-      if (other.birthday != null)
+      if (other.birthday != null) {
         return false;
-    } else if (!birthday.equals(other.birthday))
+      }
+    } else if (!birthday.equals(other.birthday)) {
       return false;
+    }
     if (name == null) {
-      if (other.name != null)
-        return false;
-    } else if (!name.equals(other.name))
-      return false;
-    return true;
+      return other.name == null;
+    } else
+      return name.equals(other.name);
   }
 
 }

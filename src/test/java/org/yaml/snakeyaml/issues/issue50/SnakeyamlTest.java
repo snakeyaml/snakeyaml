@@ -14,20 +14,22 @@
 package org.yaml.snakeyaml.issues.issue50;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 /**
  * test issue 50.
  */
 public class SnakeyamlTest extends TestCase {
-  public static interface SomeBean {
+
+  public interface SomeBean {
+
     String getAttribute1();
 
     String getAttribute2();
   }
 
   /* public */static abstract class BaseSomeBean implements SomeBean {
+
     private String attribute1;
 
     public String getAttribute1() {
@@ -40,6 +42,7 @@ public class SnakeyamlTest extends TestCase {
   }
 
   public static final class SomeBeanImpl extends BaseSomeBean {
+
     private String attribute2;
 
     public SomeBeanImpl(final String attribute1, final String attribute2) {

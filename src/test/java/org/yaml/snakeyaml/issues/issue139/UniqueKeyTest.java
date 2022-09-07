@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue139;
 
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -42,7 +40,7 @@ public class UniqueKeyTest extends TestCase {
 
     @Override
     protected void constructMapping2ndStep(MappingNode node, Map<Object, Object> mapping) {
-      List<NodeTuple> nodeValue = (List<NodeTuple>) node.getValue();
+      List<NodeTuple> nodeValue = node.getValue();
       for (NodeTuple tuple : nodeValue) {
         Node keyNode = tuple.getKeyNode();
         Node valueNode = tuple.getValueNode();

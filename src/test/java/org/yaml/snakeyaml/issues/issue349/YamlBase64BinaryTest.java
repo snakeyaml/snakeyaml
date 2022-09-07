@@ -16,7 +16,6 @@ package org.yaml.snakeyaml.issues.issue349;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
@@ -33,7 +32,7 @@ public class YamlBase64BinaryTest extends TestCase {
     Yaml yaml = new Yaml();
     InputStream inputStream =
         YamlBase64BinaryTest.class.getResourceAsStream("/issues/issue349-" + name + ".yaml");
-    Map<String, Object> bean = (Map<String, Object>) yaml.load(inputStream);
+    Map<String, Object> bean = yaml.load(inputStream);
     byte[] jpeg = (byte[]) bean.get("picture");
     assertEquals(65, jpeg.length);
     inputStream.close();

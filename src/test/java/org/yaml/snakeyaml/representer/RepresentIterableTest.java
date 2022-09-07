@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.representer;
 
 import java.util.Iterator;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -43,12 +41,14 @@ public class RepresentIterableTest extends TestCase {
   }
 
   private class CounterFactory implements Iterable<Integer> {
+
     public Iterator<Integer> iterator() {
       return new Counter(10);
     }
   }
 
   private class Counter implements Iterator<Integer> {
+
     private int max = 0;
     private int counter = 0;
 

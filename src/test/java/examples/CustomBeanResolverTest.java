@@ -15,9 +15,7 @@ package examples;
 
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -28,11 +26,12 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
  * http://code.google.com/p/snakeyaml/issues/detail?id=75
  */
 public class CustomBeanResolverTest extends TestCase {
+
   private final Pattern CUSTOM_PATTERN = Pattern.compile("\\d+%");
 
   public void testOnlyBigDecimal() {
     Yaml yaml = new Yaml(new BigBeanConstructor());
-    Foo foo = (Foo) yaml.load("bar: 50\nbaz: 35%\nbas: 1250");
+    Foo foo = yaml.load("bar: 50\nbaz: 35%\nbas: 1250");
     assertEquals(50.0, foo.bar);
     assertEquals("0.35", foo.baz.toString());
     assertEquals("1250", foo.bas);
@@ -40,7 +39,7 @@ public class CustomBeanResolverTest extends TestCase {
 
   public void testPrimitive() {
     Yaml yaml = new Yaml(new BigBeanConstructor());
-    Foo foo = (Foo) yaml.load("bar: 50%\nbaz: 35%\nbas: 1250%\nbaw: 35");
+    Foo foo = yaml.load("bar: 50%\nbaz: 35%\nbas: 1250%\nbaw: 35");
     assertEquals(0.5, foo.bar);
     assertEquals("0.35", foo.baz.toString());
     assertEquals("1250%", foo.bas);
@@ -48,20 +47,22 @@ public class CustomBeanResolverTest extends TestCase {
   }
 
   class BigBeanConstructor extends Constructor {
+
     public BigBeanConstructor() {
       super(Foo.class);
       yamlClassConstructors.put(NodeId.scalar, new ConstructBig());
     }
 
     private class ConstructBig extends ConstructScalar {
+
       public Object construct(Node node) {
         if (node.getType().equals(BigDecimal.class)) {
-          String val = (String) constructScalar((ScalarNode) node);
+          String val = constructScalar((ScalarNode) node);
           if (CUSTOM_PATTERN.matcher(val).matches()) {
             return new BigDecimal(val.substring(0, val.length() - 1)).divide(new BigDecimal(100));
           }
         } else if (node.getType().isAssignableFrom(double.class)) {
-          String val = (String) constructScalar((ScalarNode) node);
+          String val = constructScalar((ScalarNode) node);
           if (CUSTOM_PATTERN.matcher(val).matches()) {
             return Double.valueOf(val.substring(0, val.length() - 1)) / 100;
           }
@@ -72,6 +73,7 @@ public class CustomBeanResolverTest extends TestCase {
   }
 
   public static class Foo {
+
     public double bar = 0;
     public BigDecimal baz;
     public BigDecimal baw;

@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue49;
 import java.util.Calendar;
 
 public class CalendarBean {
+
   private Calendar calendar;
   private String name;
 

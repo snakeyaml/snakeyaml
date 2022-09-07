@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue38;
 
 public class Bean {
+
   int value;
 
   public Bean() {}
@@ -34,7 +35,7 @@ public class Bean {
 
   @Override
   public String toString() {
-    return "Bean " + String.valueOf(value);
+    return "Bean " + value;
   }
 
   public int getValue() {

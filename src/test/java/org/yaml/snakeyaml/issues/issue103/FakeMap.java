@@ -61,16 +61,18 @@ public class FakeMap<K, V> implements Map<K, V> {
 
   public boolean containsKey(Object arg0) {
     for (java.util.Map.Entry<K, V> entry : entries) {
-      if (entry.getKey().equals(arg0))
+      if (entry.getKey().equals(arg0)) {
         return true;
+      }
     }
     return false;
   }
 
   public boolean containsValue(Object arg0) {
     for (java.util.Map.Entry<K, V> entry : entries) {
-      if (entry.getValue().equals(arg0))
+      if (entry.getValue().equals(arg0)) {
         return true;
+      }
     }
     return false;
   }
@@ -81,8 +83,9 @@ public class FakeMap<K, V> implements Map<K, V> {
 
   public V get(Object arg0) {
     for (java.util.Map.Entry<K, V> entry : entries) {
-      if (entry.getKey().equals(arg0))
+      if (entry.getKey().equals(arg0)) {
         return entry.getValue();
+      }
     }
     return null;
   }

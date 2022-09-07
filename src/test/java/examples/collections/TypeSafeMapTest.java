@@ -15,9 +15,7 @@ package examples.collections;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -26,6 +24,7 @@ import org.yaml.snakeyaml.Yaml;
  * Developer class must be properly recognised
  */
 public class TypeSafeMapTest extends TestCase {
+
   public void testDumpMap() {
     MapBean bean = new MapBean();
     Map<String, Integer> data = new LinkedHashMap<String, Integer>();
@@ -83,6 +82,7 @@ public class TypeSafeMapTest extends TestCase {
   }
 
   public static class MapBean {
+
     private Map<String, Integer> data;
     private String name;
     private Map<String, Developer2> developers;
@@ -117,6 +117,7 @@ public class TypeSafeMapTest extends TestCase {
   }
 
   public static class Developer2 {
+
     private String name;
     private String role;
 
@@ -145,6 +146,7 @@ public class TypeSafeMapTest extends TestCase {
   }
 
   public static class Developer222 extends Developer2 {
+
     public Developer222() {
       super();
     }
@@ -181,6 +183,7 @@ public class TypeSafeMapTest extends TestCase {
 
   @SuppressWarnings("rawtypes")
   public static class MapBeanNoGenerics {
+
     private Map data;
     private String name;
     private Map developers;

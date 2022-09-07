@@ -14,9 +14,7 @@
 package examples.collections;
 
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -51,6 +49,7 @@ public class TypeSafePriorityTest extends TestCase {
   }
 
   public static class ListBean {
+
     private String name;
     private List<Human> developers;
 
@@ -75,15 +74,16 @@ public class TypeSafePriorityTest extends TestCase {
     }
   }
 
-  public static interface Human {
+  public interface Human {
 
-    public String getName();
+    String getName();
 
-    public void setName(String name);
+    void setName(String name);
 
   }
 
   public static class Developer implements Human {
+
     private String name;
     private String role;
 

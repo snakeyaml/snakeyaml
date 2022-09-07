@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.parser;
 
 import java.util.HashMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions.Version;
 
 public class VersionTagsTupleTest extends TestCase {

@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class FilterClassesConstructorTest extends TestCase {
@@ -30,12 +29,13 @@ public class FilterClassesConstructorTest extends TestCase {
       assertTrue(e.getMessage().contains("Filter is applied."));
     }
     yaml = new Yaml(new FilterConstructor(false));
-    FilteredBean s = (FilteredBean) yaml.load(input);
+    FilteredBean s = yaml.load(input);
     assertEquals("Andrey", s.getName());
   }
 
   class FilterConstructor extends Constructor {
-    private boolean filter;
+
+    private final boolean filter;
 
     public FilterConstructor(boolean f) {
       filter = f;
@@ -51,6 +51,7 @@ public class FilterClassesConstructorTest extends TestCase {
   }
 
   public static class FilteredBean {
+
     private String name;
     private int number;
 

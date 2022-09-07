@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue193;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -26,7 +25,7 @@ public class AbstractBeanTest extends TestCase {
   public void testErrorMessage() throws Exception {
 
     BeanA1 b = new BeanA1();
-    b.setId(2l);
+    b.setId(2L);
     b.setName("name1");
 
     Constructor c = new Constructor();
@@ -41,7 +40,7 @@ public class AbstractBeanTest extends TestCase {
     Yaml yaml = new Yaml(c, r);
     // yaml.setBeanAccess(BeanAccess.FIELD);
     String dump = yaml.dump(b);
-    BeanA1 b2 = (BeanA1) yaml.load(dump);
+    BeanA1 b2 = yaml.load(dump);
     assertEquals(b.getId(), b2.getId());
     assertEquals(b.getName(), b2.getName());
   }

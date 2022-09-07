@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue151;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class EscapedUnicodeTest extends TestCase {
@@ -22,13 +21,13 @@ public class EscapedUnicodeTest extends TestCase {
   public void testUnicode() {
     Yaml yaml = new Yaml();
     // http://www.tutorialspoint.com/html/ascii_table_lookup.htm
-    String str = (String) yaml.load("\"\\xC3\\xA4\"");
+    String str = yaml.load("\"\\xC3\\xA4\"");
     assertEquals("2 escape sequences must be converted to 2 characters.", "Ã¤", str);
   }
 
   public void testUnicode2() {
     Yaml yaml = new Yaml();
-    String str = (String) yaml.load("\"Acetylsalicyls\\xE4ure\"");
+    String str = yaml.load("\"Acetylsalicyls\\xE4ure\"");
     assertEquals("E4 -> ä", "Acetylsalicylsäure", str);
   }
 }

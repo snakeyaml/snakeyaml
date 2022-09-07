@@ -17,9 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class IoReaderTest extends TestCase {
@@ -28,7 +26,7 @@ public class IoReaderTest extends TestCase {
   public void testCheckPrintable() throws IOException {
     Yaml yaml = new Yaml();
     Reader reader = new FileReader("src/test/resources/specification/example2_1.yaml");
-    List<String> list = (List<String>) yaml.load(reader);
+    List<String> list = yaml.load(reader);
     reader.close();
     assertEquals(3, list.size());
   }
@@ -40,7 +38,7 @@ public class IoReaderTest extends TestCase {
     Yaml yaml = new Yaml();
     Reader reader = new FileReader("src/test/resources/reader/large.yaml");
     @SuppressWarnings("unchecked")
-    List<Object> list = (List<Object>) yaml.load(reader);
+    List<Object> list = yaml.load(reader);
     reader.close();
     assertEquals(37, list.size());
   }

@@ -13,14 +13,15 @@
  */
 package org.yaml.snakeyaml.javabeans;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.util.Arrays;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 public class StringArrayTest extends TestCase {
+
   public void testStrings() {
     A a = new A();
     a.setNames(new String[] {"aaa", "bbb", "ccc"});
@@ -28,8 +29,8 @@ public class StringArrayTest extends TestCase {
     String output = yaml.dump(a);
     assertEquals("!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [aaa, bbb, ccc]\n",
         output);
-    A b = (A) yaml.load(output);
-    assertTrue(Arrays.equals(a.getNames(), b.getNames()));
+    A b = yaml.load(output);
+    assertArrayEquals(a.getNames(), b.getNames());
   }
 
   public void testStringsPretty() {
@@ -42,11 +43,12 @@ public class StringArrayTest extends TestCase {
     assertEquals(
         "!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [\n  aaa,\n  bbb,\n  ccc\n]\n",
         output);
-    A b = (A) yaml.load(output);
-    assertTrue(Arrays.equals(a.getNames(), b.getNames()));
+    A b = yaml.load(output);
+    assertArrayEquals(a.getNames(), b.getNames());
   }
 
   public static class A {
+
     String[] names;
 
     public String[] getNames() {

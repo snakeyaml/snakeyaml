@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.array;
 import java.util.Arrays;
 
 public class ShortArr {
+
   private short[] shorts;
 
   public ShortArr() {}

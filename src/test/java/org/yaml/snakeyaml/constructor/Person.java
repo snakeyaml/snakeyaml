@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.constructor;
  * Test JavaBean
  */
 public class Person {
+
   private String firstName;
   private String lastName;
   private Integer age;

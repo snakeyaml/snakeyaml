@@ -14,35 +14,34 @@
 package org.yaml.snakeyaml.issues.issue136;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class TabInScalarTest extends TestCase {
 
   public void testTab() {
-    String data = (String) new Yaml().load("L\tD");
+    String data = new Yaml().load("L\tD");
     assertEquals("L\tD", data);
   }
 
   public void testNoTab() {
-    String data = (String) new Yaml().load("L D");
+    String data = new Yaml().load("L D");
     assertEquals("L D", data);
   }
 
   public void testTabDoubleQuotes() {
-    String data = (String) new Yaml().load("\"L\tD\"");
+    String data = new Yaml().load("\"L\tD\"");
     // System.out.println(data);
     assertEquals("L\tD", data);
   }
 
   public void testTabSingleQuotes() {
-    String data = (String) new Yaml().load("'L\tD'");
+    String data = new Yaml().load("'L\tD'");
     // System.out.println(data);
     assertEquals("L\tD", data);
   }
 
   public void testDumpTab() {
-    String data = (String) new Yaml().dump("L\tD");
+    String data = new Yaml().dump("L\tD");
     // System.out.println(data);
     assertEquals("\"L\\tD\"\n", data);
   }

@@ -13,12 +13,11 @@
  */
 package org.yaml.snakeyaml.issues.issue332;
 
-import org.junit.Test;
-import org.yaml.snakeyaml.Yaml;
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
 
 public class DataTest {
 

@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.issues.issue149;
 
 import java.util.Iterator;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -24,6 +22,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
 
 public class GlobalDirectivesTest extends TestCase {
+
   public void testOneDocument() {
     String input = Util.getLocalResource("issues/issue149-one-document.yaml");
     // System.out.println(input);

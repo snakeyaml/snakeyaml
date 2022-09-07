@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue171;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class GenericExtendsObjectTest extends TestCase {

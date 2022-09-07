@@ -17,9 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -34,7 +32,7 @@ public class TypeSafeCollectionsTest extends TestCase {
     carDescription.putListPropertyType("wheels", Wheel.class);
     constructor.addTypeDescription(carDescription);
     Yaml yaml = new Yaml(constructor);
-    Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
+    Car car = yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
     assertEquals("12-XP-F4", car.getPlate());
     List<Wheel> wheels = car.getWheels();
     assertNotNull(wheels);
@@ -50,7 +48,7 @@ public class TypeSafeCollectionsTest extends TestCase {
     carDescription.putMapPropertyType("wheels", MyWheel.class, Object.class);
     constructor.addTypeDescription(carDescription);
     Yaml yaml = new Yaml(constructor);
-    MyCar car = (MyCar) yaml.load(Util.getLocalResource("constructor/car-no-root-class-map.yaml"));
+    MyCar car = yaml.load(Util.getLocalResource("constructor/car-no-root-class-map.yaml"));
     assertEquals("00-FF-Q2", car.getPlate());
     Map<MyWheel, Date> wheels = car.getWheels();
     assertNotNull(wheels);
@@ -59,7 +57,7 @@ public class TypeSafeCollectionsTest extends TestCase {
       assertTrue(wheel.getId() > 0);
       Date date = wheels.get(wheel);
       long time = date.getTime();
-      assertTrue("It must be midnight.", time % 10000 == 0);
+      assertEquals("It must be midnight.", 0, time % 10000);
     }
   }
 
@@ -69,7 +67,7 @@ public class TypeSafeCollectionsTest extends TestCase {
     carDescription.addPropertyParameters("wheels", Wheel.class);
     constructor.addTypeDescription(carDescription);
     Yaml yaml = new Yaml(constructor);
-    Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
+    Car car = yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
     assertEquals("12-XP-F4", car.getPlate());
     List<Wheel> wheels = car.getWheels();
     assertNotNull(wheels);
@@ -85,7 +83,7 @@ public class TypeSafeCollectionsTest extends TestCase {
     carDescription.addPropertyParameters("wheels", MyWheel.class, Object.class);
     constructor.addTypeDescription(carDescription);
     Yaml yaml = new Yaml(constructor);
-    MyCar car = (MyCar) yaml.load(Util.getLocalResource("constructor/car-no-root-class-map.yaml"));
+    MyCar car = yaml.load(Util.getLocalResource("constructor/car-no-root-class-map.yaml"));
     assertEquals("00-FF-Q2", car.getPlate());
     Map<MyWheel, Date> wheels = car.getWheels();
     assertNotNull(wheels);
@@ -94,7 +92,7 @@ public class TypeSafeCollectionsTest extends TestCase {
       assertTrue(wheel.getId() > 0);
       Date date = wheels.get(wheel);
       long time = date.getTime();
-      assertTrue("It must be midnight.", time % 10000 == 0);
+      assertEquals("It must be midnight.", 0, time % 10000);
     }
   }
 
@@ -104,7 +102,7 @@ public class TypeSafeCollectionsTest extends TestCase {
     for (int i = 1; i < 6; i++) {
       MyWheel mw = new MyWheel();
       mw.setId(i);
-      mw.setBrand(mw.getBrand() + String.valueOf(i));
+      mw.setBrand(mw.getBrand() + i);
       wheels.put(mw, new Date(time + i));
     }
     MyCar c = new MyCar();

@@ -15,9 +15,7 @@ package examples;
 
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -28,12 +26,13 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 
 public class IgnoreTagsExampleTest extends TestCase {
+
   @SuppressWarnings("unchecked")
   public void testLoad() {
     String input = Util.getLocalResource("examples/unknown-tags-example.yaml");
     // System.out.println(input);
     Yaml yaml = new Yaml(new MyConstructor());
-    Map<String, Object> result = (Map<String, Object>) yaml.load(input);
+    Map<String, Object> result = yaml.load(input);
     // Check the result
     assertNotNull(result);
     assertEquals(3, result.size());
@@ -51,7 +50,8 @@ public class IgnoreTagsExampleTest extends TestCase {
   }
 
   private class MyConstructor extends Constructor {
-    private Construct original;
+
+    private final Construct original;
 
     public MyConstructor() {
       original = this.yamlConstructors.get(null);
@@ -59,6 +59,7 @@ public class IgnoreTagsExampleTest extends TestCase {
     }
 
     private class IgnoringConstruct extends AbstractConstruct {
+
       public Object construct(Node node) {
         if (node.getTag().startsWith("!KnownTag")) {
           return original.construct(node);

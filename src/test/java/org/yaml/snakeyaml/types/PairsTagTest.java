@@ -15,7 +15,6 @@ package org.yaml.snakeyaml.types;
 
 import java.util.List;
 import java.util.Map;
-
 import org.yaml.snakeyaml.YamlDocument;
 
 /**
@@ -28,7 +27,7 @@ public class PairsTagTest extends AbstractTest {
     YamlDocument document = new YamlDocument("types/pairs.yaml", false);
     Map<String, List<String[]>> map = (Map<String, List<String[]>>) document.getNativeData();
     assertEquals(2, map.size());
-    List<String[]> list1 = (List<String[]>) map.get("Block tasks");
+    List<String[]> list1 = map.get("Block tasks");
     assertEquals(4, list1.size());
     Object[] tuple1 = list1.get(0);
     assertEquals(2, tuple1.length);
@@ -53,7 +52,7 @@ public class PairsTagTest extends AbstractTest {
     assertEquals("meeting", tuple4[0]);
     assertEquals("with client.", tuple4[1]);
     //
-    List<String[]> list2 = (List<String[]>) map.get("Flow tasks");
+    List<String[]> list2 = map.get("Flow tasks");
     assertEquals(2, list2.size());
     Object[] tuple2_1 = list2.get(0);
     assertEquals(2, tuple2_1.length);

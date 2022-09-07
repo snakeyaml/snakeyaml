@@ -13,17 +13,16 @@
  */
 package org.yaml.snakeyaml.issues.issue306;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.UUID;
+import java.util.regex.Pattern;
 import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
-
-import java.util.UUID;
-import java.util.regex.Pattern;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class UuidSupportTest {
 
@@ -52,7 +51,7 @@ public class UuidSupportTest {
   public void loadAsUuid() {
     Yaml yaml = new Yaml();
     yaml.addImplicitResolver(UUID_TAG, UUID_PATTERN, null);
-    UUID uuid = (UUID) yaml.load("7f511847-781a-45df-9c8d-1e32e028b9b3");
+    UUID uuid = yaml.load("7f511847-781a-45df-9c8d-1e32e028b9b3");
     assertEquals("7f511847-781a-45df-9c8d-1e32e028b9b3", uuid.toString());
   }
 
@@ -69,7 +68,7 @@ public class UuidSupportTest {
     UUID uuid = UUID.randomUUID();
     Yaml yaml = new Yaml();
     String output = yaml.dump(uuid);
-    assertEquals("!!java.util.UUID '" + uuid.toString() + "'\n", output);
+    assertEquals("!!java.util.UUID '" + uuid + "'\n", output);
   }
 
   @Test

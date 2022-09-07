@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.immutable;
 
 public class Point3d {
+
   private final double z;
   private final Point point;
 
@@ -32,6 +33,6 @@ public class Point3d {
 
   @Override
   public String toString() {
-    return "<Point3d point=" + point.toString() + " z=" + String.valueOf(z) + ">";
+    return "<Point3d point=" + point.toString() + " z=" + z + ">";
   }
 }

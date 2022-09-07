@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.resolver;
 
 import java.util.regex.Pattern;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.nodes.Tag;
 
 public class ResolverTupleTest extends TestCase {

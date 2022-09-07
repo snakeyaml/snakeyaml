@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.scanner;
 
 import java.util.LinkedList;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.Mark;
@@ -50,7 +48,7 @@ public class ScannerImplTest extends TestCase {
     while (!etalonTokens.isEmpty() && scanner.checkToken(etalonTokens.get(0).getTokenId())) {
       assertEquals(etalonTokens.removeFirst().getTokenId(), scanner.getToken().getTokenId());
     }
-    assertFalse("Must contain no more tokens.", scanner.checkToken(new Token.ID[0]));
+    assertFalse("Must contain no more tokens.", scanner.checkToken());
   }
 
   public void testWrongTab() {

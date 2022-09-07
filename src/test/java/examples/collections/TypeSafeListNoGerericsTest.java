@@ -16,9 +16,7 @@ package examples.collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -27,6 +25,7 @@ import org.yaml.snakeyaml.Yaml;
  * Developer class cannot be properly recognised
  */
 public class TypeSafeListNoGerericsTest extends TestCase {
+
   public void testDumpList() {
     ListBean bean = new ListBean();
     List<String> list = new ArrayList<String>();
@@ -64,6 +63,7 @@ public class TypeSafeListNoGerericsTest extends TestCase {
 
   @SuppressWarnings("rawtypes")
   public static class ListBean {
+
     private List<String> children;
     private String name;
     private List developers;
@@ -98,6 +98,7 @@ public class TypeSafeListNoGerericsTest extends TestCase {
   }
 
   public static class Developer {
+
     private String name;
     private String role;
 

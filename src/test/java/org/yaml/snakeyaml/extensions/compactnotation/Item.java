@@ -14,7 +14,8 @@
 package org.yaml.snakeyaml.extensions.compactnotation;
 
 public class Item {
-  private String id;
+
+  private final String id;
   private String price;
   private String name;
 

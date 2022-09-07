@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.generics;
 
 import java.beans.IntrospectionException;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -30,12 +28,13 @@ public class GenericArrayTypeTest extends TestCase {
     String etalon = "!!org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray\n"
         + "home: [1, 2, 3]\n" + "name: Array3\n";
     assertEquals(etalon, doc);
-    GenericArray parsed = (GenericArray) yaml.load(doc);
+    GenericArray parsed = yaml.load(doc);
     assertEquals("Array3", parsed.getName());
     assertEquals(3, parsed.getHome().length);
   }
 
   public static class GenericArray extends AbstractAnimal<Integer[]> {
+
     private Integer[] home;
 
     public GenericArray() {
@@ -43,7 +42,7 @@ public class GenericArrayTypeTest extends TestCase {
       for (int i = 0; i < home.length; i++) {
         home[i] = i + 1;
       }
-      setName("Array" + String.valueOf(3));
+      setName("Array" + 3);
     }
 
     @Override
@@ -75,6 +74,7 @@ public class GenericArrayTypeTest extends TestCase {
   }
 
   public static class ArrayBean {
+
     private String id;
     private GenericArray ga;
 

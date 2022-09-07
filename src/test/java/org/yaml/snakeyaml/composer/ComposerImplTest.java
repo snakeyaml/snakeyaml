@@ -13,10 +13,10 @@
  */
 package org.yaml.snakeyaml.composer;
 
+import static org.junit.Assert.assertNotEquals;
+
 import java.io.StringReader;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
@@ -33,7 +33,7 @@ public class ComposerImplTest extends TestCase {
     String data2 = "---\namerican:\n- Boston Red Sox";
     Node node2 = yaml.compose(new StringReader(data2));
     assertNotNull(node2);
-    assertFalse(node.equals(node2));
+    assertNotEquals(node, node2);
   }
 
   public void testComposeBean() {
@@ -59,6 +59,7 @@ public class ComposerImplTest extends TestCase {
   }
 
   public static class BeanToCompose {
+
     private String name;
     private int age;
 

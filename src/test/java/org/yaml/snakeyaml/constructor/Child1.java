@@ -14,7 +14,8 @@
 package org.yaml.snakeyaml.constructor;
 
 public class Child1 {
-  private Integer code;
+
+  private final Integer code;
 
   public Child1(Integer code) {
     this.code = code;

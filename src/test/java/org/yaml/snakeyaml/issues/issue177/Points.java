@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue177;
 import java.util.Map;
 
 public class Points {
+
   public Map<String, PointBean> points;
 
   @Override

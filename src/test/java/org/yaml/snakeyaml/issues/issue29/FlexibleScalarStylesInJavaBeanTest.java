@@ -21,9 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -35,6 +33,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class FlexibleScalarStylesInJavaBeanTest extends TestCase {
+
   public void testDifferentStyles() {
     BigJavaBean bean1 = new BigJavaBean(1, "simple", "line 1\nline2\nzipcode", "short text1");
     List<Integer> numbers1 = new ArrayList<Integer>(Arrays.asList(1, 2, 3));
@@ -62,7 +61,7 @@ public class FlexibleScalarStylesInJavaBeanTest extends TestCase {
     // System.out.println(output);
     // parse back
     @SuppressWarnings("unchecked")
-    List<BigJavaBean> parsed = (List<BigJavaBean>) yaml.load(output);
+    List<BigJavaBean> parsed = yaml.load(output);
     assertEquals(2, parsed.size());
     assertEquals(bean1, parsed.get(0));
     assertEquals(bean2, parsed.get(1));
@@ -70,6 +69,7 @@ public class FlexibleScalarStylesInJavaBeanTest extends TestCase {
   }
 
   private class MyRepresenter extends Representer {
+
     /*
      * Change the default order. Important data goes first.
      */
@@ -86,6 +86,7 @@ public class FlexibleScalarStylesInJavaBeanTest extends TestCase {
     }
 
     private class PropertyComparator implements Comparator<Property> {
+
       public int compare(Property o1, Property o2) {
         // important go first
         List<String> order =

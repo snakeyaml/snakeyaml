@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.ruby;
 import java.util.List;
 
 public class Sub1 {
+
   private List<Integer> att1;
   private int att2;
   private List<Integer> att3;

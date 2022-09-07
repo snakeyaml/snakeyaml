@@ -14,15 +14,14 @@
 package org.yaml.snakeyaml.issues.issue73;
 
 import java.util.ArrayList;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test bean when the implementation is defined: ArrayList instead of just the interface List
  */
 public class ArrayListTest extends TestCase {
+
   public void testListImplementation() {
     Bean1 bean = new Bean1();
     bean.setId("ID123");
@@ -34,12 +33,13 @@ public class ArrayListTest extends TestCase {
     Yaml yaml = new Yaml();
     String doc = yaml.dump(bean);
     // System.out.println(doc);
-    Bean1 loaded = (Bean1) yaml.load(doc);
+    Bean1 loaded = yaml.load(doc);
     assertEquals(3, loaded.getList().size());
     assertEquals(ArrayList.class, loaded.getList().getClass());
   }
 
   public static class Bean1 {
+
     private ArrayList<String> list;
     private String id;
 

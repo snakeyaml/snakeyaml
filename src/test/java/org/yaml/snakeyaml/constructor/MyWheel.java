@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 public class MyWheel implements Comparable<MyWheel> {
+
   private int id;
   private String brand;
 

@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.constructor;
 import java.math.BigDecimal;
 
 public class BigDecimalJavaBean {
+
   private BigDecimal number;
   private float amount;
 

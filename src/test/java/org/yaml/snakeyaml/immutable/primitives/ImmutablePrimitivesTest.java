@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.immutable.primitives;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -33,7 +32,7 @@ public class ImmutablePrimitivesTest extends TestCase {
     Yaml yaml = new Yaml();
     String dump =
         "!!org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives [10000000000, 40.0, true]";
-    BunchOfPrimitives bunch = (BunchOfPrimitives) yaml.load(dump);
+    BunchOfPrimitives bunch = yaml.load(dump);
     assertEquals("Must be truncated.", Long.valueOf(10000000000L).intValue(),
         bunch.getPrimitiveInt());
   }

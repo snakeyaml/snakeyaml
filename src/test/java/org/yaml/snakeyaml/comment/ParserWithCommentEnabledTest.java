@@ -13,6 +13,11 @@
  */
 package org.yaml.snakeyaml.comment;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.Event.ID;
@@ -20,23 +25,20 @@ import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 public class ParserWithCommentEnabledTest {
-  private boolean DEBUG = false;
+
+  private final boolean DEBUG = false;
 
   private void println(String s) {
-    if (DEBUG)
+    if (DEBUG) {
       System.out.println(s);
+    }
   }
 
   private void println() {
-    if (DEBUG)
+    if (DEBUG) {
       System.out.println();
+    }
   }
 
 
@@ -353,13 +355,13 @@ public class ParserWithCommentEnabledTest {
   @Test
   public void testKeepingNewLineInsideSequence() throws Exception {
     String data = "" + "\n" + "key:\n" + "\n" + "- item1\n" + "\n" + // Per Spec this is part of
-                                                                     // plain scalar above
+    // plain scalar above
         "- item2\n" + "\n" + // Per Spec this is part of plain scalar above
         "- item3\n" + "\n" + // FIXME: ?Should be comment?
         "key2: value2\n" + "\n" + // FIXME: ?Should be comment?
         "key3: value3\n" + "\n" + // FIXME: ?Should be comment?
         "";
-    List<ID> expectedEventIdList = Arrays.asList(new ID[] { //
+    List<ID> expectedEventIdList = Arrays.asList(//
         ID.StreamStart, //
         ID.Comment, //
         ID.DocumentStart, //
@@ -381,7 +383,7 @@ public class ParserWithCommentEnabledTest {
         ID.MappingEnd, //
         ID.DocumentEnd, //
         ID.StreamEnd //
-    });
+    );
     Parser sut = new ParserImpl(new StreamReader(data), true);
     // printEventList(sut);
     assertEventListEquals(expectedEventIdList, sut);

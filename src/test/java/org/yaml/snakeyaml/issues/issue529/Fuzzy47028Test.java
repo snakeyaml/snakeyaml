@@ -18,7 +18,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 

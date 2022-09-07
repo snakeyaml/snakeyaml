@@ -14,8 +14,9 @@
 package org.yaml.snakeyaml.constructor;
 
 public class IncompleteJavaBean {
+
   private int number;
-  private String name = "No name";
+  private final String name = "No name";
   private float amount;
 
   public String getName() {

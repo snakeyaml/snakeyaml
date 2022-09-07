@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PublicFooWithPublicFields {
+
   public List<String> countryCodes = new ArrayList<String>();
   public String some;
 

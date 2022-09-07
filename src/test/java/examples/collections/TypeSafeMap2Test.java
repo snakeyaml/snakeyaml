@@ -16,9 +16,7 @@ package examples.collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -27,6 +25,7 @@ import org.yaml.snakeyaml.Yaml;
  * Developer class must be properly recognised
  */
 public class TypeSafeMap2Test extends TestCase {
+
   public void testDumpMap() {
     MapBean2 bean = new MapBean2();
     Map<Developer2, Color> data = new LinkedHashMap<Developer2, Color>();
@@ -108,11 +107,12 @@ public class TypeSafeMap2Test extends TestCase {
     assertEquals("committer", dev2.getRole());
   }
 
-  public static enum Color {
-    WHITE, BLACK, RED;
+  public enum Color {
+    WHITE, BLACK, RED
   }
 
   public static class MapBean2 {
+
     private Map<Developer2, Color> data;
     private String name;
     private Map<Color, Developer2> developers;
@@ -148,6 +148,7 @@ public class TypeSafeMap2Test extends TestCase {
   }
 
   public static class Developer2 implements Comparable<Developer2> {
+
     private String name;
     private String role;
 
@@ -200,6 +201,7 @@ public class TypeSafeMap2Test extends TestCase {
   }
 
   public static class SuperMan extends Developer2 {
+
     private boolean smart;
 
     public SuperMan() {

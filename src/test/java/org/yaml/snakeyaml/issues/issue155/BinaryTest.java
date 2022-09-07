@@ -13,20 +13,20 @@
  */
 package org.yaml.snakeyaml.issues.issue155;
 
+import java.nio.charset.StandardCharsets;
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class BinaryTest extends TestCase {
 
   public void testBinaryString() throws Exception {
     String data = "\u2666";
-    byte[] bytes = data.getBytes("UTF-8");
-    String inconsistentString = new String(bytes, "ISO-8859-1");
+    byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+    String inconsistentString = new String(bytes, StandardCharsets.ISO_8859_1);
     Yaml yaml = new Yaml();
     String payload = yaml.dump(inconsistentString);
     // System.out.println("payload: '" + payload + "'");
-    String loaded = new String((byte[]) yaml.load(payload), "UTF-8");
+    String loaded = new String((byte[]) yaml.load(payload), StandardCharsets.UTF_8);
     assertEquals(inconsistentString, loaded);
   }
 }

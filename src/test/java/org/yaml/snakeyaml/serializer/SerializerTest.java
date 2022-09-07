@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.serializer;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.NumberFormat;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -26,6 +24,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 public class SerializerTest extends TestCase {
+
   private Serializer serializer;
 
   @Override

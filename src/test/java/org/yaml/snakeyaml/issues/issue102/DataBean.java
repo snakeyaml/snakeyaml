@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DataBean {
+
   private String id;
   private List<String> list;
   private Map<String, Integer> map;

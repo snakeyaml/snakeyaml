@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
 
 public class CollectionWithBeanYamlTest extends TestCase {
@@ -62,6 +61,7 @@ public class CollectionWithBeanYamlTest extends TestCase {
   }
 
   public static class Bean {
+
     private String a;
 
     public Bean() {

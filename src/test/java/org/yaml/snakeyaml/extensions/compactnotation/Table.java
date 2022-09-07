@@ -16,8 +16,9 @@ package org.yaml.snakeyaml.extensions.compactnotation;
 import java.util.List;
 
 public class Table {
-  private String id;
-  private String name;
+
+  private final String id;
+  private final String name;
   private List<Row> rows;
 
   public Table(String id, String name) {

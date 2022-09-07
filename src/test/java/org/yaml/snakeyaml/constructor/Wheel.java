@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 public class Wheel {
+
   private int id;
 
   public Wheel(int id) {

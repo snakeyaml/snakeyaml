@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.ruby;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -105,6 +104,6 @@ public class RubyTest extends TestCase {
     con.addTypeDescription(new TypeDescription(Sub2.class, "!ruby/object:Test::Module::Sub2"));
 
     Yaml yaml = new Yaml(con);
-    return (TestObject) yaml.load(input);
+    return yaml.load(input);
   }
 }

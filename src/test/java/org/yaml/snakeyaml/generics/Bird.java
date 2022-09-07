@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.generics;
 
 public class Bird extends AbstractAnimal<Nest> {
+
   private Nest home;
 
   public Nest getHome() {

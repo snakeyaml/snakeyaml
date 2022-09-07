@@ -13,14 +13,13 @@
  */
 package org.yaml.snakeyaml.issues.issue354;
 
-import org.junit.Test;
-import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * The test does not fix anything. It just proves that SnakeYAML works as it should according to the
@@ -32,7 +31,7 @@ public class PunctuationInTheBeginningTest {
   public void testBacktickAndAtSign() throws IOException {
     String input = Util.getLocalResource("issues/issue354.yaml");
     Yaml yaml = new Yaml();
-    Map<String, Object> bean = (Map<String, Object>) yaml.load(input);
+    Map<String, Object> bean = yaml.load(input);
     assertEquals("This is\n`a literal\n", bean.get("foo"));
     assertEquals("And\n@this\n", bean.get("bar"));
   }

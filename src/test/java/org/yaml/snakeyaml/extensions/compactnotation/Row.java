@@ -14,7 +14,8 @@
 package org.yaml.snakeyaml.extensions.compactnotation;
 
 public class Row {
-  private String id;
+
+  private final String id;
   private int size;
   private double ratio;
   private float floatRatio;

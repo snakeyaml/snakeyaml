@@ -15,7 +15,7 @@ package org.yaml.snakeyaml.issues.issue203;
 
 public class ContentIdentifierImpl implements ContentIdentifier {
 
-  private Long id;
+  private final Long id;
 
   public ContentIdentifierImpl(Long id) {
     this.id = id;

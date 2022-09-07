@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -35,7 +34,7 @@ public class IncompleteBeanConstructorTest extends TestCase {
     String className =
         "!!" + this.getClass().getPackage().getName() + ".IncompleteJavaBean {number: 2}";
     Yaml yaml = new Yaml();
-    IncompleteJavaBean bean = (IncompleteJavaBean) yaml.load(className);
+    IncompleteJavaBean bean = yaml.load(className);
     assertNotNull(bean);
     assertEquals("No name", bean.getName());
     assertEquals(2, bean.obtainNumber());

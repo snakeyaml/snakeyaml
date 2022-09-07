@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue55;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -28,7 +26,7 @@ public class JavaBeanListTest extends TestCase {
     Yaml beanLoader = new Yaml();
     beanLoader.setBeanAccess(BeanAccess.FIELD);
     BlogBean rehydrated =
-        (BlogBean) beanLoader.loadAs(Util.getLocalResource("issues/issue55_2.txt"), BlogBean.class);
+        beanLoader.loadAs(Util.getLocalResource("issues/issue55_2.txt"), BlogBean.class);
     assertEquals(4, rehydrated.getPosts().size());
   }
 
@@ -43,7 +41,8 @@ public class JavaBeanListTest extends TestCase {
   }
 
   public static class BlogBean {
-    private List<Integer> posts;
+
+    private final List<Integer> posts;
 
     public BlogBean() {
       posts = new LinkedList<Integer>();

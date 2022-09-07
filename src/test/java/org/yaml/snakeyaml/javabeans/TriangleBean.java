@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.javabeans;
 
 public class TriangleBean {
+
   private String name;
   private Shape shape;
 

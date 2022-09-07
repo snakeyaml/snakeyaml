@@ -18,9 +18,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -41,6 +39,7 @@ public class CustomOrderTest extends TestCase {
   }
 
   private class ReversedPropertyUtils extends PropertyUtils {
+
     @Override
     protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess) {
       Set<Property> result = new TreeSet<Property>(Collections.reverseOrder());
@@ -59,6 +58,7 @@ public class CustomOrderTest extends TestCase {
   }
 
   private class UnsortedPropertyUtils extends PropertyUtils {
+
     @Override
     protected Set<Property> createPropertySet(Class<? extends Object> type, BeanAccess bAccess) {
       Set<Property> result =
@@ -72,8 +72,8 @@ public class CustomOrderTest extends TestCase {
     SkipBean bean = new SkipBean();
     bean.setText("foo");
     bean.setListDate(null);
-    bean.setListInt(Arrays.asList(new Integer[] {null, 1, 2, 3}));
-    bean.setListStr(Arrays.asList(new String[] {"bar", null, "foo", null}));
+    bean.setListInt(Arrays.asList(null, 1, 2, 3));
+    bean.setListStr(Arrays.asList("bar", null, "foo", null));
     return bean;
   }
 }

@@ -13,6 +13,16 @@
  */
 package org.yaml.snakeyaml.comment;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 import org.junit.Test;
 import org.yaml.snakeyaml.comments.CommentLine;
 import org.yaml.snakeyaml.composer.Composer;
@@ -26,18 +36,9 @@ import org.yaml.snakeyaml.parser.ParserImpl;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.resolver.Resolver;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 public class ComposerWithCommentEnabledTest {
-  private boolean DEBUG = false;
+
+  private final boolean DEBUG = false;
 
   private void printBlockComment(Node node, int level, PrintStream out) {
     if (node.getBlockComments() != null) {
@@ -510,7 +511,7 @@ public class ComposerWithCommentEnabledTest {
     };
 
     Composer sut = newComposerWithCommentsEnabled(data);
-    List<Node> result = Arrays.asList(sut.getSingleNode());
+    List<Node> result = Collections.singletonList(sut.getSingleNode());
 
     printNodeList(result);
     assertNodesEqual(expected, result);
@@ -539,13 +540,14 @@ public class ComposerWithCommentEnabledTest {
     };
 
     Composer sut = newComposerWithCommentsEnabled(data);
-    List<Node> result = Arrays.asList(sut.getSingleNode());
+    List<Node> result = Collections.singletonList(sut.getSingleNode());
 
     printNodeList(result);
     assertNodesEqual(expected, result);
   }
 
   private static class TestConstructor extends SafeConstructor {
+
   }
 
   @Test
@@ -583,7 +585,7 @@ public class ComposerWithCommentEnabledTest {
     };
 
     Composer sut = newComposerWithCommentsEnabled(data);
-    List<Node> result = Arrays.asList(sut.getSingleNode());
+    List<Node> result = Collections.singletonList(sut.getSingleNode());
 
     printNodeList(result);
     assertNodesEqual(expected, result);

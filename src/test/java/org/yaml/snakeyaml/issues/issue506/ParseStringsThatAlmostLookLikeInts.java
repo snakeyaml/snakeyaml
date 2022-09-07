@@ -13,10 +13,8 @@
  */
 package org.yaml.snakeyaml.issues.issue506;
 
-import junit.framework.TestCase;
-
 import java.util.regex.Pattern;
-
+import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.resolver.Resolver;
 

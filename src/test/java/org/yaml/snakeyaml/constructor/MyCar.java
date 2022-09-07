@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class MyCar {
+
   private String plate;
   private Map<MyWheel, Date> wheels;
   private Map<String, Integer> windows;

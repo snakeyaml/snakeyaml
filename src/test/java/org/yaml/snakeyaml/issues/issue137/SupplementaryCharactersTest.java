@@ -15,11 +15,10 @@ package org.yaml.snakeyaml.issues.issue137;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -28,20 +27,21 @@ import org.yaml.snakeyaml.Yaml;
 public class SupplementaryCharactersTest extends TestCase {
 
   public static class EmojiContainer {
+
     public Map<String, Map<String, Integer>> sizes;
     public Map<String, Map<String, List<String>>> values;
   }
 
   public void testSupplementaryCharacter() {
     Yaml yaml = new Yaml();
-    String parsed = (String) yaml.load("\"\\U0001f648\"");
+    String parsed = yaml.load("\"\\U0001f648\"");
     assertEquals("\ud83d\ude48", parsed);
     // System.out.println(data);
   }
 
   public void testBasicMultilingualPlane() {
     Yaml yaml = new Yaml();
-    String parsed = (String) yaml.load("\"\\U00000041\"");
+    String parsed = yaml.load("\"\\U00000041\"");
     assertEquals("A", parsed);
   }
 
@@ -53,7 +53,7 @@ public class SupplementaryCharactersTest extends TestCase {
     Yaml yaml = new Yaml();
     String output = yaml.dump(supplementary);
     assertEquals("\ud83d\ude48\n", output);
-    String binString = (String) yaml.load(output);
+    String binString = yaml.load(output);
     assertEquals(supplementary, binString);
   }
 
@@ -65,8 +65,8 @@ public class SupplementaryCharactersTest extends TestCase {
     Yaml yaml = new Yaml();
     String output = yaml.dump(supplementary);
     assertEquals("!!binary |-\n  AQ==\n", output);
-    byte[] binary = (byte[]) yaml.load(output);
-    String binString = new String(binary, "UTF-8");
+    byte[] binary = yaml.load(output);
+    String binString = new String(binary, StandardCharsets.UTF_8);
     assertEquals(supplementary, binString);
   }
 

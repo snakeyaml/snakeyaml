@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue176;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
@@ -53,7 +51,7 @@ public class SingleQuoteTest extends TestCase {
 
     // parse the value back
     @SuppressWarnings("unchecked")
-    Map<String, Object> cows = (Map<String, Object>) yaml.load(output);
+    Map<String, Object> cows = yaml.load(output);
     @SuppressWarnings("unchecked")
     Map<String, String> cow = (Map<String, String>) cows.get("cows");
     assertEquals("11", cow.get("steak:cow"));

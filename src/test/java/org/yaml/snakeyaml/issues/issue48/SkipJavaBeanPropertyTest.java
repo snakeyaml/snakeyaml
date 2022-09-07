@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue48;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -22,6 +21,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class SkipJavaBeanPropertyTest extends TestCase {
+
   public void testWithNull() {
     Bean bean = new Bean();
     bean.setValue(3);
@@ -41,6 +41,7 @@ public class SkipJavaBeanPropertyTest extends TestCase {
   }
 
   private class MyRepresenter extends Representer {
+
     @Override
     protected NodeTuple representJavaBeanProperty(Object bean, Property property, Object value,
         Tag customTag) {

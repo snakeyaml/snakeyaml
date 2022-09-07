@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.partialconstruct;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.parser.ParserImpl;

@@ -15,13 +15,12 @@ package org.yaml.snakeyaml.issues.issue61;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class GenericListBeanTest extends TestCase {
+
   @SuppressWarnings("unchecked")
   public void testGenericList() {
     Yaml yaml = new Yaml();
@@ -66,6 +65,7 @@ public class GenericListBeanTest extends TestCase {
   }
 
   public static class ListProvider<T> {
+
     private List<T> list = new ArrayList<T>();
 
     public List<T> getList() {
@@ -93,6 +93,7 @@ public class GenericListBeanTest extends TestCase {
   }
 
   public static class Bean {
+
     private String name;
     private int number;
 

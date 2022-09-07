@@ -39,7 +39,7 @@ public class ChangeRuntimeClassTest {
     Yaml yaml = new Yaml(new MyConstructor());
 
     Entity loadedEntity = null;
-    loadedEntity = (Entity) yaml.load(yamlText);
+    loadedEntity = yaml.load(yamlText);
 
     assertEquals("Matt", loadedEntity.getName());
 
@@ -59,7 +59,7 @@ public class ChangeRuntimeClassTest {
     yaml.addTypeDescription(new TypeDescription(Entity.class, EntityLoadingProxy.class));
 
     Entity loadedEntity = null;
-    loadedEntity = (Entity) yaml.load(yamlText);
+    loadedEntity = yaml.load(yamlText);
 
     assertEquals("Matt", loadedEntity.getName());
 
@@ -75,7 +75,7 @@ public class ChangeRuntimeClassTest {
     String yamlText = "name: Matt\n" + "nickName: Java\n";
     Yaml yaml = new Yaml(new MyConstructor(Entity.class));
     Entity loadedEntity = null;
-    loadedEntity = (Entity) yaml.load(yamlText);
+    loadedEntity = yaml.load(yamlText);
     assertEquals("Matt", loadedEntity.getName());
     assertEquals("JJ-Java", loadedEntity.getNickName());
   }
@@ -95,6 +95,7 @@ public class ChangeRuntimeClassTest {
    * @see Constructor.ConstructYamlObject
    */
   private class MyConstructor extends Constructor {
+
     public MyConstructor() {
       super();
       this.yamlConstructors.put(null, new ConstructProxy());
@@ -106,9 +107,10 @@ public class ChangeRuntimeClassTest {
     }
 
     private class ConstructProxy extends AbstractConstruct {
+
       private Construct getConstructor(Node node) {
         Class<?> cl = getClassForNode(node);
-        if (cl.equals(Entity.class) && true) {
+        if (cl.equals(Entity.class)) {
           // today's temperature is high :)
           cl = EntityLoadingProxy.class;
         }

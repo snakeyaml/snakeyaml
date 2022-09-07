@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlDocument;
 
@@ -34,7 +33,7 @@ public class ValueTagTest extends AbstractTest {
     InputStream input = YamlDocument.class.getClassLoader()
         .getResourceAsStream(YamlDocument.ROOT + "types/value.yaml");
     Yaml yaml = new Yaml();
-    Iterator<Object> iter = (Iterator<Object>) yaml.loadAll(input).iterator();
+    Iterator<Object> iter = yaml.loadAll(input).iterator();
     Map<String, List<String>> oldSchema = (Map<String, List<String>>) iter.next();
     assertEquals(1, oldSchema.size());
     List<String> list = oldSchema.get("link with");

@@ -14,15 +14,14 @@
 package org.yaml.snakeyaml.issues.issue73;
 
 import java.util.TreeSet;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 /**
  * Test bean when the implementation is defined: TreeSet instead of just the interface Set
  */
 public class TreeSetTest extends TestCase {
+
   public void testSetImplementation() {
     Bean1 bean = new Bean1();
     bean.setId("ID123");
@@ -35,7 +34,7 @@ public class TreeSetTest extends TestCase {
     String doc = yaml.dump(bean);
     // System.out.println(doc);
     //
-    Bean1 loaded = (Bean1) yaml.load(doc);
+    Bean1 loaded = yaml.load(doc);
     assertEquals(3, loaded.getSet().size());
     assertEquals(TreeSet.class, loaded.getSet().getClass());
     assertTrue(loaded.getSet().contains("zzz"));
@@ -44,6 +43,7 @@ public class TreeSetTest extends TestCase {
   }
 
   public static class Bean1 {
+
     private TreeSet<String> set;
     private String id;
 

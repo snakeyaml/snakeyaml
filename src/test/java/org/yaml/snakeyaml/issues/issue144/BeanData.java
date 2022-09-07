@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue144;
 
 public class BeanData {
+
   private String id;
   private float number;
 

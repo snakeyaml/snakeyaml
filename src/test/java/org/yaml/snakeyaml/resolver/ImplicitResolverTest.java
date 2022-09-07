@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.resolver;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -34,9 +32,11 @@ import org.yaml.snakeyaml.nodes.Tag;
  * >mailing list</a> for more information
  */
 public class ImplicitResolverTest extends TestCase {
+
   private static final Tag CFG = new Tag("!cfg");
 
   public static class ConfigurationConstructor extends Constructor {
+
     protected Map<String, String> config = null;
 
     public ConfigurationConstructor(Map<String, String> config) {
@@ -45,8 +45,9 @@ public class ImplicitResolverTest extends TestCase {
     }
 
     private class ConfigObjectConstruct extends AbstractConstruct {
+
       public Object construct(Node node) {
-        String val = (String) constructScalar((ScalarNode) node);
+        String val = constructScalar((ScalarNode) node);
         val = val.substring(2, val.length() - 1);
         return config.get(val);
       }
@@ -61,6 +62,7 @@ public class ImplicitResolverTest extends TestCase {
   }
 
   public static class TestBean {
+
     String myval;
 
     public String getMyval() {
@@ -83,10 +85,10 @@ public class ImplicitResolverTest extends TestCase {
     constructor.addTypeDescription(new TypeDescription(TestBean.class, "!testbean"));
     Yaml yaml = new Yaml(constructor);
     yaml.addImplicitResolver(CFG, Pattern.compile("\\$\\([a-zA-Z\\d\\u002E\\u005F]+\\)"), "$");
-    TestBean bean = (TestBean) yaml.load("!testbean {myval: !cfg $(user.home)}");
+    TestBean bean = yaml.load("!testbean {myval: !cfg $(user.home)}");
     // System.out.println(bean.toString());
     assertEquals("Explicit tag must be respected", "HOME", bean.getMyval());
-    bean = (TestBean) yaml.load("!testbean {myval: $(user.home)}");
+    bean = yaml.load("!testbean {myval: $(user.home)}");
     // System.out.println(bean.toString());
     assertEquals("Implicit tag must be respected", "HOME", bean.getMyval());
   }

@@ -16,9 +16,7 @@ package examples;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
@@ -31,6 +29,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  * http://code.google.com/p/snakeyaml/issues/detail?id=75
  */
 public class CustomImplicitResolverTest extends TestCase {
+
   private final Tag CUSTOM_TAG = new Tag("!BigDecimalDividedBy100");
   private final Pattern CUSTOM_PATTERN = Pattern.compile("\\d+%");
 
@@ -38,7 +37,7 @@ public class CustomImplicitResolverTest extends TestCase {
   public void testImplicit() {
     Yaml yaml = new Yaml(new BigConstructor());
     yaml.addImplicitResolver(CUSTOM_TAG, CUSTOM_PATTERN, "-0123456789");
-    Map<String, Object> obj = (Map<String, Object>) yaml.load("bar: 50%");
+    Map<String, Object> obj = yaml.load("bar: 50%");
     assertEquals("0.5", obj.get("bar").toString());
     assertEquals(BigDecimal.class, obj.get("bar").getClass());
   }
@@ -55,13 +54,15 @@ public class CustomImplicitResolverTest extends TestCase {
   }
 
   class BigConstructor extends SafeConstructor {
+
     public BigConstructor() {
       this.yamlConstructors.put(CUSTOM_TAG, new ConstructBig());
     }
 
     private class ConstructBig extends AbstractConstruct {
+
       public Object construct(Node node) {
-        String val = (String) constructScalar((ScalarNode) node);
+        String val = constructScalar((ScalarNode) node);
         return new BigDecimal(val.substring(0, val.length() - 1)).divide(new BigDecimal(100));
       }
     }

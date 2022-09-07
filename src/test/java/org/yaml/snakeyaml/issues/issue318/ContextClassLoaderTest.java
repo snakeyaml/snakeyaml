@@ -25,7 +25,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,16 +54,17 @@ public class ContextClassLoaderTest {
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj)
+      if (this == obj) {
         return true;
-      if (obj == null)
+      }
+      if (obj == null) {
         return false;
-      if (getClass() != obj.getClass())
+      }
+      if (getClass() != obj.getClass()) {
         return false;
+      }
       DomainBean other = (DomainBean) obj;
-      if (value != other.value)
-        return false;
-      return true;
+      return value == other.value;
     }
 
   }
@@ -135,10 +135,10 @@ public class ContextClassLoaderTest {
 
     Object yaml = yamlClass.newInstance();
 
-    Method dumpMethod = yaml.getClass().getMethod("dump", new Class<?>[] {Object.class});
+    Method dumpMethod = yaml.getClass().getMethod("dump", Object.class);
     String dump = dumpMethod.invoke(yaml, bean).toString();
 
-    Method loadMethod = yaml.getClass().getMethod("load", new Class<?>[] {String.class});
+    Method loadMethod = yaml.getClass().getMethod("load", String.class);
     DomainBean object = (DomainBean) loadMethod.invoke(yaml, dump);
 
     assertEquals(bean, object);

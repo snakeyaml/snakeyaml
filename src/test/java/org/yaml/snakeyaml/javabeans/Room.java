@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.javabeans;
 
 public class Room {
+
   private String name;
 
   public Room() {

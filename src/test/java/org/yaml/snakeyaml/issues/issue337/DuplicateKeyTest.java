@@ -18,7 +18,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
@@ -28,6 +27,7 @@ import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 public class DuplicateKeyTest {
 
   public static class MapProvider<K, V> {
+
     private Map<K, V> map = new LinkedHashMap<K, V>();
 
     private String name;
@@ -66,6 +66,7 @@ public class DuplicateKeyTest {
 
   // test guff
   public static class FooEntry {
+
     private String id;
     private String url;
 
@@ -99,10 +100,9 @@ public class DuplicateKeyTest {
     String input = Util.getLocalResource("issues/issue337-duplicate-keys.yaml");
     Yaml yaml = new Yaml();
     MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
-    assertEquals("has-dup-keys", testdata.getName().toString());
+    assertEquals("has-dup-keys", testdata.getName());
     assertEquals(1, testdata.getMap().size());
-    assertEquals("daaf8911-36e4-4e92-86ea-eb77ac2c1e91",
-        testdata.getMap().get("someitem").getId().toString());
+    assertEquals("daaf8911-36e4-4e92-86ea-eb77ac2c1e91", testdata.getMap().get("someitem").getId());
   }
 
   @Test
@@ -149,12 +149,12 @@ public class DuplicateKeyTest {
     String input = Util.getLocalResource("issues/issue337-duplicate-keys-no-dups.yaml");
     Yaml yaml = new Yaml();
     MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
-    assertEquals("no-dups-test", testdata.getName().toString());
+    assertEquals("no-dups-test", testdata.getName());
     assertEquals(3, testdata.getMap().size());
     assertEquals("aead4b16-4b61-4eff-b241-6eff26eaa778",
-        testdata.getMap().get("someitem1").getId().toString());
+        testdata.getMap().get("someitem1").getId());
     assertEquals("daaf8911-36e4-4e92-86ea-eb77ac2c1e91",
-        testdata.getMap().get("someitem3").getId().toString());
+        testdata.getMap().get("someitem3").getId());
   }
 
   @Test
@@ -164,12 +164,12 @@ public class DuplicateKeyTest {
     lc.setAllowDuplicateKeys(false);
     Yaml yaml = new Yaml(lc);
     MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
-    assertEquals("no-dups-test", testdata.getName().toString());
+    assertEquals("no-dups-test", testdata.getName());
     assertEquals(3, testdata.getMap().size());
     assertEquals("aead4b16-4b61-4eff-b241-6eff26eaa778",
-        testdata.getMap().get("someitem1").getId().toString());
+        testdata.getMap().get("someitem1").getId());
     assertEquals("daaf8911-36e4-4e92-86ea-eb77ac2c1e91",
-        testdata.getMap().get("someitem3").getId().toString());
+        testdata.getMap().get("someitem3").getId());
     testdata.getMap().put("someitem1", new FooEntry("AnotherEntry", "AnotherURL"));
   }
 

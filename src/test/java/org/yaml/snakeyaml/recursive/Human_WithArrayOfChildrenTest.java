@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.recursive;
 
 import java.util.Date;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -153,7 +151,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/with-childrenArray.yaml");
     assertEquals(etalon, output);
     //
-    Human_WithArrayOfChildren son2 = (Human_WithArrayOfChildren) yaml.load(output);
+    Human_WithArrayOfChildren son2 = yaml.load(output);
     checkSon(son2);
   }
 
@@ -175,7 +173,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
     constructor.addTypeDescription(HumanWithChildrenArrayDescription);
     Yaml yaml = new Yaml(constructor);
     String doc = Util.getLocalResource("recursive/with-childrenArray-no-root-tag.yaml");
-    Human_WithArrayOfChildren son2 = (Human_WithArrayOfChildren) yaml.load(doc);
+    Human_WithArrayOfChildren son2 = yaml.load(doc);
     checkSon(son2);
   }
 }

@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.generics;
 
 public abstract class AbstractAnimal<T> {
+
   private String name;
 
   public String getName() {

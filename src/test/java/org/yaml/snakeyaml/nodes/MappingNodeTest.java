@@ -13,9 +13,8 @@
  */
 package org.yaml.snakeyaml.nodes;
 
-import org.yaml.snakeyaml.DumperOptions;
-
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 
 public class MappingNodeTest extends TestCase {
 

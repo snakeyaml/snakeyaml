@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.array;
 
 import java.util.Arrays;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.junit.Assert;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.ConstructorException;
@@ -46,7 +44,7 @@ public class PrimitiveArrayTest extends TestCase {
         + " ]\n";
 
     Yaml yaml = new Yaml();
-    List<Object> wrappers = (List<Object>) yaml.load(testInput);
+    List<Object> wrappers = yaml.load(testInput);
 
     Assert.assertArrayEquals(bytes, ((ByteArr) wrappers.get(0)).getBytes());
     Assert.assertArrayEquals(shorts, ((ShortArr) wrappers.get(1)).getShorts());
@@ -192,10 +190,11 @@ public class PrimitiveArrayTest extends TestCase {
     four.setContents(
         new LongArr[] {new LongArr(new long[] {1, 2, 3, 4}), new LongArr(new long[] {5, 6, 7, 8})});
     Object result = cycle(four);
-    assertEquals(four, (ArrayLongArr) result);
+    assertEquals(four, result);
   }
 
   public static class Array2D {
+
     private long[][] longs;
 
     public long[][] getLongs() {
@@ -208,6 +207,7 @@ public class PrimitiveArrayTest extends TestCase {
   }
 
   public static class Array3D {
+
     private long[][][] longs;
 
     public long[][][] getLongs() {
@@ -220,6 +220,7 @@ public class PrimitiveArrayTest extends TestCase {
   }
 
   public static class ArrayLongArr {
+
     private LongArr[] contents;
 
     public LongArr[] getContents() {
@@ -232,12 +233,14 @@ public class PrimitiveArrayTest extends TestCase {
 
     @Override
     public boolean equals(Object obj) {
-      if (!(obj instanceof ArrayLongArr))
+      if (!(obj instanceof ArrayLongArr)) {
         return false;
+      }
 
       ArrayLongArr other = ((ArrayLongArr) obj);
-      if (contents.length != other.getContents().length)
+      if (contents.length != other.getContents().length) {
         return false;
+      }
       for (int i = 0; i < contents.length; ++i) {
         if (!Arrays.equals(contents[i].getLongs(), other.getContents()[i].getLongs())) {
           return false;

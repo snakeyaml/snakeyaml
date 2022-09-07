@@ -13,12 +13,11 @@
  */
 package org.yaml.snakeyaml.issues.issue512;
 
+import java.util.List;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-
-import java.util.List;
 
 public class ListWithCommentTest extends TestCase {
 

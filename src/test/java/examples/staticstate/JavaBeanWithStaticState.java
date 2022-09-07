@@ -14,6 +14,7 @@
 package examples.staticstate;
 
 public class JavaBeanWithStaticState {
+
   private String name;
   private int age;
   public static String color;// public field

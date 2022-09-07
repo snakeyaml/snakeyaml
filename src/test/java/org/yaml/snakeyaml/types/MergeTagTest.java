@@ -15,7 +15,6 @@ package org.yaml.snakeyaml.types;
 
 import java.util.List;
 import java.util.Map;
-
 import org.yaml.snakeyaml.YamlDocument;
 
 /**

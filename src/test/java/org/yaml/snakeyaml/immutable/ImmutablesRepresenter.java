@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.immutable;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.util.Arrays;
-
 import javax.swing.border.MatteBorder;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -40,7 +38,7 @@ public class ImmutablesRepresenter extends Representer {
     public Node representData(Object data) {
       Insets insets = (Insets) data;
       return representSequence(getTag(data.getClass(), new Tag(data.getClass())),
-          Arrays.asList(new Object[] {insets.top, insets.left, insets.bottom, insets.right}),
+          Arrays.asList(insets.top, insets.left, insets.bottom, insets.right),
           DumperOptions.FlowStyle.FLOW);
     }
 
@@ -51,8 +49,7 @@ public class ImmutablesRepresenter extends Representer {
     public Node representData(Object data) {
       Rectangle rect = (Rectangle) data;
       return representSequence(getTag(data.getClass(), new Tag(data.getClass())),
-          Arrays.asList(new Object[] {rect.x, rect.y, rect.width, rect.height}),
-          DumperOptions.FlowStyle.FLOW);
+          Arrays.asList(rect.x, rect.y, rect.width, rect.height), DumperOptions.FlowStyle.FLOW);
     }
 
   }
@@ -62,8 +59,7 @@ public class ImmutablesRepresenter extends Representer {
     public Node representData(Object data) {
       MatteBorder mb = (MatteBorder) data;
       return representSequence(getTag(data.getClass(), new Tag(data.getClass())),
-          Arrays.asList(new Object[] {mb.getBorderInsets(), mb.getMatteColor()}),
-          DumperOptions.FlowStyle.FLOW);
+          Arrays.asList(mb.getBorderInsets(), mb.getMatteColor()), DumperOptions.FlowStyle.FLOW);
     }
 
   }
@@ -73,8 +69,7 @@ public class ImmutablesRepresenter extends Representer {
     public Node representData(Object data) {
       java.awt.Color color = (java.awt.Color) data;
       return representSequence(getTag(data.getClass(), new Tag(data.getClass())),
-          Arrays.asList(
-              new Integer[] {color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()}),
+          Arrays.asList(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()),
           DumperOptions.FlowStyle.FLOW);
     }
 

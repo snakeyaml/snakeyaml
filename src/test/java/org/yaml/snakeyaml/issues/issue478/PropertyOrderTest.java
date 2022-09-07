@@ -13,15 +13,15 @@
  */
 package org.yaml.snakeyaml.issues.issue478;
 
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
-
 public class PropertyOrderTest extends TestCase {
+
   Set<Property> reverse = new TreeSet<>();
 
   public void testParseBytes() {

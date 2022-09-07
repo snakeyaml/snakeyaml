@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue150;
 
 public class Wheel {
+
   private Integer id;
 
   public Wheel() {}

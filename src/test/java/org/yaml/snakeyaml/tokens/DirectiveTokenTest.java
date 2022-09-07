@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.tokens;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.tokens.Token.ID;
 

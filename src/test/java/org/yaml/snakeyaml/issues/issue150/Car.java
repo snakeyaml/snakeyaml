@@ -21,6 +21,7 @@ import java.util.Collection;
  *
  */
 public class Car {
+
   private String plate;
   private Collection<Wheel> wheels;
 

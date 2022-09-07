@@ -14,7 +14,8 @@
 package org.yaml.snakeyaml.issues.issue116;
 
 public class HiddenSpecial {
-  private int inaccessableField;
+
+  private final int inaccessableField;
 
   public HiddenSpecial(String something) {
     this.inaccessableField = something.hashCode();

@@ -17,8 +17,9 @@ public class EntityLoadingProxy extends Entity {
 
   @Override
   public void setNickName(String nickName) {
-    if (nickName.startsWith("J"))
+    if (nickName.startsWith("J")) {
       nickName = "JJ-" + nickName;
+    }
     super.setNickName(nickName);
   }
 }

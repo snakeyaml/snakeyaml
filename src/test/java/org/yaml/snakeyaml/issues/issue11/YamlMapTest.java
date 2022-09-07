@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue11;
 
 import java.util.Map;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -28,11 +26,12 @@ import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlMapTest extends TestCase {
+
   public void testYaml() {
     Yaml yaml = new Yaml(new ExtendedConstructor(), new ExtendedRepresenter());
     String output = yaml.dump(new Custom(123));
     // System.out.println(output);
-    Custom o = (Custom) yaml.load(output);
+    Custom o = yaml.load(output);
     assertEquals("123", o.getStr());
   }
 
@@ -67,6 +66,7 @@ public class YamlMapTest extends TestCase {
   }
 
   public static class Wrapper {
+
     private String a;
     private Custom b;
 
@@ -95,6 +95,7 @@ public class YamlMapTest extends TestCase {
   }
 
   public static class Custom {
+
     final private String str;
 
     public Custom(Integer i) {
@@ -115,25 +116,29 @@ public class YamlMapTest extends TestCase {
   }
 
   public static class ExtendedRepresenter extends Representer {
+
     public ExtendedRepresenter() {
       this.representers.put(Custom.class, new RepresentCustom());
     }
 
     private class RepresentCustom implements Represent {
+
       public Node representData(Object data) {
-        return representScalar(new Tag("!Custom"), ((Custom) data).toString());
+        return representScalar(new Tag("!Custom"), data.toString());
       }
     }
   }
 
   public static class ExtendedConstructor extends Constructor {
+
     public ExtendedConstructor() {
       this.yamlConstructors.put(new Tag("!Custom"), new ConstructCustom());
     }
 
     private class ConstructCustom extends AbstractConstruct {
+
       public Object construct(Node node) {
-        String str = (String) constructScalar((ScalarNode) node);
+        String str = constructScalar((ScalarNode) node);
         return new Custom(Integer.valueOf(str));
       }
 

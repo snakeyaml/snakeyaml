@@ -15,17 +15,16 @@ package examples;
 
 import java.util.Map;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CustomMapExampleTest extends TestCase {
+
   public void testMap() {
     Yaml yaml = new Yaml(new CustomConstructor());
     @SuppressWarnings("unchecked")
-    Map<Integer, String> data = (Map<Integer, String>) yaml.load("{2: '222', 1: '111', 3: '333'}");
+    Map<Integer, String> data = yaml.load("{2: '222', 1: '111', 3: '333'}");
     assertTrue(data instanceof TreeMap);
     Object[] keys = data.keySet().toArray();
     // must be sorted
@@ -35,6 +34,7 @@ public class CustomMapExampleTest extends TestCase {
   }
 
   class CustomConstructor extends Constructor {
+
     @Override
     protected Map<Object, Object> createDefaultMap(int initSize) {
       return new TreeMap<Object, Object>();

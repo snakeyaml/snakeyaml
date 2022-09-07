@@ -17,7 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 class Blog {
-  private List<Post> posts = new LinkedList<Post>();
+
+  private final List<Post> posts = new LinkedList<Post>();
 
   public Blog() {}
 

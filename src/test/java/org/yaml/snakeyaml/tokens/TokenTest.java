@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.tokens;
 import junit.framework.TestCase;
 
 public class TokenTest extends TestCase {
+
   public void testTokenID() {
     assertEquals("<alias>", Token.ID.Alias.toString());
     assertEquals("<anchor>", Token.ID.Anchor.toString());

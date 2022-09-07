@@ -15,9 +15,7 @@ package examples.resolver;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -40,13 +38,13 @@ public class CustomResolverTest extends TestCase {
   public void testResolverToLoad() {
     Yaml yaml =
         new Yaml(new Constructor(), new Representer(), new DumperOptions(), new CustomResolver());
-    Map<Object, Object> map = (Map<Object, Object>) yaml.load("1.0: 2009-01-01");
+    Map<Object, Object> map = yaml.load("1.0: 2009-01-01");
     assertEquals(1, map.size());
     assertEquals("2009-01-01", map.get("1.0"));
     // the default Resolver shall create Date and Double from the same YAML
     // document
     Yaml yaml2 = new Yaml();
-    Map<Object, Object> map2 = (Map<Object, Object>) yaml2.load("1.0: 2009-01-01");
+    Map<Object, Object> map2 = yaml2.load("1.0: 2009-01-01");
     assertEquals(1, map2.size());
     assertFalse(map2.containsKey("1.0"));
     assertTrue(map2.toString(), map2.containsKey(Double.valueOf(1.0)));
@@ -58,7 +56,7 @@ public class CustomResolverTest extends TestCase {
   public void testResolverToLoadNoTime() {
     Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
         new NoTimeIntResolver());
-    Map<Object, Object> map = (Map<Object, Object>) yaml.load("a: 17:00:00\nb: 17");
+    Map<Object, Object> map = yaml.load("a: 17:00:00\nb: 17");
     assertEquals(2, map.size());
     assertEquals("17:00:00", map.get("a"));
     assertEquals(17, map.get("b"));
@@ -67,7 +65,7 @@ public class CustomResolverTest extends TestCase {
   public void testJsonBooleanResolverToLoad() {
     Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
         new JsonBooleanResolver());
-    Map<Object, Object> map = (Map<Object, Object>) yaml.load("no: true");
+    Map<Object, Object> map = yaml.load("no: true");
     assertEquals(1, map.size());
     assertEquals(true, map.get("no"));
   }

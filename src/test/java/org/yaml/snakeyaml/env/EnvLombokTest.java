@@ -13,17 +13,17 @@
  */
 package org.yaml.snakeyaml.env;
 
+import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_FORMAT;
+import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_TAG;
+
+import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 
-import java.util.ArrayList;
-
-import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_FORMAT;
-import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_TAG;
-
 public class EnvLombokTest extends TestCase {
+
   public void testEnvConstructor() {
     Yaml yaml = new Yaml(new EnvScalarConstructor(new TypeDescription(ApplicationProperties.class),
         new ArrayList<TypeDescription>(), new LoaderOptions()));

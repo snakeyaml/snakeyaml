@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue10;
 
 public class DataSource {
+
   String name;
 
   public String getName() {

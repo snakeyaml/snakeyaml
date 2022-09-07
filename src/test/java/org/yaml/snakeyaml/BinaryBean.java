@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml;
 
 public class BinaryBean {
+
   byte[] data;
   int id;
 

@@ -19,7 +19,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Map;
-
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -29,6 +28,7 @@ import org.yaml.snakeyaml.error.YAMLException;
  * https://en.wikipedia.org/wiki/Billion_laughs_attack#Variations
  */
 public class BillionLaughsAttackTest {
+
   public static final String data =
       "a: &a [\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\",\"lol\"]\n"
           + "b: &b [*a,*a,*a,*a,*a,*a,*a,*a,*a]\n" + "c: &c [*b,*b,*b,*b,*b,*b,*b,*b,*b]\n"
@@ -44,7 +44,7 @@ public class BillionLaughsAttackTest {
     LoaderOptions settings = new LoaderOptions();
     settings.setMaxAliasesForCollections(72);
     Yaml yaml = new Yaml(settings);
-    Map map = (Map) yaml.load(data);
+    Map map = yaml.load(data);
     assertNotNull(map);
   }
 
@@ -53,7 +53,7 @@ public class BillionLaughsAttackTest {
     LoaderOptions settings = new LoaderOptions();
     settings.setMaxAliasesForCollections(100);
     Yaml yaml = new Yaml(settings);
-    Map map = (Map) yaml.load(data);
+    Map map = yaml.load(data);
     assertNotNull(map);
     try {
       map.toString();
@@ -82,7 +82,7 @@ public class BillionLaughsAttackTest {
     LoaderOptions settings = new LoaderOptions();
     settings.setMaxAliasesForCollections(5); // smaller than number of aliases for scalars
     Yaml yaml = new Yaml(settings);
-    Map map = (Map) yaml.load(scalarAliasesData);
+    Map map = yaml.load(scalarAliasesData);
     assertNotNull(map);
   }
 

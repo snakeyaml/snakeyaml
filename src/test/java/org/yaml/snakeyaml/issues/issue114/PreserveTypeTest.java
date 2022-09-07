@@ -17,9 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class PreserveTypeTest extends TestCase {
@@ -69,7 +67,7 @@ public class PreserveTypeTest extends TestCase {
   private void check(String doc) {
     Yaml yaml = new Yaml();
     @SuppressWarnings("unchecked")
-    Map<String, Object> loaded = (Map<String, Object>) yaml.load(doc);
+    Map<String, Object> loaded = yaml.load(doc);
     Object myBean2 = loaded.get("myBean");
     assertTrue(myBean2.getClass().toString(), myBean2 instanceof MyBean);
   }

@@ -13,16 +13,17 @@
  */
 package org.yaml.snakeyaml.issues.issue49;
 
+import static org.junit.Assert.assertNotEquals;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-
+import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
-import junit.framework.TestCase;
-
 public class CalendarTest extends TestCase {
+
   /**
    * Daylight Saving Time is not taken into account
    */
@@ -88,7 +89,7 @@ public class CalendarTest extends TestCase {
     //
     Yaml loader = new Yaml();
     CalendarBean parsed = loader.loadAs(output, CalendarBean.class);
-    assertFalse("TimeZone must deviate.", bean.getCalendar().equals(parsed.getCalendar()));
+    assertNotEquals("TimeZone must deviate.", bean.getCalendar(), parsed.getCalendar());
     assertEquals(bean.getCalendar().getTimeInMillis(), parsed.getCalendar().getTimeInMillis());
   }
 
@@ -102,18 +103,18 @@ public class CalendarTest extends TestCase {
         calendar.getTimeZone().getOffset(calendar.getTime().getTime()));
     //
     Yaml yaml = new Yaml();
-    Date date = (Date) yaml.load("2001-12-14t21:59:43.10-05:00");
+    Date date = yaml.load("2001-12-14t21:59:43.10-05:00");
     assertEquals(date, calendar.getTime());
   }
 
   public void testLoadWithTag() {
     Yaml yaml = new Yaml();
     GregorianCalendar calendar =
-        (GregorianCalendar) yaml.load("!!java.util.GregorianCalendar 2001-12-14t21:59:43.10-05:00");
+        yaml.load("!!java.util.GregorianCalendar 2001-12-14t21:59:43.10-05:00");
     assertEquals(TimeZone.getTimeZone("GMT-5:00").getOffset(calendar.getTime().getTime()),
         calendar.getTimeZone().getOffset(calendar.getTime().getTime()));
     //
-    Date date = (Date) yaml.load("2001-12-14t21:59:43.10-05:00");
+    Date date = yaml.load("2001-12-14t21:59:43.10-05:00");
     assertEquals(date, calendar.getTime());
   }
 }

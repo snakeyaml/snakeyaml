@@ -18,14 +18,15 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-
+import java.nio.charset.StandardCharsets;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class YamlDocument {
+
   public static final String ROOT = "specification/";
-  private String source;
-  private String presentation;
-  private Object nativeData;
+  private final String source;
+  private final String presentation;
+  private final Object nativeData;
 
   public YamlDocument(String sourceName, boolean check, Constructor constructor) {
     InputStream input = YamlDocument.class.getClassLoader().getResourceAsStream(ROOT + sourceName);
@@ -35,7 +36,7 @@ public class YamlDocument {
     Yaml yaml = new Yaml(constructor);
     nativeData = yaml.load(input);
     ByteArrayOutputStream output = new ByteArrayOutputStream();
-    Charset charset = Charset.forName("UTF-8");
+    Charset charset = StandardCharsets.UTF_8;
     yaml.dump(nativeData, new OutputStreamWriter(output, charset));
     try {
       presentation = output.toString(charset.name());

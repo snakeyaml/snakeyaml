@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.AssertionFailedError;
 
 public class YamlStream {
-  private List<Object> nativeData = new ArrayList<Object>();
+
+  private final List<Object> nativeData = new ArrayList<Object>();
 
   public YamlStream(String sourceName) {
     InputStream input =

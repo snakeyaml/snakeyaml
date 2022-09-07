@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 public class Parent1 {
+
   private String id;
   private Child1 child;
 

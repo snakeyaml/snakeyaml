@@ -16,13 +16,12 @@ package org.yaml.snakeyaml.issues.issue73;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class RecursiveSetTest extends TestCase {
+
   public void testDumpException() {
     Set<Object> set1 = new HashSet<Object>();
     Set<Object> set2 = new HashSet<Object>();
@@ -33,7 +32,7 @@ public class RecursiveSetTest extends TestCase {
       yaml.dump(set1);
       fail("Recursive sets are not supported.");
     } catch (StackOverflowError e) {
-      assertEquals(null, e.getMessage());
+      assertNull(e.getMessage());
     }
   }
 
@@ -57,7 +56,7 @@ public class RecursiveSetTest extends TestCase {
     String doc = Util.getLocalResource("issues/issue73-recursive5.txt");
     // System.out.println(doc);
     Yaml yaml = new Yaml();
-    Bean1 obj = (Bean1) yaml.load(doc);
+    Bean1 obj = yaml.load(doc);
     Set<Object> set = obj.getSet();
     // System.out.println(set);
     assertEquals(LinkedHashSet.class, set.getClass());
@@ -95,6 +94,7 @@ public class RecursiveSetTest extends TestCase {
   }
 
   public static class Bean1 {
+
     private Set<Object> set;
     private String id;
 

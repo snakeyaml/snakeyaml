@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.immutable;
  * Two public constructor with 2 argument are present
  */
 public class Point2 {
+
   private final Integer x;
   private final Integer y;
 
@@ -40,6 +41,6 @@ public class Point2 {
 
   @Override
   public String toString() {
-    return "<Point2 x=" + String.valueOf(x) + " y=" + String.valueOf(y) + ">";
+    return "<Point2 x=" + x + " y=" + y + ">";
   }
 }

@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.javabeans;
 
 public class FrontDoor extends Door {
+
   private String keytype;
 
   public FrontDoor() {

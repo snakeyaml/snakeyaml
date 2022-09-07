@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue74;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
@@ -56,6 +54,7 @@ public class ArrayBeanTest extends TestCase {
   }
 
   public static class ArrayBean {
+
     private String id;
     private int number;
     private ArrayMember[] members;
@@ -96,6 +95,7 @@ public class ArrayBeanTest extends TestCase {
   }
 
   public static class ArrayMember {
+
     private String name;
     private int age;
 

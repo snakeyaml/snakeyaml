@@ -15,7 +15,6 @@ package org.yaml.snakeyaml;
 
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
 
 /**
@@ -26,7 +25,7 @@ public class Chapter2_2Test extends TestCase {
   @SuppressWarnings("unchecked")
   public void testExample_2_7() {
     YamlStream resource = new YamlStream("example2_7.yaml");
-    List<Object> list = (List<Object>) resource.getNativeData();
+    List<Object> list = resource.getNativeData();
     assertEquals(2, list.size());
     List<String> list1 = (List<String>) list.get(0);
     assertEquals(3, list1.size());
@@ -42,7 +41,7 @@ public class Chapter2_2Test extends TestCase {
   @SuppressWarnings("unchecked")
   public void testExample_2_8() {
     YamlStream resource = new YamlStream("example2_8.yaml");
-    List<Object> list = (List<Object>) resource.getNativeData();
+    List<Object> list = resource.getNativeData();
     assertEquals(2, list.size());
     Map<String, String> map1 = (Map<String, String>) list.get(0);
     assertEquals(3, map1.size());
@@ -95,13 +94,13 @@ public class Chapter2_2Test extends TestCase {
     @SuppressWarnings("unchecked")
     List<Map<Object, Object>> list = (List<Map<Object, Object>>) document.getNativeData();
     assertEquals(3, list.size());
-    Map<Object, Object> map1 = (Map<Object, Object>) list.get(0);
+    Map<Object, Object> map1 = list.get(0);
     assertEquals(2, map1.size());
     assertEquals("Super Hoop", map1.get("item"));
-    Map<Object, Object> map2 = (Map<Object, Object>) list.get(1);
+    Map<Object, Object> map2 = list.get(1);
     assertEquals(2, map2.size());
     assertEquals("Basketball", map2.get("item"));
-    Map<Object, Object> map3 = (Map<Object, Object>) list.get(2);
+    Map<Object, Object> map3 = list.get(2);
     assertEquals(2, map3.size());
     assertEquals("Big Shoes", map3.get("item"));
   }

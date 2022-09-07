@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue145;
 
 public abstract class AbstractThing {
+
   protected String id;
 
   public String getId() {

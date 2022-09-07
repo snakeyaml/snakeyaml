@@ -21,6 +21,7 @@ import org.yaml.snakeyaml.Yaml;
 public class JavaBeanWithPropertiesLikeBooleanValuesTest {
 
   public static class Workflow {
+
     public String on;
     public String off;
     public String y;

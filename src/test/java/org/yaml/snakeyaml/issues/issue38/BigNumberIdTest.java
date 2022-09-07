@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.issues.issue38;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -25,6 +23,7 @@ import org.yaml.snakeyaml.Yaml;
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=38
  */
 public class BigNumberIdTest extends TestCase {
+
   @SuppressWarnings("unchecked")
   public void testBigNumberFormat() {
     List<Bean> list = new ArrayList<Bean>(2000);
@@ -39,7 +38,7 @@ public class BigNumberIdTest extends TestCase {
     String output = yaml.dump(list);
     // System.out.println(output);
     //
-    List<Bean> list2 = (List<Bean>) yaml.load(output);
+    List<Bean> list2 = yaml.load(output);
     for (Bean bean : list2) {
       assertTrue(bean.getValue() > 0);
     }

@@ -16,6 +16,7 @@ package org.yaml.snakeyaml;
 import junit.framework.TestCase;
 
 public class BinaryJavaBeanTest extends TestCase {
+
   public void testBeanTest() {
     BinaryBean bean = new BinaryBean();
     bean.setId(1);
@@ -26,7 +27,7 @@ public class BinaryJavaBeanTest extends TestCase {
     String etalon = "!!org.yaml.snakeyaml.BinaryBean\ndata: !!binary |-\n  AQcJH0E=\nid: 1\n";
     assertEquals(etalon, output);
     // load
-    BinaryBean bean2 = (BinaryBean) yaml.load(output);
+    BinaryBean bean2 = yaml.load(output);
     assertEquals(1, bean2.getId());
     assertEquals(new String(bytes), new String(bean2.getData()));
   }

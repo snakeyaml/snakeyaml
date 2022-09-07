@@ -17,6 +17,7 @@ package org.yaml.snakeyaml.immutable;
  * Two constructors with 1 argument. These immutable objects are not supported.
  */
 public class Code2 {
+
   private final Integer code;
 
   public Code2(Integer name) {

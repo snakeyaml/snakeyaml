@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue138;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.reader.ReaderException;
 

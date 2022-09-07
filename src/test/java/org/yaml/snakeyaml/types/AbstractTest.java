@@ -14,16 +14,15 @@
 package org.yaml.snakeyaml.types;
 
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public abstract class AbstractTest extends TestCase {
+
   @SuppressWarnings("unchecked")
   protected Map<String, Object> getMap(String data) {
     Yaml yaml = new Yaml();
-    Map<String, Object> nativeData = (Map<String, Object>) yaml.load(data);
+    Map<String, Object> nativeData = yaml.load(data);
     return nativeData;
   }
 

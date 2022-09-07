@@ -14,18 +14,17 @@
 package examples;
 
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 public class SafeConstructorExampleTest extends TestCase {
+
   @SuppressWarnings("unchecked")
   public void testConstruct() {
     String doc = "- 5\n- Person\n- true";
     Yaml yaml = new Yaml(new SafeConstructor());
-    List<Object> list = (List<Object>) yaml.load(doc);
+    List<Object> list = yaml.load(doc);
     assertEquals(3, list.size());
     assertEquals(Integer.valueOf(5), list.get(0));
     assertEquals("Person", list.get(1));

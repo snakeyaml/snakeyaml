@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.issues.issue132;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.ScalarEvent;
@@ -28,6 +26,7 @@ import org.yaml.snakeyaml.nodes.Node;
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=132
  */
 public class ScalarEventTagTest extends TestCase {
+
   public void testLoad() {
     Yaml yaml = new Yaml();
     Iterable<Event> parsed = yaml.parse(new StringReader("5"));

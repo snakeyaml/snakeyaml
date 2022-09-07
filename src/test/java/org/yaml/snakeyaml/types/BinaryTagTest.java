@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.types;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import java.util.Map;
  * @see <a href="http://yaml.org/type/binary.html">binary</a>
  */
 public class BinaryTagTest extends AbstractTest {
+
   String line1 = "R0lGODlhDAAMAIQAAP//9/X17unp5WZmZgAAAOfn515eXvPz7Y6OjuDg4J+fn5";
   String line2 = "OTk6enp56enmlpaWNjY6Ojo4SEhP/++f/++f/++f/++f/++f/++f/++f/++f/+";
   String line3 = "+f/++f/++f/++f/++f/++SH+Dk1hZGUgd2l0aCBHSU1QACwAAAAADAAMAAAFLC";
@@ -53,9 +55,9 @@ public class BinaryTagTest extends AbstractTest {
   }
 
   public void testBinaryOut() throws IOException {
-    byte[] data = "GIF89\tbi\u0003\u0000nary\n\u001Fimage\n".getBytes("ISO-8859-1");
+    byte[] data = "GIF89\tbi\u0003\u0000nary\n\u001Fimage\n".getBytes(StandardCharsets.ISO_8859_1);
     Map<String, String> map = new HashMap<String, String>();
-    String value = new String(data, "ISO-8859-1");
+    String value = new String(data, StandardCharsets.ISO_8859_1);
     map.put("canonical", value);
     String output = dump(map);
     assertEquals("canonical: !!binary |-\n  R0lGODkJYmkDAG5hcnkKH2ltYWdlCg==\n", output);

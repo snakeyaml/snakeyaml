@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue479;
 
 public class CredentialAppConfig {
+
   private Mysql mysql;
   private String test1;
 

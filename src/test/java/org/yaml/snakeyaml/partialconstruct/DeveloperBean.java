@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.partialconstruct;
 
 public class DeveloperBean {
+
   String name;
   String language;
 

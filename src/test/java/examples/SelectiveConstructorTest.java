@@ -15,9 +15,7 @@ package examples;
 
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -27,13 +25,16 @@ import org.yaml.snakeyaml.nodes.NodeId;
  * Example for http://code.google.com/p/snakeyaml/wiki/howto
  */
 public class SelectiveConstructorTest extends TestCase {
+
   class SelectiveConstructor extends Constructor {
+
     public SelectiveConstructor() {
       // define a custom way to create a mapping node
       yamlClassConstructors.put(NodeId.mapping, new MyPersistentObjectConstruct());
     }
 
     class MyPersistentObjectConstruct extends Constructor.ConstructMapping {
+
       @Override
       protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
         Class<?> type = node.getType();
@@ -52,8 +53,8 @@ public class SelectiveConstructorTest extends TestCase {
 
   public void testConstructor() {
     Yaml yaml = new Yaml(new SelectiveConstructor());
-    List<?> data = (List<?>) yaml
-        .load("- 1\n- 2\n- !!examples.MyPersistentObject {amount: 222, id: persistent}");
+    List<?> data =
+        yaml.load("- 1\n- 2\n- !!examples.MyPersistentObject {amount: 222, id: persistent}");
     // System.out.println(data);
     assertEquals(3, data.size());
     MyPersistentObject myObject = (MyPersistentObject) data.get(2);
@@ -64,6 +65,7 @@ public class SelectiveConstructorTest extends TestCase {
 
 
 class MyPersistentObject {
+
   private String id;
   private int amount;
 

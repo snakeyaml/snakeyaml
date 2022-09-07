@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue177;
 
 public class PointBean {
+
   public int x;
   public int y;
 

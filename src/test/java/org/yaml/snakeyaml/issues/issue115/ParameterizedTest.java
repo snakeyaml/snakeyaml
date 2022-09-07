@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue115;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class ParameterizedTest extends TestCase {
@@ -27,7 +26,7 @@ public class ParameterizedTest extends TestCase {
     assertEquals("!!org.yaml.snakeyaml.issues.issue115.Parameterized {t: 3}\n", result);
     @SuppressWarnings("unchecked")
     // load
-    Parameterized<Integer> parmParsed = (Parameterized<Integer>) yaml.load(result);
+    Parameterized<Integer> parmParsed = yaml.load(result);
     assertEquals(Integer.valueOf(3), parmParsed.t);
   }
 
@@ -40,17 +39,19 @@ public class ParameterizedTest extends TestCase {
     String result = yaml.dump(issue);
     assertEquals("!!org.yaml.snakeyaml.issues.issue115.Issue\nparm: {t: 555}\n", result);
     // load
-    Issue issueParsed = (Issue) yaml.load(result);
+    Issue issueParsed = yaml.load(result);
     assertEquals(Integer.valueOf(555), issueParsed.parm.t);
   }
 }
 
 
 class Issue {
+
   public Parameterized<Integer> parm = new Parameterized<Integer>();
 }
 
 
 class Parameterized<T> {
+
   public T t;
 }

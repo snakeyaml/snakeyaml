@@ -14,7 +14,6 @@
 package examples.jodatime;
 
 import java.util.Date;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -25,11 +24,13 @@ import org.yaml.snakeyaml.nodes.Tag;
  * It works only when JodaTime is not a JavaBean property
  */
 public class JodaTimeImplicitContructor extends Constructor {
+
   public JodaTimeImplicitContructor() {
     this.yamlConstructors.put(Tag.TIMESTAMP, new ConstructJodaTimestamp());
   }
 
   private class ConstructJodaTimestamp extends ConstructYamlTimestamp {
+
     public Object construct(Node node) {
       Date date = (Date) super.construct(node);
       return new DateTime(date, DateTimeZone.UTC);

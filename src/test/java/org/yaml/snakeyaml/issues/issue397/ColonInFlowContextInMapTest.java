@@ -13,32 +13,31 @@
  */
 package org.yaml.snakeyaml.issues.issue397;
 
+import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
 
-import java.util.Map;
-
 public class ColonInFlowContextInMapTest extends TestCase {
 
-  private Yaml loader = new Yaml();
+  private final Yaml loader = new Yaml();
 
   public void test1() {
-    Map<String, Integer> map = (Map<String, Integer>) loader.load("{a: 1}");
+    Map<String, Integer> map = loader.load("{a: 1}");
     assertEquals(Integer.valueOf(1), map.get("a"));
   }
 
   public void test2() {
-    Map<String, Integer> map = (Map<String, Integer>) loader.load("{a:}");
+    Map<String, Integer> map = loader.load("{a:}");
     assertTrue(map.containsKey("a"));
   }
 
   public void test3() {
-    Map<String, Integer> map = (Map<String, Integer>) loader.load("{a}");
+    Map<String, Integer> map = loader.load("{a}");
     assertTrue(map.containsKey("a"));
   }
 
   public void testTheOnlyCounterIntuitiveCase() {
-    Map<String, Integer> map = (Map<String, Integer>) loader.load("{a:1}");
+    Map<String, Integer> map = loader.load("{a:1}");
     assertTrue(map.containsKey("a:1"));
   }
 }

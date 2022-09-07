@@ -15,21 +15,21 @@ package examples;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CustomListExampleTest extends TestCase {
+
   @SuppressWarnings("unchecked")
   public void testList() {
     Yaml yaml = new Yaml(new CustomConstructor());
-    List<Integer> data = (List<Integer>) yaml.load("[1, 2, 3]");
+    List<Integer> data = yaml.load("[1, 2, 3]");
     assertTrue(data instanceof LinkedList);
   }
 
   class CustomConstructor extends Constructor {
+
     @Override
     protected List<Object> createDefaultList(int initSize) {
       return new LinkedList<Object>();

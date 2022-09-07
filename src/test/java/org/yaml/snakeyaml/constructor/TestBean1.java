@@ -17,6 +17,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 public class TestBean1 {
+
   private String text;
   private String id;
   private Byte byteClass;

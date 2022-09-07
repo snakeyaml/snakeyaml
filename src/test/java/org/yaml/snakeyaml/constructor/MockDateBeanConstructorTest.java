@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.util.Date;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class MockDateBeanConstructorTest extends TestCase {
@@ -36,6 +34,7 @@ public class MockDateBeanConstructorTest extends TestCase {
   }
 
   public static class DateBean {
+
     private int number;
     private MockDate date;
 
@@ -62,6 +61,7 @@ public class MockDateBeanConstructorTest extends TestCase {
   }
 
   public static class MockDate extends Date {
+
     private static final long serialVersionUID = 621384692653658062L;
 
     public MockDate(long date) {

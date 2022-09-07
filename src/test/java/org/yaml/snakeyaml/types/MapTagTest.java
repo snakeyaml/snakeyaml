@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.types;
 
 import java.util.Map;
-
 import org.yaml.snakeyaml.YamlDocument;
 
 /**
@@ -28,13 +27,13 @@ public class MapTagTest extends AbstractTest {
     Map<String, Map<String, String>> map =
         (Map<String, Map<String, String>>) document.getNativeData();
     assertEquals(2, map.size());
-    Map<String, String> map1 = (Map<String, String>) map.get("Block style");
+    Map<String, String> map1 = map.get("Block style");
     assertEquals(3, map1.size());
     assertEquals("Evans", map1.get("Clark"));
     assertEquals("Ingerson", map1.get("Brian"));
     assertEquals("Ben-Kiki", map1.get("Oren"));
     //
-    Map<String, String> map2 = (Map<String, String>) map.get("Flow style");
+    Map<String, String> map2 = map.get("Flow style");
     assertEquals(3, map2.size());
     assertEquals("Evans", map2.get("Clark"));
     assertEquals("Ingerson", map2.get("Brian"));
@@ -50,13 +49,13 @@ public class MapTagTest extends AbstractTest {
     Map<String, Map<String, String>> map =
         (Map<String, Map<String, String>>) document.getNativeData();
     assertEquals(2, map.size());
-    Map<String, String> map1 = (Map<String, String>) map.get("Block style");
+    Map<String, String> map1 = map.get("Block style");
     assertEquals(3, map1.size());
     assertEquals("Evans", map1.get("Clark"));
     assertEquals("Ingerson", map1.get("Brian"));
     assertEquals("Ben-Kiki", map1.get("Oren"));
     //
-    Map<String, String> map2 = (Map<String, String>) map.get("Flow style");
+    Map<String, String> map2 = map.get("Flow style");
     assertEquals(3, map2.size());
     assertEquals("Evans", map2.get("Clark"));
     assertEquals("Ingerson", map2.get("Brian"));

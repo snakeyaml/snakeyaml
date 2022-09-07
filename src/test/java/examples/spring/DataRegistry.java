@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DataRegistry {
 
-  private AtomicInteger counter = new AtomicInteger(1);
+  private final AtomicInteger counter = new AtomicInteger(1);
 
   /**
    * Generates pseudodata of format "<id>]-<id>"

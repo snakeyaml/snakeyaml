@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
@@ -42,7 +40,7 @@ public class PyRecursiveTest extends TestCase {
     assertTrue(output1.contains("*id002"));
     assertTrue(output1.contains("foo"));
     assertTrue(output1.contains("bar"));
-    Map<AnInstance, AnInstance> value2 = (Map<AnInstance, AnInstance>) yaml.load(output1);
+    Map<AnInstance, AnInstance> value2 = yaml.load(output1);
     assertEquals(value.size(), value2.size());
     for (AnInstance tmpInstance : value2.values()) {
       assertSame(tmpInstance.getBar(), tmpInstance.getFoo());
@@ -59,7 +57,7 @@ public class PyRecursiveTest extends TestCase {
     Yaml yaml = new Yaml(new SafeConstructor());
     String output1 = yaml.dump(value);
     assertEquals("&id001\nabc: www\nqwerty: *id001\n", output1);
-    Map value2 = (Map) yaml.load(output1);
+    Map value2 = yaml.load(output1);
     assertEquals(2, value2.size());
     assertEquals("www", value2.get("abc"));
     assertTrue(value2.get("qwerty") instanceof Map);
@@ -77,7 +75,7 @@ public class PyRecursiveTest extends TestCase {
     Yaml yaml = new Yaml();
     String output1 = yaml.dump(value);
     assertEquals("&id001\n- *id001\n- test\n- 1\n", output1);
-    List value2 = (List) yaml.load(output1);
+    List value2 = yaml.load(output1);
     assertEquals(3, value2.size());
     assertEquals(value.size(), value2.size());
     assertSame(value2, value2.get(0));
@@ -99,7 +97,7 @@ public class PyRecursiveTest extends TestCase {
     Yaml yaml = new Yaml(new SafeConstructor());
     String output1 = yaml.dump(value);
     assertEquals("&id001\n- *id001\n- test\n- 1\n", output1);
-    List value2 = (List) yaml.load(output1);
+    List value2 = yaml.load(output1);
     assertEquals(3, value2.size());
     assertEquals(value.size(), value2.size());
     assertSame(value2, value2.get(0));
@@ -117,7 +115,7 @@ public class PyRecursiveTest extends TestCase {
     value.add(new AnInstance(value, value));
     Yaml yaml = new Yaml();
     String output1 = yaml.dump(value);
-    Set<AnInstance> value2 = (Set<AnInstance>) yaml.load(output1);
+    Set<AnInstance> value2 = yaml.load(output1);
 
     assertEquals(value.size(), value2.size());
     for (AnInstance tmpInstance : value2) {

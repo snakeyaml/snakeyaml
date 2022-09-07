@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.representer;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class RepresentFieldTest extends TestCase {

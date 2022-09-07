@@ -42,11 +42,13 @@ public class CustomNullConstructorTest extends TestCase {
   }
 
   class NullConstructor extends SafeConstructor {
+
     public NullConstructor() {
       this.yamlConstructors.put(Tag.NULL, new ConstructNull());
     }
 
     private class ConstructNull extends AbstractConstruct {
+
       public Object construct(Node node) {
         return 1;
       }

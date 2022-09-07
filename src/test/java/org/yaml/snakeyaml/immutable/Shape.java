@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.immutable;
 
 public class Shape {
+
   private Color color;
   private Point point;
   private Point3d point3d;

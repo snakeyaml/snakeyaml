@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.reader;
 
 import java.io.StringReader;
-
 import junit.framework.TestCase;
 
 public class ReaderStringTest extends TestCase {

@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.issues.issue73;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -49,7 +47,7 @@ public class SetAsSequenceTest extends TestCase {
     Yaml yaml = new Yaml();
     yaml.setBeanAccess(BeanAccess.FIELD);
     String doc = Util.getLocalResource("issues/issue73-1.txt");
-    Blog blog = (Blog) yaml.load(doc);
+    Blog blog = yaml.load(doc);
     // System.out.println(blog);
     assertEquals("Test Me!", blog.getName());
     assertEquals(2, blog.numbers.size());
@@ -81,7 +79,7 @@ public class SetAsSequenceTest extends TestCase {
   public void testLoadRootSet() {
     Yaml yaml = new Yaml();
     String doc = Util.getLocalResource("issues/issue73-3.txt");
-    Set<String> strings = (Set<String>) yaml.load(doc);
+    Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
     assertEquals(3, strings.size());
     assertEquals(HashSet.class, strings.getClass());
@@ -94,7 +92,7 @@ public class SetAsSequenceTest extends TestCase {
   public void testLoadRootSet2() {
     Yaml yaml = new Yaml();
     String doc = "!!java.util.HashSet {aaa: null, bbb: null, ccc: null}";
-    Set<String> strings = (Set<String>) yaml.load(doc);
+    Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
     assertEquals(3, strings.size());
     assertEquals(HashSet.class, strings.getClass());
@@ -107,7 +105,7 @@ public class SetAsSequenceTest extends TestCase {
   public void testLoadRootSet3() {
     Yaml yaml = new Yaml();
     String doc = "!!java.util.TreeSet {aaa: null, bbb: null, ccc: null}";
-    Set<String> strings = (Set<String>) yaml.load(doc);
+    Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
     assertEquals(3, strings.size());
     assertEquals(TreeSet.class, strings.getClass());
@@ -120,7 +118,7 @@ public class SetAsSequenceTest extends TestCase {
   public void testLoadRootSet6() {
     Yaml yaml = new Yaml();
     String doc = Util.getLocalResource("issues/issue73-6.txt");
-    Set<String> strings = (Set<String>) yaml.load(doc);
+    Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
     assertEquals(3, strings.size());
     assertEquals(TreeSet.class, strings.getClass());

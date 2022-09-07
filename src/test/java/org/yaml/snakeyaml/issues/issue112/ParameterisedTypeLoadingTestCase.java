@@ -18,7 +18,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -29,7 +28,7 @@ public class ParameterisedTypeLoadingTestCase {
   @Test
   public void testParameterisedTypeLoading() throws IOException {
     Yaml yamlParser = new Yaml(new Constructor(MyCompositeObject.class));
-    MyCompositeObject obj = (MyCompositeObject) yamlParser.load(getInput());
+    MyCompositeObject obj = yamlParser.load(getInput());
     check(obj);
 
     // dump the object

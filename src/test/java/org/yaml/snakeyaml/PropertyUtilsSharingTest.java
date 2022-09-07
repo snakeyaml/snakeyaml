@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml;
 
 import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.PropertyUtils;

@@ -29,6 +29,7 @@ public class EmptyDocumentTest {
   }
 
   public static class TestObject {
+
     private int attribute1;
 
     public int getAttribute1() {

@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class ModelMapIntegerBigdecimal {
+
   private Map<Integer, BigDecimal> mapIntegerBigDecimal;
 
   public ModelMapIntegerBigdecimal() {}

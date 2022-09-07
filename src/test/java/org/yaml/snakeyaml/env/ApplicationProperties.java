@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApplicationProperties {
+
   private String kafkaBrokers;
   private String kafkaTopicName;
   private String kafkaGroupIdConfig;

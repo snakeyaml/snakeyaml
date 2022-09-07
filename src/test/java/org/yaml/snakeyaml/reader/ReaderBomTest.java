@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
-
+import java.nio.charset.StandardCharsets;
 import junit.framework.TestCase;
 
 public class ReaderBomTest extends TestCase {
@@ -41,12 +41,12 @@ public class ReaderBomTest extends TestCase {
   }
 
   public void testNoBom() throws IOException {
-    byte[] data = "test".getBytes("UTF-8");
+    byte[] data = "test".getBytes(StandardCharsets.UTF_8);
     ByteArrayInputStream input = new ByteArrayInputStream(data);
     UnicodeReader r = new UnicodeReader(input);
     StreamReader reader = new StreamReader(r);
     assertEquals('t', reader.peek());
-    assertEquals(Charset.forName("UTF-8"), Charset.forName(r.getEncoding()));
+    assertEquals(StandardCharsets.UTF_8, Charset.forName(r.getEncoding()));
     reader.forward(1);
     assertEquals('e', reader.peek());
     reader.forward(1);
@@ -73,7 +73,7 @@ public class ReaderBomTest extends TestCase {
     assertEquals('t', reader.peek());
     reader.forward(1);
     assertEquals('\u0000', reader.peek());
-    assertEquals(Charset.forName("UTF-8"), Charset.forName(unicodeReader.getEncoding()));
+    assertEquals(StandardCharsets.UTF_8, Charset.forName(unicodeReader.getEncoding()));
     input.close();
   }
 
@@ -92,7 +92,7 @@ public class ReaderBomTest extends TestCase {
     assertEquals('t', reader.peek());
     reader.forward(1);
     assertEquals('\u0000', reader.peek());
-    assertEquals(Charset.forName("UTF-16LE"), Charset.forName(unicodeReader.getEncoding()));
+    assertEquals(StandardCharsets.UTF_16LE, Charset.forName(unicodeReader.getEncoding()));
     input.close();
   }
 
@@ -111,7 +111,7 @@ public class ReaderBomTest extends TestCase {
     assertEquals('t', reader.peek());
     reader.forward(1);
     assertEquals('\u0000', reader.peek());
-    assertEquals(Charset.forName("UTF-16BE"), Charset.forName(unicodeReader.getEncoding()));
+    assertEquals(StandardCharsets.UTF_16BE, Charset.forName(unicodeReader.getEncoding()));
     input.close();
   }
 }

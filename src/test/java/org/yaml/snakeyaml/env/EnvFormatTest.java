@@ -13,11 +13,10 @@
  */
 package org.yaml.snakeyaml.env;
 
-import junit.framework.TestCase;
+import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_FORMAT;
 
 import java.util.regex.Matcher;
-
-import static org.yaml.snakeyaml.env.EnvScalarConstructor.ENV_FORMAT;
+import junit.framework.TestCase;
 
 /*
  * ${VARIABLE:-default} evaluates to default if VARIABLE is unset or empty in the environment.

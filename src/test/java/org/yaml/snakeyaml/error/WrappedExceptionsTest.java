@@ -13,12 +13,12 @@
  */
 package org.yaml.snakeyaml.error;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class WrappedExceptionsTest {
 

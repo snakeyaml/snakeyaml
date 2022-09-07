@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml;
 
 import java.util.Iterator;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class YamlTest extends TestCase {

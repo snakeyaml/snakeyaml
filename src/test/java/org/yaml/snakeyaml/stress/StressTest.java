@@ -16,16 +16,16 @@ package org.yaml.snakeyaml.stress;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import org.yaml.snakeyaml.Invoice;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class StressTest extends TestCase {
+
   String doc;
 
-  public static void main(String args[]) {
+  public static void main(String[] args) {
     junit.textui.TestRunner.run(suite());
   }
 

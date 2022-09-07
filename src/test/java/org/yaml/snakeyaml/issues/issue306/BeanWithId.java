@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue306;
 import java.util.UUID;
 
 public class BeanWithId {
+
   private int value;
   private UUID id;
 

@@ -14,8 +14,9 @@
 package examples;
 
 public class Dice {
-  private Integer a;
-  private Integer b;
+
+  private final Integer a;
+  private final Integer b;
 
   public Dice(Integer a, Integer b) {
     super();

@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.issues.issue183;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class NumberBeanTest extends TestCase {

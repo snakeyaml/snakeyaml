@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue40;
 import java.math.BigDecimal;
 
 public class DogFoodBean {
+
   BigDecimal decimal;
 
   public DogFoodBean() {

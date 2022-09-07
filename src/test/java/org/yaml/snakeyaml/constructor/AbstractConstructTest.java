@@ -13,15 +13,13 @@
  */
 package org.yaml.snakeyaml.constructor;
 
+import java.util.ArrayList;
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
-
-import java.util.ArrayList;
 
 public class AbstractConstructTest extends TestCase {
 

@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.issues.issue40;
 
 import java.math.BigDecimal;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class DogFoodBeanTest extends TestCase {
@@ -28,7 +26,7 @@ public class DogFoodBeanTest extends TestCase {
     String text = yaml.dump(input);
     // System.out.println(text);
     assertEquals("!!org.yaml.snakeyaml.issues.issue40.DogFoodBean {decimal: !!float '5'}\n", text);
-    DogFoodBean output = (DogFoodBean) yaml.load(text);
+    DogFoodBean output = yaml.load(text);
     assertEquals(output.getDecimal(), input.getDecimal());
   }
 
@@ -39,7 +37,7 @@ public class DogFoodBeanTest extends TestCase {
     String text = yaml.dump(input);
     // System.out.println(text);
     assertEquals("!!org.yaml.snakeyaml.issues.issue40.DogFoodBean {decimal: 5.123}\n", text);
-    DogFoodBean output = (DogFoodBean) yaml.load(text);
+    DogFoodBean output = yaml.load(text);
     assertEquals(input.getDecimal(), output.getDecimal());
   }
 

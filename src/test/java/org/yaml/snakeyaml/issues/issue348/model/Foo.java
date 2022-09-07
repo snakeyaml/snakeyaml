@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue348.model;
 
 public class Foo {
+
   private String foo;
 
   public Foo() {}

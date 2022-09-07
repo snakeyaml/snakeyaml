@@ -16,9 +16,7 @@ package examples.staticstate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -34,6 +32,7 @@ import org.yaml.snakeyaml.representer.Representer;
  * Example with static fields
  */
 public class StaticFieldsTest extends TestCase {
+
   public void testAsJavaBean() {
     JavaBeanWithStaticState bean = new JavaBeanWithStaticState();
     bean.setName("Bahrack");
@@ -46,7 +45,7 @@ public class StaticFieldsTest extends TestCase {
     assertEquals("!!examples.staticstate.JavaBeanWithStaticState {age: -47, name: Bahrack}\n",
         output);
     // parse back to instance
-    JavaBeanWithStaticState bean2 = (JavaBeanWithStaticState) yaml.load(output);
+    JavaBeanWithStaticState bean2 = yaml.load(output);
     assertEquals(-47, bean2.getAge());
     assertEquals("Bahrack", bean2.getName());
   }
@@ -69,7 +68,7 @@ public class StaticFieldsTest extends TestCase {
     Yaml yaml = new Yaml(new MyConstructor());
     String output =
         "!!examples.staticstate.JavaBeanWithStaticState {age: 25, name: Lui, color: Oranje,\n  type: King}\n";
-    JavaBeanWithStaticState bean2 = (JavaBeanWithStaticState) yaml.load(output);
+    JavaBeanWithStaticState bean2 = yaml.load(output);
     assertEquals(25, bean2.getAge());
     assertEquals("Lui", bean2.getName());
     assertEquals("Oranje", JavaBeanWithStaticState.color);
@@ -77,6 +76,7 @@ public class StaticFieldsTest extends TestCase {
   }
 
   private class MyRepresenter extends Representer {
+
     @Override
     protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {
       MappingNode node = super.representJavaBean(properties, javaBean);
@@ -93,7 +93,7 @@ public class StaticFieldsTest extends TestCase {
 
   private class MyConstructor extends Constructor {
 
-    private Tag JBWSS = new Tag(JavaBeanWithStaticState.class);
+    private final Tag JBWSS = new Tag(JavaBeanWithStaticState.class);
 
     protected Object constructObject(Node node) {
       if (JavaBeanWithStaticState.class.isAssignableFrom(node.getType())
@@ -109,8 +109,9 @@ public class StaticFieldsTest extends TestCase {
           } else if (keyNode.getValue().equals("type")) {
             ScalarNode valueNode = (ScalarNode) tuple.getValueNode();
             JavaBeanWithStaticState.setType(valueNode.getValue());
-          } else
+          } else {
             removed.add(tuple);
+          }
         }
         beanNode.setValue(removed);
         JavaBeanWithStaticState bean = (JavaBeanWithStaticState) super.constructObject(beanNode);

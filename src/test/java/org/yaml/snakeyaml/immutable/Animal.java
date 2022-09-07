@@ -14,5 +14,6 @@
 package org.yaml.snakeyaml.immutable;
 
 public interface Animal {
-  public String getName();
+
+  String getName();
 }

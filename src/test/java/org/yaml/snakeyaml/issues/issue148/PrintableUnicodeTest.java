@@ -14,15 +14,14 @@
 package org.yaml.snakeyaml.issues.issue148;
 
 import java.util.Formatter;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.reader.ReaderException;
 
 public class PrintableUnicodeTest extends TestCase {
+
   public void testFFFD() {
     Yaml yaml = createYaml();
     String fffd = yaml.dump("\uFFFD");
@@ -44,13 +43,15 @@ public class PrintableUnicodeTest extends TestCase {
       // characters,
       // and should also escape all non-printable Unicode characters."
       for (int i = 0; i < serialized.length(); i++) {
-        int cp = (int) serialized.charAt(i);
-        if (!isAcceptable(cp))
+        int cp = serialized.charAt(i);
+        if (!isAcceptable(cp)) {
           fail(String.format("U+%04x: Serialization produced result with unacceptable U+%04x\n", c,
               cp));
-        if (!isPrintable(cp))
+        }
+        if (!isPrintable(cp)) {
           fail(String.format("U+%04x: Serialization produced result with nonprintable U+%04x\n", c,
               cp));
+        }
       }
     }
   }
@@ -59,10 +60,12 @@ public class PrintableUnicodeTest extends TestCase {
     // test deserialization of non-escaped codepoints
     for (int c = Character.MIN_VALUE; c <= Character.MAX_VALUE; c++) {
       // ignore breaks, which have special meaning
-      if (c == 0x0A || c == 0x0D || c == 0x85 || c == 0x2028 || c == 0x2029)
+      if (c == 0x0A || c == 0x0D || c == 0x85 || c == 0x2028 || c == 0x2029) {
         continue;
-      if (!isAcceptable(c) || c == 0x27)
+      }
+      if (!isAcceptable(c) || c == 0x27) {
         continue;
+      }
       String expected = Character.toString((char) c);
       String serialized = "'" + expected + "'";
 
@@ -74,8 +77,9 @@ public class PrintableUnicodeTest extends TestCase {
             "U+%04x: Deserialization threw ReaderException for an acceptable character\n", c));
         continue;
       }
-      if (!result.equals(expected))
+      if (!result.equals(expected)) {
         fail(String.format("U+%04x: Deserialization incorrect: %s\n", c, hexdump(result)));
+      }
     }
   }
 
@@ -95,9 +99,10 @@ public class PrintableUnicodeTest extends TestCase {
             c));
         continue;
       }
-      if (!result.equals(expected))
+      if (!result.equals(expected)) {
         fail(String.format("U+%04x: Deserialization of escaped character incorrect: %s\n", c,
             hexdump(result)));
+      }
     }
   }
 
@@ -113,9 +118,9 @@ public class PrintableUnicodeTest extends TestCase {
    */
   public static boolean isPrintable(int c) {
     return c == 0x9 || c == 0xA || c == 0xD || (c >= 0x20 && c <= 0x7E) // 8
-                                                                        // bit
+    // bit
         || c == 0x85 || (c >= 0xA0 && c <= 0xD7FF) || (c >= 0xE000 && c <= 0xFFFD) // 16
-                                                                                   // bit
+        // bit
         || (c >= 0x10000 && c <= 0x10FFFF); // 32 bit
   }
 
@@ -129,28 +134,28 @@ public class PrintableUnicodeTest extends TestCase {
    */
   public static boolean isAcceptable(int c) {
     return (c >= 0x20 && c <= 0x7e // accept all printable ASCII characters,
-                                   // the space,
+        // the space,
         || c == 0x09 // tab,
         || c == 0x0A || c == 0x0D || c == 0x85 || c == 0x2028 || c == 0x2029 // line
-                                                                             // break,
+        // break,
         || isUnicodeCharacter(c) && c >= 0x9F // and all Unicode characters
-                                              // beyond #x9F
+    // beyond #x9F
     ) && !( // The allowed character range explicitly excludes
     c >= 0xD800 && c <= 0xDFFF // the surrogate block #xD800-#xDFFF
         || c == 0x7f // DEL #x7F,
         || c <= 0x1F && !(c == 0x09 || c == 0x0A || c == 0x0D) // the
-                                                               // C0
-                                                               // control
-                                                               // block
-                                                               // #x0-#x1F
-                                                               // (except
-                                                               // for
-                                                               // #x9,
-                                                               // #xA,
-                                                               // and
-                                                               // #xD),
+        // C0
+        // control
+        // block
+        // #x0-#x1F
+        // (except
+        // for
+        // #x9,
+        // #xA,
+        // and
+        // #xD),
         || c >= 0x80 && c <= 0x9F // the C1 control block
-                                  // #x80-#x9F,
+        // #x80-#x9F,
         || c == 0xFFFE // #xFFFE,
         || c == 0xFFFF // and #xFFFF.
     );
@@ -167,8 +172,9 @@ public class PrintableUnicodeTest extends TestCase {
   public static String hexdump(String input) {
     StringBuilder result = new StringBuilder();
     Formatter formatter = new Formatter(result);
-    for (int i = 0; i < input.length(); i++)
+    for (int i = 0; i < input.length(); i++) {
       formatter.format("%02x ", (int) input.charAt(i));
+    }
     return result.toString();
   }
 }

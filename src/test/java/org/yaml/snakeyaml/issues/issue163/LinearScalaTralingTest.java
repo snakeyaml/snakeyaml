@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.issues.issue163;
 
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class LinearScalaTralingTest extends TestCase {
@@ -25,7 +23,7 @@ public class LinearScalaTralingTest extends TestCase {
     String data = "testnode: |\n   This is line 1\n   This is line 2\n";
     Yaml yaml = new Yaml();
     @SuppressWarnings("unchecked")
-    Map<String, String> payload = (Map<String, String>) yaml.load(data);
+    Map<String, String> payload = yaml.load(data);
     assertEquals("This is line 1\nThis is line 2\n", payload.get("testnode"));
   }
 
@@ -34,7 +32,7 @@ public class LinearScalaTralingTest extends TestCase {
     String data = "testnode: |-\n   This is line 1\n   This is line 2\n";
     Yaml yaml = new Yaml();
     @SuppressWarnings("unchecked")
-    Map<String, String> payload = (Map<String, String>) yaml.load(data);
+    Map<String, String> payload = yaml.load(data);
     assertEquals("No traling line break expected.", "This is line 1\nThis is line 2",
         payload.get("testnode"));
   }

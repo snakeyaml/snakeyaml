@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.stress;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Invoice;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -23,8 +22,9 @@ import org.yaml.snakeyaml.Yaml;
  * Test that Yaml instances are independent and can be used in multiple threads.
  */
 public class ParallelTest extends TestCase {
+
   private int progress = 0;
-  private int MAX = 5;
+  private final int MAX = 5;
 
   public void testPerfomance() {
     String doc = Util.getLocalResource("specification/example2_27.yaml");
@@ -43,8 +43,9 @@ public class ParallelTest extends TestCase {
   }
 
   private class Worker implements Runnable {
-    private int id;
-    private String doc;
+
+    private final int id;
+    private final String doc;
 
     public Worker(int id, String doc) {
       this.id = id;

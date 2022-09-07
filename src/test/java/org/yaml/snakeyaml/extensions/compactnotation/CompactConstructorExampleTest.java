@@ -16,9 +16,7 @@ package org.yaml.snakeyaml.extensions.compactnotation;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -130,7 +128,7 @@ public class CompactConstructorExampleTest extends TestCase {
         new PackageCompactConstructor("org.yaml.snakeyaml.extensions.compactnotation");
     Yaml yaml = new Yaml(compact);
     String doc = Util.getLocalResource("compactnotation/example11.yaml");
-    Box box = (Box) yaml.load(doc);
+    Box box = yaml.load(doc);
     assertNotNull(box);
     assertEquals("id11", box.getId());
     assertEquals("Main box", box.getName());
@@ -149,7 +147,7 @@ public class CompactConstructorExampleTest extends TestCase {
         new TableCompactConstructor("org.yaml.snakeyaml.extensions.compactnotation");
     Yaml yaml = new Yaml(compact);
     String doc = Util.getLocalResource("compactnotation/example12.yaml");
-    Table table = (Table) yaml.load(doc);
+    Table table = yaml.load(doc);
     assertNotNull(table);
     assertEquals("id12", table.getId());
     assertEquals("A table", table.getName());

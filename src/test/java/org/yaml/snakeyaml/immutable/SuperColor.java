@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.immutable;
 
 public class SuperColor {
+
   private final Color color;
 
   public SuperColor(Color name) {

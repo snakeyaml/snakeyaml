@@ -17,6 +17,7 @@ import java.beans.ConstructorProperties;
 import java.math.BigDecimal;
 
 public class Data {
+
   private String label;
 
   private String unit;

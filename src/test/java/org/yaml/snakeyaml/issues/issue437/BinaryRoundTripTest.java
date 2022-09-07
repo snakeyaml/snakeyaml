@@ -13,6 +13,11 @@
  */
 package org.yaml.snakeyaml.issues.issue437;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -24,11 +29,6 @@ import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
 
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class BinaryRoundTripTest extends TestCase {
 
   public void testBinary() throws UnsupportedEncodingException {
@@ -38,7 +38,7 @@ public class BinaryRoundTripTest extends TestCase {
     assertEquals("!!binary |-\n" + "  wpY=\n", serialized);
     // parse back to bytes
     byte[] deserialized = underTest.load(serialized);
-    assertEquals(source, new String(deserialized, "UTF-8"));
+    assertEquals(source, new String(deserialized, StandardCharsets.UTF_8));
   }
 
   public void testBinaryNode() {

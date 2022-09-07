@@ -13,15 +13,15 @@
  */
 package examples.resolver;
 
+import java.util.regex.Pattern;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
-
-import java.util.regex.Pattern;
 
 /**
  * resolve integers without the 12:00:00 pattern
  */
 public class NoTimeIntResolver extends Resolver {
+
   public static final Pattern SIMPLE_INT = Pattern
       .compile("^(?:[-+]?0b[0-1_]+|[-+]?0[0-7_]+|[-+]?(?:0|[1-9][0-9_]*)|[-+]?0x[0-9a-fA-F_]+)$");
 

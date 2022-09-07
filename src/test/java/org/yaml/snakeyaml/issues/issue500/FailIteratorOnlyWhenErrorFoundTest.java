@@ -13,10 +13,9 @@
  */
 package org.yaml.snakeyaml.issues.issue500;
 
+import java.util.Iterator;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
-
-import java.util.Iterator;
 
 public class FailIteratorOnlyWhenErrorFoundTest extends TestCase {
 

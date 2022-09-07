@@ -14,9 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.math.BigInteger;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -27,7 +25,7 @@ public class BeanConstructorTest extends TestCase {
   public void testPrimitivesConstructor() {
     Yaml yaml = new Yaml(new Constructor(TestBean1.class));
     String document = Util.getLocalResource("constructor/test-primitives1.yaml");
-    TestBean1 result = (TestBean1) yaml.load(document);
+    TestBean1 result = yaml.load(document);
     assertNotNull(result);
     assertEquals(Byte.valueOf((byte) 1), result.getByteClass());
     assertEquals((byte) -3, result.getBytePrimitive());
@@ -56,9 +54,9 @@ public class BeanConstructorTest extends TestCase {
     options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
     Yaml yamlToDump = new Yaml(options);
     String output = yamlToDump.dump(result);
-    TestBean1 result2 = (TestBean1) yaml.load(output);
+    TestBean1 result2 = yaml.load(output);
     assertNotNull(result2);
-    TestBean1 result3 = (TestBean1) new Yaml().load(output);
+    TestBean1 result3 = new Yaml().load(output);
     assertNotNull(result3);
   }
 
@@ -100,16 +98,16 @@ public class BeanConstructorTest extends TestCase {
           e.getMessage().contains("Invalid node Character: 'id'; length: 2"));
     }
     document = "charClass: #";
-    TestBean1 bean = (TestBean1) yaml.load(document);
+    TestBean1 bean = yaml.load(document);
     assertNull("Null must be accepted.", bean.getCharClass());
     document = "charClass: ''";
-    bean = (TestBean1) yaml.load(document);
+    bean = yaml.load(document);
     assertNull("Null must be accepted.", bean.getCharClass());
     document = "charClass:\n";
-    bean = (TestBean1) yaml.load(document);
+    bean = yaml.load(document);
     assertNull("Null must be accepted.", bean.getCharClass());
     document = "charClass: 1\n";
-    bean = (TestBean1) yaml.load(document);
+    bean = yaml.load(document);
     assertEquals(Character.valueOf('1'), bean.getCharClass());
   }
 
@@ -127,6 +125,7 @@ public class BeanConstructorTest extends TestCase {
   }
 
   private class TestBean2 {
+
     private String text;
 
     public TestBean2() {
@@ -190,7 +189,7 @@ public class BeanConstructorTest extends TestCase {
   public void testScalarContructor() {
     Yaml yaml = new Yaml(new Constructor(Parent1.class));
     String document = "id: 123\nchild: 25";
-    Parent1 parent = (Parent1) yaml.load(document);
+    Parent1 parent = yaml.load(document);
     assertEquals("123", parent.getId());
     Child1 child = parent.getChild();
     assertEquals(Integer.valueOf(25), child.getCode());
@@ -209,6 +208,7 @@ public class BeanConstructorTest extends TestCase {
   }
 
   static public class ExceptionParent {
+
     private String id;
     private ExceptionChild child;
 
@@ -231,7 +231,8 @@ public class BeanConstructorTest extends TestCase {
   }
 
   public static class ExceptionChild {
-    private Integer code;
+
+    private final Integer code;
 
     public ExceptionChild(Integer code) {
       throw new RuntimeException("ExceptionChild cannot be created.");

@@ -16,12 +16,11 @@ package org.yaml.snakeyaml;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class InputOutputExceptionTest extends TestCase {
+
   public void testIOExceptionOnLoad() {
     try {
       new Yaml().load(new BrokenInputStream());
@@ -43,6 +42,7 @@ public class InputOutputExceptionTest extends TestCase {
   }
 
   private static class BrokenInputStream extends InputStream {
+
     @Override
     public int read() throws IOException {
       throw new IOException("Broken 1");
@@ -60,6 +60,7 @@ public class InputOutputExceptionTest extends TestCase {
   }
 
   private static class BrokenWriter extends Writer {
+
     @Override
     public void close() throws IOException {
       throw new IOException("Broken 10");

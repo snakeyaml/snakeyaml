@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue10;
 
 public class JDBCDataSource extends DataSource {
+
   String username;
   String password;
   String url;

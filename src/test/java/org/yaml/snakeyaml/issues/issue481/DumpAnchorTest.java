@@ -13,15 +13,14 @@
  */
 package org.yaml.snakeyaml.issues.issue481;
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.serializer.AnchorGenerator;
-
-import java.io.StringReader;
-import java.io.StringWriter;
 
 public class DumpAnchorTest extends TestCase {
 

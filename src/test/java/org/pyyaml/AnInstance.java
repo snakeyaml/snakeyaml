@@ -14,6 +14,7 @@
 package org.pyyaml;
 
 public class AnInstance {
+
   private Object foo;
   private Object bar;
 

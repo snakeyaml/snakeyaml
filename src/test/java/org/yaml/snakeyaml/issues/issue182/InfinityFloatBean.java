@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue182;
 
 public class InfinityFloatBean {
+
   public float infinityFloat;
   public Float infinityFloatObject;
 }

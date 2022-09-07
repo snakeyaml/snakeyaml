@@ -15,9 +15,7 @@ package org.yaml.snakeyaml.constructor;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -74,7 +72,7 @@ public class ClassTagsTest extends TestCase {
     constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
     Yaml yaml = new Yaml(constructor);
     String source = Util.getLocalResource("constructor/car-without-tags.yaml");
-    Car car = (Car) yaml.load(source);
+    Car car = yaml.load(source);
     assertEquals("12-XP-F4", car.getPlate());
     List<Wheel> wheels = car.getWheels();
     assertNotNull(wheels);
@@ -94,7 +92,7 @@ public class ClassTagsTest extends TestCase {
   public void testLoadClassNoRoot() {
     Constructor constructor = new Constructor(new TypeDescription(Car.class));
     Yaml yaml = new Yaml(constructor);
-    Car car = (Car) yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
+    Car car = yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
     assertEquals("12-XP-F4", car.getPlate());
     List<Wheel> wheels = car.getWheels();
     assertNotNull(wheels);

@@ -14,7 +14,6 @@
 package org.yaml.snakeyaml.nodes;
 
 import junit.framework.TestCase;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -36,11 +35,12 @@ public class TagsTest extends TestCase {
     Foo foo = new Foo();
     String output = yaml.dump(foo);
     // System.out.println(output);
-    Foo foo2 = (Foo) yaml.load(output);
+    Foo foo2 = yaml.load(output);
     assertEquals(Long.valueOf(42L), foo2.getBar());
   }
 
   public static class Foo {
+
     private Long bar = Long.valueOf(42L);
 
     public Long getBar() {

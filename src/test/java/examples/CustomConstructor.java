@@ -15,7 +15,6 @@ package examples;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.yaml.snakeyaml.Invoice;
 import org.yaml.snakeyaml.constructor.Constructor;
 

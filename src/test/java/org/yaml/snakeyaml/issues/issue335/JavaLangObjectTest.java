@@ -13,10 +13,12 @@
  */
 package org.yaml.snakeyaml.issues.issue335;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
-
-import static org.junit.Assert.*;
 
 public class JavaLangObjectTest {
 

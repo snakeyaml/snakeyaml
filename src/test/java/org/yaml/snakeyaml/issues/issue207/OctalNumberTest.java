@@ -13,12 +13,11 @@
  */
 package org.yaml.snakeyaml.issues.issue207;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-import org.yaml.snakeyaml.Yaml;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Map;
+import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
 
 public class OctalNumberTest {
 
@@ -33,7 +32,7 @@ public class OctalNumberTest {
 
     assertEquals("08", yaml.load("08"));
     assertEquals("09", yaml.load("09"));
-    Map<String, String> parsed9 = (Map<String, String>) yaml.load("a: 09");
+    Map<String, String> parsed9 = yaml.load("a: 09");
     assertEquals("09", parsed9.get("a"));
   }
 }
