@@ -13,10 +13,13 @@ For YAML 1.2 (which is a superset of JSON) you may have a look at [SnakeYAML Eng
 * high-level API for serializing and deserializing native Java objects.
 * support for all types from the [YAML types repository](http://yaml.org/type/index.html).
 * relatively sensible error messages.
+* when you plan to feed the parser with untrusted data please study the settings which allow to restrict incoming data.
+
 
 ## Info ##
  * [Changes](https://bitbucket.org/snakeyaml/snakeyaml/wiki/Changes)
  * [Documentation](https://bitbucket.org/snakeyaml/snakeyaml/wiki/Documentation)
+ * [CVE and untrusted data](https://bitbucket.org/snakeyaml/snakeyaml/wiki/CVE%20&%20NIST.md)
 
 ## Contribute ##
 * GIT [is now used](https://bitbucket.org/snakeyaml/snakeyaml/wiki/Migration%20to%20Git) to dance with the [source code](https://bitbucket.org/snakeyaml/snakeyaml/src).
