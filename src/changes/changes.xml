@@ -10,6 +10,7 @@
                 Format the source with Google style.
                 Info: https://stackoverflow.com/questions/49712148/maven-plugin-for-auto-formatting-code-to-match-google-checkstyle
                 Format: https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml
+                Activation: ./mvnw clean install site -Preformat
             </action>
             <action dev="maslovalex" type="fix" issue="544">
                 Support unescaped unicode characters for double-quoted scalars (thanks to Florian Waltenberger)
