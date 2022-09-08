@@ -23,6 +23,7 @@ public class LoaderOptions {
   private boolean processComments = false;
   private boolean enumCaseSensitive = true;
   private int nestingDepthLimit = 50;
+  private int codePointLimit = 100 * 1024;
 
   public boolean isAllowDuplicateKeys() {
     return allowDuplicateKeys;
@@ -129,5 +130,18 @@ public class LoaderOptions {
    */
   public void setNestingDepthLimit(int nestingDepthLimit) {
     this.nestingDepthLimit = nestingDepthLimit;
+  }
+
+  public int getCodePointLimit() {
+    return codePointLimit;
+  }
+
+  /**
+   * The max amount of code points in the input YAML document. Please be aware that byte limit
+   * depends on the encoding.
+   * @param codePointLimit - the max allowed size of the YAML data
+   */
+  public void setCodePointLimit(int codePointLimit) {
+    this.codePointLimit = codePointLimit;
   }
 }

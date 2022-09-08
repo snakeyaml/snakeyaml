@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
 public class BigDataLoadTest extends TestCase {
@@ -26,14 +27,17 @@ public class BigDataLoadTest extends TestCase {
   private static final int SIZE = 5000;
 
   public void testBigStringData() {
-    Yaml yaml = new Yaml();
+    LoaderOptions options = new LoaderOptions();
+    options.setCodePointLimit(10000000);
+    Yaml yaml = new Yaml(options);
     List<?> loaded = yaml.load(getLongYamlDocument(SIZE));
     assertEquals(SIZE, loaded.size());
   }
 
   public void testBigStreamData() {
-    Yaml yaml = new Yaml();
-    StringReader buffer = new StringReader(getLongYamlDocument(SIZE));
+    LoaderOptions options = new LoaderOptions();
+    options.setCodePointLimit(10000000);
+    Yaml yaml = new Yaml(options);    StringReader buffer = new StringReader(getLongYamlDocument(SIZE));
     List<?> loaded = yaml.load(buffer);
     assertEquals(SIZE, loaded.size());
   }

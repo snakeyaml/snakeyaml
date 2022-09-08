@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.32-SNAPSHOT" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="547">
+                Set the limit for incoming data to prevent a CVE report in NIST
+            </action>
             <action dev="asomov" type="update">
                 Format the source with Google style.
                 Info: https://stackoverflow.com/questions/49712148/maven-plugin-for-auto-formatting-code-to-match-google-checkstyle

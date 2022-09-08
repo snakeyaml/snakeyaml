@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -178,6 +179,7 @@ public final class ScannerImpl implements Scanner {
 
   // A flag that indicates if comments should be parsed
   private boolean parseComments;
+  private final LoaderOptions loaderOptions;
 
   // Variables related to simple keys treatment. See PyYAML.
 
@@ -214,12 +216,17 @@ public final class ScannerImpl implements Scanner {
   private final Map<Integer, SimpleKey> possibleSimpleKeys;
 
   public ScannerImpl(StreamReader reader) {
+    this(reader, new LoaderOptions());
+  }
+
+  public ScannerImpl(StreamReader reader,  LoaderOptions options) {
     this.parseComments = false;
     this.reader = reader;
     this.tokens = new ArrayList<Token>(100);
     this.indents = new ArrayStack<Integer>(10);
     // The order in possibleSimpleKeys is kept for nextPossibleSimpleKey()
     this.possibleSimpleKeys = new LinkedHashMap<Integer, SimpleKey>();
+    this.loaderOptions = options;
     fetchStreamStart();// Add the STREAM-START token.
   }
 
@@ -319,6 +326,9 @@ public final class ScannerImpl implements Scanner {
    * Fetch one or more tokens from the StreamReader.
    */
   private void fetchMoreTokens() {
+    if (reader.getIndex() > loaderOptions.getCodePointLimit()) {
+      throw new YAMLException("The incoming YAML document exceeds the limit: " + loaderOptions.getCodePointLimit());
+    }
     // Eat whitespaces and process comments until we reach the next token.
     scanToNextToken();
     // Remove obsolete possible simple keys.
@@ -1175,7 +1185,7 @@ public final class ScannerImpl implements Scanner {
     // whitespace, then this is the start of a plain scalar.
     return Constant.NULL_BL_T_LINEBR.hasNo(c, "-?:,[]{}#&*!|>'\"%@`")
         || (Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(1))
-            && (c == '-' || (this.flowLevel == 0 && "?:".indexOf(c) != -1)));
+        && (c == '-' || (this.flowLevel == 0 && "?:".indexOf(c) != -1)));
   }
 
   // Scanners.
@@ -1820,7 +1830,7 @@ public final class ScannerImpl implements Scanner {
       }
     }
     // Pass several results back together.
-    return new Object[] {chunks.toString(), maxIndent, endMark};
+    return new Object[]{chunks.toString(), maxIndent, endMark};
   }
 
   private Object[] scanBlockScalarBreaks(int indent) {
@@ -1850,7 +1860,7 @@ public final class ScannerImpl implements Scanner {
       }
     }
     // Return both the assembled intervening string and the end-mark.
-    return new Object[] {chunks.toString(), endMark};
+    return new Object[]{chunks.toString(), endMark};
   }
 
   /**
@@ -2039,7 +2049,7 @@ public final class ScannerImpl implements Scanner {
         c = reader.peek(length);
         if (Constant.NULL_BL_T_LINEBR.has(c)
             || (c == ':' && Constant.NULL_BL_T_LINEBR.has(reader.peek(length + 1),
-                flowLevel != 0 ? ",[]{}" : ""))
+            flowLevel != 0 ? ",[]{}" : ""))
             || (this.flowLevel != 0 && ",?[]{}".indexOf(c) != -1)) {
           break;
         }

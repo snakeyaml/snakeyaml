@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -135,8 +136,13 @@ public class ParserImpl implements Parser {
     this(new ScannerImpl(reader));
   }
 
+  @Deprecated
   public ParserImpl(StreamReader reader, boolean parseComments) {
     this(new ScannerImpl(reader).setParseComments(parseComments));
+  }
+
+  public ParserImpl(StreamReader reader, LoaderOptions options) {
+    this(new ScannerImpl(reader, options));
   }
 
   public ParserImpl(Scanner scanner) {

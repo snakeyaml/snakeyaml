@@ -44,11 +44,6 @@ public class StreamReader {
    */
   private int pointer = 0;
   private boolean eof;
-  /**
-   * index is only required to implement 1024 key length restriction
-   * http://yaml.org/spec/1.1/#simple key/ It must count code points, but it counts characters (to
-   * be fixed)
-   */
   private int index = 0; // in code points
   private int line = 0;
   private int column = 0; // in code points
