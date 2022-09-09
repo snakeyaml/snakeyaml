@@ -37,7 +37,8 @@ public class BigDataLoadTest extends TestCase {
   public void testBigStreamData() {
     LoaderOptions options = new LoaderOptions();
     options.setCodePointLimit(10000000);
-    Yaml yaml = new Yaml(options);    StringReader buffer = new StringReader(getLongYamlDocument(SIZE));
+    Yaml yaml = new Yaml(options);
+    StringReader buffer = new StringReader(getLongYamlDocument(SIZE));
     List<?> loaded = yaml.load(buffer);
     assertEquals(SIZE, loaded.size());
   }

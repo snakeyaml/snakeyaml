@@ -327,7 +327,8 @@ public final class ScannerImpl implements Scanner {
    */
   private void fetchMoreTokens() {
     if (reader.getIndex() > loaderOptions.getCodePointLimit()) {
-      throw new YAMLException("The incoming YAML document exceeds the limit: " + loaderOptions.getCodePointLimit());
+      throw new YAMLException("The incoming YAML document exceeds the limit: " +
+          loaderOptions.getCodePointLimit() + " code points.");
     }
     // Eat whitespaces and process comments until we reach the next token.
     scanToNextToken();

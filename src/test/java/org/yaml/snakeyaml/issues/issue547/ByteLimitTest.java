@@ -31,7 +31,7 @@ public class ByteLimitTest {
       yaml.load("12345678901234567890");
       fail("Long input should not be accepted");
     } catch (Exception e) {
-      assertEquals("The incoming YAML document exceeds the limit: 15", e.getMessage());
+      assertEquals("The incoming YAML document exceeds the limit: 15 code points.", e.getMessage());
     }
   }
 }
