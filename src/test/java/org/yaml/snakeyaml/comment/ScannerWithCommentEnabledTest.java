@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
@@ -81,17 +82,9 @@ public class ScannerWithCommentEnabledTest {
   }
 
   private Scanner constructScanner(String input) {
-    return new ScannerImpl(new StreamReader(new StringReader(input))).setParseComments(true);
-  }
-
-  @Test
-  public void testParseComments() {
-    ScannerImpl sutWithOutComments =
-        new ScannerImpl(new StreamReader(new StringReader(""))).setParseComments(false);
-    assertFalse(sutWithOutComments.isParseComments());
-    ScannerImpl sutWithComments =
-        new ScannerImpl(new StreamReader(new StringReader(""))).setParseComments(true);
-    assertTrue(sutWithComments.isParseComments());
+    LoaderOptions options = new LoaderOptions();
+    options.setProcessComments(true);
+    return new ScannerImpl(new StreamReader(new StringReader(input)), options);
   }
 
   @Test

@@ -138,7 +138,7 @@ public class ParserImpl implements Parser {
 
   @Deprecated
   public ParserImpl(StreamReader reader, boolean parseComments) {
-    this(new ScannerImpl(reader).setParseComments(parseComments));
+    this(new ScannerImpl(reader, new LoaderOptions().setProcessComments(parseComments)));
   }
 
   public ParserImpl(StreamReader reader, LoaderOptions options) {

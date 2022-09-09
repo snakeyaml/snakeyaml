@@ -25,7 +25,7 @@ public class LoaderOptions {
   private int nestingDepthLimit = 50;
   private int codePointLimit = 100 * 1024;
 
-  public boolean isAllowDuplicateKeys() {
+  public final boolean isAllowDuplicateKeys() {
     return allowDuplicateKeys;
   }
 
@@ -47,7 +47,7 @@ public class LoaderOptions {
     this.allowDuplicateKeys = allowDuplicateKeys;
   }
 
-  public boolean isWrappedToRootException() {
+  public final boolean isWrappedToRootException() {
     return wrappedToRootException;
   }
 
@@ -62,7 +62,7 @@ public class LoaderOptions {
     this.wrappedToRootException = wrappedToRootException;
   }
 
-  public int getMaxAliasesForCollections() {
+  public final int getMaxAliasesForCollections() {
     return maxAliasesForCollections;
   }
 
@@ -87,7 +87,7 @@ public class LoaderOptions {
     this.allowRecursiveKeys = allowRecursiveKeys;
   }
 
-  public boolean getAllowRecursiveKeys() {
+  public final boolean getAllowRecursiveKeys() {
     return allowRecursiveKeys;
   }
 
@@ -96,15 +96,16 @@ public class LoaderOptions {
    *
    * @param processComments <code>true</code> to process; <code>false</code> to ignore
    */
-  public void setProcessComments(boolean processComments) {
+  public LoaderOptions setProcessComments(boolean processComments) {
     this.processComments = processComments;
+    return this;
   }
 
-  public boolean isProcessComments() {
+  public final boolean isProcessComments() {
     return processComments;
   }
 
-  public boolean isEnumCaseSensitive() {
+  public final boolean isEnumCaseSensitive() {
     return enumCaseSensitive;
   }
 
@@ -118,7 +119,7 @@ public class LoaderOptions {
     this.enumCaseSensitive = enumCaseSensitive;
   }
 
-  public int getNestingDepthLimit() {
+  public final int getNestingDepthLimit() {
     return nestingDepthLimit;
   }
 
@@ -132,7 +133,7 @@ public class LoaderOptions {
     this.nestingDepthLimit = nestingDepthLimit;
   }
 
-  public int getCodePointLimit() {
+  public final int getCodePointLimit() {
     return codePointLimit;
   }
 

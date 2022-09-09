@@ -179,6 +179,7 @@ public final class ScannerImpl implements Scanner {
 
   // A flag that indicates if comments should be parsed
   private boolean parseComments;
+
   private final LoaderOptions loaderOptions;
 
   // Variables related to simple keys treatment. See PyYAML.
@@ -220,7 +221,7 @@ public final class ScannerImpl implements Scanner {
   }
 
   public ScannerImpl(StreamReader reader,  LoaderOptions options) {
-    this.parseComments = false;
+    this.parseComments = options.isProcessComments();
     this.reader = reader;
     this.tokens = new ArrayList<Token>(100);
     this.indents = new ArrayStack<Integer>(10);
@@ -231,15 +232,18 @@ public final class ScannerImpl implements Scanner {
   }
 
   /**
+   * Please use LoaderOptions instead
    * Set the scanner to ignore comments or parse them as a <code>CommentToken</code>.
    *
    * @param parseComments <code>true</code> to parse; <code>false</code> to ignore
    */
+  @Deprecated
   public ScannerImpl setParseComments(boolean parseComments) {
     this.parseComments = parseComments;
     return this;
   }
 
+  @Deprecated
   public boolean isParseComments() {
     return parseComments;
   }
