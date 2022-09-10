@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.32-SNAPSHOT" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="543">
+                Add a test for issue 543 (thanks to Henry Lin)
+            </action>
             <action dev="asomov" type="fix" issue="547">
                 Set the limit for incoming data to prevent a CVE report in NIST
             </action>
