@@ -1,94 +1,93 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.recursive.generics;
 
 import java.util.Date;
 
 public abstract class AbstractHumanGen<T, K extends AbstractHumanGen<T, ?>> {
-    private String name;
-    private Date birthday;
-    private String birthPlace;
-    private K father;
-    private K mother;
-    private K partner;
-    private K bankAccountOwner;
-    protected T children;
 
-    public String getName() {
-        return name;
-    }
+  private String name;
+  private Date birthday;
+  private String birthPlace;
+  private K father;
+  private K mother;
+  private K partner;
+  private K bankAccountOwner;
+  protected T children;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Date getBirthday() {
-        return birthday;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
+  public Date getBirthday() {
+    return birthday;
+  }
 
-    public String getBirthPlace() {
-        return birthPlace;
-    }
+  public void setBirthday(Date birthday) {
+    this.birthday = birthday;
+  }
 
-    public K getFather() {
-        return father;
-    }
+  public String getBirthPlace() {
+    return birthPlace;
+  }
 
-    public void setFather(K father) {
-        this.father = father;
-    }
+  public K getFather() {
+    return father;
+  }
 
-    public K getMother() {
-        return mother;
-    }
+  public void setFather(K father) {
+    this.father = father;
+  }
 
-    public void setMother(K mother) {
-        this.mother = mother;
-    }
+  public K getMother() {
+    return mother;
+  }
 
-    public void setBirthPlace(String birthPlace) {
-        this.birthPlace = birthPlace;
-    }
+  public void setMother(K mother) {
+    this.mother = mother;
+  }
 
-    public T getChildren() {
-        return children;
-    }
+  public void setBirthPlace(String birthPlace) {
+    this.birthPlace = birthPlace;
+  }
 
-    public void setChildren(T children) {
-        this.children = children;
-    }
+  public T getChildren() {
+    return children;
+  }
 
-    public K getPartner() {
-        return partner;
-    }
+  public void setChildren(T children) {
+    this.children = children;
+  }
 
-    public void setPartner(K partner) {
-        this.partner = partner;
-    }
+  public K getPartner() {
+    return partner;
+  }
 
-    public K getBankAccountOwner() {
-        return bankAccountOwner;
-    }
+  public void setPartner(K partner) {
+    this.partner = partner;
+  }
 
-    public void setBankAccountOwner(K bankAccountOwner) {
-        this.bankAccountOwner = bankAccountOwner;
-    }
+  public K getBankAccountOwner() {
+    return bankAccountOwner;
+  }
+
+  public void setBankAccountOwner(K bankAccountOwner) {
+    this.bankAccountOwner = bankAccountOwner;
+  }
 
 }

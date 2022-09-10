@@ -5,9 +5,36 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.31" date="in Git" description="Maintenance">
+        <release version="1.32-SNAPSHOT" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="547">
+                Set the limit for incoming data to prevent a CVE report in NIST
+            </action>
+            <action dev="asomov" type="update">
+                Format the source with Google style.
+                Info: https://stackoverflow.com/questions/49712148/maven-plugin-for-auto-formatting-code-to-match-google-checkstyle
+                Format: https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml
+                Activation: ./mvnw clean install site -Preformat
+            </action>
+            <action dev="maslovalex" type="fix" issue="544">
+                Support unescaped unicode characters for double-quoted scalars (thanks to Florian Waltenberger)
+            </action>
+        </release>
+        <release version="1.31" date="2022-08-27" description="Maintenance">
+            <action dev="maslovalex" type="update">
+                JDK 8 is required for tests
+            </action>
+            <action dev="asomov" type="update" issue="539">
+                Fix false positive CVE-2020-13936 (thanks to Gaétan Collaud)
+            </action>
+            <action dev="asomov" type="fix" issue="537">
+                Improved RE for integers (thanks to Petr Pucil)
+            </action>
+            <action dev="asomov" type="fix" issue="530">
+                Add an opportunity to restrict data matched with Regular Expressions
+                to avoid possible attack when RE takes too many resources (detected by OSS-Fuzz)
+            </action>
             <action dev="asomov" type="fix" issue="529">
-                Show proper error message for invalid float and int scalar (detected by OSS-Fuzz)
+                Show proper error message for invalid !!float and !!int scalar (detected by OSS-Fuzz)
             </action>
             <action dev="asomov" type="fix" issue="525">
                 Restrict nested depth for collections to avoid DoS attacks (detected by OSS-Fuzz)

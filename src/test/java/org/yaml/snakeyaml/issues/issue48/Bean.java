@@ -1,55 +1,53 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.issues.issue48;
 
 public class Bean {
-    private int value;
-    private String name;
 
-    public Bean() {
-    }
+  private int value;
+  private String name;
 
-    public String getName() {
-        return name;
-    }
+  public Bean() {}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        return toString().equals(obj.toString());
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public int hashCode() {
-        return value;
-    }
+  @Override
+  public boolean equals(Object obj) {
+    return toString().equals(obj.toString());
+  }
 
-    @Override
-    public String toString() {
-        return "Bean " + String.valueOf(value);
-    }
+  @Override
+  public int hashCode() {
+    return value;
+  }
 
-    public int getValue() {
-        return value;
-    }
+  @Override
+  public String toString() {
+    return "Bean " + value;
+  }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) {
+    this.value = value;
+  }
 }

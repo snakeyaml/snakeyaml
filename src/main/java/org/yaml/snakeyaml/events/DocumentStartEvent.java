@@ -1,22 +1,19 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.events;
 
 import java.util.Map;
-
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 
@@ -27,46 +24,45 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public final class DocumentStartEvent extends Event {
-    private final boolean explicit;
-    private final Version version;
-    private final Map<String, String> tags;
 
-    public DocumentStartEvent(Mark startMark, Mark endMark, boolean explicit, Version version,
-            Map<String, String> tags) {
-        super(startMark, endMark);
-        this.explicit = explicit;
-        this.version = version;
-        this.tags = tags;
-    }
+  private final boolean explicit;
+  private final Version version;
+  private final Map<String, String> tags;
 
-    public boolean getExplicit() {
-        return explicit;
-    }
+  public DocumentStartEvent(Mark startMark, Mark endMark, boolean explicit, Version version,
+      Map<String, String> tags) {
+    super(startMark, endMark);
+    this.explicit = explicit;
+    this.version = version;
+    this.tags = tags;
+  }
 
-    /**
-     * YAML version the document conforms to.
-     * 
-     * @return <code>null</code>if the document has no explicit
-     *         <code>%YAML</code> directive. Otherwise an array with two
-     *         components, the major and minor part of the version (in this
-     *         order).
-     */
-    public Version getVersion() {
-        return version;
-    }
+  public boolean getExplicit() {
+    return explicit;
+  }
 
-    /**
-     * Tag shorthands as defined by the <code>%TAG</code> directive.
-     * 
-     * @return Mapping of 'handles' to 'prefixes' (the handles include the '!'
-     *         characters).
-     */
-    public Map<String, String> getTags() {
-        return tags;
-    }
+  /**
+   * YAML version the document conforms to.
+   *
+   * @return <code>null</code>if the document has no explicit <code>%YAML</code> directive.
+   *         Otherwise an array with two components, the major and minor part of the version (in
+   *         this order).
+   */
+  public Version getVersion() {
+    return version;
+  }
 
-    @Override
-    public Event.ID getEventId() {
-        return ID.DocumentStart;
-    }
+  /**
+   * Tag shorthands as defined by the <code>%TAG</code> directive.
+   *
+   * @return Mapping of 'handles' to 'prefixes' (the handles include the '!' characters).
+   */
+  public Map<String, String> getTags() {
+    return tags;
+  }
+
+  @Override
+  public Event.ID getEventId() {
+    return ID.DocumentStart;
+  }
 }

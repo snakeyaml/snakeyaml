@@ -1,97 +1,95 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.issues.issue416;
-
-import junit.framework.TestCase;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.Yaml;
 
 public class IndentWithIndicatorTest extends TestCase {
-    public void testIndentWithIndicator1() {
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        options.setIndentWithIndicator(true);
-        options.setIndent(2);
-        options.setIndicatorIndent(1);
 
-        Yaml yaml = new Yaml(options);
-        String output = yaml.dump(createData());
+  public void testIndentWithIndicator1() {
+    DumperOptions options = new DumperOptions();
+    options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+    options.setIndentWithIndicator(true);
+    options.setIndent(2);
+    options.setIndicatorIndent(1);
 
-        String doc = Util.getLocalResource("issues/issue416-1.yaml");
+    Yaml yaml = new Yaml(options);
+    String output = yaml.dump(createData());
 
-        assertEquals(doc, output);
-    }
+    String doc = Util.getLocalResource("issues/issue416-1.yaml");
 
-    public void testIndentWithIndicator2() {
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        options.setIndentWithIndicator(true);
-        options.setIndent(2);
-        options.setIndicatorIndent(2);
+    assertEquals(doc, output);
+  }
 
-        Yaml yaml = new Yaml(options);
-        String output = yaml.dump(createData());
+  public void testIndentWithIndicator2() {
+    DumperOptions options = new DumperOptions();
+    options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+    options.setIndentWithIndicator(true);
+    options.setIndent(2);
+    options.setIndicatorIndent(2);
 
-        String doc = Util.getLocalResource("issues/issue416-2.yaml");
+    Yaml yaml = new Yaml(options);
+    String output = yaml.dump(createData());
 
-        assertEquals(doc, output);
-    }
+    String doc = Util.getLocalResource("issues/issue416-2.yaml");
 
-    public void testIndentWithIndicator3() {
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        options.setIndentWithIndicator(false);
-        options.setIndent(4);
-        options.setIndicatorIndent(2);
+    assertEquals(doc, output);
+  }
 
-        Yaml yaml = new Yaml(options);
-        String output = yaml.dump(createData());
+  public void testIndentWithIndicator3() {
+    DumperOptions options = new DumperOptions();
+    options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+    options.setIndentWithIndicator(false);
+    options.setIndent(4);
+    options.setIndicatorIndent(2);
 
-        String doc = Util.getLocalResource("issues/issue416_3.yml");
+    Yaml yaml = new Yaml(options);
+    String output = yaml.dump(createData());
 
-        assertEquals(doc, output);
-    }
+    String doc = Util.getLocalResource("issues/issue416_3.yml");
 
-    private Map<String, Object> createData() {
-        Map<String, String> fred = new LinkedHashMap<>();
-        fred.put("name", "Fred");
-        fred.put("role", "creator");
+    assertEquals(doc, output);
+  }
 
-        Map<String, String> john = new LinkedHashMap<>();
-        john.put("name", "John");
-        john.put("role", "committer");
+  private Map<String, Object> createData() {
+    Map<String, String> fred = new LinkedHashMap<>();
+    fred.put("name", "Fred");
+    fred.put("role", "creator");
 
-        List<Map<String, String>> developers = new ArrayList<>();
-        developers.add(fred);
-        developers.add(john);
+    Map<String, String> john = new LinkedHashMap<>();
+    john.put("name", "John");
+    john.put("role", "committer");
 
-        Map<String, Object> company = new LinkedHashMap<>();
-        company.put("developers", developers);
-        company.put("name", "Yet Another Company");
-        company.put("location", "Maastricht");
+    List<Map<String, String>> developers = new ArrayList<>();
+    developers.add(fred);
+    developers.add(john);
 
-        Map<String, Object> data = new LinkedHashMap<>();
-        data.put("company", company);
+    Map<String, Object> company = new LinkedHashMap<>();
+    company.put("developers", developers);
+    company.put("name", "Yet Another Company");
+    company.put("location", "Maastricht");
 
-        return data;
-    }
+    Map<String, Object> data = new LinkedHashMap<>();
+    data.put("company", company);
+
+    return data;
+  }
 }

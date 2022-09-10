@@ -1,17 +1,15 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.constructor;
 
@@ -109,7 +107,7 @@ public class SafeConstructor extends BaseConstructor {
           if (keyNode.isTwoStepsConstruction()) {
             if (!loadingConfig.getAllowRecursiveKeys()) {
               throw new YAMLException(
-                  "Recursive key is detected but it is not configured to be allowed.");
+                  "Recursive key for mapping is detected but it is not configured to be allowed.");
             } else {
               try {
                 key.hashCode();// check circular dependencies
@@ -143,16 +141,11 @@ public class SafeConstructor extends BaseConstructor {
   /**
    * Does merge for supplied mapping node.
    *
-   * @param node
-   *            where to merge
-   * @param isPreffered
-   *            true if keys of node should take precedence over others...
-   * @param key2index
-   *            maps already merged keys to index from values
-   * @param values
-   *            collects merged NodeTuple
-   * @return list of the merged NodeTuple (to be set as value for the
-   *         MappingNode)
+   * @param node where to merge
+   * @param isPreffered true if keys of node should take precedence over others...
+   * @param key2index maps already merged keys to index from values
+   * @param values collects merged NodeTuple
+   * @return list of the merged NodeTuple (to be set as value for the MappingNode)
    */
   private List<NodeTuple> mergeNode(MappingNode node, boolean isPreffered,
       Map<Object, Integer> key2index, List<NodeTuple> values, boolean forceStringKeys) {
@@ -173,10 +166,8 @@ public class SafeConstructor extends BaseConstructor {
             List<Node> vals = sn.getValue();
             for (Node subnode : vals) {
               if (!(subnode instanceof MappingNode)) {
-                throw new ConstructorException("while constructing a mapping",
-                    node.getStartMark(),
-                    "expected a mapping for merging, but found "
-                        + subnode.getNodeId(),
+                throw new ConstructorException("while constructing a mapping", node.getStartMark(),
+                    "expected a mapping for merging, but found " + subnode.getNodeId(),
                     subnode.getStartMark());
               }
               MappingNode mnode = (MappingNode) subnode;
@@ -184,8 +175,7 @@ public class SafeConstructor extends BaseConstructor {
             }
             break;
           default:
-            throw new ConstructorException("while constructing a mapping",
-                node.getStartMark(),
+            throw new ConstructorException("while constructing a mapping", node.getStartMark(),
                 "expected a mapping or list of mappings for merging, but found "
                     + valueNode.getNodeId(),
                 valueNode.getStartMark());
@@ -264,9 +254,8 @@ public class SafeConstructor extends BaseConstructor {
     public Object construct(Node node) {
       String value = constructScalar((ScalarNode) node).replaceAll("_", "");
       if (value.isEmpty()) {
-        throw new ConstructorException("while constructing an int",
-            node.getStartMark(), "found empty value",
-            node.getStartMark());
+        throw new ConstructorException("while constructing an int", node.getStartMark(),
+            "found empty value", node.getStartMark());
       }
       int sign = +1;
       char first = value.charAt(0);
@@ -307,9 +296,10 @@ public class SafeConstructor extends BaseConstructor {
   private static final int[][] RADIX_MAX = new int[17][2];
 
   static {
-    int[] radixList = new int[]{2, 8, 10, 16};
+    int[] radixList = new int[] {2, 8, 10, 16};
     for (int radix : radixList) {
-      RADIX_MAX[radix] = new int[]{maxLen(Integer.MAX_VALUE, radix), maxLen(Long.MAX_VALUE, radix)};
+      RADIX_MAX[radix] =
+          new int[] {maxLen(Integer.MAX_VALUE, radix), maxLen(Long.MAX_VALUE, radix)};
     }
   }
 
@@ -359,9 +349,8 @@ public class SafeConstructor extends BaseConstructor {
     public Object construct(Node node) {
       String value = constructScalar((ScalarNode) node).replaceAll("_", "");
       if (value.isEmpty()) {
-        throw new ConstructorException("while constructing a float",
-            node.getStartMark(), "found empty value",
-            node.getStartMark());
+        throw new ConstructorException("while constructing a float", node.getStartMark(),
+            "found empty value", node.getStartMark());
       }
       int sign = +1;
       char first = value.charAt(0);
@@ -373,8 +362,7 @@ public class SafeConstructor extends BaseConstructor {
       }
       String valLower = value.toLowerCase();
       if (".inf".equals(valLower)) {
-        return Double
-            .valueOf(sign == -1 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
+        return Double.valueOf(sign == -1 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
       } else if (".nan".equals(valLower)) {
         return Double.valueOf(Double.NaN);
       } else if (value.indexOf(':') != -1) {
@@ -398,8 +386,7 @@ public class SafeConstructor extends BaseConstructor {
     @Override
     public Object construct(Node node) {
       // Ignore white spaces for base64 encoded scalar
-      String noWhiteSpaces = constructScalar((ScalarNode) node).replaceAll("\\s",
-          "");
+      String noWhiteSpaces = constructScalar((ScalarNode) node).replaceAll("\\s", "");
       byte[] decoded = Base64Coder.decode(noWhiteSpaces.toCharArray());
       return decoded;
     }
@@ -407,8 +394,8 @@ public class SafeConstructor extends BaseConstructor {
 
   private final static Pattern TIMESTAMP_REGEXP = Pattern.compile(
       "^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:(?:[Tt]|[ \t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \t]*(?:Z|([-+][0-9][0-9]?)(?::([0-9][0-9])?)?))?)?$");
-  private final static Pattern YMD_REGEXP = Pattern
-      .compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)$");
+  private final static Pattern YMD_REGEXP =
+      Pattern.compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)$");
 
   public static class ConstructYamlTimestamp extends AbstractConstruct {
 
@@ -486,23 +473,20 @@ public class SafeConstructor extends BaseConstructor {
       // CPU-expensive.
       Map<Object, Object> omap = new LinkedHashMap<Object, Object>();
       if (!(node instanceof SequenceNode)) {
-        throw new ConstructorException("while constructing an ordered map",
-            node.getStartMark(), "expected a sequence, but found " + node.getNodeId(),
-            node.getStartMark());
+        throw new ConstructorException("while constructing an ordered map", node.getStartMark(),
+            "expected a sequence, but found " + node.getNodeId(), node.getStartMark());
       }
       SequenceNode snode = (SequenceNode) node;
       for (Node subnode : snode.getValue()) {
         if (!(subnode instanceof MappingNode)) {
-          throw new ConstructorException("while constructing an ordered map",
-              node.getStartMark(),
+          throw new ConstructorException("while constructing an ordered map", node.getStartMark(),
               "expected a mapping of length 1, but found " + subnode.getNodeId(),
               subnode.getStartMark());
         }
         MappingNode mnode = (MappingNode) subnode;
         if (mnode.getValue().size() != 1) {
-          throw new ConstructorException("while constructing an ordered map",
-              node.getStartMark(), "expected a single mapping item, but found "
-              + mnode.getValue().size() + " items",
+          throw new ConstructorException("while constructing an ordered map", node.getStartMark(),
+              "expected a single mapping item, but found " + mnode.getValue().size() + " items",
               mnode.getStartMark());
         }
         Node keyNode = mnode.getValue().get(0).getKeyNode();
@@ -536,15 +520,14 @@ public class SafeConstructor extends BaseConstructor {
         MappingNode mnode = (MappingNode) subnode;
         if (mnode.getValue().size() != 1) {
           throw new ConstructorException("while constructing pairs", node.getStartMark(),
-              "expected a single mapping item, but found " + mnode.getValue().size()
-                  + " items",
+              "expected a single mapping item, but found " + mnode.getValue().size() + " items",
               mnode.getStartMark());
         }
         Node keyNode = mnode.getValue().get(0).getKeyNode();
         Node valueNode = mnode.getValue().get(0).getValueNode();
         Object key = constructObject(keyNode);
         Object value = constructObject(valueNode);
-        pairs.add(new Object[]{key, value});
+        pairs.add(new Object[] {key, value});
       }
       return pairs;
     }
@@ -632,8 +615,7 @@ public class SafeConstructor extends BaseConstructor {
     @Override
     public Object construct(Node node) {
       throw new ConstructorException(null, null,
-          "could not determine a constructor for the tag " + node.getTag(),
-          node.getStartMark());
+          "could not determine a constructor for the tag " + node.getTag(), node.getStartMark());
     }
   }
 }

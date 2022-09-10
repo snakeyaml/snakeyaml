@@ -1,22 +1,19 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.nodes;
 
 import java.util.List;
-
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.Mark;
 
@@ -27,65 +24,69 @@ import org.yaml.snakeyaml.error.Mark;
  * </p>
  */
 public class SequenceNode extends CollectionNode<Node> {
-    final private List<Node> value;
 
-    public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,
-                        DumperOptions.FlowStyle flowStyle) {
-        super(tag, startMark, endMark, flowStyle);
-        if (value == null) {
-            throw new NullPointerException("value in a Node is required.");
-        }
-        this.value = value;
-        this.resolved = resolved;
-    }
+  final private List<Node> value;
 
-    public SequenceNode(Tag tag, List<Node> value, DumperOptions.FlowStyle flowStyle) {
-        this(tag, true, value, null, null, flowStyle);
+  public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,
+      DumperOptions.FlowStyle flowStyle) {
+    super(tag, startMark, endMark, flowStyle);
+    if (value == null) {
+      throw new NullPointerException("value in a Node is required.");
     }
-    
-    /*
-     * Existed in older versions but replaced with {@link DumperOptions.SequenceStyle}-based constructor.
-     * Restored in v1.22 for backwards compatibility.
-     * @deprecated Since restored in v1.22.  Use {@link SequenceNode#SequenceNode(Tag, List<Node>, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
-     */
-    @Deprecated
-    public SequenceNode(Tag tag, List<Node> value, Boolean style) {
-        this(tag, value, DumperOptions.FlowStyle.fromBoolean(style));
-    }
+    this.value = value;
+    this.resolved = resolved;
+  }
 
-    /*
-     * Existed in older versions but replaced with {@link DumperOptions.SequenceStyle}-based constructor.
-     * Restored in v1.22 for backwards compatibility.
-     * @deprecated Since restored in v1.22.  Use {@link SequenceNode#SequenceNode(Tag, boolean, List<Node>, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
-     */
-    @Deprecated
-    public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,
-              Boolean style) {
-        this(tag, resolved, value, startMark, endMark, DumperOptions.FlowStyle.fromBoolean(style));
-    }
+  public SequenceNode(Tag tag, List<Node> value, DumperOptions.FlowStyle flowStyle) {
+    this(tag, true, value, null, null, flowStyle);
+  }
 
-    @Override
-    public NodeId getNodeId() {
-        return NodeId.sequence;
-    }
+  /*
+   * Existed in older versions but replaced with {@link DumperOptions.SequenceStyle}-based
+   * constructor. Restored in v1.22 for backwards compatibility.
+   *
+   * @deprecated Since restored in v1.22. Use {@link SequenceNode#SequenceNode(Tag, List<Node>,
+   * org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
+   */
+  @Deprecated
+  public SequenceNode(Tag tag, List<Node> value, Boolean style) {
+    this(tag, value, DumperOptions.FlowStyle.fromBoolean(style));
+  }
 
-    /**
-     * Returns the elements in this sequence.
-     * 
-     * @return Nodes in the specified order.
-     */
-    public List<Node> getValue() {
-        return value;
-    }
+  /*
+   * Existed in older versions but replaced with {@link DumperOptions.SequenceStyle}-based
+   * constructor. Restored in v1.22 for backwards compatibility.
+   *
+   * @deprecated Since restored in v1.22. Use {@link SequenceNode#SequenceNode(Tag, boolean,
+   * List<Node>, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
+   */
+  @Deprecated
+  public SequenceNode(Tag tag, boolean resolved, List<Node> value, Mark startMark, Mark endMark,
+      Boolean style) {
+    this(tag, resolved, value, startMark, endMark, DumperOptions.FlowStyle.fromBoolean(style));
+  }
 
-    public void setListType(Class<? extends Object> listType) {
-        for (Node node : value) {
-            node.setType(listType);
-        }
-    }
+  @Override
+  public NodeId getNodeId() {
+    return NodeId.sequence;
+  }
 
-    public String toString() {
-        return "<" + this.getClass().getName() + " (tag=" + getTag() + ", value=" + getValue()
-                + ")>";
+  /**
+   * Returns the elements in this sequence.
+   *
+   * @return Nodes in the specified order.
+   */
+  public List<Node> getValue() {
+    return value;
+  }
+
+  public void setListType(Class<? extends Object> listType) {
+    for (Node node : value) {
+      node.setType(listType);
     }
+  }
+
+  public String toString() {
+    return "<" + this.getClass().getName() + " (tag=" + getTag() + ", value=" + getValue() + ")>";
+  }
 }

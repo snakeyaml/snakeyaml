@@ -1,17 +1,15 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.constructor;
 
@@ -50,22 +48,25 @@ import org.yaml.snakeyaml.nodes.Tag;
 public abstract class BaseConstructor {
 
   /**
-   * It maps the node kind to the the Construct implementation. When the
-   * runtime class is known then the implicit tag is ignored.
+   * An instance returned by newInstance methods when instantiation has not been performed.
    */
-  protected final Map<NodeId, Construct> yamlClassConstructors = new EnumMap<NodeId, Construct>(
-      NodeId.class);
+  protected static final Object NOT_INSTANTIATED_OBJECT = new Object();
+
   /**
-   * It maps the (explicit or implicit) tag to the Construct implementation.
-   * It is used:
-   * 1) explicit tag - if present.
-   * 2) implicit tag - when the runtime class of the instance is unknown (the
-   * node has the Object.class)
+   * It maps the node kind to the the Construct implementation. When the runtime class is known then
+   * the implicit tag is ignored.
+   */
+  protected final Map<NodeId, Construct> yamlClassConstructors =
+      new EnumMap<NodeId, Construct>(NodeId.class);
+  /**
+   * It maps the (explicit or implicit) tag to the Construct implementation. It is used: 1) explicit
+   * tag - if present. 2) implicit tag - when the runtime class of the instance is unknown (the node
+   * has the Object.class)
    */
   protected final Map<Tag, Construct> yamlConstructors = new HashMap<Tag, Construct>();
   /**
-   * It maps the (explicit or implicit) tag to the Construct implementation.
-   * It is used when no exact match found.
+   * It maps the (explicit or implicit) tag to the Construct implementation. It is used when no
+   * exact match found.
    */
   protected final Map<String, Construct> yamlMultiConstructors = new HashMap<String, Construct>();
 
@@ -95,7 +96,8 @@ public abstract class BaseConstructor {
   public BaseConstructor(LoaderOptions loadingConfig) {
     constructedObjects = new HashMap<Node, Object>();
     recursiveObjects = new HashSet<Node>();
-    maps2fill = new ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>>();
+    maps2fill =
+        new ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>>();
     sets2fill = new ArrayList<RecursiveTuple<Set<Object>, Object>>();
     typeDefinitions = new HashMap<Class<? extends Object>, TypeDescription>();
     typeTags = new HashMap<Tag, Class<? extends Object>>();
@@ -103,10 +105,10 @@ public abstract class BaseConstructor {
     rootTag = null;
     explicitPropertyUtils = false;
 
-    typeDefinitions.put(SortedMap.class, new TypeDescription(SortedMap.class, Tag.OMAP,
-        TreeMap.class));
-    typeDefinitions.put(SortedSet.class, new TypeDescription(SortedSet.class, Tag.SET,
-        TreeSet.class));
+    typeDefinitions.put(SortedMap.class,
+        new TypeDescription(SortedMap.class, Tag.OMAP, TreeMap.class));
+    typeDefinitions.put(SortedSet.class,
+        new TypeDescription(SortedSet.class, Tag.SET, TreeSet.class));
     this.loadingConfig = loadingConfig;
   }
 
@@ -165,8 +167,8 @@ public abstract class BaseConstructor {
   }
 
   /**
-   * Construct complete YAML document. Call the second step in case of
-   * recursive structures. At the end cleans all the state.
+   * Construct complete YAML document. Call the second step in case of recursive structures. At the
+   * end cleans all the state.
    *
    * @param node root Node
    * @return Java instance
@@ -183,7 +185,7 @@ public abstract class BaseConstructor {
         throw e;
       }
     } finally {
-      //clean up resources
+      // clean up resources
       constructedObjects.clear();
       recursiveObjects.clear();
     }
@@ -209,15 +211,13 @@ public abstract class BaseConstructor {
   }
 
   /**
-   * Construct object from the specified Node. Return existing instance if the
-   * node is already constructed.
+   * Construct object from the specified Node. Return existing instance if the node is already
+   * constructed.
    *
    * @param node Node to be constructed
    * @return Java instance
    */
   protected Object constructObject(Node node) {
-//        System.out.println(" <<<< " + node.getAnchor() + " : " + node.getTag() + " : "
-//                + System.identityHashCode(node));
     if (constructedObjects.containsKey(node)) {
       return constructedObjects.get(node);
     }
@@ -225,6 +225,10 @@ public abstract class BaseConstructor {
   }
 
   protected Object constructObjectNoCheck(Node node) {
+    if (recursiveObjects.contains(node)) {
+      throw new ConstructorException(null, null, "found unconstructable recursive node",
+          node.getStartMark());
+    }
     recursiveObjects.add(node);
     Construct constructor = getConstructor(node);
     Object data = (constructedObjects.containsKey(node)) ? constructedObjects.get(node)
@@ -232,17 +236,16 @@ public abstract class BaseConstructor {
 
     finalizeConstruction(node, data);
     constructedObjects.put(node, data);
+    recursiveObjects.remove(node);
     if (node.isTwoStepsConstruction()) {
       constructor.construct2ndStep(node, data);
     }
-    recursiveObjects.remove(node);
     return data;
   }
 
   /**
-   * Get the constructor to construct the Node. For implicit tags if the
-   * runtime class is known a dedicated Construct implementation is used.
-   * Otherwise the constructor is chosen by the tag.
+   * Get the constructor to construct the Node. For implicit tags if the runtime class is known a
+   * dedicated Construct implementation is used. Otherwise the constructor is chosen by the tag.
    *
    * @param node {@link Node} to construct an instance from
    * @return {@link Construct} implementation for the specified node
@@ -298,71 +301,80 @@ public abstract class BaseConstructor {
 
   // >>>> NEW instance
   protected Object newInstance(Node node) {
-    try {
-      return newInstance(Object.class, node);
-    } catch (InstantiationException e) {
-      throw new YAMLException(e);
-    }
+    return newInstance(Object.class, node);
   }
 
-  final protected Object newInstance(Class<?> ancestor, Node node) throws InstantiationException {
+  final protected Object newInstance(Class<?> ancestor, Node node) {
     return newInstance(ancestor, node, true);
   }
 
-  protected Object newInstance(Class<?> ancestor, Node node, boolean tryDefault)
-      throws InstantiationException {
-    final Class<? extends Object> type = node.getType();
-    if (typeDefinitions.containsKey(type)) {
-      TypeDescription td = typeDefinitions.get(type);
-      final Object instance = td.newInstance(node);
-      if (instance != null) {
-        return instance;
+  /**
+   * Tries to create a new object for the node.
+   *
+   * @param ancestor expected ancestor of the {@code node.getType()}
+   * @param node for which to create a corresponding java object
+   * @param tryDefault should default constructor to be tried when there is no corresponding
+   *        {@code TypeDescription} or {@code TypeDescription.newInstance(node)} returns
+   *        {@code null}.
+   *
+   * @return - a new object created for {@code node.getType()} by using corresponding
+   *         TypeDescription.newInstance or default constructor. - {@code NOT_INSTANTIATED_OBJECT}
+   *         in case no object has been created
+   */
+  protected Object newInstance(Class<?> ancestor, Node node, boolean tryDefault) {
+    try {
+      final Class<? extends Object> type = node.getType();
+      if (typeDefinitions.containsKey(type)) {
+        TypeDescription td = typeDefinitions.get(type);
+        final Object instance = td.newInstance(node);
+        if (instance != null) {
+          return instance;
+        }
       }
-    }
-    if (tryDefault) {
-      /*
-       * Removed <code> have InstantiationException in case of abstract
-       * type
-       */
-      if (ancestor.isAssignableFrom(type) && !Modifier.isAbstract(type.getModifiers())) {
-        try {
+
+      if (tryDefault) {
+        /*
+         * Removed <code> have InstantiationException in case of abstract type
+         */
+        if (ancestor.isAssignableFrom(type) && !Modifier.isAbstract(type.getModifiers())) {
           java.lang.reflect.Constructor<?> c = type.getDeclaredConstructor();
           c.setAccessible(true);
           return c.newInstance();
-        } catch (NoSuchMethodException e) {
-          throw new InstantiationException("NoSuchMethodException:"
-              + e.getLocalizedMessage());
-        } catch (Exception e) {
-          throw new YAMLException(e);
         }
       }
+    } catch (Exception e) {
+      throw new YAMLException(e);
     }
-    throw new InstantiationException();
+
+    return NOT_INSTANTIATED_OBJECT;
   }
 
   @SuppressWarnings("unchecked")
   protected Set<Object> newSet(CollectionNode<?> node) {
-    try {
-      return (Set<Object>) newInstance(Set.class, node);
-    } catch (InstantiationException e) {
+    Object instance = newInstance(Set.class, node);
+    if (instance != NOT_INSTANTIATED_OBJECT) {
+      return (Set<Object>) instance;
+    } else {
       return createDefaultSet(node.getValue().size());
     }
   }
 
   @SuppressWarnings("unchecked")
   protected List<Object> newList(SequenceNode node) {
-    try {
-      return (List<Object>) newInstance(List.class, node);
-    } catch (InstantiationException e) {
+    Object instance = newInstance(List.class, node);
+    if (instance != NOT_INSTANTIATED_OBJECT) {
+      return (List<Object>) instance;
+    } else {
       return createDefaultList(node.getValue().size());
     }
   }
 
   @SuppressWarnings("unchecked")
   protected Map<Object, Object> newMap(MappingNode node) {
-    try {
-      return (Map<Object, Object>) newInstance(Map.class, node);
-    } catch (InstantiationException e) {
+    Object instance = newInstance(Map.class, node);
+    if (instance != NOT_INSTANTIATED_OBJECT) {
+      return (Map<Object, Object>) instance;
+    } else {
       return createDefaultMap(node.getValue().size());
     }
   }
@@ -407,8 +419,7 @@ public abstract class BaseConstructor {
       if (componentType.isPrimitive()) {
         // Null values are disallowed for primitives
         if (value == null) {
-          throw new NullPointerException(
-              "Unable to construct element value for " + child);
+          throw new NullPointerException("Unable to construct element value for " + child);
         }
 
         // Primitive arrays require quite a lot of work.
@@ -467,18 +478,13 @@ public abstract class BaseConstructor {
     for (NodeTuple tuple : nodeValue) {
       Node keyNode = tuple.getKeyNode();
       Node valueNode = tuple.getValueNode();
-
-//            System.out.println(
-//                    " >>>> " + keyNode.isTwoStepsConstruction() + " : " + keyNode.getStartMark());
-
       Object key = constructObject(keyNode);
       if (key != null) {
         try {
           key.hashCode();// check circular dependencies
         } catch (Exception e) {
-          throw new ConstructorException("while constructing a mapping",
-              node.getStartMark(), "found unacceptable key " + key,
-              tuple.getKeyNode().getStartMark(), e);
+          throw new ConstructorException("while constructing a mapping", node.getStartMark(),
+              "found unacceptable key " + key, tuple.getKeyNode().getStartMark(), e);
         }
       }
       Object value = constructObject(valueNode);
@@ -496,10 +502,9 @@ public abstract class BaseConstructor {
   }
 
   /*
-   * if keyObject is created it 2 steps we should postpone putting
-   * it in map because it may have different hash after
-   * initialization compared to clean just created one. And map of
-   * course does not observe key hashCode changes.
+   * if keyObject is created it 2 steps we should postpone putting it in map because it may have
+   * different hash after initialization compared to clean just created one. And map of course does
+   * not observe key hashCode changes.
    */
   protected void postponeMapFilling(Map<Object, Object> mapping, Object key, Object value) {
     maps2fill.add(0, new RecursiveTuple(mapping, new RecursiveTuple(key, value)));
@@ -527,10 +532,9 @@ public abstract class BaseConstructor {
   }
 
   /*
-   * if keyObject is created it 2 steps we should postpone putting
-   * it into the set because it may have different hash after
-   * initialization compared to clean just created one. And set of
-   * course does not observe value hashCode changes.
+   * if keyObject is created it 2 steps we should postpone putting it into the set because it may
+   * have different hash after initialization compared to clean just created one. And set of course
+   * does not observe value hashCode changes.
    */
   protected void postponeSetFilling(Set<Object> set, Object key) {
     sets2fill.add(0, new RecursiveTuple<Set<Object>, Object>(set, key));
@@ -553,13 +557,12 @@ public abstract class BaseConstructor {
   }
 
   /**
-   * Make YAML aware how to parse a custom Class. If there is no root Class
-   * assigned in constructor then the 'root' property of this definition is
-   * respected.
+   * Make YAML aware how to parse a custom Class. If there is no root Class assigned in constructor
+   * then the 'root' property of this definition is respected.
    *
    * @param definition to be added to the Constructor
-   * @return the previous value associated with <code>definition</code>, or
-   * <code>null</code> if there was no mapping for <code>definition</code>.
+   * @return the previous value associated with <code>definition</code>, or <code>null</code> if
+   *         there was no mapping for <code>definition</code>.
    */
   public TypeDescription addTypeDescription(TypeDescription definition) {
     if (definition == null) {

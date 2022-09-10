@@ -1,17 +1,15 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.immutable;
 
@@ -19,29 +17,30 @@ package org.yaml.snakeyaml.immutable;
  * Two public constructor with 2 argument are present
  */
 public class Point2 {
-    private final Integer x;
-    private final Integer y;
 
-    public Integer getX() {
-        return x;
-    }
+  private final Integer x;
+  private final Integer y;
 
-    public Integer getY() {
-        return y;
-    }
+  public Integer getX() {
+    return x;
+  }
 
-    public Point2(Double x, Double y) {
-        this.x = x.intValue();
-        this.y = y.intValue();
-    }
+  public Integer getY() {
+    return y;
+  }
 
-    public Point2(Integer x, Integer y) {
-        this.x = x;
-        this.y = y;
-    }
+  public Point2(Double x, Double y) {
+    this.x = x.intValue();
+    this.y = y.intValue();
+  }
 
-    @Override
-    public String toString() {
-        return "<Point2 x=" + String.valueOf(x) + " y=" + String.valueOf(y) + ">";
-    }
+  public Point2(Integer x, Integer y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  @Override
+  public String toString() {
+    return "<Point2 x=" + x + " y=" + y + ">";
+  }
 }

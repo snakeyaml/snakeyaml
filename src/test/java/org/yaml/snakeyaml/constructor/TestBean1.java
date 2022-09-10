@@ -1,17 +1,15 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.yaml.snakeyaml.constructor;
 
@@ -19,186 +17,187 @@ import java.math.BigInteger;
 import java.util.Date;
 
 public class TestBean1 {
-    private String text;
-    private String id;
-    private Byte byteClass;
-    private byte bytePrimitive;
-    private Short shortClass;
-    private short shortPrimitive;
-    private Integer integer;
-    private int intPrimitive;
-    private Long longClass;
-    private long longPrimitive;
-    private Boolean booleanClass;
-    private boolean booleanPrimitive;
-    private Character charClass;
-    private char charPrimitive;
-    private BigInteger bigInteger;
-    private Float floatClass;
-    private float floatPrimitive;
-    private Double doubleClass;
-    private double doublePrimitive;
-    private Date date;
-    public String publicField;
-    static public Integer staticInteger;
 
-    public String getText() {
-        return text;
-    }
+  private String text;
+  private String id;
+  private Byte byteClass;
+  private byte bytePrimitive;
+  private Short shortClass;
+  private short shortPrimitive;
+  private Integer integer;
+  private int intPrimitive;
+  private Long longClass;
+  private long longPrimitive;
+  private Boolean booleanClass;
+  private boolean booleanPrimitive;
+  private Character charClass;
+  private char charPrimitive;
+  private BigInteger bigInteger;
+  private Float floatClass;
+  private float floatPrimitive;
+  private Double doubleClass;
+  private double doublePrimitive;
+  private Date date;
+  public String publicField;
+  static public Integer staticInteger;
 
-    public void setText(String text) {
-        this.text = text;
-    }
+  public String getText() {
+    return text;
+  }
 
-    public Integer getInteger() {
-        return integer;
-    }
+  public void setText(String text) {
+    this.text = text;
+  }
 
-    public void setInteger(Integer integer) {
-        this.integer = integer;
-    }
+  public Integer getInteger() {
+    return integer;
+  }
 
-    public int getIntPrimitive() {
-        return intPrimitive;
-    }
+  public void setInteger(Integer integer) {
+    this.integer = integer;
+  }
 
-    public void setIntPrimitive(int intPrimitive) {
-        this.intPrimitive = intPrimitive;
-    }
+  public int getIntPrimitive() {
+    return intPrimitive;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public void setIntPrimitive(int intPrimitive) {
+    this.intPrimitive = intPrimitive;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public Byte getByteClass() {
-        return byteClass;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setByteClass(Byte byteClass) {
-        this.byteClass = byteClass;
-    }
+  public Byte getByteClass() {
+    return byteClass;
+  }
 
-    public byte getBytePrimitive() {
-        return bytePrimitive;
-    }
+  public void setByteClass(Byte byteClass) {
+    this.byteClass = byteClass;
+  }
 
-    public void setBytePrimitive(byte bytePrimitive) {
-        this.bytePrimitive = bytePrimitive;
-    }
+  public byte getBytePrimitive() {
+    return bytePrimitive;
+  }
 
-    public Short getShortClass() {
-        return shortClass;
-    }
+  public void setBytePrimitive(byte bytePrimitive) {
+    this.bytePrimitive = bytePrimitive;
+  }
 
-    public void setShortClass(Short shortClass) {
-        this.shortClass = shortClass;
-    }
+  public Short getShortClass() {
+    return shortClass;
+  }
 
-    public short getShortPrimitive() {
-        return shortPrimitive;
-    }
+  public void setShortClass(Short shortClass) {
+    this.shortClass = shortClass;
+  }
 
-    public void setShortPrimitive(short shortPrimitive) {
-        this.shortPrimitive = shortPrimitive;
-    }
+  public short getShortPrimitive() {
+    return shortPrimitive;
+  }
 
-    public Long getLongClass() {
-        return longClass;
-    }
+  public void setShortPrimitive(short shortPrimitive) {
+    this.shortPrimitive = shortPrimitive;
+  }
 
-    public void setLongClass(Long longClass) {
-        this.longClass = longClass;
-    }
+  public Long getLongClass() {
+    return longClass;
+  }
 
-    public long getLongPrimitive() {
-        return longPrimitive;
-    }
+  public void setLongClass(Long longClass) {
+    this.longClass = longClass;
+  }
 
-    public void setLongPrimitive(long longPrimitive) {
-        this.longPrimitive = longPrimitive;
-    }
+  public long getLongPrimitive() {
+    return longPrimitive;
+  }
 
-    public Boolean getBooleanClass() {
-        return booleanClass;
-    }
+  public void setLongPrimitive(long longPrimitive) {
+    this.longPrimitive = longPrimitive;
+  }
 
-    public void setBooleanClass(Boolean booleanClass) {
-        this.booleanClass = booleanClass;
-    }
+  public Boolean getBooleanClass() {
+    return booleanClass;
+  }
 
-    public boolean isBooleanPrimitive() {
-        return booleanPrimitive;
-    }
+  public void setBooleanClass(Boolean booleanClass) {
+    this.booleanClass = booleanClass;
+  }
 
-    public void setBooleanPrimitive(boolean booleanPrimitive) {
-        this.booleanPrimitive = booleanPrimitive;
-    }
+  public boolean isBooleanPrimitive() {
+    return booleanPrimitive;
+  }
 
-    public Character getCharClass() {
-        return charClass;
-    }
+  public void setBooleanPrimitive(boolean booleanPrimitive) {
+    this.booleanPrimitive = booleanPrimitive;
+  }
 
-    public void setCharClass(Character charClass) {
-        this.charClass = charClass;
-    }
+  public Character getCharClass() {
+    return charClass;
+  }
 
-    public char getCharPrimitive() {
-        return charPrimitive;
-    }
+  public void setCharClass(Character charClass) {
+    this.charClass = charClass;
+  }
 
-    public void setCharPrimitive(char charPrimitive) {
-        this.charPrimitive = charPrimitive;
-    }
+  public char getCharPrimitive() {
+    return charPrimitive;
+  }
 
-    public BigInteger getBigInteger() {
-        return bigInteger;
-    }
+  public void setCharPrimitive(char charPrimitive) {
+    this.charPrimitive = charPrimitive;
+  }
 
-    public void setBigInteger(BigInteger bigInteger) {
-        this.bigInteger = bigInteger;
-    }
+  public BigInteger getBigInteger() {
+    return bigInteger;
+  }
 
-    public Float getFloatClass() {
-        return floatClass;
-    }
+  public void setBigInteger(BigInteger bigInteger) {
+    this.bigInteger = bigInteger;
+  }
 
-    public void setFloatClass(Float floatClass) {
-        this.floatClass = floatClass;
-    }
+  public Float getFloatClass() {
+    return floatClass;
+  }
 
-    public float getFloatPrimitive() {
-        return floatPrimitive;
-    }
+  public void setFloatClass(Float floatClass) {
+    this.floatClass = floatClass;
+  }
 
-    public void setFloatPrimitive(float floatPrimitive) {
-        this.floatPrimitive = floatPrimitive;
-    }
+  public float getFloatPrimitive() {
+    return floatPrimitive;
+  }
 
-    public Double getDoubleClass() {
-        return doubleClass;
-    }
+  public void setFloatPrimitive(float floatPrimitive) {
+    this.floatPrimitive = floatPrimitive;
+  }
 
-    public void setDoubleClass(Double doubleClass) {
-        this.doubleClass = doubleClass;
-    }
+  public Double getDoubleClass() {
+    return doubleClass;
+  }
 
-    public double getDoublePrimitive() {
-        return doublePrimitive;
-    }
+  public void setDoubleClass(Double doubleClass) {
+    this.doubleClass = doubleClass;
+  }
 
-    public void setDoublePrimitive(double doublePrimitive) {
-        this.doublePrimitive = doublePrimitive;
-    }
+  public double getDoublePrimitive() {
+    return doublePrimitive;
+  }
 
-    public Date getDate() {
-        return date;
-    }
+  public void setDoublePrimitive(double doublePrimitive) {
+    this.doublePrimitive = doublePrimitive;
+  }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
+  }
 }

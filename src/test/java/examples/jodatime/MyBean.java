@@ -1,39 +1,38 @@
 /**
  * Copyright (c) 2008, SnakeYAML
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package examples.jodatime;
 
 import org.joda.time.DateTime;
 
 public class MyBean {
-    private String id;
-    private DateTime date;
 
-    public String getId() {
-        return id;
-    }
+  private String id;
+  private DateTime date;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public DateTime getDate() {
-        return date;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setDate(DateTime date) {
-        this.date = date;
-    }
+  public DateTime getDate() {
+    return date;
+  }
+
+  public void setDate(DateTime date) {
+    this.date = date;
+  }
 }
