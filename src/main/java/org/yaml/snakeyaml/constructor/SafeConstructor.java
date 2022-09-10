@@ -98,8 +98,7 @@ public class SafeConstructor extends BaseConstructor {
             keyNode.setType(String.class);
             keyNode.setTag(Tag.STR);
           } else {
-            throw new YAMLException(
-                "Keys must be scalars but found: " + keyNode);
+            throw new YAMLException("Keys must be scalars but found: " + keyNode);
           }
         }
         Object key = constructObject(keyNode);
@@ -112,9 +111,8 @@ public class SafeConstructor extends BaseConstructor {
               try {
                 key.hashCode();// check circular dependencies
               } catch (Exception e) {
-                throw new ConstructorException("while constructing a mapping",
-                    node.getStartMark(), "found unacceptable key " + key,
-                    tuple.getKeyNode().getStartMark(), e);
+                throw new ConstructorException("while constructing a mapping", node.getStartMark(),
+                    "found unacceptable key " + key, tuple.getKeyNode().getStartMark(), e);
               }
             }
           }

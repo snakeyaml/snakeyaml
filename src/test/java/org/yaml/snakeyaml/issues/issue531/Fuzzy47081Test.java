@@ -24,8 +24,8 @@ import org.yaml.snakeyaml.Yaml;
 public class Fuzzy47081Test {
 
   /**
-   * Recursive list fails (with StackOverflowError) because it is used as a key
-   * There is no way to disable recursive sequence
+   * Recursive list fails (with StackOverflowError) because it is used as a key There is no way to
+   * disable recursive sequence
    */
   @Test
   public void parse47081() {
@@ -33,9 +33,11 @@ public class Fuzzy47081Test {
       LoaderOptions options = new LoaderOptions();
       options.setAllowRecursiveKeys(true);
       Yaml yaml = new Yaml(options);
-      String strYaml = "&a\n"
-          + "- *a\n"  // if this line is removed, the test properly complains about the recursive keys in map -> Recursive key for mapping is detected, but it is not configured to be allowed.
-          + "- *a:\n"; // when the colon ir removed, the test is Ok, because the recursive list is not a key
+      String strYaml = "&a\n" + "- *a\n"
+      // if this line is removed, the test properly complains about the recursive keys in map ->
+      // Recursive key for mapping is detected, but it is not configured to be allowed.
+          + "- *a:\n"; // when the colon ir removed, the test is Ok, because the recursive list is
+                       // not a key
       yaml.load(strYaml);
       fail("Should report invalid YAML");
     } catch (StackOverflowError e) {

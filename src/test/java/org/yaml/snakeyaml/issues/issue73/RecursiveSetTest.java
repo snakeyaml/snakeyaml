@@ -21,8 +21,6 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
-import junit.framework.TestCase;
-
 public class RecursiveSetTest extends TestCase {
 
   public void testDumpException() {
@@ -51,52 +49,52 @@ public class RecursiveSetTest extends TestCase {
     }
   }
 
-    /**
-     * XXX: sets can be recursive
-     */
-    @SuppressWarnings("unchecked")
-    public void testLoadRecursiveTest() {
-        String doc = Util.getLocalResource("issues/issue73-recursive5.txt");
-        // System.out.println(doc);
-        LoaderOptions options = new LoaderOptions();
-        options.setAllowRecursiveKeys(true);
-        Yaml yaml = new Yaml(options);
-        Bean1 obj = (Bean1) yaml.load(doc);
-        Set<Object> set = obj.getSet();
-        // System.out.println(set);
-        assertEquals(LinkedHashSet.class, set.getClass());
-        assertEquals("ID123", obj.getId());
-        assertEquals(3, set.size());
-        assertTrue(set.remove("zzz"));
-        assertTrue(set.remove("ccc"));
-        assertFalse(set.contains("111"));
-        try {
-            set.contains(set);
-            fail("Recursive set fails to provide a hashcode.");
-        } catch (StackOverflowError e) {
-            // ignore
-        }
-        //
-        Set<Object> self = (Set<Object>) set.iterator().next();
-        assertEquals(LinkedHashSet.class, self.getClass());
-        assertEquals(set, self);
-        assertSame(set, self);
-        assertEquals(1, set.size());
-        assertEquals(1, self.size());
-        set.add("111");
-        assertEquals(2, set.size());
-        assertEquals(2, self.size());
-        //
-        self.clear();
-        assertTrue(self.isEmpty());
-        assertTrue(set.isEmpty());
-        assertFalse("Now it should not be recursive any longer (no StackOverflowError).",
-                set.contains(set));
-        //
-        set.add("jjj");
-        assertEquals(1, set.size());
-        assertEquals(1, self.size());
+  /**
+   * XXX: sets can be recursive
+   */
+  @SuppressWarnings("unchecked")
+  public void testLoadRecursiveTest() {
+    String doc = Util.getLocalResource("issues/issue73-recursive5.txt");
+    // System.out.println(doc);
+    LoaderOptions options = new LoaderOptions();
+    options.setAllowRecursiveKeys(true);
+    Yaml yaml = new Yaml(options);
+    Bean1 obj = yaml.load(doc);
+    Set<Object> set = obj.getSet();
+    // System.out.println(set);
+    assertEquals(LinkedHashSet.class, set.getClass());
+    assertEquals("ID123", obj.getId());
+    assertEquals(3, set.size());
+    assertTrue(set.remove("zzz"));
+    assertTrue(set.remove("ccc"));
+    assertFalse(set.contains("111"));
+    try {
+      set.contains(set);
+      fail("Recursive set fails to provide a hashcode.");
+    } catch (StackOverflowError e) {
+      // ignore
     }
+    //
+    Set<Object> self = (Set<Object>) set.iterator().next();
+    assertEquals(LinkedHashSet.class, self.getClass());
+    assertEquals(set, self);
+    assertSame(set, self);
+    assertEquals(1, set.size());
+    assertEquals(1, self.size());
+    set.add("111");
+    assertEquals(2, set.size());
+    assertEquals(2, self.size());
+    //
+    self.clear();
+    assertTrue(self.isEmpty());
+    assertTrue(set.isEmpty());
+    assertFalse("Now it should not be recursive any longer (no StackOverflowError).",
+        set.contains(set));
+    //
+    set.add("jjj");
+    assertEquals(1, set.size());
+    assertEquals(1, self.size());
+  }
 
   public static class Bean1 {
 

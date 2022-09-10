@@ -87,6 +87,7 @@ public class Constructor extends SafeConstructor {
 
   /**
    * Create with all possible arguments
+   *
    * @param theRoot - the class (usually JavaBean) to be constructed
    * @param moreTDs - collection of classes used by the root class
    * @param loadingConfig - configuration

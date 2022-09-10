@@ -220,7 +220,7 @@ public final class ScannerImpl implements Scanner {
     this(reader, new LoaderOptions());
   }
 
-  public ScannerImpl(StreamReader reader,  LoaderOptions options) {
+  public ScannerImpl(StreamReader reader, LoaderOptions options) {
     this.parseComments = options.isProcessComments();
     this.reader = reader;
     this.tokens = new ArrayList<Token>(100);
@@ -232,8 +232,8 @@ public final class ScannerImpl implements Scanner {
   }
 
   /**
-   * Please use LoaderOptions instead
-   * Set the scanner to ignore comments or parse them as a <code>CommentToken</code>.
+   * Please use LoaderOptions instead Set the scanner to ignore comments or parse them as a
+   * <code>CommentToken</code>.
    *
    * @param parseComments <code>true</code> to parse; <code>false</code> to ignore
    */
@@ -331,8 +331,8 @@ public final class ScannerImpl implements Scanner {
    */
   private void fetchMoreTokens() {
     if (reader.getIndex() > loaderOptions.getCodePointLimit()) {
-      throw new YAMLException("The incoming YAML document exceeds the limit: " +
-          loaderOptions.getCodePointLimit() + " code points.");
+      throw new YAMLException("The incoming YAML document exceeds the limit: "
+          + loaderOptions.getCodePointLimit() + " code points.");
     }
     // Eat whitespaces and process comments until we reach the next token.
     scanToNextToken();
@@ -1190,7 +1190,7 @@ public final class ScannerImpl implements Scanner {
     // whitespace, then this is the start of a plain scalar.
     return Constant.NULL_BL_T_LINEBR.hasNo(c, "-?:,[]{}#&*!|>'\"%@`")
         || (Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(1))
-        && (c == '-' || (this.flowLevel == 0 && "?:".indexOf(c) != -1)));
+            && (c == '-' || (this.flowLevel == 0 && "?:".indexOf(c) != -1)));
   }
 
   // Scanners.
@@ -1835,7 +1835,7 @@ public final class ScannerImpl implements Scanner {
       }
     }
     // Pass several results back together.
-    return new Object[]{chunks.toString(), maxIndent, endMark};
+    return new Object[] {chunks.toString(), maxIndent, endMark};
   }
 
   private Object[] scanBlockScalarBreaks(int indent) {
@@ -1865,7 +1865,7 @@ public final class ScannerImpl implements Scanner {
       }
     }
     // Return both the assembled intervening string and the end-mark.
-    return new Object[]{chunks.toString(), endMark};
+    return new Object[] {chunks.toString(), endMark};
   }
 
   /**
@@ -2054,7 +2054,7 @@ public final class ScannerImpl implements Scanner {
         c = reader.peek(length);
         if (Constant.NULL_BL_T_LINEBR.has(c)
             || (c == ':' && Constant.NULL_BL_T_LINEBR.has(reader.peek(length + 1),
-            flowLevel != 0 ? ",[]{}" : ""))
+                flowLevel != 0 ? ",[]{}" : ""))
             || (this.flowLevel != 0 && ",?[]{}".indexOf(c) != -1)) {
           break;
         }

@@ -471,8 +471,8 @@ public class Yaml {
   }
 
   private Object loadFromReader(StreamReader sreader, Class<?> type) {
-    Composer composer = new Composer(new ParserImpl(sreader, loadingConfig),
-        resolver, loadingConfig);
+    Composer composer =
+        new Composer(new ParserImpl(sreader, loadingConfig), resolver, loadingConfig);
     constructor.setComposer(composer);
     return constructor.getSingleData(type);
   }

@@ -21,8 +21,6 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
-import junit.framework.TestCase;
-
 public class RecursiveSortedSetTest extends TestCase {
 
   public void testDumpException() {
@@ -51,36 +49,36 @@ public class RecursiveSortedSetTest extends TestCase {
     }
   }
 
-    /**
-     * set and JavaBean refer to each other
-     */
-    public void testLoadRecursiveTest() {
-        String doc = Util.getLocalResource("issues/issue73-recursive9.txt");
-        // System.out.println(doc);
-        LoaderOptions options = new LoaderOptions();
-        options.setAllowRecursiveKeys(true);
-        Yaml yaml = new Yaml(options);
-        Bean11 beanWithSet = (Bean11) yaml.load(doc);
-        Set<Object> set = beanWithSet.getSet();
-        assertEquals(TreeSet.class, set.getClass());
-        assertEquals("ID555", beanWithSet.getId());
-        assertEquals(3, set.size());
-        assertTrue(set.remove("ggg"));
-        // assertFalse(set.remove("ggg"));???
-        assertTrue(set.remove("hhh"));
-        assertEquals(1, set.size());
-        //
-        Bean11 beanRef = (Bean11) set.iterator().next();
-        assertEquals(beanWithSet, beanRef);
-        assertSame(beanWithSet, beanRef);
-        //
-        assertFalse(set.isEmpty());
-        assertTrue(set.contains(beanWithSet));
-        assertFalse(set.add(beanWithSet));
-        assertTrue(set.remove(beanWithSet));
-        assertFalse(set.remove(beanWithSet));
-        assertTrue(set.isEmpty());
-    }
+  /**
+   * set and JavaBean refer to each other
+   */
+  public void testLoadRecursiveTest() {
+    String doc = Util.getLocalResource("issues/issue73-recursive9.txt");
+    // System.out.println(doc);
+    LoaderOptions options = new LoaderOptions();
+    options.setAllowRecursiveKeys(true);
+    Yaml yaml = new Yaml(options);
+    Bean11 beanWithSet = yaml.load(doc);
+    Set<Object> set = beanWithSet.getSet();
+    assertEquals(TreeSet.class, set.getClass());
+    assertEquals("ID555", beanWithSet.getId());
+    assertEquals(3, set.size());
+    assertTrue(set.remove("ggg"));
+    // assertFalse(set.remove("ggg"));???
+    assertTrue(set.remove("hhh"));
+    assertEquals(1, set.size());
+    //
+    Bean11 beanRef = (Bean11) set.iterator().next();
+    assertEquals(beanWithSet, beanRef);
+    assertSame(beanWithSet, beanRef);
+    //
+    assertFalse(set.isEmpty());
+    assertTrue(set.contains(beanWithSet));
+    assertFalse(set.add(beanWithSet));
+    assertTrue(set.remove(beanWithSet));
+    assertFalse(set.remove(beanWithSet));
+    assertTrue(set.isEmpty());
+  }
 
   public static class Bean11 implements Comparable<Object> {
 

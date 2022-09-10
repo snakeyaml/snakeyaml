@@ -33,8 +33,6 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
-import junit.framework.TestCase;
-
 public class HumanGenericsTest extends TestCase {
 
   public void testNoChildren() throws IOException, IntrospectionException {
@@ -133,12 +131,12 @@ public class HumanGenericsTest extends TestCase {
     mother.setChildren(children);
     //
 
-        LoaderOptions options = new LoaderOptions();
-        options.setAllowRecursiveKeys(true);
-        Constructor constructor = new Constructor(options);
-        TypeDescription humanDescription = new TypeDescription(HumanGen.class);
-        humanDescription.putMapPropertyType("children", HumanGen.class, Object.class);
-        constructor.addTypeDescription(humanDescription);
+    LoaderOptions options = new LoaderOptions();
+    options.setAllowRecursiveKeys(true);
+    Constructor constructor = new Constructor(options);
+    TypeDescription humanDescription = new TypeDescription(HumanGen.class);
+    humanDescription.putMapPropertyType("children", HumanGen.class, Object.class);
+    constructor.addTypeDescription(humanDescription);
 
     Yaml yaml = new Yaml(constructor);
     String output = yaml.dump(son);
