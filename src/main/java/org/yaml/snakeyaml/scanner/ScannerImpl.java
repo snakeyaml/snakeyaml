@@ -86,7 +86,7 @@ public final class ScannerImpl implements Scanner {
   /**
    * A regular expression matching characters which are not in the hexadecimal set (0-9, A-F, a-f).
    */
-  private final static Pattern NOT_HEXA = Pattern.compile("[^0-9A-Fa-f]");
+  private static final Pattern NOT_HEXA = Pattern.compile("[^0-9A-Fa-f]");
 
   /**
    * A mapping from an escaped character in the input stream to the string representation that they
@@ -96,7 +96,7 @@ public final class ScannerImpl implements Scanner {
    *
    * @see <a href="http://www.yaml.org/spec/current.html#id2517668">4.1.6. Escape Sequences</a>
    */
-  public final static Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
+  public static final Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
 
   /**
    * A mapping from a character to a number of bytes to read-ahead for that escape sequence. These
@@ -111,7 +111,7 @@ public final class ScannerImpl implements Scanner {
    *
    * @see <a href="http://yaml.org/spec/1.1/current.html#id872840">5.6. Escape Sequences</a>
    */
-  public final static Map<Character, Integer> ESCAPE_CODES = new HashMap<Character, Integer>();
+  public static final Map<Character, Integer> ESCAPE_CODES = new HashMap<Character, Integer>();
 
   static {
     // ASCII null

@@ -47,7 +47,7 @@ public abstract class CollectionNode<T> extends Node {
    *
    * @return Nodes in the specified order.
    */
-  abstract public List<T> getValue();
+  public abstract List<T> getValue();
 
   /**
    * Serialization style of this collection.
