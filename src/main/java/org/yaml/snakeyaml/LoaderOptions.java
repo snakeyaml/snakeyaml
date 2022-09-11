@@ -23,7 +23,7 @@ public class LoaderOptions {
   private boolean processComments = false;
   private boolean enumCaseSensitive = true;
   private int nestingDepthLimit = 50;
-  private int codePointLimit = 100 * 1024;
+  private int codePointLimit = 3 * 1024 * 1024; // 3 MB
 
   public final boolean isAllowDuplicateKeys() {
     return allowDuplicateKeys;

@@ -11,6 +11,7 @@
             </action>
             <action dev="asomov" type="fix" issue="547">
                 Set the limit for incoming data to prevent a CVE report in NIST
+                By default it is 3 MB
             </action>
             <action dev="asomov" type="update">
                 Format the source with Google style.
