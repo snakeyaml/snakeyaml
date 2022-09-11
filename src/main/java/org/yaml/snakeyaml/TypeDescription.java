@@ -40,7 +40,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  */
 public class TypeDescription {
 
-  final private static Logger log = Logger.getLogger(TypeDescription.class.getPackage().getName());
+  final static private Logger log = Logger.getLogger(TypeDescription.class.getPackage().getName());
 
   private final Class<? extends Object> type;
 
@@ -50,9 +50,9 @@ public class TypeDescription {
 
   private Tag tag;
 
-  transient private Set<Property> dumpProperties;
-  transient private PropertyUtils propertyUtils;
-  transient private boolean delegatesChecked;
+  private transient Set<Property> dumpProperties;
+  private transient PropertyUtils propertyUtils;
+  private transient boolean delegatesChecked;
 
   private Map<String, PropertySubstitute> properties = Collections.emptyMap();
 

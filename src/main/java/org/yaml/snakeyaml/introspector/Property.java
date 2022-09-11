@@ -42,7 +42,7 @@ public abstract class Property implements Comparable<Property> {
     return type;
   }
 
-  abstract public Class<?>[] getActualTypeArguments();
+  public abstract Class<?>[] getActualTypeArguments();
 
   public String getName() {
     return name;
@@ -65,9 +65,9 @@ public abstract class Property implements Comparable<Property> {
     return true;
   }
 
-  abstract public void set(Object object, Object value) throws Exception;
+  public abstract void set(Object object, Object value) throws Exception;
 
-  abstract public Object get(Object object);
+  public abstract Object get(Object object);
 
   /**
    * Returns the annotations that are present on this property or empty {@code List} if there're no
@@ -76,7 +76,7 @@ public abstract class Property implements Comparable<Property> {
    * @return the annotations that are present on this property or empty {@code List} if there're no
    *         annotations
    */
-  abstract public List<Annotation> getAnnotations();
+  public abstract List<Annotation> getAnnotations();
 
   /**
    * Returns property's annotation for the given type or {@code null} if it's not present.
@@ -86,7 +86,7 @@ public abstract class Property implements Comparable<Property> {
    *
    * @return property's annotation for the given type or {@code null} if it's not present
    */
-  abstract public <A extends Annotation> A getAnnotation(Class<A> annotationType);
+  public abstract <A extends Annotation> A getAnnotation(Class<A> annotationType);
 
   @Override
   public int hashCode() {
