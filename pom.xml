@@ -695,9 +695,9 @@
                     </plugin>
 
                     <plugin>
-                        <groupId>org.apache.maven</groupId>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-patch-plugin</artifactId>
-                        <version>3.8.6</version>
+                        <version>1.2</version>
                         <configuration>
                             <patchDirectory>${basedir}/src/patches/android/</patchDirectory>
                             <targetDirectory>${android.src}</targetDirectory>
