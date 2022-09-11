@@ -31,14 +31,14 @@ import org.yaml.snakeyaml.error.YAMLException;
 // correct place ?
 public class PropertySubstitute extends Property {
 
-  final private static Logger log =
+  private static final Logger log =
       Logger.getLogger(PropertySubstitute.class.getPackage().getName());
 
   protected Class<?> targetType;
   private final String readMethod;
   private final String writeMethod;
-  transient private Method read;
-  transient private Method write;
+  private transient Method read;
+  private transient Method write;
   private Field field;
   protected Class<?>[] parameters;
   private Property delegate;

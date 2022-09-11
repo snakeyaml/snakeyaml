@@ -304,7 +304,7 @@ public abstract class BaseConstructor {
     return newInstance(Object.class, node);
   }
 
-  final protected Object newInstance(Class<?> ancestor, Node node) {
+  protected final Object newInstance(Class<?> ancestor, Node node) {
     return newInstance(ancestor, node, true);
   }
 
