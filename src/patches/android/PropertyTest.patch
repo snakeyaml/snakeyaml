@@ -1,21 +1,21 @@
 diff --git a/src/test/java/org/yaml/snakeyaml/introspector/PropertyTest.java b/src/test/java/org/yaml/snakeyaml/introspector/PropertyTest.java
---- a/src/test/java/org/yaml/snakeyaml/introspector/PropertyTest.java
-+++ b/src/test/java/org/yaml/snakeyaml/introspector/PropertyTest.java
-@@ -33,17 +33,6 @@
+--- a/src/test/java/org/yaml/snakeyaml/introspector/PropertyTest.java	(revision 9c05d7250e565df10bdf0da92bf89a1c39e5c073)
++++ b/src/test/java/org/yaml/snakeyaml/introspector/PropertyTest.java	(date 1662964689659)
+@@ -32,17 +32,6 @@
+
  public class PropertyTest {
 
-     @Test
--    public void testMethodPropertyToString() throws IntrospectionException {
--        for (PropertyDescriptor property : Introspector.getBeanInfo(TestBean1.class)
--                .getPropertyDescriptors()) {
--            if (property.getName().equals("text")) {
--                MethodProperty prop = new MethodProperty(property);
--                assertEquals("text of class java.lang.String", prop.toString());
--            }
--        }
+-  @Test
+-  public void testMethodPropertyToString() throws IntrospectionException {
+-    for (PropertyDescriptor property : Introspector.getBeanInfo(TestBean1.class)
+-        .getPropertyDescriptors()) {
+-      if (property.getName().equals("text")) {
+-        MethodProperty prop = new MethodProperty(property);
+-        assertEquals("text of class java.lang.String", prop.toString());
+-      }
 -    }
+-  }
 -
--    @Test
-     public void testGetFieldPropertyAnnotation() {
-         PropertyUtils propertyUtils = new PropertyUtils();
-         propertyUtils.setBeanAccess(BeanAccess.FIELD);
+   @Test
+   public void testGetFieldPropertyAnnotation() {
+     PropertyUtils propertyUtils = new PropertyUtils();

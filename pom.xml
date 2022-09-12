@@ -744,8 +744,9 @@
                                             <exclude name="org/yaml/snakeyaml/representer/FilterPropertyToDumpTest.java" />
                                             <exclude name="org/yaml/snakeyaml/issues/issue60/CustomOrderTest.java" />
                                             <exclude name="org/yaml/snakeyaml/issues/issue29/FlexibleScalarStylesInJavaBeanTest.java" />
-                                            <!-- uses filtered resources. Addidional tricks needed to be able to run under current build -->
+                                            <!-- uses filtered resources. Additional tricks needed to be able to run under current build -->
                                             <exclude name="org/yaml/snakeyaml/issues/issue318/ContextClassLoaderTest.java" />
+                                            <exclude name="org/yaml/snakeyaml/emitter/template/VelocityTest.java" />
                                         </javac>
                                     </target>
 
