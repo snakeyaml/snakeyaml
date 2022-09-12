@@ -5,7 +5,7 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.32-SNAPSHOT" date="in GIT" description="Maintenance">
+        <release version="1.32" date="2022-09-12" description="Maintenance">
             <action dev="asomov" type="fix" issue="543">
                 Add a test for issue 543 (thanks to Henry Lin)
             </action>

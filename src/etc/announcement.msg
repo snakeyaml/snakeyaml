@@ -1,9 +1,9 @@
 From: Andrey Somov <public.somov@gmail.com>
 To: yaml-core@lists.sourceforge.net
-Subject: [ANN] SnakeYAML-1.25 final is available
+Subject: [ANN] SnakeYAML-1.32 final is available
 
 ==========================
- Announcing SnakeYAML-1.25
+ Announcing SnakeYAML-1.32
 ==========================
 
 A new release of SnakeYAML is now available:
@@ -20,8 +20,8 @@ Resources
 SnakeYAML homepage: https://bitbucket.org/snakeyaml/snakeyaml
 SnakeYAML documentation: https://bitbucket.org/snakeyaml/snakeyaml/wiki/Home
 
-JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.25/snakeyaml-1.25.jar
-Android: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.25/snakeyaml-1.25-android.jar
+JAR package: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.32/snakeyaml-1.32.jar
+Android: http://repo2.maven.org/maven2/org/yaml/snakeyaml/1.32/snakeyaml-1.32-android.jar
 
 YAML homepage: http://yaml.org/
 YAML-core mailing list: http://lists.sourceforge.net/lists/listinfo/yaml-core
