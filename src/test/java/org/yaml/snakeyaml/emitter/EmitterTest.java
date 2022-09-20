@@ -33,6 +33,16 @@ import org.yaml.snakeyaml.events.StreamStartEvent;
 
 public class EmitterTest extends TestCase {
 
+  public void testNumberishStringsAreEmittedWithQuotes() {
+    Yaml yaml = new Yaml();
+    assertEquals("string that looks like octal, but is not",
+            "'083'\n", yaml.dump("083"));
+    assertEquals("string that would be interpreted as octal, were it not quoted",
+            "'0123'\n", yaml.dump("0123"));
+    assertEquals("string that looks like octal, but is not - with underscores",
+            "'08_3'\n", yaml.dump("08_3"));
+  }
+
   public void testWriteFolded() {
     DumperOptions options = new DumperOptions();
     options.setDefaultScalarStyle(ScalarStyle.FOLDED);
