@@ -48,11 +48,7 @@ public class ProblematicYamlTest {
     }
   }
 
-  private static final LoaderOptions LOAD_OPTIONS = new LoaderOptions();
-
-  static {
-    LOAD_OPTIONS.setProcessComments(true);
-  }
+  private static final LoaderOptions LOAD_OPTIONS = new LoaderOptions().setProcessComments(true);
 
   private void assertEventListEquals(List<ID> expectedEventIdList,
       List<CommentType> expectedCommentTypeList, Parser parser) {
@@ -109,8 +105,8 @@ public class ProblematicYamlTest {
     );
     List<CommentType> expectedCommentTypeList = Arrays.asList(//
         CommentType.BLOCK, CommentType.BLANK_LINE, CommentType.BLOCK);
-    ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString1)),
-        LOAD_OPTIONS.isProcessComments());
+    ParserImpl parser =
+        new ParserImpl(new StreamReader(new StringReader(yamlString1)), LOAD_OPTIONS);
     assertEventListEquals(expectedEventIdList, expectedCommentTypeList, parser);
   }
 
@@ -139,8 +135,8 @@ public class ProblematicYamlTest {
     );
     List<CommentType> expectedCommentTypeList = Arrays.asList(//
         CommentType.BLANK_LINE, CommentType.BLOCK, CommentType.BLANK_LINE, CommentType.BLOCK);
-    ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString2)),
-        LOAD_OPTIONS.isProcessComments());
+    ParserImpl parser =
+        new ParserImpl(new StreamReader(new StringReader(yamlString2)), LOAD_OPTIONS);
     assertEventListEquals(expectedEventIdList, expectedCommentTypeList, parser);
   }
 
@@ -165,8 +161,8 @@ public class ProblematicYamlTest {
         ID.StreamEnd //
     );
     List<CommentType> expectedCommentTypeList = Collections.singletonList(CommentType.BLANK_LINE);
-    ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString3)),
-        LOAD_OPTIONS.isProcessComments());
+    ParserImpl parser =
+        new ParserImpl(new StreamReader(new StringReader(yamlString3)), LOAD_OPTIONS);
     assertEventListEquals(expectedEventIdList, expectedCommentTypeList, parser);
   }
 
@@ -224,8 +220,8 @@ public class ProblematicYamlTest {
         ID.DocumentEnd, //
         ID.StreamEnd//
     );
-    ParserImpl parser = new ParserImpl(new StreamReader(new StringReader(yamlString4)),
-        LOAD_OPTIONS.isProcessComments());
+    ParserImpl parser =
+        new ParserImpl(new StreamReader(new StringReader(yamlString4)), LOAD_OPTIONS);
     assertEventListEquals(expectedEventIdList, new ArrayList<CommentType>(), parser);
   }
 }

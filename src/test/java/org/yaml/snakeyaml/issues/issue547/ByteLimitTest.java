@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue547;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.Iterator;
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -23,13 +24,27 @@ import org.yaml.snakeyaml.Yaml;
 public class ByteLimitTest {
 
   @Test
-  public void testUnicode() {
+  public void testSetCodePointLimit() {
     LoaderOptions options = new LoaderOptions();
     options.setCodePointLimit(15);
     Yaml yaml = new Yaml(options);
     try {
       yaml.load("12345678901234567890");
       fail("Long input should not be accepted");
+    } catch (Exception e) {
+      assertEquals("The incoming YAML document exceeds the limit: 15 code points.", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testLoadAll553() {
+    LoaderOptions options = new LoaderOptions();
+    options.setCodePointLimit(15);
+    Yaml yaml = new Yaml(options);
+    try {
+      Iterator<Object> iter = yaml.loadAll("12345678901234567890").iterator();
+      iter.next();
+      fail("Long input should not be accepted for loadAll");
     } catch (Exception e) {
       assertEquals("The incoming YAML document exceeds the limit: 15 code points.", e.getMessage());
     }

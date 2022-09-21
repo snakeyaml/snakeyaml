@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.emitter.Emitable;
 import org.yaml.snakeyaml.events.Event;
@@ -80,7 +81,9 @@ public class SerializerWithCommentEnabledTest {
     Tag rootTag = null;
     Serializer serializer = new Serializer(emitter, new Resolver(), new DumperOptions(), rootTag);
     serializer.open();
-    Composer composer = new Composer(new ParserImpl(new StreamReader(data), true), new Resolver());
+    Composer composer = new Composer(
+        new ParserImpl(new StreamReader(data), new LoaderOptions().setProcessComments(true)),
+        new Resolver());
     while (composer.checkNode()) {
       serializer.serialize(composer.getNode());
     }

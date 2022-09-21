@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.comments.CommentLine;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
@@ -160,7 +161,9 @@ public class ComposerWithCommentEnabledTest {
   }
 
   public Composer newComposerWithCommentsEnabled(String data) {
-    return new Composer(new ParserImpl(new StreamReader(data), true), new Resolver());
+    return new Composer(
+        new ParserImpl(new StreamReader(data), new LoaderOptions().setProcessComments(true)),
+        new Resolver());
   }
 
   @Test

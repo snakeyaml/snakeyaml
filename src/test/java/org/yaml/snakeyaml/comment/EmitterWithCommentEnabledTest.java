@@ -57,7 +57,9 @@ public class EmitterWithCommentEnabledTest {
         new Serializer(new Emitter(output, options), new Resolver(), options, null);
 
     serializer.open();
-    Composer composer = new Composer(new ParserImpl(new StreamReader(data), true), new Resolver());
+    Composer composer = new Composer(
+        new ParserImpl(new StreamReader(data), new LoaderOptions().setProcessComments(true)),
+        new Resolver());
     while (composer.checkNode()) {
       serializer.serialize(composer.getNode());
     }

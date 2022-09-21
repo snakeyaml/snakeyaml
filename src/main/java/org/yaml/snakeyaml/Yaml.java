@@ -485,9 +485,8 @@ public class Yaml {
    * @return an Iterable over the parsed Java objects in this String in proper sequence
    */
   public Iterable<Object> loadAll(Reader yaml) {
-    Composer composer =
-        new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig.isProcessComments()),
-            resolver, loadingConfig);
+    Composer composer = new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig),
+        resolver, loadingConfig);
     constructor.setComposer(composer);
     Iterator<Object> result = new Iterator<Object>() {
       @Override
@@ -555,9 +554,8 @@ public class Yaml {
    * @see <a href="http://yaml.org/spec/1.1/#id859333">Figure 3.1. Processing Overview</a>
    */
   public Node compose(Reader yaml) {
-    Composer composer =
-        new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig.isProcessComments()),
-            resolver, loadingConfig);
+    Composer composer = new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig),
+        resolver, loadingConfig);
     return composer.getSingleNode();
   }
 
@@ -569,9 +567,8 @@ public class Yaml {
    * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
    */
   public Iterable<Node> composeAll(Reader yaml) {
-    final Composer composer =
-        new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig.isProcessComments()),
-            resolver, loadingConfig);
+    final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig),
+        resolver, loadingConfig);
     Iterator<Node> result = new Iterator<Node>() {
       @Override
       public boolean hasNext() {
@@ -667,7 +664,7 @@ public class Yaml {
    * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
    */
   public Iterable<Event> parse(Reader yaml) {
-    final Parser parser = new ParserImpl(new StreamReader(yaml), loadingConfig.isProcessComments());
+    final Parser parser = new ParserImpl(new StreamReader(yaml), loadingConfig);
     Iterator<Event> result = new Iterator<Event>() {
       @Override
       public boolean hasNext() {
