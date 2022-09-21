@@ -5,6 +5,14 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
+        <release version="1.33" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="553">
+                LoaderOptions.setCodePointLimit() not honored by loadAll() (thanks to Robert Patrick)
+            </action>
+            <action dev="asomov" type="fix" issue="554">
+                Always quoting strings that look like numbers and start with 0 (thanks to Lee Read)
+            </action>
+        </release>
         <release version="1.32" date="2022-09-12" description="Maintenance">
             <action dev="asomov" type="fix" issue="543">
                 Add a test for issue 543 (thanks to Henry Lin)
