@@ -1078,7 +1078,7 @@ public final class Emitter implements Emitable {
     return anchor;
   }
 
-  private static final Pattern NUMBERISH = Pattern.compile("0[0-9_]+");
+  private static final Pattern LEADING_ZERO_PATTERN = Pattern.compile("0[0-9_]+");
 
   private ScalarAnalysis analyzeScalar(String scalar) {
     // Empty scalar is a special case.
@@ -1090,7 +1090,7 @@ public final class Emitter implements Emitable {
     boolean flowIndicators = false;
     boolean lineBreaks = false;
     boolean specialCharacters = false;
-    boolean numberish = NUMBERISH.matcher(scalar).matches();
+    boolean leadingZeroNumber = LEADING_ZERO_PATTERN.matcher(scalar).matches();
 
     // Important whitespace combinations.
     boolean leadingSpace = false;
@@ -1216,7 +1216,7 @@ public final class Emitter implements Emitable {
     boolean allowSingleQuoted = true;
     boolean allowBlock = true;
     // Leading and trailing whitespaces are bad for plain scalars.
-    if (leadingSpace || leadingBreak || trailingSpace || trailingBreak || numberish) {
+    if (leadingSpace || leadingBreak || trailingSpace || trailingBreak || leadingZeroNumber) {
       allowFlowPlain = allowBlockPlain = false;
     }
     // We do not permit trailing spaces for block scalars.
