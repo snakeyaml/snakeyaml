@@ -15,12 +15,26 @@ package org.yaml.snakeyaml.tokens;
 
 import org.yaml.snakeyaml.error.Mark;
 
+/**
+ * FlowEntryToken
+ */
 public final class FlowEntryToken extends Token {
 
+  /**
+   * Create
+   *
+   * @param startMark - start
+   * @param endMark - end
+   */
   public FlowEntryToken(Mark startMark, Mark endMark) {
     super(startMark, endMark);
   }
 
+  /**
+   * getter
+   *
+   * @return its identity
+   */
   @Override
   public Token.ID getTokenId() {
     return ID.FlowEntry;

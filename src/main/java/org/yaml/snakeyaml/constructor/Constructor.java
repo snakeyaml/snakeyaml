@@ -101,6 +101,12 @@ public class Constructor extends SafeConstructor {
     this(theRoot, null, new LoaderOptions());
   }
 
+  /**
+   * Create
+   *
+   * @param theRoot - the root class to create
+   * @param loadingConfig options
+   */
   public Constructor(TypeDescription theRoot, LoaderOptions loadingConfig) {
     this(theRoot, null, loadingConfig);
   }
@@ -144,6 +150,13 @@ public class Constructor extends SafeConstructor {
     this(Class.forName(check(theRoot)));
   }
 
+  /**
+   * Create
+   *
+   * @param theRoot - the main class to crate
+   * @param loadingConfig - options
+   * @throws ClassNotFoundException if something goes wrong
+   */
   public Constructor(String theRoot, LoaderOptions loadingConfig) throws ClassNotFoundException {
     this(Class.forName(check(theRoot)), loadingConfig);
   }

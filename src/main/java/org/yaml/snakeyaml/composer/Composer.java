@@ -322,6 +322,12 @@ public class Composer {
     return node;
   }
 
+  /**
+   * Compose the members of mapping
+   *
+   * @param children - the data to fill
+   * @param node - the source
+   */
   protected void composeMappingChildren(List<NodeTuple> children, MappingNode node) {
     Node itemKey = composeKeyNode(node);
     if (itemKey.getTag().equals(Tag.MERGE)) {
@@ -331,10 +337,22 @@ public class Composer {
     children.add(new NodeTuple(itemKey, itemValue));
   }
 
+  /**
+   * To be able to override composeNode(node) which is a key
+   *
+   * @param node - the source
+   * @return node
+   */
   protected Node composeKeyNode(MappingNode node) {
     return composeNode(node);
   }
 
+  /**
+   * To be able to override composeNode(node) which is a value
+   *
+   * @param node - the source
+   * @return node
+   */
   protected Node composeValueNode(MappingNode node) {
     return composeNode(node);
   }

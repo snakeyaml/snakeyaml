@@ -18,12 +18,23 @@ package org.yaml.snakeyaml.constructor;
  */
 public class CustomClassLoaderConstructor extends Constructor {
 
-  private ClassLoader loader = CustomClassLoaderConstructor.class.getClassLoader();
+  private final ClassLoader loader;
 
+  /**
+   * Create
+   *
+   * @param cLoader the class loader to find the class definition
+   */
   public CustomClassLoaderConstructor(ClassLoader cLoader) {
     this(Object.class, cLoader);
   }
 
+  /**
+   * Create
+   *
+   * @param theRoot - the class to instantiate
+   * @param theLoader - the class loader to find the class definition
+   */
   public CustomClassLoaderConstructor(Class<? extends Object> theRoot, ClassLoader theLoader) {
     super(theRoot);
     if (theLoader == null) {
@@ -32,6 +43,13 @@ public class CustomClassLoaderConstructor extends Constructor {
     this.loader = theLoader;
   }
 
+  /**
+   * Load the class
+   *
+   * @param name - the name
+   * @return Class to create
+   * @throws ClassNotFoundException - when cannot load the class
+   */
   @Override
   protected Class<?> getClassForName(String name) throws ClassNotFoundException {
     return Class.forName(name, true, loader);

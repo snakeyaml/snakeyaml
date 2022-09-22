@@ -46,6 +46,11 @@ public class CompactData {
     return prefix;
   }
 
+  /**
+   * Getter
+   *
+   * @return properties
+   */
   public Map<String, String> getProperties() {
     return properties;
   }

@@ -194,6 +194,11 @@ public abstract class BaseRepresenter {
     this.defaultScalarStyle = defaultStyle;
   }
 
+  /**
+   * getter
+   *
+   * @return scala style
+   */
   public ScalarStyle getDefaultScalarStyle() {
     if (defaultScalarStyle == null) {
       return ScalarStyle.PLAIN;

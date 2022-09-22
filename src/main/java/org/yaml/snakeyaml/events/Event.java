@@ -21,6 +21,9 @@ import org.yaml.snakeyaml.error.Mark;
  */
 public abstract class Event {
 
+  /**
+   * Event types
+   */
   public enum ID {
     Alias, Comment, DocumentEnd, DocumentStart, MappingEnd, MappingStart, Scalar, SequenceEnd, SequenceStart, StreamEnd, StreamStart
   }
@@ -28,6 +31,12 @@ public abstract class Event {
   private final Mark startMark;
   private final Mark endMark;
 
+  /**
+   * Create
+   *
+   * @param startMark - start
+   * @param endMark - end
+   */
   public Event(Mark startMark, Mark endMark) {
     this.startMark = startMark;
     this.endMark = endMark;
@@ -37,10 +46,20 @@ public abstract class Event {
     return "<" + this.getClass().getName() + "(" + getArguments() + ")>";
   }
 
+  /**
+   * getter
+   *
+   * @return start
+   */
   public Mark getStartMark() {
     return startMark;
   }
 
+  /**
+   * getter
+   *
+   * @return end
+   */
   public Mark getEndMark() {
     return endMark;
   }

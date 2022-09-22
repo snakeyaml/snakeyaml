@@ -67,7 +67,13 @@ import org.yaml.snakeyaml.util.ArrayStack;
  */
 public final class Emitter implements Emitable {
 
+  /**
+   * indent cannot be zero spaces
+   */
   public static final int MIN_INDENT = 1;
+  /**
+   * indent should not be more than 10 spaces
+   */
   public static final int MAX_INDENT = 10;
   private static final char[] SPACE = {' '};
 
@@ -183,6 +189,12 @@ public final class Emitter implements Emitable {
   private final CommentEventsCollector inlineCommentsCollector;
 
 
+  /**
+   * Create
+   *
+   * @param stream - output to write to
+   * @param opts - options
+   */
   public Emitter(Writer stream, DumperOptions opts) {
     // The stream should have the methods `write` and possibly `flush`.
     this.stream = stream;

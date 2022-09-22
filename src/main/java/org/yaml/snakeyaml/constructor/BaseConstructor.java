@@ -423,6 +423,13 @@ public abstract class BaseConstructor {
   // <<<< NEW instance
 
   // >>>> Construct => NEW, 2ndStep(filling)
+
+  /**
+   * Create List and fill it with data
+   *
+   * @param node - the source
+   * @return filled List
+   */
   protected List<? extends Object> constructSequence(SequenceNode node) {
     List<Object> result = newList(node);
     constructSequenceStep2(node, result);
@@ -451,6 +458,12 @@ public abstract class BaseConstructor {
     return constructArrayStep2(node, createArray(node.getType(), node.getValue().size()));
   }
 
+  /**
+   * Fill the provided collection with the data from the Node
+   *
+   * @param node - the source
+   * @param collection - data to fill
+   */
   protected void constructSequenceStep2(SequenceNode node, Collection<Object> collection) {
     for (Node child : node.getValue()) {
       collection.add(constructObject(child));

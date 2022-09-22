@@ -50,6 +50,12 @@ public final class MappingStartEvent extends CollectionStartEvent {
     this(anchor, tag, implicit, startMark, endMark, DumperOptions.FlowStyle.fromBoolean(flowStyle));
   }
 
+
+  /**
+   * getter
+   *
+   * @return its identity
+   */
   @Override
   public Event.ID getEventId() {
     return ID.MappingStart;

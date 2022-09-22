@@ -15,8 +15,18 @@ package org.yaml.snakeyaml.constructor;
 
 import org.yaml.snakeyaml.error.Mark;
 
+/**
+ * Indicate mapping with the same key
+ */
 public class DuplicateKeyException extends ConstructorException {
 
+  /**
+   * Create
+   *
+   * @param contextMark - context location
+   * @param key - the key which is not unique
+   * @param problemMark - the problem location
+   */
   protected DuplicateKeyException(Mark contextMark, Object key, Mark problemMark) {
     super("while constructing a mapping", contextMark, "found duplicate key " + key, problemMark);
   }

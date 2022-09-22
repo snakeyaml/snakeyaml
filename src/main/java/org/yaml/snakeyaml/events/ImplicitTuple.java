@@ -24,6 +24,12 @@ public class ImplicitTuple {
   private final boolean plain;
   private final boolean nonPlain;
 
+  /**
+   * Create
+   *
+   * @param plain - true when tag can be omitted in plain
+   * @param nonplain - true when tag can be omitted in non-plain
+   */
   public ImplicitTuple(boolean plain, boolean nonplain) {
     this.plain = plain;
     this.nonPlain = nonplain;
@@ -43,6 +49,11 @@ public class ImplicitTuple {
     return nonPlain;
   }
 
+  /**
+   * getter
+   *
+   * @return true when both are false
+   */
   public boolean bothFalse() {
     return !plain && !nonPlain;
   }

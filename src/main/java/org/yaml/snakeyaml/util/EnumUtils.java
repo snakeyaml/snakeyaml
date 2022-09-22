@@ -13,6 +13,9 @@
  */
 package org.yaml.snakeyaml.util;
 
+/**
+ * Helper
+ */
 public class EnumUtils {
 
   /**

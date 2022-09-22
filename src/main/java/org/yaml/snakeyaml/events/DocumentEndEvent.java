@@ -25,15 +25,32 @@ public final class DocumentEndEvent extends Event {
 
   private final boolean explicit;
 
+  /**
+   * Create
+   *
+   * @param startMark - start
+   * @param endMark - end
+   * @param explicit - true when it is present in the document, false for implicitly added
+   */
   public DocumentEndEvent(Mark startMark, Mark endMark, boolean explicit) {
     super(startMark, endMark);
     this.explicit = explicit;
   }
 
+  /**
+   * getter
+   *
+   * @return true when document end is present in the document
+   */
   public boolean getExplicit() {
     return explicit;
   }
 
+  /**
+   * getter
+   *
+   * @return its identity
+   */
   @Override
   public Event.ID getEventId() {
     return ID.DocumentEnd;
