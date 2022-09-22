@@ -72,7 +72,7 @@ public final class Emitter implements Emitable {
   private static final char[] SPACE = {' '};
 
   private static final Pattern SPACES_PATTERN = Pattern.compile("\\s");
-  private static final Set<Character> INVALID_ANCHOR = new HashSet();
+  private static final Set<Character> INVALID_ANCHOR = new HashSet<Character>();
 
   static {
     INVALID_ANCHOR.add('[');

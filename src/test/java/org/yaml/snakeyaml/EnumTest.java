@@ -164,7 +164,7 @@ public class EnumTest extends TestCase {
   }
 
   public void testLoadEnumBean2() {
-    Constructor c = new Constructor();
+    Constructor c = new Constructor(new LoaderOptions());
     TypeDescription td = new TypeDescription(EnumBean.class);
     td.putMapPropertyType("map", Suit.class, Object.class);
     c.addTypeDescription(td);

@@ -59,7 +59,7 @@ public class EnumBeanGenTest extends TestCase {
     TypeDescription td = new TypeDescription(EnumBeanGen.class);
     td.substituteProperty("suit", Suit.class, null, null);
 
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     constructor.addTypeDescription(td);
     Yaml yaml = new Yaml(constructor);
 
@@ -77,7 +77,7 @@ public class EnumBeanGenTest extends TestCase {
   }
 
   public void testLoadNoTags() {
-    Constructor c = new Constructor();
+    Constructor c = new Constructor(new LoaderOptions());
     TypeDescription td = new TypeDescription(EnumBeanGen.class);
     td.substituteProperty("suit", Suit.class, null, null);
     td.substituteProperty(new PropertySubstitute("map", null, Suit.class, Object.class));

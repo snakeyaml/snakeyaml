@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -180,7 +181,7 @@ public class MergeJavaBeanTest extends TestCase {
     String input =
         "- &id001 { age: 11, id: id123 }\n- !!org.yaml.snakeyaml.issues.issue100.Data\n  <<: *id001\n  id: id456";
     // System.out.println(input);
-    Yaml yaml = new Yaml(new Constructor());
+    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()));
     List<Object> objects = yaml.load(input);
     assertEquals(2, objects.size());
     // Check first type

@@ -34,6 +34,7 @@ public class Example2_24Test extends TestCase {
   class MyConstructor extends Constructor {
 
     public MyConstructor() {
+      super(new LoaderOptions());
       this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:shape"), new ConstructShape());
       this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:circle"), new ConstructCircle());
       this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:line"), new ConstructLine());

@@ -17,11 +17,22 @@ import java.util.Objects;
 import org.yaml.snakeyaml.comments.CommentType;
 import org.yaml.snakeyaml.error.Mark;
 
+/**
+ * Comment for humans
+ */
 public final class CommentToken extends Token {
 
   private final CommentType type;
   private final String value;
 
+  /**
+   * Create
+   *
+   * @param type - kind
+   * @param value - text
+   * @param startMark - start
+   * @param endMark - end
+   */
   public CommentToken(CommentType type, String value, Mark startMark, Mark endMark) {
     super(startMark, endMark);
     Objects.requireNonNull(type);
@@ -34,6 +45,11 @@ public final class CommentToken extends Token {
     return this.type;
   }
 
+  /**
+   * getter
+   *
+   * @return text
+   */
   public String getValue() {
     return this.value;
   }

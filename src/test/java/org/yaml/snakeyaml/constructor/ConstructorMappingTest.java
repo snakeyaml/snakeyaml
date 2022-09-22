@@ -17,6 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.parser.ParserImpl;
@@ -42,7 +43,7 @@ public class ConstructorMappingTest extends TestCase {
   }
 
   private Object construct(String data) {
-    return construct(new Constructor(), data);
+    return construct(new Constructor(new LoaderOptions()), data);
   }
 
   private Object construct(Constructor constructor, String data) {
@@ -55,6 +56,10 @@ public class ConstructorMappingTest extends TestCase {
   }
 
   class CustomConstructor extends Constructor {
+
+    public CustomConstructor() {
+      super(new LoaderOptions());
+    }
 
     @Override
     protected Map<Object, Object> createDefaultMap(int initSize) {

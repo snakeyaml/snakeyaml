@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.representer.Representer;
@@ -26,8 +27,8 @@ public class CustomResolverTest extends TestCase {
   public void testResolverToDump() {
     Map<Object, Object> map = new HashMap<Object, Object>();
     map.put("1.0", "2009-01-01");
-    Yaml yaml =
-        new Yaml(new Constructor(), new Representer(), new DumperOptions(), new CustomResolver());
+    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(),
+        new DumperOptions(), new CustomResolver());
     String output = yaml.dump(map);
     assertEquals("{1.0: 2009-01-01}\n", output);
     assertEquals("Float and Date must be escaped.", "{'1.0': '2009-01-01'}\n",
@@ -36,8 +37,8 @@ public class CustomResolverTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testResolverToLoad() {
-    Yaml yaml =
-        new Yaml(new Constructor(), new Representer(), new DumperOptions(), new CustomResolver());
+    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(),
+        new DumperOptions(), new CustomResolver());
     Map<Object, Object> map = yaml.load("1.0: 2009-01-01");
     assertEquals(1, map.size());
     assertEquals("2009-01-01", map.get("1.0"));
@@ -54,8 +55,8 @@ public class CustomResolverTest extends TestCase {
    * https://bitbucket.org/snakeyaml/snakeyaml/issues/454/snakeyaml-implicitly-converts-time-into
    */
   public void testResolverToLoadNoTime() {
-    Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
-        new NoTimeIntResolver());
+    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(),
+        new DumperOptions(), new NoTimeIntResolver());
     Map<Object, Object> map = yaml.load("a: 17:00:00\nb: 17");
     assertEquals(2, map.size());
     assertEquals("17:00:00", map.get("a"));
@@ -63,8 +64,8 @@ public class CustomResolverTest extends TestCase {
   }
 
   public void testJsonBooleanResolverToLoad() {
-    Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(),
-        new JsonBooleanResolver());
+    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(),
+        new DumperOptions(), new JsonBooleanResolver());
     Map<Object, Object> map = yaml.load("no: true");
     assertEquals(1, map.size());
     assertEquals(true, map.get("no"));

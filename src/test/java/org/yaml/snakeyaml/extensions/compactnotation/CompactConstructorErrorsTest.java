@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.extensions.compactnotation;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
@@ -24,7 +25,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 public class CompactConstructorErrorsTest extends TestCase {
 
   public void test1() {
-    BaseConstructor compact = new CompactConstructor();
+    BaseConstructor compact = new CompactConstructor(new LoaderOptions());
     Yaml yaml = new Yaml(compact);
     String doc = Util.getLocalResource("compactnotation/error1.yaml");
     try {

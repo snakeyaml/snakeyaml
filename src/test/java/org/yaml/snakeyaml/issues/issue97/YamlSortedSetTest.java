@@ -19,6 +19,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import org.junit.Assert;
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -106,6 +107,7 @@ public class YamlSortedSetTest {
   private class SetContructor extends Constructor {
 
     public SetContructor() {
+      super(new LoaderOptions());
       yamlClassConstructors.put(NodeId.sequence, new ConstructSetFromSequence());
     }
 

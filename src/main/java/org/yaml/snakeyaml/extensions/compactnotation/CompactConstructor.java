@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -41,6 +42,14 @@ public class CompactConstructor extends Constructor {
   private static final Pattern PROPERTY_NAME_PATTERN =
       Pattern.compile("\\s*(\\p{Alpha}\\w*)\\s*=(.+)");
   private Construct compactConstruct;
+
+  public CompactConstructor(LoaderOptions loadingConfig) {
+    super(loadingConfig);
+  }
+
+  public CompactConstructor() {
+    super(new LoaderOptions());
+  }
 
   protected Object constructCompactFormat(ScalarNode node, CompactData data) {
     try {
@@ -153,6 +162,9 @@ public class CompactConstructor extends Constructor {
     return super.getConstructor(node);
   }
 
+  /**
+   * Custom ConstructMapping
+   */
   public class ConstructCompactObject extends ConstructMapping {
 
     @Override

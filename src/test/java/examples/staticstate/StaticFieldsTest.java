@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.Property;
@@ -94,6 +95,10 @@ public class StaticFieldsTest extends TestCase {
   private class MyConstructor extends Constructor {
 
     private final Tag JBWSS = new Tag(JavaBeanWithStaticState.class);
+
+    public MyConstructor() {
+      super(new LoaderOptions());
+    }
 
     protected Object constructObject(Node node) {
       if (JavaBeanWithStaticState.class.isAssignableFrom(node.getType())

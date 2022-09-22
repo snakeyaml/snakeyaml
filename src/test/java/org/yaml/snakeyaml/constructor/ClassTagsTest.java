@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.constructor;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -68,7 +69,7 @@ public class ClassTagsTest extends TestCase {
   }
 
   public void testLoadClassTag() {
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
     Yaml yaml = new Yaml(constructor);
     String source = Util.getLocalResource("constructor/car-without-tags.yaml");
@@ -80,7 +81,7 @@ public class ClassTagsTest extends TestCase {
   }
 
   public void testNullDescription() {
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     try {
       constructor.addTypeDescription(null);
       fail("Description is required.");

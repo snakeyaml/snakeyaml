@@ -35,6 +35,11 @@ public class AnchorNode extends Node {
     return NodeId.anchor;
   }
 
+  /**
+   * Getter
+   *
+   * @return node with data
+   */
   public Node getRealNode() {
     return realNode;
   }

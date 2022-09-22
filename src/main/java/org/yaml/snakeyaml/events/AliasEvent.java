@@ -24,8 +24,8 @@ public final class AliasEvent extends NodeEvent {
    * Create Alias
    *
    * @param anchor - cannot be null
-   * @param startMark
-   * @param endMark
+   * @param startMark - start
+   * @param endMark - end
    */
   public AliasEvent(String anchor, Mark startMark, Mark endMark) {
     super(anchor, startMark, endMark);

@@ -384,7 +384,7 @@ public class HumanTest extends TestCase {
   public void testChildrenSetAsRoot() {
     String etalon = Util.getLocalResource("recursive/with-children-as-set.yaml");
 
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     TypeDescription humanDescription = new TypeDescription(Human.class);
     humanDescription.putMapPropertyType("children", Human.class, Object.class);
     constructor.addTypeDescription(humanDescription);
@@ -420,7 +420,7 @@ public class HumanTest extends TestCase {
   public void testChildrenMapAsRoot() {
     String etalon = Util.getLocalResource("recursive/with-children-as-map.yaml");
 
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     TypeDescription Human2Description = new TypeDescription(Human2.class);
     Human2Description.putMapPropertyType("children", Human2.class, String.class);
     constructor.addTypeDescription(Human2Description);
@@ -487,7 +487,7 @@ public class HumanTest extends TestCase {
     mother.setChildren(children);
     //
 
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     TypeDescription Human3Description = new TypeDescription(Human3.class);
     Human3Description.putListPropertyType("children", Human3.class);
     constructor.addTypeDescription(Human3Description);

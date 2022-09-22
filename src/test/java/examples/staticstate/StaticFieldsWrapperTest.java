@@ -14,6 +14,7 @@
 package examples.staticstate;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -63,7 +64,7 @@ public class StaticFieldsWrapperTest extends TestCase {
     // System.out.println(output);
     assertEquals("!mybean {age: -47, color: Violet, name: Bahrack, type: Type3}\n", output);
     // parse back to instance
-    Constructor constr = new Constructor();
+    Constructor constr = new Constructor(new LoaderOptions());
     TypeDescription description = new TypeDescription(Wrapper.class, new Tag("!mybean"));
     constr.addTypeDescription(description);
     yaml = new Yaml(constr);

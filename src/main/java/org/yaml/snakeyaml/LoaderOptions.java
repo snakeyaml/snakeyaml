@@ -95,6 +95,7 @@ public class LoaderOptions {
    * Set the comment processing. By default, comments are ignored.
    *
    * @param processComments <code>true</code> to process; <code>false</code> to ignore
+   * @return applied options
    */
   public LoaderOptions setProcessComments(boolean processComments) {
     this.processComments = processComments;

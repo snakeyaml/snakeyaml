@@ -23,10 +23,11 @@ public final class AliasToken extends Token {
   private final String value;
 
   /**
+   * Alias
    *
-   * @param value
-   * @param startMark
-   * @param endMark
+   * @param value - alias
+   * @param startMark - start
+   * @param endMark - end
    */
   public AliasToken(String value, Mark startMark, Mark endMark) {
     super(startMark, endMark);
@@ -36,6 +37,11 @@ public final class AliasToken extends Token {
     this.value = value;
   }
 
+  /**
+   * getter
+   *
+   * @return alias
+   */
   public String getValue() {
     return this.value;
   }

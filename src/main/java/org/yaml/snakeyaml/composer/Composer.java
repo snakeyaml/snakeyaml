@@ -52,6 +52,9 @@ import org.yaml.snakeyaml.resolver.Resolver;
  */
 public class Composer {
 
+  /**
+   * its parser
+   */
   protected final Parser parser;
   private final Resolver resolver;
   private final Map<String, Node> anchors;

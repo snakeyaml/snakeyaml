@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -26,7 +27,7 @@ public class PropertyWithoutGetterTest {
 
   @Test
   public void testPublicFooWithPublicFields() {
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     constructor.addTypeDescription(new TypeDescription(PublicFooWithPublicFields.class, "!foo"));
     Yaml yaml = new Yaml(constructor);
 
@@ -41,7 +42,7 @@ public class PropertyWithoutGetterTest {
 
   @Test
   public void testStaticFooWithoutGetter() {
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     constructor.addTypeDescription(new TypeDescription(StaticFooWithoutGetter.class, "!foo"));
     Yaml yaml = new Yaml(constructor);
 
@@ -57,7 +58,7 @@ public class PropertyWithoutGetterTest {
 
   @Test
   public void testStaticFooWithGetter() {
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     constructor.addTypeDescription(new TypeDescription(StaticFooWithGetter.class, "!foo"));
     Yaml yaml = new Yaml(constructor);
 

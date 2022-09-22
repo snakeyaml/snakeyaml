@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -94,6 +95,7 @@ public class BooleanEnumTest {
   class MyConstructor extends Constructor {
 
     public MyConstructor() {
+      super(new LoaderOptions());
       this.yamlClassConstructors.put(NodeId.scalar, new ConstructEnum());
     }
 

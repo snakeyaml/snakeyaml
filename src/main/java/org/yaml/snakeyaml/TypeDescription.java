@@ -48,7 +48,7 @@ public class TypeDescription {
   // If not set - TypeDescription will leave instantiation of an entity to the YAML Constructor
   private Class<?> impl;
 
-  private Tag tag;
+  private final Tag tag;
 
   private transient Set<Property> dumpProperties;
   private transient PropertyUtils propertyUtils;

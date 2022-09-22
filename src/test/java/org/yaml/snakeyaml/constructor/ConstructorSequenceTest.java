@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.constructor;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.parser.Parser;
@@ -58,7 +59,7 @@ public class ConstructorSequenceTest extends TestCase {
   }
 
   private List<Object> construct(String data) {
-    return construct(new Constructor(), data);
+    return construct(new Constructor(new LoaderOptions()), data);
   }
 
   @SuppressWarnings("unchecked")
@@ -73,6 +74,10 @@ public class ConstructorSequenceTest extends TestCase {
   }
 
   class CustomConstructor extends Constructor {
+
+    public CustomConstructor() {
+      super(new LoaderOptions());
+    }
 
     @Override
     protected List<Object> createDefaultList(int initSize) {

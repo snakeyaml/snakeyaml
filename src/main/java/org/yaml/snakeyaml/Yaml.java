@@ -61,8 +61,7 @@ public class Yaml {
    * Create Yaml instance.
    */
   public Yaml() {
-    this(new Constructor(), new Representer(), new DumperOptions(), new LoaderOptions(),
-        new Resolver());
+    this(new Constructor(new LoaderOptions()), new Representer(new DumperOptions()));
   }
 
   /**
@@ -71,7 +70,7 @@ public class Yaml {
    * @param dumperOptions DumperOptions to configure outgoing objects
    */
   public Yaml(DumperOptions dumperOptions) {
-    this(new Constructor(), new Representer(dumperOptions), dumperOptions);
+    this(new Constructor(new LoaderOptions()), new Representer(dumperOptions), dumperOptions);
   }
 
   /**
@@ -89,7 +88,7 @@ public class Yaml {
    * @param representer Representer to emit outgoing objects
    */
   public Yaml(Representer representer) {
-    this(new Constructor(), representer);
+    this(new Constructor(new LoaderOptions()), representer);
   }
 
   /**
@@ -128,7 +127,7 @@ public class Yaml {
    * @param dumperOptions DumperOptions to configure outgoing objects
    */
   public Yaml(Representer representer, DumperOptions dumperOptions) {
-    this(new Constructor(), representer, dumperOptions, new LoaderOptions(), new Resolver());
+    this(new Constructor(new LoaderOptions()), representer, dumperOptions);
   }
 
   /**

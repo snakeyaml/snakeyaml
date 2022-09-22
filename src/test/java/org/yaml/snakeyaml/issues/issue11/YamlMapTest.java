@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue11;
 import java.util.Map;
 import java.util.TreeMap;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -132,6 +133,7 @@ public class YamlMapTest extends TestCase {
   public static class ExtendedConstructor extends Constructor {
 
     public ExtendedConstructor() {
+      super(new LoaderOptions());
       this.yamlConstructors.put(new Tag("!Custom"), new ConstructCustom());
     }
 

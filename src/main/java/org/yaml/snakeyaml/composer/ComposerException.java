@@ -16,10 +16,21 @@ package org.yaml.snakeyaml.composer;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.MarkedYAMLException;
 
+/**
+ * Exception during compose phase
+ */
 public class ComposerException extends MarkedYAMLException {
 
   private static final long serialVersionUID = 2146314636913113935L;
 
+  /**
+   * Create
+   *
+   * @param context - context
+   * @param contextMark - mark
+   * @param problem - the issue
+   * @param problemMark - where the issue occurs
+   */
   protected ComposerException(String context, Mark contextMark, String problem, Mark problemMark) {
     super(context, contextMark, problem, problemMark);
   }

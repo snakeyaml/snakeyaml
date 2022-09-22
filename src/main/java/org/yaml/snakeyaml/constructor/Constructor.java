@@ -41,10 +41,21 @@ import org.yaml.snakeyaml.util.EnumUtils;
  */
 public class Constructor extends SafeConstructor {
 
+  /**
+   * Create
+   *
+   * @deprecated use options
+   */
+  @Deprecated
   public Constructor() {
     this(Object.class);
   }
 
+  /**
+   * Create with options
+   *
+   * @param loadingConfig - config
+   */
   public Constructor(LoaderOptions loadingConfig) {
     this(Object.class, loadingConfig);
   }

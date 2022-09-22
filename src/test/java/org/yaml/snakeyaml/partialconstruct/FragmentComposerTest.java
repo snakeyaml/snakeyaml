@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.partialconstruct;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.parser.ParserImpl;
@@ -29,7 +30,7 @@ public class FragmentComposerTest extends TestCase {
 
     StreamReader reader = new StreamReader(document);
     Composer composer = new FragmentComposer(new ParserImpl(reader), new Resolver(), "developer");
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     constructor.setComposer(composer);
     DeveloperBean developer = (DeveloperBean) constructor.getSingleData(DeveloperBean.class);
     assertEquals("Bjarne Stroustrup", developer.name);

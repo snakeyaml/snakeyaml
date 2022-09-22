@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue154;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -57,7 +58,7 @@ public class MissingPropertyTest extends TestCase {
   public void testSkipMissingProperties() throws Exception {
     Representer representer = new Representer();
     representer.getPropertyUtils().setSkipMissingProperties(true);
-    yaml = new Yaml(new Constructor(), representer);
+    yaml = new Yaml(new Constructor(new LoaderOptions()), representer);
     String doc = "goodbye: 10\nhello: 5\nfizz: [1]";
     TestBean bean = yaml.loadAs(doc, TestBean.class);
     assertNotNull(bean);
@@ -72,7 +73,7 @@ public class MissingPropertyTest extends TestCase {
     try {
       Representer representer = new Representer();
       representer.getPropertyUtils().setSkipMissingProperties(false);
-      yaml = new Yaml(new Constructor(), representer);
+      yaml = new Yaml(new Constructor(new LoaderOptions()), representer);
       String doc = "goodbye: 10";
       yaml.loadAs(doc, TestBean.class);
     } catch (YAMLException e) {

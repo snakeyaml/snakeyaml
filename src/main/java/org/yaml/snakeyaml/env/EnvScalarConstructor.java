@@ -46,6 +46,7 @@ public class EnvScalarConstructor extends Constructor {
    * For simple cases when no JavaBeans are needed
    */
   public EnvScalarConstructor() {
+    super(new LoaderOptions());
     this.yamlConstructors.put(ENV_TAG, new ConstructEnv());
   }
 

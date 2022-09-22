@@ -45,6 +45,9 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
 
+/**
+ * Base code
+ */
 public abstract class BaseConstructor {
 
   /**
@@ -70,12 +73,18 @@ public abstract class BaseConstructor {
    */
   protected final Map<String, Construct> yamlMultiConstructors = new HashMap<String, Construct>();
 
+  /**
+   * No graph creator
+   */
   protected Composer composer;
   final Map<Node, Object> constructedObjects;
   private final Set<Node> recursiveObjects;
   private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>> maps2fill;
   private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
 
+  /**
+   * the tag for the root node
+   */
   protected Tag rootTag;
   private PropertyUtils propertyUtils;
   private boolean explicitPropertyUtils;
@@ -84,15 +93,34 @@ public abstract class BaseConstructor {
 
   private boolean enumCaseSensitive = false;
 
+  /**
+   * Mapping from a class to its manager
+   */
   protected final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
+  /**
+   * register classes for tags
+   */
   protected final Map<Tag, Class<? extends Object>> typeTags;
 
+  /**
+   * options
+   */
   protected LoaderOptions loadingConfig;
 
+  /**
+   * Create
+   *
+   * @deprecated use the options
+   */
+  @Deprecated
   public BaseConstructor() {
     this(new LoaderOptions());
   }
 
+  /**
+   * Create
+   * @param loadingConfig - options
+   */
   public BaseConstructor(LoaderOptions loadingConfig) {
     constructedObjects = new HashMap<Node, Object>();
     recursiveObjects = new HashSet<Node>();
@@ -388,12 +416,22 @@ public abstract class BaseConstructor {
     return result;
   }
 
+  /**
+   * create Set from sequence
+   * @param node - sequence
+   * @return constructed Set
+   */
   protected Set<? extends Object> constructSet(SequenceNode node) {
     Set<Object> result = newSet(node);
     constructSequenceStep2(node, result);
     return result;
   }
 
+  /**
+   * Create array from sequence
+   * @param node - sequence
+   * @return constructed array
+   */
   protected Object constructArray(SequenceNode node) {
     return constructArrayStep2(node, createArray(node.getType(), node.getValue().size()));
   }
@@ -461,18 +499,33 @@ public abstract class BaseConstructor {
     return array;
   }
 
+  /**
+   * Create Set from mapping
+   * @param node - mapping
+   * @return constructed Set
+   */
   protected Set<Object> constructSet(MappingNode node) {
     final Set<Object> set = newSet(node);
     constructSet2ndStep(node, set);
     return set;
   }
 
+  /**
+   * Create Map from mapping
+   * @param node - mapping
+   * @return constructed Map
+   */
   protected Map<Object, Object> constructMapping(MappingNode node) {
     final Map<Object, Object> mapping = newMap(node);
     constructMapping2ndStep(node, mapping);
     return mapping;
   }
 
+  /**
+   * Fill provided Map with constructed data
+   * @param node - source
+   * @param mapping - map to fill
+   */
   protected void constructMapping2ndStep(MappingNode node, Map<Object, Object> mapping) {
     List<NodeTuple> nodeValue = node.getValue();
     for (NodeTuple tuple : nodeValue) {

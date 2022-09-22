@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Construct;
@@ -61,6 +62,7 @@ public class JodaTimeExampleTest extends TestCase {
   class JodaPropertyConstructor extends Constructor {
 
     public JodaPropertyConstructor() {
+      super(new LoaderOptions());
       yamlClassConstructors.put(NodeId.scalar, new TimeStampConstruct());
     }
 
@@ -88,6 +90,7 @@ public class JodaTimeExampleTest extends TestCase {
     private final Construct jodaDateConstruct;
 
     public JodaTimeConstructor() {
+      super(new LoaderOptions());
       javaDateConstruct = new ConstructYamlTimestamp();
       jodaDateConstruct = new ConstructJodaTimestamp();
       // Whenever we see an explicit timestamp tag, make a Joda Date

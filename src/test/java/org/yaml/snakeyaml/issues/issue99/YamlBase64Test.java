@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlDocument;
@@ -112,6 +113,7 @@ public class YamlBase64Test extends TestCase {
   private class SpecialContructor extends Constructor {
 
     public SpecialContructor(Tag tag) {
+      super(new LoaderOptions());
       this.yamlConstructors.put(tag, new MyBinaryConstructor());
     }
 
