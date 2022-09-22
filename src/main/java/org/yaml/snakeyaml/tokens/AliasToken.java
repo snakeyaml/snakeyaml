@@ -15,12 +15,24 @@ package org.yaml.snakeyaml.tokens;
 
 import org.yaml.snakeyaml.error.Mark;
 
+/**
+ * Alias
+ */
 public final class AliasToken extends Token {
 
   private final String value;
 
+  /**
+   *
+   * @param value
+   * @param startMark
+   * @param endMark
+   */
   public AliasToken(String value, Mark startMark, Mark endMark) {
     super(startMark, endMark);
+    if (value == null) {
+      throw new NullPointerException("alias is expected");
+    }
     this.value = value;
   }
 

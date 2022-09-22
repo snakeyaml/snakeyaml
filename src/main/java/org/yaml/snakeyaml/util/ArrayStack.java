@@ -15,6 +15,11 @@ package org.yaml.snakeyaml.util;
 
 import java.util.ArrayList;
 
+/**
+ * Custom stack
+ *
+ * @param <T>
+ */
 public class ArrayStack<T> {
 
   private final ArrayList<T> stack;

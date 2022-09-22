@@ -15,7 +15,16 @@ package org.yaml.snakeyaml.serializer;
 
 import org.yaml.snakeyaml.nodes.Node;
 
+/**
+ * Support different anchors
+ */
 public interface AnchorGenerator {
 
+  /**
+   * Create a custom anchor to the provided Node
+   *
+   * @param node - the data to anchor
+   * @return value to be used in the YAML document
+   */
   String nextAnchor(Node node);
 }

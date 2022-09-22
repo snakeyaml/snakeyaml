@@ -20,6 +20,13 @@ import org.yaml.snakeyaml.error.Mark;
  */
 public final class AliasEvent extends NodeEvent {
 
+  /**
+   * Create Alias
+   *
+   * @param anchor - cannot be null
+   * @param startMark
+   * @param endMark
+   */
   public AliasEvent(String anchor, Mark startMark, Mark endMark) {
     super(anchor, startMark, endMark);
     if (anchor == null) {
