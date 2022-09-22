@@ -41,6 +41,11 @@ public final class CommentToken extends Token {
     this.value = value;
   }
 
+  /**
+   * getter
+   *
+   * @return the kind
+   */
   public CommentType getCommentType() {
     return this.type;
   }

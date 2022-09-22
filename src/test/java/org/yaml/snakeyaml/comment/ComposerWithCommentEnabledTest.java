@@ -161,9 +161,9 @@ public class ComposerWithCommentEnabledTest {
   }
 
   public Composer newComposerWithCommentsEnabled(String data) {
-    return new Composer(
-        new ParserImpl(new StreamReader(data), new LoaderOptions().setProcessComments(true)),
-        new Resolver());
+    LoaderOptions loaderOptions = new LoaderOptions().setProcessComments(true);
+    return new Composer(new ParserImpl(new StreamReader(data), loaderOptions), new Resolver(),
+        loaderOptions);
   }
 
   @Test

@@ -181,8 +181,8 @@ public class PyStructureTest extends PyImportTest {
   }
 
   private List<Node> compose_all(InputStream file) {
-    Composer composer =
-        new Composer(new ParserImpl(new StreamReader(new UnicodeReader(file))), new Resolver());
+    Composer composer = new Composer(new ParserImpl(new StreamReader(new UnicodeReader(file))),
+        new Resolver(), new LoaderOptions());
     List<Node> documents = new ArrayList<Node>();
     while (composer.checkNode()) {
       documents.add(composer.getNode());
@@ -199,7 +199,7 @@ public class PyStructureTest extends PyImportTest {
     }
     CanonicalParser parser =
         new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n"));
-    Composer composer = new Composer(parser, new Resolver());
+    Composer composer = new Composer(parser, new Resolver(), new LoaderOptions());
     List<Node> documents = new ArrayList<Node>();
     while (composer.checkNode()) {
       documents.add(composer.getNode());
@@ -223,7 +223,7 @@ public class PyStructureTest extends PyImportTest {
       }
       CanonicalParser parser =
           new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n"));
-      Composer composer = new Composer(parser, resolver);
+      Composer composer = new Composer(parser, resolver, new LoaderOptions());
       this.constructor.setComposer(composer);
       Iterator<Object> result = new Iterator<Object>() {
         public boolean hasNext() {

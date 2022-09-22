@@ -50,7 +50,7 @@ public class ConstructorMappingTest extends TestCase {
     StreamReader reader = new StreamReader(data);
     Parser parser = new ParserImpl(reader);
     Resolver resolver = new Resolver();
-    Composer composer = new Composer(parser, resolver);
+    Composer composer = new Composer(parser, resolver, new LoaderOptions());
     constructor.setComposer(composer);
     return constructor.getSingleData(Object.class);
   }

@@ -43,10 +43,18 @@ public class CompactConstructor extends Constructor {
       Pattern.compile("\\s*(\\p{Alpha}\\w*)\\s*=(.+)");
   private Construct compactConstruct;
 
+  /**
+   * Create with provided options
+   *
+   * @param loadingConfig - options
+   */
   public CompactConstructor(LoaderOptions loadingConfig) {
     super(loadingConfig);
   }
 
+  /**
+   * Create with defaults
+   */
   public CompactConstructor() {
     super(new LoaderOptions());
   }

@@ -119,6 +119,7 @@ public abstract class BaseConstructor {
 
   /**
    * Create
+   *
    * @param loadingConfig - options
    */
   public BaseConstructor(LoaderOptions loadingConfig) {
@@ -252,6 +253,12 @@ public abstract class BaseConstructor {
     return constructObjectNoCheck(node);
   }
 
+  /**
+   * Construct object from the specified Node without the check if it was already created.
+   *
+   * @param node - the source
+   * @return constructed instance
+   */
   protected Object constructObjectNoCheck(Node node) {
     if (recursiveObjects.contains(node)) {
       throw new ConstructorException(null, null, "found unconstructable recursive node",
@@ -418,6 +425,7 @@ public abstract class BaseConstructor {
 
   /**
    * create Set from sequence
+   *
    * @param node - sequence
    * @return constructed Set
    */
@@ -429,6 +437,7 @@ public abstract class BaseConstructor {
 
   /**
    * Create array from sequence
+   *
    * @param node - sequence
    * @return constructed array
    */
@@ -442,6 +451,13 @@ public abstract class BaseConstructor {
     }
   }
 
+  /**
+   * Fill array from node
+   *
+   * @param node - the source
+   * @param array - the destination
+   * @return filled array
+   */
   protected Object constructArrayStep2(SequenceNode node, Object array) {
     final Class<?> componentType = node.getType().getComponentType();
 
@@ -501,6 +517,7 @@ public abstract class BaseConstructor {
 
   /**
    * Create Set from mapping
+   *
    * @param node - mapping
    * @return constructed Set
    */
@@ -512,6 +529,7 @@ public abstract class BaseConstructor {
 
   /**
    * Create Map from mapping
+   *
    * @param node - mapping
    * @return constructed Map
    */
@@ -523,6 +541,7 @@ public abstract class BaseConstructor {
 
   /**
    * Fill provided Map with constructed data
+   *
    * @param node - source
    * @param mapping - map to fill
    */

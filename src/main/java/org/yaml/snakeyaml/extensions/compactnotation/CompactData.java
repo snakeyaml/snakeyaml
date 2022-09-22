@@ -45,10 +45,20 @@ public class CompactData {
     return properties;
   }
 
+  /**
+   * getter
+   *
+   * @return arguments
+   */
   public List<String> getArguments() {
     return arguments;
   }
 
+  /**
+   * visual representation
+   *
+   * @return readable data
+   */
   @Override
   public String toString() {
     return "CompactData: " + prefix + " " + properties;

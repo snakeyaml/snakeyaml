@@ -59,6 +59,9 @@ public abstract class BaseRepresenter {
    * flow style to use if not redefined.
    */
   protected FlowStyle defaultFlowStyle = FlowStyle.AUTO;
+  /**
+   * Keep references of already represented instances
+   */
   protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>() {
     private static final long serialVersionUID = -5576159264232131854L;
 
