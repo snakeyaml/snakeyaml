@@ -94,28 +94,6 @@ public class TypeDescription {
   }
 
   /**
-   * Set tag to be used dump the type (class).
-   *
-   * @param tag - local or global tag
-   * @deprecated it will be removed because it is not used
-   */
-  @Deprecated
-  public void setTag(Tag tag) {
-    this.tag = tag;
-  }
-
-  /**
-   * Set tag to be used to dump the type (class).
-   *
-   * @param tag - local or global tag
-   * @deprecated it will be removed because it is not used
-   */
-  @Deprecated
-  public void setTag(String tag) {
-    setTag(new Tag(tag));
-  }
-
-  /**
    * Get represented type (class)
    *
    * @return type (class) to be described.
