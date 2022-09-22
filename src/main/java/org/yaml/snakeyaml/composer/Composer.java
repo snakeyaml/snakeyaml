@@ -74,10 +74,18 @@ public class Composer {
    * @param resolver - the resolver
    * @deprecated use options
    */
-   public Composer(Parser parser, Resolver resolver) {
-   this(parser, resolver, new LoaderOptions());
-   }
+  @Deprecated
+  public Composer(Parser parser, Resolver resolver) {
+    this(parser, resolver, new LoaderOptions());
+  }
 
+  /**
+   * Create
+   *
+   * @param parser - the parser
+   * @param resolver - the resolver
+   * @param loadingConfig - options
+   */
   public Composer(Parser parser, Resolver resolver, LoaderOptions loadingConfig) {
     this.parser = parser;
     this.resolver = resolver;

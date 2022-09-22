@@ -135,6 +135,11 @@ public class CompactConstructor extends Constructor {
     return null;
   }
 
+  /**
+   * Create if it does not exist
+   *
+   * @return instance
+   */
   private Construct getCompactConstruct() {
     if (compactConstruct == null) {
       compactConstruct = createCompactConstruct();
@@ -142,6 +147,11 @@ public class CompactConstructor extends Constructor {
     return compactConstruct;
   }
 
+  /**
+   * Create
+   *
+   * @return new instance
+   */
   protected Construct createCompactConstruct() {
     return new ConstructCompactObject();
   }

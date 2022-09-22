@@ -37,6 +37,11 @@ public class CompactData {
     this.prefix = prefix;
   }
 
+  /**
+   * getter
+   *
+   * @return prefix from the document
+   */
   public String getPrefix() {
     return prefix;
   }

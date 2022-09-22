@@ -69,8 +69,14 @@ public class Constructor extends SafeConstructor {
     this(new TypeDescription(checkRoot(theRoot)));
   }
 
+  /**
+   * Create
+   *
+   * @param theRoot - the class to create (to be the root of the YAML document)
+   * @param loadingConfig - options
+   */
   public Constructor(Class<? extends Object> theRoot, LoaderOptions loadingConfig) {
-    this(new TypeDescription(checkRoot(theRoot)), loadingConfig);
+    this(new TypeDescription(checkRoot(theRoot)), null, loadingConfig);
   }
 
   /**
@@ -84,16 +90,19 @@ public class Constructor extends SafeConstructor {
     }
   }
 
+  /**
+   * Create
+   *
+   * @param theRoot - the root class to create
+   * @deprecated use options
+   */
+  @Deprecated
   public Constructor(TypeDescription theRoot) {
     this(theRoot, null, new LoaderOptions());
   }
 
   public Constructor(TypeDescription theRoot, LoaderOptions loadingConfig) {
     this(theRoot, null, loadingConfig);
-  }
-
-  public Constructor(TypeDescription theRoot, Collection<TypeDescription> moreTDs) {
-    this(theRoot, moreTDs, new LoaderOptions());
   }
 
   /**
@@ -129,7 +138,7 @@ public class Constructor extends SafeConstructor {
    * from a Spring ApplicationContext.
    *
    * @param theRoot fully qualified class name of the root class (usually JavaBean)
-   * @throws ClassNotFoundException if cannot be loaded by the classloader
+   * @throws ClassNotFoundException if it cannot be loaded by the classloader
    */
   public Constructor(String theRoot) throws ClassNotFoundException {
     this(Class.forName(check(theRoot)));

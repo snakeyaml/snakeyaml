@@ -205,6 +205,11 @@ public abstract class BaseRepresenter {
     this.defaultFlowStyle = defaultFlowStyle;
   }
 
+  /**
+   * getter
+   *
+   * @return current flow style
+   */
   public FlowStyle getDefaultFlowStyle() {
     return this.defaultFlowStyle;
   }

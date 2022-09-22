@@ -302,6 +302,12 @@ public abstract class BaseConstructor {
     }
   }
 
+  /**
+   * Create string from scalar
+   *
+   * @param node - the source
+   * @return the data
+   */
   protected String constructScalar(ScalarNode node) {
     return node.getValue();
   }
