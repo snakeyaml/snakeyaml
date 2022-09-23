@@ -439,7 +439,7 @@ public class Yaml {
    * @return parsed object
    */
   @SuppressWarnings("unchecked")
-  public <T> T loadAs(Reader io, Class<T> type) {
+  public <T> T loadAs(Reader io, Class<? super T> type) {
     return (T) loadFromReader(new StreamReader(io), type);
   }
 
@@ -453,7 +453,7 @@ public class Yaml {
    * @return parsed object
    */
   @SuppressWarnings("unchecked")
-  public <T> T loadAs(String yaml, Class<T> type) {
+  public <T> T loadAs(String yaml, Class<? super T> type) {
     return (T) loadFromReader(new StreamReader(yaml), type);
   }
 
@@ -466,7 +466,7 @@ public class Yaml {
    * @return parsed object
    */
   @SuppressWarnings("unchecked")
-  public <T> T loadAs(InputStream input, Class<T> type) {
+  public <T> T loadAs(InputStream input, Class<? super T> type) {
     return (T) loadFromReader(new StreamReader(new UnicodeReader(input)), type);
   }
 

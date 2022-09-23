@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.33" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="556">
+                Yaml.LoadAs() signature to support Class&lt;? super T&gt; type instead of Class&lt;T&gt; (thanks to Matt D.)
+            </action>
             <action dev="asomov" type="fix" issue="553">
                 LoaderOptions.setCodePointLimit() not honored by loadAll() (thanks to Robert Patrick)
             </action>
