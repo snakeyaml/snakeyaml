@@ -548,10 +548,6 @@ public class ComposerWithCommentEnabledTest {
     assertNodesEqual(expected, result);
   }
 
-  private static class TestConstructor extends SafeConstructor {
-
-  }
-
   @Test
   public void testBaseConstructorGetData() {
     String data = "" + //
@@ -560,7 +556,7 @@ public class ComposerWithCommentEnabledTest {
         "\n" + //
         "\n";
 
-    TestConstructor sut = new TestConstructor();
+    SafeConstructor sut = new SafeConstructor(new LoaderOptions());
     sut.setComposer(newComposerWithCommentsEnabled(data));
     Object result = sut.getData();
     assertTrue(result instanceof LinkedHashMap);

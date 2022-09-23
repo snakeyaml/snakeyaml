@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.constructor;
 
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -53,6 +54,7 @@ public class PrefixConstructorTest extends TestCase {
   private class CustomConstructor extends SafeConstructor {
 
     public CustomConstructor() {
+      super(new LoaderOptions());
       // define tags which begin with !org.yaml.
       String prefix = "!org.yaml.";
       this.yamlMultiConstructors.put(prefix, new PrefixConstruct(prefix, CustomConstructor.this));

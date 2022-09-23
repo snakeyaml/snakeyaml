@@ -58,6 +58,7 @@ public class PerlTest extends TestCase {
   private class CustomConstructor extends SafeConstructor {
 
     public CustomConstructor() {
+      super(new LoaderOptions());
       // define tags which begin with !org.yaml.
       String prefix = "!de.oddb.org,2007/ODDB";
       this.yamlMultiConstructors.put(prefix, new ConstructYamlMap());

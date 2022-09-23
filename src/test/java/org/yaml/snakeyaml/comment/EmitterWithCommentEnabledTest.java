@@ -338,7 +338,8 @@ public class EmitterWithCommentEnabledTest {
     yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
     yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
     loaderOptions.setMaxAliasesForCollections(Integer.MAX_VALUE);
-    final Yaml yaml = new Yaml(new SafeConstructor(), yamlRepresenter, yamlOptions, loaderOptions);
+    final Yaml yaml =
+        new Yaml(new SafeConstructor(loaderOptions), yamlRepresenter, yamlOptions, loaderOptions);
 
     yaml.load(data);
   }

@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
 public class SafeConstructorTest extends TestCase {
@@ -27,12 +28,12 @@ public class SafeConstructorTest extends TestCase {
   }
 
   public void testSafeConstruct() {
-    Yaml yaml = new Yaml(new SafeConstructor());
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     assertEquals(3.1416, yaml.load("+3.1416"));
   }
 
   public void testSafeConstructJavaBean() {
-    Yaml yaml = new Yaml(new SafeConstructor());
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     String data = "--- !!org.yaml.snakeyaml.constructor.Person\nfirstName: Andrey\nage: 99";
     try {
       yaml.load(data);

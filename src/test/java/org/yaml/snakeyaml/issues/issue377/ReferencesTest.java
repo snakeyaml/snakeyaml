@@ -62,7 +62,7 @@ public class ReferencesTest {
     f.put(f, "a");
     f.put("g", root);
 
-    Yaml yaml = new Yaml(new SafeConstructor());
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     String output = yaml.dump(f);
     return output;
   }

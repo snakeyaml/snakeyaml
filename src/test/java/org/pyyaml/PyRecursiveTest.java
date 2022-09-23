@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
@@ -54,7 +55,7 @@ public class PyRecursiveTest extends TestCase {
     Map value = new TreeMap();
     value.put("abc", "www");
     value.put("qwerty", value);
-    Yaml yaml = new Yaml(new SafeConstructor());
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     String output1 = yaml.dump(value);
     assertEquals("&id001\nabc: www\nqwerty: *id001\n", output1);
     Map value2 = yaml.load(output1);
@@ -94,7 +95,7 @@ public class PyRecursiveTest extends TestCase {
     value.add("test");
     value.add(Integer.valueOf(1));
 
-    Yaml yaml = new Yaml(new SafeConstructor());
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     String output1 = yaml.dump(value);
     assertEquals("&id001\n- *id001\n- test\n- 1\n", output1);
     List value2 = yaml.load(output1);
