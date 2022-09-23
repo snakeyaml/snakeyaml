@@ -48,9 +48,10 @@ public class ConstructorMappingTest extends TestCase {
 
   private Object construct(Constructor constructor, String data) {
     StreamReader reader = new StreamReader(data);
-    Parser parser = new ParserImpl(reader);
+    LoaderOptions options = new LoaderOptions();
+    Parser parser = new ParserImpl(reader, options);
     Resolver resolver = new Resolver();
-    Composer composer = new Composer(parser, resolver, new LoaderOptions());
+    Composer composer = new Composer(parser, resolver, options);
     constructor.setComposer(composer);
     return constructor.getSingleData(Object.class);
   }

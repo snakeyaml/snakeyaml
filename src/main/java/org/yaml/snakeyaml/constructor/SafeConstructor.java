@@ -47,10 +47,10 @@ public class SafeConstructor extends BaseConstructor {
   /**
    * @deprecated use options
    */
-   @Deprecated
-   public SafeConstructor() {
-   this(new LoaderOptions());
-   }
+  @Deprecated
+  public SafeConstructor() {
+    this(new LoaderOptions());
+  }
 
   public SafeConstructor(LoaderOptions loadingConfig) {
     super(loadingConfig);

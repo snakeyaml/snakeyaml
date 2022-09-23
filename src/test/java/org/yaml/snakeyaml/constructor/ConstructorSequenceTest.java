@@ -65,7 +65,7 @@ public class ConstructorSequenceTest extends TestCase {
   @SuppressWarnings("unchecked")
   private List<Object> construct(Constructor constructor, String data) {
     StreamReader reader = new StreamReader(data);
-    Parser parser = new ParserImpl(reader);
+    Parser parser = new ParserImpl(reader, new LoaderOptions());
     Resolver resolver = new Resolver();
     Composer composer = new Composer(parser, resolver, new LoaderOptions());
     constructor.setComposer(composer);

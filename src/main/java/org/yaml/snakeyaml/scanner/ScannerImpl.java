@@ -216,9 +216,16 @@ public final class ScannerImpl implements Scanner {
    */
   private final Map<Integer, SimpleKey> possibleSimpleKeys;
 
-  public ScannerImpl(StreamReader reader) {
-    this(reader, new LoaderOptions());
-  }
+  /**
+   * Create
+   *
+   * @param reader
+   * @deprecated use options instead
+   */
+   @Deprecated
+   public ScannerImpl(StreamReader reader) {
+   this(reader, new LoaderOptions());
+   }
 
   public ScannerImpl(StreamReader reader, LoaderOptions options) {
     this.parseComments = options.isProcessComments();

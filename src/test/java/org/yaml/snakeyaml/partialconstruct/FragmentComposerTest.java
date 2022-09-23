@@ -29,7 +29,8 @@ public class FragmentComposerTest extends TestCase {
             + "gee:  [ \"whiz\", \"bang\"]\n";//
 
     StreamReader reader = new StreamReader(document);
-    Composer composer = new FragmentComposer(new ParserImpl(reader), new Resolver(), "developer");
+    Composer composer = new FragmentComposer(new ParserImpl(reader, new LoaderOptions()),
+        new Resolver(), "developer");
     Constructor constructor = new Constructor(new LoaderOptions());
     constructor.setComposer(composer);
     DeveloperBean developer = (DeveloperBean) constructor.getSingleData(DeveloperBean.class);

@@ -181,8 +181,10 @@ public class PyStructureTest extends PyImportTest {
   }
 
   private List<Node> compose_all(InputStream file) {
-    Composer composer = new Composer(new ParserImpl(new StreamReader(new UnicodeReader(file))),
-        new Resolver(), new LoaderOptions());
+    LoaderOptions options = new LoaderOptions();
+    Composer composer =
+        new Composer(new ParserImpl(new StreamReader(new UnicodeReader(file)), options),
+            new Resolver(), options);
     List<Node> documents = new ArrayList<Node>();
     while (composer.checkNode()) {
       documents.add(composer.getNode());
