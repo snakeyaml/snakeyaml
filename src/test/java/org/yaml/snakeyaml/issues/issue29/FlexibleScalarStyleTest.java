@@ -88,7 +88,7 @@ public class FlexibleScalarStyleTest extends TestCase {
   private class MyRepresenter extends Representer {
 
     public MyRepresenter() {
-      super();
+      super(new DumperOptions());
       this.representers.put(String.class, new FlexibleRepresent());
     }
 

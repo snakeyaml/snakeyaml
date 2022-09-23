@@ -15,12 +15,14 @@ package examples.jodatime;
 
 import java.util.Date;
 import org.joda.time.DateTime;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
 
 class JodaTimeRepresenter extends Representer {
 
   public JodaTimeRepresenter() {
+    super(new DumperOptions());
     multiRepresenters.put(DateTime.class, new RepresentJodaDateTime());
   }
 

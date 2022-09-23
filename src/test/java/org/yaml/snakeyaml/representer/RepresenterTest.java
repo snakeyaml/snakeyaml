@@ -154,7 +154,7 @@ public class RepresenterTest extends TestCase {
   }
 
   public void testRepresenterAddNull() {
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     try {
       representer.addClassTag(EmptyBean.class, null);
       fail("Tag must be provided.");

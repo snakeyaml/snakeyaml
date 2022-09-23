@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.constructor;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -49,7 +50,7 @@ public class ClassTagsTest extends TestCase {
       wheels.add(wheel);
     }
     car.setWheels(wheels);
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.addClassTag(Car.class, new Tag("!car"));
     representer.addClassTag(Wheel.class, Tag.MAP);
     Yaml yaml = new Yaml(representer);

@@ -134,13 +134,14 @@ public class ParserImpl implements Parser {
 
   /**
    * Create
+   *
    * @param reader - input
    * @deprecated use options
    */
-   @Deprecated
-   public ParserImpl(StreamReader reader) {
-   this(new ScannerImpl(reader));
-   }
+  @Deprecated
+  public ParserImpl(StreamReader reader) {
+    this(new ScannerImpl(reader));
+  }
 
   /**
    * Create

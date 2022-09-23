@@ -52,6 +52,7 @@ public class DiceExampleTest extends TestCase {
   class DiceRepresenter extends Representer {
 
     public DiceRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Dice.class, new RepresentDice());
     }
 

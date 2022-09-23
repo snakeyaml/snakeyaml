@@ -331,12 +331,12 @@ public class EmitterWithCommentEnabledTest {
     String data = getComplexConfig();
 
     final DumperOptions yamlOptions = new DumperOptions();
-    final LoaderOptions loaderOptions = new LoaderOptions();
-    final Representer yamlRepresenter = new Representer();
-
     yamlOptions.setIndent(4);
     yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-    yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+
+    final LoaderOptions loaderOptions = new LoaderOptions();
+    final Representer yamlRepresenter = new Representer(yamlOptions);
+
     loaderOptions.setMaxAliasesForCollections(Integer.MAX_VALUE);
     final Yaml yaml =
         new Yaml(new SafeConstructor(loaderOptions), yamlRepresenter, yamlOptions, loaderOptions);

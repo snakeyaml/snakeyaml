@@ -92,6 +92,7 @@ public class Example2_24Test extends TestCase {
   class MyRepresenter extends Representer {
 
     public MyRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Shape.class, new RepresentShape());
       this.representers.put(Circle.class, new RepresentCircle());
       this.representers.put(Line.class, new RepresentLine());

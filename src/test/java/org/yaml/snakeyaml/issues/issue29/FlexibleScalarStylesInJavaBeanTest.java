@@ -70,6 +70,13 @@ public class FlexibleScalarStylesInJavaBeanTest extends TestCase {
 
   private class MyRepresenter extends Representer {
 
+    /**
+     * Create
+     */
+    public MyRepresenter() {
+      super(new DumperOptions());
+    }
+
     /*
      * Change the default order. Important data goes first.
      */

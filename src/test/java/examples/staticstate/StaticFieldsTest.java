@@ -77,6 +77,12 @@ public class StaticFieldsTest extends TestCase {
   }
 
   private class MyRepresenter extends Representer {
+    /**
+     * Create
+     */
+    public MyRepresenter() {
+      super(new DumperOptions());
+    }
 
     @Override
     protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {

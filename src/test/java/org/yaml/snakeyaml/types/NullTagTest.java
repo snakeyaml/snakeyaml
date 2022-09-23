@@ -124,9 +124,8 @@ public class NullTagTest extends AbstractTest {
   private class NullRepresenter extends Representer {
 
     public NullRepresenter() {
-      super();
-      // null representer is exceptional and it is stored as an instance
-      // variable.
+      super(new DumperOptions());
+      // null representer is exceptional, and it is stored as an instance variable.
       this.nullRepresenter = new RepresentNull();
     }
 

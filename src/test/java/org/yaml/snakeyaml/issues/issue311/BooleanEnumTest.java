@@ -63,6 +63,7 @@ public class BooleanEnumTest {
   class MyRepresenter extends Representer {
 
     public MyRepresenter() {
+      super(new DumperOptions());
       this.representers.put(BooleanEnum.class, new RepresentEnum());
     }
 

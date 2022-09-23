@@ -222,10 +222,10 @@ public final class ScannerImpl implements Scanner {
    * @param reader
    * @deprecated use options instead
    */
-   @Deprecated
-   public ScannerImpl(StreamReader reader) {
-   this(reader, new LoaderOptions());
-   }
+  @Deprecated
+  public ScannerImpl(StreamReader reader) {
+    this(reader, new LoaderOptions());
+  }
 
   public ScannerImpl(StreamReader reader, LoaderOptions options) {
     this.parseComments = options.isProcessComments();

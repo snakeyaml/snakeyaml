@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -202,7 +203,7 @@ public class HumanGenericsTest extends TestCase {
     father.setChildren(children);
     mother.setChildren(children);
     //
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.addClassTag(HumanGen2.class, Tag.MAP);
     Yaml yaml = new Yaml(representer);
     String output = yaml.dump(son);

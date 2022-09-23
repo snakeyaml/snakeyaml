@@ -33,7 +33,7 @@ public class RepresenterConfigurationTest {
 
   @Test
   public void testDefaultFlowStyleNotOverridden() {
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.setDefaultFlowStyle(BLOCK);
     Yaml yaml = new Yaml(representer);
 
@@ -43,11 +43,10 @@ public class RepresenterConfigurationTest {
 
   @Test
   public void testDefaultFlowStyleIsOverridden() {
-    Representer representer = new Representer();
-    representer.setDefaultFlowStyle(BLOCK);
-
     DumperOptions dumperOptions = new DumperOptions();
     dumperOptions.setDefaultFlowStyle(FLOW);
+    Representer representer = new Representer(dumperOptions);
+    // ??? representer.setDefaultFlowStyle(BLOCK);
 
     Yaml yaml = new Yaml(representer, dumperOptions);
 
@@ -57,7 +56,7 @@ public class RepresenterConfigurationTest {
 
   @Test
   public void testDefaultScalarStyleNotOverridden() {
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.setDefaultScalarStyle(FOLDED);
 
     Yaml yaml = new Yaml(representer);
@@ -69,11 +68,10 @@ public class RepresenterConfigurationTest {
 
   @Test
   public void testDefaultScalarStyleOverridden() {
-    Representer representer = new Representer();
-    representer.setDefaultScalarStyle(FOLDED);
-
     DumperOptions dumperOptions = new DumperOptions();
     dumperOptions.setDefaultScalarStyle(PLAIN);
+    Representer representer = new Representer(dumperOptions);
+    // ???representer.setDefaultScalarStyle(FOLDED);
 
     Yaml yaml = new Yaml(representer, dumperOptions);
 
@@ -92,7 +90,7 @@ public class RepresenterConfigurationTest {
 
   @Test
   public void testTimeZoneNotOverridden() {
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
 
     Yaml yaml = new Yaml(representer);
@@ -107,7 +105,7 @@ public class RepresenterConfigurationTest {
 
   @Test
   public void testTimeZoneOverridden() {
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
 
     DumperOptions dumperOptions = new DumperOptions();
@@ -139,7 +137,7 @@ public class RepresenterConfigurationTest {
   public void testAllowReadOnlyPropertiesNotOverridden() {
     PropertyUtils propertyUtils = new PropertyUtils();
     propertyUtils.setAllowReadOnlyProperties(true);
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.setPropertyUtils(propertyUtils);
 
     Yaml yaml = new Yaml(representer);
@@ -151,12 +149,10 @@ public class RepresenterConfigurationTest {
   public void testAllowReadOnlyPropertiesOverridden() {
     PropertyUtils propertyUtils = new PropertyUtils();
     propertyUtils.setAllowReadOnlyProperties(true);
-    Representer representer = new Representer();
-    representer.setPropertyUtils(propertyUtils);
-
     DumperOptions dumperOptions = new DumperOptions();
     dumperOptions.setAllowReadOnlyProperties(false);
-
+    Representer representer = new Representer(dumperOptions);
+    representer.setPropertyUtils(propertyUtils);
     Yaml yaml = new Yaml(representer, dumperOptions);
     MappingNode mappingNode = (MappingNode) yaml.represent(new TestObject(27, "test"));
     Assert.assertEquals(1, mappingNode.getValue().size());

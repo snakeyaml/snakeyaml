@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue193;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -30,7 +31,7 @@ public class AbstractBeanTest extends TestCase {
     b.setName("name1");
 
     Constructor c = new Constructor(new LoaderOptions());
-    Representer r = new Representer();
+    Representer r = new Representer(new DumperOptions());
 
     PropertyUtils pu = new PropertyUtils();
     c.setPropertyUtils(pu);

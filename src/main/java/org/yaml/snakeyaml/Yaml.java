@@ -79,7 +79,8 @@ public class Yaml {
    * @param loadingConfig LoadingConfig to control load behavior
    */
   public Yaml(LoaderOptions loadingConfig) {
-    this(new Constructor(loadingConfig), new Representer(), new DumperOptions(), loadingConfig);
+    this(new Constructor(loadingConfig), new Representer(new DumperOptions()), new DumperOptions(),
+        loadingConfig);
   }
 
   /**
@@ -97,7 +98,7 @@ public class Yaml {
    * @param constructor BaseConstructor to construct incoming documents
    */
   public Yaml(BaseConstructor constructor) {
-    this(constructor, new Representer());
+    this(constructor, new Representer(new DumperOptions()));
   }
 
   /**

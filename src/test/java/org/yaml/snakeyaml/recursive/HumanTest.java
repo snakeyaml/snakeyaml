@@ -283,7 +283,8 @@ public class HumanTest extends TestCase {
     humanDescription.putMapPropertyType("children", Human2.class, String.class);
     constructor.addTypeDescription(humanDescription);
 
-    Yaml yaml = new Yaml(constructor, new Representer(), new DumperOptions(), options);
+    Yaml yaml =
+        new Yaml(constructor, new Representer(new DumperOptions()), new DumperOptions(), options);
     String output = yaml.dump(son);
     // System.out.println(output);
     String etalon = Util.getLocalResource("recursive/with-children-2.yaml");

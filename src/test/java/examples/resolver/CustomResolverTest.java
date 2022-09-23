@@ -27,7 +27,7 @@ public class CustomResolverTest extends TestCase {
   public void testResolverToDump() {
     Map<Object, Object> map = new HashMap<Object, Object>();
     map.put("1.0", "2009-01-01");
-    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(),
+    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(new DumperOptions()),
         new DumperOptions(), new CustomResolver());
     String output = yaml.dump(map);
     assertEquals("{1.0: 2009-01-01}\n", output);
@@ -37,7 +37,7 @@ public class CustomResolverTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testResolverToLoad() {
-    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(),
+    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(new DumperOptions()),
         new DumperOptions(), new CustomResolver());
     Map<Object, Object> map = yaml.load("1.0: 2009-01-01");
     assertEquals(1, map.size());
@@ -55,7 +55,7 @@ public class CustomResolverTest extends TestCase {
    * https://bitbucket.org/snakeyaml/snakeyaml/issues/454/snakeyaml-implicitly-converts-time-into
    */
   public void testResolverToLoadNoTime() {
-    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(),
+    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(new DumperOptions()),
         new DumperOptions(), new NoTimeIntResolver());
     Map<Object, Object> map = yaml.load("a: 17:00:00\nb: 17");
     assertEquals(2, map.size());
@@ -64,7 +64,7 @@ public class CustomResolverTest extends TestCase {
   }
 
   public void testJsonBooleanResolverToLoad() {
-    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(),
+    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()), new Representer(new DumperOptions()),
         new DumperOptions(), new JsonBooleanResolver());
     Map<Object, Object> map = yaml.load("no: true");
     assertEquals(1, map.size());

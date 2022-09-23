@@ -39,7 +39,7 @@ public class SingleQuoteTest extends TestCase {
     if (isBlock) {
       options.setDefaultFlowStyle(FlowStyle.BLOCK);
     }
-    Representer representer = new Representer();
+    Representer representer = new Representer(options);
 
     Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()), representer, options);
 

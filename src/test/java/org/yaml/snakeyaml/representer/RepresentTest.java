@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.representer;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -63,6 +64,7 @@ public class RepresentTest extends TestCase {
   class MyRepresenter extends Representer {
 
     public MyRepresenter() {
+      super(new DumperOptions());
       this.representers.put(CustomBean.class, new RepresentDice());
     }
 

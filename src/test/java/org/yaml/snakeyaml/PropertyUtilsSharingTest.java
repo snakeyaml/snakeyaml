@@ -28,7 +28,7 @@ public class PropertyUtilsSharingTest extends TestCase {
     Yaml yaml2 = new Yaml(new Constructor(new LoaderOptions()));
     assertSame(yaml2.constructor.getPropertyUtils(), yaml2.representer.getPropertyUtils());
 
-    Yaml yaml3 = new Yaml(new Representer());
+    Yaml yaml3 = new Yaml(new Representer(new DumperOptions()));
     assertSame(yaml3.constructor.getPropertyUtils(), yaml3.representer.getPropertyUtils());
   }
 
@@ -42,7 +42,7 @@ public class PropertyUtilsSharingTest extends TestCase {
   }
 
   public void testYamlRepresenterWithPropertyUtils() {
-    Representer representer2 = new Representer();
+    Representer representer2 = new Representer(new DumperOptions());
     PropertyUtils pu = new PropertyUtils();
     representer2.setPropertyUtils(pu);
     Yaml yaml = new Yaml(representer2);
@@ -55,7 +55,7 @@ public class PropertyUtilsSharingTest extends TestCase {
     Constructor constructor = new Constructor(new LoaderOptions());
     PropertyUtils pu_c = new PropertyUtils();
     constructor.setPropertyUtils(pu_c);
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     PropertyUtils pu_r = new PropertyUtils();
     representer.setPropertyUtils(pu_r);
     Yaml yaml = new Yaml(constructor, representer);
