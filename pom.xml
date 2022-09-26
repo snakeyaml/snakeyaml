@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.yaml</groupId>
     <artifactId>snakeyaml</artifactId>
-    <version>1.33-SNAPSHOT</version>
+    <version>1.33</version>
     <packaging>bundle</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,7 +40,7 @@
         <connection>scm:git:http://bitbucket.org/snakeyaml/snakeyaml</connection>
         <developerConnection>scm:git:ssh://git@bitbucket.org/snakeyaml/snakeyaml</developerConnection>
         <url>https://bitbucket.org/snakeyaml/snakeyaml/src</url>
-        <tag>HEAD</tag>
+        <tag>snakeyaml-1.33</tag>
     </scm>
     <licenses>
         <license>
