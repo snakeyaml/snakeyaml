@@ -177,7 +177,7 @@ public class ParserImpl implements Parser {
   }
 
   /**
-   * Get the next event.
+   * Peek the next event (keeping it in the stream)
    */
   public Event peekEvent() {
     if (currentEvent == null) {
