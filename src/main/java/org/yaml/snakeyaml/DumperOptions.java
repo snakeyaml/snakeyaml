@@ -73,7 +73,7 @@ public class DumperOptions {
     }
 
     /**
-     * getter
+     * Readable style
      *
      * @return for humans
      */
@@ -279,7 +279,7 @@ public class DumperOptions {
     }
 
     /**
-     * getter
+     * Readable string
      *
      * @return for humans
      */
