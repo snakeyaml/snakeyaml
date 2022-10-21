@@ -189,6 +189,17 @@
                     <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>java9</id>
+                        <goals><goal>compile</goal></goals>
+                        <configuration>
+                            <release>9</release>
+                            <compileSourceRoots>${project.basedir}/src/main/java9</compileSourceRoots>
+                            <multiReleaseOutput>true</multiReleaseOutput>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -295,7 +306,7 @@
                             !org.yaml.snakeyaml.external*,
                             org.yaml.snakeyaml.*;version=${project.version}
                         </Export-Package>
-                        <Automatic-Module-Name>org.yaml.snakeyaml</Automatic-Module-Name>
+                        <Multi-Release>true</Multi-Release>
                     </instructions>
                 </configuration>
             </plugin>
