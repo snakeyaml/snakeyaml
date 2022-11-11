@@ -113,6 +113,7 @@ public class DuplicateKeyTest {
     Yaml yaml = new Yaml(lc);
     try {
       yaml.loadAs(input, MapProvider.class);
+      fail();
     } catch (DuplicateKeyException e) {
       assertTrue(e.getMessage(), e.getMessage().contains("found duplicate key someitem"));
       assertTrue(e.getMessage(), e.getMessage().contains("line 3, column 3"));
