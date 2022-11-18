@@ -12,4 +12,4 @@ pipelines:
           - maven
         script: # Modify the commands below to build your repository.
           #- mvn -V -B clean verify
-          - mvn -V -B -Pwith-java8-tests clean verify
+          - mvn -V -B -Pwith-java11-tests clean verify

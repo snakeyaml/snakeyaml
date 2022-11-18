@@ -191,12 +191,15 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>java9</id>
+                        <id>module-info-compile</id>
                         <goals><goal>compile</goal></goals>
                         <configuration>
                             <release>9</release>
                             <compileSourceRoots>${project.basedir}/src/main/java9</compileSourceRoots>
                             <multiReleaseOutput>true</multiReleaseOutput>
+                              <jdkToolchain>
+                                <version>[9,)</version>
+                              </jdkToolchain>
                         </configuration>
                     </execution>
                 </executions>
