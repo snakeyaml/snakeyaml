@@ -179,6 +179,21 @@ public class Yaml {
    */
   public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
       LoaderOptions loadingConfig, Resolver resolver) {
+    if (constructor == null) {
+      throw new NullPointerException("Constructor must be provided");
+    }
+    if (representer == null) {
+      throw new NullPointerException("Representer must be provided");
+    }
+    if (dumperOptions == null) {
+      throw new NullPointerException("DumperOptions must be provided");
+    }
+    if (loadingConfig == null) {
+      throw new NullPointerException("LoaderOptions must be provided");
+    }
+    if (resolver == null) {
+      throw new NullPointerException("Resolver must be provided");
+    }
     if (!constructor.isExplicitPropertyUtils()) {
       constructor.setPropertyUtils(representer.getPropertyUtils());
     } else if (!representer.isExplicitPropertyUtils()) {

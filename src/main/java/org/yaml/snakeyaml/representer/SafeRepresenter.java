@@ -55,6 +55,9 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   public SafeRepresenter(DumperOptions options) {
+    if (options == null) {
+      throw new NullPointerException("DumperOptions must be provided.");
+    }
     this.nullRepresenter = new RepresentNull();
     this.representers.put(String.class, new RepresentString());
     this.representers.put(Boolean.class, new RepresentBoolean());

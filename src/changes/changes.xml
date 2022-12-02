@@ -5,6 +5,11 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
+        <release version="1.34-SNAPSHOT" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="update">
+                Check input parameters for non-null values
+            </action>
+        </release>
         <release version="1.33" date="2022-09-26" description="Maintenance">
             <action dev="asomov" type="remove">
                 Remove deprecated unused methods

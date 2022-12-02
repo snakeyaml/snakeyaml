@@ -87,6 +87,15 @@ public class Composer {
    * @param loadingConfig - options
    */
   public Composer(Parser parser, Resolver resolver, LoaderOptions loadingConfig) {
+    if (parser == null) {
+      throw new NullPointerException("Parser must be provided");
+    }
+    if (resolver == null) {
+      throw new NullPointerException("Resolver must be provided");
+    }
+    if (loadingConfig == null) {
+      throw new NullPointerException("LoaderOptions must be provided");
+    }
     this.parser = parser;
     this.resolver = resolver;
     this.anchors = new HashMap<String, Node>();

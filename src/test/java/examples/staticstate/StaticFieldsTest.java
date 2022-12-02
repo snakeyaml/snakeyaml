@@ -77,6 +77,7 @@ public class StaticFieldsTest extends TestCase {
   }
 
   private class MyRepresenter extends Representer {
+
     /**
      * Create
      */

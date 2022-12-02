@@ -123,6 +123,9 @@ public abstract class BaseConstructor {
    * @param loadingConfig - options
    */
   public BaseConstructor(LoaderOptions loadingConfig) {
+    if (loadingConfig == null) {
+      throw new NullPointerException("LoaderOptions must be provided.");
+    }
     constructedObjects = new HashMap<Node, Object>();
     recursiveObjects = new HashSet<Node>();
     maps2fill =

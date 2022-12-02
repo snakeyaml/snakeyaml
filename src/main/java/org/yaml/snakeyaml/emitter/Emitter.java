@@ -196,10 +196,15 @@ public final class Emitter implements Emitable {
    * @param opts - options
    */
   public Emitter(Writer stream, DumperOptions opts) {
+    if (stream == null) {
+      throw new NullPointerException("Writer must be provided.");
+    }
+    if (opts == null) {
+      throw new NullPointerException("DumperOptions must be provided.");
+    }
     // The stream should have the methods `write` and possibly `flush`.
     this.stream = stream;
-    // Emitter is a state machine with a stack of states to handle nested
-    // structures.
+    // Emitter is a state machine with a stack of states to handle nested structures.
     this.states = new ArrayStack<EmitterState>(100);
     this.state = new ExpectStreamStart();
     // Current event and the event queue.
