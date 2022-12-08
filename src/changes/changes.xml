@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="1.34-SNAPSHOT" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="561">
+                Introduce black list to avoid creating unintended classes
+            </action>
             <action dev="asomov" type="update">
                 Check input parameters for non-null values
             </action>
