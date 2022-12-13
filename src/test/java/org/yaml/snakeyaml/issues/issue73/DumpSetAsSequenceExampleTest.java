@@ -54,6 +54,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
   private class SetRepresenter extends Representer {
 
     public SetRepresenter() {
+      super(new DumperOptions());
       this.multiRepresenters.put(Set.class, new RepresentIterable());
     }
 

@@ -17,7 +17,7 @@ import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.events.CommentEvent;
 
 /**
- * A comment line. May be a block comment, blank line, or inline comment.
+ * A comment line. It may be a block comment, blank line, or inline comment.
  */
 public class CommentLine {
 
@@ -26,10 +26,23 @@ public class CommentLine {
   private final String value;
   private final CommentType commentType;
 
+  /**
+   * Create
+   *
+   * @param event - the source
+   */
   public CommentLine(CommentEvent event) {
     this(event.getStartMark(), event.getEndMark(), event.getValue(), event.getCommentType());
   }
 
+  /**
+   * Create
+   *
+   * @param startMark - start
+   * @param endMark - end
+   * @param value - text
+   * @param commentType - kind
+   */
   public CommentLine(Mark startMark, Mark endMark, String value, CommentType commentType) {
     this.startMark = startMark;
     this.endMark = endMark;
@@ -37,14 +50,29 @@ public class CommentLine {
     this.commentType = commentType;
   }
 
+  /**
+   * getter
+   *
+   * @return end
+   */
   public Mark getEndMark() {
     return endMark;
   }
 
+  /**
+   * getter
+   *
+   * @return start
+   */
   public Mark getStartMark() {
     return startMark;
   }
 
+  /**
+   * Getter
+   *
+   * @return kind
+   */
   public CommentType getCommentType() {
     return commentType;
   }

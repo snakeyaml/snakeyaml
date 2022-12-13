@@ -132,10 +132,24 @@ public class ParserImpl implements Parser {
   private Production state;
   private VersionTagsTuple directives;
 
+  /**
+   * Create
+   *
+   * @param reader - input
+   * @deprecated use options
+   */
+  @Deprecated
   public ParserImpl(StreamReader reader) {
     this(new ScannerImpl(reader));
   }
 
+  /**
+   * Create
+   *
+   * @param reader - input
+   * @param parseComments - true to keep the comments
+   * @deprecated use options instead
+   */
   @Deprecated
   public ParserImpl(StreamReader reader, boolean parseComments) {
     this(new ScannerImpl(reader, new LoaderOptions().setProcessComments(parseComments)));
@@ -163,7 +177,7 @@ public class ParserImpl implements Parser {
   }
 
   /**
-   * Get the next event.
+   * Peek the next event (keeping it in the stream)
    */
   public Event peekEvent() {
     if (currentEvent == null) {

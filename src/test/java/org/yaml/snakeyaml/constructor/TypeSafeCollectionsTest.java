@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -108,7 +109,7 @@ public class TypeSafeCollectionsTest extends TestCase {
     MyCar c = new MyCar();
     c.setPlate("00-FF-Q2");
     c.setWheels(wheels);
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.addClassTag(MyWheel.class, Tag.MAP);
     Yaml yaml = new Yaml(representer);
     String output = yaml.dump(c);

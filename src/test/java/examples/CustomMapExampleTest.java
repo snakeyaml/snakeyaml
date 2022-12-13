@@ -16,6 +16,7 @@ package examples;
 import java.util.Map;
 import java.util.TreeMap;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -34,6 +35,10 @@ public class CustomMapExampleTest extends TestCase {
   }
 
   class CustomConstructor extends Constructor {
+
+    public CustomConstructor() {
+      super(new LoaderOptions());
+    }
 
     @Override
     protected Map<Object, Object> createDefaultMap(int initSize) {

@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue48;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -41,6 +42,13 @@ public class SkipJavaBeanPropertyTest extends TestCase {
   }
 
   private class MyRepresenter extends Representer {
+
+    /**
+     * Create
+     */
+    public MyRepresenter() {
+      super(new DumperOptions());
+    }
 
     @Override
     protected NodeTuple representJavaBeanProperty(Object bean, Property property, Object value,

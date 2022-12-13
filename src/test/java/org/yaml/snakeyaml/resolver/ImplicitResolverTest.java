@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -40,6 +41,7 @@ public class ImplicitResolverTest extends TestCase {
     protected Map<String, String> config = null;
 
     public ConfigurationConstructor(Map<String, String> config) {
+      super(new LoaderOptions());
       this.config = config;
       this.yamlConstructors.put(CFG, new ConfigObjectConstruct());
     }

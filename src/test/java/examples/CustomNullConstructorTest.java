@@ -14,6 +14,7 @@
 package examples;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
@@ -44,6 +45,7 @@ public class CustomNullConstructorTest extends TestCase {
   class NullConstructor extends SafeConstructor {
 
     public NullConstructor() {
+      super(new LoaderOptions());
       this.yamlConstructors.put(Tag.NULL, new ConstructNull());
     }
 

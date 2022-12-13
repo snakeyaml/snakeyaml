@@ -44,6 +44,10 @@ public class SafeConstructor extends BaseConstructor {
 
   public static final ConstructUndefined undefinedConstructor = new ConstructUndefined();
 
+  /**
+   * @deprecated use options
+   */
+  @Deprecated
   public SafeConstructor() {
     this(new LoaderOptions());
   }

@@ -45,6 +45,9 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
 
+/**
+ * Base code
+ */
 public abstract class BaseConstructor {
 
   /**
@@ -70,12 +73,18 @@ public abstract class BaseConstructor {
    */
   protected final Map<String, Construct> yamlMultiConstructors = new HashMap<String, Construct>();
 
+  /**
+   * No graph creator
+   */
   protected Composer composer;
   final Map<Node, Object> constructedObjects;
   private final Set<Node> recursiveObjects;
   private final ArrayList<RecursiveTuple<Map<Object, Object>, RecursiveTuple<Object, Object>>> maps2fill;
   private final ArrayList<RecursiveTuple<Set<Object>, Object>> sets2fill;
 
+  /**
+   * the tag for the root node
+   */
   protected Tag rootTag;
   private PropertyUtils propertyUtils;
   private boolean explicitPropertyUtils;
@@ -84,16 +93,39 @@ public abstract class BaseConstructor {
 
   private boolean enumCaseSensitive = false;
 
+  /**
+   * Mapping from a class to its manager
+   */
   protected final Map<Class<? extends Object>, TypeDescription> typeDefinitions;
+  /**
+   * register classes for tags
+   */
   protected final Map<Tag, Class<? extends Object>> typeTags;
 
+  /**
+   * options
+   */
   protected LoaderOptions loadingConfig;
 
+  /**
+   * Create
+   *
+   * @deprecated use the options
+   */
+  @Deprecated
   public BaseConstructor() {
     this(new LoaderOptions());
   }
 
+  /**
+   * Create
+   *
+   * @param loadingConfig - options
+   */
   public BaseConstructor(LoaderOptions loadingConfig) {
+    if (loadingConfig == null) {
+      throw new NullPointerException("LoaderOptions must be provided.");
+    }
     constructedObjects = new HashMap<Node, Object>();
     recursiveObjects = new HashSet<Node>();
     maps2fill =
@@ -224,6 +256,12 @@ public abstract class BaseConstructor {
     return constructObjectNoCheck(node);
   }
 
+  /**
+   * Construct object from the specified Node without the check if it was already created.
+   *
+   * @param node - the source
+   * @return constructed instance
+   */
   protected Object constructObjectNoCheck(Node node) {
     if (recursiveObjects.contains(node)) {
       throw new ConstructorException(null, null, "found unconstructable recursive node",
@@ -267,6 +305,12 @@ public abstract class BaseConstructor {
     }
   }
 
+  /**
+   * Create string from scalar
+   *
+   * @param node - the source
+   * @return the data
+   */
   protected String constructScalar(ScalarNode node) {
     return node.getValue();
   }
@@ -382,28 +426,60 @@ public abstract class BaseConstructor {
   // <<<< NEW instance
 
   // >>>> Construct => NEW, 2ndStep(filling)
+
+  /**
+   * Create List and fill it with data
+   *
+   * @param node - the source
+   * @return filled List
+   */
   protected List<? extends Object> constructSequence(SequenceNode node) {
     List<Object> result = newList(node);
     constructSequenceStep2(node, result);
     return result;
   }
 
+  /**
+   * create Set from sequence
+   *
+   * @param node - sequence
+   * @return constructed Set
+   */
   protected Set<? extends Object> constructSet(SequenceNode node) {
     Set<Object> result = newSet(node);
     constructSequenceStep2(node, result);
     return result;
   }
 
+  /**
+   * Create array from sequence
+   *
+   * @param node - sequence
+   * @return constructed array
+   */
   protected Object constructArray(SequenceNode node) {
     return constructArrayStep2(node, createArray(node.getType(), node.getValue().size()));
   }
 
+  /**
+   * Fill the provided collection with the data from the Node
+   *
+   * @param node - the source
+   * @param collection - data to fill
+   */
   protected void constructSequenceStep2(SequenceNode node, Collection<Object> collection) {
     for (Node child : node.getValue()) {
       collection.add(constructObject(child));
     }
   }
 
+  /**
+   * Fill array from node
+   *
+   * @param node - the source
+   * @param array - the destination
+   * @return filled array
+   */
   protected Object constructArrayStep2(SequenceNode node, Object array) {
     final Class<?> componentType = node.getType().getComponentType();
 
@@ -461,18 +537,36 @@ public abstract class BaseConstructor {
     return array;
   }
 
+  /**
+   * Create Set from mapping
+   *
+   * @param node - mapping
+   * @return constructed Set
+   */
   protected Set<Object> constructSet(MappingNode node) {
     final Set<Object> set = newSet(node);
     constructSet2ndStep(node, set);
     return set;
   }
 
+  /**
+   * Create Map from mapping
+   *
+   * @param node - mapping
+   * @return constructed Map
+   */
   protected Map<Object, Object> constructMapping(MappingNode node) {
     final Map<Object, Object> mapping = newMap(node);
     constructMapping2ndStep(node, mapping);
     return mapping;
   }
 
+  /**
+   * Fill provided Map with constructed data
+   *
+   * @param node - source
+   * @param mapping - map to fill
+   */
   protected void constructMapping2ndStep(MappingNode node, Map<Object, Object> mapping) {
     List<NodeTuple> nodeValue = node.getValue();
     for (NodeTuple tuple : nodeValue) {

@@ -54,7 +54,7 @@ public class RubyTest extends TestCase {
     TestObject result = parseObject(Util.getLocalResource("ruby/ruby1.yaml"));
     DumperOptions options = new DumperOptions();
     options.setExplicitStart(true);
-    Representer repr = new Representer();
+    Representer repr = new Representer(options);
     repr.addClassTag(TestObject.class, new Tag("!ruby/object:Test::Module::Object"));
     repr.addClassTag(Sub1.class, new Tag("!ruby/object:Test::Module::Sub1"));
     repr.addClassTag(Sub2.class, new Tag("!ruby/object:Test::Module::Sub2"));
@@ -77,7 +77,7 @@ public class RubyTest extends TestCase {
     TestObject result = parseObject(Util.getLocalResource("ruby/ruby1.yaml"));
     DumperOptions options = new DumperOptions();
     options.setExplicitStart(true);
-    Representer repr = new Representer();
+    Representer repr = new Representer(options);
     repr.addClassTag(Sub1.class, new Tag("!ruby/object:Test::Module::Sub1"));
     repr.addClassTag(Sub2.class, new Tag("!ruby/object:Test::Module::Sub2"));
     Yaml yaml2 = new Yaml(repr, options);

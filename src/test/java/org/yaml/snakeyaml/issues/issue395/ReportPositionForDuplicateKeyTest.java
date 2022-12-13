@@ -30,8 +30,8 @@ public class ReportPositionForDuplicateKeyTest {
   public void deleteDuplicatKeysInCorrectOrder() {
     LoaderOptions loaderOptions = new LoaderOptions();
     loaderOptions.setAllowDuplicateKeys(false);
-    Yaml yaml = new Yaml(new Constructor(), new Representer(), new DumperOptions(), loaderOptions,
-        new Resolver());
+    Yaml yaml = new Yaml(new Constructor(loaderOptions), new Representer(new DumperOptions()),
+        new DumperOptions(), loaderOptions, new Resolver());
     try {
       yaml.load("key1: a\nkey1: b");
     } catch (DuplicateKeyException e) {

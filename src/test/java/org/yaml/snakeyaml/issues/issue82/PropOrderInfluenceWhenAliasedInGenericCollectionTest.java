@@ -22,6 +22,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -158,8 +160,8 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     customerAB.aAll = all;
     customerAB.bGeneral = general;
 
-    Constructor constructor = new Constructor();
-    Representer representer = new Representer();
+    Constructor constructor = new Constructor(new LoaderOptions());
+    Representer representer = new Representer(new DumperOptions());
     Tag generalAccountTag = new Tag("!GA");
     constructor.addTypeDescription(new TypeDescription(GeneralAccount.class, generalAccountTag));
     representer.addClassTag(GeneralAccount.class, generalAccountTag);
@@ -186,8 +188,8 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     customerAB_property.acc = generalAccount;
     customerAB_property.bGeneral = general;
 
-    Constructor constructor = new Constructor();
-    Representer representer = new Representer();
+    Constructor constructor = new Constructor(new LoaderOptions());
+    Representer representer = new Representer(new DumperOptions());
 
     Yaml yaml = new Yaml(constructor, representer);
     String dump = yaml.dump(customerAB_property);
@@ -211,8 +213,8 @@ public class PropOrderInfluenceWhenAliasedInGenericCollectionTest extends TestCa
     customerAB_property.acc = generalAccount;
     customerAB_property.bGeneral = general;
 
-    Constructor constructor = new Constructor();
-    Representer representer = new Representer();
+    Constructor constructor = new Constructor(new LoaderOptions());
+    Representer representer = new Representer(new DumperOptions());
 
     Tag generalAccountTag = new Tag("!GA");
     constructor.addTypeDescription(new TypeDescription(GeneralAccount.class, generalAccountTag));

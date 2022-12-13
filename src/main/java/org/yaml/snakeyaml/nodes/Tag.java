@@ -15,7 +15,6 @@ package org.yaml.snakeyaml.nodes;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -94,18 +93,6 @@ public final class Tag {
       throw new NullPointerException("Class for tag must be provided.");
     }
     this.value = Tag.PREFIX + UriEncoder.encode(clazz.getName());
-  }
-
-  /**
-   * @deprecated - it will be removed
-   * @param uri - URI to be encoded as tag value
-   */
-  @Deprecated
-  public Tag(URI uri) {
-    if (uri == null) {
-      throw new NullPointerException("URI for tag must be provided.");
-    }
-    this.value = uri.toASCIIString();
   }
 
   public boolean isSecondary() {

@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.scanner.Scanner;
@@ -72,7 +73,7 @@ public class PyTokensTest extends PyImportTest {
       List<String> tokens1 = new ArrayList<String>();
       StreamReader reader =
           new StreamReader(new UnicodeReader(new FileInputStream(getFileByName(dataName))));
-      Scanner scanner = new ScannerImpl(reader);
+      Scanner scanner = new ScannerImpl(reader, new LoaderOptions());
       try {
         while (scanner.checkToken()) {
           Token token = scanner.getToken();
@@ -103,7 +104,7 @@ public class PyTokensTest extends PyImportTest {
       List<String> tokens = new ArrayList<String>();
       InputStream input = new FileInputStream(file);
       StreamReader reader = new StreamReader(new UnicodeReader(input));
-      Scanner scanner = new ScannerImpl(reader);
+      Scanner scanner = new ScannerImpl(reader, new LoaderOptions());
       try {
         while (scanner.checkToken()) {
           Token token = scanner.getToken();

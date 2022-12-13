@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.representer.Representer;
 class CustomRepresenter extends Representer {
 
   public CustomRepresenter() {
+    super(new DumperOptions());
     this.representers.put(ClassWithGenericMap.class, new RepresentClassX());
   }
 

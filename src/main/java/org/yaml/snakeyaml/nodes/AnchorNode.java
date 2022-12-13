@@ -20,6 +20,11 @@ public class AnchorNode extends Node {
 
   private final Node realNode;
 
+  /**
+   * Anchor
+   *
+   * @param realNode - the node which contains the referenced data
+   */
   public AnchorNode(Node realNode) {
     super(realNode.getTag(), realNode.getStartMark(), realNode.getEndMark());
     this.realNode = realNode;
@@ -30,6 +35,11 @@ public class AnchorNode extends Node {
     return NodeId.anchor;
   }
 
+  /**
+   * Getter
+   *
+   * @return node with data
+   */
   public Node getRealNode() {
     return realNode;
   }

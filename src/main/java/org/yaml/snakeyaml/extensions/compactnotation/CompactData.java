@@ -18,28 +18,57 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Custom data structure to support compact notation
+ * https://bitbucket.org/snakeyaml/snakeyaml/wiki/CompactObjectNotation
+ */
 public class CompactData {
 
   private final String prefix;
   private final List<String> arguments = new ArrayList<String>();
   private final Map<String, String> properties = new HashMap<String, String>();
 
+  /**
+   * Create
+   *
+   * @param prefix - by default is serves as a full class Name, but it can be changed
+   */
   public CompactData(String prefix) {
     this.prefix = prefix;
   }
 
+  /**
+   * getter
+   *
+   * @return prefix from the document
+   */
   public String getPrefix() {
     return prefix;
   }
 
+  /**
+   * Getter
+   *
+   * @return properties
+   */
   public Map<String, String> getProperties() {
     return properties;
   }
 
+  /**
+   * getter
+   *
+   * @return arguments
+   */
   public List<String> getArguments() {
     return arguments;
   }
 
+  /**
+   * visual representation
+   *
+   * @return readable data
+   */
   @Override
   public String toString() {
     return "CompactData: " + prefix + " " + properties;

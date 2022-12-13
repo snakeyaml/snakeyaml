@@ -81,9 +81,9 @@ public class SerializerWithCommentEnabledTest {
     Tag rootTag = null;
     Serializer serializer = new Serializer(emitter, new Resolver(), new DumperOptions(), rootTag);
     serializer.open();
-    Composer composer = new Composer(
-        new ParserImpl(new StreamReader(data), new LoaderOptions().setProcessComments(true)),
-        new Resolver());
+    LoaderOptions options = new LoaderOptions().setProcessComments(true);
+    Composer composer =
+        new Composer(new ParserImpl(new StreamReader(data), options), new Resolver(), options);
     while (composer.checkNode()) {
       serializer.serialize(composer.getNode());
     }

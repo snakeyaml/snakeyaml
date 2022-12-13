@@ -51,7 +51,7 @@ public class LongTest extends TestCase {
   public void testLongRepresenter() {
     DumperOptions options = new DumperOptions();
     options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
-    Representer repr = new Representer();
+    Representer repr = new Representer(options);
     repr.addClassTag(Long.class, new Tag("!!java.lang.Long"));
     Yaml yaml = new Yaml(repr, options);
 

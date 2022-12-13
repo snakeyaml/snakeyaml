@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -41,6 +42,22 @@ public class CompactConstructor extends Constructor {
   private static final Pattern PROPERTY_NAME_PATTERN =
       Pattern.compile("\\s*(\\p{Alpha}\\w*)\\s*=(.+)");
   private Construct compactConstruct;
+
+  /**
+   * Create with provided options
+   *
+   * @param loadingConfig - options
+   */
+  public CompactConstructor(LoaderOptions loadingConfig) {
+    super(loadingConfig);
+  }
+
+  /**
+   * Create with defaults
+   */
+  public CompactConstructor() {
+    super(new LoaderOptions());
+  }
 
   protected Object constructCompactFormat(ScalarNode node, CompactData data) {
     try {
@@ -118,6 +135,11 @@ public class CompactConstructor extends Constructor {
     return null;
   }
 
+  /**
+   * Create if it does not exist
+   *
+   * @return instance
+   */
   private Construct getCompactConstruct() {
     if (compactConstruct == null) {
       compactConstruct = createCompactConstruct();
@@ -125,6 +147,11 @@ public class CompactConstructor extends Constructor {
     return compactConstruct;
   }
 
+  /**
+   * Create
+   *
+   * @return new instance
+   */
   protected Construct createCompactConstruct() {
     return new ConstructCompactObject();
   }
@@ -153,6 +180,9 @@ public class CompactConstructor extends Constructor {
     return super.getConstructor(node);
   }
 
+  /**
+   * Custom ConstructMapping
+   */
   public class ConstructCompactObject extends ConstructMapping {
 
     @Override

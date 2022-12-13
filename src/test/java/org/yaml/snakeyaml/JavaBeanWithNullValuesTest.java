@@ -147,6 +147,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
   public class CustomRepresenter extends Representer {
 
     public CustomRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Float.class, new RepresentFloat());
       this.representers.put(Long.class, new RepresentLong());
       this.representers.put(java.sql.Date.class, new RepresentDate());

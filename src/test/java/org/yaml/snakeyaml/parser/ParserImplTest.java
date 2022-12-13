@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.parser;
 import java.util.LinkedList;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.events.DocumentEndEvent;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
@@ -46,7 +47,7 @@ public class ParserImplTest extends TestCase {
   public void testGetEventWithTag() {
     String data = "! 12";
     StreamReader reader = new StreamReader(data);
-    Parser parser = new ParserImpl(reader);
+    Parser parser = new ParserImpl(reader, new LoaderOptions());
     Mark dummyMark = new Mark("dummy", 0, 0, 0, "".toCharArray(), 0);
     LinkedList<Event> etalonEvents = new LinkedList<Event>();
     etalonEvents.add(new StreamStartEvent(dummyMark, dummyMark));
@@ -61,7 +62,7 @@ public class ParserImplTest extends TestCase {
   public void testGetEvent() {
     String data = "string: abcd";
     StreamReader reader = new StreamReader(data);
-    Parser parser = new ParserImpl(reader);
+    Parser parser = new ParserImpl(reader, new LoaderOptions());
     Mark dummyMark = new Mark("dummy", 0, 0, 0, "".toCharArray(), 0);
     LinkedList<Event> etalonEvents = new LinkedList<Event>();
     etalonEvents.add(new StreamStartEvent(dummyMark, dummyMark));
@@ -81,7 +82,7 @@ public class ParserImplTest extends TestCase {
   public void testGetEvent2() {
     String data = "american:\n  - Boston Red Sox";
     StreamReader reader = new StreamReader(data);
-    Parser parser = new ParserImpl(reader);
+    Parser parser = new ParserImpl(reader, new LoaderOptions());
     Mark dummyMark = new Mark("dummy", 0, 0, 0, "".toCharArray(), 0);
     LinkedList<Event> etalonEvents = new LinkedList<Event>();
     etalonEvents.add(new StreamStartEvent(dummyMark, dummyMark));

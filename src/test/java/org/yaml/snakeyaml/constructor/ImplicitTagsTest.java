@@ -18,7 +18,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -84,7 +86,7 @@ public class ImplicitTagsTest extends TestCase {
   }
 
   public void testLoadClassTag() {
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
     Yaml yaml = new Yaml(constructor);
     Car car = yaml.load(Util.getLocalResource("constructor/car-without-tags.yaml"));
@@ -98,7 +100,7 @@ public class ImplicitTagsTest extends TestCase {
     String carYaml1 = new Yaml().dump(car);
     assertTrue(carYaml1.startsWith("!!org.yaml.snakeyaml.constructor.Car"));
     //
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.addClassTag(Car.class, new Tag("!car"));
     yaml = new Yaml(representer);
     String carYaml2 = yaml.dump(car);

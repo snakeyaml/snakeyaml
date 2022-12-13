@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -89,6 +90,7 @@ public class YamlLoadAsIssueTest {
   private class MyConstructor extends Constructor {
 
     public MyConstructor() {
+      super(new LoaderOptions());
       yamlConstructors.put(new Tag("!car"), new ConstructCar());
       yamlConstructors.put(new Tag("!wheel"), new ConstructWheel());
     }

@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -51,6 +52,7 @@ public class DiceExampleTest extends TestCase {
   class DiceRepresenter extends Representer {
 
     public DiceRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Dice.class, new RepresentDice());
     }
 
@@ -67,6 +69,7 @@ public class DiceExampleTest extends TestCase {
   class DiceConstructor extends Constructor {
 
     public DiceConstructor() {
+      super(new LoaderOptions());
       this.yamlConstructors.put(new Tag("!dice"), new ConstructDice());
     }
 

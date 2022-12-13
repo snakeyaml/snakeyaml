@@ -57,9 +57,9 @@ public class EmitterWithCommentEnabledTest {
         new Serializer(new Emitter(output, options), new Resolver(), options, null);
 
     serializer.open();
-    Composer composer = new Composer(
-        new ParserImpl(new StreamReader(data), new LoaderOptions().setProcessComments(true)),
-        new Resolver());
+    LoaderOptions loaderOptions = new LoaderOptions().setProcessComments(true);
+    Composer composer = new Composer(new ParserImpl(new StreamReader(data), loaderOptions),
+        new Resolver(), loaderOptions);
     while (composer.checkNode()) {
       serializer.serialize(composer.getNode());
     }
@@ -331,14 +331,15 @@ public class EmitterWithCommentEnabledTest {
     String data = getComplexConfig();
 
     final DumperOptions yamlOptions = new DumperOptions();
-    final LoaderOptions loaderOptions = new LoaderOptions();
-    final Representer yamlRepresenter = new Representer();
-
     yamlOptions.setIndent(4);
     yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-    yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+
+    final LoaderOptions loaderOptions = new LoaderOptions();
+    final Representer yamlRepresenter = new Representer(yamlOptions);
+
     loaderOptions.setMaxAliasesForCollections(Integer.MAX_VALUE);
-    final Yaml yaml = new Yaml(new SafeConstructor(), yamlRepresenter, yamlOptions, loaderOptions);
+    final Yaml yaml =
+        new Yaml(new SafeConstructor(loaderOptions), yamlRepresenter, yamlOptions, loaderOptions);
 
     yaml.load(data);
   }

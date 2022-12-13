@@ -116,6 +116,13 @@ public class FilterPropertyToDumpTest extends TestCase {
 
   private class MyRepresenter extends Representer {
 
+    /**
+     * Create
+     */
+    public MyRepresenter() {
+      super(new DumperOptions());
+    }
+
     @Override
     protected Set<Property> getProperties(Class<? extends Object> type) {
       Set<Property> set = super.getProperties(type);

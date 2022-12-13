@@ -41,7 +41,7 @@ public class RecursiveAnchorTest extends TestCase {
     DumperOptions yamlOptions = new DumperOptions();
     yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 
-    Representer yamlRepresenter = new Representer();
+    Representer yamlRepresenter = new Representer(yamlOptions);
 
     Yaml yaml = new Yaml(yamlRepresenter, yamlOptions);
     String output = yaml.dump(rootMap);

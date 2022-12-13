@@ -15,10 +15,18 @@ package org.yaml.snakeyaml.emitter;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
+/**
+ * For emitter
+ */
 public class EmitterException extends YAMLException {
 
   private static final long serialVersionUID = -8280070025452995908L;
 
+  /**
+   * Create
+   *
+   * @param msg - text to show
+   */
   public EmitterException(String msg) {
     super(msg);
   }

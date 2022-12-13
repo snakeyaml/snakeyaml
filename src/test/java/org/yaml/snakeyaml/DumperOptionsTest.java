@@ -328,10 +328,10 @@ public class DumperOptionsTest extends TestCase {
   }
 
   public void testWithRepresenter() {
-    Representer representer = new Representer();
     DumperOptions options = new DumperOptions();
     options.setIndent(4);
     options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+    Representer representer = new Representer(options);
     Yaml yaml = new Yaml(representer, options);
     List<Integer> list = new ArrayList<Integer>();
     list.add(1);

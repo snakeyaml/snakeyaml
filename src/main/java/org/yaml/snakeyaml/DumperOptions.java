@@ -20,6 +20,10 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.serializer.AnchorGenerator;
 import org.yaml.snakeyaml.serializer.NumberAnchorGenerator;
 
+
+/**
+ * Configuration for serialisation
+ */
 public class DumperOptions {
 
   /**
@@ -32,7 +36,26 @@ public class DumperOptions {
    * @see <a href="http://yaml.org/spec/1.1/#id858081">2.3. Scalars</a>
    */
   public enum ScalarStyle {
-    DOUBLE_QUOTED('"'), SINGLE_QUOTED('\''), LITERAL('|'), FOLDED('>'), PLAIN(null);
+    /**
+     * Double quoted scalar
+     */
+    DOUBLE_QUOTED('"'),
+    /**
+     * Single quoted scalar
+     */
+    SINGLE_QUOTED('\''),
+    /**
+     * Literal scalar
+     */
+    LITERAL('|'),
+    /**
+     * Folded scalar
+     */
+    FOLDED('>'),
+    /**
+     * Plain scalar
+     */
+    PLAIN(null);
 
     private final Character styleChar;
 
@@ -40,15 +63,31 @@ public class DumperOptions {
       this.styleChar = style;
     }
 
+    /**
+     * getter
+     *
+     * @return the char behind the style
+     */
     public Character getChar() {
       return styleChar;
     }
 
+    /**
+     * Readable style
+     *
+     * @return for humans
+     */
     @Override
     public String toString() {
       return "Scalar style: '" + styleChar + "'";
     }
 
+    /**
+     * Create
+     *
+     * @param style - source char
+     * @return parsed style
+     */
     public static ScalarStyle createStyle(Character style) {
       if (style == null) {
         return PLAIN;
@@ -77,7 +116,18 @@ public class DumperOptions {
    *      (http://yaml.org/spec/1.1)</a>
    */
   public enum FlowStyle {
-    FLOW(Boolean.TRUE), BLOCK(Boolean.FALSE), AUTO(null);
+    /**
+     * Flow style
+     */
+    FLOW(Boolean.TRUE),
+    /**
+     * Block style
+     */
+    BLOCK(Boolean.FALSE),
+    /**
+     * Auto (first block, than flow)
+     */
+    AUTO(null);
 
     private final Boolean styleBoolean;
 
@@ -85,18 +135,25 @@ public class DumperOptions {
       styleBoolean = flowStyle;
     }
 
-    /*
+    /**
      * Convenience for legacy constructors that took {@link Boolean} arguments since replaced by
      * {@link FlowStyle}. Introduced in v1.22 but only to support that for backwards compatibility.
      *
      * @deprecated Since restored in v1.22. Use the {@link FlowStyle} constants in your code
-     * instead.
+     *             instead.
      */
     @Deprecated
     public static FlowStyle fromBoolean(Boolean flowStyle) {
       return flowStyle == null ? AUTO : flowStyle ? FLOW : BLOCK;
     }
 
+    /**
+     * getter
+     *
+     * @return bbolean value
+     * @deprecated use enum instead
+     */
+    @Deprecated
     public Boolean getStyleBoolean() {
       return styleBoolean;
     }
@@ -111,23 +168,54 @@ public class DumperOptions {
    * Platform dependent line break.
    */
   public enum LineBreak {
-    WIN("\r\n"), MAC("\r"), UNIX("\n");
+    /**
+     * Windows
+     */
+    WIN("\r\n"),
+    /**
+     * Old Mac (should not be used !)
+     */
+    MAC("\r"),
+    /**
+     * Linux and Mac
+     */
+    UNIX("\n");
 
     private final String lineBreak;
 
+    /**
+     * Create
+     *
+     * @param lineBreak - break
+     */
     LineBreak(String lineBreak) {
       this.lineBreak = lineBreak;
     }
 
+    /**
+     * getter
+     *
+     * @return the break
+     */
     public String getString() {
       return lineBreak;
     }
 
+    /**
+     * for humans
+     *
+     * @return representation
+     */
     @Override
     public String toString() {
       return "Line break: " + name();
     }
 
+    /**
+     * Get the line break used by the current Operating System
+     *
+     * @return detected line break
+     */
     public static LineBreak getPlatformLineBreak() {
       String platformLineBreak = System.getProperty("line.separator");
       for (LineBreak lb : values()) {
@@ -143,32 +231,67 @@ public class DumperOptions {
    * Specification version. Currently supported 1.0 and 1.1
    */
   public enum Version {
-    V1_0(new Integer[] {1, 0}), V1_1(new Integer[] {1, 1});
+    /**
+     * 1.0
+     */
+    V1_0(new Integer[] {1, 0}),
+    /**
+     * 1.1
+     */
+    V1_1(new Integer[] {1, 1});
 
     private final Integer[] version;
 
+    /**
+     * Create
+     *
+     * @param version - definition
+     */
     Version(Integer[] version) {
       this.version = version;
     }
 
+    /**
+     * getter
+     *
+     * @return major part (always 1)
+     */
     public int major() {
       return version[0];
     }
 
+    /**
+     * Minor part (0 or 1)
+     *
+     * @return 0 or 1
+     */
     public int minor() {
       return version[1];
     }
 
+    /**
+     * getter
+     *
+     * @return representation for serialisation
+     */
     public String getRepresentation() {
       return version[0] + "." + version[1];
     }
 
+    /**
+     * Readable string
+     *
+     * @return for humans
+     */
     @Override
     public String toString() {
       return "Version: " + getRepresentation();
     }
   }
 
+  /**
+   * the way to serialize non-printable
+   */
   public enum NonPrintableStyle {
     /**
      * Transform String to binary if it contains non-printable characters
@@ -203,6 +326,11 @@ public class DumperOptions {
   private Boolean prettyFlow = false;
   private AnchorGenerator anchorGenerator = new NumberAnchorGenerator(0);
 
+  /**
+   * getter
+   *
+   * @return false when non-ASCII is escaped
+   */
   public boolean isAllowUnicode() {
     return allowUnicode;
   }
@@ -218,6 +346,11 @@ public class DumperOptions {
     this.allowUnicode = allowUnicode;
   }
 
+  /**
+   * getter
+   *
+   * @return scalar style
+   */
   public ScalarStyle getDefaultScalarStyle() {
     return defaultStyle;
   }
@@ -235,6 +368,11 @@ public class DumperOptions {
     this.defaultStyle = defaultStyle;
   }
 
+  /**
+   * Define indentation. Must be within the limits (1-10)
+   *
+   * @param indent number of spaces to serve as indentation
+   */
   public void setIndent(int indent) {
     if (indent < Emitter.MIN_INDENT) {
       throw new YAMLException("Indent must be at least " + Emitter.MIN_INDENT);
@@ -245,6 +383,11 @@ public class DumperOptions {
     this.indent = indent;
   }
 
+  /**
+   * getter
+   *
+   * @return indent
+   */
   public int getIndent() {
     return this.indent;
   }
@@ -282,10 +425,20 @@ public class DumperOptions {
     this.indentWithIndicator = indentWithIndicator;
   }
 
+  /**
+   * Of no use - it is better not to include YAML version as the directive
+   *
+   * @param version 1.0 or 1.1
+   */
   public void setVersion(Version version) {
     this.version = version;
   }
 
+  /**
+   * getter
+   *
+   * @return the expected version
+   */
   public Version getVersion() {
     return this.version;
   }
@@ -299,6 +452,11 @@ public class DumperOptions {
     this.canonical = canonical;
   }
 
+  /**
+   * getter
+   *
+   * @return true when well established format should be dumped
+   */
   public boolean isCanonical() {
     return this.canonical;
   }
@@ -312,6 +470,11 @@ public class DumperOptions {
     this.prettyFlow = prettyFlow;
   }
 
+  /**
+   * getter
+   *
+   * @return true for pretty style
+   */
   public boolean isPrettyFlow() {
     return this.prettyFlow;
   }
@@ -326,6 +489,11 @@ public class DumperOptions {
     this.bestWidth = bestWidth;
   }
 
+  /**
+   * getter
+   *
+   * @return the preferred width for scalars
+   */
   public int getWidth() {
     return this.bestWidth;
   }
@@ -339,14 +507,29 @@ public class DumperOptions {
     this.splitLines = splitLines;
   }
 
+  /**
+   * getter
+   *
+   * @return true when to split lines exceeding preferred width for scalars
+   */
   public boolean getSplitLines() {
     return this.splitLines;
   }
 
+  /**
+   * getter
+   *
+   * @return line break to separate lines
+   */
   public LineBreak getLineBreak() {
     return lineBreak;
   }
 
+  /**
+   * setter
+   *
+   * @param defaultFlowStyle - enum for the flow style
+   */
   public void setDefaultFlowStyle(FlowStyle defaultFlowStyle) {
     if (defaultFlowStyle == null) {
       throw new NullPointerException("Use FlowStyle enum.");
@@ -354,6 +537,11 @@ public class DumperOptions {
     this.defaultFlowStyle = defaultFlowStyle;
   }
 
+  /**
+   * getter
+   *
+   * @return flow style for collections
+   */
   public FlowStyle getDefaultFlowStyle() {
     return defaultFlowStyle;
   }
@@ -371,26 +559,56 @@ public class DumperOptions {
     this.lineBreak = lineBreak;
   }
 
+  /**
+   * getter
+   *
+   * @return true when '---' must be printed
+   */
   public boolean isExplicitStart() {
     return explicitStart;
   }
 
+  /**
+   * setter - require explicit '...'
+   *
+   * @param explicitStart - true to emit '---'
+   */
   public void setExplicitStart(boolean explicitStart) {
     this.explicitStart = explicitStart;
   }
 
+  /**
+   * getter
+   *
+   * @return true when '...' must be printed
+   */
   public boolean isExplicitEnd() {
     return explicitEnd;
   }
 
+  /**
+   * setter - require explicit '...'
+   *
+   * @param explicitEnd - true to emit '...'
+   */
   public void setExplicitEnd(boolean explicitEnd) {
     this.explicitEnd = explicitEnd;
   }
 
+  /**
+   * getter
+   *
+   * @return previously defined tag directives
+   */
   public Map<String, String> getTags() {
     return tags;
   }
 
+  /**
+   * setter
+   *
+   * @param tags - tag directives for the YAML document
+   */
   public void setTags(Map<String, String> tags) {
     this.tags = tags;
   }
@@ -416,6 +634,11 @@ public class DumperOptions {
     this.allowReadOnlyProperties = allowReadOnlyProperties;
   }
 
+  /**
+   * getter
+   *
+   * @return timezone to be used to emit Date
+   */
   public TimeZone getTimeZone() {
     return timeZone;
   }
@@ -430,10 +653,20 @@ public class DumperOptions {
   }
 
 
+  /**
+   * getter
+   *
+   * @return generator to create anchor names
+   */
   public AnchorGenerator getAnchorGenerator() {
     return anchorGenerator;
   }
 
+  /**
+   * Provide a custom generator
+   *
+   * @param anchorGenerator - the way to create custom anchors
+   */
   public void setAnchorGenerator(AnchorGenerator anchorGenerator) {
     this.anchorGenerator = anchorGenerator;
   }
@@ -457,15 +690,19 @@ public class DumperOptions {
   }
 
   /**
-   * Set the comment processing. By default comments are ignored.
+   * Set the comment processing. By default, comments are ignored.
    *
    * @param processComments <code>true</code> to process; <code>false</code> to ignore
    */
-
   public void setProcessComments(boolean processComments) {
     this.processComments = processComments;
   }
 
+  /**
+   * getter
+   *
+   * @return true when comments are not ignored and can be used after composing a Node
+   */
   public boolean isProcessComments() {
     return processComments;
   }

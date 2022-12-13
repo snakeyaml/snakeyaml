@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
 public class FilterClassesConstructorTest extends TestCase {
@@ -38,6 +39,7 @@ public class FilterClassesConstructorTest extends TestCase {
     private final boolean filter;
 
     public FilterConstructor(boolean f) {
+      super(new LoaderOptions());
       filter = f;
     }
 

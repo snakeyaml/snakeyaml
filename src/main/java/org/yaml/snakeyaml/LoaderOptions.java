@@ -13,6 +13,9 @@
  */
 package org.yaml.snakeyaml;
 
+/**
+ * Configuration for loading
+ */
 public class LoaderOptions {
 
   private boolean allowDuplicateKeys = true;
@@ -25,6 +28,11 @@ public class LoaderOptions {
   private int nestingDepthLimit = 50;
   private int codePointLimit = 3 * 1024 * 1024; // 3 MB
 
+  /**
+   * getter
+   *
+   * @return true when duplicate keys in mapping allowed (the latter overrides the former)
+   */
   public final boolean isAllowDuplicateKeys() {
     return allowDuplicateKeys;
   }
@@ -47,6 +55,11 @@ public class LoaderOptions {
     this.allowDuplicateKeys = allowDuplicateKeys;
   }
 
+  /**
+   * getter
+   *
+   * @return true when wrapped
+   */
   public final boolean isWrappedToRootException() {
     return wrappedToRootException;
   }
@@ -62,6 +75,11 @@ public class LoaderOptions {
     this.wrappedToRootException = wrappedToRootException;
   }
 
+  /**
+   * getter
+   *
+   * @return show the limit
+   */
   public final int getMaxAliasesForCollections() {
     return maxAliasesForCollections;
   }
@@ -87,6 +105,11 @@ public class LoaderOptions {
     this.allowRecursiveKeys = allowRecursiveKeys;
   }
 
+  /**
+   * getter
+   *
+   * @return when recursive keys are allowed (the document should be trusted)
+   */
   public final boolean getAllowRecursiveKeys() {
     return allowRecursiveKeys;
   }
@@ -95,16 +118,27 @@ public class LoaderOptions {
    * Set the comment processing. By default, comments are ignored.
    *
    * @param processComments <code>true</code> to process; <code>false</code> to ignore
+   * @return applied options
    */
   public LoaderOptions setProcessComments(boolean processComments) {
     this.processComments = processComments;
     return this;
   }
 
+  /**
+   * getter
+   *
+   * @return comments are kept in Node
+   */
   public final boolean isProcessComments() {
     return processComments;
   }
 
+  /**
+   * getter
+   *
+   * @return true when parsing enum case-sensitive
+   */
   public final boolean isEnumCaseSensitive() {
     return enumCaseSensitive;
   }
@@ -113,12 +147,17 @@ public class LoaderOptions {
    * Disables or enables case sensitivity during construct enum constant from string value Default
    * is false.
    *
-   * @param enumCaseSensitive - true to set enum case sensitive, false the reverse
+   * @param enumCaseSensitive - true to set enum case-sensitive, false the reverse
    */
   public void setEnumCaseSensitive(boolean enumCaseSensitive) {
     this.enumCaseSensitive = enumCaseSensitive;
   }
 
+  /**
+   * getter
+   *
+   * @return the limit
+   */
   public final int getNestingDepthLimit() {
     return nestingDepthLimit;
   }
@@ -133,6 +172,11 @@ public class LoaderOptions {
     this.nestingDepthLimit = nestingDepthLimit;
   }
 
+  /**
+   * getter
+   *
+   * @return max code points in the input document
+   */
   public final int getCodePointLimit() {
     return codePointLimit;
   }

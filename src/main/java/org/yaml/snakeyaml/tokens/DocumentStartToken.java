@@ -15,12 +15,26 @@ package org.yaml.snakeyaml.tokens;
 
 import org.yaml.snakeyaml.error.Mark;
 
+/**
+ * DocumentStartToken
+ */
 public final class DocumentStartToken extends Token {
 
+  /**
+   * Create
+   *
+   * @param startMark - start
+   * @param endMark - end
+   */
   public DocumentStartToken(Mark startMark, Mark endMark) {
     super(startMark, endMark);
   }
 
+  /**
+   * getter
+   *
+   * @return its identity
+   */
   @Override
   public Token.ID getTokenId() {
     return ID.DocumentStart;

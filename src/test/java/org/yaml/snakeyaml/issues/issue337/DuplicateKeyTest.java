@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.issues.issue337;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -113,6 +114,7 @@ public class DuplicateKeyTest {
     Yaml yaml = new Yaml(lc);
     try {
       yaml.loadAs(input, MapProvider.class);
+      fail();
     } catch (DuplicateKeyException e) {
       assertTrue(e.getMessage(), e.getMessage().contains("found duplicate key someitem"));
       assertTrue(e.getMessage(), e.getMessage().contains("line 3, column 3"));

@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
@@ -202,7 +203,7 @@ public class HumanGenericsTest extends TestCase {
     father.setChildren(children);
     mother.setChildren(children);
     //
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.addClassTag(HumanGen2.class, Tag.MAP);
     Yaml yaml = new Yaml(representer);
     String output = yaml.dump(son);
@@ -272,7 +273,7 @@ public class HumanGenericsTest extends TestCase {
     mother.setChildren(children);
     //
 
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     TypeDescription Human3Description = new TypeDescription(HumanGen3.class);
     Human3Description.putListPropertyType("children", HumanGen3.class);
     constructor.addTypeDescription(Human3Description);
@@ -312,7 +313,7 @@ public class HumanGenericsTest extends TestCase {
   public void testChildrenSetAsRoot() throws IOException, IntrospectionException {
     String etalon = Util.getLocalResource("recursive/generics/with-children-as-set.yaml");
 
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     TypeDescription humanDescription = new TypeDescription(HumanGen.class);
     humanDescription.putMapPropertyType("children", HumanGen.class, Object.class);
     constructor.addTypeDescription(humanDescription);
@@ -346,7 +347,7 @@ public class HumanGenericsTest extends TestCase {
   public void testChildrenMapAsRoot() throws IOException, IntrospectionException {
     String etalon = Util.getLocalResource("recursive/generics/with-children-as-map.yaml");
 
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     TypeDescription Human2Description = new TypeDescription(HumanGen2.class);
     Human2Description.putMapPropertyType("children", HumanGen2.class, String.class);
     constructor.addTypeDescription(Human2Description);
@@ -411,7 +412,7 @@ public class HumanGenericsTest extends TestCase {
     mother.setChildren(children);
     //
 
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     TypeDescription Human3Description = new TypeDescription(HumanGen3.class);
     Human3Description.putListPropertyType("children", HumanGen3.class);
     constructor.addTypeDescription(Human3Description);

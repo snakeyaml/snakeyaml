@@ -28,6 +28,16 @@ public abstract class CollectionStartEvent extends NodeEvent {
   // flag indicates if a collection is block or flow
   private final DumperOptions.FlowStyle flowStyle;
 
+  /**
+   * Create
+   *
+   * @param anchor - its anchor
+   * @param tag - its tag
+   * @param implicit - thue when the tag is implicitly resolved
+   * @param startMark - start
+   * @param endMark - end
+   * @param flowStyle - style
+   */
   public CollectionStartEvent(String anchor, String tag, boolean implicit, Mark startMark,
       Mark endMark, DumperOptions.FlowStyle flowStyle) {
     super(anchor, startMark, endMark);
@@ -39,13 +49,12 @@ public abstract class CollectionStartEvent extends NodeEvent {
     this.flowStyle = flowStyle;
   }
 
-  /*
+  /**
    * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
    * Restored in v1.22 for backwards compatibility.
    *
-   * @deprecated Since restored in v1.22. Use {@link
-   * CollectionStartEvent#CollectionStartEvent(String, String, boolean, Mark, Mark,
-   * org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
+   * @deprecated Since restored in v1.22. Use
+   *             {@link CollectionStartEvent#CollectionStartEvent(String, String, boolean, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
    */
   @Deprecated
   public CollectionStartEvent(String anchor, String tag, boolean implicit, Mark startMark,
@@ -85,6 +94,11 @@ public abstract class CollectionStartEvent extends NodeEvent {
     return super.getArguments() + ", tag=" + tag + ", implicit=" + implicit;
   }
 
+  /**
+   * Getter
+   *
+   * @return true for FLOW (exclude BLOCK and AUTO)
+   */
   public boolean isFlow() {
     return DumperOptions.FlowStyle.FLOW == flowStyle;
   }

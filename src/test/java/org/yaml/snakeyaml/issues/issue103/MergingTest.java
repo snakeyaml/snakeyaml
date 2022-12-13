@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue103;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -35,7 +36,7 @@ public class MergingTest extends TestCase {
   public void testMergeWithFakeMap() {
     String input = Util.getLocalResource("issues/issue103.yaml");
     // System.out.println(input);
-    Constructor c = new Constructor() {
+    Constructor c = new Constructor(new LoaderOptions()) {
       protected java.util.Map<Object, Object> createDefaultMap(int size) {
         return new FakeMap<Object, Object>();
       }

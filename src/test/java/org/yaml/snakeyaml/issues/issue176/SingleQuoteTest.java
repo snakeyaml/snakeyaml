@@ -18,6 +18,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.representer.Representer;
@@ -38,9 +39,9 @@ public class SingleQuoteTest extends TestCase {
     if (isBlock) {
       options.setDefaultFlowStyle(FlowStyle.BLOCK);
     }
-    Representer representer = new Representer();
+    Representer representer = new Representer(options);
 
-    Yaml yaml = new Yaml(new SafeConstructor(), representer, options);
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()), representer, options);
 
     LinkedHashMap<String, Object> lvl1 = new LinkedHashMap<String, Object>();
     lvl1.put("steak:cow", "11");

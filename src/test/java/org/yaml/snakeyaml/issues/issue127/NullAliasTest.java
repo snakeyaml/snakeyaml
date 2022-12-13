@@ -39,6 +39,7 @@ public class NullAliasTest extends TestCase {
   class BeanRepresenter extends Representer {
 
     public BeanRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Bean.class, new RepresentBean());
     }
 

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -40,6 +41,7 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 public class EventConstructor extends Constructor {
 
   public EventConstructor() {
+    super(new LoaderOptions());
     this.yamlConstructors.put(null, new ConstructEvent());
   }
 

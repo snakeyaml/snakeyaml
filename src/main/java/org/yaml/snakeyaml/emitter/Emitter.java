@@ -67,12 +67,18 @@ import org.yaml.snakeyaml.util.ArrayStack;
  */
 public final class Emitter implements Emitable {
 
+  /**
+   * indent cannot be zero spaces
+   */
   public static final int MIN_INDENT = 1;
+  /**
+   * indent should not be more than 10 spaces
+   */
   public static final int MAX_INDENT = 10;
   private static final char[] SPACE = {' '};
 
   private static final Pattern SPACES_PATTERN = Pattern.compile("\\s");
-  private static final Set<Character> INVALID_ANCHOR = new HashSet();
+  private static final Set<Character> INVALID_ANCHOR = new HashSet<Character>();
 
   static {
     INVALID_ANCHOR.add('[');
@@ -183,11 +189,22 @@ public final class Emitter implements Emitable {
   private final CommentEventsCollector inlineCommentsCollector;
 
 
+  /**
+   * Create
+   *
+   * @param stream - output to write to
+   * @param opts - options
+   */
   public Emitter(Writer stream, DumperOptions opts) {
+    if (stream == null) {
+      throw new NullPointerException("Writer must be provided.");
+    }
+    if (opts == null) {
+      throw new NullPointerException("DumperOptions must be provided.");
+    }
     // The stream should have the methods `write` and possibly `flush`.
     this.stream = stream;
-    // Emitter is a state machine with a stack of states to handle nested
-    // structures.
+    // Emitter is a state machine with a stack of states to handle nested structures.
     this.states = new ArrayStack<EmitterState>(100);
     this.state = new ExpectStreamStart();
     // Current event and the event queue.

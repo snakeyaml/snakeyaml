@@ -23,7 +23,7 @@ import org.yaml.snakeyaml.representer.Representer;
 public class ImmutablePrimitivesRepresenter extends Representer {
 
   public ImmutablePrimitivesRepresenter() {
-    super();
+    super(new DumperOptions());
     this.representers.put(BunchOfPrimitives.class, new RepresentPrimitives());
   }
 

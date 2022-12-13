@@ -16,6 +16,7 @@ package examples;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -54,6 +55,7 @@ public class IgnoreTagsExampleTest extends TestCase {
     private final Construct original;
 
     public MyConstructor() {
+      super(new LoaderOptions());
       original = this.yamlConstructors.get(null);
       this.yamlConstructors.put(null, new IgnoringConstruct());
     }

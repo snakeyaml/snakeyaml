@@ -16,6 +16,7 @@ package org.pyyaml;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -31,8 +32,9 @@ public class CanonicalLoader extends Yaml {
         buffer.append((char) ch);
         ch = yaml.read();
       }
-      Composer composer = new Composer(
-          new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n")), resolver);
+      Composer composer =
+          new Composer(new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n")),
+              resolver, new LoaderOptions());
       constructor.setComposer(composer);
       return constructor.getSingleData(Object.class);
     } catch (IOException e) {
@@ -48,7 +50,8 @@ public class CanonicalLoader extends Yaml {
         buffer.append((char) ch);
         ch = yaml.read();
       }
-      Composer composer = new Composer(new CanonicalParser(buffer.toString()), resolver);
+      Composer composer =
+          new Composer(new CanonicalParser(buffer.toString()), resolver, new LoaderOptions());
       this.constructor.setComposer(composer);
       Iterator<Object> result = new Iterator<Object>() {
         public boolean hasNext() {

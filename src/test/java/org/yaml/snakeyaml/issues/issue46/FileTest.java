@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -47,6 +48,7 @@ public class FileTest extends TestCase {
   public class MyRepresenter extends Representer {
 
     public MyRepresenter() {
+      super(new DumperOptions());
       this.representers.put(File.class, new FileRepresenter());
     }
 

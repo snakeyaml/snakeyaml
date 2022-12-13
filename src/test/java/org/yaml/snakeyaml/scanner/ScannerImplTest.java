@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.scanner;
 import java.util.LinkedList;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.reader.StreamReader;
@@ -33,7 +34,7 @@ public class ScannerImplTest extends TestCase {
   public void testGetToken() {
     String data = "string: abcd";
     StreamReader reader = new StreamReader(data);
-    Scanner scanner = new ScannerImpl(reader);
+    Scanner scanner = new ScannerImpl(reader, new LoaderOptions());
     Mark dummy = new Mark("dummy", 0, 0, 0, "".toCharArray(), 0);
     LinkedList<Token> etalonTokens = new LinkedList<Token>();
     etalonTokens.add(new StreamStartToken(dummy, dummy));

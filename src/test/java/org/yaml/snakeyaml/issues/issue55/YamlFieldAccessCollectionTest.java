@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue55;
 import java.util.Collection;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -63,7 +64,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
   }
 
   protected Yaml constructYamlDumper() {
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
     Yaml yaml = new Yaml(representer);
     return yaml;

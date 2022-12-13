@@ -48,7 +48,7 @@ public class TypeDescription {
   // If not set - TypeDescription will leave instantiation of an entity to the YAML Constructor
   private Class<?> impl;
 
-  private Tag tag;
+  private final Tag tag;
 
   private transient Set<Property> dumpProperties;
   private transient PropertyUtils propertyUtils;
@@ -91,28 +91,6 @@ public class TypeDescription {
    */
   public Tag getTag() {
     return tag;
-  }
-
-  /**
-   * Set tag to be used dump the type (class).
-   *
-   * @param tag - local or global tag
-   * @deprecated it will be removed because it is not used
-   */
-  @Deprecated
-  public void setTag(Tag tag) {
-    this.tag = tag;
-  }
-
-  /**
-   * Set tag to be used to dump the type (class).
-   *
-   * @param tag - local or global tag
-   * @deprecated it will be removed because it is not used
-   */
-  @Deprecated
-  public void setTag(String tag) {
-    setTag(new Tag(tag));
   }
 
   /**

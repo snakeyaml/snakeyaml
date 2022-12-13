@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.issues.issue67;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
@@ -79,7 +80,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
     Académico obj = new Académico();
     obj.setId(123);
     obj.setName("Foo bar 123");
-    Representer repr = new Representer();
+    Representer repr = new Representer(new DumperOptions());
     repr.addClassTag(Académico.class, new Tag("!foo"));
     Yaml yaml = new Yaml(repr);
     String result = yaml.dump(obj);
@@ -90,7 +91,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
     Académico obj = new Académico();
     obj.setId(123);
     obj.setName("Foo bar 123");
-    Representer repr = new Representer();
+    Representer repr = new Representer(new DumperOptions());
     repr.addClassTag(Académico.class, new Tag("!Académico"));
     Yaml yaml = new Yaml(repr);
     String result = yaml.dump(obj);
