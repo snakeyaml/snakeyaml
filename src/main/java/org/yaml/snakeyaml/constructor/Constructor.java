@@ -161,7 +161,7 @@ public class Constructor extends SafeConstructor {
     this(Class.forName(check(theRoot)), loadingConfig);
   }
 
-  private static String check(String s) {
+  private static final String check(String s) {
     if (s == null) {
       throw new NullPointerException("Root type must be provided.");
     }
@@ -629,7 +629,7 @@ public class Constructor extends SafeConstructor {
       }
     }
 
-    private Class<? extends Object> wrapIfPrimitive(Class<?> clazz) {
+    private final Class<? extends Object> wrapIfPrimitive(Class<?> clazz) {
       if (!clazz.isPrimitive()) {
         return clazz;
       }
@@ -678,11 +678,6 @@ public class Constructor extends SafeConstructor {
     Class<? extends Object> classForTag = typeTags.get(node.getTag());
     if (classForTag == null) {
       String name = node.getTag().getClassName();
-      if (isNameBlackListed(name)) {
-        throw new ConstructorException(null, null,
-            "Class is blacklisted. (Remove from the black list to continue) " + name,
-            node.getStartMark());
-      }
       Class<?> cl;
       try {
         cl = getClassForName(name);
@@ -694,20 +689,6 @@ public class Constructor extends SafeConstructor {
     } else {
       return classForTag;
     }
-  }
-
-  /**
-   * Check if the name of the class to be created contains a blacklisted pattern
-   *
-   * @param name - class name to create
-   * @return true when the class should not be created
-   */
-  protected boolean isNameBlackListed(String name) {
-    for (String black : loadingConfig.getBlackList()) {
-      if (name.contains(black))
-        return true;
-    }
-    return false;
   }
 
   protected Class<?> getClassForName(String name) throws ClassNotFoundException {
