@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -52,5 +53,17 @@ public class BlackListTest {
     // called.
     Object obj = yaml.load(malicious); // Make request to http://attacker.com
     assertNotNull(obj);
+  }
+
+  @Test
+  public void testBlackListIsImmutable() {
+    LoaderOptions options = new LoaderOptions();
+    List<Class> black = options.getBlackListClasses();
+    try {
+      black.add(this.getClass());
+      fail("No way to modify the black list.");
+    } catch (UnsupportedOperationException e) {
+      //
+    }
   }
 }

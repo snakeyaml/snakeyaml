@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,11 +31,13 @@ public class LoaderOptions {
   private boolean enumCaseSensitive = true;
   private int nestingDepthLimit = 50;
   private int codePointLimit = 3 * 1024 * 1024; // 3 MB
-  private List<Class> blackListClasses = new ArrayList<Class>();
+  private List<Class> blackListClasses;
 
   public LoaderOptions() {
-    blackListClasses.add(javax.script.ScriptEngineManager.class);
-    blackListClasses.add(java.lang.ClassLoader.class);
+    List<Class> blackList = new ArrayList<Class>();
+    blackList.add(javax.script.ScriptEngineManager.class);
+    blackList.add(java.lang.ClassLoader.class);
+    setBlackListClasses(blackList);
   }
 
   /**
@@ -217,6 +220,6 @@ public class LoaderOptions {
    * @param blackListClasses - the prohibited classes
    */
   public void setBlackListClasses(List<Class> blackListClasses) {
-    this.blackListClasses = blackListClasses;
+    this.blackListClasses = Collections.unmodifiableList(blackListClasses);
   }
 }
