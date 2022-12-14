@@ -13,6 +13,9 @@
  */
 package org.yaml.snakeyaml;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Configuration for loading
  */
@@ -27,6 +30,12 @@ public class LoaderOptions {
   private boolean enumCaseSensitive = true;
   private int nestingDepthLimit = 50;
   private int codePointLimit = 3 * 1024 * 1024; // 3 MB
+  private List<Class> blackListClasses = new ArrayList<Class>();
+
+  public LoaderOptions() {
+    blackListClasses.add(javax.script.ScriptEngineManager.class);
+    blackListClasses.add(java.lang.ClassLoader.class);
+  }
 
   /**
    * getter
@@ -189,5 +198,25 @@ public class LoaderOptions {
    */
   public void setCodePointLimit(int codePointLimit) {
     this.codePointLimit = codePointLimit;
+  }
+
+  /**
+   * Get the class name which cannot be instantiated. By default, ScriptEngineManager and
+   * ClassLoader are black listed.
+   *
+   * @return the prohibited classes
+   */
+  public List<Class> getBlackListClasses() {
+    return blackListClasses;
+  }
+
+  /**
+   * Set the class names which may not be created to avoid unintended code execution. The class
+   * itself and all its descendants become black listed.
+   *
+   * @param blackListClasses - the prohibited classes
+   */
+  public void setBlackListClasses(List<Class> blackListClasses) {
+    this.blackListClasses = blackListClasses;
   }
 }
