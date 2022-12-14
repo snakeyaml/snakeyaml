@@ -161,7 +161,7 @@ public class Constructor extends SafeConstructor {
     this(Class.forName(check(theRoot)), loadingConfig);
   }
 
-  private static final String check(String s) {
+  private static String check(String s) {
     if (s == null) {
       throw new NullPointerException("Root type must be provided.");
     }
@@ -629,7 +629,7 @@ public class Constructor extends SafeConstructor {
       }
     }
 
-    private final Class<? extends Object> wrapIfPrimitive(Class<?> clazz) {
+    private Class<? extends Object> wrapIfPrimitive(Class<?> clazz) {
       if (!clazz.isPrimitive()) {
         return clazz;
       }
