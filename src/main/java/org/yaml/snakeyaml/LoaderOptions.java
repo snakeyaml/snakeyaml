@@ -204,8 +204,9 @@ public class LoaderOptions {
   }
 
   /**
-   * Get the class name which cannot be instantiated. By default, ScriptEngineManager and
-   * ClassLoader are black listed.
+   * Get the class names which cannot be instantiated. By default, ScriptEngineManager and
+   * ClassLoader are black listed (because they are a part of the JDK).
+   * The returned list is unmodifiable.
    *
    * @return the prohibited classes
    */
