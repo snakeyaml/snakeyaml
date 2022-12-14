@@ -13,6 +13,7 @@
  */
 package org.yaml.snakeyaml.issues.issue564;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -65,5 +66,11 @@ public class BlackListTest {
     } catch (UnsupportedOperationException e) {
       //
     }
+  }
+
+  @Test
+  public void testDefaultBlackListSize() {
+    LoaderOptions options = new LoaderOptions();
+    assertEquals(4, options.getBlackListClasses().size());
   }
 }

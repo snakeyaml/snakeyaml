@@ -35,6 +35,8 @@ public class LoaderOptions {
 
   public LoaderOptions() {
     List<Class> blackList = new ArrayList<Class>();
+    blackList.add(javax.script.ScriptEngine.class);
+    blackList.add(javax.script.ScriptEngineFactory.class);
     blackList.add(javax.script.ScriptEngineManager.class);
     blackList.add(java.lang.ClassLoader.class);
     setBlackListClasses(blackList);
@@ -205,8 +207,8 @@ public class LoaderOptions {
 
   /**
    * Get the class names which cannot be instantiated. By default, ScriptEngineManager and
-   * ClassLoader are black listed (because they are a part of the JDK).
-   * The returned list is unmodifiable.
+   * ClassLoader are black listed (because they are a part of the JDK). The returned list is
+   * unmodifiable.
    *
    * @return the prohibited classes
    */
