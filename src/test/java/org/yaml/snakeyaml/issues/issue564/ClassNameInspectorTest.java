@@ -17,7 +17,9 @@ import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.ClassNameInspector;
+import org.yaml.snakeyaml.constructor.DefaultClassNameInspector;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -48,7 +50,7 @@ public class ClassNameInspectorTest {
     options.setClassNameInspector(new ClassNameInspector() {
 
       @Override
-      public boolean isAllowed(Class fullClassName) {
+      public boolean isAllowed(String fullClassName) {
         return true;
       }
     });
@@ -59,5 +61,10 @@ public class ClassNameInspectorTest {
     // called.
     Object obj = yaml.load(malicious); // Make request to http://attacker.com
     assertNotNull(obj);
+  }
+
+  @Test
+  public void testDefaultListSize() {
+    assertEquals(2, DefaultClassNameInspector.defaultList().size());
   }
 }

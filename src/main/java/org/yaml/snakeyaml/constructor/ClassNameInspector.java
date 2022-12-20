@@ -16,13 +16,17 @@ package org.yaml.snakeyaml.constructor;
 /**
  * Check the class either to allow or to reject to create an instance. It will control the classes
  * to be created at runtime to avoid remote code invocation from untrusted sources.
+ *
+ * The implementation may decide to load the class to check if it is a descendant of a prohibited
+ * class.
  */
 public interface ClassNameInspector {
+
   /**
    * Check the class
    *
-   * @param clazz - the class to check
+   * @param className - the class to check
    * @return true when it is safe to create an instance of this class
    */
-  boolean isAllowed(Class clazz);
+  boolean isAllowed(String className);
 }

@@ -17,11 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The default implementation of ClassNameInspector which does not allow to create a class if it is
- * a descendant of any class in the provided list
+ * The default implementation of ClassNameInspector which does not allow to create a class if it
+ * begins with the deny pattern. By default, "javax.script" and "java.lang.ClassLoader" are denied.
  */
 public class DefaultClassNameInspector implements ClassNameInspector {
-  private final List<Class> denyList;
+
+  private final List<String> denyList;
 
   /**
    * Create with default classes
@@ -35,41 +36,36 @@ public class DefaultClassNameInspector implements ClassNameInspector {
    *
    * @param denyList - the list of classes to reject
    */
-  public DefaultClassNameInspector(List<Class> denyList) {
+  public DefaultClassNameInspector(List<String> denyList) {
     this.denyList = denyList;
   }
 
   /**
    * Add javax.script.* and java.lang.ClassLoader
    *
-   * @return default classes to reject
+   * @return default name patterns to reject
    */
-  public static List<Class> defaultList() {
-    List<Class> denyList = new ArrayList<Class>();
-    denyList.add(javax.script.ScriptEngine.class);
-    denyList.add(javax.script.ScriptEngineFactory.class);
-    denyList.add(javax.script.ScriptEngineManager.class);
-    denyList.add(java.lang.ClassLoader.class);
+  public static List<String> defaultList() {
+    List<String> denyList = new ArrayList<String>();
+    denyList.add("javax.script");
+    denyList.add("java.lang.ClassLoader");
     return denyList;
-  }
-
-  @Override
-  public boolean isAllowed(Class fullClassName) {
-    return !isClassDenied(fullClassName);
   }
 
   /**
    * Check if the class to be created is denied (it is prohibited because of security or other
    * reasons)
    *
-   * @param clazz - class to create
+   * @param fullClassName - class to create
    * @return true when the class should not be created
    */
-  private boolean isClassDenied(Class clazz) {
-    for (Class denied : denyList) {
-      if (denied.isAssignableFrom(clazz))
-        return true;
+  @Override
+  public boolean isAllowed(String fullClassName) {
+    for (String denied : denyList) {
+      if (fullClassName.startsWith(denied)) {
+        return false;
+      }
     }
-    return false;
+    return true;
   }
 }
