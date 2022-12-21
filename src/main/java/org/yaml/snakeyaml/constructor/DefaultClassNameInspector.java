@@ -48,7 +48,7 @@ public class DefaultClassNameInspector implements ClassNameInspector {
   public static List<String> defaultList() {
     List<String> denyList = new ArrayList<String>();
     denyList.add("javax.script");
-    denyList.add("java.lang.ClassLoader");
+    denyList.add("java.net.URLClassLoader");
     return denyList;
   }
 
