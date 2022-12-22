@@ -13,9 +13,6 @@
  */
 package org.yaml.snakeyaml;
 
-import org.yaml.snakeyaml.constructor.ClassNameInspector;
-import org.yaml.snakeyaml.constructor.DefaultClassNameInspector;
-
 /**
  * Configuration for loading
  */
@@ -37,8 +34,6 @@ public class LoaderOptions {
   private int nestingDepthLimit = 50;
 
   private int codePointLimit = 3 * 1024 * 1024; // 3 MB
-
-  private ClassNameInspector classNameInspector = new DefaultClassNameInspector();
 
   /**
    * getter
@@ -203,22 +198,5 @@ public class LoaderOptions {
     this.codePointLimit = codePointLimit;
   }
 
-  /**
-   * Specify a way to restrict classes to be instantiated at runtime. It is
-   * {@linkplain DefaultClassNameInspector} by default.
-   *
-   * @return currently defined {@linkplain ClassNameInspector}
-   */
-  public ClassNameInspector getClassNameInspector() {
-    return classNameInspector;
-  }
 
-  /**
-   * Specify a way to restrict classes to be instantiated at runtime.
-   *
-   * @param classNameInspector - the way to allow/reject classes to be created at runtime.
-   */
-  public void setClassNameInspector(ClassNameInspector classNameInspector) {
-    this.classNameInspector = classNameInspector;
-  }
 }

@@ -678,10 +678,6 @@ public class Constructor extends SafeConstructor {
     Class<? extends Object> classForTag = typeTags.get(node.getTag());
     if (classForTag == null) {
       String name = node.getTag().getClassName();
-      if (!loadingConfig.getClassNameInspector().isAllowed(name)) {
-        throw new ConstructorException(null, null, "Class is not allowed: " + name,
-            node.getStartMark());
-      }
       Class<?> cl;
       try {
         cl = getClassForName(name);
