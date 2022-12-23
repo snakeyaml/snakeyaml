@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -124,7 +125,7 @@ public class OptionalTesting {
 
     protected void loadOptionalString() {
         final String yamlStr = "name: Neo Anderson\nsalary: [{income: [123456.78]}]\n";
-        final Yaml yamlParser = new Yaml(new OptionalRepresenter());
+        final Yaml yamlParser = Util.allowClassPrefix("org.yaml.snakeyaml");
         Person expectedPerson = new Person();
         Salary s = new Salary();
         s.setIncome(123456.78);
@@ -147,7 +148,7 @@ public class OptionalTesting {
 
         String pDump = yamlParser.dump(expectedPerson);
         // System.out.println(pDump);
-        final Person pFromDump = yamlParser.loadAs(pDump, Person.class);
+        final Person pFromDump = Util.allowClassPrefix("org.yaml.snakeyaml").loadAs(pDump, Person.class);
 
         assertEquals(expectedPerson.getName(), pFromDump.getName());
         assertEquals(expectedPerson.getSalary(), pFromDump.getSalary());
