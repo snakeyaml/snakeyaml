@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -126,7 +126,7 @@ public class JodaTimeFlowStylesTest extends TestCase {
   private class JodaPropertyConstructor extends Constructor {
 
     public JodaPropertyConstructor() {
-      super(new LoaderOptions());
+      super(Util.trustedLoaderOptions());
       yamlClassConstructors.put(NodeId.scalar, new TimeStampConstruct());
     }
 

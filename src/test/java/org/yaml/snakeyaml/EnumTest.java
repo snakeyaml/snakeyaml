@@ -116,20 +116,20 @@ public class EnumTest extends TestCase {
 
   // Loading
   public void testLoadEnum() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org");
     Suit suit = yaml.load("!!org.yaml.snakeyaml.Suit 'CLUBS'\n");
     assertEquals(Suit.CLUBS, suit);
   }
 
   public void testLoadOverridenToString() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     assertEquals(DumperOptions.FlowStyle.BLOCK,
         yaml.load("!!org.yaml.snakeyaml.DumperOptions$FlowStyle 'BLOCK'\n"));
   }
 
   @SuppressWarnings("unchecked")
   public void testLoadEnumList() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org");
     List<Suit> list = yaml.load(
         "- !!org.yaml.snakeyaml.Suit 'CLUBS'\n- !!org.yaml.snakeyaml.Suit 'DIAMONDS'\n- !!org.yaml.snakeyaml.Suit 'HEARTS'\n- !!org.yaml.snakeyaml.Suit 'SPADES'");
     assertEquals(4, list.size());
@@ -141,7 +141,7 @@ public class EnumTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoadEnumMap() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org");
     Map<Integer, Suit> map =
         yaml.load("1: !!org.yaml.snakeyaml.Suit 'HEARTS'\n2: !!org.yaml.snakeyaml.Suit 'DIAMONDS'");
     assertEquals(2, map.size());
@@ -150,7 +150,7 @@ public class EnumTest extends TestCase {
   }
 
   public void testLoadEnumBean() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org");
     EnumBean bean = yaml.load(
         "!!org.yaml.snakeyaml.EnumBean\nid: 174\nmap:\n  !!org.yaml.snakeyaml.Suit 'CLUBS': 1\n  !!org.yaml.snakeyaml.Suit 'DIAMONDS': 2\nsuit: CLUBS");
 
@@ -164,7 +164,7 @@ public class EnumTest extends TestCase {
   }
 
   public void testLoadEnumBean2() {
-    Constructor c = new Constructor(new LoaderOptions());
+    Constructor c = new Constructor(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     TypeDescription td = new TypeDescription(EnumBean.class);
     td.putMapPropertyType("map", Suit.class, Object.class);
     c.addTypeDescription(td);
@@ -182,7 +182,7 @@ public class EnumTest extends TestCase {
   }
 
   public void testLoadWrongEnum() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org");
     try {
       yaml.load("1: !!org.yaml.snakeyaml.Suit 'HEARTS'\n2: !!org.yaml.snakeyaml.Suit 'KOSYR'");
       fail("KOSYR is not Suit");

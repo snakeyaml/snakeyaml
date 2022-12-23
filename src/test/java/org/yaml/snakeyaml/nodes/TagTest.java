@@ -89,4 +89,17 @@ public class TagTest extends TestCase {
     assertNotEquals(null, tag);
     assertNotEquals(25, tag);
   }
+
+  public void testTagSet() {
+    assertEquals(14, Tag.standardTags.size());
+  }
+
+  public void testCustomTag() {
+    assertTrue(new Tag(Tag.PREFIX + "org.yaml.Any").isCustomGlobal());
+    assertTrue(new Tag(TagTest.class).isCustomGlobal());
+
+    assertFalse("Local tag are accepted", new Tag("!Any").isCustomGlobal());
+    assertFalse(Tag.MAP.isCustomGlobal());
+    assertFalse(Tag.STR.isCustomGlobal());
+  }
 }

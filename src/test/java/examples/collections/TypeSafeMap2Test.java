@@ -61,7 +61,8 @@ public class TypeSafeMap2Test extends TestCase {
     String etalon = Util.getLocalResource("examples/map-bean-13.yaml");
     assertEquals(etalon, output);
     // load
-    Yaml beanLoader = new Yaml();
+    Yaml beanLoader = Util.allowClassPrefix("examples");
+
     MapBean2 parsed = beanLoader.loadAs(etalon, MapBean2.class);
     assertNotNull(parsed);
     Map<Developer2, Color> parsedData = parsed.getData();

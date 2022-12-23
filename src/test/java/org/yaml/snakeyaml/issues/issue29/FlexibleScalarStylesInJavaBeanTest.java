@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
@@ -59,9 +60,11 @@ public class FlexibleScalarStylesInJavaBeanTest extends TestCase {
     yaml.setBeanAccess(BeanAccess.FIELD);
     String output = yaml.dump(list);
     // System.out.println(output);
+    Yaml loader = Util.allowClassPrefix("org.yaml.snakeyaml");
+    loader.setBeanAccess(BeanAccess.FIELD);
     // parse back
     @SuppressWarnings("unchecked")
-    List<BigJavaBean> parsed = yaml.load(output);
+    List<BigJavaBean> parsed = loader.load(output);
     assertEquals(2, parsed.size());
     assertEquals(bean1, parsed.get(0));
     assertEquals(bean2, parsed.get(1));

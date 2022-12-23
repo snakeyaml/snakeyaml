@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Assert;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.ConstructorException;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -34,6 +35,10 @@ public class PrimitiveArrayTest extends TestCase {
   private final char[] chars = new char[] {'a', 'b', 'c', 'd', 'e'};
   private final boolean[] bools = new boolean[] {true, false};
 
+  private Yaml createYaml() {
+    return Util.allowClassPrefix("org.yaml.snakeyaml.array");
+  }
+
   public void testValidConstructor() {
     String testInput = "- " + pkg + ".ByteArr [ " + Arrays.toString(bytes) + " ]\n" + "- " + pkg
         + ".ShortArr [ " + Arrays.toString(shorts) + " ]\n" + "- " + pkg + ".IntArr [ "
@@ -43,7 +48,7 @@ public class PrimitiveArrayTest extends TestCase {
         + Arrays.toString(chars) + " ]\n" + "- " + pkg + ".BooleanArr [ " + Arrays.toString(bools)
         + " ]\n";
 
-    Yaml yaml = new Yaml();
+    Yaml yaml = createYaml();
     List<Object> wrappers = yaml.load(testInput);
 
     Assert.assertArrayEquals(bytes, ((ByteArr) wrappers.get(0)).getBytes());
@@ -71,7 +76,7 @@ public class PrimitiveArrayTest extends TestCase {
   }
 
   private void tryInvalid(String t, Class<?> expectedException) {
-    Yaml yaml = new Yaml();
+    Yaml yaml = createYaml();
     try {
       Object loaded = yaml.load(t);
       fail("Expected " + expectedException.getCanonicalName() + " but loaded = \"" + loaded + "\"");
@@ -113,7 +118,7 @@ public class PrimitiveArrayTest extends TestCase {
   }
 
   public void testPromotion() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = createYaml();
 
     // Loading integer numbers as floating-point types is allowed...
     Assert.assertArrayEquals(new float[] {3, 5},
@@ -124,7 +129,7 @@ public class PrimitiveArrayTest extends TestCase {
   }
 
   public void testStringCharArray() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = createYaml();
 
     try {
       yaml.load(pkg + ".CharArr [ [ abcd ] ]");
@@ -135,8 +140,8 @@ public class PrimitiveArrayTest extends TestCase {
     }
   }
 
-  private static Object cycle(Object in) {
-    Yaml yaml = new Yaml();
+  private Object cycle(Object in) {
+    Yaml yaml = createYaml();
     String dumped = yaml.dump(in);
     // System.out.println ( dumped );
     return yaml.load(dumped);

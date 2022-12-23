@@ -19,8 +19,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import org.junit.Assert;
 import org.junit.Test;
-import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -42,6 +42,7 @@ public class YamlSortedSetTest {
     checkTestBlog(rehydrated);
   }
 
+  @Test
   public void testYaml2() {
     String serialized =
         "!!org.yaml.snakeyaml.issues.issue97.Blog\n" + "posts:\n" + "  - text: Dummy\n"
@@ -74,7 +75,7 @@ public class YamlSortedSetTest {
   }
 
   protected Yaml constructYamlParser2() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     yaml.addTypeDescription(new TypeDescription(SortedSet.class) {
       @Override
       public Object newInstance(Node node) {
@@ -107,7 +108,7 @@ public class YamlSortedSetTest {
   private class SetContructor extends Constructor {
 
     public SetContructor() {
-      super(new LoaderOptions());
+      super(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
       yamlClassConstructors.put(NodeId.sequence, new ConstructSetFromSequence());
     }
 

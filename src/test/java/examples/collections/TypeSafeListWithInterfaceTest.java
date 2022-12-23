@@ -57,7 +57,8 @@ public class TypeSafeListWithInterfaceTest extends TestCase {
   public void testLoadList() {
     String output = Util.getLocalResource("examples/list-bean-2.yaml");
     // System.out.println(output);
-    Yaml beanLoader = new Yaml();
+    Yaml beanLoader = Util.allowClassPrefix("examples");
+
     ListBean parsed = beanLoader.loadAs(output, ListBean.class);
     assertNotNull(parsed);
     List<String> list2 = parsed.getChildren();

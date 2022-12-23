@@ -194,7 +194,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
     box.setId("id123");
     box.setSet(set);
     set.add(box);
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("examples");
     String output = yaml.dump(set);
     // System.out.println(output);
     // the order may differ on different JVMs
@@ -252,7 +252,7 @@ public class TypeSafeSetImplementationsTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testNoJavaBeanSet2() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("java.util");
     String output = Util.getLocalResource("examples/set-bean-5.yaml");
     // System.out.println(output);
     // load and sort

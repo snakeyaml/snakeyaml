@@ -179,7 +179,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
   }
 
   public void testRecursiveNoJavaBeanMap3() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("java");
     String output = Util.getLocalResource("examples/map-recursive-3.yaml");
     // System.out.println(output);
     @SuppressWarnings("unchecked")
@@ -193,7 +193,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
   }
 
   public void testRecursiveProperties4() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("java");
     String output = Util.getLocalResource("examples/map-recursive-4.yaml");
     // System.out.println(output);
     Properties p = yaml.load(output);

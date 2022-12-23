@@ -54,7 +54,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
   }
 
   public void testYamlDefaultWithFeildAccess() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     yaml.setBeanAccess(BeanAccess.FIELD);
     Blog original = createTestBlog();
     String serialized = yaml.dump(original);
@@ -71,7 +71,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
   }
 
   protected Yaml constructYamlParser() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     yaml.setBeanAccess(BeanAccess.FIELD);
     return yaml;
   }

@@ -27,13 +27,13 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
   @Override
   protected void setUp() {
-    loader = new Yaml();
+    loader = Util.allowAnyClass();
   }
 
   public void testNotNull() {
     String dumpStr = dumpJavaBeanWithNullValues(false);
     // System.out.println(dumpStr);
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowAnyClass();
     JavaBeanWithNullValues parsed = yaml.load(dumpStr);
     assertNotNull(parsed.getString());
     assertNotNull(parsed.getBoolean1());
@@ -59,7 +59,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
   public void testNull() {
     String dumpStr = dumpJavaBeanWithNullValues(true);
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     JavaBeanWithNullValues parsed = yaml.load(dumpStr);
     assertNull(parsed.getString());
     //
@@ -86,7 +86,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
     String dumpStr = yaml.dump(javaBeanWithNullValues);
     // System.out.println(dumpStr);
-    yaml = new Yaml();
+    yaml = Util.allowAnyClass();
     JavaBeanWithNullValues parsed = yaml.load(dumpStr);
     assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
     assertNull(" expect null, got " + parsed.getString(), parsed.getString());
@@ -112,7 +112,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
     String dumpStr = yaml.dumpAsMap(javaBeanWithNullValues);
     // System.out.println(dumpStr);
     assertFalse("No explicit root tag must be used.", dumpStr.contains("JavaBeanWithNullValues"));
-    yaml = new Yaml(new CustomRepresenter(), options);
+    yaml = new Yaml(new CustomRepresenter(), options);// TODO improve the test - why yaml is created
     JavaBeanWithNullValues parsed = loader.loadAs(dumpStr, JavaBeanWithNullValues.class);
     assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
     assertNull(" expect null, got " + parsed.getString(), parsed.getString());

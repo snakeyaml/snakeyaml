@@ -18,6 +18,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.TrustedTagInspector;
 
 /**
  * to test http://code.google.com/p/snakeyaml/issues/detail?id=38
@@ -34,6 +35,7 @@ public class BigNumberIdTest extends TestCase {
     }
     LoaderOptions options = new LoaderOptions();
     options.setMaxAliasesForCollections(1500);
+    options.setTagInspector(new TrustedTagInspector());
     Yaml yaml = new Yaml(options);
     String output = yaml.dump(list);
     // System.out.println(output);

@@ -237,6 +237,10 @@ public class Composer {
       resolved = true;
     } else {
       nodeTag = new Tag(tag);
+      if (nodeTag.isCustomGlobal() && !loadingConfig.getTagInspector().allowGlobalTag(nodeTag)) {
+        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
+            ev.getStartMark());
+      }
     }
     Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(), ev.getEndMark(),
         ev.getScalarStyle());
@@ -260,6 +264,10 @@ public class Composer {
       resolved = true;
     } else {
       nodeTag = new Tag(tag);
+      if (nodeTag.isCustomGlobal() && !loadingConfig.getTagInspector().allowGlobalTag(nodeTag)) {
+        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
+            startEvent.getStartMark());
+      }
     }
     final ArrayList<Node> children = new ArrayList<Node>();
     SequenceNode node = new SequenceNode(nodeTag, resolved, children, startEvent.getStartMark(),
@@ -300,6 +308,10 @@ public class Composer {
       resolved = true;
     } else {
       nodeTag = new Tag(tag);
+      if (nodeTag.isCustomGlobal() && !loadingConfig.getTagInspector().allowGlobalTag(nodeTag)) {
+        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
+            startEvent.getStartMark());
+      }
     }
 
     final List<NodeTuple> children = new ArrayList<NodeTuple>();

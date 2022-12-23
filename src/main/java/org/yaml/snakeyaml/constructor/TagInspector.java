@@ -11,19 +11,23 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.yaml.snakeyaml.issues.issue203;
+package org.yaml.snakeyaml.constructor;
 
-import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
-import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
-public class GenericTest extends TestCase {
+/**
+ * Check if the global tags are allowed (the local tags are always allowed) It should control the
+ * classes to create to prevent possible remote code invocation when the data comes from untrusted
+ * source.
+ */
+public interface TagInspector {
 
-  public void testGenericInterface() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
-    String uuu = "!!org.yaml.snakeyaml.issues.issue203.DataBean\n"
-        + "content: !!org.yaml.snakeyaml.issues.issue203.ContentIdentifierImpl 33\n" + "id: 555";
-    DataBean obj = yaml.load(uuu);
-    assertEquals(33, obj.getContent().getId().intValue());
-  }
+  /**
+   * Check
+   *
+   * @param tag - the global tag to allow
+   * @return true when the custom global tag is allowed to create a custom Java instance
+   */
+  boolean allowGlobalTag(Tag tag);
+
 }

@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.border.MatteBorder;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 
 public class MoreImmutablesTest extends TestCase {
@@ -29,7 +30,7 @@ public class MoreImmutablesTest extends TestCase {
     Insets insets = new Insets(10, 20, 30, 40);
     String dump = yaml.dump(insets);
     assertEquals("!!java.awt.Insets [10, 20, 30, 40]\n", dump);
-    Object loaded = yaml.load(dump);
+    Object loaded = Util.allowAnyClass().load(dump);
     assertEquals(insets, loaded);
   }
 
@@ -38,7 +39,7 @@ public class MoreImmutablesTest extends TestCase {
     Color color = new Color(10, 20, 30, 40);
     String dump = yaml.dump(color);
     assertEquals("!!java.awt.Color [10, 20, 30, 40]\n", dump);
-    Object loaded = yaml.load(dump);
+    Object loaded = Util.allowAnyClass().load(dump);
     assertEquals(color, loaded);
   }
 
@@ -47,7 +48,7 @@ public class MoreImmutablesTest extends TestCase {
     Rectangle rect = new Rectangle(10, 20, 30, 40);
     String dump = yaml.dump(rect);
     assertEquals("!!java.awt.Rectangle [10, 20, 30, 40]\n", dump);
-    Object loaded = yaml.load(dump);
+    Object loaded = Util.allowAnyClass().load(dump);
     assertEquals(rect, loaded);
   }
 
@@ -64,7 +65,7 @@ public class MoreImmutablesTest extends TestCase {
     assertEquals(
         "!!javax.swing.border.MatteBorder [!!java.awt.Insets [10, 20, 30, 40], !!java.awt.Color [100, 150, 200, 255]]\n",
         dump);
-    Object loaded = yaml.load(dump);
+    Object loaded = Util.allowAnyClass().load(dump);
     assertTrue(loaded instanceof MatteBorder);
     MatteBorder loadedBorder = (MatteBorder) loaded;
     assertEquals(insets, loadedBorder.getBorderInsets());

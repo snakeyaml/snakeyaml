@@ -64,7 +64,9 @@ public class Constructor extends SafeConstructor {
    * Create Constructor for the specified class as the root.
    *
    * @param theRoot - the class (usually JavaBean) to be constructed
+   * @deprecated LoaderOptions should be provided
    */
+  @Deprecated
   public Constructor(Class<? extends Object> theRoot) {
     this(new TypeDescription(checkRoot(theRoot)));
   }
@@ -124,7 +126,10 @@ public class Constructor extends SafeConstructor {
     if (theRoot == null) {
       throw new NullPointerException("Root type must be provided.");
     }
+    // register a general Construct when the explicit one was not found
     this.yamlConstructors.put(null, new ConstructYamlObject());
+
+    // register the root tag to begin with its Construct
     if (!Object.class.equals(theRoot.getType())) {
       rootTag = new Tag(theRoot.getType());
     }

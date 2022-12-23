@@ -13,6 +13,10 @@
  */
 package org.yaml.snakeyaml;
 
+import java.util.ArrayList;
+import org.yaml.snakeyaml.constructor.TagInspector;
+import org.yaml.snakeyaml.constructor.TrustedPrefixesTagInspector;
+
 /**
  * Configuration for loading
  */
@@ -34,6 +38,11 @@ public class LoaderOptions {
   private int nestingDepthLimit = 50;
 
   private int codePointLimit = 3 * 1024 * 1024; // 3 MB
+
+  /**
+   * Secure by default - no custom classes are allowed
+   */
+  private TagInspector tagInspector = new TrustedPrefixesTagInspector(new ArrayList<String>());
 
   /**
    * getter
@@ -198,5 +207,11 @@ public class LoaderOptions {
     this.codePointLimit = codePointLimit;
   }
 
+  public TagInspector getTagInspector() {
+    return tagInspector;
+  }
 
+  public void setTagInspector(TagInspector tagInspector) {
+    this.tagInspector = tagInspector;
+  }
 }

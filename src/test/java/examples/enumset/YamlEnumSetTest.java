@@ -18,6 +18,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Node;
@@ -117,7 +118,7 @@ public class YamlEnumSetTest {
   }
 
   private Yaml createYaml(LoaderOptions loaderOptions) {
-    Yaml yaml = loaderOptions != null ? new Yaml(loaderOptions) : new Yaml();
+    Yaml yaml = loaderOptions != null ? new Yaml(loaderOptions) : Util.allowAnyClass();
 
     TypeDescription yamlEnumSetTD = new TypeDescription(YamlEnumSetTest.class) {
 
@@ -139,6 +140,4 @@ public class YamlEnumSetTest {
   private Yaml createYaml() {
     return createYaml(null);
   }
-
-
 }

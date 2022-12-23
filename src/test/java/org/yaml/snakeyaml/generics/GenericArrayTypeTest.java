@@ -22,7 +22,7 @@ public class GenericArrayTypeTest extends TestCase {
 
   public void testClasses() throws IntrospectionException {
     GenericArray ga = new GenericArray();
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     String doc = yaml.dump(ga);
     // System.out.println(doc);
     String etalon = "!!org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray\n"

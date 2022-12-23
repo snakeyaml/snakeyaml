@@ -97,7 +97,8 @@ public class RubyTest extends TestCase {
   }
 
   private TestObject parseObject(String input) {
-    Constructor con = new Constructor(TestObject.class);
+    Constructor con =
+        new Constructor(TestObject.class, Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     con.addTypeDescription(
         new TypeDescription(TestObject.class, "!ruby/object:Test::Module::Object"));
     con.addTypeDescription(new TypeDescription(Sub1.class, "!ruby/object:Test::Module::Sub1"));

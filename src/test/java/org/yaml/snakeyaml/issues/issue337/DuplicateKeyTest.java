@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
+import org.yaml.snakeyaml.constructor.TrustedTagInspector;
 
 public class DuplicateKeyTest {
 
@@ -99,7 +100,7 @@ public class DuplicateKeyTest {
   @Test
   public void defaultConfigurationNoErrorsWithDuplicates() {
     String input = Util.getLocalResource("issues/issue337-duplicate-keys.yaml");
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
     assertEquals("has-dup-keys", testdata.getName());
     assertEquals(1, testdata.getMap().size());
@@ -111,6 +112,7 @@ public class DuplicateKeyTest {
     String input = Util.getLocalResource("issues/issue337-duplicate-keys.yaml");
     LoaderOptions lc = new LoaderOptions();
     lc.setAllowDuplicateKeys(false);
+    lc.setTagInspector(new TrustedTagInspector());
     Yaml yaml = new Yaml(lc);
     try {
       yaml.loadAs(input, MapProvider.class);
@@ -126,6 +128,7 @@ public class DuplicateKeyTest {
     String input = Util.getLocalResource("issues/issue337-duplicate-keys-javabean-property.yaml");
     LoaderOptions lc = new LoaderOptions();
     lc.setAllowDuplicateKeys(false);
+    lc.setTagInspector(new TrustedTagInspector());
     Yaml yaml = new Yaml(lc);
     try {
       MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
@@ -141,6 +144,7 @@ public class DuplicateKeyTest {
     String input = Util.getLocalResource("issues/issue337-duplicate-keys-javabean-property.yaml");
     LoaderOptions lc = new LoaderOptions();
     lc.setAllowDuplicateKeys(true);
+    lc.setTagInspector(new TrustedTagInspector());
     Yaml yaml = new Yaml(lc);
     MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
     assertEquals("has-dup-keys", testdata.getName());
@@ -149,7 +153,7 @@ public class DuplicateKeyTest {
   @Test
   public void defaultConfigUniqueKeysWorks() {
     String input = Util.getLocalResource("issues/issue337-duplicate-keys-no-dups.yaml");
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
     assertEquals("no-dups-test", testdata.getName());
     assertEquals(3, testdata.getMap().size());
@@ -164,6 +168,7 @@ public class DuplicateKeyTest {
     String input = Util.getLocalResource("issues/issue337-duplicate-keys-no-dups.yaml");
     LoaderOptions lc = new LoaderOptions();
     lc.setAllowDuplicateKeys(false);
+    lc.setTagInspector(new TrustedTagInspector());
     Yaml yaml = new Yaml(lc);
     MapProvider<String, FooEntry> testdata = yaml.loadAs(input, MapProvider.class);
     assertEquals("no-dups-test", testdata.getName());

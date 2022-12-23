@@ -22,7 +22,7 @@ public class PointBeanTest extends TestCase {
   public void testNoSingleQuoteForBlockStyle() throws Exception {
     String input = Util.getLocalResource("issues/issue177-1.yaml");
     try {
-      Yaml yaml = new Yaml();
+      Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
       yaml.load(input);
       fail();
     } catch (Exception e) {

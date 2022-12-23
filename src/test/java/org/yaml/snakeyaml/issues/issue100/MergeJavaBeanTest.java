@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -30,7 +29,7 @@ public class MergeJavaBeanTest extends TestCase {
     String input =
         "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- *id001";
     // System.out.println(input);
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     List<Data> list = yaml.load(input);
     for (Data data : list) {
       // System.out.println(data);
@@ -42,8 +41,7 @@ public class MergeJavaBeanTest extends TestCase {
   public void testMergeWithTags() {
     String input = Util.getLocalResource("issues/issue100-1.yaml");
     // System.out.println(input);
-    Yaml yaml = new Yaml();
-
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     List<?> list = yaml.load(input);
     // First object: Data ( 11, "id123" )
     assertEquals(list.get(0).getClass(), Data.class);
@@ -95,7 +93,7 @@ public class MergeJavaBeanTest extends TestCase {
     String input =
         "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- << : *id001";
     // System.out.println(input);
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     List<Object> list = yaml.load(input);
     // First object: Data ( 11, "id123" )
     Data first = (Data) list.get(0);
@@ -112,7 +110,7 @@ public class MergeJavaBeanTest extends TestCase {
     String input =
         "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- <<: *id001\n  id: id456";
     // System.out.println(input);
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     List<Object> list = yaml.load(input);
     // First object: Data ( 11, "id123" )
     Data first = (Data) list.get(0);
@@ -140,7 +138,7 @@ public class MergeJavaBeanTest extends TestCase {
     String input =
         "- &id001 !!org.yaml.snakeyaml.issues.issue100.Data {age: 11, id: id123}\n- &id002 !!org.yaml.snakeyaml.issues.issue100.Data {age: 37}\n- <<: [ *id002, *id001 ]";
     // System.out.println(input);
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     List<Data> list = yaml.load(input);
 
     // First object: Data ( 11, "id123" )
@@ -181,7 +179,7 @@ public class MergeJavaBeanTest extends TestCase {
     String input =
         "- &id001 { age: 11, id: id123 }\n- !!org.yaml.snakeyaml.issues.issue100.Data\n  <<: *id001\n  id: id456";
     // System.out.println(input);
-    Yaml yaml = new Yaml(new Constructor(new LoaderOptions()));
+    Yaml yaml = new Yaml(new Constructor(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml")));
     List<Object> objects = yaml.load(input);
     assertEquals(2, objects.size());
     // Check first type

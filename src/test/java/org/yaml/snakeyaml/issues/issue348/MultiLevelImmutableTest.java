@@ -30,7 +30,7 @@ public class MultiLevelImmutableTest {
 
   @Test
   public void testUnexpectedRecursive() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     String data = Util.getLocalResource("issues/issue348.yaml");
     Map<?, ?> loadedMap = yaml.loadAs(data, Map.class);
 

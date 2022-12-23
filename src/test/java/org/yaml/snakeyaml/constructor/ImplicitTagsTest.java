@@ -42,7 +42,7 @@ public class ImplicitTagsTest extends TestCase {
     car1.setYear("2008");
     String carYaml1 = new Yaml().dump(car1);
     assertEquals(Util.getLocalResource("constructor/carwheel-without-tags.yaml"), carYaml1);
-    CarWithWheel car2 = new Yaml().load(carYaml1);
+    CarWithWheel car2 = Util.allowClassPrefix("org.yaml.snakeyaml").load(carYaml1);
     String carYaml2 = new Yaml().dump(car2);
     assertEquals(carYaml1, carYaml2);
   }
@@ -80,7 +80,7 @@ public class ImplicitTagsTest extends TestCase {
 
     String carYaml1 = new Yaml().dump(car1);
     assertEquals(Util.getLocalResource("constructor/carwheel-root-map.yaml"), carYaml1);
-    Map<Object, Object> car2 = new Yaml().load(carYaml1);
+    Map<Object, Object> car2 = Util.allowClassPrefix("org.yaml.snakeyaml").load(carYaml1);
     assertEquals(car1, car2);
     assertEquals(carYaml1, new Yaml().dump(car2));
   }

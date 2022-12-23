@@ -134,12 +134,13 @@ public class Yaml {
   /**
    * Create Yaml instance. It is safe to create a few instances and use them in different Threads.
    *
-   * @param constructor BaseConstructor to construct incoming documents
+   * @param constructor BaseConstructor to construct incoming documents. Its LoaderOptions will be
+   *        used everywhere
    * @param representer Representer to emit outgoing objects
    * @param dumperOptions DumperOptions to configure outgoing objects
    */
   public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions) {
-    this(constructor, representer, dumperOptions, new LoaderOptions(), new Resolver());
+    this(constructor, representer, dumperOptions, constructor.getLoadingConfig(), new Resolver());
   }
 
   /**

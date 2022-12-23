@@ -84,7 +84,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
   }
 
   private void check(String doc) {
-    Yaml yamlLoader = new Yaml();
+    Yaml yamlLoader = new Yaml(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     yamlLoader.setBeanAccess(BeanAccess.FIELD);
     Blog blog = yamlLoader.load(doc);
     assertEquals("Test Me!", blog.getName());

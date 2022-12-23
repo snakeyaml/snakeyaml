@@ -44,7 +44,7 @@ public class SetAsSequenceTest extends TestCase {
   }
 
   public void testLoad() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowAnyClass();
     yaml.setBeanAccess(BeanAccess.FIELD);
     String doc = Util.getLocalResource("issues/issue73-1.txt");
     Blog blog = yaml.load(doc);
@@ -77,7 +77,7 @@ public class SetAsSequenceTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoadRootSet() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowAnyClass();
     String doc = Util.getLocalResource("issues/issue73-3.txt");
     Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
@@ -90,7 +90,7 @@ public class SetAsSequenceTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoadRootSet2() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowAnyClass();
     String doc = "!!java.util.HashSet {aaa: null, bbb: null, ccc: null}";
     Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
@@ -103,7 +103,7 @@ public class SetAsSequenceTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoadRootSet3() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowAnyClass();
     String doc = "!!java.util.TreeSet {aaa: null, bbb: null, ccc: null}";
     Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
@@ -116,7 +116,7 @@ public class SetAsSequenceTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoadRootSet6() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowAnyClass();
     String doc = Util.getLocalResource("issues/issue73-6.txt");
     Set<String> strings = yaml.load(doc);
     // System.out.println(strings);

@@ -54,7 +54,7 @@ public class GenericMapBeanTest extends TestCase {
     String etalon = Util.getLocalResource("issues/issue61-2.yaml");
     assertEquals(etalon, s);
     // parse
-    Yaml loader = new Yaml();
+    Yaml loader = Util.allowClassPrefix("org.yaml.snakeyaml");
     MapProvider listProvider2 = loader.loadAs(s, MapProvider.class);
     Bean foo2 = (Bean) listProvider2.getMap().get("foo");
     assertEquals("foo", foo2.getName());

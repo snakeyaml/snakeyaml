@@ -17,6 +17,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -36,7 +37,7 @@ public class StaticFieldsWrapperTest extends TestCase {
     bean.setAge(-47);
     JavaBeanWithStaticState.setType("Type3");
     JavaBeanWithStaticState.color = "Violet";
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("examples");
     String output = yaml.dump(new Wrapper(bean));
     // System.out.println(output);
     assertEquals(

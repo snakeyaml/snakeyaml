@@ -25,10 +25,10 @@ public class CustomClassLoaderConstructor extends Constructor {
   /**
    * Create
    *
-   * @param loadingConfig - options
    * @param loader - the class loader to find the class definition
+   * @param loadingConfig - options
    */
-  public CustomClassLoaderConstructor(LoaderOptions loadingConfig, ClassLoader loader) {
+  public CustomClassLoaderConstructor(ClassLoader loader, LoaderOptions loadingConfig) {
     super(loadingConfig);
     this.loader = loader;
   }
@@ -39,6 +39,7 @@ public class CustomClassLoaderConstructor extends Constructor {
    * @param cLoader the class loader to find the class definition
    * @deprecated use loading options
    */
+  @Deprecated
   public CustomClassLoaderConstructor(ClassLoader cLoader) {
     this(Object.class, cLoader);
   }
@@ -48,9 +49,23 @@ public class CustomClassLoaderConstructor extends Constructor {
    *
    * @param theRoot - the class to instantiate
    * @param theLoader - the class loader to find the class definition
+   * @deprecated use loading options
    */
+  @Deprecated
   public CustomClassLoaderConstructor(Class<? extends Object> theRoot, ClassLoader theLoader) {
-    super(theRoot);
+    this(theRoot, theLoader, new LoaderOptions());
+  }
+
+  /**
+   * Create
+   *
+   * @param loadingConfig - options
+   * @param theRoot - the class to instantiate
+   * @param theLoader - the class loader to find the class definition
+   */
+  public CustomClassLoaderConstructor(Class<? extends Object> theRoot, ClassLoader theLoader,
+      LoaderOptions loadingConfig) {
+    super(theRoot, loadingConfig);
     if (theLoader == null) {
       throw new NullPointerException("Loader must be provided.");
     }

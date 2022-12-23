@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.io.StringReader;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
@@ -39,7 +40,7 @@ public class ComposerImplTest extends TestCase {
   public void testComposeBean() {
     String data =
         "!!org.yaml.snakeyaml.composer.ComposerImplTest$BeanToCompose {name: Bill, age: 18}";
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     Node node = yaml.compose(new StringReader(data));
     assertNotNull(node);
     assertTrue(node instanceof MappingNode);

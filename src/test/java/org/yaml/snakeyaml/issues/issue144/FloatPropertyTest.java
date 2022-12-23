@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.issues.issue144;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.extensions.compactnotation.CompactConstructor;
 
@@ -24,7 +25,7 @@ public class FloatPropertyTest extends TestCase {
     BeanData bean = new BeanData();
     bean.setId("id1");
     bean.setNumber(3.5f);
-    Yaml yaml = new Yaml();
+    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
     String txt = yaml.dump(bean);
     BeanData parsed = yaml.loadAs(txt, BeanData.class);
     assertEquals(3.5f, parsed.getNumber());

@@ -130,7 +130,7 @@ public class HouseTest extends TestCase {
     String etalon = Util.getLocalResource("javabeans/house-dump2.yaml");
     assertEquals(etalon, yaml);
     // load
-    Yaml beanLoader = new Yaml();
+    Yaml beanLoader = Util.allowClassPrefix("org.yaml.snakeyaml");
     House loadedHouse = beanLoader.loadAs(yaml, House.class);
     assertNotNull(loadedHouse);
     assertEquals("Wall Street", loadedHouse.getStreet());

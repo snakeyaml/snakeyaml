@@ -138,7 +138,8 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
   }
 
   public void testChildrenArray() {
-    Constructor constructor = new Constructor(Human_WithArrayOfChildren.class);
+    Constructor constructor = new Constructor(Human_WithArrayOfChildren.class,
+        Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     TypeDescription HumanWithChildrenArrayDescription =
         new TypeDescription(Human_WithArrayOfChildren.class);
     HumanWithChildrenArrayDescription.putListPropertyType("children",
