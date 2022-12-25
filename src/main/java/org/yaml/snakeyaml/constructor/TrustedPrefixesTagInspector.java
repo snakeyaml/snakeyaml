@@ -20,7 +20,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  * Allow to create classes with custom global tag if the class name matches any of the provided
  * prefixes.
  */
-public class TrustedPrefixesTagInspector implements TagInspector {
+public final class TrustedPrefixesTagInspector implements TagInspector {
 
   private final List<String> trustedList;
 
