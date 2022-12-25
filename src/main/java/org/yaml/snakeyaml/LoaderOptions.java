@@ -13,9 +13,8 @@
  */
 package org.yaml.snakeyaml;
 
-import java.util.ArrayList;
 import org.yaml.snakeyaml.constructor.TagInspector;
-import org.yaml.snakeyaml.constructor.TrustedPrefixesTagInspector;
+import org.yaml.snakeyaml.constructor.UnTrustedTagInspector;
 
 /**
  * Configuration for loading
@@ -42,7 +41,7 @@ public class LoaderOptions {
   /**
    * Secure by default - no custom classes are allowed
    */
-  private TagInspector tagInspector = new TrustedPrefixesTagInspector(new ArrayList<String>());
+  private TagInspector tagInspector = new UnTrustedTagInspector();
 
   /**
    * getter
