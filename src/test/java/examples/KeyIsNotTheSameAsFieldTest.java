@@ -17,8 +17,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class KeyIsNotTheSameAsFieldTest {
 
@@ -95,7 +95,7 @@ public class KeyIsNotTheSameAsFieldTest {
      */
     paramDesc.setExcludes("inputPart", "more");
 
-    Yaml yaml = Util.allowClassPrefix("examples");
+    Yaml yaml = YamlCreator.allowClassPrefix("examples");
     yaml.addTypeDescription(paramDesc);
     return yaml;
   }

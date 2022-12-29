@@ -18,6 +18,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
@@ -97,8 +98,8 @@ public class RubyTest extends TestCase {
   }
 
   private TestObject parseObject(String input) {
-    Constructor con =
-        new Constructor(TestObject.class, Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+    Constructor con = new Constructor(TestObject.class,
+        YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     con.addTypeDescription(
         new TypeDescription(TestObject.class, "!ruby/object:Test::Module::Object"));
     con.addTypeDescription(new TypeDescription(Sub1.class, "!ruby/object:Test::Module::Sub1"));

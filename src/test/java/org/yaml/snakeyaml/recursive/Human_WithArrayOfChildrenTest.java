@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class Human_WithArrayOfChildrenTest extends TestCase {
@@ -139,7 +140,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
 
   public void testChildrenArray() {
     Constructor constructor = new Constructor(Human_WithArrayOfChildren.class,
-        Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+        YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     TypeDescription HumanWithChildrenArrayDescription =
         new TypeDescription(Human_WithArrayOfChildren.class);
     HumanWithChildrenArrayDescription.putListPropertyType("children",

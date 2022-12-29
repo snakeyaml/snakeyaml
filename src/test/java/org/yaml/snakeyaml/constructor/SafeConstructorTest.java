@@ -15,8 +15,8 @@ package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class SafeConstructorTest extends TestCase {
 
@@ -34,7 +34,8 @@ public class SafeConstructorTest extends TestCase {
   }
 
   public void testSafeConstructJavaBean() {
-    Yaml yaml = new Yaml(new SafeConstructor(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml")));
+    Yaml yaml =
+        new Yaml(new SafeConstructor(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml")));
     String data = "--- !!org.yaml.snakeyaml.constructor.Person\nfirstName: Andrey\nage: 99";
     try {
       yaml.load(data);

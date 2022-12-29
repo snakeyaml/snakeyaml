@@ -15,8 +15,8 @@ package org.yaml.snakeyaml.javabeans;
 
 import java.io.Serializable;
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class ConstructEmptyBeanTest extends TestCase {
 
@@ -24,7 +24,7 @@ public class ConstructEmptyBeanTest extends TestCase {
    * standard Yaml
    */
   public void testEmptyBean() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     EmptyBean bean =
         yaml.load("!!org.yaml.snakeyaml.javabeans.ConstructEmptyBeanTest$EmptyBean {}");
     assertNotNull(bean);
@@ -36,7 +36,7 @@ public class ConstructEmptyBeanTest extends TestCase {
    * global tag is correct (but ignored)
    */
   public void testEmptyBean1() {
-    Yaml beanLoader = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml beanLoader = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     EmptyBean bean = beanLoader.loadAs(
         "!!org.yaml.snakeyaml.javabeans.ConstructEmptyBeanTest$EmptyBean {}", EmptyBean.class);
     assertNotNull(bean);
@@ -48,7 +48,7 @@ public class ConstructEmptyBeanTest extends TestCase {
    * global tag is ignored
    */
   public void testEmptyBean2() {
-    Yaml beanLoader = Util.allowAnyClass();
+    Yaml beanLoader = YamlCreator.allowAnyClass();
     EmptyBean bean = beanLoader.loadAs("!!Bla-bla-bla {}", EmptyBean.class);
     assertNotNull(bean);
     assertNull(bean.getFirstName());

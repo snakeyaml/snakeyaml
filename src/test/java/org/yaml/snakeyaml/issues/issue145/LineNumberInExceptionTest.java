@@ -14,13 +14,13 @@
 package org.yaml.snakeyaml.issues.issue145;
 
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class LineNumberInExceptionTest extends TestCase {
 
   public void testLineReport() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     try {
       yaml.load("---\n!!org.yaml.snakeyaml.issues.issue145.AbstractThing { id: QQQ }");
       fail("Instances for abstract classes cannot be created");
@@ -37,14 +37,14 @@ public class LineNumberInExceptionTest extends TestCase {
   }
 
   public void testCompleteThing() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     CompleteThing thing =
         yaml.load("---\n!!org.yaml.snakeyaml.issues.issue145.CompleteThing { id: QQQ }");
     assertEquals("QQQ", thing.getId());
   }
 
   public void testWrongParameter() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     try {
       yaml.load("---\n!!org.yaml.snakeyaml.issues.issue145.CompleteThing { id2: QQQ }");
       fail("Invalid parameter");

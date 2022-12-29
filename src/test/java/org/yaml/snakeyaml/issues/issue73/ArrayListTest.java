@@ -15,8 +15,8 @@ package org.yaml.snakeyaml.issues.issue73;
 
 import java.util.ArrayList;
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 /**
  * Test bean when the implementation is defined: ArrayList instead of just the interface List
@@ -31,7 +31,7 @@ public class ArrayListTest extends TestCase {
     list.add("xxx");
     list.add("ccc");
     bean.setList(list);
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String doc = yaml.dump(bean);
     // System.out.println(doc);
     Bean1 loaded = yaml.load(doc);

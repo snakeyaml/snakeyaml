@@ -17,8 +17,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Construct;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -56,7 +56,7 @@ public class ChangeRuntimeClassTest {
     String yamlText =
         "!!org.yaml.snakeyaml.issues.issue94.Entity\n" + "name: Matt\n" + "nickName: Java\n";
 
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     yaml.addTypeDescription(new TypeDescription(Entity.class, EntityLoadingProxy.class));
 
     Entity loadedEntity = null;
@@ -92,13 +92,10 @@ public class ChangeRuntimeClassTest {
     assertEquals("JJ-Java", loadedEntity.getNickName());
   }
 
-  /**
-   * @see Constructor.ConstructYamlObject
-   */
   private class MyConstructor extends Constructor {
 
     public MyConstructor() {
-      super(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+      super(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
       this.yamlConstructors.put(null, new ConstructProxy());
     }
 

@@ -23,6 +23,7 @@ import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class HouseTest extends TestCase {
@@ -130,7 +131,7 @@ public class HouseTest extends TestCase {
     String etalon = Util.getLocalResource("javabeans/house-dump2.yaml");
     assertEquals(etalon, yaml);
     // load
-    Yaml beanLoader = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml beanLoader = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     House loadedHouse = beanLoader.loadAs(yaml, House.class);
     assertNotNull(loadedHouse);
     assertEquals("Wall Street", loadedHouse.getStreet());

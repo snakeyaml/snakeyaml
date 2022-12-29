@@ -19,6 +19,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -54,7 +55,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
   }
 
   public void testYamlDefaultWithFeildAccess() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     yaml.setBeanAccess(BeanAccess.FIELD);
     Blog original = createTestBlog();
     String serialized = yaml.dump(original);
@@ -71,7 +72,7 @@ public class YamlFieldAccessCollectionTest extends TestCase {
   }
 
   protected Yaml constructYamlParser() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     yaml.setBeanAccess(BeanAccess.FIELD);
     return yaml;
   }

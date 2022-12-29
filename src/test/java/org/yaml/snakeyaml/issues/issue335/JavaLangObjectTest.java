@@ -18,20 +18,20 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class JavaLangObjectTest {
 
   @Test
   public void testLoadObjectAsMapping() throws Exception {
-    Object obj = Util.allowAnyClass().load("!!java.lang.Object {}");
+    Object obj = YamlCreator.allowAnyClass().load("!!java.lang.Object {}");
     assertEquals(Object.class, obj.getClass());
   }
 
   @Test
   public void testLoadObjectAsScalar() throws Exception {
     try {
-      Util.allowAnyClass().load("!!java.lang.Object");
+      YamlCreator.allowAnyClass().load("!!java.lang.Object");
       fail("Object has no single argument constructor");
     } catch (Exception e) {
       assertTrue(e.getMessage().contains("No single argument constructor found"));

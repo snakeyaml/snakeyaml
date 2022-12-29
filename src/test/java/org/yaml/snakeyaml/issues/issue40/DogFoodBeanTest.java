@@ -15,15 +15,15 @@ package org.yaml.snakeyaml.issues.issue40;
 
 import java.math.BigDecimal;
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class DogFoodBeanTest extends TestCase {
 
   public void testOwnBigDecimal() {
     DogFoodBean input = new DogFoodBean();
     input.setDecimal(new BigDecimal("5"));
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String text = yaml.dump(input);
     // System.out.println(text);
     assertEquals("!!org.yaml.snakeyaml.issues.issue40.DogFoodBean {decimal: !!float '5'}\n", text);
@@ -34,7 +34,7 @@ public class DogFoodBeanTest extends TestCase {
   public void testBigDecimalPrecision() {
     DogFoodBean input = new DogFoodBean();
     input.setDecimal(new BigDecimal("5.123"));
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String text = yaml.dump(input);
     // System.out.println(text);
     assertEquals("!!org.yaml.snakeyaml.issues.issue40.DogFoodBean {decimal: 5.123}\n", text);

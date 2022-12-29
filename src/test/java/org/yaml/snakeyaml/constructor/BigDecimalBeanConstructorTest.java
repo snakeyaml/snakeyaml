@@ -15,8 +15,8 @@ package org.yaml.snakeyaml.constructor;
 
 import java.math.BigDecimal;
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 
 public class BigDecimalBeanConstructorTest extends TestCase {
@@ -34,7 +34,7 @@ public class BigDecimalBeanConstructorTest extends TestCase {
   public void testConstructor() {
     String className = "!!" + this.getClass().getPackage().getName()
         + ".BigDecimalJavaBean {amount: 1.5, number: 3.1416}";
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     BigDecimalJavaBean bean = yaml.load(className);
     assertNotNull(bean);
     assertTrue(1.5 - bean.getAmount() < 0.0000001);
@@ -44,7 +44,7 @@ public class BigDecimalBeanConstructorTest extends TestCase {
   public void testConstructorAtomic() {
     String className =
         "!!" + this.getClass().getPackage().getName() + ".AtomicJavaBean {amount: 1.5, atomic: 0}";
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     try {
       yaml.load(className);
       fail("AtomicLong is not supported.");

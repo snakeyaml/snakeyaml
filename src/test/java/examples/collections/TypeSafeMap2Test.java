@@ -19,6 +19,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 /**
  * Test MapBean->Map<Enum, Developer> developers <br/>
@@ -61,7 +62,7 @@ public class TypeSafeMap2Test extends TestCase {
     String etalon = Util.getLocalResource("examples/map-bean-13.yaml");
     assertEquals(etalon, output);
     // load
-    Yaml beanLoader = Util.allowClassPrefix("examples");
+    Yaml beanLoader = YamlCreator.allowClassPrefix("examples");
 
     MapBean2 parsed = beanLoader.loadAs(etalon, MapBean2.class);
     assertNotNull(parsed);

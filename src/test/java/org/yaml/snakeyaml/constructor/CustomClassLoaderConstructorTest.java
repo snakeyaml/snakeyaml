@@ -14,8 +14,8 @@
 package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class CustomClassLoaderConstructorTest extends TestCase {
 
@@ -51,7 +51,7 @@ public class CustomClassLoaderConstructorTest extends TestCase {
   public void testGetClassForNameBean() {
     CustomClassLoaderConstructor constr =
         new CustomClassLoaderConstructor(CustomClassLoaderConstructorTest.class.getClassLoader(),
-            Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+            YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     Yaml yaml = new Yaml(constr);
     LoaderBean bean = yaml.load(
         "!!org.yaml.snakeyaml.constructor.CustomClassLoaderConstructorTest$LoaderBean {name: Andrey, number: 555}");

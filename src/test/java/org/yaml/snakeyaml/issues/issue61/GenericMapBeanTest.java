@@ -18,6 +18,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class GenericMapBeanTest extends TestCase {
 
@@ -54,7 +55,7 @@ public class GenericMapBeanTest extends TestCase {
     String etalon = Util.getLocalResource("issues/issue61-2.yaml");
     assertEquals(etalon, s);
     // parse
-    Yaml loader = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml loader = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     MapProvider listProvider2 = loader.loadAs(s, MapProvider.class);
     Bean foo2 = (Bean) listProvider2.getMap().get("foo");
     assertEquals("foo", foo2.getName());

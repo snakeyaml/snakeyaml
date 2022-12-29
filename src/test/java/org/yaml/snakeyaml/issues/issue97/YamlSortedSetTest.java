@@ -20,8 +20,8 @@ import java.util.TreeSet;
 import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -75,7 +75,7 @@ public class YamlSortedSetTest {
   }
 
   protected Yaml constructYamlParser2() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     yaml.addTypeDescription(new TypeDescription(SortedSet.class) {
       @Override
       public Object newInstance(Node node) {
@@ -108,7 +108,7 @@ public class YamlSortedSetTest {
   private class SetContructor extends Constructor {
 
     public SetContructor() {
-      super(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+      super(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
       yamlClassConstructors.put(NodeId.sequence, new ConstructSetFromSequence());
     }
 

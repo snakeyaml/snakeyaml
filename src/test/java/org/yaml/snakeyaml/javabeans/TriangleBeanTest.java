@@ -14,8 +14,8 @@
 package org.yaml.snakeyaml.javabeans;
 
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class TriangleBeanTest extends TestCase {
 
@@ -30,7 +30,7 @@ public class TriangleBeanTest extends TestCase {
     assertEquals(
         "name: Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle\n  name: Triangle25\n",
         output);
-    Yaml beanLoader = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml beanLoader = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     TriangleBean loadedBean = beanLoader.loadAs(output, TriangleBean.class);
     assertNotNull(loadedBean);
     assertEquals("Bean25", loadedBean.getName());
@@ -40,7 +40,7 @@ public class TriangleBeanTest extends TestCase {
   public void testClassNotFound() {
     String output =
         "name: Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle777\n  name: Triangle25\n";
-    Yaml beanLoader = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml beanLoader = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     try {
       beanLoader.loadAs(output, TriangleBean.class);
       fail("Class not found expected.");
@@ -56,7 +56,7 @@ public class TriangleBeanTest extends TestCase {
   public void testClassAndTag() {
     String output =
         "name: !!whatever Bean25\nshape: !!org.yaml.snakeyaml.javabeans.Triangle\n  name: Triangle25\n";
-    Yaml beanLoader = Util.allowAnyClass();
+    Yaml beanLoader = YamlCreator.allowAnyClass();
     try {
       beanLoader.loadAs(output, TriangleBean.class);
       fail("Runtime class has less priority then an explicit tag");

@@ -16,7 +16,7 @@ package examples.jodatime;
 import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.yaml.snakeyaml.Util;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -27,7 +27,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 public class JodaTimeImplicitContructor extends Constructor {
 
   public JodaTimeImplicitContructor() {
-    super(Util.trustedLoaderOptions());
+    super(YamlCreator.trustedLoaderOptions());
     this.yamlConstructors.put(Tag.TIMESTAMP, new ConstructJodaTimestamp());
   }
 

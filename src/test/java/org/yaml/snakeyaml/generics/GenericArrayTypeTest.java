@@ -17,12 +17,13 @@ import java.beans.IntrospectionException;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class GenericArrayTypeTest extends TestCase {
 
   public void testClasses() throws IntrospectionException {
     GenericArray ga = new GenericArray();
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String doc = yaml.dump(ga);
     // System.out.println(doc);
     String etalon = "!!org.yaml.snakeyaml.generics.GenericArrayTypeTest$GenericArray\n"

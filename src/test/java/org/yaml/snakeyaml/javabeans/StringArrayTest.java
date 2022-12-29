@@ -17,8 +17,8 @@ import static org.junit.Assert.assertArrayEquals;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class StringArrayTest extends TestCase {
 
@@ -29,7 +29,7 @@ public class StringArrayTest extends TestCase {
     String output = yaml.dump(a);
     assertEquals("!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [aaa, bbb, ccc]\n",
         output);
-    A b = Util.allowClassPrefix("org.yaml.snakeyaml").load(output);
+    A b = YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(output);
     assertArrayEquals(a.getNames(), b.getNames());
   }
 
@@ -43,7 +43,7 @@ public class StringArrayTest extends TestCase {
     assertEquals(
         "!!org.yaml.snakeyaml.javabeans.StringArrayTest$A\nnames: [\n  aaa,\n  bbb,\n  ccc\n]\n",
         output);
-    A b = Util.allowClassPrefix("org.yaml.snakeyaml").load(output);
+    A b = YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(output);
     assertArrayEquals(a.getNames(), b.getNames());
   }
 

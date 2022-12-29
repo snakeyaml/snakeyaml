@@ -15,8 +15,8 @@ package org.yaml.snakeyaml.representer;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -81,7 +81,7 @@ public class RepresentTest extends TestCase {
   class MyConstructor extends Constructor {
 
     public MyConstructor() {
-      super(Util.trustedLoaderOptions());
+      super(YamlCreator.trustedLoaderOptions());
       this.yamlConstructors.put(new Tag(Tag.PREFIX + "Dice"), new ConstructDice());
     }
 

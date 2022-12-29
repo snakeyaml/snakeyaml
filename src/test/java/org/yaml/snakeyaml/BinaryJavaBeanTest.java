@@ -22,7 +22,7 @@ public class BinaryJavaBeanTest extends TestCase {
     bean.setId(1);
     byte[] bytes = new byte[] {1, 7, 9, 31, 65};
     bean.setData(bytes);
-    Yaml yaml = Util.allowClassPrefix("org");
+    Yaml yaml = YamlCreator.allowClassPrefix("org");
     String output = yaml.dump(bean);
     String etalon = "!!org.yaml.snakeyaml.BinaryBean\ndata: !!binary |-\n  AQcJH0E=\nid: 1\n";
     assertEquals(etalon, output);

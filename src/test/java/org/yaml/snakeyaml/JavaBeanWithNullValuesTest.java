@@ -27,13 +27,13 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
   @Override
   protected void setUp() {
-    loader = Util.allowAnyClass();
+    loader = YamlCreator.allowAnyClass();
   }
 
   public void testNotNull() {
     String dumpStr = dumpJavaBeanWithNullValues(false);
     // System.out.println(dumpStr);
-    Yaml yaml = Util.allowAnyClass();
+    Yaml yaml = YamlCreator.allowAnyClass();
     JavaBeanWithNullValues parsed = yaml.load(dumpStr);
     assertNotNull(parsed.getString());
     assertNotNull(parsed.getBoolean1());
@@ -59,7 +59,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
   public void testNull() {
     String dumpStr = dumpJavaBeanWithNullValues(true);
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     JavaBeanWithNullValues parsed = yaml.load(dumpStr);
     assertNull(parsed.getString());
     //
@@ -86,7 +86,7 @@ public class JavaBeanWithNullValuesTest extends TestCase {
 
     String dumpStr = yaml.dump(javaBeanWithNullValues);
     // System.out.println(dumpStr);
-    yaml = Util.allowAnyClass();
+    yaml = YamlCreator.allowAnyClass();
     JavaBeanWithNullValues parsed = yaml.load(dumpStr);
     assertNull(" expect null, got " + parsed.getBoolean1(), parsed.getBoolean1());
     assertNull(" expect null, got " + parsed.getString(), parsed.getString());

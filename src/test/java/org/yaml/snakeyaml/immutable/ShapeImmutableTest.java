@@ -16,30 +16,31 @@ package org.yaml.snakeyaml.immutable;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class ShapeImmutableTest extends TestCase {
 
   public void testColor() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Color loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Color BLACK");
     assertEquals("BLACK", loaded.getName());
   }
 
   public void testCode() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Code loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Code 123");
     assertEquals(Integer.valueOf(123), loaded.getCode());
   }
 
   public void testSuperColor() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     SuperColor superColor = yaml.load(
         "!!org.yaml.snakeyaml.immutable.SuperColor [!!org.yaml.snakeyaml.immutable.Color BLACK]");
     assertEquals("BLACK", superColor.getColor().getName());
   }
 
   public void testSuperColorFail() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     try {
       yaml.load("!!org.yaml.snakeyaml.immutable.SuperColor BLACK");
       fail("SuperColor requires Color and not a String.");
@@ -50,13 +51,13 @@ public class ShapeImmutableTest extends TestCase {
   }
 
   public void testCode2() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Code2 code2 = yaml.load("!!org.yaml.snakeyaml.immutable.Code2 555");
     assertEquals(Integer.valueOf(555), code2.getCode());
   }
 
   public void testCode3() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     try {
       yaml.load("!!org.yaml.snakeyaml.immutable.Code3 777");
       fail("There must be 1 constructor with 1 argument for scalar.");
@@ -67,7 +68,7 @@ public class ShapeImmutableTest extends TestCase {
   }
 
   public void testCode4() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     try {
       yaml.load("!!org.yaml.snakeyaml.immutable.Code4 777");
       fail("Constructor with String is required.");
@@ -81,21 +82,21 @@ public class ShapeImmutableTest extends TestCase {
   }
 
   public void testPoint() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Point loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Point [1.17, 3.14]");
     assertEquals(1.17, loaded.getX());
     assertEquals(3.14, loaded.getY());
   }
 
   public void testPointBlock() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Point loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Point\n- 1.17\n- 3.14");
     assertEquals(1.17, loaded.getX());
     assertEquals(3.14, loaded.getY());
   }
 
   public void testPointOnlyOneArgument() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     try {
       yaml.load("!!org.yaml.snakeyaml.immutable.Point\n- 1.17");
       fail("Two arguments required.");
@@ -109,21 +110,21 @@ public class ShapeImmutableTest extends TestCase {
   }
 
   public void testPoint2() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Point2 loaded = yaml.load("!!org.yaml.snakeyaml.immutable.Point2\n- 1\n- 3");
     assertEquals(Integer.valueOf(1), loaded.getX());
     assertEquals(Integer.valueOf(3), loaded.getY());
   }
 
   public void testPoint3d() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Point3d loaded = yaml.load(
         "!!org.yaml.snakeyaml.immutable.Point3d [!!org.yaml.snakeyaml.immutable.Point [1.17, 3.14], 345.1]");
     assertEquals(345.1, loaded.getZ());
   }
 
   public void testShape() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String source = Util.getLocalResource("immutable/shape1.yaml");
     Shape loaded = yaml.load(source);
     assertEquals(Integer.valueOf(123), loaded.getId());

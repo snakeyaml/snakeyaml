@@ -17,8 +17,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import org.junit.Test;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class DataTest {
 
@@ -34,6 +34,6 @@ public class DataTest {
   public void testLoad() throws Exception {
     String doc = "!!org.yaml.snakeyaml.issues.issue332.Data [Voltage, 10, volts]";
     assertEquals("Data{label='Voltage', unit='volts', value=10}",
-        (Util.allowClassPrefix("org.yaml.snakeyaml").load(doc)).toString());
+        (YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(doc)).toString());
   }
 }

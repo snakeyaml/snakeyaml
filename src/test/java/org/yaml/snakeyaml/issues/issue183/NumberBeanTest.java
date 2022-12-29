@@ -14,8 +14,8 @@
 package org.yaml.snakeyaml.issues.issue183;
 
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class NumberBeanTest extends TestCase {
 
@@ -25,7 +25,7 @@ public class NumberBeanTest extends TestCase {
     number.number = 1;
     assertEquals(Integer.class, number.number.getClass());
 
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump = yaml.dump(number);
     NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
     assertEquals("Integer is converted to Double.", Double.valueOf(1), loaded.number);
@@ -36,7 +36,7 @@ public class NumberBeanTest extends TestCase {
     NumberBean number = new NumberBean();
     number.number = 1.0;
 
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump = yaml.dump(number);
     NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
     assertEquals(number.number, loaded.number);
@@ -46,7 +46,7 @@ public class NumberBeanTest extends TestCase {
     NumberBean number = new NumberBean();
     number.number = Float.POSITIVE_INFINITY;
 
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump = yaml.dump(number);
     NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
     assertEquals(Float.POSITIVE_INFINITY, loaded.number.floatValue());
@@ -56,7 +56,7 @@ public class NumberBeanTest extends TestCase {
     NumberBean number = new NumberBean();
     number.number = Double.POSITIVE_INFINITY;
 
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump = yaml.dump(number);
     NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
     assertEquals(Double.POSITIVE_INFINITY, loaded.number.doubleValue());
@@ -66,7 +66,7 @@ public class NumberBeanTest extends TestCase {
     NumberBean number = new NumberBean();
     number.number = Float.NEGATIVE_INFINITY;
 
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump = yaml.dump(number);
     NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
     assertEquals(Float.NEGATIVE_INFINITY, loaded.number.floatValue());
@@ -76,7 +76,7 @@ public class NumberBeanTest extends TestCase {
     NumberBean number = new NumberBean();
     number.number = Double.NEGATIVE_INFINITY;
 
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump = yaml.dump(number);
     NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
     assertEquals(Double.NEGATIVE_INFINITY, loaded.number.doubleValue());
@@ -86,7 +86,7 @@ public class NumberBeanTest extends TestCase {
     NumberBean number = new NumberBean();
     number.number = Float.NaN;
 
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump = yaml.dump(number);
     NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
     assertEquals(Float.NaN, loaded.number.floatValue());
@@ -96,7 +96,7 @@ public class NumberBeanTest extends TestCase {
     NumberBean number = new NumberBean();
     number.number = Double.NaN;
 
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump = yaml.dump(number);
     NumberBean loaded = yaml.loadAs(dump, NumberBean.class);
     assertEquals(Double.NaN, loaded.number.doubleValue());

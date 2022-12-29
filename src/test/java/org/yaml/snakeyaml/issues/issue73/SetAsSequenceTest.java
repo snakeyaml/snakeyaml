@@ -20,6 +20,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 
 public class SetAsSequenceTest extends TestCase {
@@ -44,7 +45,7 @@ public class SetAsSequenceTest extends TestCase {
   }
 
   public void testLoad() {
-    Yaml yaml = Util.allowAnyClass();
+    Yaml yaml = YamlCreator.allowAnyClass();
     yaml.setBeanAccess(BeanAccess.FIELD);
     String doc = Util.getLocalResource("issues/issue73-1.txt");
     Blog blog = yaml.load(doc);
@@ -77,7 +78,7 @@ public class SetAsSequenceTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoadRootSet() {
-    Yaml yaml = Util.allowAnyClass();
+    Yaml yaml = YamlCreator.allowAnyClass();
     String doc = Util.getLocalResource("issues/issue73-3.txt");
     Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
@@ -90,7 +91,7 @@ public class SetAsSequenceTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoadRootSet2() {
-    Yaml yaml = Util.allowAnyClass();
+    Yaml yaml = YamlCreator.allowAnyClass();
     String doc = "!!java.util.HashSet {aaa: null, bbb: null, ccc: null}";
     Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
@@ -103,7 +104,7 @@ public class SetAsSequenceTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoadRootSet3() {
-    Yaml yaml = Util.allowAnyClass();
+    Yaml yaml = YamlCreator.allowAnyClass();
     String doc = "!!java.util.TreeSet {aaa: null, bbb: null, ccc: null}";
     Set<String> strings = yaml.load(doc);
     // System.out.println(strings);
@@ -116,7 +117,7 @@ public class SetAsSequenceTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoadRootSet6() {
-    Yaml yaml = Util.allowAnyClass();
+    Yaml yaml = YamlCreator.allowAnyClass();
     String doc = Util.getLocalResource("issues/issue73-6.txt");
     Set<String> strings = yaml.load(doc);
     // System.out.println(strings);

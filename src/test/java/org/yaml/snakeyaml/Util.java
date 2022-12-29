@@ -17,38 +17,10 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import org.yaml.snakeyaml.constructor.TrustedPrefixesTagInspector;
-import org.yaml.snakeyaml.constructor.TrustedTagInspector;
 
 public class Util {
-
-  public static Yaml allowClassPrefix(String start) {
-    LoaderOptions options = new LoaderOptions();
-    options.setTagInspector(new TrustedPrefixesTagInspector(Collections.singletonList(start)));
-    Yaml yaml = new Yaml(options);
-    return yaml;
-  }
-
-  public static Yaml allowAnyClass() {
-    return new Yaml(trustedLoaderOptions());
-  }
-
-  public static LoaderOptions trustedLoaderOptions() {
-    LoaderOptions options = new LoaderOptions();
-    options.setTagInspector(new TrustedTagInspector());
-    return options;
-  }
-
-  public static LoaderOptions trustPrefixLoaderOptions(String packageName) {
-    LoaderOptions options = new LoaderOptions();
-    options
-        .setTagInspector(new TrustedPrefixesTagInspector(Collections.singletonList(packageName)));
-    return options;
-  }
-
 
   public static String getLocalResource(String theName) {
     try {

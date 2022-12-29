@@ -18,8 +18,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class PreserveTypeTest extends TestCase {
 
@@ -66,7 +66,7 @@ public class PreserveTypeTest extends TestCase {
   }
 
   private void check(String doc) {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     @SuppressWarnings("unchecked")
     Map<String, Object> loaded = yaml.load(doc);
     Object myBean2 = loaded.get("myBean");

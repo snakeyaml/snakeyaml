@@ -15,8 +15,8 @@ package org.yaml.snakeyaml.issues.issue67;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -34,7 +34,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
   }
 
   public void testLoad() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Académico obj = yaml.load(PREFIX + "Acad%C3%A9mico {id: 3, name: Foo bar}");
     assertEquals(3, obj.getId());
     assertEquals("Foo bar", obj.getName());

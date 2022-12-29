@@ -18,6 +18,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 /**
  * Test ListBean->List<Human> developers <br/>
@@ -57,7 +58,7 @@ public class TypeSafeListWithInterfaceTest extends TestCase {
   public void testLoadList() {
     String output = Util.getLocalResource("examples/list-bean-2.yaml");
     // System.out.println(output);
-    Yaml beanLoader = Util.allowClassPrefix("examples");
+    Yaml beanLoader = YamlCreator.allowClassPrefix("examples");
 
     ListBean parsed = beanLoader.loadAs(output, ListBean.class);
     assertNotNull(parsed);

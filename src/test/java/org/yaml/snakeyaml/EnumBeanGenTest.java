@@ -36,12 +36,12 @@ public class EnumBeanGenTest extends TestCase {
     assertEquals(
         "!!org.yaml.snakeyaml.EnumBeanGen\nid: 17\nmap:\n  !!org.yaml.snakeyaml.Suit 'CLUBS': 1\n  !!org.yaml.snakeyaml.Suit 'DIAMONDS': 2\nsuit: !!org.yaml.snakeyaml.Suit 'SPADES'\n",
         output);
-    Util.allowAnyClass().load(output);// load back
+    YamlCreator.allowAnyClass().load(output);// load back
   }
 
   // Loading
   public void testLoadEnumBeanExplicitTags() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     @SuppressWarnings("unchecked")
     EnumBeanGen<Suit> bean = yaml.load(
         "!!org.yaml.snakeyaml.EnumBeanGen\nid: 174\nmap:\n  !!org.yaml.snakeyaml.Suit 'CLUBS': 1\n  !!org.yaml.snakeyaml.Suit 'DIAMONDS': 2\nsuit: !!org.yaml.snakeyaml.Suit 'CLUBS'");
@@ -59,7 +59,8 @@ public class EnumBeanGenTest extends TestCase {
     TypeDescription td = new TypeDescription(EnumBeanGen.class);
     td.substituteProperty("suit", Suit.class, null, null);
 
-    Constructor constructor = new Constructor(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+    Constructor constructor =
+        new Constructor(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     constructor.addTypeDescription(td);
     Yaml yaml = new Yaml(constructor);
 
@@ -77,7 +78,7 @@ public class EnumBeanGenTest extends TestCase {
   }
 
   public void testLoadNoTags() {
-    Constructor c = new Constructor(Util.trustedLoaderOptions());
+    Constructor c = new Constructor(YamlCreator.trustedLoaderOptions());
     TypeDescription td = new TypeDescription(EnumBeanGen.class);
     td.substituteProperty("suit", Suit.class, null, null);
     td.substituteProperty(new PropertySubstitute("map", null, Suit.class, Object.class));

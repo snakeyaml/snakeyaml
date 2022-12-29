@@ -22,6 +22,7 @@ import java.util.Map;
 import org.junit.Test;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.issues.issue348.model.Bar;
 import org.yaml.snakeyaml.issues.issue348.model.Baz;
 import org.yaml.snakeyaml.issues.issue348.model.Foo;
@@ -30,7 +31,7 @@ public class MultiLevelImmutableTest {
 
   @Test
   public void testUnexpectedRecursive() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String data = Util.getLocalResource("issues/issue348.yaml");
     Map<?, ?> loadedMap = yaml.loadAs(data, Map.class);
 

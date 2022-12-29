@@ -14,8 +14,8 @@
 package org.yaml.snakeyaml.issues.issue115;
 
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class ParameterizedJavaBeanTest extends TestCase {
 
@@ -23,7 +23,7 @@ public class ParameterizedJavaBeanTest extends TestCase {
     ParameterizedBean<Integer, String> bean = new ParameterizedBean<Integer, String>();
     bean.setK(13);
     bean.setV("ID47");
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String result = yaml.dump(bean);
     assertEquals("!!org.yaml.snakeyaml.issues.issue115.ParameterizedBean {k: 13, v: ID47}\n",
         result);
@@ -35,7 +35,7 @@ public class ParameterizedJavaBeanTest extends TestCase {
   }
 
   public void testAsJavaBeanProperty() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     IssueBean issue = new IssueBean();
     ParameterizedBean<Integer, String> bean = new ParameterizedBean<Integer, String>();
     bean.setK(432);

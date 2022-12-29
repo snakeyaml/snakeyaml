@@ -27,7 +27,7 @@ public class CollectionWithBeanYamlTest extends TestCase {
     data.put("gold1", new Bean());
     data.put("gold2", new Bean());
 
-    Yaml yaml = Util.allowClassPrefix("org");
+    Yaml yaml = YamlCreator.allowClassPrefix("org");
     String output = yaml.dump(data);
     assertEquals(
         "gold1: !!org.yaml.snakeyaml.CollectionWithBeanYamlTest$Bean {a: ''}\ngold2: !!org.yaml.snakeyaml.CollectionWithBeanYamlTest$Bean {a: ''}\n",
@@ -46,7 +46,7 @@ public class CollectionWithBeanYamlTest extends TestCase {
     data.add(new Bean("1"));
     data.add(new Bean("2"));
 
-    Yaml yaml = Util.allowClassPrefix("org");
+    Yaml yaml = YamlCreator.allowClassPrefix("org");
     String output = yaml.dump(data);
     assertEquals(
         "- !!org.yaml.snakeyaml.CollectionWithBeanYamlTest$Bean {a: '1'}\n- !!org.yaml.snakeyaml.CollectionWithBeanYamlTest$Bean {a: '2'}\n",

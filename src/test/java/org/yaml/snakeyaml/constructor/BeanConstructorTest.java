@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class BeanConstructorTest extends TestCase {
@@ -54,9 +55,9 @@ public class BeanConstructorTest extends TestCase {
     options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
     Yaml yamlToDump = new Yaml(options);
     String output = yamlToDump.dump(result);
-    TestBean1 result2 = Util.allowClassPrefix("org.yaml.snakeyaml").load(output);
+    TestBean1 result2 = YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(output);
     assertNotNull(result2);
-    TestBean1 result3 = Util.allowClassPrefix("org.yaml.snakeyaml").load(output);
+    TestBean1 result3 = YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(output);
     assertNotNull(result3);
   }
 

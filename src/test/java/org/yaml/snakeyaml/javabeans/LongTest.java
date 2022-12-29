@@ -15,8 +15,8 @@ package org.yaml.snakeyaml.javabeans;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -30,7 +30,7 @@ public class LongTest extends TestCase {
     String output = yaml.dump(foo);
     // System.out.println(output);
     try {
-      Util.allowClassPrefix("org.yaml.snakeyaml").load(output);
+      YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(output);
     } catch (Exception e) {
       assertTrue(e.getMessage(), e.getMessage().contains("argument type mismatch"));
     }
@@ -59,14 +59,14 @@ public class LongTest extends TestCase {
     Foo foo = new Foo();
     String output = yaml.dump(foo);
     // System.out.println(output);
-    Foo foo2 = Util.allowAnyClass().load(output);
+    Foo foo2 = YamlCreator.allowAnyClass().load(output);
     assertEquals(Long.valueOf(42L), foo2.getBar());
   }
 
   public void testLongConstructor() {
     String doc = "!!org.yaml.snakeyaml.javabeans.LongTest$Foo\n\"bar\": !!int \"42\"";
     // System.out.println(doc);
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Foo foo2 = yaml.load(doc);
     assertEquals(Long.valueOf(42L), foo2.getBar());
   }

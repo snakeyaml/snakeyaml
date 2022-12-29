@@ -14,8 +14,8 @@
 package org.yaml.snakeyaml.immutable.primitives;
 
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class ImmutablePrimitivesTest extends TestCase {
@@ -25,12 +25,12 @@ public class ImmutablePrimitivesTest extends TestCase {
     BunchOfPrimitives bunch = new BunchOfPrimitives(10, 40.0, true);
     String dump = yaml.dump(bunch);
     assertEquals("!!" + bunch.getClass().getCanonicalName() + " [10, 40.0, true]\n", dump);
-    Object loaded = Util.allowClassPrefix("org.yaml.snakeyaml").load(dump);
+    Object loaded = YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(dump);
     assertEquals(loaded.toString(), bunch, loaded);
   }
 
   public void testPrimitivesLong() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump =
         "!!org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives [10000000000, 40.0, true]";
     BunchOfPrimitives bunch = yaml.load(dump);
@@ -39,7 +39,7 @@ public class ImmutablePrimitivesTest extends TestCase {
   }
 
   public void testPrimitivesException() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String dump = "!!org.yaml.snakeyaml.immutable.primitives.BunchOfPrimitives [10, 40, true]";
     try {
       yaml.load(dump);

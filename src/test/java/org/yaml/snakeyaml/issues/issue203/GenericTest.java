@@ -14,13 +14,13 @@
 package org.yaml.snakeyaml.issues.issue203;
 
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class GenericTest extends TestCase {
 
   public void testGenericInterface() {
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String uuu = "!!org.yaml.snakeyaml.issues.issue203.DataBean\n"
         + "content: !!org.yaml.snakeyaml.issues.issue203.ContentIdentifierImpl 33\n" + "id: 555";
     DataBean obj = yaml.load(uuu);

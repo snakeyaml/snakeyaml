@@ -22,6 +22,7 @@ import java.util.TreeMap;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 /**
  * Test different Map implementations as JavaBean properties
@@ -179,7 +180,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
   }
 
   public void testRecursiveNoJavaBeanMap3() {
-    Yaml yaml = Util.allowClassPrefix("java");
+    Yaml yaml = YamlCreator.allowClassPrefix("java");
     String output = Util.getLocalResource("examples/map-recursive-3.yaml");
     // System.out.println(output);
     @SuppressWarnings("unchecked")
@@ -193,7 +194,7 @@ public class TypeSafeMapImplementationsTest extends TestCase {
   }
 
   public void testRecursiveProperties4() {
-    Yaml yaml = Util.allowClassPrefix("java");
+    Yaml yaml = YamlCreator.allowClassPrefix("java");
     String output = Util.getLocalResource("examples/map-recursive-4.yaml");
     // System.out.println(output);
     Properties p = yaml.load(output);

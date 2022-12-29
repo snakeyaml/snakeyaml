@@ -29,6 +29,7 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.constructor.TrustedTagInspector;
 import org.yaml.snakeyaml.representer.Representer;
@@ -48,7 +49,7 @@ public class HumanTest extends TestCase {
     father.setPartner(mother);
     mother.setPartner(father);
     mother.setBankAccountOwner(father);
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String output = yaml.dump(father);
     String etalon = Util.getLocalResource("recursive/no-children-1.yaml");
     assertEquals(etalon, output);
@@ -82,7 +83,7 @@ public class HumanTest extends TestCase {
     String etalon = Util.getLocalResource("recursive/no-children-1-pretty.yaml");
     assertEquals(etalon, output);
     //
-    Human father2 = Util.allowClassPrefix("org.yaml.snakeyaml").load(output);
+    Human father2 = YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(output);
     assertNotNull(father2);
     assertEquals("Father", father2.getName());
     assertEquals("Mother", father2.getPartner().getName());
@@ -350,7 +351,7 @@ public class HumanTest extends TestCase {
     //
 
     Constructor constructor =
-        new Constructor(Human3.class, Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+        new Constructor(Human3.class, YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     TypeDescription Human3Description = new TypeDescription(Human3.class);
     Human3Description.putListPropertyType("children", Human3.class);
     constructor.addTypeDescription(Human3Description);
@@ -389,7 +390,7 @@ public class HumanTest extends TestCase {
   public void testChildrenSetAsRoot() {
     String etalon = Util.getLocalResource("recursive/with-children-as-set.yaml");
 
-    Constructor constructor = new Constructor(Util.trustedLoaderOptions());
+    Constructor constructor = new Constructor(YamlCreator.trustedLoaderOptions());
     TypeDescription humanDescription = new TypeDescription(Human.class);
     humanDescription.putMapPropertyType("children", Human.class, Object.class);
     constructor.addTypeDescription(humanDescription);
@@ -425,7 +426,7 @@ public class HumanTest extends TestCase {
   public void testChildrenMapAsRoot() {
     String etalon = Util.getLocalResource("recursive/with-children-as-map.yaml");
 
-    Constructor constructor = new Constructor(Util.trustedLoaderOptions());
+    Constructor constructor = new Constructor(YamlCreator.trustedLoaderOptions());
     TypeDescription Human2Description = new TypeDescription(Human2.class);
     Human2Description.putMapPropertyType("children", Human2.class, String.class);
     constructor.addTypeDescription(Human2Description);
@@ -492,7 +493,8 @@ public class HumanTest extends TestCase {
     mother.setChildren(children);
     //
 
-    Constructor constructor = new Constructor(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+    Constructor constructor =
+        new Constructor(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     TypeDescription Human3Description = new TypeDescription(Human3.class);
     Human3Description.putListPropertyType("children", Human3.class);
     constructor.addTypeDescription(Human3Description);
@@ -534,7 +536,7 @@ public class HumanTest extends TestCase {
     man2.setBankAccountOwner(man3);
     man3.setBankAccountOwner(man1);
     //
-    Yaml yaml = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String output = yaml.dump(man1);
     // System.out.println(output);
     String etalon = Util.getLocalResource("recursive/beanring-3.yaml");

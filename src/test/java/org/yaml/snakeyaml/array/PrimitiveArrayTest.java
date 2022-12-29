@@ -17,8 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Assert;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.ConstructorException;
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -36,7 +36,7 @@ public class PrimitiveArrayTest extends TestCase {
   private final boolean[] bools = new boolean[] {true, false};
 
   private Yaml createYaml() {
-    return Util.allowClassPrefix("org.yaml.snakeyaml.array");
+    return YamlCreator.allowClassPrefix("org.yaml.snakeyaml.array");
   }
 
   public void testValidConstructor() {

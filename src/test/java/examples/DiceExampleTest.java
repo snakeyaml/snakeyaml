@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -154,7 +154,7 @@ public class DiceExampleTest extends TestCase {
 
   public void testImplicitResolverJavaBean() {
     Yaml yaml = new Yaml(new DiceConstructor(), new DiceRepresenter(), new DumperOptions(),
-        Util.trustedLoaderOptions(), new Resolver());
+        YamlCreator.trustedLoaderOptions(), new Resolver());
     // the tag must start with a digit
     yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), "123456789");
     // dump

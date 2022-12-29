@@ -22,8 +22,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 public class PyRecursiveTest extends TestCase {
@@ -33,7 +33,7 @@ public class PyRecursiveTest extends TestCase {
     Map<AnInstance, AnInstance> value = new HashMap<AnInstance, AnInstance>();
     AnInstance instance = new AnInstance(value, value);
     value.put(instance, instance);
-    Yaml yaml = Util.allowClassPrefix("org");
+    Yaml yaml = YamlCreator.allowClassPrefix("org");
     String output1 = yaml.dump(value);
     assertTrue(output1.contains("!!org.pyyaml.AnInstance"));
     assertTrue(output1.contains("&id001"));
@@ -115,7 +115,7 @@ public class PyRecursiveTest extends TestCase {
   public void testSet() {
     Set value = new HashSet();
     value.add(new AnInstance(value, value));
-    Yaml yaml = Util.allowClassPrefix("org");
+    Yaml yaml = YamlCreator.allowClassPrefix("org");
     String output1 = yaml.dump(value);
     Set<AnInstance> value2 = yaml.load(output1);
 

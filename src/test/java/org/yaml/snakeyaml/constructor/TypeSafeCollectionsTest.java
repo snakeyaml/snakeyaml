@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -115,7 +116,7 @@ public class TypeSafeCollectionsTest extends TestCase {
     String output = yaml.dump(c);
     assertEquals(Util.getLocalResource("javabeans/mycar-with-global-tag1.yaml"), output);
     // load
-    Yaml beanLoader = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml beanLoader = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     MyCar car = beanLoader.loadAs(output, MyCar.class);
     assertNotNull(car);
     assertEquals("00-FF-Q2", car.getPlate());

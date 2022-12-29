@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
@@ -41,7 +41,7 @@ public class FileTest extends TestCase {
     // System.out.println(output);
     assertTrue(output, output.startsWith("{one: !!java.io.File '"));
     assertTrue(output, output.endsWith("list-bean-1.yaml'}\n"));
-    Map<String, File> parsed = Util.allowAnyClass().load(output);
+    Map<String, File> parsed = YamlCreator.allowAnyClass().load(output);
     File file2 = parsed.get("one");
     assertTrue(file2.getAbsolutePath(), file2.getAbsolutePath().endsWith("list-bean-1.yaml"));
   }

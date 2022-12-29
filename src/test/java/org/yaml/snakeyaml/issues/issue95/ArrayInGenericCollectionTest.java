@@ -23,8 +23,8 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
-import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -62,7 +62,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     String dump = yaml2dump.dump(data);
     // System.out.println(dump);
 
-    Yaml yaml2load = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml2load = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     yaml2load.setBeanAccess(BeanAccess.FIELD);
     A loaded = yaml2load.load(dump);
 
@@ -84,7 +84,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     TypeDescription aTypeDescr = new TypeDescription(A.class);
     aTypeDescr.putMapPropertyType("meta", String.class, String[].class);
 
-    Constructor c = new Constructor(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+    Constructor c = new Constructor(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     c.addTypeDescription(aTypeDescr);
     Yaml yaml2load = new Yaml(c);
     yaml2load.setBeanAccess(BeanAccess.FIELD);
@@ -106,7 +106,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     String dump = yaml2dump.dump(data);
     // System.out.println(dump);
 
-    Yaml yaml2load = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml yaml2load = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     yaml2load.setBeanAccess(BeanAccess.FIELD);
     B loaded = yaml2load.load(dump);
 
@@ -123,7 +123,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     TypeDescription aTypeDescr = new TypeDescription(B.class);
     aTypeDescr.putListPropertyType("meta", String[].class);
 
-    Constructor c = new Constructor(Util.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
+    Constructor c = new Constructor(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     c.addTypeDescription(aTypeDescr);
     Yaml yaml2load = new Yaml(c);
     yaml2load.setBeanAccess(BeanAccess.FIELD);

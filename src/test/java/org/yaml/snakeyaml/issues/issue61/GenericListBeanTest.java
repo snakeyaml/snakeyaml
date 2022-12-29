@@ -18,6 +18,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class GenericListBeanTest extends TestCase {
 
@@ -54,7 +55,7 @@ public class GenericListBeanTest extends TestCase {
     String etalon = Util.getLocalResource("issues/issue61-1.yaml");
     assertEquals(etalon, s);
     // parse
-    Yaml loader = Util.allowClassPrefix("org.yaml.snakeyaml");
+    Yaml loader = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     ListProvider listProvider2 = loader.loadAs(s, ListProvider.class);
     Bean foo2 = (Bean) listProvider2.getList().get(0);
     assertEquals("foo", foo2.getName());
