@@ -28,7 +28,7 @@ public final class TrustedTagInspector implements TagInspector {
    * @return always return true
    */
   @Override
-  public boolean allowGlobalTag(Tag tag) {
+  public boolean isGlobalTagAllowed(Tag tag) {
     return true;
   }
 }

@@ -16,18 +16,18 @@ package org.yaml.snakeyaml.constructor;
 import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * Check if the global tags are allowed (the local tags are always allowed) It should control the
+ * Check if the global tags are allowed (the local tags are always allowed). It should control the
  * classes to create to prevent possible remote code invocation when the data comes from untrusted
- * source.
+ * source. The standard tags are always allowed (https://yaml.org/type/index.html)
  */
 public interface TagInspector {
 
   /**
    * Check
    *
-   * @param tag - the global tag to allow
+   * @param tag - the global tag to check
    * @return true when the custom global tag is allowed to create a custom Java instance
    */
-  boolean allowGlobalTag(Tag tag);
+  boolean isGlobalTagAllowed(Tag tag);
 
 }

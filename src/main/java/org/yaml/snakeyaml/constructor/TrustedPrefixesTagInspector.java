@@ -40,7 +40,7 @@ public final class TrustedPrefixesTagInspector implements TagInspector {
    * @return true when the custom global tag is allowed to create a custom Java instance
    */
   @Override
-  public boolean allowGlobalTag(Tag tag) {
+  public boolean isGlobalTagAllowed(Tag tag) {
     for (String trusted : trustedList) {
       if (tag.getClassName().startsWith(trusted)) {
         return true;
