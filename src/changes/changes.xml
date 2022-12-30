@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.0-SNAPSHOT" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="update">
+                Migrate to Java 8
+            </action>
             <action dev="asomov" type="remove">
                 Remove many deprecated constructors
             </action>

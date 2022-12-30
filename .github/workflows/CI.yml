@@ -29,7 +29,6 @@ jobs:
         jdk: [ '8', '11', '17' ]
         include: 
           - jdk: '8'
-            profile: -Pwith-java8-tests
           - jdk: '11'
             profile: -Pwith-java11-tests
           - jdk: '17'

@@ -55,8 +55,8 @@ public class OptionalTesting {
 
     String pDump = yamlParser.dump(expectedPerson);
     // System.out.println(pDump);
-    final Person pFromDump = YamlCreator.allowClassPrefix("org.yaml.snakeyaml")
-        .loadAs(pDump, Person.class);
+    final Person pFromDump =
+        YamlCreator.allowClassPrefix("org.yaml.snakeyaml").loadAs(pDump, Person.class);
 
     assertEquals(expectedPerson.getName(), pFromDump.getName());
     assertEquals(expectedPerson.getSalary(), pFromDump.getSalary());
