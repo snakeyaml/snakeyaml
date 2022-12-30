@@ -13,8 +13,8 @@
  */
 package org.yaml.snakeyaml;
 
-import org.yaml.snakeyaml.constructor.TagInspector;
-import org.yaml.snakeyaml.constructor.UnTrustedTagInspector;
+import org.yaml.snakeyaml.inspector.TagInspector;
+import org.yaml.snakeyaml.inspector.UnTrustedTagInspector;
 
 /**
  * Configuration for loading

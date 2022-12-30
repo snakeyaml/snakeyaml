@@ -14,8 +14,8 @@
 package org.yaml.snakeyaml;
 
 import java.util.Collections;
-import org.yaml.snakeyaml.constructor.TrustedPrefixesTagInspector;
-import org.yaml.snakeyaml.constructor.TrustedTagInspector;
+import org.yaml.snakeyaml.inspector.TrustedPrefixesTagInspector;
+import org.yaml.snakeyaml.inspector.TrustedTagInspector;
 
 public class YamlCreator {
 

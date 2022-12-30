@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.yaml.snakeyaml.constructor;
+package org.yaml.snakeyaml.inspector;
 
 import org.yaml.snakeyaml.nodes.Tag;
 

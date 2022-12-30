@@ -11,24 +11,23 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.yaml.snakeyaml.constructor;
+package org.yaml.snakeyaml.inspector;
 
 import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * TagInspector which allows to create any custom instance. Should not be used when the data comes
- * from untrusted source to prevent possible remote code invocation.
+ * Check if the global tags are allowed (the local tags are always allowed). It should control the
+ * classes to create to prevent possible remote code invocation when the data comes from untrusted
+ * source. The standard tags are always allowed (https://yaml.org/type/index.html)
  */
-public final class TrustedTagInspector implements TagInspector {
+public interface TagInspector {
 
   /**
-   * Allow any
+   * Check
    *
-   * @param tag - the global tag to allow
-   * @return always return true
+   * @param tag - the global tag to check
+   * @return true when the custom global tag is allowed to create a custom Java instance
    */
-  @Override
-  public boolean isGlobalTagAllowed(Tag tag) {
-    return true;
-  }
+  boolean isGlobalTagAllowed(Tag tag);
+
 }

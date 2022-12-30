@@ -32,8 +32,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.TagInspector;
-import org.yaml.snakeyaml.constructor.TrustedPrefixesTagInspector;
+import org.yaml.snakeyaml.inspector.TagInspector;
+import org.yaml.snakeyaml.inspector.TrustedPrefixesTagInspector;
 
 public class ContextClassLoaderTest {
 

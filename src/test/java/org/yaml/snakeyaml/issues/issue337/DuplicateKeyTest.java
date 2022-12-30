@@ -25,7 +25,7 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
-import org.yaml.snakeyaml.constructor.TrustedTagInspector;
+import org.yaml.snakeyaml.inspector.TrustedTagInspector;
 
 public class DuplicateKeyTest {
 

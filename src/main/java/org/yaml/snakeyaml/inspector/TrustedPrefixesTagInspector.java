@@ -11,23 +11,41 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.yaml.snakeyaml.constructor;
+package org.yaml.snakeyaml.inspector;
 
+import java.util.List;
 import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * Check if the global tags are allowed (the local tags are always allowed). It should control the
- * classes to create to prevent possible remote code invocation when the data comes from untrusted
- * source. The standard tags are always allowed (https://yaml.org/type/index.html)
+ * Allow to create classes with custom global tag if the class name matches any of the provided
+ * prefixes.
  */
-public interface TagInspector {
+public final class TrustedPrefixesTagInspector implements TagInspector {
+
+  private final List<String> trustedList;
+
+  /**
+   * Create
+   *
+   * @param trustedList - list of prefixes to allow. It may be the package names
+   */
+  public TrustedPrefixesTagInspector(List<String> trustedList) {
+    this.trustedList = trustedList;
+  }
 
   /**
    * Check
    *
-   * @param tag - the global tag to check
+   * @param tag - the global tag to allow
    * @return true when the custom global tag is allowed to create a custom Java instance
    */
-  boolean isGlobalTagAllowed(Tag tag);
-
+  @Override
+  public boolean isGlobalTagAllowed(Tag tag) {
+    for (String trusted : trustedList) {
+      if (tag.getClassName().startsWith(trusted)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
