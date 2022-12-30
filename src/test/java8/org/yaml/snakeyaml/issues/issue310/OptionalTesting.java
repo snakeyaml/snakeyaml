@@ -28,6 +28,40 @@ import org.yaml.snakeyaml.representer.Representer;
 
 public class OptionalTesting {
 
+  static boolean reflectiveAccessDenied = false;
+
+  protected void loadOptionalString() {
+    final String yamlStr = "name: Neo Anderson\nsalary: [{income: [123456.78]}]\n";
+    final Yaml yamlParser = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
+    Person expectedPerson = new Person();
+    Salary s = new Salary();
+    s.setIncome(123456.78);
+    expectedPerson.setName("Neo Anderson");
+    expectedPerson.setSalary(Optional.of(s));
+
+    final Person pFromStr = yamlParser.loadAs(yamlStr, Person.class);
+
+    assertEquals(expectedPerson.getName(), pFromStr.getName());
+    assertEquals(expectedPerson.getSalary(), pFromStr.getSalary());
+  }
+
+  protected void dumpLoadOptional() {
+    final Yaml yamlParser = new Yaml(new OptionalRepresenter());
+    Person expectedPerson = new Person();
+    Salary s = new Salary();
+    s.setIncome(123456.78);
+    expectedPerson.setName("Neo Anderson");
+    expectedPerson.setSalary(Optional.of(s));
+
+    String pDump = yamlParser.dump(expectedPerson);
+    // System.out.println(pDump);
+    final Person pFromDump = YamlCreator.allowClassPrefix("org.yaml.snakeyaml")
+        .loadAs(pDump, Person.class);
+
+    assertEquals(expectedPerson.getName(), pFromDump.getName());
+    assertEquals(expectedPerson.getSalary(), pFromDump.getSalary());
+  }
+
   public static class Salary {
 
     private Optional<Double> income = Optional.empty();
@@ -121,39 +155,5 @@ public class OptionalTesting {
         return representSequence(Tag.SEQ, seq, DumperOptions.FlowStyle.FLOW);
       }
     }
-  }
-
-  static boolean reflectiveAccessDenied = false;
-
-  protected void loadOptionalString() {
-    final String yamlStr = "name: Neo Anderson\nsalary: [{income: [123456.78]}]\n";
-    final Yaml yamlParser = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
-    Person expectedPerson = new Person();
-    Salary s = new Salary();
-    s.setIncome(123456.78);
-    expectedPerson.setName("Neo Anderson");
-    expectedPerson.setSalary(Optional.of(s));
-
-    final Person pFromStr = yamlParser.loadAs(yamlStr, Person.class);
-
-    assertEquals(expectedPerson.getName(), pFromStr.getName());
-    assertEquals(expectedPerson.getSalary(), pFromStr.getSalary());
-  }
-
-  protected void dumpLoadOptional() {
-    final Yaml yamlParser = new Yaml(new OptionalRepresenter());
-    Person expectedPerson = new Person();
-    Salary s = new Salary();
-    s.setIncome(123456.78);
-    expectedPerson.setName("Neo Anderson");
-    expectedPerson.setSalary(Optional.of(s));
-
-    String pDump = yamlParser.dump(expectedPerson);
-    // System.out.println(pDump);
-    final Person pFromDump = YamlCreator.allowClassPrefix("org.yaml.snakeyaml")
-        .loadAs(pDump, Person.class);
-
-    assertEquals(expectedPerson.getName(), pFromDump.getName());
-    assertEquals(expectedPerson.getSalary(), pFromDump.getSalary());
   }
 }

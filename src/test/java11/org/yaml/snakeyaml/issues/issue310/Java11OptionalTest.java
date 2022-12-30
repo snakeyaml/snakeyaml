@@ -29,6 +29,8 @@ import org.yaml.snakeyaml.error.YAMLException;
 public class Java11OptionalTest extends OptionalTesting {
 
   private static final Logger log = Logger.getLogger(Java11OptionalTest.class.getPackageName());
+  @Rule
+  public final ExpectedException expectedException = ExpectedException.none();
 
   @BeforeClass
   public static void checkIllegalAccess() {
@@ -43,9 +45,6 @@ public class Java11OptionalTest extends OptionalTesting {
       reflectiveAccessDenied = true;
     }
   }
-
-  @Rule
-  public final ExpectedException expectedException = ExpectedException.none();
 
   @Before
   public void configureExpectedExceptions() {
