@@ -18,17 +18,17 @@ import org.junit.internal.matchers.ThrowableCauseMatcher;
 
 public class DeepThrowableCauseMatcher extends ThrowableCauseMatcher<Throwable> {
 
-    public DeepThrowableCauseMatcher(Matcher<? extends Throwable> causeMatcher) {
-        super(causeMatcher);
-    }
+  public DeepThrowableCauseMatcher(Matcher<? extends Throwable> causeMatcher) {
+    super(causeMatcher);
+  }
 
-    @Override
-    protected boolean matchesSafely(Throwable item) {
-        for (Throwable cause = item; cause != null; cause = cause.getCause()) {
-            if (super.matchesSafely(cause)) {
-                return true;
-            }
-        }
-        return false;
+  @Override
+  protected boolean matchesSafely(Throwable item) {
+    for (Throwable cause = item; cause != null; cause = cause.getCause()) {
+      if (super.matchesSafely(cause)) {
+        return true;
+      }
     }
+    return false;
+  }
 }

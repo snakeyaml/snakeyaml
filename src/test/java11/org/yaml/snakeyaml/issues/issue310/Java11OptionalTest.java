@@ -19,7 +19,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InaccessibleObjectException;
 import java.util.Optional;
 import java.util.logging.Logger;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -29,41 +28,41 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 public class Java11OptionalTest extends OptionalTesting {
 
-    private static Logger log = Logger.getLogger(Java11OptionalTest.class.getPackageName());
+  private static final Logger log = Logger.getLogger(Java11OptionalTest.class.getPackageName());
 
-    @BeforeClass
-    public static void checkIllegalAccess() {
-        try {
-            Constructor<?> privateConstructor = Optional.class.getDeclaredConstructor(Object.class);
-            privateConstructor.setAccessible(true);
-            privateConstructor.newInstance("OptionalString");
-        } catch (InaccessibleObjectException | ReflectiveOperationException | SecurityException e) {
-            log.warning(
-                    "Expecting exceptions in these tests because reflective access has been denied: "
-                            + e.getLocalizedMessage());
-            reflectiveAccessDenied = true;
-        }
+  @BeforeClass
+  public static void checkIllegalAccess() {
+    try {
+      Constructor<?> privateConstructor = Optional.class.getDeclaredConstructor(Object.class);
+      privateConstructor.setAccessible(true);
+      privateConstructor.newInstance("OptionalString");
+    } catch (InaccessibleObjectException | ReflectiveOperationException | SecurityException e) {
+      log.warning(
+          "Expecting exceptions in these tests because reflective access has been denied: "
+              + e.getLocalizedMessage());
+      reflectiveAccessDenied = true;
     }
+  }
 
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
+  @Rule
+  public final ExpectedException expectedException = ExpectedException.none();
 
-    @Before
-    public void configureExpectedExceptions() {
-        if (reflectiveAccessDenied) {
-            expectedException.expect(YAMLException.class);
-            expectedException.expect(
-                    new DeepThrowableCauseMatcher(instanceOf(InaccessibleObjectException.class)));
-        }
+  @Before
+  public void configureExpectedExceptions() {
+    if (reflectiveAccessDenied) {
+      expectedException.expect(YAMLException.class);
+      expectedException.expect(
+          new DeepThrowableCauseMatcher(instanceOf(InaccessibleObjectException.class)));
     }
+  }
 
-    @Test
-    public void testJava11OptionalStringLoad() {
-        loadOptionalString();
-    }
+  @Test
+  public void testJava11OptionalStringLoad() {
+    loadOptionalString();
+  }
 
-    @Test
-    public void testJava11OptionalDumpLoad() {
-        dumpLoadOptional();
-    }
+  @Test
+  public void testJava11OptionalDumpLoad() {
+    dumpLoadOptional();
+  }
 }
