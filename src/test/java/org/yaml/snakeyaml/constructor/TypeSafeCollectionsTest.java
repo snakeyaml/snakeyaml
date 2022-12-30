@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -29,7 +30,7 @@ import org.yaml.snakeyaml.representer.Representer;
 public class TypeSafeCollectionsTest extends TestCase {
 
   public void testTypeSafeList() {
-    Constructor constructor = new Constructor(Car.class);
+    Constructor constructor = new Constructor(Car.class, new LoaderOptions());
     TypeDescription carDescription = new TypeDescription(Car.class);
     carDescription.putListPropertyType("wheels", Wheel.class);
     constructor.addTypeDescription(carDescription);
@@ -45,7 +46,7 @@ public class TypeSafeCollectionsTest extends TestCase {
   }
 
   public void testTypeSafeMap() {
-    Constructor constructor = new Constructor(MyCar.class);
+    Constructor constructor = new Constructor(MyCar.class, new LoaderOptions());
     TypeDescription carDescription = new TypeDescription(MyCar.class);
     carDescription.putMapPropertyType("wheels", MyWheel.class, Object.class);
     constructor.addTypeDescription(carDescription);
@@ -64,7 +65,7 @@ public class TypeSafeCollectionsTest extends TestCase {
   }
 
   public void testTypeSafeList2() {
-    Constructor constructor = new Constructor(Car.class);
+    Constructor constructor = new Constructor(Car.class, new LoaderOptions());
     TypeDescription carDescription = new TypeDescription(Car.class);
     carDescription.addPropertyParameters("wheels", Wheel.class);
     constructor.addTypeDescription(carDescription);
@@ -80,7 +81,7 @@ public class TypeSafeCollectionsTest extends TestCase {
   }
 
   public void testTypeSafeMap2() {
-    Constructor constructor = new Constructor(MyCar.class);
+    Constructor constructor = new Constructor(MyCar.class, new LoaderOptions());
     TypeDescription carDescription = new TypeDescription(MyCar.class);
     carDescription.addPropertyParameters("wheels", MyWheel.class, Object.class);
     constructor.addTypeDescription(carDescription);

@@ -16,6 +16,7 @@ package examples;
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -49,7 +50,7 @@ public class CustomBeanResolverTest extends TestCase {
   class BigBeanConstructor extends Constructor {
 
     public BigBeanConstructor() {
-      super(Foo.class);
+      super(Foo.class, new LoaderOptions());
       yamlClassConstructors.put(NodeId.scalar, new ConstructBig());
     }
 

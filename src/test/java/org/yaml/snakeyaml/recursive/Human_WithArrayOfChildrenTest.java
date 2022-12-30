@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.recursive;
 
 import java.util.Date;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -167,7 +168,7 @@ public class Human_WithArrayOfChildrenTest extends TestCase {
   }
 
   public void testParseChildrenArrayWithoutRootTag() {
-    Constructor constructor = new Constructor(Human_WithArrayOfChildren.class);
+    Constructor constructor = new Constructor(Human_WithArrayOfChildren.class, new LoaderOptions());
     TypeDescription HumanWithChildrenArrayDescription =
         new TypeDescription(Human_WithArrayOfChildren.class);
     HumanWithChildrenArrayDescription.putListPropertyType("children",

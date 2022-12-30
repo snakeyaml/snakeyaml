@@ -111,16 +111,6 @@ public abstract class BaseConstructor {
   /**
    * Create
    *
-   * @deprecated use the options
-   */
-  @Deprecated
-  public BaseConstructor() {
-    this(new LoaderOptions());
-  }
-
-  /**
-   * Create
-   *
    * @param loadingConfig - options
    */
   public BaseConstructor(LoaderOptions loadingConfig) {

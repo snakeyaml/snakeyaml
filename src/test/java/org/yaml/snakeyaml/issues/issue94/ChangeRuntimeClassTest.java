@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue94;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlCreator;
@@ -100,7 +101,7 @@ public class ChangeRuntimeClassTest {
     }
 
     public MyConstructor(Class<?> clazz) {
-      super(clazz);
+      super(clazz, new LoaderOptions());
       this.yamlConstructors.put(null, new ConstructProxy());
     }
 

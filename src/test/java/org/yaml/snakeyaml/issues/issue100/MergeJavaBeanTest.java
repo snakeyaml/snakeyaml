@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlCreator;
@@ -162,7 +163,7 @@ public class MergeJavaBeanTest extends TestCase {
   public void testMergeBeanProperty() {
     String input = Util.getLocalResource("issues/issue100-3.yaml");
     // System.out.println(input);
-    Yaml yaml = new Yaml(new Constructor(DataBean.class));
+    Yaml yaml = new Yaml(new Constructor(DataBean.class, new LoaderOptions()));
     DataBean bean = yaml.load(input);
     assertEquals("id001", bean.getId());
     assertEquals("id002", bean.getData().getId());

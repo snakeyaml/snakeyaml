@@ -29,31 +29,7 @@ public class CustomClassLoaderConstructor extends Constructor {
    * @param loadingConfig - options
    */
   public CustomClassLoaderConstructor(ClassLoader loader, LoaderOptions loadingConfig) {
-    super(loadingConfig);
-    this.loader = loader;
-  }
-
-  /**
-   * Create
-   *
-   * @param cLoader the class loader to find the class definition
-   * @deprecated use loading options
-   */
-  @Deprecated
-  public CustomClassLoaderConstructor(ClassLoader cLoader) {
-    this(Object.class, cLoader);
-  }
-
-  /**
-   * Create
-   *
-   * @param theRoot - the class to instantiate
-   * @param theLoader - the class loader to find the class definition
-   * @deprecated use loading options
-   */
-  @Deprecated
-  public CustomClassLoaderConstructor(Class<? extends Object> theRoot, ClassLoader theLoader) {
-    this(theRoot, theLoader, new LoaderOptions());
+    this(Object.class, loader, loadingConfig);
   }
 
   /**

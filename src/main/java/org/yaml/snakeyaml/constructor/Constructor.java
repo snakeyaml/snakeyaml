@@ -42,33 +42,12 @@ import org.yaml.snakeyaml.util.EnumUtils;
 public class Constructor extends SafeConstructor {
 
   /**
-   * Create
-   *
-   * @deprecated use options
-   */
-  @Deprecated
-  public Constructor() {
-    this(Object.class);
-  }
-
-  /**
    * Create with options
    *
    * @param loadingConfig - config
    */
   public Constructor(LoaderOptions loadingConfig) {
     this(Object.class, loadingConfig);
-  }
-
-  /**
-   * Create Constructor for the specified class as the root.
-   *
-   * @param theRoot - the class (usually JavaBean) to be constructed
-   * @deprecated LoaderOptions should be provided
-   */
-  @Deprecated
-  public Constructor(Class<? extends Object> theRoot) {
-    this(new TypeDescription(checkRoot(theRoot)));
   }
 
   /**
@@ -90,17 +69,6 @@ public class Constructor extends SafeConstructor {
     } else {
       return theRoot;
     }
-  }
-
-  /**
-   * Create
-   *
-   * @param theRoot - the root class to create
-   * @deprecated use options
-   */
-  @Deprecated
-  public Constructor(TypeDescription theRoot) {
-    this(theRoot, null, new LoaderOptions());
   }
 
   /**
@@ -142,17 +110,6 @@ public class Constructor extends SafeConstructor {
         addTypeDescription(td);
       }
     }
-  }
-
-  /**
-   * Create Constructor for a class which does not have to be in the classpath or for a definition
-   * from a Spring ApplicationContext.
-   *
-   * @param theRoot fully qualified class name of the root class (usually JavaBean)
-   * @throws ClassNotFoundException if it cannot be loaded by the classloader
-   */
-  public Constructor(String theRoot) throws ClassNotFoundException {
-    this(Class.forName(check(theRoot)));
   }
 
   /**

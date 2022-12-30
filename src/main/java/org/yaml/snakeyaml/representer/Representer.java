@@ -42,16 +42,6 @@ public class Representer extends SafeRepresenter {
 
   protected Map<Class<? extends Object>, TypeDescription> typeDefinitions = Collections.emptyMap();
 
-  /**
-   * Create
-   *
-   * @deprecated use options instead
-   */
-  @Deprecated
-  public Representer() {
-    this.representers.put(null, new RepresentJavaBean());
-  }
-
   public Representer(DumperOptions options) {
     super(options);
     this.representers.put(null, new RepresentJavaBean());

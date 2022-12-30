@@ -44,16 +44,6 @@ class SafeRepresenter extends BaseRepresenter {
   protected TimeZone timeZone = null;
   protected DumperOptions.NonPrintableStyle nonPrintableStyle;
 
-  /**
-   * Create
-   *
-   * @deprecated use options instead
-   */
-  @Deprecated
-  public SafeRepresenter() {
-    this(new DumperOptions());
-  }
-
   public SafeRepresenter(DumperOptions options) {
     if (options == null) {
       throw new NullPointerException("DumperOptions must be provided.");

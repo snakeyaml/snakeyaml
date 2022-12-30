@@ -68,18 +68,6 @@ public class Composer {
   private final int nestingDepthLimit;
 
   /**
-   * Create with defaults
-   *
-   * @param parser - the parser
-   * @param resolver - the resolver
-   * @deprecated use options
-   */
-  @Deprecated
-  public Composer(Parser parser, Resolver resolver) {
-    this(parser, resolver, new LoaderOptions());
-  }
-
-  /**
    * Create
    *
    * @param parser - the parser

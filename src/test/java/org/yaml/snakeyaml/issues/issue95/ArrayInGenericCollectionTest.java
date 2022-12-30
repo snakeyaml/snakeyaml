@@ -22,6 +22,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlCreator;
@@ -141,7 +142,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     // System.out.println(dump);
     assertEquals("meta:\n- [whatever]\n- [something, something else]\n", dump);
     //
-    Constructor constr = new Constructor(B.class);
+    Constructor constr = new Constructor(B.class, new LoaderOptions());
     Yaml yaml2load = new Yaml(constr);
     yaml2load.setBeanAccess(BeanAccess.FIELD);
     B loaded = yaml2load.load(dump);

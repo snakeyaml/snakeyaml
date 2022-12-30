@@ -46,20 +46,6 @@ public final class ScalarEvent extends NodeEvent {
     this.style = style;
   }
 
-  /*
-   * Existed in older versions but replaced with {@link DumperOptions.ScalarStyle}-based
-   * constructor. Restored in v1.22 for backwards compatibility.
-   *
-   * @deprecated Since restored in v1.22. Use {@link ScalarEvent#ScalarEvent(String, String,
-   * ImplicitTuple, String, Mark, Mark, org.yaml.snakeyaml.DumperOptions.ScalarStyle) }.
-   */
-  @Deprecated
-  public ScalarEvent(String anchor, String tag, ImplicitTuple implicit, String value,
-      Mark startMark, Mark endMark, Character style) {
-    this(anchor, tag, implicit, value, startMark, endMark,
-        DumperOptions.ScalarStyle.createStyle(style));
-  }
-
   /**
    * Tag of this scalar.
    *
@@ -89,15 +75,6 @@ public final class ScalarEvent extends NodeEvent {
    */
   public DumperOptions.ScalarStyle getScalarStyle() {
     return this.style;
-  }
-
-  /**
-   * @deprecated use getScalarStyle() instead
-   * @return char which is a value behind ScalarStyle
-   */
-  @Deprecated
-  public Character getStyle() {
-    return this.style.getChar();
   }
 
   /**

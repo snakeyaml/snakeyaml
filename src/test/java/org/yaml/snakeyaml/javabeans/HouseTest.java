@@ -20,6 +20,7 @@ import java.util.TreeMap;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -85,7 +86,7 @@ public class HouseTest extends TestCase {
     // load
     TypeDescription description = new TypeDescription(House.class);
     description.putListPropertyType("rooms", Room.class);
-    Yaml beanLoader = new Yaml(new Constructor(description));
+    Yaml beanLoader = new Yaml(new Constructor(description, new LoaderOptions()));
     House loadedHouse = beanLoader.load(yaml);
     House loadedHouse2 = beanLoader.loadAs(yaml, House.class);
     assertNotNull(loadedHouse);

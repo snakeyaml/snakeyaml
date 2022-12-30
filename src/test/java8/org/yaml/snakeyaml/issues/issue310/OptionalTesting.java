@@ -108,6 +108,7 @@ public class OptionalTesting {
   public static class OptionalRepresenter extends Representer {
 
     public OptionalRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Optional.class, new RepresentOptional());
     }
 

@@ -61,7 +61,7 @@ public class ImplicitTagsTest extends TestCase {
     String carYaml1 = new Yaml().dumpAs(car1, Tag.MAP, FlowStyle.AUTO);
     assertEquals(Util.getLocalResource("constructor/car-without-root-tag.yaml"), carYaml1);
     //
-    Constructor contructor = new Constructor(CarWithWheel.class);
+    Constructor contructor = new Constructor(CarWithWheel.class, new LoaderOptions());
     CarWithWheel car2 = new Yaml(contructor).load(carYaml1);
     String carYaml2 = new Yaml().dumpAs(car2, Tag.MAP, FlowStyle.AUTO);
     assertEquals(carYaml1, carYaml2);

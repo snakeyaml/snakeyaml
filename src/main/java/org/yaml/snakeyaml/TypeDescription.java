@@ -114,23 +114,6 @@ public class TypeDescription {
   }
 
   /**
-   * Get class of List values for provided JavaBean property.
-   *
-   * @param property property name
-   * @return class of List values
-   */
-  @Deprecated
-  public Class<? extends Object> getListPropertyType(String property) {
-    if (properties.containsKey(property)) {
-      Class<?>[] typeArguments = properties.get(property).getActualTypeArguments();
-      if (typeArguments != null && typeArguments.length > 0) {
-        return typeArguments[0];
-      }
-    }
-    return null;
-  }
-
-  /**
    * Specify that the property is a type-safe <code>Map</code>.
    *
    * @param property property name of this JavaBean
@@ -141,40 +124,6 @@ public class TypeDescription {
   public void putMapPropertyType(String property, Class<? extends Object> key,
       Class<? extends Object> value) {
     addPropertyParameters(property, key, value);
-  }
-
-  /**
-   * Get keys type info for this JavaBean
-   *
-   * @param property property name of this JavaBean
-   * @return class of keys in the Map
-   */
-  @Deprecated
-  public Class<? extends Object> getMapKeyType(String property) {
-    if (properties.containsKey(property)) {
-      Class<?>[] typeArguments = properties.get(property).getActualTypeArguments();
-      if (typeArguments != null && typeArguments.length > 0) {
-        return typeArguments[0];
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Get values type info for this JavaBean
-   *
-   * @param property property name of this JavaBean
-   * @return class of values in the Map
-   */
-  @Deprecated
-  public Class<? extends Object> getMapValueType(String property) {
-    if (properties.containsKey(property)) {
-      Class<?>[] typeArguments = properties.get(property).getActualTypeArguments();
-      if (typeArguments != null && typeArguments.length > 1) {
-        return typeArguments[1];
-      }
-    }
-    return null;
   }
 
   /**
