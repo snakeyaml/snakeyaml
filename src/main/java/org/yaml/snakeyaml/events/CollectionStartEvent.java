@@ -50,19 +50,6 @@ public abstract class CollectionStartEvent extends NodeEvent {
   }
 
   /**
-   * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
-   * Restored in v1.22 for backwards compatibility.
-   *
-   * @deprecated Since restored in v1.22. Use
-   *             {@link CollectionStartEvent#CollectionStartEvent(String, String, boolean, Mark, Mark, org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
-   */
-  @Deprecated
-  public CollectionStartEvent(String anchor, String tag, boolean implicit, Mark startMark,
-      Mark endMark, Boolean flowStyle) {
-    this(anchor, tag, implicit, startMark, endMark, DumperOptions.FlowStyle.fromBoolean(flowStyle));
-  }
-
-  /**
    * Tag of this collection.
    *
    * @return The tag of this collection, or <code>null</code> if no explicit tag is available.
