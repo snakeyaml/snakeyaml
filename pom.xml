@@ -406,7 +406,7 @@
                         <configuration>
                             <toolchains>
                                 <jdk>
-                                    <version>${maven.compiler.testTarget}</version>
+                                    <version>${maven.compiler.target}</version>
                                 </jdk>
                             </toolchains>
                         </configuration>
