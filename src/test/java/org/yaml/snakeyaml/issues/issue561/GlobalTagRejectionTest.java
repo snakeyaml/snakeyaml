@@ -13,13 +13,14 @@
  */
 package org.yaml.snakeyaml.issues.issue561;
 
-import org.junit.Test;
-import org.yaml.snakeyaml.Yaml;
-
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class GlobalTagRejectionTestCase {
+import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
+
+public class GlobalTagRejectionTest {
+
   /**
    * https://securitylab.github.com/research/swagger-yaml-parser-vulnerability/
    */
@@ -32,8 +33,21 @@ public class GlobalTagRejectionTestCase {
       yaml.load(malicious);
       fail("ScriptEngineManager should not be accepted");
     } catch (Exception e) {
-      assertTrue(e.getMessage(),
-          e.getMessage().startsWith("Global tag is not allowed: tag:yaml.org,2002:javax.script.ScriptEngineManager"));
+      assertTrue(e.getMessage(), e.getMessage().startsWith(
+          "Global tag is not allowed: tag:yaml.org,2002:javax.script.ScriptEngineManager"));
+    }
+  }
+
+  @Test
+  public void testDenyAnyTag() {
+    try {
+      String malicious = "!!java.lang.String foo";
+      Yaml yaml = new Yaml();
+      yaml.load(malicious);
+      fail("Global tags are rejected by default");
+    } catch (Exception e) {
+      assertTrue(e.getMessage(), e.getMessage()
+          .startsWith("Global tag is not allowed: tag:yaml.org,2002:java.lang.String"));
     }
   }
 }
