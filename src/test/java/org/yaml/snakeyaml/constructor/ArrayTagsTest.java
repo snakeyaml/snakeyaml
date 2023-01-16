@@ -76,7 +76,8 @@ public class ArrayTagsTest extends TestCase {
   }
 
   public void testLoadClassNoRoot() {
-    Constructor constructor = new Constructor(new TypeDescription(CarWithArray.class));
+    Constructor constructor =
+        new Constructor(new TypeDescription(CarWithArray.class), new LoaderOptions());
     Yaml yaml = new Yaml(constructor);
     CarWithArray car = yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
     assertEquals("12-XP-F4", car.getPlate());

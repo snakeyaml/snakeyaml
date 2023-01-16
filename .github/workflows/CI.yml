@@ -29,7 +29,6 @@ jobs:
         jdk: [ '8', '11', '17' ]
         include: 
           - jdk: '8'
-            profile: -Pwith-java8-tests
           - jdk: '11'
             profile: -Pwith-java11-tests
           - jdk: '17'
@@ -46,4 +45,4 @@ jobs:
           java-version: ${{ matrix.jdk }}
           cache: 'maven'
       - name: Build with Maven
-        run: mvn -V -B ${{ matrix.profile }} verify --file pom.xml
+        run: ./mvnw -V -B ${{ matrix.profile }} verify --file pom.xml

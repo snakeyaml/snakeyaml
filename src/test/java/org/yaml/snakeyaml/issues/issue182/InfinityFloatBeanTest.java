@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.issues.issue182;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class InfinityFloatBeanTest extends TestCase {
 
@@ -24,7 +25,7 @@ public class InfinityFloatBeanTest extends TestCase {
     bean.infinityFloat = Float.POSITIVE_INFINITY;
     bean.infinityFloatObject = Float.POSITIVE_INFINITY;
 
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     String yamled = yaml.dump(bean);
     InfinityFloatBean loadedBean = yaml.loadAs(yamled, InfinityFloatBean.class);
     assertEquals(Float.POSITIVE_INFINITY, loadedBean.infinityFloat);

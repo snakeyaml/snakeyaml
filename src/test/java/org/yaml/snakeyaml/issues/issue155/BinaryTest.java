@@ -26,7 +26,7 @@ public class BinaryTest extends TestCase {
     Yaml yaml = new Yaml();
     String payload = yaml.dump(inconsistentString);
     // System.out.println("payload: '" + payload + "'");
-    String loaded = new String((byte[]) yaml.load(payload), StandardCharsets.UTF_8);
+    String loaded = new String(yaml.load(payload), StandardCharsets.UTF_8);
     assertEquals(inconsistentString, loaded);
   }
 }

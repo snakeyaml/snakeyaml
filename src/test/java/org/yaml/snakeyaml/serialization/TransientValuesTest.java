@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import java.beans.Transient;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class TransientValuesTest {
@@ -37,7 +38,8 @@ public class TransientValuesTest {
 
     Yaml yaml = new Yaml();
     String dumpedInstance = yaml.dump(entity);
-    yaml = new Yaml(new Constructor(ClassWithTransientFields.class.getName()));
+    yaml = new Yaml(new Constructor(ClassWithTransientFields.class.getName(),
+        YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml")));
     ClassWithTransientFields deserializedEntity = yaml.load(dumpedInstance);
 
     assertTrue(dumpedInstance.contains("alpha"));

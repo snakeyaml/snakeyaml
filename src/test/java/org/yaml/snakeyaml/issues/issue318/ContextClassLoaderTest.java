@@ -24,11 +24,16 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.inspector.TagInspector;
+import org.yaml.snakeyaml.inspector.TrustedPrefixesTagInspector;
 
 public class ContextClassLoaderTest {
 
@@ -83,21 +88,7 @@ public class ContextClassLoaderTest {
 
     File runtimeClassesDir = new File(classpath.getProperty("runtime_classes_dir"));
 
-    ClassLoader noSnakeYAMLClassLoader =
-        new ClassLoader(Thread.currentThread().getContextClassLoader()) {
-
-          @Override
-          protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-            if (!name.startsWith("org.yaml.snakeyaml")) {
-              return super.loadClass(name, resolve);
-            }
-            throw new ClassNotFoundException("Can't load SnakeYaml classes by this ClassLoader");
-          }
-
-        };
-
-    yamlCL =
-        new URLClassLoader(new URL[] {runtimeClassesDir.toURI().toURL()}, noSnakeYAMLClassLoader);
+    yamlCL = new URLClassLoader(new URL[] {runtimeClassesDir.toURI().toURL()}, null);
   }
 
   @After
@@ -128,12 +119,20 @@ public class ContextClassLoaderTest {
       IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException,
       InvocationTargetException {
 
+    Class<?> tagInspectorClass = yamlCL.loadClass(TagInspector.class.getName());
+    Class<?> tptiClass = yamlCL.loadClass(TrustedPrefixesTagInspector.class.getName());
+    Class<?> loaderOptionsClass = yamlCL.loadClass(LoaderOptions.class.getName());
     Class<?> yamlClass = yamlCL.loadClass(Yaml.class.getName());
+
+    Object tpti = tptiClass.getConstructor(List.class)
+        .newInstance(Collections.singletonList("org.yaml.snakeyaml.issues.issue318"));
+    Object loaderOptions = loaderOptionsClass.getDeclaredConstructor().newInstance();
+    loaderOptions.getClass().getMethod("setTagInspector", tagInspectorClass).invoke(loaderOptions,
+        tpti);
+    Object yaml = yamlClass.getConstructor(loaderOptionsClass).newInstance(loaderOptions);
 
     DomainBean bean = new DomainBean();
     bean.setValue(13);
-
-    Object yaml = yamlClass.newInstance();
 
     Method dumpMethod = yaml.getClass().getMethod("dump", Object.class);
     String dump = dumpMethod.invoke(yaml, bean).toString();

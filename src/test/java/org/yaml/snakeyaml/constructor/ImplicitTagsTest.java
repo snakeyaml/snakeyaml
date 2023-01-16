@@ -24,6 +24,7 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -42,7 +43,7 @@ public class ImplicitTagsTest extends TestCase {
     car1.setYear("2008");
     String carYaml1 = new Yaml().dump(car1);
     assertEquals(Util.getLocalResource("constructor/carwheel-without-tags.yaml"), carYaml1);
-    CarWithWheel car2 = new Yaml().load(carYaml1);
+    CarWithWheel car2 = YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(carYaml1);
     String carYaml2 = new Yaml().dump(car2);
     assertEquals(carYaml1, carYaml2);
   }
@@ -60,7 +61,7 @@ public class ImplicitTagsTest extends TestCase {
     String carYaml1 = new Yaml().dumpAs(car1, Tag.MAP, FlowStyle.AUTO);
     assertEquals(Util.getLocalResource("constructor/car-without-root-tag.yaml"), carYaml1);
     //
-    Constructor contructor = new Constructor(CarWithWheel.class);
+    Constructor contructor = new Constructor(CarWithWheel.class, new LoaderOptions());
     CarWithWheel car2 = new Yaml(contructor).load(carYaml1);
     String carYaml2 = new Yaml().dumpAs(car2, Tag.MAP, FlowStyle.AUTO);
     assertEquals(carYaml1, carYaml2);
@@ -80,7 +81,7 @@ public class ImplicitTagsTest extends TestCase {
 
     String carYaml1 = new Yaml().dump(car1);
     assertEquals(Util.getLocalResource("constructor/carwheel-root-map.yaml"), carYaml1);
-    Map<Object, Object> car2 = new Yaml().load(carYaml1);
+    Map<Object, Object> car2 = YamlCreator.allowClassPrefix("org.yaml.snakeyaml").load(carYaml1);
     assertEquals(car1, car2);
     assertEquals(carYaml1, new Yaml().dump(car2));
   }

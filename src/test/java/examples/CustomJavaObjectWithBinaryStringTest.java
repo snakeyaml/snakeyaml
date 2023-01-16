@@ -16,6 +16,7 @@ package examples;
 import java.io.StringReader;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class CustomJavaObjectWithBinaryStringTest extends TestCase {
 
@@ -67,7 +68,7 @@ public class CustomJavaObjectWithBinaryStringTest extends TestCase {
   }
 
   public void testDump() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("examples");
     Pojo expected = new Pojo(new String(new byte[] {13, 14, 15, 16}));
     String output = yaml.dump(expected);
 
@@ -77,5 +78,4 @@ public class CustomJavaObjectWithBinaryStringTest extends TestCase {
     Pojo actual = yaml.load(new StringReader(output));
     assertEquals(expected, actual);
   }
-
 }

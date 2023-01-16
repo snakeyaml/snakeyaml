@@ -14,13 +14,15 @@
 package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class CustomClassLoaderConstructorTest extends TestCase {
 
   public void testGetClassForNameNull() {
     try {
-      new CustomClassLoaderConstructor(null);
+      new CustomClassLoaderConstructor(null, new LoaderOptions());
       fail();
     } catch (Exception e) {
       assertEquals("Loader must be provided.", e.getMessage());
@@ -28,8 +30,8 @@ public class CustomClassLoaderConstructorTest extends TestCase {
   }
 
   public void testGetClassForName() {
-    CustomClassLoaderConstructor constr =
-        new CustomClassLoaderConstructor(CustomClassLoaderConstructorTest.class.getClassLoader());
+    CustomClassLoaderConstructor constr = new CustomClassLoaderConstructor(
+        CustomClassLoaderConstructorTest.class.getClassLoader(), new LoaderOptions());
     Yaml yaml = new Yaml(constr);
     String s = yaml.load("abc");
     assertEquals("abc", s);
@@ -40,7 +42,7 @@ public class CustomClassLoaderConstructorTest extends TestCase {
         Class.forName("org.yaml.snakeyaml.constructor.CustomClassLoaderConstructorTest$LoaderBean",
             true, CustomClassLoaderConstructorTest.class.getClassLoader());
     CustomClassLoaderConstructor constr = new CustomClassLoaderConstructor(clazz,
-        CustomClassLoaderConstructorTest.class.getClassLoader());
+        CustomClassLoaderConstructorTest.class.getClassLoader(), new LoaderOptions());
     Yaml yaml = new Yaml(constr);
     LoaderBean bean = yaml.load("{name: Andrey, number: 555}");
     assertEquals("Andrey", bean.getName());
@@ -49,7 +51,8 @@ public class CustomClassLoaderConstructorTest extends TestCase {
 
   public void testGetClassForNameBean() {
     CustomClassLoaderConstructor constr =
-        new CustomClassLoaderConstructor(CustomClassLoaderConstructorTest.class.getClassLoader());
+        new CustomClassLoaderConstructor(CustomClassLoaderConstructorTest.class.getClassLoader(),
+            YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     Yaml yaml = new Yaml(constr);
     LoaderBean bean = yaml.load(
         "!!org.yaml.snakeyaml.constructor.CustomClassLoaderConstructorTest$LoaderBean {name: Andrey, number: 555}");

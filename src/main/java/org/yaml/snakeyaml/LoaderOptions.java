@@ -13,20 +13,35 @@
  */
 package org.yaml.snakeyaml;
 
+import org.yaml.snakeyaml.inspector.TagInspector;
+import org.yaml.snakeyaml.inspector.UnTrustedTagInspector;
+
 /**
  * Configuration for loading
  */
 public class LoaderOptions {
 
   private boolean allowDuplicateKeys = true;
+
   private boolean wrappedToRootException = false;
+
   private int maxAliasesForCollections = 50; // to prevent YAML at
+
   // https://en.wikipedia.org/wiki/Billion_laughs_attack
   private boolean allowRecursiveKeys = false;
+
   private boolean processComments = false;
+
   private boolean enumCaseSensitive = true;
+
   private int nestingDepthLimit = 50;
+
   private int codePointLimit = 3 * 1024 * 1024; // 3 MB
+
+  /**
+   * Secure by default - no custom classes are allowed
+   */
+  private TagInspector tagInspector = new UnTrustedTagInspector();
 
   /**
    * getter
@@ -95,6 +110,15 @@ public class LoaderOptions {
   }
 
   /**
+   * getter
+   *
+   * @return when recursive keys are allowed (the document should be trusted)
+   */
+  public final boolean getAllowRecursiveKeys() {
+    return allowRecursiveKeys;
+  }
+
+  /**
    * Allow recursive keys for mappings. By default, it is not allowed. This setting only prevents
    * the case when the key is the value. If the key is only a part of the value (the value is a
    * sequence or a mapping) then this case is not recognized and always allowed.
@@ -108,10 +132,10 @@ public class LoaderOptions {
   /**
    * getter
    *
-   * @return when recursive keys are allowed (the document should be trusted)
+   * @return comments are kept in Node
    */
-  public final boolean getAllowRecursiveKeys() {
-    return allowRecursiveKeys;
+  public final boolean isProcessComments() {
+    return processComments;
   }
 
   /**
@@ -123,15 +147,6 @@ public class LoaderOptions {
   public LoaderOptions setProcessComments(boolean processComments) {
     this.processComments = processComments;
     return this;
-  }
-
-  /**
-   * getter
-   *
-   * @return comments are kept in Node
-   */
-  public final boolean isProcessComments() {
-    return processComments;
   }
 
   /**
@@ -189,5 +204,13 @@ public class LoaderOptions {
    */
   public void setCodePointLimit(int codePointLimit) {
     this.codePointLimit = codePointLimit;
+  }
+
+  public TagInspector getTagInspector() {
+    return tagInspector;
+  }
+
+  public void setTagInspector(TagInspector tagInspector) {
+    this.tagInspector = tagInspector;
   }
 }

@@ -16,8 +16,8 @@ package examples;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -30,7 +30,7 @@ public class SelectiveConstructorTest extends TestCase {
   class SelectiveConstructor extends Constructor {
 
     public SelectiveConstructor() {
-      super(new LoaderOptions());
+      super(YamlCreator.trustedLoaderOptions());
       // define a custom way to create a mapping node
       yamlClassConstructors.put(NodeId.mapping, new MyPersistentObjectConstruct());
     }

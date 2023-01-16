@@ -23,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -59,7 +60,7 @@ public class YamlExecuteProcessContextTest {
   public void parameterizedCollectionTest() {
     String marshal = "unitStatuses: !!set\n" + "  ? status: EXECUTE_STATUS_DONE\n"
         + "    unitID: '159917166'\n" + "  : null\n";
-    Constructor constructor = new Constructor(YamlExecuteProcessContext.class);
+    Constructor constructor = new Constructor(YamlExecuteProcessContext.class, new LoaderOptions());
     YamlExecuteProcessContext unmarshal =
         new Yaml(constructor).loadAs(marshal, YamlExecuteProcessContext.class);
 

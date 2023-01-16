@@ -178,7 +178,7 @@ public final class ScannerImpl implements Scanner {
   private final ArrayStack<Integer> indents;
 
   // A flag that indicates if comments should be parsed
-  private boolean parseComments;
+  private final boolean parseComments;
 
   private final LoaderOptions loaderOptions;
 
@@ -216,18 +216,10 @@ public final class ScannerImpl implements Scanner {
    */
   private final Map<Integer, SimpleKey> possibleSimpleKeys;
 
-  /**
-   * Create
-   *
-   * @param reader
-   * @deprecated use options instead
-   */
-  @Deprecated
-  public ScannerImpl(StreamReader reader) {
-    this(reader, new LoaderOptions());
-  }
-
   public ScannerImpl(StreamReader reader, LoaderOptions options) {
+    if (options == null) {
+      throw new NullPointerException("LoaderOptions must be provided.");
+    }
     this.parseComments = options.isProcessComments();
     this.reader = reader;
     this.tokens = new ArrayList<Token>(100);
@@ -236,23 +228,6 @@ public final class ScannerImpl implements Scanner {
     this.possibleSimpleKeys = new LinkedHashMap<Integer, SimpleKey>();
     this.loaderOptions = options;
     fetchStreamStart();// Add the STREAM-START token.
-  }
-
-  /**
-   * Please use LoaderOptions instead Set the scanner to ignore comments or parse them as a
-   * <code>CommentToken</code>.
-   *
-   * @param parseComments <code>true</code> to parse; <code>false</code> to ignore
-   */
-  @Deprecated
-  public ScannerImpl setParseComments(boolean parseComments) {
-    this.parseComments = parseComments;
-    return this;
-  }
-
-  @Deprecated
-  public boolean isParseComments() {
-    return parseComments;
   }
 
   /**

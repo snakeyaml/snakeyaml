@@ -15,38 +15,36 @@ package org.yaml.snakeyaml.issues.issue310;
 
 import java.lang.reflect.Constructor;
 import java.util.Optional;
-import java.util.logging.Logger;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class Java8OptionalTest extends OptionalTesting {
 
-    @BeforeClass
-    public static void checkIllegalAccess() {
-        try {
-            Constructor<?> privateConstructor = Optional.class.getDeclaredConstructor(Object.class);
-            privateConstructor.setAccessible(true);
-            privateConstructor.newInstance("OptionalString");
-        } catch (RuntimeException | ReflectiveOperationException e) {
-            reflectiveAccessDenied = true;
-        }
+  @BeforeClass
+  public static void checkIllegalAccess() {
+    try {
+      Constructor<?> privateConstructor = Optional.class.getDeclaredConstructor(Object.class);
+      privateConstructor.setAccessible(true);
+      privateConstructor.newInstance("OptionalString");
+    } catch (RuntimeException | ReflectiveOperationException e) {
+      reflectiveAccessDenied = true;
     }
+  }
 
-    @Before
-    public void skipIfReflectiveAccessDenied() {
-        org.junit.Assume.assumeFalse(reflectiveAccessDenied);
-    }
+  @Before
+  public void skipIfReflectiveAccessDenied() {
+    org.junit.Assume.assumeFalse(reflectiveAccessDenied);
+  }
 
-    @Test
-    public void testJava8OptionalStringLoad() {
-        loadOptionalString();
-    }
+  @Test
+  public void testJava8OptionalStringLoad() {
+    loadOptionalString();
+  }
 
-    @Test
-    public void testJava8OptionalDumpLoad() {
-        dumpLoadOptional();
-    }
+  @Test
+  public void testJava8OptionalDumpLoad() {
+    dumpLoadOptional();
+  }
 
 }

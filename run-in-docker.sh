@@ -6,4 +6,4 @@ docker run --rm -it               \
     -e "HOME=/my-home"            \
     -w /work                      \
     $1                            \
-    ./mvnw -Dmaven.repo.local=/my-home/.m2/repository clean test ${@:2}
+    ./mvnw -Dmaven.repo.local=/my-home/.m2/repository clean test install site ${@:2}
