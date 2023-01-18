@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run-in-docker.sh eclipse-temurin:8-jdk $@
+./run-in-docker.sh eclipse-temurin:8 $@
