@@ -3,7 +3,7 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: openjdk:8-alpine
+image: eclipse-temurin:11
 
 pipelines:
   default:
@@ -11,4 +11,4 @@ pipelines:
         caches:
           - maven
         script: # Modify the commands below to build your repository.
-          - ./mvnw -V -B clean verify
+          - ./mvnw -V -B -Pwith-java11-tests clean verify
