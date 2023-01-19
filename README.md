@@ -9,8 +9,7 @@ When you use SnakeYAML
 [to configure your application](https://bitbucket.org/snakeyaml/snakeyaml/wiki/CVE-2022-1471) 
 you are totally safe.
 The only issue is when the data to parse comes from untrusted source - 
-meaning it is downloaded from unknown source without 
-authentication and authorisation.
+meaning it is downloaded from unknown source without authentication and authorisation.
 
 ### When a low quality tooling is complaining ###
 
@@ -21,7 +20,7 @@ authentication and authorisation.
 ## Overview ##
 [YAML](http://yaml.org) is a data serialization format designed for human readability and interaction with scripting languages.
 
-SnakeYAML is a YAML 1.1 processor for the Java Virtual Machine version 7.
+SnakeYAML is a YAML 1.1 processor for the Java Virtual Machine version 8+.
 For YAML 1.2 (which is a superset of JSON) you may have a look at [SnakeYAML Engine](https://bitbucket.org/snakeyaml/snakeyaml-engine)
 
 ## SnakeYAML features ##
