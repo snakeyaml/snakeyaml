@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run-in-docker.sh openjdk:17-alpine -Pwith-java11-tests -Preformat $@
+./run-in-docker.sh eclipse-temurin:17 -Pwith-java11-tests -Preformat $@
