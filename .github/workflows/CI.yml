@@ -26,9 +26,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: [ '8', '11', '17' ]
+        jdk: [ '11', '17' ]
         include: 
-          - jdk: '8'
           - jdk: '11'
             profile: -Pwith-java11-tests
           - jdk: '17'
