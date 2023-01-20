@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run-in-docker.sh eclipse-temurin:17-alpine $@
+./run-in-docker.sh eclipse-temurin:17 $@
