@@ -13,6 +13,14 @@
  */
 module org.yaml.snakeyaml {
     requires java.logging;
+    /**
+     * Required when using classes in the org.yaml.snakeyaml.introspector package.
+     */
+    requires static java.desktop;
+    /**
+     * Required when serializing or deserializing instances of {@link java.sql.Date}
+     */
+    requires static java.sql;
 
     exports org.yaml.snakeyaml;
     exports org.yaml.snakeyaml.comments;
