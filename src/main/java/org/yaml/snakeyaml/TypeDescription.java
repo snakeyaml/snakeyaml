@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.internal.Logger;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertySubstitute;
@@ -301,7 +301,7 @@ public class TypeDescription {
         c.setAccessible(true);
         return c.newInstance();
       } catch (Exception e) {
-        log.fine(e.getLocalizedMessage());
+        log.warn(e.getLocalizedMessage());
         impl = null;
       }
     }

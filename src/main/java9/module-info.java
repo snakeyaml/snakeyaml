@@ -12,7 +12,6 @@
  * the License.
  */
 module org.yaml.snakeyaml {
-    requires java.logging;
     /**
      * Required when using classes in the org.yaml.snakeyaml.introspector package.
      */
