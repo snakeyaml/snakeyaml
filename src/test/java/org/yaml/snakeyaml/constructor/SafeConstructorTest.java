@@ -13,6 +13,7 @@
  */
 package org.yaml.snakeyaml.constructor;
 
+import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -34,14 +35,37 @@ public class SafeConstructorTest extends TestCase {
   }
 
   public void testSafeConstructJavaBean() {
-    Yaml yaml =
-        new Yaml(new SafeConstructor(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml")));
+    Yaml yaml = new Yaml(new SafeConstructor(YamlCreator.trustedLoaderOptions()));
     String data = "--- !!org.yaml.snakeyaml.constructor.Person\nfirstName: Andrey\nage: 99";
     try {
       yaml.load(data);
       fail("JavaBeans cannot be created by SafeConstructor.");
     } catch (ConstructorException e) {
       assertTrue(e.getMessage().contains(
+          "could not determine a constructor for the tag tag:yaml.org,2002:org.yaml.snakeyaml.constructor.Person"));
+    }
+  }
+
+  public void testSafeConstructMap() {
+    Yaml yaml = new Yaml(new SafeConstructor(YamlCreator.trustedLoaderOptions()));
+    String data = "---\nfirstName: Andrey\nage: 99";
+    try {
+      yaml.loadAs(data, Map.class);
+      fail("JavaBeans cannot be created by SafeConstructor.");
+    } catch (ConstructorException e) {
+      assertTrue(e.getMessage(), e.getMessage().contains(
+          "could not determine a constructor for the tag tag:yaml.org,2002:java.util.Map"));
+    }
+  }
+
+  public void testSafeConstructPerson() {
+    Yaml yaml = new Yaml(new SafeConstructor(YamlCreator.trustedLoaderOptions()));
+    String data = "---\nfirstName: Andrey\nage: 99";
+    try {
+      yaml.loadAs(data, Person.class);
+      fail("JavaBeans cannot be created by SafeConstructor.");
+    } catch (ConstructorException e) {
+      assertTrue(e.getMessage(), e.getMessage().contains(
           "could not determine a constructor for the tag tag:yaml.org,2002:org.yaml.snakeyaml.constructor.Person"));
     }
   }
