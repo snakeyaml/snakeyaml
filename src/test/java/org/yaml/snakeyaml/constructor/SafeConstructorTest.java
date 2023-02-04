@@ -29,17 +29,22 @@ public class SafeConstructorTest extends TestCase {
     assertEquals(Double.NEGATIVE_INFINITY, yaml.load("-.inf"));
   }
 
-  public void testSafeConstruct() {
+  public void testSafeConstructUntrusted() {
     Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     assertEquals(3.1416, yaml.load("+3.1416"));
   }
 
-  public void testSafeConstructJavaBean() {
+  public void testSafeConstructTrusted() {
+    Yaml yaml = new Yaml(new SafeConstructor(YamlCreator.trustedLoaderOptions()));
+    assertEquals(3.1416, yaml.load("+3.1416"));
+  }
+
+  public void testSafeConstructJavaBeanGlobalTag() {
     Yaml yaml = new Yaml(new SafeConstructor(YamlCreator.trustedLoaderOptions()));
     String data = "--- !!org.yaml.snakeyaml.constructor.Person\nfirstName: Andrey\nage: 99";
     try {
       yaml.load(data);
-      fail("JavaBeans cannot be created by SafeConstructor.");
+      fail("JavaBeans cannot be created by SafeConstructor with a global tag.");
     } catch (ConstructorException e) {
       assertTrue(e.getMessage().contains(
           "could not determine a constructor for the tag tag:yaml.org,2002:org.yaml.snakeyaml.constructor.Person"));
@@ -51,7 +56,7 @@ public class SafeConstructorTest extends TestCase {
     String data = "---\nfirstName: Andrey\nage: 99";
     try {
       yaml.loadAs(data, Map.class);
-      fail("JavaBeans cannot be created by SafeConstructor.");
+      fail("loadAs() should not work");
     } catch (ConstructorException e) {
       assertTrue(e.getMessage(), e.getMessage().contains(
           "could not determine a constructor for the tag tag:yaml.org,2002:java.util.Map"));
@@ -63,9 +68,10 @@ public class SafeConstructorTest extends TestCase {
     String data = "---\nfirstName: Andrey\nage: 99";
     try {
       yaml.loadAs(data, Person.class);
-      fail("JavaBeans cannot be created by SafeConstructor.");
+      fail("JavaBeans cannot be created by SafeConstructor even without global tag with loadAs()");
     } catch (ConstructorException e) {
-      assertTrue(e.getMessage(), e.getMessage().contains(
+      String error = e.getMessage();
+      assertTrue(error, error.contains(
           "could not determine a constructor for the tag tag:yaml.org,2002:org.yaml.snakeyaml.constructor.Person"));
     }
   }
