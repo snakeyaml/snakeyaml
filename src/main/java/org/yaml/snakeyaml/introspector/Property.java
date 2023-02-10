@@ -13,6 +13,8 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import org.yaml.snakeyaml.comments.Comment;
+
 import java.lang.annotation.Annotation;
 import java.util.List;
 
@@ -100,5 +102,15 @@ public abstract class Property implements Comparable<Property> {
       return getName().equals(p.getName()) && getType().equals(p.getType());
     }
     return false;
+  }
+
+  public Comment getComment() {
+    for (Annotation ann : getAnnotations()) {
+      if(ann.annotationType().equals(Comment.class)) {
+        return (Comment) ann;
+      }
+    }
+
+    return null;
   }
 }
