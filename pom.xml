@@ -10,8 +10,8 @@
         <project.scm.id>bitbucket</project.scm.id>
         <release.repo.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.repo.url>
         <snapshot.repo.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.repo.url>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>7</maven.compiler.source>
+        <maven.compiler.target>7</maven.compiler.target>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <maven-bundle-plugin.version>5.1.8</maven-bundle-plugin.version>
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version><!-- for Github CI -->
@@ -442,6 +442,7 @@
                                 </goals>
                                 <configuration>
                                     <sources>
+                                        <source>${basedir}/src/test/java8/</source>
                                         <source>${basedir}/src/test/java11/</source>
                                     </sources>
                                 </configuration>

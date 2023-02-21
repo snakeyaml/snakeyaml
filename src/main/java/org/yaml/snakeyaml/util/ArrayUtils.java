@@ -33,7 +33,8 @@ public class ArrayUtils {
    * @return {@code List} backed by the given array
    */
   public static <E> List<E> toUnmodifiableList(E[] elements) {
-    return elements.length == 0 ? Collections.emptyList() : new UnmodifiableArrayList<E>(elements);
+    return elements.length == 0 ? Collections.<E>emptyList()
+        : new UnmodifiableArrayList<E>(elements);
   }
 
   /**

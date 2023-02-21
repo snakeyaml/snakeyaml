@@ -29,7 +29,7 @@ public class MergingTest extends TestCase {
     // System.out.println(input);
     Yaml yaml = new Yaml();
 
-    check(yaml.load(input));
+    check((Map) yaml.load(input));
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
@@ -44,7 +44,7 @@ public class MergingTest extends TestCase {
 
     Yaml yaml = new Yaml(c);
 
-    check(yaml.load(input));
+    check((FakeMap) yaml.load(input));
   }
 
   private void check(Map<String, List<Map<Object, Object>>> map) {

@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.0-SNAPSHOT" date="in GIT" description="Maintenance">
+            <action dev="maslovalex" type="fix" issue="570">
+                Rollback to Java 7 target
+            </action>
             <action dev="asomov" type="fix" issue="495">
                 Add module-info.java (thanks to Clayton Walker and Василий Кудрявцев)
             </action>
