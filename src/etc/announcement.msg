@@ -28,7 +28,7 @@ YAML-core mailing list: http://lists.sourceforge.net/lists/listinfo/yaml-core
 About SnakeYAML
 ================
 
-SnakeYAML is a YAML parser and emitter for Java 8+.
+SnakeYAML is a YAML parser and emitter for Java 7+.
 
 SnakeYAML features a complete YAML 1.1 parser.
 SnakeYAML is applicable for a broad range of tasks from complex
