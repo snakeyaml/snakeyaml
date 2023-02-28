@@ -75,6 +75,7 @@ public class ContextClassLoaderTest {
   }
 
   private URLClassLoader yamlCL;
+  private URLClassLoader testYamlCL;
 
   @Before
   public void before() throws MalformedURLException {
@@ -87,12 +88,24 @@ public class ContextClassLoaderTest {
     }
 
     File runtimeClassesDir = new File(classpath.getProperty("runtime_classes_dir"));
+    File testClassesDir = new File(classpath.getProperty("test_classes_dir"));
 
     yamlCL = new URLClassLoader(new URL[] {runtimeClassesDir.toURI().toURL()}, null);
+    testYamlCL = new URLClassLoader(new URL[] {testClassesDir.toURI().toURL()}, yamlCL);
   }
 
   @After
   public void after() {
+    if (testYamlCL != null) {
+      try {
+        testYamlCL.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      } finally {
+        testYamlCL = null;
+      }
+    }
+
     if (yamlCL != null) {
       try {
         yamlCL.close();
@@ -120,13 +133,14 @@ public class ContextClassLoaderTest {
       InvocationTargetException {
 
     Class<?> tagInspectorClass = yamlCL.loadClass(TagInspector.class.getName());
-    Class<?> tptiClass = yamlCL.loadClass(TrustedPrefixesTagInspector.class.getName());
+    Class<?> tptiClass = testYamlCL.loadClass(TrustedPrefixesTagInspector.class.getName());
     Class<?> loaderOptionsClass = yamlCL.loadClass(LoaderOptions.class.getName());
     Class<?> yamlClass = yamlCL.loadClass(Yaml.class.getName());
 
     Object tpti = tptiClass.getConstructor(List.class)
         .newInstance(Collections.singletonList("org.yaml.snakeyaml.issues.issue318"));
     Object loaderOptions = loaderOptionsClass.getDeclaredConstructor().newInstance();
+
     loaderOptions.getClass().getMethod("setTagInspector", tagInspectorClass).invoke(loaderOptions,
         tpti);
     Object yaml = yamlClass.getConstructor(loaderOptionsClass).newInstance(loaderOptions);
