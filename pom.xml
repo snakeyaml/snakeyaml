@@ -179,6 +179,7 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <release>${maven.compiler.target}</release>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
                 <executions>
