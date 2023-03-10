@@ -197,10 +197,10 @@ public class LoaderOptions {
   }
 
   /**
-   * The max amount of code points in the input YAML document. Please be aware that byte limit
-   * depends on the encoding.
+   * The max amount of code points for every input YAML document in the stream. Please be aware that
+   * byte limit depends on the encoding.
    *
-   * @param codePointLimit - the max allowed size of the YAML data
+   * @param codePointLimit - the max allowed size of a single YAML document in a stream
    */
   public void setCodePointLimit(int codePointLimit) {
     this.codePointLimit = codePointLimit;

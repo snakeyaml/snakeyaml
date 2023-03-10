@@ -286,6 +286,7 @@ public class ParserImpl implements Parser {
         endMark = token.getEndMark();
         explicit = true;
       }
+      scanner.resetDocumentIndex();
       Event event = new DocumentEndEvent(startMark, endMark, explicit);
       // Prepare the next state.
       state = new ParseDocumentStart();

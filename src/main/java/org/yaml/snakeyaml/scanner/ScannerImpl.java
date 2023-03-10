@@ -312,7 +312,7 @@ public final class ScannerImpl implements Scanner {
    * Fetch one or more tokens from the StreamReader.
    */
   private void fetchMoreTokens() {
-    if (reader.getIndex() > loaderOptions.getCodePointLimit()) {
+    if (reader.getDocumentIndex() > loaderOptions.getCodePointLimit()) {
       throw new YAMLException("The incoming YAML document exceeds the limit: "
           + loaderOptions.getCodePointLimit() + " code points.");
     }
@@ -2344,6 +2344,11 @@ public final class ScannerImpl implements Scanner {
       tokenList.add(tokens[ix]);
     }
     return tokenList;
+  }
+
+  @Override
+  public void resetDocumentIndex() {
+    this.reader.resetDocumentIndex();
   }
 
   /**

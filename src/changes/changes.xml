@@ -5,6 +5,15 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
+        <release version="2.1" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix">
+                Document size limit should be applied to single document not the whole input stream
+                (thanks to Petr Gladkikh)
+            </action>
+            <action dev="maslovalex" type="remove">
+                Remove Trusted*Inspector classes from main sources tree
+            </action>
+        </release>
         <release version="2.0" date="2023-02-26" description="Maintenance">
             <action dev="maslovalex" type="fix" issue="570">
                 Rollback to Java 7 target

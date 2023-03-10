@@ -45,6 +45,7 @@ public class StreamReader {
   private int pointer = 0;
   private boolean eof;
   private int index = 0; // in code points
+  private int documentIndex = 0; // current document index in code points (only for limiting)
   private int line = 0;
   private int column = 0; // in code points
   private final char[] buffer; // temp buffer for one read operation (to avoid
@@ -107,7 +108,7 @@ public class StreamReader {
   public void forward(int length) {
     for (int i = 0; i < length && ensureEnoughData(); i++) {
       int c = dataWindow[pointer++];
-      this.index++;
+      shiftIndex(1);
       if (Constant.LINEBR.has(c)
           || (c == '\r' && (ensureEnoughData() && dataWindow[pointer] != '\n'))) {
         this.line++;
@@ -157,7 +158,7 @@ public class StreamReader {
   public String prefixForward(int length) {
     final String prefix = prefix(length);
     this.pointer += length;
-    this.index += length;
+    shiftIndex(length);
     // prefix never contains new line characters
     this.column += length;
     return prefix;
@@ -218,6 +219,19 @@ public class StreamReader {
 
   public int getColumn() {
     return column;
+  }
+
+  private void shiftIndex(int length) {
+    this.index += length;
+    this.documentIndex += length;
+  }
+
+  public int getDocumentIndex() {
+    return documentIndex;
+  }
+
+  public void resetDocumentIndex() {
+    documentIndex = 0;
   }
 
   /**

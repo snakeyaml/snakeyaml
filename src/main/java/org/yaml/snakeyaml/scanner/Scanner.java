@@ -57,4 +57,6 @@ public interface Scanner {
    * @throws IndexOutOfBoundsException if no more token left
    */
   Token getToken();
+
+  void resetDocumentIndex();
 }
