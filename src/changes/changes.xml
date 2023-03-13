@@ -10,6 +10,9 @@
                 Document size limit should be applied to single document not the whole input stream
                 (thanks to Petr Gladkikh)
             </action>
+            <action dev="asomov" type="fix" issue="576">
+                Detect invalid Unicode code point
+            </action>
             <action dev="maslovalex" type="remove">
                 Remove Trusted*Inspector classes from main sources tree
             </action>

@@ -1933,9 +1933,14 @@ public final class ScannerImpl implements Scanner {
                 reader.getMark());
           }
           int decimal = Integer.parseInt(hex, 16);
-          String unicode = new String(Character.toChars(decimal));
-          chunks.append(unicode);
-          reader.forward(length);
+          try {
+            String unicode = new String(Character.toChars(decimal));
+            chunks.append(unicode);
+            reader.forward(length);
+          } catch (IllegalArgumentException e) {
+            throw new ScannerException("while scanning a double-quoted scalar", startMark,
+                "found unknown escape character " + hex, reader.getMark());
+          }
         } else if (scanLineBreak().length() != 0) {
           chunks.append(scanFlowScalarBreaks(startMark));
         } else {
