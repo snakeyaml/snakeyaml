@@ -108,7 +108,7 @@ public class StreamReader {
   public void forward(int length) {
     for (int i = 0; i < length && ensureEnoughData(); i++) {
       int c = dataWindow[pointer++];
-      shiftIndex(1);
+      moveIndices(1);
       if (Constant.LINEBR.has(c)
           || (c == '\r' && (ensureEnoughData() && dataWindow[pointer] != '\n'))) {
         this.line++;
@@ -158,7 +158,7 @@ public class StreamReader {
   public String prefixForward(int length) {
     final String prefix = prefix(length);
     this.pointer += length;
-    shiftIndex(length);
+    moveIndices(length);
     // prefix never contains new line characters
     this.column += length;
     return prefix;
@@ -221,15 +221,22 @@ public class StreamReader {
     return column;
   }
 
-  private void shiftIndex(int length) {
+  private void moveIndices(int length) {
     this.index += length;
     this.documentIndex += length;
   }
 
+  /**
+   * Get the position of the currect char in the current YAML document
+   * @return index of the current position from the beginning of the current document
+   */
   public int getDocumentIndex() {
     return documentIndex;
   }
 
+  /**
+   * Reset the position to start (at the start of a new document in the stream)
+   */
   public void resetDocumentIndex() {
     documentIndex = 0;
   }
