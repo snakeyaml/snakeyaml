@@ -11,6 +11,8 @@ you are totally safe.
 The only issue is when the data to parse comes from untrusted source - 
 meaning it is downloaded from unknown source without authentication and authorisation.
 
+https://github.com/spring-projects/spring-boot/issues/9997
+
 ### When a low quality tooling is complaining ###
 
 1. Go to the issue tracker of your low quality tooling and file a bug report about a false positive. You will be impressed with the amount of bugs already created and ignored (this makes the tool low quality - the bugs are created but ignored). The big amount of already reported issues should not stop you - they must be aware of the stream of false positives they produce.
@@ -40,7 +42,7 @@ For YAML 1.2 (which is a superset of JSON) you may have a look at [SnakeYAML Eng
 
 ## Contribute ##
 * GIT [is now used](https://bitbucket.org/snakeyaml/snakeyaml/wiki/Migration%20to%20Git) to dance with the [source code](https://bitbucket.org/snakeyaml/snakeyaml/src).
-* If you find a bug in SnakeYAML, please [file a bug report](https://bitbucket.org/snakeyaml/snakeyaml/issues?status=new&status=open).
+* If you find a bug in SnakeYAML, please [file a bug report](https://bitbucket.org/snakeyaml/snakeyaml/issues?status=new&status=open&is_spam=!spam). Unfortunately, it is temp closed because of the spam attack
 * You may discuss SnakeYAML at
 [the mailing list](http://groups.google.com/group/snakeyaml-core).
 * [Slack workspace](https://app.slack.com/client/T26CKL7FU/D02URJSL2KS)

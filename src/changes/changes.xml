@@ -7,6 +7,12 @@
     <body>
         <release version="2.1" date="in GIT" description="Maintenance">
             <action dev="asomov" type="fix">
+                https://github.com/FasterXML/jackson-dataformats-text/issues/406
+                https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=56902
+                %YAML 1.9224775801
+                (thanks to Tatu Saloranta)
+            </action>
+            <action dev="asomov" type="fix">
                 Document size limit should be applied to single document not the whole input stream
                 (thanks to Petr Gladkikh)
             </action>
