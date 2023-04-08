@@ -6,7 +6,7 @@
     </properties>
     <body>
         <release version="2.1" date="in GIT" description="Maintenance">
-            <action dev="asomov" type="fix">
+            <action dev="asomov" type="fix" issue="1061">
                 https://github.com/FasterXML/jackson-dataformats-text/issues/406
                 https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=56902
                 %YAML 1.9224775801

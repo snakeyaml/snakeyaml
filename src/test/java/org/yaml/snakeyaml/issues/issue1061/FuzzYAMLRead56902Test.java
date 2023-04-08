@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.yaml.snakeyaml.issues.issueNNN;
+package org.yaml.snakeyaml.issues.issue1061;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
