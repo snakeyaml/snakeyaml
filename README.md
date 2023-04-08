@@ -11,8 +11,6 @@ you are totally safe.
 The only issue is when the data to parse comes from untrusted source - 
 meaning it is downloaded from unknown source without authentication and authorisation.
 
-https://github.com/spring-projects/spring-boot/issues/9997
-
 ### When a low quality tooling is complaining ###
 
 1. Go to the issue tracker of your low quality tooling and file a bug report about a false positive. You will be impressed with the amount of bugs already created and ignored (this makes the tool low quality - the bugs are created but ignored). The big amount of already reported issues should not stop you - they must be aware of the stream of false positives they produce.
