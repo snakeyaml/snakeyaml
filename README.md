@@ -40,7 +40,7 @@ For YAML 1.2 (which is a superset of JSON) you may have a look at [SnakeYAML Eng
 
 ## Contribute ##
 * GIT [is now used](https://bitbucket.org/snakeyaml/snakeyaml/wiki/Migration%20to%20Git) to dance with the [source code](https://bitbucket.org/snakeyaml/snakeyaml/src).
-* If you find a bug in SnakeYAML, please [file a bug report](https://bitbucket.org/snakeyaml/snakeyaml/issues?status=new&status=open&is_spam=!spam). Unfortunately, it is temp closed because of the spam attack
+* If you find a bug in SnakeYAML, please [file a bug report](https://bitbucket.org/snakeyaml/snakeyaml/issues?status=new&status=open&is_spam=!spam).
 * You may discuss SnakeYAML at
 [the mailing list](http://groups.google.com/group/snakeyaml-core).
 * [Slack workspace](https://app.slack.com/client/T26CKL7FU/D02URJSL2KS)
