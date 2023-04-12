@@ -166,10 +166,9 @@ public class ParserImpl implements Parser {
    * Get the next event.
    */
   public Event peekEvent() {
-    if (currentEvent == null) {
-      if (state != null) {
+    if (currentEvent == null && (state != null)) {
         currentEvent = state.produce();
-      }
+
     }
     return currentEvent;
   }
@@ -367,10 +366,10 @@ public class ParserImpl implements Parser {
         tagHandles.put(handle, prefix);
       }
     }
-    HashMap<String, String> detectedTagHandles = new HashMap<String, String>();
+    HashMap<String, String> detectedTagHandles = new HashMap<>();
     if (!tagHandles.isEmpty()) {
       // copy from tagHandles
-      detectedTagHandles = new HashMap<String, String>(tagHandles);
+      detectedTagHandles = new HashMap<>(tagHandles);
     }
     // add default tag handlers to resolve tags
     for (String key : DEFAULT_TAGS.keySet()) {

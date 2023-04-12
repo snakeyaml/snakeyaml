@@ -188,7 +188,7 @@ public class Representer extends SafeRepresenter {
         // apply map tag where class is the same
         Class<? extends Object> t = arguments[0];
         SequenceNode snode = (SequenceNode) node;
-        Iterable<Object> memberList = Collections.EMPTY_LIST;
+        Iterable<Object> memberList = Collections.emptyList();
         if (object.getClass().isArray()) {
           memberList = Arrays.asList((Object[]) object);
         } else if (object instanceof Iterable<?>) {

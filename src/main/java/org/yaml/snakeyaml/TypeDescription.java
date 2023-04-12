@@ -40,7 +40,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  */
 public class TypeDescription {
 
-  final static private Logger log = Logger.getLogger(TypeDescription.class.getPackage().getName());
+  private static final Logger log = Logger.getLogger(TypeDescription.class.getPackage().getName());
 
   private final Class<? extends Object> type;
 

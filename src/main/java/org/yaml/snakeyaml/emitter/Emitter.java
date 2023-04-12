@@ -105,7 +105,7 @@ public final class Emitter implements Emitable {
     ESCAPE_REPLACEMENTS.put('\u2029', "P");
   }
 
-  private final static Map<String, String> DEFAULT_TAG_PREFIXES =
+  private static final Map<String, String> DEFAULT_TAG_PREFIXES =
       new LinkedHashMap<String, String>();
 
   static {
@@ -1001,7 +1001,7 @@ public final class Emitter implements Emitable {
     return version.getRepresentation();
   }
 
-  private final static Pattern HANDLE_FORMAT = Pattern.compile("^![-_\\w]*!$");
+  private static final Pattern HANDLE_FORMAT = Pattern.compile("^![-_\\w]*!$");
 
   private String prepareTagHandle(String handle) {
     if (handle.length() == 0) {
