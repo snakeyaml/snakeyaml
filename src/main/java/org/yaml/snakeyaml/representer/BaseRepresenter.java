@@ -73,7 +73,7 @@ public abstract class BaseRepresenter {
       Node node = representedObjects.get(objectToRepresent);
       return node;
     }
-    // }
+
     // check for null first
     if (data == null) {
       Node node = nullRepresenter.representData(null);
