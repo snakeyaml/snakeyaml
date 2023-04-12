@@ -383,10 +383,10 @@ public class SafeConstructor extends BaseConstructor {
     }
   }
 
-  private final static Pattern TIMESTAMP_REGEXP = Pattern.compile(
-      "^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:(?:[Tt]|[ \t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \t]*(?:Z|([-+][0-9][0-9]?)(?::([0-9][0-9])?)?))?)?$");
+  private static final Pattern TIMESTAMP_REGEXP = Pattern.compile(
+      "^(\\d{4})-(\\d{2})-(\\d{2})(?:[Tt]|[ \\t]+)(\\d{2}):(\\d{2}):(\\d{2})(?:\\.(\\d*))?(?:[ \\t]*(Z|([-+])(\\d{2})(?::(\\d{2}))?))?$\n");
   private final static Pattern YMD_REGEXP =
-      Pattern.compile("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)$");
+      Pattern.compile("^(\\d{4})-(\\d{2})-(\\d{2})$\n");
 
   public static class ConstructYamlTimestamp extends AbstractConstruct {
 
