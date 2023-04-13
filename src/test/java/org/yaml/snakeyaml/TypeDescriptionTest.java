@@ -15,17 +15,8 @@ package org.yaml.snakeyaml;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.constructor.ArrayTagsTest.CarWithArray;
-import org.yaml.snakeyaml.nodes.Tag;
 
 public class TypeDescriptionTest extends TestCase {
-
-  public void testSetTag() {
-    TypeDescription descr = new TypeDescription(TypeDescriptionTest.class);
-    descr.setTag("!bla");
-    assertEquals(new Tag("!bla"), descr.getTag());
-    descr.setTag(new Tag("!foo"));
-    assertEquals(new Tag("!foo"), descr.getTag());
-  }
 
   public void testToString() {
     TypeDescription carDescription = new TypeDescription(CarWithArray.class, "!car");

@@ -16,17 +16,19 @@ package org.yaml.snakeyaml.issues.issue310;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
-public class PropertyWithPrivateCostructorTest {
+public class PropertyWithPrivateConstructorTest {
 
   public static class OptionRepresenter extends Representer {
 
     public OptionRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Option.class, new RepresentOption());
     }
 

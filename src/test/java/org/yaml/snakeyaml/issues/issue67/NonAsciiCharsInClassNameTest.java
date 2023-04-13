@@ -14,7 +14,9 @@
 package org.yaml.snakeyaml.issues.issue67;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -32,7 +34,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
   }
 
   public void testLoad() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     Académico obj = yaml.load(PREFIX + "Acad%C3%A9mico {id: 3, name: Foo bar}");
     assertEquals(3, obj.getId());
     assertEquals("Foo bar", obj.getName());
@@ -79,7 +81,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
     Académico obj = new Académico();
     obj.setId(123);
     obj.setName("Foo bar 123");
-    Representer repr = new Representer();
+    Representer repr = new Representer(new DumperOptions());
     repr.addClassTag(Académico.class, new Tag("!foo"));
     Yaml yaml = new Yaml(repr);
     String result = yaml.dump(obj);
@@ -90,7 +92,7 @@ public class NonAsciiCharsInClassNameTest extends TestCase {
     Académico obj = new Académico();
     obj.setId(123);
     obj.setName("Foo bar 123");
-    Representer repr = new Representer();
+    Representer repr = new Representer(new DumperOptions());
     repr.addClassTag(Académico.class, new Tag("!Académico"));
     Yaml yaml = new Yaml(repr);
     String result = yaml.dump(obj);

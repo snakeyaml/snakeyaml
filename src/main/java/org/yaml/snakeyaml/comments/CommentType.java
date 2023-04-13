@@ -14,10 +14,19 @@
 package org.yaml.snakeyaml.comments;
 
 /**
- * The type of a comment line.
+ * The type of comment line.
  */
 public enum CommentType {
+  /**
+   * empty line
+   */
   BLANK_LINE, //
+  /**
+   * comment which start with #
+   */
   BLOCK, //
+  /**
+   * ending the line
+   */
   IN_LINE //
 }

@@ -21,6 +21,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class CalendarTest extends TestCase {
 
@@ -108,7 +109,7 @@ public class CalendarTest extends TestCase {
   }
 
   public void testLoadWithTag() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowAnyClass();
     GregorianCalendar calendar =
         yaml.load("!!java.util.GregorianCalendar 2001-12-14t21:59:43.10-05:00");
     assertEquals(TimeZone.getTimeZone("GMT-5:00").getOffset(calendar.getTime().getTime()),

@@ -19,7 +19,9 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -27,6 +29,7 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
+import org.yaml.snakeyaml.resolver.Resolver;
 
 public class DiceExampleTest extends TestCase {
 
@@ -51,6 +54,7 @@ public class DiceExampleTest extends TestCase {
   class DiceRepresenter extends Representer {
 
     public DiceRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Dice.class, new RepresentDice());
     }
 
@@ -67,6 +71,7 @@ public class DiceExampleTest extends TestCase {
   class DiceConstructor extends Constructor {
 
     public DiceConstructor() {
+      super(new LoaderOptions());
       this.yamlConstructors.put(new Tag("!dice"), new ConstructDice());
     }
 
@@ -148,7 +153,8 @@ public class DiceExampleTest extends TestCase {
   }
 
   public void testImplicitResolverJavaBean() {
-    Yaml yaml = new Yaml(new DiceConstructor(), new DiceRepresenter());
+    Yaml yaml = new Yaml(new DiceConstructor(), new DiceRepresenter(), new DumperOptions(),
+        YamlCreator.trustedLoaderOptions(), new Resolver());
     // the tag must start with a digit
     yaml.addImplicitResolver(new Tag("!dice"), Pattern.compile("\\d+d\\d+"), "123456789");
     // dump

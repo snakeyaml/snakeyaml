@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.yaml</groupId>
     <artifactId>snakeyaml</artifactId>
-    <version>1.32-SNAPSHOT</version>
+    <version>2.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,15 +12,13 @@
         <snapshot.repo.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.repo.url>
         <maven.compiler.source>7</maven.compiler.source>
         <maven.compiler.target>7</maven.compiler.target>
-        <maven.compiler.testSource>8</maven.compiler.testSource>
-        <maven.compiler.testTarget>8</maven.compiler.testTarget>
+        <maven.compiler.release>7</maven.compiler.release>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <maven-bundle-plugin.version>5.1.8</maven-bundle-plugin.version>
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version><!-- for Github CI -->
-        <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
-        <jdk9-illegal-access-level>deny</jdk9-illegal-access-level>
+        <jdk11-illegal-access-level>deny</jdk11-illegal-access-level>
     </properties>
     <name>SnakeYAML</name>
     <description>YAML 1.1 parser and emitter for Java</description>
@@ -133,11 +131,6 @@
                     <version>3.2.2</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>${cobertura-maven-plugin.version}</version>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.10.1</version>
@@ -185,10 +178,22 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>module-info-compile</id>
+                        <goals><goal>compile</goal></goals>
+                        <configuration>
+                            <release>9</release>
+                            <compileSourceRoots>${project.basedir}/src/main/java9</compileSourceRoots>
+                            <multiReleaseOutput>true</multiReleaseOutput>
+                              <jdkToolchain>
+                                <version>[11,)</version>
+                              </jdkToolchain>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -295,7 +300,7 @@
                             !org.yaml.snakeyaml.external*,
                             org.yaml.snakeyaml.*;version=${project.version}
                         </Export-Package>
-                        <Automatic-Module-Name>org.yaml.snakeyaml</Automatic-Module-Name>
+                        <Multi-Release>true</Multi-Release>
                     </instructions>
                 </configuration>
             </plugin>
@@ -318,20 +323,39 @@
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>android,release</releaseProfiles>
+                    <releaseProfiles>release</releaseProfiles>
                     <goals>deploy nexus-staging:release</goals>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.13</version>
+                <!-- the version is compatible with Nexus, do not change -->
+                <version>1.6.8</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>sonatype-nexus-staging</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                    <keepStagingRepositoryOnFailure>true</keepStagingRepositoryOnFailure>
+                    <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>2.20.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                        <configuration>
+                            <configFile>src/etc/eclipse-java-google-style.xml</configFile>
+                            <encoding>UTF-8</encoding>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -382,131 +406,11 @@
     </reporting>
     <profiles>
         <profile>
-            <id>toolchain</id>
-            <activation>
-                <file>
-                    <exists>${user.home}/.m2/toolchains.xml</exists>
-                </file>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-toolchains-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <executions>
-                            <execution>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>toolchain</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <toolchains>
-                                <jdk>
-                                    <version>${maven.compiler.testTarget}</version>
-                                </jdk>
-                            </toolchains>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>with-coverage</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>cobertura-maven-plugin</artifactId>
-                        <configuration>
-                            <check>
-                                <totalBranchRate>80</totalBranchRate>
-                                <totalLineRate>95</totalLineRate>
-                            </check>
-                            <formats>
-                                <format>html</format>
-                                <format>xml</format>
-                            </formats>
-                            <instrumentation>
-                                <excludes>
-                                    <exclude>org/yaml/snakeyaml/external/**</exclude>
-                                </excludes>
-                            </instrumentation>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>clean</goal>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            <reporting>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>cobertura-maven-plugin</artifactId>
-                        <configuration>
-                            <check>
-                                <branchRate>85</branchRate>
-                                <lineRate>85</lineRate>
-                                <haltOnFailure>true</haltOnFailure>
-                            </check>
-                            <formats>
-                                <format>html</format>
-                                <format>xml</format>
-                            </formats>
-                        </configuration>
-                        <reportSets>
-                            <reportSet>
-                                <reports>
-                                    <report>cobertura</report>
-                                </reports>
-                            </reportSet>
-                        </reportSets>
-                    </plugin>
-                </plugins>
-            </reporting>
-        </profile>
-        <profile>
-            <id>with-java8-tests</id>
-            <properties>
-                <maven.compiler.testSource>1.8</maven.compiler.testSource>
-                <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>add-java8-test-source</id>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>add-test-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>${basedir}/src/test/java8/</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>with-java11-tests</id>
             <properties>
                 <maven.compiler.testSource>11</maven.compiler.testSource>
                 <maven.compiler.testTarget>11</maven.compiler.testTarget>
+                <maven.compiler.testRelease>11</maven.compiler.testRelease>
             </properties>
             <build>
                 <plugins>
@@ -514,7 +418,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
-                            <argLine>--illegal-access=${jdk9-illegal-access-level} -Xmx512m</argLine>
+                            <argLine>--illegal-access=${jdk11-illegal-access-level} -Xmx512m</argLine>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -522,7 +426,6 @@
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
                             <compilerArgs>
-                                <!-- arg>-Xlint:unchecked</arg -->
                                 <arg>-Xlint:deprecation</arg>
                             </compilerArgs>
                         </configuration>
@@ -570,247 +473,6 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>findbugs</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>3.0.5</version>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>3.19.0</version>
-                    </plugin>
-                </plugins>
-            </build>
-            <reporting>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jxr-plugin</artifactId>
-                        <version>3.3.0</version>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>3.0.5</version>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>3.19.0</version>
-                        <configuration>
-                            <linkXref>true</linkXref>
-                            <sourceEncoding>utf-8</sourceEncoding>
-                            <minimumTokens>100</minimumTokens>
-                            <targetJdk>1.8</targetJdk>
-                            <excludes>
-                                <exclude>**/external/*.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </reporting>
-        </profile>
-        <profile>
-            <id>android</id>
-            <properties>
-                <android.src>${project.build.directory}/android/src</android.src>
-                <android.src.main>${android.src}/main/java</android.src.main>
-                <android.src.test>${android.src}/test/java</android.src.test>
-                <android.classes>${project.build.directory}/android/classes/</android.classes>
-                <android.test.classes>${project.build.directory}/android/test-classes/</android.test.classes>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>${maven-resources-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>copy-src-for-android</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${android.src.main}</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>${basedir}/src/main/java</directory>
-                                            <filtering>false</filtering>
-                                            <excludes>
-                                                <exclude>org/yaml/snakeyaml/introspector/MethodProperty.java</exclude>
-                                            </excludes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-test-src-for-android</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${android.src.test}</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>${basedir}/src/test/java</directory>
-                                            <filtering>false</filtering>
-                                            <excludes>
-                                                <exclude>org/yaml/snakeyaml/introspector/MethodProperty.java</exclude>
-                                            </excludes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-test-resources-for-android</id>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${android.test.classes}</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>${basedir}/src/test/resources</directory>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven</groupId>
-                        <artifactId>maven-patch-plugin</artifactId>
-                        <version>3.8.6</version>
-                        <configuration>
-                            <patchDirectory>${basedir}/src/patches/android/</patchDirectory>
-                            <targetDirectory>${android.src}</targetDirectory>
-                            <skipApplication>false</skipApplication>
-                            <strip>2</strip>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>android-patches</id>
-                                <phase>process-sources</phase>
-                                <goals>
-                                    <goal>apply</goal>
-                                </goals>
-                                <configuration>
-                                    <patchTrackingFile>${project.build.directory}/android/patches-applied.txt</patchTrackingFile>
-                                    <naturalOrderProcessing>true</naturalOrderProcessing>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <executions>
-                            <execution>
-                                <id>build-for-android</id>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <mkdir dir="${android.classes}" />
-                                        <mkdir dir="${android.test.classes}" />
-
-                                        <!-- compile patched sources -->
-                                        <javac srcdir="${android.src.main}" destdir="${android.classes}" classpath="${android.classes}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true" />
-
-                                        <!-- compile test classes. Exclude some - not for BeanAccess.FIELD -->
-                                        <javac srcdir="${android.src.test}:${basedir}/src/test/resources" destdir="${android.test.classes}" classpath="${android.classes}:${android.test.classes}:${junit:junit:jar}:${org.apache.velocity:velocity:jar}:${joda-time:joda-time:jar}:${commons-io:commons-io:jar}:${commons-lang:commons-lang:jar}:${org.hamcrest:hamcrest-core:jar}:${org.projectlombok:lombok:jar}" encoding="${project.build.sourceEncoding}" target="1.7" source="1.7" debug="true" includeantruntime="true" fork="true">
-
-                                            <exclude name="org/yaml/snakeyaml/introspector/MethodPropertyTest.java" />
-                                            <exclude name="org/yaml/snakeyaml/representer/FilterPropertyToDumpTest.java" />
-                                            <exclude name="org/yaml/snakeyaml/issues/issue60/CustomOrderTest.java" />
-                                            <exclude name="org/yaml/snakeyaml/issues/issue29/FlexibleScalarStylesInJavaBeanTest.java" />
-                                            <!-- uses filtered resources. Addidional tricks needed to be able to run under current build -->
-                                            <exclude name="org/yaml/snakeyaml/issues/issue318/ContextClassLoaderTest.java" />
-                                        </javac>
-                                    </target>
-
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>test-android</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <classesDirectory>${android.classes}</classesDirectory>
-                                    <reportsDirectory>${project.build.directory}/android/surefire-reports</reportsDirectory>
-                                    <testClassesDirectory>${android.test.classes}</testClassesDirectory>
-                                    <!--
-                                    We ignore test failures for android build at the moment.
-                                    Most of the FAILs are because of testing with "property" not "field" access.
-                                    But we still fail whole build if there are test errors.
-                                    -->
-                                    <testFailureIgnore>true</testFailureIgnore>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>package-android-jar</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                                <configuration>
-                                    <classesDirectory>${android.classes}</classesDirectory>
-                                    <classifier>android</classifier>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>reformat</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.revelc.code.formatter</groupId>
-                        <artifactId>formatter-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>format</goal>
-                                </goals>
-                                <configuration>
-                                    <configFile>src/etc/eclipse-java-google-style.xml</configFile>
-                                    <encoding>UTF-8</encoding>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

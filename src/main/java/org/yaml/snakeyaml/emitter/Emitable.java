@@ -16,7 +16,16 @@ package org.yaml.snakeyaml.emitter;
 import java.io.IOException;
 import org.yaml.snakeyaml.events.Event;
 
+/**
+ * Define a way to serialize an event to output stream
+ */
 public interface Emitable {
 
+  /**
+   * Serialise event to bytes
+   *
+   * @param event - the source
+   * @throws IOException if bytes bite
+   */
   void emit(Event event) throws IOException;
 }

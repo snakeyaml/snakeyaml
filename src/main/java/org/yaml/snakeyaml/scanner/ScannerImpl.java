@@ -178,7 +178,7 @@ public final class ScannerImpl implements Scanner {
   private final ArrayStack<Integer> indents;
 
   // A flag that indicates if comments should be parsed
-  private boolean parseComments;
+  private final boolean parseComments;
 
   private final LoaderOptions loaderOptions;
 
@@ -216,11 +216,10 @@ public final class ScannerImpl implements Scanner {
    */
   private final Map<Integer, SimpleKey> possibleSimpleKeys;
 
-  public ScannerImpl(StreamReader reader) {
-    this(reader, new LoaderOptions());
-  }
-
-  public ScannerImpl(StreamReader reader,  LoaderOptions options) {
+  public ScannerImpl(StreamReader reader, LoaderOptions options) {
+    if (options == null) {
+      throw new NullPointerException("LoaderOptions must be provided.");
+    }
     this.parseComments = options.isProcessComments();
     this.reader = reader;
     this.tokens = new ArrayList<Token>(100);
@@ -229,23 +228,6 @@ public final class ScannerImpl implements Scanner {
     this.possibleSimpleKeys = new LinkedHashMap<Integer, SimpleKey>();
     this.loaderOptions = options;
     fetchStreamStart();// Add the STREAM-START token.
-  }
-
-  /**
-   * Please use LoaderOptions instead
-   * Set the scanner to ignore comments or parse them as a <code>CommentToken</code>.
-   *
-   * @param parseComments <code>true</code> to parse; <code>false</code> to ignore
-   */
-  @Deprecated
-  public ScannerImpl setParseComments(boolean parseComments) {
-    this.parseComments = parseComments;
-    return this;
-  }
-
-  @Deprecated
-  public boolean isParseComments() {
-    return parseComments;
   }
 
   /**
@@ -330,9 +312,9 @@ public final class ScannerImpl implements Scanner {
    * Fetch one or more tokens from the StreamReader.
    */
   private void fetchMoreTokens() {
-    if (reader.getIndex() > loaderOptions.getCodePointLimit()) {
-      throw new YAMLException("The incoming YAML document exceeds the limit: " +
-          loaderOptions.getCodePointLimit() + " code points.");
+    if (reader.getDocumentIndex() > loaderOptions.getCodePointLimit()) {
+      throw new YAMLException("The incoming YAML document exceeds the limit: "
+          + loaderOptions.getCodePointLimit() + " code points.");
     }
     // Eat whitespaces and process comments until we reach the next token.
     scanToNextToken();
@@ -1190,7 +1172,7 @@ public final class ScannerImpl implements Scanner {
     // whitespace, then this is the start of a plain scalar.
     return Constant.NULL_BL_T_LINEBR.hasNo(c, "-?:,[]{}#&*!|>'\"%@`")
         || (Constant.NULL_BL_T_LINEBR.hasNo(reader.peek(1))
-        && (c == '-' || (this.flowLevel == 0 && "?:".indexOf(c) != -1)));
+            && (c == '-' || (this.flowLevel == 0 && "?:".indexOf(c) != -1)));
   }
 
   // Scanners.
@@ -1401,7 +1383,12 @@ public final class ScannerImpl implements Scanner {
     while (Character.isDigit(reader.peek(length))) {
       length++;
     }
-    Integer value = Integer.parseInt(reader.prefixForward(length));
+    String number = reader.prefixForward(length);
+    if (length > 3) {
+      throw new ScannerException("while scanning a YAML directive", startMark,
+          "found a number which cannot represent a valid version: " + number, reader.getMark());
+    }
+    Integer value = Integer.parseInt(number);
     return value;
   }
 
@@ -1835,7 +1822,7 @@ public final class ScannerImpl implements Scanner {
       }
     }
     // Pass several results back together.
-    return new Object[]{chunks.toString(), maxIndent, endMark};
+    return new Object[] {chunks.toString(), maxIndent, endMark};
   }
 
   private Object[] scanBlockScalarBreaks(int indent) {
@@ -1865,7 +1852,7 @@ public final class ScannerImpl implements Scanner {
       }
     }
     // Return both the assembled intervening string and the end-mark.
-    return new Object[]{chunks.toString(), endMark};
+    return new Object[] {chunks.toString(), endMark};
   }
 
   /**
@@ -1951,9 +1938,14 @@ public final class ScannerImpl implements Scanner {
                 reader.getMark());
           }
           int decimal = Integer.parseInt(hex, 16);
-          String unicode = new String(Character.toChars(decimal));
-          chunks.append(unicode);
-          reader.forward(length);
+          try {
+            String unicode = new String(Character.toChars(decimal));
+            chunks.append(unicode);
+            reader.forward(length);
+          } catch (IllegalArgumentException e) {
+            throw new ScannerException("while scanning a double-quoted scalar", startMark,
+                "found unknown escape character " + hex, reader.getMark());
+          }
         } else if (scanLineBreak().length() != 0) {
           chunks.append(scanFlowScalarBreaks(startMark));
         } else {
@@ -2054,7 +2046,7 @@ public final class ScannerImpl implements Scanner {
         c = reader.peek(length);
         if (Constant.NULL_BL_T_LINEBR.has(c)
             || (c == ':' && Constant.NULL_BL_T_LINEBR.has(reader.peek(length + 1),
-            flowLevel != 0 ? ",[]{}" : ""))
+                flowLevel != 0 ? ",[]{}" : ""))
             || (this.flowLevel != 0 && ",?[]{}".indexOf(c) != -1)) {
           break;
         }
@@ -2362,6 +2354,11 @@ public final class ScannerImpl implements Scanner {
       tokenList.add(tokens[ix]);
     }
     return tokenList;
+  }
+
+  @Override
+  public void resetDocumentIndex() {
+    this.reader.resetDocumentIndex();
   }
 
   /**

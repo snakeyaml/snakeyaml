@@ -16,7 +16,9 @@ package org.yaml.snakeyaml.issues.issue64;
 import java.util.LinkedList;
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -52,6 +54,7 @@ public class ParameterizedTypeTest extends TestCase {
   static class ClassRepresenter extends Representer {
 
     public ClassRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Class.class, new RepresentClass());
     }
 
@@ -67,6 +70,7 @@ public class ParameterizedTypeTest extends TestCase {
   static class ClassConstructor extends Constructor {
 
     public ClassConstructor() {
+      super(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
       this.yamlConstructors.put(new Tag("!clazz"), new ConstructClass());
     }
 

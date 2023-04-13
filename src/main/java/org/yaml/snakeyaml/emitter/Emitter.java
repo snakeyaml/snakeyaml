@@ -67,12 +67,18 @@ import org.yaml.snakeyaml.util.ArrayStack;
  */
 public final class Emitter implements Emitable {
 
+  /**
+   * indent cannot be zero spaces
+   */
   public static final int MIN_INDENT = 1;
+  /**
+   * indent should not be more than 10 spaces
+   */
   public static final int MAX_INDENT = 10;
   private static final char[] SPACE = {' '};
 
   private static final Pattern SPACES_PATTERN = Pattern.compile("\\s");
-  private static final Set<Character> INVALID_ANCHOR = new HashSet();
+  private static final Set<Character> INVALID_ANCHOR = new HashSet<Character>();
 
   static {
     INVALID_ANCHOR.add('[');
@@ -183,11 +189,22 @@ public final class Emitter implements Emitable {
   private final CommentEventsCollector inlineCommentsCollector;
 
 
+  /**
+   * Create
+   *
+   * @param stream - output to write to
+   * @param opts - options
+   */
   public Emitter(Writer stream, DumperOptions opts) {
+    if (stream == null) {
+      throw new NullPointerException("Writer must be provided.");
+    }
+    if (opts == null) {
+      throw new NullPointerException("DumperOptions must be provided.");
+    }
     // The stream should have the methods `write` and possibly `flush`.
     this.stream = stream;
-    // Emitter is a state machine with a stack of states to handle nested
-    // structures.
+    // Emitter is a state machine with a stack of states to handle nested structures.
     this.states = new ArrayStack<EmitterState>(100);
     this.state = new ExpectStreamStart();
     // Current event and the event queue.
@@ -1078,6 +1095,8 @@ public final class Emitter implements Emitable {
     return anchor;
   }
 
+  private static final Pattern LEADING_ZERO_PATTERN = Pattern.compile("0[0-9_]+");
+
   private ScalarAnalysis analyzeScalar(String scalar) {
     // Empty scalar is a special case.
     if (scalar.length() == 0) {
@@ -1088,6 +1107,7 @@ public final class Emitter implements Emitable {
     boolean flowIndicators = false;
     boolean lineBreaks = false;
     boolean specialCharacters = false;
+    boolean leadingZeroNumber = LEADING_ZERO_PATTERN.matcher(scalar).matches();
 
     // Important whitespace combinations.
     boolean leadingSpace = false;
@@ -1213,7 +1233,7 @@ public final class Emitter implements Emitable {
     boolean allowSingleQuoted = true;
     boolean allowBlock = true;
     // Leading and trailing whitespaces are bad for plain scalars.
-    if (leadingSpace || leadingBreak || trailingSpace || trailingBreak) {
+    if (leadingSpace || leadingBreak || trailingSpace || trailingBreak || leadingZeroNumber) {
       allowFlowPlain = allowBlockPlain = false;
     }
     // We do not permit trailing spaces for block scalars.

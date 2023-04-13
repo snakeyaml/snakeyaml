@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
@@ -56,6 +57,7 @@ public class CustomImplicitResolverTest extends TestCase {
   class BigConstructor extends SafeConstructor {
 
     public BigConstructor() {
+      super(new LoaderOptions());
       this.yamlConstructors.put(CUSTOM_TAG, new ConstructBig());
     }
 

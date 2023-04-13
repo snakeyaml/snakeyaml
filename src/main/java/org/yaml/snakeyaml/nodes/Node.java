@@ -158,19 +158,6 @@ public abstract class Node {
     this.useClassConstructor = useClassConstructor;
   }
 
-  /**
-   * Indicates if the tag was added by {@link org.yaml.snakeyaml.resolver.Resolver}.
-   *
-   * @return true if the tag of this node was resolved
-   *
-   * @deprecated Since v1.22. Absent in immediately prior versions, but present previously. Restored
-   *             deprecated for backwards compatibility.
-   */
-  @Deprecated
-  public boolean isResolved() {
-    return resolved;
-  }
-
   public String getAnchor() {
     return anchor;
   }

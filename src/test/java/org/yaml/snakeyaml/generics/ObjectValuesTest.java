@@ -75,8 +75,9 @@ public class ObjectValuesTest extends TestCase {
     Yaml dumper = new Yaml();
     String dumpedStr = dumper.dumpAsMap(ov);
     Yaml loader = new Yaml();
-    ObjectValuesWithParam<String, Integer> ov2 =
-        loader.loadAs(dumpedStr, new ObjectValuesWithParam<String, Integer>().getClass());
+    ObjectValuesWithParam<String, Integer> ov2 = loader.loadAs(dumpedStr,
+        (Class<? super ObjectValuesWithParam<String, Integer>>) new ObjectValuesWithParam<String, Integer>()
+            .getClass());
 
     assertEquals(ov.getObject(), ov2.getObject());
     assertEquals(ov.getValues(), ov2.getValues());

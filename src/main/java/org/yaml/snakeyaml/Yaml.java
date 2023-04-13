@@ -61,8 +61,7 @@ public class Yaml {
    * Create Yaml instance.
    */
   public Yaml() {
-    this(new Constructor(), new Representer(), new DumperOptions(), new LoaderOptions(),
-        new Resolver());
+    this(new Constructor(new LoaderOptions()), new Representer(new DumperOptions()));
   }
 
   /**
@@ -71,7 +70,7 @@ public class Yaml {
    * @param dumperOptions DumperOptions to configure outgoing objects
    */
   public Yaml(DumperOptions dumperOptions) {
-    this(new Constructor(), new Representer(dumperOptions), dumperOptions);
+    this(new Constructor(new LoaderOptions()), new Representer(dumperOptions), dumperOptions);
   }
 
   /**
@@ -80,7 +79,8 @@ public class Yaml {
    * @param loadingConfig LoadingConfig to control load behavior
    */
   public Yaml(LoaderOptions loadingConfig) {
-    this(new Constructor(loadingConfig), new Representer(), new DumperOptions(), loadingConfig);
+    this(new Constructor(loadingConfig), new Representer(new DumperOptions()), new DumperOptions(),
+        loadingConfig);
   }
 
   /**
@@ -89,7 +89,7 @@ public class Yaml {
    * @param representer Representer to emit outgoing objects
    */
   public Yaml(Representer representer) {
-    this(new Constructor(), representer);
+    this(new Constructor(new LoaderOptions()), representer);
   }
 
   /**
@@ -98,7 +98,7 @@ public class Yaml {
    * @param constructor BaseConstructor to construct incoming documents
    */
   public Yaml(BaseConstructor constructor) {
-    this(constructor, new Representer());
+    this(constructor, new Representer(new DumperOptions()));
   }
 
   /**
@@ -128,18 +128,19 @@ public class Yaml {
    * @param dumperOptions DumperOptions to configure outgoing objects
    */
   public Yaml(Representer representer, DumperOptions dumperOptions) {
-    this(new Constructor(), representer, dumperOptions, new LoaderOptions(), new Resolver());
+    this(new Constructor(new LoaderOptions()), representer, dumperOptions);
   }
 
   /**
    * Create Yaml instance. It is safe to create a few instances and use them in different Threads.
    *
-   * @param constructor BaseConstructor to construct incoming documents
+   * @param constructor BaseConstructor to construct incoming documents. Its LoaderOptions will be
+   *        used everywhere
    * @param representer Representer to emit outgoing objects
    * @param dumperOptions DumperOptions to configure outgoing objects
    */
   public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions) {
-    this(constructor, representer, dumperOptions, new LoaderOptions(), new Resolver());
+    this(constructor, representer, dumperOptions, constructor.getLoadingConfig(), new Resolver());
   }
 
   /**
@@ -179,6 +180,21 @@ public class Yaml {
    */
   public Yaml(BaseConstructor constructor, Representer representer, DumperOptions dumperOptions,
       LoaderOptions loadingConfig, Resolver resolver) {
+    if (constructor == null) {
+      throw new NullPointerException("Constructor must be provided");
+    }
+    if (representer == null) {
+      throw new NullPointerException("Representer must be provided");
+    }
+    if (dumperOptions == null) {
+      throw new NullPointerException("DumperOptions must be provided");
+    }
+    if (loadingConfig == null) {
+      throw new NullPointerException("LoaderOptions must be provided");
+    }
+    if (resolver == null) {
+      throw new NullPointerException("Resolver must be provided");
+    }
     if (!constructor.isExplicitPropertyUtils()) {
       constructor.setPropertyUtils(representer.getPropertyUtils());
     } else if (!representer.isExplicitPropertyUtils()) {
@@ -439,7 +455,7 @@ public class Yaml {
    * @return parsed object
    */
   @SuppressWarnings("unchecked")
-  public <T> T loadAs(Reader io, Class<T> type) {
+  public <T> T loadAs(Reader io, Class<? super T> type) {
     return (T) loadFromReader(new StreamReader(io), type);
   }
 
@@ -453,7 +469,7 @@ public class Yaml {
    * @return parsed object
    */
   @SuppressWarnings("unchecked")
-  public <T> T loadAs(String yaml, Class<T> type) {
+  public <T> T loadAs(String yaml, Class<? super T> type) {
     return (T) loadFromReader(new StreamReader(yaml), type);
   }
 
@@ -466,13 +482,13 @@ public class Yaml {
    * @return parsed object
    */
   @SuppressWarnings("unchecked")
-  public <T> T loadAs(InputStream input, Class<T> type) {
+  public <T> T loadAs(InputStream input, Class<? super T> type) {
     return (T) loadFromReader(new StreamReader(new UnicodeReader(input)), type);
   }
 
   private Object loadFromReader(StreamReader sreader, Class<?> type) {
-    Composer composer = new Composer(new ParserImpl(sreader, loadingConfig),
-        resolver, loadingConfig);
+    Composer composer =
+        new Composer(new ParserImpl(sreader, loadingConfig), resolver, loadingConfig);
     constructor.setComposer(composer);
     return constructor.getSingleData(type);
   }
@@ -485,9 +501,8 @@ public class Yaml {
    * @return an Iterable over the parsed Java objects in this String in proper sequence
    */
   public Iterable<Object> loadAll(Reader yaml) {
-    Composer composer =
-        new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig.isProcessComments()),
-            resolver, loadingConfig);
+    Composer composer = new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig),
+        resolver, loadingConfig);
     constructor.setComposer(composer);
     Iterator<Object> result = new Iterator<Object>() {
       @Override
@@ -555,9 +570,8 @@ public class Yaml {
    * @see <a href="http://yaml.org/spec/1.1/#id859333">Figure 3.1. Processing Overview</a>
    */
   public Node compose(Reader yaml) {
-    Composer composer =
-        new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig.isProcessComments()),
-            resolver, loadingConfig);
+    Composer composer = new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig),
+        resolver, loadingConfig);
     return composer.getSingleNode();
   }
 
@@ -569,9 +583,8 @@ public class Yaml {
    * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
    */
   public Iterable<Node> composeAll(Reader yaml) {
-    final Composer composer =
-        new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig.isProcessComments()),
-            resolver, loadingConfig);
+    final Composer composer = new Composer(new ParserImpl(new StreamReader(yaml), loadingConfig),
+        resolver, loadingConfig);
     Iterator<Node> result = new Iterator<Node>() {
       @Override
       public boolean hasNext() {
@@ -667,7 +680,7 @@ public class Yaml {
    * @see <a href="http://yaml.org/spec/1.1/#id859333">Processing Overview</a>
    */
   public Iterable<Event> parse(Reader yaml) {
-    final Parser parser = new ParserImpl(new StreamReader(yaml), loadingConfig.isProcessComments());
+    final Parser parser = new ParserImpl(new StreamReader(yaml), loadingConfig);
     Iterator<Event> result = new Iterator<Event>() {
       @Override
       public boolean hasNext() {

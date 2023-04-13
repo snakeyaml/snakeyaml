@@ -123,6 +123,7 @@ public class Chapter2_4Test extends TestCase {
   class SomethingConstructor extends Constructor {
 
     public SomethingConstructor() {
+      super(new LoaderOptions());
       this.yamlConstructors.put(new Tag("!something"), new ConstructSomething());
     }
 

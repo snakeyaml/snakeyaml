@@ -16,7 +16,9 @@ package org.yaml.snakeyaml.issues.issue11;
 import java.util.Map;
 import java.util.TreeMap;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Node;
@@ -118,6 +120,7 @@ public class YamlMapTest extends TestCase {
   public static class ExtendedRepresenter extends Representer {
 
     public ExtendedRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Custom.class, new RepresentCustom());
     }
 
@@ -132,6 +135,7 @@ public class YamlMapTest extends TestCase {
   public static class ExtendedConstructor extends Constructor {
 
     public ExtendedConstructor() {
+      super(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
       this.yamlConstructors.put(new Tag("!Custom"), new ConstructCustom());
     }
 

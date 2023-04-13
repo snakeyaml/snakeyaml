@@ -132,15 +132,6 @@ public class ParserImpl implements Parser {
   private Production state;
   private VersionTagsTuple directives;
 
-  public ParserImpl(StreamReader reader) {
-    this(new ScannerImpl(reader));
-  }
-
-  @Deprecated
-  public ParserImpl(StreamReader reader, boolean parseComments) {
-    this(new ScannerImpl(reader, new LoaderOptions().setProcessComments(parseComments)));
-  }
-
   public ParserImpl(StreamReader reader, LoaderOptions options) {
     this(new ScannerImpl(reader, options));
   }
@@ -163,7 +154,7 @@ public class ParserImpl implements Parser {
   }
 
   /**
-   * Get the next event.
+   * Peek the next event (keeping it in the stream)
    */
   public Event peekEvent() {
     if (currentEvent == null && (state != null)) {
@@ -294,6 +285,7 @@ public class ParserImpl implements Parser {
         endMark = token.getEndMark();
         explicit = true;
       }
+      scanner.resetDocumentIndex();
       Event event = new DocumentEndEvent(startMark, endMark, explicit);
       // Prepare the next state.
       state = new ParseDocumentStart();

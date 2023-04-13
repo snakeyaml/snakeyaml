@@ -14,8 +14,10 @@
 package org.yaml.snakeyaml.issues.issue547;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import java.util.Iterator;
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -23,7 +25,7 @@ import org.yaml.snakeyaml.Yaml;
 public class ByteLimitTest {
 
   @Test
-  public void testUnicode() {
+  public void testSetCodePointLimit() {
     LoaderOptions options = new LoaderOptions();
     options.setCodePointLimit(15);
     Yaml yaml = new Yaml(options);
@@ -33,5 +35,31 @@ public class ByteLimitTest {
     } catch (Exception e) {
       assertEquals("The incoming YAML document exceeds the limit: 15 code points.", e.getMessage());
     }
+  }
+
+  @Test
+  public void testLoadAll553() {
+    LoaderOptions options = new LoaderOptions();
+    options.setCodePointLimit(15);
+    Yaml yaml = new Yaml(options);
+    try {
+      Iterator<Object> iter = yaml.loadAll("12345678901234567890").iterator();
+      iter.next();
+      fail("Long input should not be accepted for loadAll");
+    } catch (Exception e) {
+      assertEquals("The incoming YAML document exceeds the limit: 15 code points.", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testLoadManyDocuments() {
+    LoaderOptions options = new LoaderOptions();
+    options.setCodePointLimit(8);
+    Yaml yaml = new Yaml(options);
+    Iterator<Object> iter = yaml.loadAll("---\nfoo\n---\nbar\n---\nyep").iterator();
+    assertEquals("foo", iter.next());
+    assertEquals("bar", iter.next());
+    assertEquals("yep", iter.next());
+    assertFalse(iter.hasNext());
   }
 }

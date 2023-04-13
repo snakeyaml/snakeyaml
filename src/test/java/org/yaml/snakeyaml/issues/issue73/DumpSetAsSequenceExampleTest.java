@@ -20,6 +20,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -54,6 +55,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
   private class SetRepresenter extends Representer {
 
     public SetRepresenter() {
+      super(new DumperOptions());
       this.multiRepresenters.put(Set.class, new RepresentIterable());
     }
 
@@ -83,7 +85,7 @@ public class DumpSetAsSequenceExampleTest extends TestCase {
   }
 
   private void check(String doc) {
-    Yaml yamlLoader = new Yaml();
+    Yaml yamlLoader = new Yaml(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     yamlLoader.setBeanAccess(BeanAccess.FIELD);
     Blog blog = yamlLoader.load(doc);
     assertEquals("Test Me!", blog.getName());

@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 
 import java.awt.Point;
 import org.junit.Test;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -55,6 +56,13 @@ public class StackOverflowTest {
    * the instance of Point.
    */
   private class PointRepresenter extends Representer {
+
+    /**
+     * Create
+     */
+    public PointRepresenter() {
+      super(new DumperOptions());
+    }
 
     @Override
     protected NodeTuple representJavaBeanProperty(Object javaBean, Property property,

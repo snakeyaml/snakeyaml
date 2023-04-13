@@ -19,6 +19,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -30,7 +31,7 @@ import org.yaml.snakeyaml.representer.Representer;
 public class CustomOrderTest extends TestCase {
 
   public void testReversedOrder() {
-    Representer repr = new Representer();
+    Representer repr = new Representer(new DumperOptions());
     repr.setPropertyUtils(new ReversedPropertyUtils());
     Yaml yaml = new Yaml(repr);
     String output = yaml.dump(getBean());
@@ -49,7 +50,7 @@ public class CustomOrderTest extends TestCase {
   }
 
   public void testUnsorted() {
-    Representer repr = new Representer();
+    Representer repr = new Representer(new DumperOptions());
     repr.setPropertyUtils(new UnsortedPropertyUtils());
     Yaml yaml = new Yaml(repr);
     String output = yaml.dump(getBean());

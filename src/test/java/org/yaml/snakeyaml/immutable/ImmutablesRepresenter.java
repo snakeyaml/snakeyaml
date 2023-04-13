@@ -26,7 +26,7 @@ import org.yaml.snakeyaml.representer.Representer;
 public class ImmutablesRepresenter extends Representer {
 
   public ImmutablesRepresenter() {
-    super();
+    super(new DumperOptions());
     this.representers.put(java.awt.Color.class, new RepresentColor());
     this.representers.put(Insets.class, new RepresentInsets());
     this.representers.put(MatteBorder.class, new RepresentMatteBorder());

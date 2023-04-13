@@ -21,7 +21,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 public class PyRecursiveTest extends TestCase {
@@ -31,7 +33,7 @@ public class PyRecursiveTest extends TestCase {
     Map<AnInstance, AnInstance> value = new HashMap<AnInstance, AnInstance>();
     AnInstance instance = new AnInstance(value, value);
     value.put(instance, instance);
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("org");
     String output1 = yaml.dump(value);
     assertTrue(output1.contains("!!org.pyyaml.AnInstance"));
     assertTrue(output1.contains("&id001"));
@@ -54,7 +56,7 @@ public class PyRecursiveTest extends TestCase {
     Map value = new TreeMap();
     value.put("abc", "www");
     value.put("qwerty", value);
-    Yaml yaml = new Yaml(new SafeConstructor());
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     String output1 = yaml.dump(value);
     assertEquals("&id001\nabc: www\nqwerty: *id001\n", output1);
     Map value2 = yaml.load(output1);
@@ -94,7 +96,7 @@ public class PyRecursiveTest extends TestCase {
     value.add("test");
     value.add(Integer.valueOf(1));
 
-    Yaml yaml = new Yaml(new SafeConstructor());
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     String output1 = yaml.dump(value);
     assertEquals("&id001\n- *id001\n- test\n- 1\n", output1);
     List value2 = yaml.load(output1);
@@ -113,7 +115,7 @@ public class PyRecursiveTest extends TestCase {
   public void testSet() {
     Set value = new HashSet();
     value.add(new AnInstance(value, value));
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("org");
     String output1 = yaml.dump(value);
     Set<AnInstance> value2 = yaml.load(output1);
 

@@ -15,6 +15,7 @@ package examples.collections;
 
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -27,14 +28,14 @@ import org.yaml.snakeyaml.constructor.Constructor;
 public class TypeSafePriorityTest extends TestCase {
 
   /**
-   * explicit TypeDescription is more important then runtime class (which may be an interface)
+   * explicit TypeDescription is more important than runtime class (which may be an interface)
    */
   public void testLoadList2() {
     String output = Util.getLocalResource("examples/list-bean-3.yaml");
     // System.out.println(output);
     TypeDescription descr = new TypeDescription(ListBean.class);
     descr.putListPropertyType("developers", Developer.class);
-    Yaml beanLoader = new Yaml(new Constructor(descr));
+    Yaml beanLoader = new Yaml(new Constructor(descr, new LoaderOptions()));
     ListBean parsed = beanLoader.loadAs(output, ListBean.class);
     assertNotNull(parsed);
     List<Human> developers = parsed.getDevelopers();

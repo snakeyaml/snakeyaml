@@ -24,6 +24,14 @@ public final class CommentEvent extends Event {
   private final CommentType type;
   private final String value;
 
+  /**
+   * Create
+   *
+   * @param type - kind
+   * @param value - text
+   * @param startMark - start
+   * @param endMark - end
+   */
   public CommentEvent(CommentType type, String value, Mark startMark, Mark endMark) {
     super(startMark, endMark);
     if (type == null) {

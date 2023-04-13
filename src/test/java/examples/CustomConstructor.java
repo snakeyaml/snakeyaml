@@ -16,12 +16,13 @@ package examples;
 import java.util.LinkedList;
 import java.util.List;
 import org.yaml.snakeyaml.Invoice;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class CustomConstructor extends Constructor {
 
   public CustomConstructor() {
-    super(Invoice.class);
+    super(Invoice.class, new LoaderOptions());
   }
 
   @Override

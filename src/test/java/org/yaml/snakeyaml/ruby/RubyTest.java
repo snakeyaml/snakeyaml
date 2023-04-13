@@ -18,6 +18,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
@@ -54,7 +55,7 @@ public class RubyTest extends TestCase {
     TestObject result = parseObject(Util.getLocalResource("ruby/ruby1.yaml"));
     DumperOptions options = new DumperOptions();
     options.setExplicitStart(true);
-    Representer repr = new Representer();
+    Representer repr = new Representer(options);
     repr.addClassTag(TestObject.class, new Tag("!ruby/object:Test::Module::Object"));
     repr.addClassTag(Sub1.class, new Tag("!ruby/object:Test::Module::Sub1"));
     repr.addClassTag(Sub2.class, new Tag("!ruby/object:Test::Module::Sub2"));
@@ -77,7 +78,7 @@ public class RubyTest extends TestCase {
     TestObject result = parseObject(Util.getLocalResource("ruby/ruby1.yaml"));
     DumperOptions options = new DumperOptions();
     options.setExplicitStart(true);
-    Representer repr = new Representer();
+    Representer repr = new Representer(options);
     repr.addClassTag(Sub1.class, new Tag("!ruby/object:Test::Module::Sub1"));
     repr.addClassTag(Sub2.class, new Tag("!ruby/object:Test::Module::Sub2"));
     Yaml yaml2 = new Yaml(repr, options);
@@ -97,7 +98,8 @@ public class RubyTest extends TestCase {
   }
 
   private TestObject parseObject(String input) {
-    Constructor con = new Constructor(TestObject.class);
+    Constructor con = new Constructor(TestObject.class,
+        YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     con.addTypeDescription(
         new TypeDescription(TestObject.class, "!ruby/object:Test::Module::Object"));
     con.addTypeDescription(new TypeDescription(Sub1.class, "!ruby/object:Test::Module::Sub1"));

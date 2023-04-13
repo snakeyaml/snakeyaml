@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
@@ -30,7 +31,7 @@ import org.yaml.snakeyaml.representer.Representer;
 public class OrderTest extends TestCase {
 
   public void test_order() {
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.setPropertyUtils(new OrderUtil());
     Yaml yaml = new Yaml(representer);
     String s = Util.getLocalResource("issues/issue307-order.yaml");
@@ -43,7 +44,7 @@ public class OrderTest extends TestCase {
   }
 
   public void test_extend_order() {
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.setPropertyUtils(new OrderUtil());
     Yaml yaml = new Yaml(representer);
     String s = Util.getLocalResource("issues/issue307-order.yaml");

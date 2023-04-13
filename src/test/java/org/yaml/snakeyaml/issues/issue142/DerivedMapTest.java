@@ -17,6 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class DerivedMapTest extends TestCase {
 
@@ -61,10 +62,9 @@ public class DerivedMapTest extends TestCase {
     o.setName("Mickey");
     o.getFeatures().put("Address", "Disney");
     o.getMoreFeatures().put("Address", "Disney");
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml");
     String asYaml = yaml.dump(o);
     // System.out.println(asYaml);
     MyObject o2 = yaml.load(asYaml);
   }
-
 }

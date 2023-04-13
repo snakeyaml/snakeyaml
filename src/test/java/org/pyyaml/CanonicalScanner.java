@@ -94,6 +94,11 @@ public class CanonicalScanner implements Scanner {
     return this.tokens.remove(0);
   }
 
+  @Override
+  public void resetDocumentIndex() {
+    this.index = 0;
+  }
+
   public Token getToken(Token.ID choice) {
     Token token = getToken();
     if (choice != null && token.getTokenId() != choice) {

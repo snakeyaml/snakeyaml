@@ -25,21 +25,17 @@ public abstract class CollectionNode<T> extends Node {
 
   private DumperOptions.FlowStyle flowStyle;
 
+  /**
+   * Create
+   *
+   * @param tag - its tag
+   * @param startMark - start
+   * @param endMark - end
+   * @param flowStyle - style
+   */
   public CollectionNode(Tag tag, Mark startMark, Mark endMark, DumperOptions.FlowStyle flowStyle) {
     super(tag, startMark, endMark);
     setFlowStyle(flowStyle);
-  }
-
-  /*
-   * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based constructor.
-   * Restored in v1.22 for backwards compatibility.
-   *
-   * @deprecated Since restored in v1.22. Use {@link CollectionNode#CollectionNode(Tag, Mark, Mark,
-   * org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
-   */
-  @Deprecated
-  public CollectionNode(Tag tag, Mark startMark, Mark endMark, Boolean flowStyle) {
-    this(tag, startMark, endMark, DumperOptions.FlowStyle.fromBoolean(flowStyle));
   }
 
   /**
@@ -58,6 +54,11 @@ public abstract class CollectionNode<T> extends Node {
     return flowStyle;
   }
 
+  /**
+   * Setter
+   *
+   * @param flowStyle - flow style for collections
+   */
   public void setFlowStyle(DumperOptions.FlowStyle flowStyle) {
     if (flowStyle == null) {
       throw new NullPointerException("Flow style must be provided.");
@@ -65,18 +66,11 @@ public abstract class CollectionNode<T> extends Node {
     this.flowStyle = flowStyle;
   }
 
-  /*
-   * Existed in older versions but replaced with {@link DumperOptions.FlowStyle}-based method.
-   * Restored in v1.26 for backwards compatibility.
+  /**
+   * Setter
    *
-   * @deprecated Since restored in v1.26. Use {@link
-   * CollectionNode#setFlowStyle(org.yaml.snakeyaml.DumperOptions.FlowStyle) }.
+   * @param endMark - end
    */
-  @Deprecated
-  public void setFlowStyle(Boolean flowStyle) {
-    setFlowStyle(DumperOptions.FlowStyle.fromBoolean(flowStyle));
-  }
-
   public void setEndMark(Mark endMark) {
     this.endMark = endMark;
   }

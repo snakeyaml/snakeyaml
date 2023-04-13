@@ -14,8 +14,11 @@
 package examples.staticstate;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
@@ -34,7 +37,7 @@ public class StaticFieldsWrapperTest extends TestCase {
     bean.setAge(-47);
     JavaBeanWithStaticState.setType("Type3");
     JavaBeanWithStaticState.color = "Violet";
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("examples");
     String output = yaml.dump(new Wrapper(bean));
     // System.out.println(output);
     assertEquals(
@@ -56,14 +59,14 @@ public class StaticFieldsWrapperTest extends TestCase {
     bean.setAge(-47);
     JavaBeanWithStaticState.setType("Type3");
     JavaBeanWithStaticState.color = "Violet";
-    Representer repr = new Representer();
+    Representer repr = new Representer(new DumperOptions());
     repr.addClassTag(Wrapper.class, new Tag("!mybean"));
     Yaml yaml = new Yaml(repr);
     String output = yaml.dump(new Wrapper(bean));
     // System.out.println(output);
     assertEquals("!mybean {age: -47, color: Violet, name: Bahrack, type: Type3}\n", output);
     // parse back to instance
-    Constructor constr = new Constructor();
+    Constructor constr = new Constructor(new LoaderOptions());
     TypeDescription description = new TypeDescription(Wrapper.class, new Tag("!mybean"));
     constr.addTypeDescription(description);
     yaml = new Yaml(constr);

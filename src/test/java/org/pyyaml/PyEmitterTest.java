@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.emitter.Emitter;
 import org.yaml.snakeyaml.emitter.EventConstructor;
 import org.yaml.snakeyaml.events.CollectionStartEvent;
@@ -76,7 +77,7 @@ public class PyEmitterTest extends PyImportTest {
         String data = stream.toString();
         List<Event> newEvents = new ArrayList<Event>();
         StreamReader reader = new StreamReader(data);
-        Parser parser = new ParserImpl(reader);
+        Parser parser = new ParserImpl(reader, new LoaderOptions());
         while (parser.peekEvent() != null) {
           Event event = parser.getEvent();
           newEvents.add(event);
@@ -128,7 +129,7 @@ public class PyEmitterTest extends PyImportTest {
         List<Event> events = new ArrayList<Event>();
         InputStream input = new FileInputStream(file);
         StreamReader reader = new StreamReader(new UnicodeReader(input));
-        Parser parser = new ParserImpl(reader);
+        Parser parser = new ParserImpl(reader, new LoaderOptions());
         while (parser.peekEvent() != null) {
           Event event = parser.getEvent();
           events.add(event);
@@ -203,7 +204,7 @@ public class PyEmitterTest extends PyImportTest {
   }
 
   private List<Event> parse(String data) {
-    ParserImpl parser = new ParserImpl(new StreamReader(data));
+    ParserImpl parser = new ParserImpl(new StreamReader(data), new LoaderOptions());
     List<Event> newEvents = new ArrayList<Event>();
     while (parser.peekEvent() != null) {
       newEvents.add(parser.getEvent());
@@ -233,7 +234,7 @@ public class PyEmitterTest extends PyImportTest {
         String data = stream.toString();
         List<Event> newEvents = new ArrayList<Event>();
         StreamReader reader = new StreamReader(data);
-        Parser parser = new ParserImpl(reader);
+        Parser parser = new ParserImpl(reader, new LoaderOptions());
         while (parser.peekEvent() != null) {
           Event event = parser.getEvent();
           newEvents.add(event);

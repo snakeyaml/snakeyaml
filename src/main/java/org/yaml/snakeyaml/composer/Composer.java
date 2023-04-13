@@ -52,6 +52,9 @@ import org.yaml.snakeyaml.resolver.Resolver;
  */
 public class Composer {
 
+  /**
+   * its parser
+   */
   protected final Parser parser;
   private final Resolver resolver;
   private final Map<String, Node> anchors;
@@ -64,11 +67,23 @@ public class Composer {
   private int nestingDepth = 0;
   private final int nestingDepthLimit;
 
-  public Composer(Parser parser, Resolver resolver) {
-    this(parser, resolver, new LoaderOptions());
-  }
-
+  /**
+   * Create
+   *
+   * @param parser - the parser
+   * @param resolver - the resolver
+   * @param loadingConfig - options
+   */
   public Composer(Parser parser, Resolver resolver, LoaderOptions loadingConfig) {
+    if (parser == null) {
+      throw new NullPointerException("Parser must be provided");
+    }
+    if (resolver == null) {
+      throw new NullPointerException("Resolver must be provided");
+    }
+    if (loadingConfig == null) {
+      throw new NullPointerException("LoaderOptions must be provided");
+    }
     this.parser = parser;
     this.resolver = resolver;
     this.anchors = new HashMap<String, Node>();
@@ -210,6 +225,11 @@ public class Composer {
       resolved = true;
     } else {
       nodeTag = new Tag(tag);
+      if (nodeTag.isCustomGlobal()
+          && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag)) {
+        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
+            ev.getStartMark());
+      }
     }
     Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(), ev.getEndMark(),
         ev.getScalarStyle());
@@ -233,6 +253,11 @@ public class Composer {
       resolved = true;
     } else {
       nodeTag = new Tag(tag);
+      if (nodeTag.isCustomGlobal()
+          && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag)) {
+        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
+            startEvent.getStartMark());
+      }
     }
     final ArrayList<Node> children = new ArrayList<Node>();
     SequenceNode node = new SequenceNode(nodeTag, resolved, children, startEvent.getStartMark(),
@@ -273,6 +298,11 @@ public class Composer {
       resolved = true;
     } else {
       nodeTag = new Tag(tag);
+      if (nodeTag.isCustomGlobal()
+          && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag)) {
+        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
+            startEvent.getStartMark());
+      }
     }
 
     final List<NodeTuple> children = new ArrayList<NodeTuple>();
@@ -304,6 +334,12 @@ public class Composer {
     return node;
   }
 
+  /**
+   * Compose the members of mapping
+   *
+   * @param children - the data to fill
+   * @param node - the source
+   */
   protected void composeMappingChildren(List<NodeTuple> children, MappingNode node) {
     Node itemKey = composeKeyNode(node);
     if (itemKey.getTag().equals(Tag.MERGE)) {
@@ -313,10 +349,22 @@ public class Composer {
     children.add(new NodeTuple(itemKey, itemValue));
   }
 
+  /**
+   * To be able to override composeNode(node) which is a key
+   *
+   * @param node - the source
+   * @return node
+   */
   protected Node composeKeyNode(MappingNode node) {
     return composeNode(node);
   }
 
+  /**
+   * To be able to override composeNode(node) which is a value
+   *
+   * @param node - the source
+   * @return node
+   */
   protected Node composeValueNode(MappingNode node) {
     return composeNode(node);
   }

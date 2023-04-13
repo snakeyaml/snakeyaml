@@ -18,6 +18,9 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+/**
+ * Shared code for all the properties
+ */
 public abstract class GenericProperty extends Property {
 
   private final Type genType;

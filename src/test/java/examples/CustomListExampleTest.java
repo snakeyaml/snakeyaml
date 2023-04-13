@@ -16,6 +16,7 @@ package examples;
 import java.util.LinkedList;
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -29,6 +30,10 @@ public class CustomListExampleTest extends TestCase {
   }
 
   class CustomConstructor extends Constructor {
+
+    public CustomConstructor() {
+      super(new LoaderOptions());
+    }
 
     @Override
     protected List<Object> createDefaultList(int initSize) {

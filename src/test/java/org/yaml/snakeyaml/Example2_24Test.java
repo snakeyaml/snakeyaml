@@ -34,6 +34,7 @@ public class Example2_24Test extends TestCase {
   class MyConstructor extends Constructor {
 
     public MyConstructor() {
+      super(new LoaderOptions());
       this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:shape"), new ConstructShape());
       this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:circle"), new ConstructCircle());
       this.yamlConstructors.put(new Tag("tag:clarkevans.com,2002:line"), new ConstructLine());
@@ -91,6 +92,7 @@ public class Example2_24Test extends TestCase {
   class MyRepresenter extends Representer {
 
     public MyRepresenter() {
+      super(new DumperOptions());
       this.representers.put(Shape.class, new RepresentShape());
       this.representers.put(Circle.class, new RepresentCircle());
       this.representers.put(Line.class, new RepresentLine());

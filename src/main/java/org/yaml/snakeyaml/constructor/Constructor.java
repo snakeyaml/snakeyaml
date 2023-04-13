@@ -41,25 +41,23 @@ import org.yaml.snakeyaml.util.EnumUtils;
  */
 public class Constructor extends SafeConstructor {
 
-  public Constructor() {
-    this(Object.class);
-  }
-
+  /**
+   * Create with options
+   *
+   * @param loadingConfig - config
+   */
   public Constructor(LoaderOptions loadingConfig) {
     this(Object.class, loadingConfig);
   }
 
   /**
-   * Create Constructor for the specified class as the root.
+   * Create
    *
-   * @param theRoot - the class (usually JavaBean) to be constructed
+   * @param theRoot - the class to create (to be the root of the YAML document)
+   * @param loadingConfig - options
    */
-  public Constructor(Class<? extends Object> theRoot) {
-    this(new TypeDescription(checkRoot(theRoot)));
-  }
-
   public Constructor(Class<? extends Object> theRoot, LoaderOptions loadingConfig) {
-    this(new TypeDescription(checkRoot(theRoot)), loadingConfig);
+    this(new TypeDescription(checkRoot(theRoot)), null, loadingConfig);
   }
 
   /**
@@ -73,16 +71,14 @@ public class Constructor extends SafeConstructor {
     }
   }
 
-  public Constructor(TypeDescription theRoot) {
-    this(theRoot, null, new LoaderOptions());
-  }
-
+  /**
+   * Create
+   *
+   * @param theRoot - the root class to create
+   * @param loadingConfig options
+   */
   public Constructor(TypeDescription theRoot, LoaderOptions loadingConfig) {
     this(theRoot, null, loadingConfig);
-  }
-
-  public Constructor(TypeDescription theRoot, Collection<TypeDescription> moreTDs) {
-    this(theRoot, moreTDs, new LoaderOptions());
   }
 
   /**
@@ -98,7 +94,10 @@ public class Constructor extends SafeConstructor {
     if (theRoot == null) {
       throw new NullPointerException("Root type must be provided.");
     }
+    // register a general Construct when the explicit one was not found
     this.yamlConstructors.put(null, new ConstructYamlObject());
+
+    // register the root tag to begin with its Construct
     if (!Object.class.equals(theRoot.getType())) {
       rootTag = new Tag(theRoot.getType());
     }
@@ -114,21 +113,17 @@ public class Constructor extends SafeConstructor {
   }
 
   /**
-   * Create Constructor for a class which does not have to be in the classpath or for a definition
-   * from a Spring ApplicationContext.
+   * Create
    *
-   * @param theRoot fully qualified class name of the root class (usually JavaBean)
-   * @throws ClassNotFoundException if cannot be loaded by the classloader
+   * @param theRoot - the main class to crate
+   * @param loadingConfig - options
+   * @throws ClassNotFoundException if something goes wrong
    */
-  public Constructor(String theRoot) throws ClassNotFoundException {
-    this(Class.forName(check(theRoot)));
-  }
-
   public Constructor(String theRoot, LoaderOptions loadingConfig) throws ClassNotFoundException {
     this(Class.forName(check(theRoot)), loadingConfig);
   }
 
-  private static final String check(String s) {
+  private static String check(String s) {
     if (s == null) {
       throw new NullPointerException("Root type must be provided.");
     }
@@ -595,7 +590,7 @@ public class Constructor extends SafeConstructor {
       }
     }
 
-    private final Class<? extends Object> wrapIfPrimitive(Class<?> clazz) {
+    private Class<? extends Object> wrapIfPrimitive(Class<?> clazz) {
       if (!clazz.isPrimitive()) {
         return clazz;
       }

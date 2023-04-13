@@ -5,9 +5,74 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="1.32-SNAPSHOT" date="in GIT" description="Maintenance">
+        <release version="2.1" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="1061">
+                https://github.com/FasterXML/jackson-dataformats-text/issues/406
+                https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=56902
+                %YAML 1.9224775801
+                (thanks to Tatu Saloranta)
+            </action>
+            <action dev="asomov" type="fix">
+                Document size limit should be applied to single document not the whole input stream
+                (thanks to Petr Gladkikh)
+            </action>
+            <action dev="asomov" type="fix" issue="576">
+                Detect invalid Unicode code point
+            </action>
+            <action dev="maslovalex" type="remove">
+                Remove Trusted*Inspector classes from main sources tree
+            </action>
+        </release>
+        <release version="2.0" date="2023-02-26" description="Maintenance">
+            <action dev="maslovalex" type="fix" issue="570">
+                Rollback to Java 7 target
+            </action>
+            <action dev="asomov" type="fix" issue="495">
+                Add module-info.java (thanks to Clayton Walker and Василий Кудрявцев)
+            </action>
+            <action dev="asomov" type="update">
+                Migrate to Java 8
+            </action>
+            <action dev="asomov" type="remove">
+                Remove many deprecated constructors
+            </action>
+            <action dev="asomov" type="remove">
+                Remove long deprecated methods in FlowStyle
+            </action>
+            <action dev="asomov" type="fix" issue="565">
+                Do not allow global tags by default (thanks to Jonathan Leitschuh)
+            </action>
+            <action dev="asomov" type="fix" issue="556">
+                Yaml.LoadAs() signature to support Class&lt;? super T&gt; type instead of Class&lt;T&gt; (thanks to Matt D.)
+            </action>
+            <action dev="asomov" type="update">
+                CustomClassLoaderConstructor takes LoaderOptions
+            </action>
+            <action dev="asomov" type="update">
+                Check input parameters for non-null values
+            </action>
+        </release>
+        <release version="1.33" date="2022-09-26" description="Maintenance">
+            <action dev="asomov" type="remove">
+                Remove deprecated unused methods
+            </action>
+            <action dev="asomov" type="update">
+                Fix Github actions (thanks to Lee Read)
+            </action>
+            <action dev="asomov" type="fix" issue="553">
+                LoaderOptions.setCodePointLimit() not honored by loadAll() (thanks to Robert Patrick)
+            </action>
+            <action dev="asomov" type="fix" issue="554">
+                Always quoting strings that look like numbers and start with 0 (thanks to Lee Read)
+            </action>
+        </release>
+        <release version="1.32" date="2022-09-12" description="Maintenance">
+            <action dev="asomov" type="fix" issue="543">
+                Add a test for issue 543 (thanks to Henry Lin)
+            </action>
             <action dev="asomov" type="fix" issue="547">
                 Set the limit for incoming data to prevent a CVE report in NIST
+                By default it is 3 MB
             </action>
             <action dev="asomov" type="update">
                 Format the source with Google style.

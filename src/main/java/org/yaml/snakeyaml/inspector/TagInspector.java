@@ -11,22 +11,23 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.yaml.snakeyaml.tokens;
+package org.yaml.snakeyaml.inspector;
 
-import org.yaml.snakeyaml.error.Mark;
+import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * @deprecated it will be removed because it is not used
+ * Check if the global tags are allowed (the local tags are always allowed). It should control the
+ * classes to create to prevent possible remote code invocation when the data comes from untrusted
+ * source. The standard tags are always allowed (https://yaml.org/type/index.html)
  */
-@Deprecated
-public class WhitespaceToken extends Token {
+public interface TagInspector {
 
-  public WhitespaceToken(Mark startMark, Mark endMark) {
-    super(startMark, endMark);
-  }
+  /**
+   * Check
+   *
+   * @param tag - the global tag to check
+   * @return true when the custom global tag is allowed to create a custom Java instance
+   */
+  boolean isGlobalTagAllowed(Tag tag);
 
-  @Override
-  public ID getTokenId() {
-    return ID.Whitespace;
-  }
 }

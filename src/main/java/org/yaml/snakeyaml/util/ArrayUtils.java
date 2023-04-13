@@ -17,6 +17,9 @@ import java.util.AbstractList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Array manipulation
+ */
 public class ArrayUtils {
 
   private ArrayUtils() {}

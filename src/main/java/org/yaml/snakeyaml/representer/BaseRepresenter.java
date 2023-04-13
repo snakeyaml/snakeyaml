@@ -36,6 +36,9 @@ import org.yaml.snakeyaml.nodes.Tag;
  */
 public abstract class BaseRepresenter {
 
+  /**
+   * represent the class without its subclasses
+   */
   protected final Map<Class<?>, Represent> representers = new HashMap<Class<?>, Represent>();
   /**
    * in Java 'null' is not a type. So we have to keep the null representer separately otherwise it
@@ -43,10 +46,22 @@ public abstract class BaseRepresenter {
    */
   protected Represent nullRepresenter;
   // the order is important (map can be also a sequence of key-values)
+  /**
+   * represent class and its children with common code
+   */
   protected final Map<Class<?>, Represent> multiRepresenters =
       new LinkedHashMap<Class<?>, Represent>();
+  /**
+   * default scalar style is not defined
+   */
   protected DumperOptions.ScalarStyle defaultScalarStyle = null; // not explicitly defined
+  /**
+   * flow style to use if not redefined.
+   */
   protected FlowStyle defaultFlowStyle = FlowStyle.AUTO;
+  /**
+   * Keep references of already represented instances
+   */
   protected final Map<Object, Node> representedObjects = new IdentityHashMap<Object, Node>() {
     private static final long serialVersionUID = -5576159264232131854L;
 
@@ -55,6 +70,9 @@ public abstract class BaseRepresenter {
     }
   };
 
+  /**
+   * object to create the Node for
+   */
   protected Object objectToRepresent;
   private PropertyUtils propertyUtils;
   private boolean explicitPropertyUtils = false;
@@ -176,6 +194,11 @@ public abstract class BaseRepresenter {
     this.defaultScalarStyle = defaultStyle;
   }
 
+  /**
+   * getter
+   *
+   * @return scala style
+   */
   public ScalarStyle getDefaultScalarStyle() {
     if (defaultScalarStyle == null) {
       return ScalarStyle.PLAIN;
@@ -187,6 +210,11 @@ public abstract class BaseRepresenter {
     this.defaultFlowStyle = defaultFlowStyle;
   }
 
+  /**
+   * getter
+   *
+   * @return current flow style
+   */
   public FlowStyle getDefaultFlowStyle() {
     return this.defaultFlowStyle;
   }
@@ -196,6 +224,11 @@ public abstract class BaseRepresenter {
     this.explicitPropertyUtils = true;
   }
 
+  /**
+   * getter
+   *
+   * @return utils or create if null
+   */
   public final PropertyUtils getPropertyUtils() {
     if (propertyUtils == null) {
       propertyUtils = new PropertyUtils();

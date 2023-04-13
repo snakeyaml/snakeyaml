@@ -15,6 +15,8 @@ package org.yaml.snakeyaml.issues.issue479;
 
 import java.io.InputStream;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -23,8 +25,8 @@ import org.yaml.snakeyaml.representer.Representer;
 public class MergeKeyDeepMergeTest extends TestCase {
 
   public void testOnlyTheCurrentMappingIsMerged() {
-    Constructor constructor = new Constructor(DemoProperty.class);
-    Representer representer = new Representer();
+    Constructor constructor = new Constructor(DemoProperty.class, new LoaderOptions());
+    Representer representer = new Representer(new DumperOptions());
     representer.getPropertyUtils().setSkipMissingProperties(true);
     Yaml yaml = new Yaml(constructor, representer);
 
@@ -52,8 +54,8 @@ public class MergeKeyDeepMergeTest extends TestCase {
   }
 
   public void testMergeAsJavabean() {
-    Constructor constructor = new Constructor(DemoProperty.class);
-    Representer representer = new Representer();
+    Constructor constructor = new Constructor(DemoProperty.class, new LoaderOptions());
+    Representer representer = new Representer(new DumperOptions());
     representer.getPropertyUtils().setSkipMissingProperties(true);
     Yaml yaml = new Yaml(constructor, representer);
 

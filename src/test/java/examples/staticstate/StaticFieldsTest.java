@@ -19,6 +19,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -39,7 +40,7 @@ public class StaticFieldsTest extends TestCase {
     bean.setAge(-47);
     JavaBeanWithStaticState.setType("Represent");
     JavaBeanWithStaticState.color = "Black";
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("examples");
     String output = yaml.dump(bean);
     // System.out.println(output);
     assertEquals("!!examples.staticstate.JavaBeanWithStaticState {age: -47, name: Bahrack}\n",
@@ -77,6 +78,13 @@ public class StaticFieldsTest extends TestCase {
 
   private class MyRepresenter extends Representer {
 
+    /**
+     * Create
+     */
+    public MyRepresenter() {
+      super(new DumperOptions());
+    }
+
     @Override
     protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {
       MappingNode node = super.representJavaBean(properties, javaBean);
@@ -94,6 +102,10 @@ public class StaticFieldsTest extends TestCase {
   private class MyConstructor extends Constructor {
 
     private final Tag JBWSS = new Tag(JavaBeanWithStaticState.class);
+
+    public MyConstructor() {
+      super(YamlCreator.trustedLoaderOptions());
+    }
 
     protected Object constructObject(Node node) {
       if (JavaBeanWithStaticState.class.isAssignableFrom(node.getType())

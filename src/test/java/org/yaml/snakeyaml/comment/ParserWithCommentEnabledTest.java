@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.events.Event.ID;
 import org.yaml.snakeyaml.parser.Parser;
@@ -65,7 +66,7 @@ public class ParserWithCommentEnabledTest {
   }
 
   private Parser createParser(String data) {
-    return new ParserImpl(new StreamReader(data), true);
+    return new ParserImpl(new StreamReader(data), new LoaderOptions().setProcessComments(true));
   }
 
   @Test
@@ -384,7 +385,8 @@ public class ParserWithCommentEnabledTest {
         ID.DocumentEnd, //
         ID.StreamEnd //
     );
-    Parser sut = new ParserImpl(new StreamReader(data), true);
+    Parser sut =
+        new ParserImpl(new StreamReader(data), new LoaderOptions().setProcessComments(true));
     // printEventList(sut);
     assertEventListEquals(expectedEventIdList, sut);
   }
@@ -397,7 +399,8 @@ public class ParserWithCommentEnabledTest {
     List<ID> expectedEventIdList = Arrays.asList(ID.StreamStart, ID.Comment, ID.DocumentStart,
         ID.MappingStart, ID.Comment, ID.Scalar, ID.Scalar, ID.Comment, ID.Scalar, ID.Scalar,
         ID.MappingEnd, ID.DocumentEnd, ID.StreamEnd);
-    Parser sut = new ParserImpl(new StreamReader(data), true);
+    Parser sut =
+        new ParserImpl(new StreamReader(data), new LoaderOptions().setProcessComments(true));
     // printEventList(sut);
     assertEventListEquals(expectedEventIdList, sut);
   }

@@ -17,11 +17,24 @@ import java.util.List;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 
+/**
+ * Directive Token
+ *
+ * @param <T> it is either Integer for the YAML directive or String for the TAG directive
+ */
 public final class DirectiveToken<T> extends Token {
 
   private final String name;
   private final List<T> value;
 
+  /**
+   * Create
+   *
+   * @param name - directive name
+   * @param value - directive value
+   * @param startMark - start
+   * @param endMark - end
+   */
   public DirectiveToken(String name, List<T> value, Mark startMark, Mark endMark) {
     super(startMark, endMark);
     this.name = name;
@@ -31,14 +44,29 @@ public final class DirectiveToken<T> extends Token {
     this.value = value;
   }
 
+  /**
+   * getter
+   *
+   * @return name
+   */
   public String getName() {
     return this.name;
   }
 
+  /**
+   * getter
+   *
+   * @return value
+   */
   public List<T> getValue() {
     return this.value;
   }
 
+  /**
+   * getter
+   *
+   * @return its identity
+   */
   @Override
   public Token.ID getTokenId() {
     return ID.Directive;

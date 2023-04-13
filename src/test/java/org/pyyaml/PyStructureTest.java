@@ -20,6 +20,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
@@ -180,8 +181,10 @@ public class PyStructureTest extends PyImportTest {
   }
 
   private List<Node> compose_all(InputStream file) {
+    LoaderOptions options = new LoaderOptions();
     Composer composer =
-        new Composer(new ParserImpl(new StreamReader(new UnicodeReader(file))), new Resolver());
+        new Composer(new ParserImpl(new StreamReader(new UnicodeReader(file)), options),
+            new Resolver(), options);
     List<Node> documents = new ArrayList<Node>();
     while (composer.checkNode()) {
       documents.add(composer.getNode());
@@ -198,7 +201,7 @@ public class PyStructureTest extends PyImportTest {
     }
     CanonicalParser parser =
         new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n"));
-    Composer composer = new Composer(parser, new Resolver());
+    Composer composer = new Composer(parser, new Resolver(), new LoaderOptions());
     List<Node> documents = new ArrayList<Node>();
     while (composer.checkNode()) {
       documents.add(composer.getNode());
@@ -222,7 +225,7 @@ public class PyStructureTest extends PyImportTest {
       }
       CanonicalParser parser =
           new CanonicalParser(buffer.toString().replace(System.lineSeparator(), "\n"));
-      Composer composer = new Composer(parser, resolver);
+      Composer composer = new Composer(parser, resolver, new LoaderOptions());
       this.constructor.setComposer(composer);
       Iterator<Object> result = new Iterator<Object>() {
         public boolean hasNext() {
@@ -259,6 +262,7 @@ public class PyStructureTest extends PyImportTest {
   private class MyConstructor extends Constructor {
 
     public MyConstructor() {
+      super(new LoaderOptions());
       this.yamlConstructors.put(null, new ConstructUndefined());
     }
 

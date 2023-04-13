@@ -17,8 +17,11 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
+import org.yaml.snakeyaml.inspector.TrustedTagInspector;
 
 public class RecursiveSetTest extends TestCase {
 
@@ -39,7 +42,7 @@ public class RecursiveSetTest extends TestCase {
   public void testLoadException() {
     String doc = Util.getLocalResource("issues/issue73-recursive4.txt");
     // System.out.println(doc);
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowAnyClass();
     try {
       yaml.load(doc);
       fail("Recursive sets are not supported.");
@@ -55,7 +58,10 @@ public class RecursiveSetTest extends TestCase {
   public void testLoadRecursiveTest() {
     String doc = Util.getLocalResource("issues/issue73-recursive5.txt");
     // System.out.println(doc);
-    Yaml yaml = new Yaml();
+    LoaderOptions options = new LoaderOptions();
+    options.setAllowRecursiveKeys(true);
+    options.setTagInspector(new TrustedTagInspector());
+    Yaml yaml = new Yaml(options);
     Bean1 obj = yaml.load(doc);
     Set<Object> set = obj.getSet();
     // System.out.println(set);

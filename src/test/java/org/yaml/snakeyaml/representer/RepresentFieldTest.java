@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.representer;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class RepresentFieldTest extends TestCase {
 
@@ -30,7 +31,7 @@ public class RepresentFieldTest extends TestCase {
   }
 
   public void testWrongNotPublicField() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     WrongJavaBean bean = new WrongJavaBean();
     bean.packageField = "Value";// the field is present
     try {
@@ -48,7 +49,7 @@ public class RepresentFieldTest extends TestCase {
   }
 
   public void testStaticField() {
-    Yaml yaml = new Yaml();
+    Yaml yaml = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     WrongJavaBean.staticField = "Value";// the field is present
     try {
       yaml.load("!!org.yaml.snakeyaml.representer.WrongJavaBean {staticField: Gnome}\n");

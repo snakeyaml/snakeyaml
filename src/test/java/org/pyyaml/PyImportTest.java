@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -99,7 +100,7 @@ public abstract class PyImportTest extends TestCase {
 
   protected List<Event> parse(InputStream input) throws IOException {
     StreamReader reader = new StreamReader(new UnicodeReader(input));
-    Parser parser = new ParserImpl(reader);
+    Parser parser = new ParserImpl(reader, new LoaderOptions());
     List<Event> result = new ArrayList<Event>();
     while (parser.peekEvent() != null) {
       result.add(parser.getEvent());

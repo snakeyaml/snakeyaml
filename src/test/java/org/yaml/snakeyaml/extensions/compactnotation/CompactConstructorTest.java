@@ -14,11 +14,12 @@
 package org.yaml.snakeyaml.extensions.compactnotation;
 
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 
 public class CompactConstructorTest extends TestCase {
 
   public void testNoCompactData() {
-    CompactConstructor flow = new CompactConstructor();
+    CompactConstructor flow = new CompactConstructor(new LoaderOptions());
     assertNull(flow.getCompactData("scalar"));
     assertNull(flow.getCompactData("123"));
     assertNull(flow.getCompactData("(name=frame,title=My Frame)"));

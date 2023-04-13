@@ -16,6 +16,8 @@ package org.yaml.snakeyaml.constructor;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
@@ -48,7 +50,7 @@ public class ClassTagsTest extends TestCase {
       wheels.add(wheel);
     }
     car.setWheels(wheels);
-    Representer representer = new Representer();
+    Representer representer = new Representer(new DumperOptions());
     representer.addClassTag(Car.class, new Tag("!car"));
     representer.addClassTag(Wheel.class, Tag.MAP);
     Yaml yaml = new Yaml(representer);
@@ -68,7 +70,7 @@ public class ClassTagsTest extends TestCase {
   }
 
   public void testLoadClassTag() {
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     constructor.addTypeDescription(new TypeDescription(Car.class, "!car"));
     Yaml yaml = new Yaml(constructor);
     String source = Util.getLocalResource("constructor/car-without-tags.yaml");
@@ -80,7 +82,7 @@ public class ClassTagsTest extends TestCase {
   }
 
   public void testNullDescription() {
-    Constructor constructor = new Constructor();
+    Constructor constructor = new Constructor(new LoaderOptions());
     try {
       constructor.addTypeDescription(null);
       fail("Description is required.");
@@ -90,7 +92,7 @@ public class ClassTagsTest extends TestCase {
   }
 
   public void testLoadClassNoRoot() {
-    Constructor constructor = new Constructor(new TypeDescription(Car.class));
+    Constructor constructor = new Constructor(new TypeDescription(Car.class), new LoaderOptions());
     Yaml yaml = new Yaml(constructor);
     Car car = yaml.load(Util.getLocalResource("constructor/car-no-root-class.yaml"));
     assertEquals("12-XP-F4", car.getPlate());

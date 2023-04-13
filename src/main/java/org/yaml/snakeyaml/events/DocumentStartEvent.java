@@ -29,6 +29,15 @@ public final class DocumentStartEvent extends Event {
   private final Version version;
   private final Map<String, String> tags;
 
+  /**
+   * Create
+   *
+   * @param startMark - start
+   * @param endMark - end
+   * @param explicit - true when it is present in the document
+   * @param version - YAML version
+   * @param tags - tag directives
+   */
   public DocumentStartEvent(Mark startMark, Mark endMark, boolean explicit, Version version,
       Map<String, String> tags) {
     super(startMark, endMark);
@@ -37,6 +46,11 @@ public final class DocumentStartEvent extends Event {
     this.tags = tags;
   }
 
+  /**
+   * getter
+   *
+   * @return true when document end is present
+   */
   public boolean getExplicit() {
     return explicit;
   }

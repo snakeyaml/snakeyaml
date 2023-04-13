@@ -31,7 +31,7 @@ public class YamlDocument {
   public YamlDocument(String sourceName, boolean check, Constructor constructor) {
     InputStream input = YamlDocument.class.getClassLoader().getResourceAsStream(ROOT + sourceName);
     if (constructor == null) {
-      constructor = new Constructor();
+      constructor = new Constructor(new LoaderOptions());
     }
     Yaml yaml = new Yaml(constructor);
     nativeData = yaml.load(input);

@@ -13,12 +13,14 @@
  */
 package org.yaml.snakeyaml.issues.issue341;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
 
 class MultiRepresenter extends Representer {
 
   public MultiRepresenter() {
+    super(new DumperOptions());
     multiRepresenters.put(null, new RepresentAsSring());
   }
 

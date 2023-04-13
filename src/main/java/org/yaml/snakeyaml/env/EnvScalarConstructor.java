@@ -36,9 +36,14 @@ import org.yaml.snakeyaml.nodes.Tag;
  */
 public class EnvScalarConstructor extends Constructor {
 
+  /**
+   * Tag to indicate ENV
+   */
   public static final Tag ENV_TAG = new Tag("!ENV");
-  // name must be a word -> \w+
-  // value can be any non-space -> \S+
+
+  /**
+   * name must be a word ⇒ \w+ value can be any non-space ⇒ \S+
+   */
   public static final Pattern ENV_FORMAT = Pattern
       .compile("^\\$\\{\\s*((?<name>\\w+)((?<separator>:?(-|\\?))(?<value>\\S+)?)?)\\s*\\}$");
 
@@ -46,6 +51,7 @@ public class EnvScalarConstructor extends Constructor {
    * For simple cases when no JavaBeans are needed
    */
   public EnvScalarConstructor() {
+    super(new LoaderOptions());
     this.yamlConstructors.put(ENV_TAG, new ConstructEnv());
   }
 

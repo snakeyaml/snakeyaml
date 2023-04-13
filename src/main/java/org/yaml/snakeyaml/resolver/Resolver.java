@@ -81,6 +81,17 @@ public class Resolver {
     addImplicitResolver(tag, regexp, first, 1024);
   }
 
+  /**
+   * Add a resolver to resolve a value that matches the provided regular expression to the provided
+   * tag
+   *
+   * @param tag - the Tag to assign when the value matches
+   * @param regexp - the RE which is applied for every value
+   * @param first - the possible first characters (this is merely for performance improvement) to
+   *        skip RE evaluation to gain time
+   * @param limit - the limit of the value to analyze. The limit is here only to fight the DoS
+   *        attack when huge values are provided, and it may lead to slow pattern evaluation
+   */
   public void addImplicitResolver(Tag tag, Pattern regexp, String first, int limit) {
     if (first == null) {
       List<ResolverTuple> curr = yamlImplicitResolvers.get(null);

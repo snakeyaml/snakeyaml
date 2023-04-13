@@ -17,15 +17,17 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.representer.Representer;
 
 public class PropertyOrderTest extends TestCase {
 
   Set<Property> reverse = new TreeSet<>();
 
   public void testParseBytes() {
-    Yaml y = new Yaml(new org.yaml.snakeyaml.representer.Representer() {
+    Yaml y = new Yaml(new Representer(new DumperOptions()) {
       @Override
       protected Set<Property> getProperties(Class<? extends Object> type) {
         // System.out.println("getProperties: reverse order");

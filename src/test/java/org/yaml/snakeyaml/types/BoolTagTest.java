@@ -109,7 +109,7 @@ public class BoolTagTest extends AbstractTest {
     private final String value;
 
     public BoolRepresenter(String value) {
-      super();
+      super(new DumperOptions());
       this.value = value;
       this.representers.put(Boolean.class, new RepresentBool());
     }

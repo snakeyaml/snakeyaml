@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.issues.issue60;
 
 import java.util.Arrays;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.Property;
@@ -37,6 +38,13 @@ public class SkipBeanTest extends TestCase {
 
   private class SkipNullRepresenter extends Representer {
 
+    /**
+     * Create
+     */
+    public SkipNullRepresenter() {
+      super(new DumperOptions());
+    }
+
     @Override
     protected NodeTuple representJavaBeanProperty(Object javaBean, Property property,
         Object propertyValue, Tag customTag) {
@@ -56,6 +64,13 @@ public class SkipBeanTest extends TestCase {
   }
 
   private class SkipEmptyRepresenter extends Representer {
+
+    /**
+     * Create
+     */
+    public SkipEmptyRepresenter() {
+      super(new DumperOptions());
+    }
 
     @Override
     protected NodeTuple representJavaBeanProperty(Object javaBean, Property property,

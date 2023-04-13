@@ -17,6 +17,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.yaml.snakeyaml.Invoice;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -39,7 +40,7 @@ public class StressTest extends TestCase {
 
   public void testPerformance() {
     long time1 = System.nanoTime();
-    new Yaml(new Constructor(Invoice.class));
+    new Yaml(new Constructor(Invoice.class, new LoaderOptions()));
     long time2 = System.nanoTime();
     float duration = (time2 - time1) / 1000000;
     System.out.println("Init was " + duration + " ms.");
@@ -62,7 +63,6 @@ public class StressTest extends TestCase {
       time2 = System.nanoTime();
       duration = ((time2 - time1) / 1000000) / (float) number;
       System.out.println("Duration for r=" + number + " was " + duration + " ms/load.");
-      // cobertura may make it very slow
       if (duration > 3) {
         System.err.println("!!!!!! Too long. Expected <1 but was " + duration);
       }
@@ -79,7 +79,6 @@ public class StressTest extends TestCase {
       time2 = System.nanoTime();
       duration = ((time2 - time1) / 1000000) / (float) number;
       System.out.println("Duration for r=" + number + " was " + duration + " ms/load.");
-      // cobertura may make it very slow
       if (duration > 3) {
         System.err.println("!!!!!! Too long. Expected <1 but was " + duration);
       }

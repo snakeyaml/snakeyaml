@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.constructor;
 
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 
 public class FilterClassesConstructorTest extends TestCase {
 
@@ -38,6 +39,7 @@ public class FilterClassesConstructorTest extends TestCase {
     private final boolean filter;
 
     public FilterConstructor(boolean f) {
+      super(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
       filter = f;
     }
 

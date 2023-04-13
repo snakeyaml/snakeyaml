@@ -13,6 +13,7 @@
  */
 package org.yaml.snakeyaml.partialconstruct;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
@@ -26,7 +27,7 @@ class FragmentComposer extends Composer {
   String nodeName;
 
   public FragmentComposer(Parser parser, Resolver resolver, String nodeName) {
-    super(parser, resolver);
+    super(parser, resolver, new LoaderOptions());
     this.nodeName = nodeName;
   }
 

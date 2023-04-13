@@ -44,12 +44,13 @@ public class SafeConstructor extends BaseConstructor {
 
   public static final ConstructUndefined undefinedConstructor = new ConstructUndefined();
 
-  public SafeConstructor() {
-    this(new LoaderOptions());
-  }
-
-  public SafeConstructor(LoaderOptions loadingConfig) {
-    super(loadingConfig);
+  /**
+   * Create an instance
+   *
+   * @param loaderOptions - the configuration options
+   */
+  public SafeConstructor(LoaderOptions loaderOptions) {
+    super(loaderOptions);
     this.yamlConstructors.put(Tag.NULL, new ConstructYamlNull());
     this.yamlConstructors.put(Tag.BOOL, new ConstructYamlBool());
     this.yamlConstructors.put(Tag.INT, new ConstructYamlInt());
@@ -103,11 +104,18 @@ public class SafeConstructor extends BaseConstructor {
         }
         Object key = constructObject(keyNode);
         if (key != null && !forceStringKeys) {
-          try {
-            key.hashCode();// check circular dependencies
-          } catch (Exception e) {
-            throw new ConstructorException("while constructing a mapping", node.getStartMark(),
-                "found unacceptable key " + key, tuple.getKeyNode().getStartMark(), e);
+          if (keyNode.isTwoStepsConstruction()) {
+            if (!loadingConfig.getAllowRecursiveKeys()) {
+              throw new YAMLException(
+                  "Recursive key for mapping is detected but it is not configured to be allowed.");
+            } else {
+              try {
+                key.hashCode();// check circular dependencies
+              } catch (Exception e) {
+                throw new ConstructorException("while constructing a mapping", node.getStartMark(),
+                    "found unacceptable key " + key, tuple.getKeyNode().getStartMark(), e);
+              }
+            }
           }
         }
 

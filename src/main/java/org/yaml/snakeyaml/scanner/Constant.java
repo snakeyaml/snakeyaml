@@ -15,6 +15,9 @@ package org.yaml.snakeyaml.scanner;
 
 import java.util.Arrays;
 
+/**
+ * Keep constants
+ */
 public final class Constant {
 
   private static final String ALPHA_S =

@@ -22,8 +22,10 @@ import java.util.Set;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -61,7 +63,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     String dump = yaml2dump.dump(data);
     // System.out.println(dump);
 
-    Yaml yaml2load = new Yaml();
+    Yaml yaml2load = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     yaml2load.setBeanAccess(BeanAccess.FIELD);
     A loaded = yaml2load.load(dump);
 
@@ -83,7 +85,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     TypeDescription aTypeDescr = new TypeDescription(A.class);
     aTypeDescr.putMapPropertyType("meta", String.class, String[].class);
 
-    Constructor c = new Constructor();
+    Constructor c = new Constructor(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     c.addTypeDescription(aTypeDescr);
     Yaml yaml2load = new Yaml(c);
     yaml2load.setBeanAccess(BeanAccess.FIELD);
@@ -105,7 +107,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     String dump = yaml2dump.dump(data);
     // System.out.println(dump);
 
-    Yaml yaml2load = new Yaml();
+    Yaml yaml2load = YamlCreator.allowClassPrefix("org.yaml.snakeyaml");
     yaml2load.setBeanAccess(BeanAccess.FIELD);
     B loaded = yaml2load.load(dump);
 
@@ -122,7 +124,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     TypeDescription aTypeDescr = new TypeDescription(B.class);
     aTypeDescr.putListPropertyType("meta", String[].class);
 
-    Constructor c = new Constructor();
+    Constructor c = new Constructor(YamlCreator.trustPrefixLoaderOptions("org.yaml.snakeyaml"));
     c.addTypeDescription(aTypeDescr);
     Yaml yaml2load = new Yaml(c);
     yaml2load.setBeanAccess(BeanAccess.FIELD);
@@ -140,7 +142,7 @@ public class ArrayInGenericCollectionTest extends TestCase {
     // System.out.println(dump);
     assertEquals("meta:\n- [whatever]\n- [something, something else]\n", dump);
     //
-    Constructor constr = new Constructor(B.class);
+    Constructor constr = new Constructor(B.class, new LoaderOptions());
     Yaml yaml2load = new Yaml(constr);
     yaml2load.setBeanAccess(BeanAccess.FIELD);
     B loaded = yaml2load.load(dump);

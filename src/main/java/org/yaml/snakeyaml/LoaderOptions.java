@@ -13,18 +13,41 @@
  */
 package org.yaml.snakeyaml;
 
+import org.yaml.snakeyaml.inspector.TagInspector;
+import org.yaml.snakeyaml.inspector.UnTrustedTagInspector;
+
+/**
+ * Configuration for loading
+ */
 public class LoaderOptions {
 
   private boolean allowDuplicateKeys = true;
+
   private boolean wrappedToRootException = false;
+
   private int maxAliasesForCollections = 50; // to prevent YAML at
+
   // https://en.wikipedia.org/wiki/Billion_laughs_attack
   private boolean allowRecursiveKeys = false;
-  private boolean processComments = false;
-  private boolean enumCaseSensitive = true;
-  private int nestingDepthLimit = 50;
-  private int codePointLimit = 100 * 1024;
 
+  private boolean processComments = false;
+
+  private boolean enumCaseSensitive = true;
+
+  private int nestingDepthLimit = 50;
+
+  private int codePointLimit = 3 * 1024 * 1024; // 3 MB
+
+  /**
+   * Secure by default - no custom classes are allowed
+   */
+  private TagInspector tagInspector = new UnTrustedTagInspector();
+
+  /**
+   * getter
+   *
+   * @return true when duplicate keys in mapping allowed (the latter overrides the former)
+   */
   public final boolean isAllowDuplicateKeys() {
     return allowDuplicateKeys;
   }
@@ -47,6 +70,11 @@ public class LoaderOptions {
     this.allowDuplicateKeys = allowDuplicateKeys;
   }
 
+  /**
+   * getter
+   *
+   * @return true when wrapped
+   */
   public final boolean isWrappedToRootException() {
     return wrappedToRootException;
   }
@@ -62,6 +90,11 @@ public class LoaderOptions {
     this.wrappedToRootException = wrappedToRootException;
   }
 
+  /**
+   * getter
+   *
+   * @return show the limit
+   */
   public final int getMaxAliasesForCollections() {
     return maxAliasesForCollections;
   }
@@ -77,6 +110,15 @@ public class LoaderOptions {
   }
 
   /**
+   * getter
+   *
+   * @return when recursive keys are allowed (the document should be trusted)
+   */
+  public final boolean getAllowRecursiveKeys() {
+    return allowRecursiveKeys;
+  }
+
+  /**
    * Allow recursive keys for mappings. By default, it is not allowed. This setting only prevents
    * the case when the key is the value. If the key is only a part of the value (the value is a
    * sequence or a mapping) then this case is not recognized and always allowed.
@@ -87,24 +129,31 @@ public class LoaderOptions {
     this.allowRecursiveKeys = allowRecursiveKeys;
   }
 
-  public final boolean getAllowRecursiveKeys() {
-    return allowRecursiveKeys;
+  /**
+   * getter
+   *
+   * @return comments are kept in Node
+   */
+  public final boolean isProcessComments() {
+    return processComments;
   }
 
   /**
    * Set the comment processing. By default, comments are ignored.
    *
    * @param processComments <code>true</code> to process; <code>false</code> to ignore
+   * @return applied options
    */
   public LoaderOptions setProcessComments(boolean processComments) {
     this.processComments = processComments;
     return this;
   }
 
-  public final boolean isProcessComments() {
-    return processComments;
-  }
-
+  /**
+   * getter
+   *
+   * @return true when parsing enum case-sensitive
+   */
   public final boolean isEnumCaseSensitive() {
     return enumCaseSensitive;
   }
@@ -113,12 +162,17 @@ public class LoaderOptions {
    * Disables or enables case sensitivity during construct enum constant from string value Default
    * is false.
    *
-   * @param enumCaseSensitive - true to set enum case sensitive, false the reverse
+   * @param enumCaseSensitive - true to set enum case-sensitive, false the reverse
    */
   public void setEnumCaseSensitive(boolean enumCaseSensitive) {
     this.enumCaseSensitive = enumCaseSensitive;
   }
 
+  /**
+   * getter
+   *
+   * @return the limit
+   */
   public final int getNestingDepthLimit() {
     return nestingDepthLimit;
   }
@@ -133,16 +187,30 @@ public class LoaderOptions {
     this.nestingDepthLimit = nestingDepthLimit;
   }
 
+  /**
+   * getter
+   *
+   * @return max code points in the input document
+   */
   public final int getCodePointLimit() {
     return codePointLimit;
   }
 
   /**
-   * The max amount of code points in the input YAML document. Please be aware that byte limit
-   * depends on the encoding.
-   * @param codePointLimit - the max allowed size of the YAML data
+   * The max amount of code points for every input YAML document in the stream. Please be aware that
+   * byte limit depends on the encoding.
+   *
+   * @param codePointLimit - the max allowed size of a single YAML document in a stream
    */
   public void setCodePointLimit(int codePointLimit) {
     this.codePointLimit = codePointLimit;
+  }
+
+  public TagInspector getTagInspector() {
+    return tagInspector;
+  }
+
+  public void setTagInspector(TagInspector tagInspector) {
+    this.tagInspector = tagInspector;
   }
 }

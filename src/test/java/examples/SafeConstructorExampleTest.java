@@ -15,6 +15,7 @@ package examples;
 
 import java.util.List;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
@@ -23,7 +24,7 @@ public class SafeConstructorExampleTest extends TestCase {
   @SuppressWarnings("unchecked")
   public void testConstruct() {
     String doc = "- 5\n- Person\n- true";
-    Yaml yaml = new Yaml(new SafeConstructor());
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     List<Object> list = yaml.load(doc);
     assertEquals(3, list.size());
     assertEquals(Integer.valueOf(5), list.get(0));
@@ -34,7 +35,7 @@ public class SafeConstructorExampleTest extends TestCase {
   public void testSafeConstruct() {
     String doc =
         "- 5\n- !org.yaml.snakeyaml.constructor.Person\n  firstName: Andrey\n  age: 99\n- true";
-    Yaml yaml = new Yaml(new SafeConstructor());
+    Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
     try {
       yaml.load(doc);
       fail("Custom Java classes should not be created.");
