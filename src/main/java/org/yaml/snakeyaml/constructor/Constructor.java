@@ -261,8 +261,9 @@ public class Constructor extends SafeConstructor {
                   : constructObject(valueNode);
           // Correct when the property expects float but double was
           // constructed
-          if ((property.getType() == Float.TYPE || property.getType() == Float.class) && (value instanceof Double)) {
-              value = ((Double) value).floatValue();
+          if ((property.getType() == Float.TYPE || property.getType() == Float.class)
+              && (value instanceof Double)) {
+            value = ((Double) value).floatValue();
 
           }
           // Correct when the property a String but the value is binary
