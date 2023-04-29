@@ -8,8 +8,6 @@ aware that it is most probably a **false positive**.
 When you use SnakeYAML 
 [to configure your application](https://bitbucket.org/snakeyaml/snakeyaml/wiki/CVE-2022-1471) 
 you are totally safe.
-The only issue is when the data to parse comes from untrusted source - 
-meaning it is downloaded from unknown source without authentication and authorisation.
 
 ### When a low quality tooling is complaining ###
 
