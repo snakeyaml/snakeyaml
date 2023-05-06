@@ -227,7 +227,7 @@ public class StreamReader {
   }
 
   /**
-   * Get the position of the currect char in the current YAML document
+   * Get the position of the current char in the current YAML document
    *
    * @return index of the current position from the beginning of the current document
    */
