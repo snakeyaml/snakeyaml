@@ -68,9 +68,11 @@ public class DocumentSizeLimitTest {
     assertTrue("Test2. All should load, all docs are less than total input size - 1.",
         dumpAllDocs(input, input.length() - 1));
 
+    // TODO is should be without +4 (for ---\n)
     assertTrue("Test3. All should load, all docs are less or equal to doc3 size.",
         dumpAllDocs(input, doc3.length() + 1));
 
+    // TODO is should be with +3, to be 1 less than ---\n
     assertFalse("Test4. Should fail to load at 3rd doc, it is longer than doc3 size -1.",
         dumpAllDocs(input, doc3.length()));
   }
@@ -79,9 +81,7 @@ public class DocumentSizeLimitTest {
     LoaderOptions loaderOpts = new LoaderOptions();
     loaderOpts.setCodePointLimit(codePointLimit);
     Yaml yaml = new Yaml(loaderOpts);
-
     Iterator<Object> docs = yaml.loadAll(input).iterator();
-
     for (int ndx = 1; ndx <= 3; ndx++) {
       try {
         Object doc = docs.next();
