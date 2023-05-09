@@ -13,6 +13,9 @@
  */
 package org.yaml.snakeyaml.issues.issue1064;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,7 +29,7 @@ public class FuzzyCollectionTest {
    * https://bitbucket.org/snakeyaml/snakeyaml/issues/1064
    */
   @Test
-  public void testHugeMinorValue() {
+  public void testNoOutOfMemoryError() {
     String datastring =
         " ? - - ? - - ? ? - - ? ? ? - - ? ? - - ? ? ? - - ? ? - ? ? - - ? - - ? ? ? - - ? ? - ?  -? - ? ? - - ? - - ? ? ? - - ? ? - ?  -? - ? ? - - ? - ";
     try (InputStream datastream = new ByteArrayInputStream(datastring.getBytes());
@@ -34,7 +37,9 @@ public class FuzzyCollectionTest {
 
       Yaml yaml = new Yaml();
       yaml.loadAs(reader, String.class);
+      fail("Should not be OutOfMemoryError");
     } catch (Exception e) {
+      assertTrue(e.getMessage(), e.getMessage().contains("Keys must be scalars but found"));
     }
   }
 }
