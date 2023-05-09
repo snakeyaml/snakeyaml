@@ -70,6 +70,11 @@ public class SequenceNode extends CollectionNode<Node> {
       } else {
         buf.append(node.toString());
       }
+      buf.append(",");
+    }
+    // delete last comma
+    if (buf.length() > 0) {
+      buf.deleteCharAt(buf.length() - 1);
     }
     return "<" + this.getClass().getName() + " (tag=" + getTag() + ", value=[" + buf + "])>";
   }
