@@ -62,6 +62,15 @@ public class SequenceNode extends CollectionNode<Node> {
   }
 
   public String toString() {
-    return "<" + this.getClass().getName() + " (tag=" + getTag() + ", value=" + getValue() + ")>";
+    StringBuilder buf = new StringBuilder();
+    for (Node node : getValue()) {
+      if (node instanceof CollectionNode) {
+        // to avoid overflow in case of recursive structures
+        buf.append(System.identityHashCode(node));
+      } else {
+        buf.append(node.toString());
+      }
+    }
+    return "<" + this.getClass().getName() + " (tag=" + getTag() + ", value=[" + buf + "])>";
   }
 }
