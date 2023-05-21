@@ -21,7 +21,7 @@
                 (thanks to Petr Gladkikh)
             </action>
             <action dev="asomov" type="fix" issue="576">
-                Detect invalid Unicode code point
+                Detect invalid Unicode code point (thanks to Tatu Saloranta)
             </action>
             <action dev="maslovalex" type="remove">
                 Remove Trusted*Inspector classes from main sources tree
