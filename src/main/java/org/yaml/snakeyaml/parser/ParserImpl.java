@@ -342,7 +342,6 @@ public class ParserImpl implements Parser {
               "found incompatible YAML document (version 1.* is required)", token.getStartMark());
         }
         Integer minor = value.get(1);
-        // TODO refactor with ternary
         if (minor == 0) {
           directives = new VersionTagsTuple(Version.V1_0, tagHandles);
         } else {

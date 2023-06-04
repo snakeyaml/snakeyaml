@@ -1537,7 +1537,7 @@ public final class ScannerImpl implements Scanner {
    * specification means that the scalar MUST be resolved to have type tag:yaml.org,2002:str.
    * </p>
    *
-   * TODO SnakeYaml incorrectly ignores c-ns-non-specific-tag right now.
+   * TODO SnakeYAML incorrectly ignores c-ns-non-specific-tag right now.
    *
    * @see <a href="http://www.yaml.org/spec/1.1/#id900262">8.2. Node Tags</a>
    *
