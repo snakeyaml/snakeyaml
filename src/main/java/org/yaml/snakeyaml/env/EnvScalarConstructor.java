@@ -97,11 +97,10 @@ public class EnvScalarConstructor extends Constructor {
     // variable is either unset or empty
     if (separator != null) {
       // there is a default value or error
-      if (separator.equals("?")) {
-        if (environment == null) {
-          throw new MissingEnvironmentVariableException(
-              "Missing mandatory variable " + name + ": " + value);
-        }
+      if (separator.equals("?") && (environment == null)) {
+        throw new MissingEnvironmentVariableException(
+            "Missing mandatory variable " + name + ": " + value);
+
       }
       if (separator.equals(":?")) {
         if (environment == null) {

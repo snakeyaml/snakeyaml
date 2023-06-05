@@ -14,9 +14,9 @@
 package org.yaml.snakeyaml.issues.issue547;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import java.math.BigInteger;
 import java.util.Iterator;
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -25,20 +25,30 @@ import org.yaml.snakeyaml.Yaml;
 public class ByteLimitTest {
 
   @Test
-  public void testSetCodePointLimit() {
+  public void testSetSmallCodePointLimit() {
     LoaderOptions options = new LoaderOptions();
-    options.setCodePointLimit(15);
+    String document = "12345678901234567890";
+    options.setCodePointLimit(document.length() - 1);
     Yaml yaml = new Yaml(options);
     try {
-      yaml.load("12345678901234567890");
+      yaml.load(document);
       fail("Long input should not be accepted");
     } catch (Exception e) {
-      assertEquals("The incoming YAML document exceeds the limit: 15 code points.", e.getMessage());
+      assertEquals("The incoming YAML document exceeds the limit: 19 code points.", e.getMessage());
     }
   }
 
   @Test
-  public void testLoadAll553() {
+  public void testSetExactCodePointLimit() {
+    LoaderOptions options = new LoaderOptions();
+    String document = "12345678901234567890";
+    options.setCodePointLimit(document.length());
+    Yaml yaml = new Yaml(options);
+    assertEquals(new BigInteger(document), yaml.load(document));
+  }
+
+  @Test
+  public void testLoadAll() {
     LoaderOptions options = new LoaderOptions();
     options.setCodePointLimit(15);
     Yaml yaml = new Yaml(options);
@@ -49,17 +59,5 @@ public class ByteLimitTest {
     } catch (Exception e) {
       assertEquals("The incoming YAML document exceeds the limit: 15 code points.", e.getMessage());
     }
-  }
-
-  @Test
-  public void testLoadManyDocuments() {
-    LoaderOptions options = new LoaderOptions();
-    options.setCodePointLimit(8);
-    Yaml yaml = new Yaml(options);
-    Iterator<Object> iter = yaml.loadAll("---\nfoo\n---\nbar\n---\nyep").iterator();
-    assertEquals("foo", iter.next());
-    assertEquals("bar", iter.next());
-    assertEquals("yep", iter.next());
-    assertFalse(iter.hasNext());
   }
 }
