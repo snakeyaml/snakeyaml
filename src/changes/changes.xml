@@ -16,7 +16,7 @@
                 %YAML 1.9224775801
                 (thanks to Tatu Saloranta)
             </action>
-            <action dev="asomov" type="fix">
+            <action dev="asomov" type="fix" issue="1065">
                 Document size limit should be applied to single document not the whole input stream
                 (thanks to Petr Gladkikh)
             </action>

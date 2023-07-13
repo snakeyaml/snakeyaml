@@ -235,6 +235,7 @@ public class ParserImpl implements Parser {
       // Parse an explicit document.
       Event event;
       if (!scanner.checkToken(Token.ID.StreamEnd)) {
+        scanner.resetDocumentIndex();
         Token token = scanner.peekToken();
         Mark startMark = token.getStartMark();
         VersionTagsTuple tuple = processDirectives();
@@ -284,7 +285,6 @@ public class ParserImpl implements Parser {
         endMark = token.getEndMark();
         explicit = true;
       }
-      scanner.resetDocumentIndex();
       Event event = new DocumentEndEvent(startMark, endMark, explicit);
       // Prepare the next state.
       state = new ParseDocumentStart();

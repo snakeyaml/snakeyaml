@@ -21,6 +21,7 @@ import java.util.Iterator;
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.error.YAMLException;
 
 /**
  * https://bitbucket.org/snakeyaml/snakeyaml/issues/1065
@@ -31,28 +32,52 @@ public class DocumentSizeLimitTest {
    * The document start '---\n' is added to the first document
    */
   @Test
-  public void testLoadManyDocuments() {
+  public void testFirstLoadManyDocuments() {
     LoaderOptions options = new LoaderOptions();
     options.setCodePointLimit(8);
     Yaml yaml = new Yaml(options);
-    Iterator<Object> iter = yaml.loadAll("---\nfoo\n---\nbar\n").iterator();
-    assertEquals("foo", iter.next());
-    assertEquals("bar", iter.next());
-    assertFalse(iter.hasNext());
+    String doc = "---\nfoo\n---\nbar\n";
+    Iterator<Object> iter1 = yaml.loadAll(doc).iterator();
+    assertEquals("foo", iter1.next());
+    assertEquals("bar", iter1.next());
+    assertFalse(iter1.hasNext());
+    // exceed the limit
+    options.setCodePointLimit(8 - 1);
+    yaml = new Yaml(options);
+    Iterator<Object> iter2 = yaml.loadAll(doc).iterator();
+    assertEquals("foo", iter2.next());
+    try {
+      iter2.next();
+    } catch (YAMLException e) {
+      assertEquals("The incoming YAML document exceeds the limit: 4 code points.", e.getMessage());
+    }
   }
 
   /**
-   * TODO The document start '---\n' is not added to the non-first documents, only the \n is added.
+   * The document start '---\n' is added to the non-first documents.
    */
   @Test
-  public void testLoadManyDocuments2() {
+  public void testLastLoadManyDocuments() {
     LoaderOptions options = new LoaderOptions();
-    options.setCodePointLimit(5);
+    String secondDocument = "---\nbar\n";
+    int limit = secondDocument.length();
+    options.setCodePointLimit(limit);
     Yaml yaml = new Yaml(options);
-    Iterator<Object> iter = yaml.loadAll("foo\n---\nbar\n").iterator();
-    assertEquals("foo", iter.next());
-    assertEquals("bar", iter.next());
-    assertFalse(iter.hasNext());
+    String complete = "foo\n" + secondDocument;
+    Iterator<Object> iter1 = yaml.loadAll(complete).iterator();
+    assertEquals("foo", iter1.next());
+    assertEquals("bar", iter1.next());
+    assertFalse(iter1.hasNext());
+    // exceed the limit
+    options.setCodePointLimit(limit - 1);
+    yaml = new Yaml(options);
+    Iterator<Object> iter2 = yaml.loadAll(complete).iterator();
+    assertEquals("foo", iter2.next());
+    try {
+      iter2.next();
+    } catch (YAMLException e) {
+      assertEquals("The incoming YAML document exceeds the limit: 4 code points.", e.getMessage());
+    }
   }
 
   @Test
