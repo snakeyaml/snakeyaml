@@ -83,23 +83,18 @@ public class DocumentSizeLimitTest {
   @Test
   public void testLoadDocuments() {
     String doc1 = "document: this is document one\n";
-    String doc2 = "document: this is document 2\n";
-    String doc3 = "document: this is document three\n";
-    String input = doc1 + "---\n" + doc2 + "---\n" + doc3;
+    String doc2 = "---\ndocument: this is document 2\n";
+    String docLongest = "---\ndocument: this is document three\n";
+    String input = doc1 + doc2 + docLongest;
 
     assertTrue("Test1. All should load, all docs are less than total input size.",
         dumpAllDocs(input, input.length()));
 
-    assertTrue("Test2. All should load, all docs are less than total input size - 1.",
-        dumpAllDocs(input, input.length() - 1));
+    assertTrue("Test2. All should load, all docs are less or equal to docLongest size.",
+        dumpAllDocs(input, docLongest.length()));
 
-    // TODO is should be without +4 (for ---\n)
-    assertTrue("Test3. All should load, all docs are less or equal to doc3 size.",
-        dumpAllDocs(input, doc3.length() + 1));
-
-    // TODO is should be with +3, to be 1 less than ---\n
-    assertFalse("Test4. Should fail to load at 3rd doc, it is longer than doc3 size -1.",
-        dumpAllDocs(input, doc3.length()));
+    assertFalse("Test3. Fail to load, doc2 is not the longest in the stream.",
+        dumpAllDocs(input, doc2.length()));
   }
 
   private boolean dumpAllDocs(String input, int codePointLimit) {
