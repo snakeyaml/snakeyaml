@@ -1095,7 +1095,20 @@ public final class Emitter implements Emitable {
     return anchor;
   }
 
-  private static final Pattern LEADING_ZERO_PATTERN = Pattern.compile("0[0-9_]+");
+  // Equivalent to Pattern.compile("0[0-9_]+").matcher(scalar).matches().
+  private static boolean hasLeadingZero(String scalar) {
+    if (scalar.length() > 1 && scalar.charAt(0) == '0') {
+      for (int i = 1; i < scalar.length(); i++) {
+        char currentCharacter = scalar.charAt(i);
+        boolean isValid = (currentCharacter >= '0' && currentCharacter <= '9') || currentCharacter == '_';
+        if (!isValid) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
 
   private ScalarAnalysis analyzeScalar(String scalar) {
     // Empty scalar is a special case.
@@ -1107,7 +1120,7 @@ public final class Emitter implements Emitable {
     boolean flowIndicators = false;
     boolean lineBreaks = false;
     boolean specialCharacters = false;
-    boolean leadingZeroNumber = LEADING_ZERO_PATTERN.matcher(scalar).matches();
+    boolean leadingZeroNumber = hasLeadingZero(scalar);
 
     // Important whitespace combinations.
     boolean leadingSpace = false;
