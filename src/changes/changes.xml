@@ -6,6 +6,10 @@
     </properties>
     <body>
         <release version="2.1" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="1075">
+                Heavy Allocation in Emitter.analyzeScalar(String) due to Regex Overhead
+                (thanks to Carter Kozak)
+            </action>
             <action dev="asomov" type="fix" issue="1064">
                 Use identity in toString() for sequences to avoid OutOfMemoryError
                 (thanks to 郭逸帆)

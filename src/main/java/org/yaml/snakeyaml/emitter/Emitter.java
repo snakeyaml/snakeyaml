@@ -1099,9 +1099,9 @@ public final class Emitter implements Emitable {
   private static boolean hasLeadingZero(String scalar) {
     if (scalar.length() > 1 && scalar.charAt(0) == '0') {
       for (int i = 1; i < scalar.length(); i++) {
-        char currentCharacter = scalar.charAt(i);
-        boolean isValid = (currentCharacter >= '0' && currentCharacter <= '9') || currentCharacter == '_';
-        if (!isValid) {
+        char ch = scalar.charAt(i);
+        boolean isDigitOrUnderscore = (ch >= '0' && ch <= '9') || ch == '_';
+        if (!isDigitOrUnderscore) {
           return false;
         }
       }
