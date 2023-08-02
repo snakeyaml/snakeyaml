@@ -15,6 +15,7 @@ package org.yaml.snakeyaml.emitter;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -29,6 +30,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.events.DocumentStartEvent;
 import org.yaml.snakeyaml.events.ImplicitTuple;
 import org.yaml.snakeyaml.events.ScalarEvent;
+import org.yaml.snakeyaml.events.SequenceStartEvent;
 import org.yaml.snakeyaml.events.StreamStartEvent;
 
 public class EmitterTest extends TestCase {
@@ -284,6 +286,56 @@ public class EmitterTest extends TestCase {
     assertEquals("Invalid character ',' in the anchor: a,b", checkAnchor("a,b"));
     assertEquals("Invalid character '*' in the anchor: a*b", checkAnchor("a*b"));
     assertEquals("Invalid character '&' in the anchor: a&b", checkAnchor("a&b"));
+  }
+
+  private static com.sun.management.ThreadMXBean loadThreadManagementBean() {
+    java.lang.management.ThreadMXBean threadBean =
+        java.lang.management.ManagementFactory.getThreadMXBean();
+    return threadBean instanceof com.sun.management.ThreadMXBean
+        ? (com.sun.management.ThreadMXBean) threadBean
+        : null;
+  }
+
+  private static void emitScalar(Emitter emitter) throws IOException {
+    emitter.emit(new ScalarEvent(null, null, new ImplicitTuple(true, false), "scalar", null, null,
+        ScalarStyle.PLAIN));
+  }
+
+  public void testMemoryConsumption() throws IOException {
+    DumperOptions options = new DumperOptions();
+    options.setDefaultScalarStyle(ScalarStyle.PLAIN);
+    Emitter emitter = new Emitter(new NullWriter(), options);
+    com.sun.management.ThreadMXBean threadMXBean = loadThreadManagementBean();
+    long threadId = Thread.currentThread().getId();
+    emitter.emit(new StreamStartEvent(null, null));
+    emitter.emit(new DocumentStartEvent(null, null, false, null, null));
+    emitter.emit(new SequenceStartEvent(null, null, true, null, null, FlowStyle.AUTO));
+    // Ensure the jvm is warmed up, there's no need to optimize for cold code
+    for (int i = 0; i < 10000; i++) {
+      emitScalar(emitter);
+    }
+    long initialAllocatedBytes = threadMXBean.getThreadAllocatedBytes(threadId);
+    // write a reasonably large array of scalars to emphasize this path
+    emitScalar(emitter);
+    long allocated = threadMXBean.getThreadAllocatedBytes(threadId) - initialAllocatedBytes;
+    int expectedLimit = 200;
+    assertTrue(
+        String.format("Expected total allocation below %d, but was %d", expectedLimit, allocated),
+        allocated < expectedLimit);
+  }
+
+  private static final class NullWriter extends Writer {
+
+    @Override
+    public void write(char[] cbuf, int off, int len) {
+      // ignored
+    }
+
+    @Override
+    public void flush() {}
+
+    @Override
+    public void close() {}
   }
 
   private String checkAnchor(String anchor) {
