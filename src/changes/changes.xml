@@ -5,7 +5,7 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="2.1" date="in GIT" description="Maintenance">
+        <release version="2.1" date="2023-08-04" description="Maintenance">
             <action dev="asomov" type="fix" issue="1075">
                 Heavy Allocation in Emitter.analyzeScalar(String) due to Regex Overhead
                 (thanks to Carter Kozak)
