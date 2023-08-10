@@ -30,6 +30,7 @@ module org.yaml.snakeyaml {
     exports org.yaml.snakeyaml.error;
     exports org.yaml.snakeyaml.events;
     exports org.yaml.snakeyaml.extensions.compactnotation;
+    exports org.yaml.snakeyaml.inspector;
     exports org.yaml.snakeyaml.introspector;
     exports org.yaml.snakeyaml.nodes;
     exports org.yaml.snakeyaml.parser;
