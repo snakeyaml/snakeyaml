@@ -24,8 +24,8 @@ public final class UnTrustedTagInspector implements TagInspector {
   /**
    * Allow none
    *
-   * @param tag - the global tag to allow
-   * @return always return true
+   * @param tag - the global tag to reject
+   * @return always return false
    */
   @Override
   public boolean isGlobalTagAllowed(Tag tag) {

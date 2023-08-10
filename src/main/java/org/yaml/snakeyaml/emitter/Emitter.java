@@ -1259,7 +1259,7 @@ public final class Emitter implements Emitable {
       allowFlowPlain = allowBlockPlain = allowSingleQuoted = false;
     }
     // Spaces followed by breaks, as well as special character are only
-    // allowed for double quoted scalars.
+    // allowed for double-quoted scalars.
     if (spaceBreak || specialCharacters) {
       allowFlowPlain = allowBlockPlain = allowSingleQuoted = allowBlock = false;
     }
