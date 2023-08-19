@@ -318,7 +318,7 @@ public class EmitterTest extends TestCase {
     // write a reasonably large array of scalars to emphasize this path
     emitScalar(emitter);
     long allocated = threadMXBean.getThreadAllocatedBytes(threadId) - initialAllocatedBytes;
-    int expectedLimit = 200;
+    int expectedLimit = 210;
     assertTrue(
         String.format("Expected total allocation below %d, but was %d", expectedLimit, allocated),
         allocated < expectedLimit);

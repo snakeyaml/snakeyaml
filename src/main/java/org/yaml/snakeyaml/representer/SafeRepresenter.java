@@ -75,6 +75,8 @@ class SafeRepresenter extends BaseRepresenter {
     this.multiRepresenters.put(Calendar.class, new RepresentDate());
     classTags = new HashMap<Class<? extends Object>, Tag>();
     this.nonPrintableStyle = options.getNonPrintableStyle();
+    setDefaultScalarStyle(options.getDefaultScalarStyle());
+    setDefaultFlowStyle(options.getDefaultFlowStyle());
   }
 
   protected Tag getTag(Class<?> clazz, Tag defaultTag) {

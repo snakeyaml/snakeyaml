@@ -7,6 +7,9 @@
     <body>
         <release version="2.2" date="in GIT" description="Maintenance">
             <action dev="asomov" type="update">
+                Define default scalar style as PLAIN (for polyglot Maven)
+            </action>
+            <action dev="asomov" type="update">
                 Add missing 'exports org.yaml.snakeyaml.inspector' to module-info.java
                 (thanks to Marius Hanl)
             </action>

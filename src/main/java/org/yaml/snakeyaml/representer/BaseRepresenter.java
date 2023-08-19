@@ -52,9 +52,9 @@ public abstract class BaseRepresenter {
   protected final Map<Class<?>, Represent> multiRepresenters =
       new LinkedHashMap<Class<?>, Represent>();
   /**
-   * default scalar style is not defined
+   * default scalar style is PLAIN
    */
-  protected DumperOptions.ScalarStyle defaultScalarStyle = null; // not explicitly defined
+  protected DumperOptions.ScalarStyle defaultScalarStyle = ScalarStyle.PLAIN;
   /**
    * flow style to use if not redefined.
    */
@@ -134,7 +134,7 @@ public abstract class BaseRepresenter {
   }
 
   protected Node representScalar(Tag tag, String value) {
-    return representScalar(tag, value, null);
+    return representScalar(tag, value, this.defaultScalarStyle);
   }
 
   protected Node representSequence(Tag tag, Iterable<?> sequence,
