@@ -114,12 +114,11 @@ class SafeRepresenter extends BaseRepresenter {
 
     public Node representData(Object data) {
       Tag tag = Tag.STR;
-      DumperOptions.ScalarStyle style = null;// not defined
+      DumperOptions.ScalarStyle style = defaultScalarStyle;
       String value = data.toString();
       if (nonPrintableStyle == DumperOptions.NonPrintableStyle.BINARY
           && !StreamReader.isPrintable(value)) {
         tag = Tag.BINARY;
-        char[] binary;
         final byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
         // sometimes above will just silently fail - it will return incomplete data
         // it happens when String has invalid code points
@@ -128,7 +127,7 @@ class SafeRepresenter extends BaseRepresenter {
         if (!checkValue.equals(value)) {
           throw new YAMLException("invalid string value has occurred");
         }
-        binary = Base64Coder.encode(bytes);
+        char[] binary = Base64Coder.encode(bytes);
         value = String.valueOf(binary);
         style = DumperOptions.ScalarStyle.LITERAL;
       }
