@@ -263,7 +263,7 @@ public abstract class BaseConstructor {
     Object data = (constructedObjects.containsKey(node)) ? constructedObjects.get(node)
         : constructor.construct(node);
 
-    finalizeConstruction(node, data);
+    data = finalizeConstruction(node, data);
     constructedObjects.put(node, data);
     recursiveObjects.remove(node);
     if (node.isTwoStepsConstruction()) {
