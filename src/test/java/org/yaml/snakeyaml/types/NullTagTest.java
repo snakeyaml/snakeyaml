@@ -14,7 +14,7 @@
 package org.yaml.snakeyaml.types;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.yaml.snakeyaml.DumperOptions;
@@ -100,7 +100,7 @@ public class NullTagTest extends AbstractTest {
    */
   public void testNullOutAsEmpty2() {
     Yaml yaml = new Yaml(new NullRepresenter());
-    Map<String, String> map = new HashMap<String, String>();
+    Map<String, String> map = new LinkedHashMap<String, String>();
     map.put("aaa", "foo");
     map.put("bbb", null);
     String output = yaml.dump(map);
@@ -114,7 +114,7 @@ public class NullTagTest extends AbstractTest {
     DumperOptions options = new DumperOptions();
     options.setDefaultFlowStyle(FlowStyle.BLOCK);
     Yaml yaml = new Yaml(new NullRepresenter(), options);
-    Map<String, String> map = new HashMap<String, String>();
+    Map<String, String> map = new LinkedHashMap<String, String>();
     map.put("aaa", "foo");
     map.put("bbb", null);
     String output = yaml.dump(map);

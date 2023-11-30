@@ -15,7 +15,7 @@ package org.yaml.snakeyaml.lowlevel;
 
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
@@ -30,7 +30,7 @@ public class LowLevelApiTest extends TestCase {
     List<Object> list = new ArrayList<Object>();
     list.add(1);
     list.add("abc");
-    Map<String, String> map = new HashMap<String, String>();
+    Map<String, String> map = new LinkedHashMap<String, String>();
     map.put("name", "Tolstoy");
     map.put("book", "War and People");
     list.add(map);
