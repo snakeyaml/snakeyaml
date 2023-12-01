@@ -14,6 +14,7 @@
 package org.yaml.snakeyaml.types;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
@@ -83,7 +84,7 @@ public class BoolTagTest extends AbstractTest {
    */
   public void testBoolOutAsEmpty2() {
     Yaml yaml = new Yaml(new BoolRepresenter("on"));
-    Map<String, Boolean> map = new HashMap<String, Boolean>();
+    Map<String, Boolean> map = new LinkedHashMap<String, Boolean>();
     map.put("aaa", false);
     map.put("bbb", true);
     String output = yaml.dump(map);
@@ -97,7 +98,7 @@ public class BoolTagTest extends AbstractTest {
     DumperOptions options = new DumperOptions();
     options.setDefaultFlowStyle(FlowStyle.BLOCK);
     Yaml yaml = new Yaml(new BoolRepresenter("True"), options);
-    Map<String, Boolean> map = new HashMap<String, Boolean>();
+    Map<String, Boolean> map = new LinkedHashMap<String, Boolean>();
     map.put("aaa", false);
     map.put("bbb", true);
     String output = yaml.dump(map);
