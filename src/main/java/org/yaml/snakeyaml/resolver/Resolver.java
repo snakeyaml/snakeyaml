@@ -93,6 +93,9 @@ public class Resolver {
    *        attack when huge values are provided, and it may lead to slow pattern evaluation
    */
   public void addImplicitResolver(Tag tag, Pattern regexp, String first, int limit) {
+    if (regexp == null) {
+      throw new IllegalStateException("No pattern provided for Tag=" + tag);
+    }
     if (first == null) {
       List<ResolverTuple> curr = yamlImplicitResolvers.get(null);
       if (curr == null) {

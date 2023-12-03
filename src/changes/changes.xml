@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.3" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="1080">
+                Added test for issue 1080 (thanks to Ralph)
+            </action>
             <action dev="asomov" type="fix" issue="1079">
                 finalizeConstruction not actually used (thanks to Jakub Kaszycki)
             </action>
