@@ -25,6 +25,10 @@ import java.util.Set;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.TypeDescription;
+import org.yaml.snakeyaml.comments.Comment;
+import org.yaml.snakeyaml.comments.CommentLine;
+import org.yaml.snakeyaml.comments.CommentType;
+import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -160,7 +164,22 @@ public class Representer extends SafeRepresenter {
       }
     }
 
+    if(property.getComment() != null) addComment(nodeKey, property.getComment());
+
     return new NodeTuple(nodeKey, nodeValue);
+  }
+
+  private void addComment(Node node, Comment comment) {
+    List<CommentLine> comments = node.getBlockComments() == null ?
+            new ArrayList<>() :
+            new ArrayList<>(node.getBlockComments());
+    comments.add(new CommentLine(
+            null,
+            null,
+            (comment.prefixSpace() ? " " : "") + comment.value(),
+            CommentType.BLOCK
+    ));
+    node.setBlockComments(comments);
   }
 
   /**
