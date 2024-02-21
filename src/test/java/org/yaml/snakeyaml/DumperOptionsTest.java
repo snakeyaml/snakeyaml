@@ -529,4 +529,25 @@ public class DumperOptionsTest extends TestCase {
     assertEquals(DumperOptions.ScalarStyle.FOLDED, DumperOptions.ScalarStyle.createStyle('>'));
     assertEquals(DumperOptions.ScalarStyle.PLAIN, DumperOptions.ScalarStyle.createStyle(null));
   }
+
+  public void testJson() {
+    DumperOptions options = new DumperOptions();
+    options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
+    options.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED); // JSON
+    options.setWidth(Integer.MAX_VALUE);
+    Yaml yaml = new Yaml(options);
+
+    List<Object> list = new ArrayList<Object>();
+    list.add(17);
+    list.add("foo");
+    list.add(true);
+    list.add("true");
+    list.add(false);
+    list.add("false");
+    list.add(null);
+    list.add("null");
+
+    assertEquals("[17, \"foo\", true, \"true\", false, \"false\", null, \"null\"]\n",
+        yaml.dump(list));
+  }
 }
