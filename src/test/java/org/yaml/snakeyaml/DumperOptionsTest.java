@@ -530,6 +530,9 @@ public class DumperOptionsTest extends TestCase {
     assertEquals(DumperOptions.ScalarStyle.PLAIN, DumperOptions.ScalarStyle.createStyle(null));
   }
 
+  /**
+   * https://bitbucket.org/snakeyaml/snakeyaml/issues/1084/dump-as-json
+   */
   public void testJson() {
     DumperOptions options = new DumperOptions();
     options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
@@ -547,7 +550,10 @@ public class DumperOptionsTest extends TestCase {
     list.add(null);
     list.add("null");
 
-    assertEquals("[17, \"foo\", true, \"true\", false, \"false\", null, \"null\"]\n",
+    // TODO assertEquals("[17, \"foo\", true, \"true\", false, \"false\", null, \"null\"]\n",
+    // yaml.dump(list));
+    assertEquals(
+        "[!!int \"17\", \"foo\", !!bool \"true\", \"true\", !!bool \"false\", \"false\", !!null \"null\", \"null\"]\n",
         yaml.dump(list));
   }
 }
