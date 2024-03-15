@@ -1,0 +1,21 @@
+defines:
+  serverPattern1:
+    type: t3
+    strage: 500
+  serverPattern2:
+    type: t2
+    strage: 250
+  lbPattern1:
+    name: lbForPublic
+    vpc: vpc1
+  lbPattern2:
+    name: lbForInternal
+    vpc: vpc1
+current:
+  assenbled1:
+    server:
+      type: t3
+      strage: 500
+    lb:
+      name: lbForPublic
+      vpc: vpc1

@@ -303,6 +303,8 @@ public class DumperOptions {
   private Boolean prettyFlow = false;
   private AnchorGenerator anchorGenerator = new NumberAnchorGenerator(0);
 
+  private boolean dereferenceAliases = false;
+
   /**
    * getter
    *
@@ -698,4 +700,21 @@ public class DumperOptions {
   public void setNonPrintableStyle(NonPrintableStyle style) {
     this.nonPrintableStyle = style;
   }
+
+  public boolean isDereferenceAliases() {
+    return dereferenceAliases;
+  }
+
+  /**
+   * Forses Serializer to skip emitting Anchors names, emit Node content instead of Alias, fail with
+   * SerializationException if serialized structure is recursive.
+   *
+   * Default value is <code>false</code> - emit Aliases.
+   *
+   * @param dereferenceAliases emit node referenced by the alias or alias itself
+   */
+  public void setDereferenceAliases(boolean dereferenceAliases) {
+    this.dereferenceAliases = dereferenceAliases;
+  }
+
 }

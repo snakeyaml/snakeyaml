@@ -14,11 +14,14 @@
 package org.yaml.snakeyaml.serializer;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.comments.CommentLine;
@@ -58,6 +61,8 @@ public final class Serializer {
   private final AnchorGenerator anchorGenerator;
   private Boolean closed;
   private final Tag explicitRoot;
+  private final boolean dereferenceAliases;
+  private final Set<Node> recursive;
 
   public Serializer(Emitable emitter, Resolver resolver, DumperOptions opts, Tag rootTag) {
     if (emitter == null) {
@@ -80,6 +85,8 @@ public final class Serializer {
     this.serializedNodes = new HashSet<Node>();
     this.anchors = new HashMap<Node, String>();
     this.anchorGenerator = opts.getAnchorGenerator();
+    this.dereferenceAliases = opts.isDereferenceAliases();
+    this.recursive = Collections.newSetFromMap(new IdentityHashMap<Node, Boolean>());
     this.closed = null;
     this.explicitRoot = rootTag;
   }
@@ -104,6 +111,7 @@ public final class Serializer {
       // release unused resources
       this.serializedNodes.clear();
       this.anchors.clear();
+      this.recursive.clear();
     }
   }
 
@@ -123,6 +131,7 @@ public final class Serializer {
     this.emitter.emit(new DocumentEndEvent(null, null, this.explicitEnd));
     this.serializedNodes.clear();
     this.anchors.clear();
+    this.recursive.clear();
   }
 
   private void anchorNode(Node node) {
@@ -165,8 +174,12 @@ public final class Serializer {
     if (node.getNodeId() == NodeId.anchor) {
       node = ((AnchorNode) node).getRealNode();
     }
-    String tAlias = this.anchors.get(node);
-    if (this.serializedNodes.contains(node)) {
+    if (dereferenceAliases && recursive.contains(node)) {
+      throw new SerializerException("Cannot dereferenceAliases for recursive structures.");
+    }
+    recursive.add(node);
+    String tAlias = !dereferenceAliases ? this.anchors.get(node) : null;
+    if (!dereferenceAliases && this.serializedNodes.contains(node)) {
       this.emitter.emit(new AliasEvent(tAlias, null, null));
     } else {
       this.serializedNodes.add(node);
@@ -220,6 +233,7 @@ public final class Serializer {
           }
       }
     }
+    recursive.remove(node);
   }
 
   private void serializeComments(List<CommentLine> comments) throws IOException {
