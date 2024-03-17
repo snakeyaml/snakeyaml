@@ -706,7 +706,7 @@ public class DumperOptions {
   }
 
   /**
-   * Forses Serializer to skip emitting Anchors names, emit Node content instead of Alias, fail with
+   * Forces Serializer to skip emitting Anchors names, emit Node content instead of Alias, fail with
    * SerializationException if serialized structure is recursive.
    *
    * Default value is <code>false</code> - emit Aliases.
