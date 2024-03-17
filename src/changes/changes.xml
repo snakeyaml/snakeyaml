@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.3" date="in GIT" description="Maintenance">
+            <action dev="maslovalex" type="fix" issue="1086">
+                Use DumberOptions.setDereferenceAliases to avoid dumping anchors (thanks to Mikael Ståldal)
+            </action>
             <action dev="asomov" type="fix" issue="1080">
                 Added test for issue 1080 (thanks to Ralph)
             </action>
