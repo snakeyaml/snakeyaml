@@ -280,6 +280,14 @@ public class DumperOptions {
     ESCAPE
   }
 
+  /**
+   * indent cannot be zero spaces
+   */
+  public static final int MIN_INDENT = 1;
+  /**
+   * indent should not be more than 10 spaces
+   */
+  public static final int MAX_INDENT = 10;
   private ScalarStyle defaultStyle = ScalarStyle.PLAIN;
   private FlowStyle defaultFlowStyle = FlowStyle.AUTO;
   private boolean canonical = false;
@@ -351,11 +359,11 @@ public class DumperOptions {
    * @param indent number of spaces to serve as indentation
    */
   public void setIndent(int indent) {
-    if (indent < Emitter.MIN_INDENT) {
-      throw new YAMLException("Indent must be at least " + Emitter.MIN_INDENT);
+    if (indent < MIN_INDENT) {
+      throw new YAMLException("Indent must be at least " + MIN_INDENT);
     }
-    if (indent > Emitter.MAX_INDENT) {
-      throw new YAMLException("Indent must be at most " + Emitter.MAX_INDENT);
+    if (indent > MAX_INDENT) {
+      throw new YAMLException("Indent must be at most " + MAX_INDENT);
     }
     this.indent = indent;
   }
@@ -378,9 +386,9 @@ public class DumperOptions {
     if (indicatorIndent < 0) {
       throw new YAMLException("Indicator indent must be non-negative.");
     }
-    if (indicatorIndent > Emitter.MAX_INDENT - 1) {
+    if (indicatorIndent > MAX_INDENT - 1) {
       throw new YAMLException(
-          "Indicator indent must be at most Emitter.MAX_INDENT-1: " + (Emitter.MAX_INDENT - 1));
+          "Indicator indent must be at most Emitter.MAX_INDENT-1: " + (MAX_INDENT - 1));
     }
     this.indicatorIndent = indicatorIndent;
   }
