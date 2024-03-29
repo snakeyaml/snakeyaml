@@ -271,15 +271,16 @@ public class Base64Coder {
     return out;
   }
 
-  private static void checkIllegalArgument(int... characters){
-      for (int character: characters){
-        if (isIllegalCharacter(character)){
-          throw new IllegalArgumentException("Illegal character in Base64 encoded data.");
-        }
+  private static void checkIllegalArgument(int... characters) {
+    for (int character : characters) {
+      if (isIllegalCharacter(character)) {
+        throw new IllegalArgumentException("Illegal character in Base64 encoded data.");
       }
+    }
   }
-  private static boolean isIllegalCharacter(int asciiChar){
-      return asciiChar > 127 || asciiChar < 0;
+
+  private static boolean isIllegalCharacter(int asciiChar) {
+    return asciiChar > 127 || asciiChar < 0;
   }
 
   // Dummy constructor.

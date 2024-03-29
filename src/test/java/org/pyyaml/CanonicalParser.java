@@ -63,6 +63,20 @@ public class CanonicalParser implements Parser {
     events.add(new StreamEndEvent(null, null));
   }
 
+  /**
+   * Checks if further documents are available.
+   *
+   * @return <code>true</code> if there is at least one more document.
+   */
+  public boolean checkNode() {
+    // Drop the STREAM-START event.
+    if (this.checkEvent(Event.ID.StreamStart)) {
+      this.getEvent();
+    }
+    // If there are more documents available?
+    return !this.checkEvent(Event.ID.StreamEnd);
+  }
+
   // document: DIRECTIVE? DOCUMENT-START node
   private void parseDocument() {
     if (scanner.checkToken(Token.ID.Directive)) {

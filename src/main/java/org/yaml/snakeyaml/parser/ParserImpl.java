@@ -158,7 +158,7 @@ public class ParserImpl implements Parser {
    *
    * @return <code>true</code> if there is at least one more document.
    */
-  public boolean checkNode(){
+  public boolean checkNode() {
     // Drop the STREAM-START event.
     if (this.checkEvent(Event.ID.StreamStart)) {
       this.getEvent();
