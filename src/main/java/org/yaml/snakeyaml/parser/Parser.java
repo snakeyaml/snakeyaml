@@ -37,6 +37,13 @@ public interface Parser {
   boolean checkEvent(Event.ID choice);
 
   /**
+   * Checks if further documents are available.
+   *
+   * @return <code>true</code> if there is at least one more document.
+   */
+  boolean checkNode();
+
+  /**
    * Return the next event, but do not delete it from the stream.
    *
    * @return The event that will be returned on the next call to {@link #getEvent}

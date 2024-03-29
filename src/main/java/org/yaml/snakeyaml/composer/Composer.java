@@ -101,12 +101,7 @@ public class Composer {
    * @return <code>true</code> if there is at least one more document.
    */
   public boolean checkNode() {
-    // Drop the STREAM-START event.
-    if (parser.checkEvent(Event.ID.StreamStart)) {
-      parser.getEvent();
-    }
-    // If there are more documents available?
-    return !parser.checkEvent(Event.ID.StreamEnd);
+    return parser.checkNode();
   }
 
   /**

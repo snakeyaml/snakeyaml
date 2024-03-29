@@ -189,14 +189,14 @@ public class Base64Coder {
    */
   public static byte[] decodeLines(String s) {
     char[] buf = new char[s.length()];
-    int p = 0;
-    for (int ip = 0; ip < s.length(); ip++) {
-      char c = s.charAt(ip);
+    int validCharIndex = 0;
+    for (int currentIndex = 0; currentIndex < s.length(); currentIndex++) {
+      char c = s.charAt(currentIndex);
       if (c != ' ' && c != '\r' && c != '\n' && c != '\t') {
-        buf[p++] = c;
+        buf[validCharIndex++] = c;
       }
     }
-    return decode(buf, 0, p);
+    return decode(buf, 0, validCharIndex);
   }
 
   /**
@@ -251,16 +251,12 @@ public class Base64Coder {
       int i1 = in[ip++];
       int i2 = ip < iEnd ? in[ip++] : 'A';
       int i3 = ip < iEnd ? in[ip++] : 'A';
-      if (i0 > 127 || i1 > 127 || i2 > 127 || i3 > 127) {
-        throw new IllegalArgumentException("Illegal character in Base64 encoded data.");
-      }
+      checkIllegalArgument(i0, i1, i2, i3);
       int b0 = map2[i0];
       int b1 = map2[i1];
       int b2 = map2[i2];
       int b3 = map2[i3];
-      if (b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0) {
-        throw new IllegalArgumentException("Illegal character in Base64 encoded data.");
-      }
+      checkIllegalArgument(b0, b1, b2, b3);
       int o0 = (b0 << 2) | (b1 >>> 4);
       int o1 = ((b1 & 0xf) << 4) | (b2 >>> 2);
       int o2 = ((b2 & 3) << 6) | b3;
@@ -273,6 +269,17 @@ public class Base64Coder {
       }
     }
     return out;
+  }
+
+  private static void checkIllegalArgument(int... characters){
+      for (int character: characters){
+        if (isIllegalCharacter(character)){
+          throw new IllegalArgumentException("Illegal character in Base64 encoded data.");
+        }
+      }
+  }
+  private static boolean isIllegalCharacter(int asciiChar){
+      return asciiChar > 127 || asciiChar < 0;
   }
 
   // Dummy constructor.

@@ -154,6 +154,20 @@ public class ParserImpl implements Parser {
   }
 
   /**
+   * Checks if further documents are available.
+   *
+   * @return <code>true</code> if there is at least one more document.
+   */
+  public boolean checkNode(){
+    // Drop the STREAM-START event.
+    if (this.checkEvent(Event.ID.StreamStart)) {
+      this.getEvent();
+    }
+    // If there are more documents available?
+    return !this.checkEvent(Event.ID.StreamEnd);
+  }
+
+  /**
    * Peek the next event (keeping it in the stream)
    */
   public Event peekEvent() {

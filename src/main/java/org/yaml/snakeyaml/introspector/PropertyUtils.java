@@ -134,7 +134,14 @@ public class PropertyUtils {
     Set<Property> properties = new TreeSet<Property>();
     Collection<Property> props = getPropertiesMap(type, bAccess).values();
     for (Property property : props) {
-      if (property.isReadable() && (allowReadOnlyProperties || property.isWritable())) {
+
+      boolean isReadable = property.isReadable();
+      boolean isReadableOrWritable = allowReadOnlyProperties || property.isWritable();
+
+      // boolean to check if property is readable and (read-only or writable)
+      boolean isAddable = isReadable && isReadableOrWritable;
+
+      if (isAddable) {
         properties.add(property);
       }
     }
