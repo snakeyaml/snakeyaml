@@ -15,6 +15,8 @@
 
 package org.yaml.snakeyaml.external.biz.base64Coder;
 
+import java.beans.Encoder;
+
 /**
  * A Base64 encoder/decoder.
  *
@@ -69,7 +71,7 @@ public class Base64Coder {
    * @return A String containing the Base64 encoded data.
    */
   public static String encodeString(String s) {
-    return new String(encode(s.getBytes()));
+    return new String(Base64Encoder.encode(s.getBytes()));
   }
 
   /**
@@ -80,7 +82,7 @@ public class Base64Coder {
    * @return A String containing the Base64 encoded data, broken into lines.
    */
   public static String encodeLines(byte[] in) {
-    return encodeLines(in, 0, in.length, 76, systemLineSeparator);
+    return Base64Encoder.encodeLines(in, 0, in.length, 76, systemLineSeparator);
   }
 
   /**
@@ -95,21 +97,7 @@ public class Base64Coder {
    */
   public static String encodeLines(byte[] in, int iOff, int iLen, int lineLen,
       String lineSeparator) {
-    int blockLen = (lineLen * 3) / 4;
-    if (blockLen <= 0) {
-      throw new IllegalArgumentException();
-    }
-    int lines = (iLen + blockLen - 1) / blockLen;
-    int bufLen = ((iLen + 2) / 3) * 4 + lines * lineSeparator.length();
-    StringBuilder buf = new StringBuilder(bufLen);
-    int ip = 0;
-    while (ip < iLen) {
-      int l = Math.min(iLen - ip, blockLen);
-      buf.append(encode(in, iOff + ip, l));
-      buf.append(lineSeparator);
-      ip += l;
-    }
-    return buf.toString();
+    return Base64Encoder.encodeLines(in, iOff, iLen, lineLen, lineSeparator);
   }
 
   /**
@@ -119,7 +107,7 @@ public class Base64Coder {
    * @return A character array containing the Base64 encoded data.
    */
   public static char[] encode(byte[] in) {
-    return encode(in, 0, in.length);
+    return Base64Encoder.encode(in, 0, in.length);
   }
 
   /**
@@ -130,7 +118,7 @@ public class Base64Coder {
    * @return A character array containing the Base64 encoded data.
    */
   public static char[] encode(byte[] in, int iLen) {
-    return encode(in, 0, iLen);
+    return Base64Encoder.encode(in, 0, iLen);
   }
 
   /**
@@ -142,28 +130,7 @@ public class Base64Coder {
    * @return A character array containing the Base64 encoded data.
    */
   public static char[] encode(byte[] in, int iOff, int iLen) {
-    int oDataLen = (iLen * 4 + 2) / 3; // output length without padding
-    int oLen = ((iLen + 2) / 3) * 4; // output length including padding
-    char[] out = new char[oLen];
-    int ip = iOff;
-    int iEnd = iOff + iLen;
-    int op = 0;
-    while (ip < iEnd) {
-      int i0 = in[ip++] & 0xff;
-      int i1 = ip < iEnd ? in[ip++] & 0xff : 0;
-      int i2 = ip < iEnd ? in[ip++] & 0xff : 0;
-      int o0 = i0 >>> 2;
-      int o1 = ((i0 & 3) << 4) | (i1 >>> 4);
-      int o2 = ((i1 & 0xf) << 2) | (i2 >>> 6);
-      int o3 = i2 & 0x3F;
-      out[op++] = map1[o0];
-      out[op++] = map1[o1];
-      out[op] = op < oDataLen ? map1[o2] : '=';
-      op++;
-      out[op] = op < oDataLen ? map1[o3] : '=';
-      op++;
-    }
-    return out;
+    return Base64Encoder.encode(in, iOff, iLen);
   }
 
   /**
