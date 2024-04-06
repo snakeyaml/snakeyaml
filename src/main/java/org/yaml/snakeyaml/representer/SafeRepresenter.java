@@ -15,22 +15,10 @@ package org.yaml.snakeyaml.representer;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.reader.StreamReader;
@@ -127,8 +115,7 @@ class SafeRepresenter extends BaseRepresenter {
         if (!checkValue.equals(value)) {
           throw new YAMLException("invalid string value has occurred");
         }
-        char[] binary = Base64Coder.encode(bytes);
-        value = String.valueOf(binary);
+        value = Base64.getEncoder().encodeToString(bytes);
         style = DumperOptions.ScalarStyle.LITERAL;
       }
       // if no other scalar style is explicitly set, use literal style for
@@ -449,8 +436,9 @@ class SafeRepresenter extends BaseRepresenter {
   protected class RepresentByteArray implements Represent {
 
     public Node representData(Object data) {
-      char[] binary = Base64Coder.encode((byte[]) data);
-      return representScalar(Tag.BINARY, String.valueOf(binary), DumperOptions.ScalarStyle.LITERAL);
+      String encoded = Base64.getEncoder().encodeToString((byte[]) data);
+      return representScalar(Tag.BINARY, String.valueOf(encoded),
+          DumperOptions.ScalarStyle.LITERAL);
     }
   }
 

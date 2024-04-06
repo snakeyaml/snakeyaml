@@ -14,21 +14,11 @@
 package org.yaml.snakeyaml.constructor;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -386,7 +376,7 @@ public class SafeConstructor extends BaseConstructor {
     public Object construct(Node node) {
       // Ignore white spaces for base64 encoded scalar
       String noWhiteSpaces = constructScalar((ScalarNode) node).replaceAll("\\s", "");
-      byte[] decoded = Base64Coder.decode(noWhiteSpaces.toCharArray());
+      byte[] decoded = Base64.getDecoder().decode(noWhiteSpaces);
       return decoded;
     }
   }

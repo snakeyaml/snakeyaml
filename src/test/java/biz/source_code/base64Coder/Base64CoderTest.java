@@ -15,8 +15,9 @@ package biz.source_code.base64Coder;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import junit.framework.TestCase;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 public class Base64CoderTest extends TestCase {
 
@@ -30,10 +31,10 @@ public class Base64CoderTest extends TestCase {
 
   public void testFailure1() throws UnsupportedEncodingException {
     try {
-      Base64Coder.decode("YQ=".toCharArray());
+      Base64.getDecoder().decode("YQ=");
       fail();
     } catch (Exception e) {
-      assertEquals("Length of Base64 encoded input string is not a multiple of 4.", e.getMessage());
+      assertEquals("Input byte array has wrong 4-byte ending unit", e.getMessage());
     }
   }
 
@@ -51,18 +52,18 @@ public class Base64CoderTest extends TestCase {
 
   private void checkInvalid(String encoded) {
     try {
-      Base64Coder.decode(encoded.toCharArray());
-      fail("Illegal chanracter.");
+      Base64.getDecoder().decode(encoded);
+      fail("Illegal character.");
     } catch (Exception e) {
-      assertEquals("Illegal character in Base64 encoded data.", e.getMessage());
+      assertTrue(e.getMessage().startsWith("Illegal base64 character "));
     }
   }
 
   private void check(String text, String encoded) throws UnsupportedEncodingException {
-    char[] s1 = Base64Coder.encode(text.getBytes(StandardCharsets.UTF_8));
+    byte[] s1 = Base64.getEncoder().encode(text.getBytes());
     String t1 = new String(s1);
     assertEquals(encoded, t1);
-    byte[] s2 = Base64Coder.decode(encoded.toCharArray());
+    byte[] s2 = Base64.getDecoder().decode(encoded);
     String t2 = new String(s2, StandardCharsets.UTF_8);
     assertEquals(text, t2);
   }

@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.issues.issue99;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -24,7 +25,6 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlDocument;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -47,12 +47,11 @@ public class YamlBase64Test extends TestCase {
       all = all + lines[i].trim();
     }
     // System.out.println(all);
-    byte[] decoded = Base64Coder.decode(all.toCharArray());
+    byte[] decoded = Base64.getDecoder().decode(all);
     assertEquals(3737, decoded.length);
     checkBytes(decoded);
   }
 
-  @SuppressWarnings("unchecked")
   public void testYamlBase64Loading() throws IOException {
     Yaml yaml = new Yaml();
     InputStream inputStream =
@@ -122,7 +121,7 @@ public class YamlBase64Test extends TestCase {
       public Object construct(Node node) {
         String contentWithNewLines = constructScalar((ScalarNode) node);
         String noNewLines = contentWithNewLines.replaceAll("\\s", "");
-        byte[] decoded = Base64Coder.decode(noNewLines.toCharArray());
+        byte[] decoded = Base64.getDecoder().decode(noNewLines);
         return decoded;
       }
     }
@@ -131,7 +130,6 @@ public class YamlBase64Test extends TestCase {
   /**
    * Define a local tag to ignore all the white spaces to be able to use literal scalar
    */
-  @SuppressWarnings("unchecked")
   public void testLocalBinaryTag() throws IOException {
     Yaml yaml = new Yaml(new SpecialContructor(new Tag("!beautiful")));
     InputStream inputStream =
