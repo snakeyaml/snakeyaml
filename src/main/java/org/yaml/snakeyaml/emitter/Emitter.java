@@ -918,6 +918,7 @@ public final class Emitter implements Emitable {
       if (style == null) {
         style = chooseScalarStyle();
       }
+      // check when no tag is required
       if ((!canonical || tag == null)
           && ((style == null && ev.getImplicit().canOmitTagInPlainScalar())
               || (style != null && ev.getImplicit().canOmitTagInNonPlainScalar()))) {
@@ -946,6 +947,12 @@ public final class Emitter implements Emitable {
     preparedTag = null;
   }
 
+  /**
+   * Choose the scalar style based on the contents of the scalar and scalar style chosen by
+   * Representer
+   *
+   * @return ScalarStyle to apply for this scala event
+   */
   private DumperOptions.ScalarStyle chooseScalarStyle() {
     ScalarEvent ev = (ScalarEvent) event;
     if (analysis == null) {
@@ -1112,7 +1119,7 @@ public final class Emitter implements Emitable {
 
   private ScalarAnalysis analyzeScalar(String scalar) {
     // Empty scalar is a special case.
-    if (scalar.length() == 0) {
+    if (scalar.isEmpty()) {
       return new ScalarAnalysis(scalar, true, false, false, true, true, false);
     }
     // Indicators and special characters.

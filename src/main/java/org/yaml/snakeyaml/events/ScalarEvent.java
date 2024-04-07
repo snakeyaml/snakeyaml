@@ -95,7 +95,8 @@ public final class ScalarEvent extends NodeEvent {
 
   @Override
   protected String getArguments() {
-    return super.getArguments() + ", tag=" + tag + ", " + implicit + ", value=" + value;
+    return super.getArguments() + ", tag=" + tag + ", style=" + style + "," + implicit + ", value="
+        + value;
   }
 
   @Override

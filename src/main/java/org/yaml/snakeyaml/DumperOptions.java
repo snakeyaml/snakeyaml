@@ -125,7 +125,7 @@ public class DumperOptions {
      */
     BLOCK(Boolean.FALSE),
     /**
-     * Auto (first block, than flow)
+     * Auto (first block, then flow)
      */
     AUTO(null);
 
