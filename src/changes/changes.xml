@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.3" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="1087">
+                Remove unused BUFFER_SIZE (thanks to Róbert Papp (TWiStErRob))
+            </action>
             <action dev="maslovalex" type="fix" issue="1086">
                 Use DumberOptions.setDereferenceAliases to avoid dumping anchors (thanks to Mikael Ståldal)
             </action>
