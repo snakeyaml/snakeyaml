@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2008, SnakeYAML
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -22,8 +22,7 @@ import org.yaml.snakeyaml.error.Mark;
 public final class ScalarEvent extends NodeEvent {
 
   private final String tag;
-  // style flag of a scalar event indicates the style of the scalar. Possible
-  // values are None, '', '\'', '"', '|', '>'
+  // style flag of a scalar event indicates the style of the scalar.
   private final DumperOptions.ScalarStyle style;
   private final String value;
   // The implicit flag of a scalar event is a pair of boolean values that
@@ -106,5 +105,25 @@ public final class ScalarEvent extends NodeEvent {
 
   public boolean isPlain() {
     return style == DumperOptions.ScalarStyle.PLAIN;
+  }
+
+  public boolean isLiteral() {
+    return style == DumperOptions.ScalarStyle.LITERAL;
+  }
+
+  public boolean isSQuoted() {
+    return style == DumperOptions.ScalarStyle.SINGLE_QUOTED;
+  }
+
+  public boolean isDQuoted() {
+    return style == DumperOptions.ScalarStyle.DOUBLE_QUOTED;
+  }
+
+  public boolean isFolded() {
+    return style == DumperOptions.ScalarStyle.FOLDED;
+  }
+
+  public boolean isJson() {
+    return style == DumperOptions.ScalarStyle.JSON_SCALAR_STYLE;
   }
 }

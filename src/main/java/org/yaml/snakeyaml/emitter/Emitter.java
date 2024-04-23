@@ -910,6 +910,9 @@ public final class Emitter implements Emitable {
     preparedAnchor = null;
   }
 
+  /**
+   * Emit the tag for the current event
+   */
   private void processTag() throws IOException {
     String tag = null;
     if (event instanceof ScalarEvent) {
@@ -920,10 +923,10 @@ public final class Emitter implements Emitable {
       }
       // check when no tag is required
       if ((!canonical || tag == null)
-          && ((style == null && ev.getImplicit().canOmitTagInPlainScalar())
-              || (style != null && ev.getImplicit().canOmitTagInNonPlainScalar()))) {
+          && ((style == ScalarStyle.PLAIN && ev.getImplicit().canOmitTagInPlainScalar())
+              || (style != ScalarStyle.PLAIN && ev.getImplicit().canOmitTagInNonPlainScalar()))) {
         preparedTag = null;
-        return;
+        return; // no tag required
       }
       if (ev.getImplicit().canOmitTagInPlainScalar() && tag == null) {
         tag = "!";
@@ -934,7 +937,7 @@ public final class Emitter implements Emitable {
       tag = ev.getTag();
       if ((!canonical || tag == null) && ev.getImplicit()) {
         preparedTag = null;
-        return;
+        return; // no tag required
       }
     }
     if (tag == null) {
@@ -958,29 +961,31 @@ public final class Emitter implements Emitable {
     if (analysis == null) {
       analysis = analyzeScalar(ev.getValue());
     }
-    if (!ev.isPlain() && ev.getScalarStyle() == DumperOptions.ScalarStyle.DOUBLE_QUOTED
-        || this.canonical) {
-      return DumperOptions.ScalarStyle.DOUBLE_QUOTED;
+    if (!ev.isPlain() && ev.isDQuoted() || this.canonical) {
+      return ScalarStyle.DOUBLE_QUOTED;
     }
-    if (ev.isPlain() && ev.getImplicit().canOmitTagInPlainScalar()) {
+    if (ev.isJson() && Tag.STR.getValue().equals(ev.getTag())) {
+      // special case for strings which are always double-quoted in JSON
+      return ScalarStyle.DOUBLE_QUOTED;
+    }
+    if ((ev.isPlain() || ev.isJson()) && ev.getImplicit().canOmitTagInPlainScalar()) {
       if (!(simpleKeyContext && (analysis.isEmpty() || analysis.isMultiline()))
           && ((flowLevel != 0 && analysis.isAllowFlowPlain())
               || (flowLevel == 0 && analysis.isAllowBlockPlain()))) {
-        return null;
+        return ScalarStyle.PLAIN;
       }
     }
-    if (!ev.isPlain() && (ev.getScalarStyle() == DumperOptions.ScalarStyle.LITERAL
-        || ev.getScalarStyle() == DumperOptions.ScalarStyle.FOLDED)) {
+    if (ev.isLiteral() || ev.isFolded()) {
       if (flowLevel == 0 && !simpleKeyContext && analysis.isAllowBlock()) {
         return ev.getScalarStyle();
       }
     }
-    if (ev.isPlain() || ev.getScalarStyle() == DumperOptions.ScalarStyle.SINGLE_QUOTED) {
+    if (ev.isPlain() || ev.isSQuoted()) {
       if (analysis.isAllowSingleQuoted() && !(simpleKeyContext && analysis.isMultiline())) {
-        return DumperOptions.ScalarStyle.SINGLE_QUOTED;
+        return ScalarStyle.SINGLE_QUOTED;
       }
     }
-    return DumperOptions.ScalarStyle.DOUBLE_QUOTED;
+    return ScalarStyle.DOUBLE_QUOTED;
   }
 
   private void processScalar() throws IOException {
@@ -992,26 +997,26 @@ public final class Emitter implements Emitable {
       style = chooseScalarStyle();
     }
     boolean split = !simpleKeyContext && splitLines;
-    if (style == null) {
-      writePlain(analysis.getScalar(), split);
-    } else {
-      switch (style) {
-        case DOUBLE_QUOTED:
-          writeDoubleQuoted(analysis.getScalar(), split);
-          break;
-        case SINGLE_QUOTED:
-          writeSingleQuoted(analysis.getScalar(), split);
-          break;
-        case FOLDED:
-          writeFolded(analysis.getScalar(), split);
-          break;
-        case LITERAL:
-          writeLiteral(analysis.getScalar());
-          break;
-        default:
-          throw new YAMLException("Unexpected style: " + style);
-      }
+    switch (style) {
+      case PLAIN:
+        writePlain(analysis.getScalar(), split);
+        break;
+      case DOUBLE_QUOTED:
+        writeDoubleQuoted(analysis.getScalar(), split);
+        break;
+      case SINGLE_QUOTED:
+        writeSingleQuoted(analysis.getScalar(), split);
+        break;
+      case FOLDED:
+        writeFolded(analysis.getScalar(), split);
+        break;
+      case LITERAL:
+        writeLiteral(analysis.getScalar());
+        break;
+      default:
+        throw new YAMLException("Unexpected style: " + style);
     }
+    // reset scalar style for another scalar
     analysis = null;
     style = null;
   }

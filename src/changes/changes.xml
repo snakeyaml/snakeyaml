@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.3" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="update" issue="1084">
+                Dump as JSON (Mikael Ståldal)
+            </action>
             <action dev="asomov" type="fix" issue="1087">
                 Remove unused BUFFER_SIZE (thanks to Róbert Papp (TWiStErRob))
             </action>
