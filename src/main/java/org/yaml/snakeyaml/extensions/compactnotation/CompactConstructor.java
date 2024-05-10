@@ -111,7 +111,7 @@ public class CompactConstructor extends Constructor {
       String tag = m.group(1).trim();
       String content = m.group(3);
       CompactData data = new CompactData(tag);
-      if (content.length() == 0) {
+      if (content.isEmpty()) {
         return data;
       }
       String[] names = content.split("\\s*,\\s*");

@@ -1470,7 +1470,7 @@ public final class ScannerImpl implements Scanner {
     }
     int c = reader.peek();
     String lineBreak = scanLineBreak();
-    if (lineBreak.length() == 0 && c != '\0') {
+    if (lineBreak.isEmpty() && c != '\0') {
       final String s = String.valueOf(Character.toChars(c));
       throw new ScannerException("while scanning a directive", startMark,
           "expected a comment or a line break, but found " + s + "(" + c + ")", reader.getMark());
@@ -1672,7 +1672,7 @@ public final class ScannerImpl implements Scanner {
         // This is the folding according to the specification:
         if (folded && "\n".equals(lineBreak) && leadingNonSpace
             && " \t".indexOf(reader.peek()) == -1) {
-          if (breaks.length() == 0) {
+          if (breaks.isEmpty()) {
             chunks.append(" ");
           }
         } else {
@@ -1783,7 +1783,7 @@ public final class ScannerImpl implements Scanner {
     // occurred.
     int c = reader.peek();
     String lineBreak = scanLineBreak();
-    if (lineBreak.length() == 0 && c != '\0') {
+    if (lineBreak.isEmpty() && c != '\0') {
       final String s = String.valueOf(Character.toChars(c));
       throw new ScannerException("while scanning a block scalar", startMark,
           "expected a comment or a line break, but found " + s + "(" + c + ")", reader.getMark());
@@ -1981,7 +1981,7 @@ public final class ScannerImpl implements Scanner {
       String breaks = scanFlowScalarBreaks(startMark);
       if (!"\n".equals(lineBreak)) {
         chunks.append(lineBreak);
-      } else if (breaks.length() == 0) {
+      } else if (breaks.isEmpty()) {
         chunks.append(" ");
       }
       chunks.append(breaks);
@@ -2061,7 +2061,7 @@ public final class ScannerImpl implements Scanner {
       endMark = reader.getMark();
       spaces = scanPlainSpaces();
       // System.out.printf("spaces[%s]\n", spaces);
-      if (spaces.length() == 0 || reader.peek() == '#'
+      if (spaces.isEmpty() || reader.peek() == '#'
           || (this.flowLevel == 0 && this.reader.getColumn() < indent)) {
         break;
       }

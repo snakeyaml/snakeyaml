@@ -127,7 +127,7 @@ public class Constructor extends SafeConstructor {
     if (s == null) {
       throw new NullPointerException("Root type must be provided.");
     }
-    if (s.trim().length() == 0) {
+    if (s.trim().isEmpty()) {
       throw new YAMLException("Root type must be provided.");
     }
     return s;
@@ -418,7 +418,7 @@ public class Constructor extends SafeConstructor {
       } else if (type == Character.class || type == Character.TYPE) {
         Construct charConstructor = yamlConstructors.get(Tag.STR);
         String ch = (String) charConstructor.construct(node);
-        if (ch.length() == 0) {
+        if (ch.isEmpty()) {
           result = null;
         } else if (ch.length() != 1) {
           throw new YAMLException("Invalid node Character: '" + ch + "'; length: " + ch.length());
