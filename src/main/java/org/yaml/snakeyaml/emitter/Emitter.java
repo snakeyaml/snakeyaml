@@ -1057,8 +1057,14 @@ public final class Emitter implements Emitable {
     return chunks.toString();
   }
 
+  /**
+   * Detect whether the tag starts with a standard handle and add ! when it does not
+   *
+   * @param tag - raw (complete tag)
+   * @return formatted tag ready to emit
+   */
   private String prepareTag(String tag) {
-    if (tag.length() == 0) {
+    if (tag.isEmpty()) {
       throw new EmitterException("tag must not be empty");
     }
     if ("!".equals(tag)) {
@@ -1068,6 +1074,7 @@ public final class Emitter implements Emitable {
     String suffix = tag;
     // shall the tag prefixes be sorted as in PyYAML?
     for (String prefix : tagPrefixes.keySet()) {
+      // if tag starts with prefix and contains more than just prefix
       if (tag.startsWith(prefix) && ("!".equals(prefix) || prefix.length() < tag.length())) {
         handle = prefix;
       }
@@ -1077,17 +1084,15 @@ public final class Emitter implements Emitable {
       handle = tagPrefixes.get(handle);
     }
 
-    int end = suffix.length();
-    String suffixText = end > 0 ? suffix.substring(0, end) : "";
-
     if (handle != null) {
-      return handle + suffixText;
+      return handle + suffix;
+    } else {
+      return "!<" + suffix + ">";
     }
-    return "!<" + suffixText + ">";
   }
 
   static String prepareAnchor(String anchor) {
-    if (anchor.length() == 0) {
+    if (anchor.isEmpty()) {
       throw new EmitterException("anchor must not be empty");
     }
     for (Character invalid : INVALID_ANCHOR) {
