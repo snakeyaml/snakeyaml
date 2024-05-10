@@ -1043,7 +1043,6 @@ public final class Emitter implements Emitable {
       throw new EmitterException("tag prefix must not be empty");
     }
     StringBuilder chunks = new StringBuilder();
-    int start = 0;
     int end = 0;
     if (prefix.charAt(0) == '!') {
       end = 1;
@@ -1051,9 +1050,7 @@ public final class Emitter implements Emitable {
     while (end < prefix.length()) {
       end++;
     }
-    if (start < end) {
-      chunks.append(prefix, start, end);
-    }
+    chunks.append(prefix, 0, end);
     return chunks.toString();
   }
 
