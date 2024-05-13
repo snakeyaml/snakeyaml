@@ -13,12 +13,7 @@
  */
 package org.yaml.snakeyaml.introspector;
 
-import java.beans.FeatureDescriptor;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashMap;
@@ -57,6 +52,13 @@ public class PropertyUtils {
     if (platformFeatureDetector.isRunningOnAndroid()) {
       beanAccess = BeanAccess.FIELD;
     }
+
+    /* when running with jlink restricted JDK without java.desktop package */
+    try {
+      Class.forName("java.beans.Introspector");
+    } catch (ClassNotFoundException ex) {
+      beanAccess = BeanAccess.FIELD;
+    }
   }
 
   protected Map<String, Property> getPropertiesMap(Class<?> type, BeanAccess bAccess) {
@@ -65,7 +67,7 @@ public class PropertyUtils {
     }
 
     Map<String, Property> properties = new LinkedHashMap<String, Property>();
-    boolean inaccessableFieldsExist = false;
+    boolean[] inaccessableFieldsExist = {false};
     if (bAccess == BeanAccess.FIELD) {
       for (Class<?> c = type; c != null; c = c.getSuperclass()) {
         for (Field field : c.getDeclaredFields()) {
@@ -77,44 +79,13 @@ public class PropertyUtils {
         }
       }
     } else {// add JavaBean properties
-      try {
-        for (PropertyDescriptor property : Introspector.getBeanInfo(type)
-            .getPropertyDescriptors()) {
-          Method readMethod = property.getReadMethod();
-          if ((readMethod == null || !readMethod.getName().equals("getClass"))
-              && !isTransient(property)) {
-            properties.put(property.getName(), new MethodProperty(property));
-          }
-        }
-      } catch (IntrospectionException e) {
-        throw new YAMLException(e);
-      }
-
-      // add public fields
-      for (Class<?> c = type; c != null; c = c.getSuperclass()) {
-        for (Field field : c.getDeclaredFields()) {
-          int modifiers = field.getModifiers();
-          if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)) {
-            if (Modifier.isPublic(modifiers)) {
-              properties.put(field.getName(), new FieldProperty(field));
-            } else {
-              inaccessableFieldsExist = true;
-            }
-          }
-        }
-      }
+      MethodProperty.addProperties(type, properties, inaccessableFieldsExist);
     }
-    if (properties.isEmpty() && inaccessableFieldsExist) {
+    if (properties.isEmpty() && inaccessableFieldsExist[0]) {
       throw new YAMLException("No JavaBean properties found in " + type.getName());
     }
     propertiesCache.put(type, properties);
     return properties;
-  }
-
-  private static final String TRANSIENT = "transient";
-
-  private boolean isTransient(FeatureDescriptor fd) {
-    return Boolean.TRUE.equals(fd.getValue(TRANSIENT));
   }
 
   public Set<Property> getProperties(Class<? extends Object> type) {
