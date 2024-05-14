@@ -147,8 +147,7 @@ public class Example2_24Test extends TestCase {
 
       public Node representData(Object data) {
         HexInteger hex = (HexInteger) data;
-        return representScalar(Tag.INT, "0x" + Integer.toHexString(hex.getColor()).toUpperCase(),
-            null);
+        return representScalar(Tag.INT, "0x" + Integer.toHexString(hex.getColor()).toUpperCase());
       }
     }
   }
