@@ -67,7 +67,7 @@ public class PropertyUtils {
     }
 
     Map<String, Property> properties = new LinkedHashMap<String, Property>();
-    boolean[] inaccessableFieldsExist = {false};
+    boolean inaccessableFieldsExist = false;
     if (bAccess == BeanAccess.FIELD) {
       for (Class<?> c = type; c != null; c = c.getSuperclass()) {
         for (Field field : c.getDeclaredFields()) {
@@ -79,9 +79,9 @@ public class PropertyUtils {
         }
       }
     } else {// add JavaBean properties
-      MethodProperty.addProperties(type, properties, inaccessableFieldsExist);
+      inaccessableFieldsExist = MethodProperty.addPublicFields(type, properties);
     }
-    if (properties.isEmpty() && inaccessableFieldsExist[0]) {
+    if (properties.isEmpty() && inaccessableFieldsExist) {
       throw new YAMLException("No JavaBean properties found in " + type.getName());
     }
     propertiesCache.put(type, properties);

@@ -146,8 +146,15 @@ public class MethodProperty extends GenericProperty {
     return Boolean.TRUE.equals(fd.getValue(TRANSIENT));
   }
 
-  static void addProperties(Class<?> type, Map<String, Property> properties,
-      boolean[] inaccessableFieldsExist) {
+  /**
+   * Introspects given {@code type} and adds found properties to {@code properties} map.
+   *
+   * @param type the type to introspect
+   * @param properties map to add found properties to
+   * @return {@code true} if an inaccessible field was found
+   */
+  static boolean addPublicFields(Class<?> type, Map<String, Property> properties) {
+    boolean inaccessableFieldsExist = false;
     try {
       for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors()) {
         Method readMethod = property.getReadMethod();
@@ -168,12 +175,12 @@ public class MethodProperty extends GenericProperty {
           if (Modifier.isPublic(modifiers)) {
             properties.put(field.getName(), new FieldProperty(field));
           } else {
-            inaccessableFieldsExist[0] = true;
+            inaccessableFieldsExist = true;
           }
         }
       }
     }
-
+    return inaccessableFieldsExist;
   }
 
 }
