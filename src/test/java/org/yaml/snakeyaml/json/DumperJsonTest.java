@@ -16,6 +16,7 @@ package org.yaml.snakeyaml.json;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.representer.JsonRepresenter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +40,11 @@ public class DumperJsonTest extends TestCase {
 
   public void testJsonStr() {
     assertEquals("\"bar1\"\n", createYaml().dump("bar1"));
+  }
+
+  public void testJsonEscape() {
+    // TODO assertEquals("foo\\u0007bar\n", createYaml().dump("foo\u0007bar"));
+    assertEquals("\"foo\\abar\"\n", createYaml().dump("foo\u0007bar"));
   }
 
   public void testJsonTimestampAsStr() {
@@ -95,7 +101,6 @@ public class DumperJsonTest extends TestCase {
     List<Object> list = new ArrayList<Object>();
     list.add(17);
     list.add("foo");
-    list.add("foo\tbar\u0013end"); // TODO do not use \x to escape
     list.add(true);
     list.add("true");
     list.add(false);
@@ -108,7 +113,7 @@ public class DumperJsonTest extends TestCase {
     list.add(binary);
 
     assertEquals(
-        "[17, \"foo\", \"foo\\tbar\\x13end\", true, \"true\", false, \"false\", null, \"null\", \"2024-05-13T12:54:19.679Z\",\n  \"2024-05-13T12:54:19.679Z\", \"CA4PCn4gQUFB\"]\n",
+        "[17, \"foo\", true, \"true\", false, \"false\", null, \"null\", \"2024-05-13T12:54:19.679Z\",\n  \"2024-05-13T12:54:19.679Z\", \"CA4PCn4gQUFB\"]\n",
         yaml.dump(list));
   }
 }

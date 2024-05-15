@@ -1,11 +1,9 @@
-package org.yaml.snakeyaml.json;
+package org.yaml.snakeyaml.representer;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.representer.Represent;
-import org.yaml.snakeyaml.representer.Representer;
 
 import java.util.Date;
 
