@@ -42,21 +42,7 @@ public class PropertyUtils {
 
   PropertyUtils(PlatformFeatureDetector platformFeatureDetector) {
     this.platformFeatureDetector = platformFeatureDetector;
-
-    /*
-     * Android lacks much of java.beans (including the Introspector class, used here), because
-     * java.beans classes tend to rely on java.awt, which isn't supported in the Android SDK. That
-     * means we have to fall back on FIELD access only when SnakeYAML is running on the Android
-     * Runtime.
-     */
-    if (platformFeatureDetector.isRunningOnAndroid()) {
-      beanAccess = BeanAccess.FIELD;
-    }
-
-    /* when running with jlink restricted JDK without java.desktop package */
-    try {
-      Class.forName("java.beans.Introspector");
-    } catch (ClassNotFoundException ex) {
+    if (!platformFeatureDetector.isIntrospectionAvailable()) {
       beanAccess = BeanAccess.FIELD;
     }
   }
