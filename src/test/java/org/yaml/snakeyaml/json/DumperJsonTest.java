@@ -20,7 +20,9 @@ import org.yaml.snakeyaml.representer.JsonRepresenter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * https://bitbucket.org/snakeyaml/snakeyaml/issues/1084/dump-as-json
@@ -92,12 +94,7 @@ public class DumperJsonTest extends TestCase {
     assertEquals("[null, \"null\"]\n", createYaml().dump(list));
   }
 
-  /**
-   * https://bitbucket.org/snakeyaml/snakeyaml/issues/1084/dump-as-json
-   */
-  public void testJson() {
-    Yaml yaml = createYaml();
-
+  private List<Object> createList() {
     List<Object> list = new ArrayList<Object>();
     list.add(17);
     list.add("foo");
@@ -111,9 +108,38 @@ public class DumperJsonTest extends TestCase {
     list.add(new Date(timestamp));
     byte[] binary = {8, 14, 15, 10, 126, 32, 65, 65, 65};
     list.add(binary);
+    return list;
+  }
 
+  /**
+   * https://bitbucket.org/snakeyaml/snakeyaml/issues/1084/dump-as-json
+   */
+  public void testJsonArray() {
+    Yaml yaml = createYaml();
     assertEquals(
         "[17, \"foo\", true, \"true\", false, \"false\", null, \"null\", \"2024-05-13T12:54:19.679Z\",\n  \"2024-05-13T12:54:19.679Z\", \"CA4PCn4gQUFB\"]\n",
-        yaml.dump(list));
+        yaml.dump(createList()));
+  }
+
+  /**
+   * https://bitbucket.org/snakeyaml/snakeyaml/issues/1084/dump-as-json
+   */
+  public void testJsonObject() {
+    Yaml yaml = createYaml();
+
+    Map<String, Object> map = new LinkedHashMap<>();
+    map.put("str1", "foo");
+    map.put("bool", true);
+    map.put("strBool", "true");
+    map.put("null", null);
+    map.put("strNull", "null");
+    map.put("strTime", time);
+    map.put("time", new Date(timestamp));
+    byte[] binary = {8, 14, 15, 10, 126, 32, 65, 65, 65};
+    map.put("binary", binary);
+    assertEquals(
+        "{\"str1\": \"foo\", \"bool\": true, \"strBool\": \"true\", \"null\": null, \"strNull\": \"null\",\n"
+            + "  \"strTime\": \"2024-05-13T12:54:19.679Z\", \"time\": \"2024-05-13T12:54:19.679Z\", \"binary\": \"CA4PCn4gQUFB\"}\n",
+        yaml.dump(map));
   }
 }
