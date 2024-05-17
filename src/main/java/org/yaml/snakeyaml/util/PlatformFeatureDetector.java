@@ -17,6 +17,27 @@ public class PlatformFeatureDetector {
 
   private Boolean isRunningOnAndroid = null;
 
+  public boolean isIntrospectionAvailable() {
+    /*
+     * Android lacks much of java.beans (including the Introspector class, used here), because
+     * java.beans classes tend to rely on java.awt, which isn't supported in the Android SDK. That
+     * means we have to fall back on FIELD access only when SnakeYAML is running on the Android
+     * Runtime.
+     */
+    if (isRunningOnAndroid()) {
+      return false;
+    }
+
+    try {
+      Class.forName("java.beans.Introspector");
+      /* java.desktop module and its java.beans package is available */
+      return true;
+    } catch (ClassNotFoundException ex) {
+      /* running with jlink assembled JDK without java.desktop module */
+      return false;
+    }
+  }
+
   public boolean isRunningOnAndroid() {
     if (isRunningOnAndroid == null) {
       String name = System.getProperty("java.runtime.name");
