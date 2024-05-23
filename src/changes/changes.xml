@@ -7,7 +7,7 @@
     <body>
         <release version="2.3" date="in GIT" description="Maintenance">
             <action dev="asomov" type="update" issue="1084">
-                Dump as JSON (Mikael Ståldal)
+                Dump as JSON (thanks to Mikael Ståldal)
             </action>
             <action dev="asomov" type="update">
                 Run SnakeYAML without java.desktop module (thanks to Jaroslav Tulach)
