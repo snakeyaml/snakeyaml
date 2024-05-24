@@ -54,11 +54,30 @@ public class YamlLombokTest {
     assertEquals(camera.getName(), "foo");
   }
 
+  @Test
+  public void testCameraObscure() {
+    CameraObscure obscure = new CameraObscure();
+    obscure.setZNear("foo"); // where is the second field ?
+    Yaml yaml = new Yaml();
+    CameraObscure camera = yaml.loadAs("ZNear: 17", CameraObscure.class);
+
+    assertEquals(camera.getZNear(), "17");
+  }
+
   @Getter
   @Setter
   public static class Camera {
     private float zNear;
     private float zFar;
     private String name;
+  }
+
+  @Getter
+  @Setter
+  public static class CameraObscure {
+    // changing the order affects the Lombok magic (only the first one is respected)
+    // the case of the first letter is ignored
+    private String zNear;
+    private int ZNear;
   }
 }
