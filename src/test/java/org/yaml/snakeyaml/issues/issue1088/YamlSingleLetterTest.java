@@ -31,12 +31,12 @@ public class YamlSingleLetterTest {
     Yaml yaml = new Yaml();
     try {
       Camera camera = yaml.loadAs(src, Camera.class);
-      fail();
+      fail("Should not fail - but the property is detected as ZNear");
       assertEquals(camera.getZNear(), 2);
     } catch (Exception e) {
-      // TODO
+      // TODO it looks like Java's Introspector.getBeanInfo(type).getPropertyDescriptors() returns
+      // confusing name - ZNear
       assertTrue(e.getMessage().contains("Unable to find property 'zNear' on class"));
-
     }
   }
 
