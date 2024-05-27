@@ -25,12 +25,12 @@ import static org.junit.Assert.fail;
  */
 public class YamlSingleLetterTest {
   @Test
-  public void test() {
+  public void testSingleLetter() {
     String src = "zNear: 2";
 
     Yaml yaml = new Yaml();
     try {
-      Camera camera = yaml.loadAs(src, Camera.class);
+      BeanSingleZ camera = yaml.loadAs(src, BeanSingleZ.class);
       fail("Should not fail - but the property is detected as ZNear");
       assertEquals(camera.getZNear(), 2);
     } catch (Exception e) {
@@ -40,7 +40,16 @@ public class YamlSingleLetterTest {
     }
   }
 
-  public static class Camera {
+  @Test
+  public void testDoubleLetter() {
+    String src = "zzNear: 2";
+
+    Yaml yaml = new Yaml();
+    BeanDoubleZ camera = yaml.loadAs(src, BeanDoubleZ.class);
+    assertEquals(camera.getZzNear(), 2);
+  }
+
+  public static class BeanSingleZ {
     private int zNear;
 
     public int getZNear() {
@@ -51,4 +60,17 @@ public class YamlSingleLetterTest {
       this.zNear = zNear;
     }
   }
+
+  public static class BeanDoubleZ {
+    private int zzNear;
+
+    public int getZzNear() {
+      return zzNear;
+    }
+
+    public void setZzNear(int zNear) {
+      this.zzNear = zNear;
+    }
+  }
 }
+
