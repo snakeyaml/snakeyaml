@@ -993,9 +993,6 @@ public final class Emitter implements Emitable {
     if (analysis == null) {
       analysis = analyzeScalar(ev.getValue());
     }
-    if (style == null) {
-      style = chooseScalarStyle();
-    }
     boolean split = !simpleKeyContext && splitLines;
     switch (style) {
       case PLAIN:
