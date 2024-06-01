@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# it may be needed for older docker    -u `id -u`:`id -g`
 
 docker run --rm -it               \
     -v `pwd`:/work                \
