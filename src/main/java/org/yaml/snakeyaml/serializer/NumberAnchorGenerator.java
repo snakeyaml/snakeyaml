@@ -25,6 +25,10 @@ public class NumberAnchorGenerator implements AnchorGenerator {
   }
 
   public String nextAnchor(Node node) {
+    if (node.getAnchor() != null) {
+      //keep the anchor if it was already created in the node
+      return node.getAnchor();
+    }
     this.lastAnchorId++;
     NumberFormat format = NumberFormat.getNumberInstance();
     format.setMinimumIntegerDigits(3);
