@@ -1,0 +1,4 @@
+image1: &id001
+  repository: some.re.po
+  tag: 1.2.3
+image2: *id001

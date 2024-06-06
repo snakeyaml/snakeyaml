@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.3" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="update" issue="1089">
+                Add test for issue 1089 (thanks to Gergely Czuczy)
+            </action>
             <action dev="asomov" type="update" issue="1088">
                 Test when a field starts with single lower case letter (thanks to Evgeny Bogatyrev)
             </action>
