@@ -24,9 +24,16 @@ public class NumberAnchorGenerator implements AnchorGenerator {
     this.lastAnchorId = lastAnchorId;
   }
 
+  /**
+   * Create the anchor name or keep the one when it was already created in the node by the low level
+   * API
+   *
+   * @param node - the data to anchor
+   * @return unique anchor name or existing anchor name
+   */
   public String nextAnchor(Node node) {
     if (node.getAnchor() != null) {
-      //keep the anchor if it was already created in the node
+      // keep the anchor when it is set explicitly
       return node.getAnchor();
     }
     this.lastAnchorId++;
