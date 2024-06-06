@@ -29,18 +29,23 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 
 /**
- * https://bitbucket.org/snakeyaml/snakeyaml/issues/1089/anchors-are-not-retained
+ * https://bitbucket.org/snakeyaml/snakeyaml/issues/1089/anchors-are-not-retained scalars do not use
+ * anchors and aliases
  */
 public class AnchorsTest {
-  @Test
-  public void testAnchors() {
+
+  private Yaml create() {
     LoaderOptions lopts = new LoaderOptions();
     lopts.setProcessComments(true);
     DumperOptions dopts = new DumperOptions();
     dopts.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
     dopts.setCanonical(false);
-    Yaml yaml =
-        new Yaml(new Constructor(lopts), new Representer(dopts), dopts, lopts, new Resolver());
+    return new Yaml(new Constructor(lopts), new Representer(dopts), dopts, lopts, new Resolver());
+  }
+
+  @Test
+  public void testNoAnchorForScalar() {
+    Yaml yaml = create();
     String origin = Util.getLocalResource("issues/issue1089-input.yaml");
     Map<String, Object> rootInstance = yaml.load(origin);
     Map<String, Object> image1 = (Map<String, Object>) rootInstance.get("image1");
@@ -50,10 +55,20 @@ public class AnchorsTest {
     Object repo1 = image1.get("repository");
     Object repo2 = image2.get("repository");
     assertSame("Must point to the same instance", repo1, repo2);
-
+    assertEquals(String.class, repo1.getClass()); // String is a scalar, no anchor will be created
     String output = yaml.dump(rootInstance);
-    //TODO the anchors should be present
     String expected = Util.getLocalResource("issues/issue1089-output.yaml");
+    assertEquals(expected, output);
+  }
+
+  @Test
+  public void testAnchors() {
+    Yaml yaml = create();
+    String origin = Util.getLocalResource("issues/issue1089-non-scalar-input.yaml");
+    Map<String, Object> rootInstance = yaml.load(origin);
+    assertSame(rootInstance.get("image1"), rootInstance.get("image2"));
+    String output = yaml.dump(rootInstance);
+    String expected = Util.getLocalResource("issues/issue1089-non-scalar-output.yaml");
     assertEquals(expected, output);
   }
 }
