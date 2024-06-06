@@ -1,0 +1,6 @@
+image1:
+  repository: some.re.po
+  tag: 1.2.3
+image2:
+  repository: some.re.po
+  tag: 1.2.3
