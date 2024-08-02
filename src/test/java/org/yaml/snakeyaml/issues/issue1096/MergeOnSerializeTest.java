@@ -27,42 +27,35 @@ import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 
-public class MergeExpandTest {
+public class MergeOnSerializeTest {
 
   @Test
-  public void simple_load_Merge() {
+  public void simple_Merge() {
     String str = Util.getLocalResource("issues/issue1096-simple-merge-input.yaml");
     String expected = Util.getLocalResource("issues/issue1096-simple-merge-output.yaml");
 
-    LoaderOptions loaderOptions = new LoaderOptions();
-    loaderOptions.setMergeOnCompose(true);
-
     DumperOptions dumperOptions = new DumperOptions();
     dumperOptions.setDereferenceAliases(true);
 
-    Yaml yaml = new Yaml(loaderOptions, dumperOptions);
+    Yaml yaml = new Yaml(dumperOptions);
     Node sourceTree = yaml.compose(new StringReader(str));
 
     StringWriter writer = new StringWriter();
     yaml.serialize(sourceTree, writer);
     String out = writer.toString();
-
     assertEquals(expected, out);
   }
 
+
   @Test
-  public void specs_load_Merge() {
+  public void specs_Merge() {
     String str = Util.getLocalResource("issues/issue1096-merge-input.yaml");
     String expected = Util.getLocalResource("issues/issue1096-merge-output.yaml");
 
-    LoaderOptions loaderOptions = new LoaderOptions();
-    loaderOptions.setProcessComments(false);
-    loaderOptions.setMergeOnCompose(true);
-
     DumperOptions dumperOptions = new DumperOptions();
     dumperOptions.setDereferenceAliases(true);
 
-    Yaml yaml = new Yaml(loaderOptions, dumperOptions);
+    Yaml yaml = new Yaml(dumperOptions);
     Node sourceTree = yaml.compose(new StringReader(str));
 
     StringWriter writer = new StringWriter();
@@ -71,6 +64,7 @@ public class MergeExpandTest {
 
     assertEquals(expected, out);
   }
+
 
   @Test
   public void merge_As_Scalar() {
