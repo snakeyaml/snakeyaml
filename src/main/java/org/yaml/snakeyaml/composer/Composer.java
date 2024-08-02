@@ -43,7 +43,7 @@ import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.resolver.Resolver;
-import org.yaml.snakeyaml.util.Tuple;
+import org.yaml.snakeyaml.util.MergeUtils;
 
 /**
  * Creates a node graph from parser events.
@@ -68,6 +68,8 @@ public class Composer {
   // keep the nesting of collections inside other collections
   private int nestingDepth = 0;
   private final int nestingDepthLimit;
+
+  private final MergeUtils mergeUtils;
 
   /**
    * Create
@@ -95,6 +97,12 @@ public class Composer {
         new CommentEventsCollector(parser, CommentType.BLANK_LINE, CommentType.BLOCK);
     this.inlineCommentsCollector = new CommentEventsCollector(parser, CommentType.IN_LINE);
     nestingDepthLimit = loadingConfig.getNestingDepthLimit();
+
+    mergeUtils = new MergeUtils() {
+      public MappingNode asMappingNode(Node node) {
+        return Composer.this.asMappingNode(node);
+      }
+    };
   }
 
   /**
@@ -335,7 +343,7 @@ public class Composer {
     }
 
     if (loadingConfig.isMergeOnCompose() && node.isMerged()) {
-      List<NodeTuple> updatedValue = flatten(node);
+      List<NodeTuple> updatedValue = mergeUtils.flatten(node);
       node.setValue(updatedValue);
       node.setMerged(false);
     }
@@ -358,45 +366,6 @@ public class Composer {
     children.add(new NodeTuple(itemKey, itemValue));
   }
 
-  protected List<NodeTuple> flatten(MappingNode node) {
-    List<NodeTuple> original = node.getValue();
-    Set<String> keys = new HashSet<>(original.size());
-    List<NodeTuple> updated = new ArrayList<>(original.size());
-    List<NodeTuple> merges = new ArrayList<>(2);
-
-    for (NodeTuple tuple : original) {
-      Node keyNode = tuple.getKeyNode();
-      if (keyNode.getTag().equals(Tag.MERGE)) {
-        merges.add(tuple);
-      } else {
-        updated.add(tuple);
-        if (keyNode instanceof ScalarNode) {
-          ScalarNode sNode = (ScalarNode) keyNode;
-          keys.add(sNode.getValue());
-        }
-      }
-    }
-
-    for (NodeTuple tuple : merges) {
-      Node valueNode = tuple.getValueNode();
-      if (valueNode instanceof SequenceNode) {
-        SequenceNode seqNode = (SequenceNode) valueNode;
-        for (Node ref : seqNode.getValue()) {
-          MappingNode mergable = asMappingNode(ref);
-          Tuple<List<NodeTuple>, Set<String>> filtered = filter(mergable.getValue(), keys);
-          updated.addAll(filtered._1());
-          keys.addAll(filtered._2());
-        }
-      } else {
-        MappingNode mergable = asMappingNode(valueNode);
-        Tuple<List<NodeTuple>, Set<String>> filtered = filter(mergable.getValue(), keys);
-        updated.addAll(filtered._1());
-        keys.addAll(filtered._2());
-      }
-    }
-    return updated;
-  }
-
   protected MappingNode asMappingNode(Node node) {
     if (node instanceof MappingNode) {
       return (MappingNode) node;
@@ -409,27 +378,6 @@ public class Composer {
     // TODO: add corrrect marks to the exception
     throw new ComposerException("Expected mapping node or an anchor referencing mapping", null,
         null, null);
-  }
-
-  protected Tuple<List<NodeTuple>, Set<String>> filter(List<NodeTuple> mergables,
-      Set<String> filter) {
-    int size = mergables.size();
-    Set<String> keys = new HashSet<>(size);
-    List<NodeTuple> result = new ArrayList<>(size);
-    for (NodeTuple tuple : mergables) {
-      Node key = tuple.getKeyNode();
-      if (key instanceof ScalarNode) {
-        ScalarNode sNode = (ScalarNode) key;
-        String nodeValue = sNode.getValue();
-        if (!filter.contains(nodeValue)) {
-          result.add(tuple);
-          keys.add(nodeValue);
-        }
-      } else {
-        result.add(tuple);
-      }
-    }
-    return new Tuple<>(result, keys);
   }
 
   /**
