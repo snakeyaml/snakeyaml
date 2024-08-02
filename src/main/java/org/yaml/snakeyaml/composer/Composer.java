@@ -317,14 +317,12 @@ public class Composer {
       node.setAnchor(anchor);
       anchors.put(anchor, node);
     }
-    boolean hasMerges = false;
     while (!parser.checkEvent(Event.ID.MappingEnd)) {
       blockCommentsCollector.collectEvents();
       if (parser.checkEvent(Event.ID.MappingEnd)) {
         break;
       }
       composeMappingChildren(children, node);
-      hasMerges = hasMerges || node.isMerged();
     }
     if (startEvent.isFlow()) {
       node.setInLineComments(inlineCommentsCollector.collectEvents().consume());
@@ -336,9 +334,10 @@ public class Composer {
       node.setInLineComments(inlineCommentsCollector.consume());
     }
 
-    if (loadingConfig.isMergeOnCompose() && hasMerges) {
+    if (loadingConfig.isMergeOnCompose() && node.isMerged()) {
       List<NodeTuple> updatedValue = flatten(node);
       node.setValue(updatedValue);
+      node.setMerged(false);
     }
 
     return node;
