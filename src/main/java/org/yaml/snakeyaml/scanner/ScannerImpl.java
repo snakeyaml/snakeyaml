@@ -231,8 +231,23 @@ public final class ScannerImpl implements Scanner {
   }
 
   /**
+   * Check whether the next token is the given type.
+   */
+  @Override
+  public boolean checkToken(Token.ID choice) {
+    while (needMoreTokens()) {
+      fetchMoreTokens();
+    }
+    if (!this.tokens.isEmpty()) {
+      return this.tokens.get(0).getTokenId() == choice;
+    }
+    return false;
+  }
+
+  /**
    * Check whether the next token is one of the given types.
    */
+  @Override
   public boolean checkToken(Token.ID... choices) {
     while (needMoreTokens()) {
       fetchMoreTokens();

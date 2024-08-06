@@ -37,6 +37,18 @@ public interface Scanner {
   boolean checkToken(Token.ID... choices);
 
   /**
+   * Check if the next token is the given type.
+   *
+   * @param choice token ID to match with
+   * @return <code>true</code> if the next token is the given type. Returns <code>false</code> if no
+   *         more tokens are available.
+   * @throws ScannerException Thrown in case of malformed input.
+   */
+  default boolean checkToken(Token.ID choice) {
+    return checkToken(new Token.ID[] {choice});
+  }
+
+  /**
    * Return the next token, but do not delete it from the stream.
    *
    * @return The token that will be returned on the next call to {@link #getToken}
