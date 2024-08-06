@@ -98,8 +98,8 @@ public final class Serializer {
         if (node instanceof MappingNode) {
           return (MappingNode) node;
         }
-        // TODO: This need to be explored more to understand if only MappingNode possible.Or at
-        // least message need to be improved.
+        // TODO: This need to be explored more to understand if only MappingNode possible.
+        // Or at least the error message needs to be improved.
         throw new SerializerException("expecting MappingNode while processing merge.");
       }
     };
