@@ -1673,7 +1673,7 @@ public final class ScannerImpl implements Scanner {
         if (folded && "\n".equals(lineBreak) && leadingNonSpace
             && " \t".indexOf(reader.peek()) == -1) {
           if (breaks.isEmpty()) {
-            chunks.append(" ");
+            chunks.append(' ');
           }
         } else {
           chunks.append(lineBreak);
@@ -1879,10 +1879,10 @@ public final class ScannerImpl implements Scanner {
     Mark startMark = reader.getMark();
     int quote = reader.peek();
     reader.forward();
-    chunks.append(scanFlowScalarNonSpaces(_double, startMark));
+    scanFlowScalarNonSpaces(_double, startMark, chunks);
     while (reader.peek() != quote) {
-      chunks.append(scanFlowScalarSpaces(startMark));
-      chunks.append(scanFlowScalarNonSpaces(_double, startMark));
+      scanFlowScalarSpaces(startMark, chunks);
+      scanFlowScalarNonSpaces(_double, startMark, chunks);
     }
     reader.forward();
     Mark endMark = reader.getMark();
@@ -1893,9 +1893,7 @@ public final class ScannerImpl implements Scanner {
   /**
    * Scan some number of flow-scalar non-space characters.
    */
-  private String scanFlowScalarNonSpaces(boolean doubleQuoted, Mark startMark) {
-    // See the specification for details.
-    StringBuilder chunks = new StringBuilder();
+  private void scanFlowScalarNonSpaces(boolean doubleQuoted, Mark startMark, StringBuilder chunks) {
     while (true) {
       // Scan through any number of characters which are not: NUL, blank,
       // tabs, line breaks, single-quotes, double-quotes, or backslashes.
@@ -1910,7 +1908,7 @@ public final class ScannerImpl implements Scanner {
       // differing meanings.
       int c = reader.peek();
       if (!doubleQuoted && c == '\'' && reader.peek(1) == '\'') {
-        chunks.append("'");
+        chunks.append('\'');
         reader.forward(2);
       } else if ((doubleQuoted && c == '\'') || (!doubleQuoted && "\"\\".indexOf(c) != -1)) {
         chunks.appendCodePoint(c);
@@ -1939,8 +1937,7 @@ public final class ScannerImpl implements Scanner {
           }
           int decimal = Integer.parseInt(hex, 16);
           try {
-            String unicode = new String(Character.toChars(decimal));
-            chunks.append(unicode);
+            chunks.appendCodePoint(decimal);
             reader.forward(length);
           } catch (IllegalArgumentException e) {
             throw new ScannerException("while scanning a double-quoted scalar", startMark,
@@ -1954,14 +1951,13 @@ public final class ScannerImpl implements Scanner {
               "found unknown escape character " + s + "(" + c + ")", reader.getMark());
         }
       } else {
-        return chunks.toString();
+        return;
       }
     }
   }
 
-  private String scanFlowScalarSpaces(Mark startMark) {
+  private void scanFlowScalarSpaces(Mark startMark, StringBuilder chunks) {
     // See the specification for details.
-    StringBuilder chunks = new StringBuilder();
     int length = 0;
     // Scan through any number of whitespace (space, tab) characters,
     // consuming them.
@@ -1982,13 +1978,12 @@ public final class ScannerImpl implements Scanner {
       if (!"\n".equals(lineBreak)) {
         chunks.append(lineBreak);
       } else if (breaks.isEmpty()) {
-        chunks.append(" ");
+        chunks.append(' ');
       }
       chunks.append(breaks);
     } else {
       chunks.append(whitespaces);
     }
-    return chunks.toString();
   }
 
   private String scanFlowScalarBreaks(Mark startMark) {
