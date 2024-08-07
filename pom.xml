@@ -275,17 +275,9 @@
                 <groupId>pw.krejci</groupId>
                 <artifactId>jmh-maven-plugin</artifactId>
                 <version>0.2.2</version>
-                <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>jmh</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <resultFormat>json</resultFormat>
-                    <resultFile>jmh-result.json</resultFile>
+                    <resultsFile>${project.build.directory}/jmh-result.json</resultsFile>
                 </configuration>
             </plugin>
             <plugin>
