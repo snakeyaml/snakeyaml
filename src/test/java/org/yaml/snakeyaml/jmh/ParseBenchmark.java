@@ -38,10 +38,15 @@ import org.yaml.snakeyaml.representer.Representer;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+/**
+ * JMH microbenchmark to test average processing time for relatively simple small (18.34 KiB for one
+ * thousand entries) and medium (2.17 MiB for one hundred thousand entries) yaml documents
+ * containing map of `entries`.
+ */
 @Fork(1)
 @Warmup(iterations = 3, time = 10)
 @Measurement(iterations = 3, time = 10)
@@ -64,15 +69,18 @@ public class ParseBenchmark {
   }
 
   public static void main(String[] args) throws RunnerException {
-    new Runner(new OptionsBuilder().include(ParseBenchmark.class.getSimpleName())
-            .build()).run();
+    new Runner(new OptionsBuilder().include(ParseBenchmark.class.getSimpleName()).build()).run();
   }
 
   @Setup
   public void setup() throws IOException {
-    yamlString = yaml.dump(IntStream.range(0, entries).boxed()
-            .collect(Collectors.toMap(i -> i, i -> Integer.toString(i))));
-    System.out.printf("%nyaml bytes length: %d%n", yamlString.getBytes(StandardCharsets.UTF_8).length);
+    Map<Integer, String> map = new HashMap<>(entries);
+    for (int i = 0; i < entries; i++) {
+      map.put(i, Integer.toString(i));
+    }
+    yamlString = yaml.dump(map);
+    System.out.printf("%nyaml bytes length: %d%n",
+        yamlString.getBytes(StandardCharsets.UTF_8).length);
   }
 
   @Benchmark
