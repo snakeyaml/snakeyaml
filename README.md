@@ -44,3 +44,22 @@ For YAML 1.2 (which is a superset of JSON) you may have a look at [SnakeYAML Eng
 * [Slack workspace](https://app.slack.com/client/T26CKL7FU/D02URJSL2KS)
 * Telegram group is removed because of the spam
 * [YAML community](https://matrix.to/#/%23chat:yaml.io)
+
+## JMH microbenchmarks ##
+
+To execute the [JMH](https://github.com/openjdk/jmh) microbenchmarks locally via Maven:
+
+```shell
+./mvnw jmh:benchmark
+```
+This will produce console results such as the following, as well as a `./jmh-result.json` that can be
+visualized via https://jmh.morethan.io/ .
+
+```text
+Benchmark                    (entries)  Mode  Cnt    Score     Error  Units
+EmitterBenchmark.emitScalar        N/A  avgt    3    0.299 ±   0.047  us/op
+ParseBenchmark.load               1000  avgt    3    1.388 ±   0.103  ms/op
+ParseBenchmark.load             100000  avgt    3  258.281 ± 367.009  ms/op
+ParseBenchmark.parse              1000  avgt    3    0.886 ±   0.163  ms/op
+ParseBenchmark.parse            100000  avgt    3   94.930 ±   3.995  ms/op
+```
