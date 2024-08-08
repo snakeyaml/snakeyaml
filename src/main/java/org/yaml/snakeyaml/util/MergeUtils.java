@@ -26,17 +26,37 @@ import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * Utility to enable Node merging
+ * Utility to process merge keys (https://yaml.org/type/merge.html) of the MappingNode
  */
 public abstract class MergeUtils {
 
   /**
-   * Transform the provided Node into MappingNode in Composer or Serializer
-   * @param node - the node to flatten
-   * @return node or its reference to proceed with flatten
+   * Converts the specified {@code node} into a {@link MappingNode}.
+   * <p>
+   * This method is designed to transform various types of {@link Node} into a {@link MappingNode},
+   * enabling further processing such as merging of keys.
+   * </p>
+   *
+   * @param node The node to be transformed.
+   * @return A {@link MappingNode} representation of the input {@code node}.
    */
   abstract public MappingNode asMappingNode(Node node);
 
+  /**
+   * Processes and resolves merge keys in a {@link MappingNode}, merging resolved key/values into
+   * the node.
+   * <p>
+   * Implements the YAML merge key feature by examining the nodes within the provided {@code node}
+   * and merging keys from referenced by "merge key" map(s) into the current mapping as per the YAML
+   * specification. Handling of duplicate keys is defined by the order of appearance in the mapping
+   * node, with priority given to the keys defined in {@code node} and the the earliest occurrences
+   * in the merging ones.
+   * </p>
+   *
+   * @param node The MappingNode to process for merge keys.
+   * @return A list of {@link NodeTuple} containing the merged keys and values.
+   * @see <a href="https://yaml.org/type/merge.html">YAML Merge Key Specification</a>
+   */
   public List<NodeTuple> flatten(MappingNode node) {
     List<NodeTuple> original = node.getValue();
     Set<String> keys = new HashSet<>(original.size());
@@ -76,6 +96,23 @@ public abstract class MergeUtils {
     return updated;
   }
 
+  /**
+   * Filters out {@link NodeTuple}s with {@link ScalarNode} keys that are present in the provided
+   * filter set.
+   * <p>
+   * This utility method supports the {@link #flatten(MappingNode)} method by filtering out node
+   * tuples based on their key's presence in a set of strings. This ensures that the returned list
+   * of NodeTuples does not contain any keys that are present in the filter set. The set of strings
+   * returned alongside the list represents the keys of the NodeTuples in the returned list,
+   * facilitating the identification of newly added keys as part of the merge process.
+   * </p>
+   *
+   * @param mergables The list of NodeTuples to process.
+   * @param filter A set of string values used as a filter. NodeTuples with keys in this set are
+   *        omitted.
+   * @return A tuple of a list of filtered NodeTuples and a set containing the keys of the
+   *         NodeTuples in the returned list.
+   */
   private Tuple<List<NodeTuple>, Set<String>> filter(List<NodeTuple> mergables,
       Set<String> filter) {
     int size = mergables.size();
