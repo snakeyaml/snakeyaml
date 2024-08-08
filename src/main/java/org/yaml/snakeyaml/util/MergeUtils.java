@@ -25,6 +25,9 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
 
+/**
+ * Utility to enable Node merging
+ */
 public abstract class MergeUtils {
 
   abstract public MappingNode asMappingNode(Node node);
@@ -88,5 +91,4 @@ public abstract class MergeUtils {
     }
     return new Tuple<>(result, keys);
   }
-
 }
