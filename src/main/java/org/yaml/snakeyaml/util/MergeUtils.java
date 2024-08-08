@@ -30,6 +30,11 @@ import org.yaml.snakeyaml.nodes.Tag;
  */
 public abstract class MergeUtils {
 
+  /**
+   * Transform the provided Node into MappingNode in Composer or Serializer
+   * @param node - the node to flatten
+   * @return node or its reference to proceed with flatten
+   */
   abstract public MappingNode asMappingNode(Node node);
 
   public List<NodeTuple> flatten(MappingNode node) {
