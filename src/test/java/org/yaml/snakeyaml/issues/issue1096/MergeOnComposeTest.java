@@ -86,11 +86,9 @@ public class MergeOnComposeTest {
       yaml.compose(new StringReader(str));
       fail();
     } catch (Exception e) {
-      assertTrue(e.getMessage().contains("Expected mapping node or an anchor referencing mapping"));
+      String error = e.getMessage();
+      assertTrue(error, error.contains("Expected mapping node or an anchor referencing mapping"));
+      assertTrue(error, error.contains("in 'reader', line 6, column 10:"));
     }
-
   }
-
-
-
 }

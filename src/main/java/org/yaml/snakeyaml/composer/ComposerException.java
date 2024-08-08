@@ -24,7 +24,7 @@ public class ComposerException extends MarkedYAMLException {
   private static final long serialVersionUID = 2146314636913113935L;
 
   /**
-   * Create
+   * Create exception when context is available
    *
    * @param context - context
    * @param contextMark - mark
@@ -33,5 +33,15 @@ public class ComposerException extends MarkedYAMLException {
    */
   protected ComposerException(String context, Mark contextMark, String problem, Mark problemMark) {
     super(context, contextMark, problem, problemMark);
+  }
+
+  /**
+   * Create exception without a context
+   *
+   * @param problem - the issue
+   * @param problemMark - where the issue occurs
+   */
+  protected ComposerException(String problem, Mark problemMark) {
+    this(null, null, problem, problemMark);
   }
 }

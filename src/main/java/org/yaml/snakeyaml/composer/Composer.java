@@ -188,8 +188,7 @@ public class Composer {
       AliasEvent event = (AliasEvent) parser.getEvent();
       String anchor = event.getAnchor();
       if (!anchors.containsKey(anchor)) {
-        throw new ComposerException(null, null, "found undefined alias " + anchor,
-            event.getStartMark());
+        throw new ComposerException("found undefined alias " + anchor, event.getStartMark());
       }
       node = anchors.get(anchor);
       if (!(node instanceof ScalarNode)) {
@@ -237,8 +236,7 @@ public class Composer {
       nodeTag = new Tag(tag);
       if (nodeTag.isCustomGlobal()
           && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag)) {
-        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
-            ev.getStartMark());
+        throw new ComposerException("Global tag is not allowed: " + tag, ev.getStartMark());
       }
     }
     Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(), ev.getEndMark(),
@@ -265,8 +263,7 @@ public class Composer {
       nodeTag = new Tag(tag);
       if (nodeTag.isCustomGlobal()
           && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag)) {
-        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
-            startEvent.getStartMark());
+        throw new ComposerException("Global tag is not allowed: " + tag, startEvent.getStartMark());
       }
     }
     final ArrayList<Node> children = new ArrayList<Node>();
@@ -310,8 +307,7 @@ public class Composer {
       nodeTag = new Tag(tag);
       if (nodeTag.isCustomGlobal()
           && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag)) {
-        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
-            startEvent.getStartMark());
+        throw new ComposerException("Global tag is not allowed: " + tag, startEvent.getStartMark());
       }
     }
 
@@ -375,9 +371,9 @@ public class Composer {
         return (MappingNode) ref;
       }
     }
-    // TODO: add corrrect marks to the exception
-    throw new ComposerException("Expected mapping node or an anchor referencing mapping", null,
-        null, null);
+    Event ev = parser.peekEvent();
+    throw new ComposerException("Expected mapping node or an anchor referencing mapping",
+        ev.getStartMark());
   }
 
   /**
