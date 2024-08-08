@@ -1,0 +1,28 @@
+.input: &anchor
+  foo: first
+.input-2: &anchor2
+  <<: *anchor
+  bar: 0
+.input-3: &anchor3
+  <<: *anchor2
+simple:
+  <<: *anchor
+  bar: 123
+complex:
+  <<: *anchor
+  foo: override
+  bar: 234
+complex-2:
+  foo: none
+  <<: *anchor
+  bar: 123
+double:
+  <<: *anchor2
+double-2:
+  <<: *anchor2
+  bar: 999
+tripple:
+  <<: *anchor3
+tripple-2:
+  <<: *anchor3
+  foo: tripplet

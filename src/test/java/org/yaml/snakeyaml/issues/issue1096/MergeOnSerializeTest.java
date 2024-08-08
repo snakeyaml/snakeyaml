@@ -46,6 +46,23 @@ public class MergeOnSerializeTest {
     assertEquals(expected, out);
   }
 
+  @Test
+  public void complex_Merge() {
+    String str = Util.getLocalResource("issues/issue1096-complex-merge-input.yaml");
+    String expected = Util.getLocalResource("issues/issue1096-complex-merge-output.yaml");
+
+    DumperOptions dumperOptions = new DumperOptions();
+    dumperOptions.setDereferenceAliases(true);
+
+    Yaml yaml = new Yaml(dumperOptions);
+    Node sourceTree = yaml.compose(new StringReader(str));
+
+    StringWriter writer = new StringWriter();
+    yaml.serialize(sourceTree, writer);
+    String out = writer.toString();
+    assertEquals(expected, out);
+  }
+
 
   @Test
   public void specs_Merge() {

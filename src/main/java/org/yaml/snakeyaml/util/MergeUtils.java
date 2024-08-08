@@ -58,42 +58,51 @@ public abstract class MergeUtils {
    * @see <a href="https://yaml.org/type/merge.html">YAML Merge Key Specification</a>
    */
   public List<NodeTuple> flatten(MappingNode node) {
-    List<NodeTuple> original = node.getValue();
-    Set<String> keys = new HashSet<>(original.size());
-    List<NodeTuple> updated = new ArrayList<>(original.size());
-    List<NodeTuple> merges = new ArrayList<>(2);
-
-    for (NodeTuple tuple : original) {
-      Node keyNode = tuple.getKeyNode();
-      if (keyNode.getTag().equals(Tag.MERGE)) {
-        merges.add(tuple);
-      } else {
-        updated.add(tuple);
-        if (keyNode instanceof ScalarNode) {
-          ScalarNode sNode = (ScalarNode) keyNode;
-          keys.add(sNode.getValue());
+    List<NodeTuple> toProcess = node.getValue();
+    List<NodeTuple> result = toProcess;
+    boolean process = true;
+    while (process) {
+      process = false;
+      List<NodeTuple> updated = new ArrayList<>(toProcess.size());
+      Set<String> keys = new HashSet<>(toProcess.size());
+      List<NodeTuple> merges = new ArrayList<>(2);
+      for (NodeTuple tuple : toProcess) {
+        Node keyNode = tuple.getKeyNode();
+        if (keyNode.getTag().equals(Tag.MERGE)) {
+          merges.add(tuple);
+        } else {
+          updated.add(tuple);
+          if (keyNode instanceof ScalarNode) {
+            ScalarNode sNode = (ScalarNode) keyNode;
+            keys.add(sNode.getValue());
+          }
         }
       }
-    }
-
-    for (NodeTuple tuple : merges) {
-      Node valueNode = tuple.getValueNode();
-      if (valueNode instanceof SequenceNode) {
-        SequenceNode seqNode = (SequenceNode) valueNode;
-        for (Node ref : seqNode.getValue()) {
-          MappingNode mergable = asMappingNode(ref);
+      for (NodeTuple tuple : merges) {
+        Node valueNode = tuple.getValueNode();
+        if (valueNode instanceof SequenceNode) {
+          SequenceNode seqNode = (SequenceNode) valueNode;
+          for (Node ref : seqNode.getValue()) {
+            MappingNode mergable = asMappingNode(ref);
+            process = process || mergable.isMerged();
+            Tuple<List<NodeTuple>, Set<String>> filtered = filter(mergable.getValue(), keys);
+            updated.addAll(filtered._1());
+            keys.addAll(filtered._2());
+          }
+        } else {
+          MappingNode mergable = asMappingNode(valueNode);
+          process = process || mergable.isMerged();
           Tuple<List<NodeTuple>, Set<String>> filtered = filter(mergable.getValue(), keys);
           updated.addAll(filtered._1());
           keys.addAll(filtered._2());
         }
-      } else {
-        MappingNode mergable = asMappingNode(valueNode);
-        Tuple<List<NodeTuple>, Set<String>> filtered = filter(mergable.getValue(), keys);
-        updated.addAll(filtered._1());
-        keys.addAll(filtered._2());
+      }
+      result = updated;
+      if (process) {
+        toProcess = updated;
       }
     }
-    return updated;
+    return result;
   }
 
   /**
