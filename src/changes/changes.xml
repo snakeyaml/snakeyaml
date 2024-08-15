@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.3" date="in GIT" description="Maintenance">
+            <action dev="maslovalex" type="add">
+                Add possibility to create JMH benchmark (thank to David Schlosnagle)
+            </action>
             <action dev="maslovalex" type="fix" issue="1096">
                 Implement the merge tag in the Node graph (thanks to Floris Westerman)
             </action>
