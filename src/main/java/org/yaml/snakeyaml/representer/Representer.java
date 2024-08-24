@@ -42,6 +42,14 @@ public class Representer extends SafeRepresenter {
 
   protected Map<Class<? extends Object>, TypeDescription> typeDefinitions = Collections.emptyMap();
 
+  /**
+   * Add parameter free constructor, fix upgrade jar version startup failure
+   */
+  public Representer() {
+    super(new DumperOptions());
+    this.representers.put(null, new RepresentJavaBean());
+  }
+
   public Representer(DumperOptions options) {
     super(options);
     this.representers.put(null, new RepresentJavaBean());
