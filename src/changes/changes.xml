@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.4" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="add">
+                Use tests for java 8
+            </action>
             <action dev="asomov" type="remove">
                 Remove external Base64Coder and use provided Base64 (thanks to MithunKhanna)
             </action>
