@@ -5,6 +5,11 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
+        <release version="2.4" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="update">
+                Support JDK 21
+            </action>
+        </release>
         <release version="2.3" date="2024-08-31" description="Maintenance">
             <action dev="maslovalex" type="add">
                 Add possibility to create JMH benchmark (thank to David Schlosnagle)
