@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.comments.CommentEventsCollector;
@@ -42,6 +43,7 @@ import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.resolver.Resolver;
+import org.yaml.snakeyaml.util.MergeUtils;
 
 /**
  * Creates a node graph from parser events.
@@ -66,6 +68,8 @@ public class Composer {
   // keep the nesting of collections inside other collections
   private int nestingDepth = 0;
   private final int nestingDepthLimit;
+
+  private final MergeUtils mergeUtils;
 
   /**
    * Create
@@ -93,6 +97,12 @@ public class Composer {
         new CommentEventsCollector(parser, CommentType.BLANK_LINE, CommentType.BLOCK);
     this.inlineCommentsCollector = new CommentEventsCollector(parser, CommentType.IN_LINE);
     nestingDepthLimit = loadingConfig.getNestingDepthLimit();
+
+    mergeUtils = new MergeUtils() {
+      public MappingNode asMappingNode(Node node) {
+        return Composer.this.asMappingNode(node);
+      }
+    };
   }
 
   /**
@@ -178,8 +188,7 @@ public class Composer {
       AliasEvent event = (AliasEvent) parser.getEvent();
       String anchor = event.getAnchor();
       if (!anchors.containsKey(anchor)) {
-        throw new ComposerException(null, null, "found undefined alias " + anchor,
-            event.getStartMark());
+        throw new ComposerException("found undefined alias " + anchor, event.getStartMark());
       }
       node = anchors.get(anchor);
       if (!(node instanceof ScalarNode)) {
@@ -227,8 +236,7 @@ public class Composer {
       nodeTag = new Tag(tag);
       if (nodeTag.isCustomGlobal()
           && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag)) {
-        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
-            ev.getStartMark());
+        throw new ComposerException("Global tag is not allowed: " + tag, ev.getStartMark());
       }
     }
     Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(), ev.getEndMark(),
@@ -255,8 +263,7 @@ public class Composer {
       nodeTag = new Tag(tag);
       if (nodeTag.isCustomGlobal()
           && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag)) {
-        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
-            startEvent.getStartMark());
+        throw new ComposerException("Global tag is not allowed: " + tag, startEvent.getStartMark());
       }
     }
     final ArrayList<Node> children = new ArrayList<Node>();
@@ -300,8 +307,7 @@ public class Composer {
       nodeTag = new Tag(tag);
       if (nodeTag.isCustomGlobal()
           && !loadingConfig.getTagInspector().isGlobalTagAllowed(nodeTag)) {
-        throw new ComposerException(null, null, "Global tag is not allowed: " + tag,
-            startEvent.getStartMark());
+        throw new ComposerException("Global tag is not allowed: " + tag, startEvent.getStartMark());
       }
     }
 
@@ -331,6 +337,13 @@ public class Composer {
     if (!inlineCommentsCollector.isEmpty()) {
       node.setInLineComments(inlineCommentsCollector.consume());
     }
+
+    if (loadingConfig.isMergeOnCompose() && node.isMerged()) {
+      List<NodeTuple> updatedValue = mergeUtils.flatten(node);
+      node.setValue(updatedValue);
+      node.setMerged(false);
+    }
+
     return node;
   }
 
@@ -347,6 +360,20 @@ public class Composer {
     }
     Node itemValue = composeValueNode(node);
     children.add(new NodeTuple(itemKey, itemValue));
+  }
+
+  protected MappingNode asMappingNode(Node node) {
+    if (node instanceof MappingNode) {
+      return (MappingNode) node;
+    } else {
+      Node ref = anchors.get(node.getAnchor());
+      if (ref instanceof MappingNode) {
+        return (MappingNode) ref;
+      }
+    }
+    Event ev = parser.peekEvent();
+    throw new ComposerException("Expected mapping node or an anchor referencing mapping",
+        ev.getStartMark());
   }
 
   /**

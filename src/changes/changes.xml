@@ -5,7 +5,34 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="2.3" date="in GIT" description="Maintenance">
+        <release version="2.3" date="2024-08-31" description="Maintenance">
+            <action dev="maslovalex" type="add">
+                Add possibility to create JMH benchmark (thank to David Schlosnagle)
+            </action>
+            <action dev="maslovalex" type="fix" issue="1096">
+                Implement the merge tag in the Node graph (thanks to Floris Westerman)
+            </action>
+            <action dev="asomov" type="update" issue="1090">
+                Try to keep the anchor name when available (thanks to Gergely Czuczy)
+            </action>
+            <action dev="asomov" type="update" issue="1089">
+                Add test for issue 1089 (thanks to Gergely Czuczy)
+            </action>
+            <action dev="asomov" type="update" issue="1088">
+                Test when a field starts with single lower case letter (thanks to Evgeny Bogatyrev)
+            </action>
+            <action dev="asomov" type="update" issue="1084">
+                Dump as JSON (thanks to Mikael Ståldal)
+            </action>
+            <action dev="asomov" type="update">
+                Run SnakeYAML without java.desktop module (thanks to Jaroslav Tulach)
+            </action>
+            <action dev="asomov" type="fix" issue="1087">
+                Remove unused BUFFER_SIZE (thanks to Róbert Papp (TWiStErRob))
+            </action>
+            <action dev="maslovalex" type="fix" issue="1086">
+                Use DumberOptions.setDereferenceAliases to avoid dumping anchors (thanks to Mikael Ståldal)
+            </action>
             <action dev="asomov" type="fix" issue="1080">
                 Added test for issue 1080 (thanks to Ralph)
             </action>

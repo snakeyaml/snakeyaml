@@ -13,11 +13,17 @@
  */
 package org.yaml.snakeyaml.introspector;
 
+import java.beans.FeatureDescriptor;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.util.ArrayUtils;
 
@@ -132,6 +138,49 @@ public class MethodProperty extends GenericProperty {
   @Override
   public boolean isReadable() {
     return readable;
+  }
+
+  private static final String TRANSIENT = "transient";
+
+  private static boolean isTransient(FeatureDescriptor fd) {
+    return Boolean.TRUE.equals(fd.getValue(TRANSIENT));
+  }
+
+  /**
+   * Introspects given {@code type} and adds found properties to {@code properties} map.
+   *
+   * @param type the type to introspect
+   * @param properties map to add found properties to
+   * @return {@code true} if an inaccessible field was found
+   */
+  static boolean addPublicFields(Class<?> type, Map<String, Property> properties) {
+    boolean inaccessableFieldsExist = false;
+    try {
+      for (PropertyDescriptor property : Introspector.getBeanInfo(type).getPropertyDescriptors()) {
+        Method readMethod = property.getReadMethod();
+        if ((readMethod == null || !readMethod.getName().equals("getClass"))
+            && !isTransient(property)) {
+          properties.put(property.getName(), new MethodProperty(property));
+        }
+      }
+    } catch (IntrospectionException e) {
+      throw new YAMLException(e);
+    }
+
+    // add public fields
+    for (Class<?> c = type; c != null; c = c.getSuperclass()) {
+      for (Field field : c.getDeclaredFields()) {
+        int modifiers = field.getModifiers();
+        if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)) {
+          if (Modifier.isPublic(modifiers)) {
+            properties.put(field.getName(), new FieldProperty(field));
+          } else {
+            inaccessableFieldsExist = true;
+          }
+        }
+      }
+    }
+    return inaccessableFieldsExist;
   }
 
 }

@@ -1,0 +1,6 @@
+# first image
+image1: &repo
+  repository:  some.re.po
+  tag: 1.2.3
+# second image
+image2: *repo

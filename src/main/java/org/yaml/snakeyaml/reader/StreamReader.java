@@ -51,8 +51,6 @@ public class StreamReader {
   private final char[] buffer; // temp buffer for one read operation (to avoid
   // creating the array in stack)
 
-  private static final int BUFFER_SIZE = 1025;
-
   public StreamReader(String stream) {
     this(new StringReader(stream));
     this.name = "'string'";
@@ -67,7 +65,7 @@ public class StreamReader {
     this.dataLength = 0;
     this.stream = reader;
     this.eof = false;
-    this.buffer = new char[BUFFER_SIZE];
+    this.buffer = new char[1024];
   }
 
   public static boolean isPrintable(final String data) {
@@ -177,7 +175,7 @@ public class StreamReader {
 
   private void update() {
     try {
-      int read = stream.read(buffer, 0, BUFFER_SIZE - 1);
+      int read = stream.read(buffer);
       if (read > 0) {
         int cpIndex = (dataLength - pointer);
         dataWindow = Arrays.copyOfRange(dataWindow, pointer, dataLength + read);

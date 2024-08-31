@@ -22,8 +22,7 @@ import org.yaml.snakeyaml.error.Mark;
 public final class ScalarEvent extends NodeEvent {
 
   private final String tag;
-  // style flag of a scalar event indicates the style of the scalar. Possible
-  // values are None, '', '\'', '"', '|', '>'
+  // style flag of a scalar event indicates the style of the scalar.
   private final DumperOptions.ScalarStyle style;
   private final String value;
   // The implicit flag of a scalar event is a pair of boolean values that
@@ -95,7 +94,8 @@ public final class ScalarEvent extends NodeEvent {
 
   @Override
   protected String getArguments() {
-    return super.getArguments() + ", tag=" + tag + ", " + implicit + ", value=" + value;
+    return super.getArguments() + ", tag=" + tag + ", style=" + style + "," + implicit + ", value="
+        + value;
   }
 
   @Override
@@ -105,5 +105,25 @@ public final class ScalarEvent extends NodeEvent {
 
   public boolean isPlain() {
     return style == DumperOptions.ScalarStyle.PLAIN;
+  }
+
+  public boolean isLiteral() {
+    return style == DumperOptions.ScalarStyle.LITERAL;
+  }
+
+  public boolean isSQuoted() {
+    return style == DumperOptions.ScalarStyle.SINGLE_QUOTED;
+  }
+
+  public boolean isDQuoted() {
+    return style == DumperOptions.ScalarStyle.DOUBLE_QUOTED;
+  }
+
+  public boolean isFolded() {
+    return style == DumperOptions.ScalarStyle.FOLDED;
+  }
+
+  public boolean isJson() {
+    return style == DumperOptions.ScalarStyle.JSON_SCALAR_STYLE;
   }
 }

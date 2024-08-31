@@ -86,7 +86,19 @@ public class Yaml {
   /**
    * Create Yaml instance.
    *
-   * @param representer Representer to emit outgoing objects
+   * @param loadingConfig LoadingConfig to control load behavior
+   * @param dumperOptions DumperOptions to configure outgoing objects
+   */
+  public Yaml(LoaderOptions loadingConfig, DumperOptions dumperOptions) {
+    this(new Constructor(loadingConfig), new Representer(dumperOptions), dumperOptions);
+  }
+
+  /**
+   * Create Yaml instance.
+   *
+   * @param representer Representer to emit outgoing objects. The DumperOptions may not be fully
+   *        respected. It is better to use explicit DumperOptions.
+   * @deprecated use method with explicit DumperOptions
    */
   public Yaml(Representer representer) {
     this(new Constructor(new LoaderOptions()), representer);
@@ -105,7 +117,9 @@ public class Yaml {
    * Create Yaml instance.
    *
    * @param constructor BaseConstructor to construct incoming documents
-   * @param representer Representer to emit outgoing objects
+   * @param representer Representer to emit outgoing object. The DumperOptions may not be fully
+   *        respected. It is better to use explicit DumperOptions.
+   * @deprecated use method with explicit DumperOptions
    */
   public Yaml(BaseConstructor constructor, Representer representer) {
     this(constructor, representer, initDumperOptions(representer));

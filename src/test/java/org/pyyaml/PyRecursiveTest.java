@@ -13,18 +13,15 @@
  */
 package org.pyyaml;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 import junit.framework.TestCase;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.YamlCreator;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
+import org.yaml.snakeyaml.serializer.SerializerException;
+
+import java.util.*;
 
 public class PyRecursiveTest extends TestCase {
 
@@ -48,6 +45,22 @@ public class PyRecursiveTest extends TestCase {
       assertSame(tmpInstance.getBar(), tmpInstance.getFoo());
       assertSame(tmpInstance.getBar(), value2);
       assertSame(tmpInstance, value2.get(tmpInstance));
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testDictWithDereferenceAliases() {
+    Map<AnInstance, AnInstance> value = new HashMap<AnInstance, AnInstance>();
+    AnInstance instance = new AnInstance(value, value);
+    value.put(instance, instance);
+    DumperOptions options = new DumperOptions();
+    options.setDereferenceAliases(true);
+    Yaml dumper = new Yaml(options);
+    try {
+      dumper.dump(value);
+      fail("StackOverflowError is expected.");
+    } catch (SerializerException e) {
+      assertEquals("Cannot dereferenceAliases for recursive structures.", e.getMessage());
     }
   }
 
@@ -126,7 +139,7 @@ public class PyRecursiveTest extends TestCase {
     }
   }
 
-  public void testSet2() {
+  public void testStackOverflowError() {
     Set<Object> set = new HashSet<Object>(3);
     set.add("aaa");
     set.add(111);
@@ -134,7 +147,23 @@ public class PyRecursiveTest extends TestCase {
     Yaml yaml = new Yaml();
     try {
       yaml.dump(set);
-      fail("Java does not allow a recursive set to be a key for a map.");
+      fail("StackOverflowError is expected.");
+    } catch (StackOverflowError e) {
+      // ignore
+    }
+  }
+
+  public void testStackOverflowErrorForDereferenceAliases() {
+    Set<Object> set = new HashSet<Object>(3);
+    set.add("aaa");
+    set.add(111);
+    set.add(set);
+    DumperOptions options = new DumperOptions();
+    options.setDereferenceAliases(true);
+    Yaml yaml = new Yaml(options);
+    try {
+      yaml.dump(set);
+      fail("StackOverflowError is expected.");
     } catch (StackOverflowError e) {
       // ignore
     }

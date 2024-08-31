@@ -100,7 +100,7 @@ public final class Tag {
   public Tag(String tag) {
     if (tag == null) {
       throw new NullPointerException("Tag must be provided.");
-    } else if (tag.length() == 0) {
+    } else if (tag.isEmpty()) {
       throw new IllegalArgumentException("Tag must not be empty.");
     } else if (tag.trim().length() != tag.length()) {
       throw new IllegalArgumentException("Tag must not contain leading or trailing spaces.");

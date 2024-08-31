@@ -13,9 +13,10 @@
  */
 package org.yaml.snakeyaml.json;
 
-import java.util.Map;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.Yaml;
+
+import java.util.Map;
 
 public class JsonTest extends TestCase {
 

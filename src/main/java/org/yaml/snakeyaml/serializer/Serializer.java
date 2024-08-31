@@ -14,11 +14,14 @@
 package org.yaml.snakeyaml.serializer;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.comments.CommentLine;
@@ -44,6 +47,7 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
+import org.yaml.snakeyaml.util.MergeUtils;
 
 public final class Serializer {
 
@@ -58,6 +62,10 @@ public final class Serializer {
   private final AnchorGenerator anchorGenerator;
   private Boolean closed;
   private final Tag explicitRoot;
+  private final boolean dereferenceAliases;
+  private final Set<Node> recursive;
+
+  private final MergeUtils mergeUtils;
 
   public Serializer(Emitable emitter, Resolver resolver, DumperOptions opts, Tag rootTag) {
     if (emitter == null) {
@@ -80,8 +88,21 @@ public final class Serializer {
     this.serializedNodes = new HashSet<Node>();
     this.anchors = new HashMap<Node, String>();
     this.anchorGenerator = opts.getAnchorGenerator();
+    this.dereferenceAliases = opts.isDereferenceAliases();
+    this.recursive = Collections.newSetFromMap(new IdentityHashMap<Node, Boolean>());
     this.closed = null;
     this.explicitRoot = rootTag;
+
+    mergeUtils = new MergeUtils() {
+      public MappingNode asMappingNode(Node node) {
+        if (node instanceof MappingNode) {
+          return (MappingNode) node;
+        }
+        // TODO: This need to be explored more to understand if only MappingNode possible.
+        // Or at least the error message needs to be improved.
+        throw new SerializerException("expecting MappingNode while processing merge.");
+      }
+    };
   }
 
   public void open() throws IOException {
@@ -104,6 +125,7 @@ public final class Serializer {
       // release unused resources
       this.serializedNodes.clear();
       this.anchors.clear();
+      this.recursive.clear();
     }
   }
 
@@ -123,6 +145,7 @@ public final class Serializer {
     this.emitter.emit(new DocumentEndEvent(null, null, this.explicitEnd));
     this.serializedNodes.clear();
     this.anchors.clear();
+    this.recursive.clear();
   }
 
   private void anchorNode(Node node) {
@@ -165,8 +188,12 @@ public final class Serializer {
     if (node.getNodeId() == NodeId.anchor) {
       node = ((AnchorNode) node).getRealNode();
     }
-    String tAlias = this.anchors.get(node);
-    if (this.serializedNodes.contains(node)) {
+    if (dereferenceAliases && recursive.contains(node)) {
+      throw new SerializerException("Cannot dereferenceAliases for recursive structures.");
+    }
+    recursive.add(node);
+    String tAlias = !dereferenceAliases ? this.anchors.get(node) : null;
+    if (!dereferenceAliases && this.serializedNodes.contains(node)) {
       this.emitter.emit(new AliasEvent(tAlias, null, null));
     } else {
       this.serializedNodes.add(node);
@@ -201,11 +228,16 @@ public final class Serializer {
           break;
         default:// instance of MappingNode
           serializeComments(node.getBlockComments());
-          Tag implicitTag = this.resolver.resolve(NodeId.mapping, null, true);
-          boolean implicitM = node.getTag().equals(implicitTag);
-          MappingNode mnode = (MappingNode) node;
-          List<NodeTuple> map = mnode.getValue();
-          if (mnode.getTag() != Tag.COMMENT) {
+          if (node.getTag() != Tag.COMMENT) {
+            Tag implicitTag = this.resolver.resolve(NodeId.mapping, null, true);
+            boolean implicitM = node.getTag().equals(implicitTag);
+            MappingNode mnode = (MappingNode) node;
+            List<NodeTuple> map = mnode.getValue();
+
+            if (this.dereferenceAliases && mnode.isMerged()) {
+              map = mergeUtils.flatten(mnode);
+            }
+
             this.emitter.emit(new MappingStartEvent(tAlias, mnode.getTag().getValue(), implicitM,
                 null, null, mnode.getFlowStyle()));
             for (NodeTuple row : map) {
@@ -220,6 +252,7 @@ public final class Serializer {
           }
       }
     }
+    recursive.remove(node);
   }
 
   private void serializeComments(List<CommentLine> comments) throws IOException {

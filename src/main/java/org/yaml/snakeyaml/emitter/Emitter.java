@@ -859,7 +859,7 @@ public final class Emitter implements Emitable {
     if (event instanceof ScalarEvent) {
       ScalarEvent e = (ScalarEvent) event;
       return e.getAnchor() == null && e.getTag() == null && e.getImplicit() != null
-          && e.getValue().length() == 0;
+          && e.getValue().isEmpty();
     }
     return false;
   }
@@ -910,6 +910,9 @@ public final class Emitter implements Emitable {
     preparedAnchor = null;
   }
 
+  /**
+   * Emit the tag for the current event
+   */
   private void processTag() throws IOException {
     String tag = null;
     if (event instanceof ScalarEvent) {
@@ -918,11 +921,12 @@ public final class Emitter implements Emitable {
       if (style == null) {
         style = chooseScalarStyle();
       }
+      // check when no tag is required
       if ((!canonical || tag == null)
-          && ((style == null && ev.getImplicit().canOmitTagInPlainScalar())
-              || (style != null && ev.getImplicit().canOmitTagInNonPlainScalar()))) {
+          && ((style == ScalarStyle.PLAIN && ev.getImplicit().canOmitTagInPlainScalar())
+              || (style != ScalarStyle.PLAIN && ev.getImplicit().canOmitTagInNonPlainScalar()))) {
         preparedTag = null;
-        return;
+        return; // no tag required
       }
       if (ev.getImplicit().canOmitTagInPlainScalar() && tag == null) {
         tag = "!";
@@ -933,7 +937,7 @@ public final class Emitter implements Emitable {
       tag = ev.getTag();
       if ((!canonical || tag == null) && ev.getImplicit()) {
         preparedTag = null;
-        return;
+        return; // no tag required
       }
     }
     if (tag == null) {
@@ -946,34 +950,42 @@ public final class Emitter implements Emitable {
     preparedTag = null;
   }
 
+  /**
+   * Choose the scalar style based on the contents of the scalar and scalar style chosen by
+   * Representer
+   *
+   * @return ScalarStyle to apply for this scala event
+   */
   private DumperOptions.ScalarStyle chooseScalarStyle() {
     ScalarEvent ev = (ScalarEvent) event;
     if (analysis == null) {
       analysis = analyzeScalar(ev.getValue());
     }
-    if (!ev.isPlain() && ev.getScalarStyle() == DumperOptions.ScalarStyle.DOUBLE_QUOTED
-        || this.canonical) {
-      return DumperOptions.ScalarStyle.DOUBLE_QUOTED;
+    if (!ev.isPlain() && ev.isDQuoted() || this.canonical) {
+      return ScalarStyle.DOUBLE_QUOTED;
     }
-    if (ev.isPlain() && ev.getImplicit().canOmitTagInPlainScalar()) {
+    if (ev.isJson() && Tag.STR.getValue().equals(ev.getTag())) {
+      // special case for strings which are always double-quoted in JSON
+      return ScalarStyle.DOUBLE_QUOTED;
+    }
+    if ((ev.isPlain() || ev.isJson()) && ev.getImplicit().canOmitTagInPlainScalar()) {
       if (!(simpleKeyContext && (analysis.isEmpty() || analysis.isMultiline()))
           && ((flowLevel != 0 && analysis.isAllowFlowPlain())
               || (flowLevel == 0 && analysis.isAllowBlockPlain()))) {
-        return null;
+        return ScalarStyle.PLAIN;
       }
     }
-    if (!ev.isPlain() && (ev.getScalarStyle() == DumperOptions.ScalarStyle.LITERAL
-        || ev.getScalarStyle() == DumperOptions.ScalarStyle.FOLDED)) {
+    if (ev.isLiteral() || ev.isFolded()) {
       if (flowLevel == 0 && !simpleKeyContext && analysis.isAllowBlock()) {
         return ev.getScalarStyle();
       }
     }
-    if (ev.isPlain() || ev.getScalarStyle() == DumperOptions.ScalarStyle.SINGLE_QUOTED) {
+    if (ev.isPlain() || ev.isSQuoted()) {
       if (analysis.isAllowSingleQuoted() && !(simpleKeyContext && analysis.isMultiline())) {
-        return DumperOptions.ScalarStyle.SINGLE_QUOTED;
+        return ScalarStyle.SINGLE_QUOTED;
       }
     }
-    return DumperOptions.ScalarStyle.DOUBLE_QUOTED;
+    return ScalarStyle.DOUBLE_QUOTED;
   }
 
   private void processScalar() throws IOException {
@@ -981,30 +993,27 @@ public final class Emitter implements Emitable {
     if (analysis == null) {
       analysis = analyzeScalar(ev.getValue());
     }
-    if (style == null) {
-      style = chooseScalarStyle();
-    }
     boolean split = !simpleKeyContext && splitLines;
-    if (style == null) {
-      writePlain(analysis.getScalar(), split);
-    } else {
-      switch (style) {
-        case DOUBLE_QUOTED:
-          writeDoubleQuoted(analysis.getScalar(), split);
-          break;
-        case SINGLE_QUOTED:
-          writeSingleQuoted(analysis.getScalar(), split);
-          break;
-        case FOLDED:
-          writeFolded(analysis.getScalar(), split);
-          break;
-        case LITERAL:
-          writeLiteral(analysis.getScalar());
-          break;
-        default:
-          throw new YAMLException("Unexpected style: " + style);
-      }
+    switch (style) {
+      case PLAIN:
+        writePlain(analysis.getScalar(), split);
+        break;
+      case DOUBLE_QUOTED:
+        writeDoubleQuoted(analysis.getScalar(), split);
+        break;
+      case SINGLE_QUOTED:
+        writeSingleQuoted(analysis.getScalar(), split);
+        break;
+      case FOLDED:
+        writeFolded(analysis.getScalar(), split);
+        break;
+      case LITERAL:
+        writeLiteral(analysis.getScalar());
+        break;
+      default:
+        throw new YAMLException("Unexpected style: " + style);
     }
+    // reset scalar style for another scalar
     analysis = null;
     style = null;
   }
@@ -1021,7 +1030,7 @@ public final class Emitter implements Emitable {
   private static final Pattern HANDLE_FORMAT = Pattern.compile("^![-_\\w]*!$");
 
   private String prepareTagHandle(String handle) {
-    if (handle.length() == 0) {
+    if (handle.isEmpty()) {
       throw new EmitterException("tag handle must not be empty");
     } else if (handle.charAt(0) != '!' || handle.charAt(handle.length() - 1) != '!') {
       throw new EmitterException("tag handle must start and end with '!': " + handle);
@@ -1032,11 +1041,10 @@ public final class Emitter implements Emitable {
   }
 
   private String prepareTagPrefix(String prefix) {
-    if (prefix.length() == 0) {
+    if (prefix.isEmpty()) {
       throw new EmitterException("tag prefix must not be empty");
     }
     StringBuilder chunks = new StringBuilder();
-    int start = 0;
     int end = 0;
     if (prefix.charAt(0) == '!') {
       end = 1;
@@ -1044,14 +1052,18 @@ public final class Emitter implements Emitable {
     while (end < prefix.length()) {
       end++;
     }
-    if (start < end) {
-      chunks.append(prefix, start, end);
-    }
+    chunks.append(prefix, 0, end);
     return chunks.toString();
   }
 
+  /**
+   * Detect whether the tag starts with a standard handle and add ! when it does not
+   *
+   * @param tag - raw (complete tag)
+   * @return formatted tag ready to emit
+   */
   private String prepareTag(String tag) {
-    if (tag.length() == 0) {
+    if (tag.isEmpty()) {
       throw new EmitterException("tag must not be empty");
     }
     if ("!".equals(tag)) {
@@ -1061,6 +1073,7 @@ public final class Emitter implements Emitable {
     String suffix = tag;
     // shall the tag prefixes be sorted as in PyYAML?
     for (String prefix : tagPrefixes.keySet()) {
+      // if tag starts with prefix and contains more than just prefix
       if (tag.startsWith(prefix) && ("!".equals(prefix) || prefix.length() < tag.length())) {
         handle = prefix;
       }
@@ -1070,17 +1083,15 @@ public final class Emitter implements Emitable {
       handle = tagPrefixes.get(handle);
     }
 
-    int end = suffix.length();
-    String suffixText = end > 0 ? suffix.substring(0, end) : "";
-
     if (handle != null) {
-      return handle + suffixText;
+      return handle + suffix;
+    } else {
+      return "!<" + suffix + ">";
     }
-    return "!<" + suffixText + ">";
   }
 
   static String prepareAnchor(String anchor) {
-    if (anchor.length() == 0) {
+    if (anchor.isEmpty()) {
       throw new EmitterException("anchor must not be empty");
     }
     for (Character invalid : INVALID_ANCHOR) {
@@ -1112,7 +1123,7 @@ public final class Emitter implements Emitable {
 
   private ScalarAnalysis analyzeScalar(String scalar) {
     // Empty scalar is a special case.
-    if (scalar.length() == 0) {
+    if (scalar.isEmpty()) {
       return new ScalarAnalysis(scalar, true, false, false, true, true, false);
     }
     // Indicators and special characters.
@@ -1684,7 +1695,7 @@ public final class Emitter implements Emitable {
     if (rootContext) {
       openEnded = true;
     }
-    if (text.length() == 0) {
+    if (text.isEmpty()) {
       return;
     }
     if (!this.whitespace) {

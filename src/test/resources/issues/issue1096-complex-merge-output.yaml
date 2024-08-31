@@ -1,0 +1,29 @@
+.input:
+  foo: first
+.input-2:
+  bar: 0
+  foo: first
+.input-3:
+  bar: 0
+  foo: first
+simple:
+  bar: 123
+  foo: first
+complex:
+  foo: override
+  bar: 234
+complex-2:
+  foo: none
+  bar: 123
+double:
+  bar: 0
+  foo: first
+double-2:
+  bar: 999
+  foo: first
+tripple:
+  bar: 0
+  foo: first
+tripple-2:
+  foo: tripplet
+  bar: 0

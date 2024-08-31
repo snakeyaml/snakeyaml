@@ -53,6 +53,13 @@ public class DumperOptions {
      */
     FOLDED('>'),
     /**
+     * Mixture of scalar styles to dump JSON format. Double-quoted style for !!str, !!binary,
+     * !!timestamp. Plain style - for !!bool, !!float, !!int, !!null
+     *
+     * These are never dumped - !!merge, !!value, !!yaml
+     */
+    JSON_SCALAR_STYLE('J'),
+    /**
      * Plain scalar
      */
     PLAIN(null);
@@ -125,7 +132,7 @@ public class DumperOptions {
      */
     BLOCK(Boolean.FALSE),
     /**
-     * Auto (first block, than flow)
+     * Auto (first block, then flow)
      */
     AUTO(null);
 
@@ -302,6 +309,8 @@ public class DumperOptions {
   private Map<String, String> tags = null;
   private Boolean prettyFlow = false;
   private AnchorGenerator anchorGenerator = new NumberAnchorGenerator(0);
+
+  private boolean dereferenceAliases = false;
 
   /**
    * getter
@@ -698,4 +707,21 @@ public class DumperOptions {
   public void setNonPrintableStyle(NonPrintableStyle style) {
     this.nonPrintableStyle = style;
   }
+
+  public boolean isDereferenceAliases() {
+    return dereferenceAliases;
+  }
+
+  /**
+   * Forces Serializer to skip emitting Anchors names, emit Node content instead of Alias, fail with
+   * SerializationException if serialized structure is recursive.
+   *
+   * Default value is <code>false</code> - emit Aliases.
+   *
+   * @param dereferenceAliases emit node referenced by the alias or alias itself
+   */
+  public void setDereferenceAliases(boolean dereferenceAliases) {
+    this.dereferenceAliases = dereferenceAliases;
+  }
+
 }
