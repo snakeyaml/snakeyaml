@@ -68,6 +68,7 @@ class SafeRepresenter extends BaseRepresenter {
   }
 
   protected Tag getTag(Class<?> clazz, Tag defaultTag) {
+    // TODO simplify this after going to Java 8
     if (classTags.containsKey(clazz)) {
       return classTags.get(clazz);
     } else {
@@ -336,6 +337,10 @@ class SafeRepresenter extends BaseRepresenter {
 
   protected class RepresentDate implements Represent {
 
+    public Tag getDefaultTag() {
+      return Tag.TIMESTAMP;
+    }
+
     public Node representData(Object data) {
       // because SimpleDateFormat ignores timezone we have to use Calendar
       Calendar calendar;
@@ -420,8 +425,7 @@ class SafeRepresenter extends BaseRepresenter {
         buffer.append(partOfHour);
       }
 
-      return representScalar(getTag(data.getClass(), Tag.TIMESTAMP), buffer.toString(),
-          DumperOptions.ScalarStyle.PLAIN);
+      return representScalar(getTag(data.getClass(), getDefaultTag()), buffer.toString());
     }
   }
 

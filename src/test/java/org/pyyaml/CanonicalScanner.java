@@ -228,7 +228,7 @@ public class CanonicalScanner implements Scanner {
       index++;
     }
     String value = data.substring(start, index);
-    if (value.length() == 0) {
+    if (value.isEmpty()) {
       value = "!";
     } else if (value.charAt(0) == '!') {
       value = Tag.PREFIX + value.substring(1);

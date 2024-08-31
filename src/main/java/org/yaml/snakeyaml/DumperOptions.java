@@ -53,6 +53,13 @@ public class DumperOptions {
      */
     FOLDED('>'),
     /**
+     * Mixture of scalar styles to dump JSON format. Double-quoted style for !!str, !!binary,
+     * !!timestamp. Plain style - for !!bool, !!float, !!int, !!null
+     *
+     * These are never dumped - !!merge, !!value, !!yaml
+     */
+    JSON_SCALAR_STYLE('J'),
+    /**
      * Plain scalar
      */
     PLAIN(null);
@@ -125,7 +132,7 @@ public class DumperOptions {
      */
     BLOCK(Boolean.FALSE),
     /**
-     * Auto (first block, than flow)
+     * Auto (first block, then flow)
      */
     AUTO(null);
 

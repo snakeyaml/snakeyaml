@@ -1,0 +1,11 @@
+.input:
+  foo: first
+simple:
+  bar: 123
+  foo: first
+complex:
+  foo: override
+  bar: 234
+complex-2:
+  foo: none
+  bar: 123

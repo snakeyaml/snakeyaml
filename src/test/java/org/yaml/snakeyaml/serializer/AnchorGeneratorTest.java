@@ -13,20 +13,24 @@
  */
 package org.yaml.snakeyaml.serializer;
 
-import java.util.ArrayList;
-import java.util.List;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.Tag;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnchorGeneratorTest extends TestCase {
 
   public void testNext() {
     AnchorGenerator generator = new NumberAnchorGenerator(0);
-    assertEquals("id001", generator.nextAnchor(null));
-    assertEquals("id002", generator.nextAnchor(null));
+    assertEquals("id001", generator
+        .nextAnchor(new ScalarNode(Tag.STR, "qwe", null, null, DumperOptions.ScalarStyle.PLAIN)));
+    assertEquals("id002", generator
+        .nextAnchor(new ScalarNode(Tag.STR, "wsx", null, null, DumperOptions.ScalarStyle.PLAIN)));
   }
 
   public void testCustomGenerator() {

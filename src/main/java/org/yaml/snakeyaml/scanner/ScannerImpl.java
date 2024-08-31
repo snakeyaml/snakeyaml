@@ -1244,7 +1244,7 @@ public final class ScannerImpl implements Scanner {
       // If we scanned a line break, then (depending on flow level),
       // simple keys may be allowed.
       String breaks = scanLineBreak();
-      if (breaks.length() != 0) {// found a line-break
+      if (!breaks.isEmpty()) {// found a line-break
         if (parseComments && !commentSeen) {
           if (columnBeforeComment == 0) {
             Mark endMark = reader.getMark();
@@ -1470,7 +1470,7 @@ public final class ScannerImpl implements Scanner {
     }
     int c = reader.peek();
     String lineBreak = scanLineBreak();
-    if (lineBreak.length() == 0 && c != '\0') {
+    if (lineBreak.isEmpty() && c != '\0') {
       final String s = String.valueOf(Character.toChars(c));
       throw new ScannerException("while scanning a directive", startMark,
           "expected a comment or a line break, but found " + s + "(" + c + ")", reader.getMark());
@@ -1672,7 +1672,7 @@ public final class ScannerImpl implements Scanner {
         // This is the folding according to the specification:
         if (folded && "\n".equals(lineBreak) && leadingNonSpace
             && " \t".indexOf(reader.peek()) == -1) {
-          if (breaks.length() == 0) {
+          if (breaks.isEmpty()) {
             chunks.append(" ");
           }
         } else {
@@ -1783,7 +1783,7 @@ public final class ScannerImpl implements Scanner {
     // occurred.
     int c = reader.peek();
     String lineBreak = scanLineBreak();
-    if (lineBreak.length() == 0 && c != '\0') {
+    if (lineBreak.isEmpty() && c != '\0') {
       final String s = String.valueOf(Character.toChars(c));
       throw new ScannerException("while scanning a block scalar", startMark,
           "expected a comment or a line break, but found " + s + "(" + c + ")", reader.getMark());
@@ -1840,7 +1840,7 @@ public final class ScannerImpl implements Scanner {
     // Consume one or more line breaks followed by any amount of spaces,
     // until we find something that isn't a line-break.
     String lineBreak = null;
-    while ((lineBreak = scanLineBreak()).length() != 0) {
+    while (!(lineBreak = scanLineBreak()).isEmpty()) {
       chunks.append(lineBreak);
       endMark = reader.getMark();
       // Scan past up to (indent) spaces on the next line, then forward
@@ -1946,7 +1946,7 @@ public final class ScannerImpl implements Scanner {
             throw new ScannerException("while scanning a double-quoted scalar", startMark,
                 "found unknown escape character " + hex, reader.getMark());
           }
-        } else if (scanLineBreak().length() != 0) {
+        } else if (!scanLineBreak().isEmpty()) {
           chunks.append(scanFlowScalarBreaks(startMark));
         } else {
           final String s = String.valueOf(Character.toChars(c));
@@ -1977,11 +1977,11 @@ public final class ScannerImpl implements Scanner {
     }
     // If we encounter a line break, scan it into our assembled string...
     String lineBreak = scanLineBreak();
-    if (lineBreak.length() != 0) {
+    if (!lineBreak.isEmpty()) {
       String breaks = scanFlowScalarBreaks(startMark);
       if (!"\n".equals(lineBreak)) {
         chunks.append(lineBreak);
-      } else if (breaks.length() == 0) {
+      } else if (breaks.isEmpty()) {
         chunks.append(" ");
       }
       chunks.append(breaks);
@@ -2010,7 +2010,7 @@ public final class ScannerImpl implements Scanner {
       // If we stopped at a line break, add that; otherwise, return the
       // assembled set of scalar breaks.
       String lineBreak = scanLineBreak();
-      if (lineBreak.length() != 0) {
+      if (!lineBreak.isEmpty()) {
         chunks.append(lineBreak);
       } else {
         return chunks.toString();
@@ -2061,7 +2061,7 @@ public final class ScannerImpl implements Scanner {
       endMark = reader.getMark();
       spaces = scanPlainSpaces();
       // System.out.printf("spaces[%s]\n", spaces);
-      if (spaces.length() == 0 || reader.peek() == '#'
+      if (spaces.isEmpty() || reader.peek() == '#'
           || (this.flowLevel == 0 && this.reader.getColumn() < indent)) {
         break;
       }
@@ -2122,7 +2122,7 @@ public final class ScannerImpl implements Scanner {
     }
     String whitespaces = reader.prefixForward(length);
     String lineBreak = scanLineBreak();
-    if (lineBreak.length() != 0) {
+    if (!lineBreak.isEmpty()) {
       this.allowSimpleKey = true;
       String prefix = reader.prefix(3);
       if ("---".equals(prefix)
@@ -2138,7 +2138,7 @@ public final class ScannerImpl implements Scanner {
           reader.forward();
         } else {
           String lb = scanLineBreak();
-          if (lb.length() != 0) {
+          if (!lb.isEmpty()) {
             breaks.append(lb);
             prefix = reader.prefix(3);
             if ("---".equals(prefix)

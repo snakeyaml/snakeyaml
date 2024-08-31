@@ -125,12 +125,16 @@ public abstract class BaseRepresenter {
     return node;
   }
 
+  /**
+   * Create scalar node for the provided string object.
+   *
+   * @param tag - the tag to emit
+   * @param value - the value to emit
+   * @param style - scalar style when preferred
+   * @return Node to emit
+   */
   protected Node representScalar(Tag tag, String value, DumperOptions.ScalarStyle style) {
-    if (style == null) {
-      style = this.defaultScalarStyle;
-    }
-    Node node = new ScalarNode(tag, value, null, null, style);
-    return node;
+    return new ScalarNode(tag, value, null, null, style);
   }
 
   protected Node representScalar(Tag tag, String value) {

@@ -240,7 +240,7 @@ public class ParserImpl implements Parser {
         Mark startMark = token.getStartMark();
         VersionTagsTuple tuple = processDirectives();
         while (scanner.checkToken(Token.ID.Comment)) {
-          // TODO: till we figure out what todo with the comments
+          // the comments in the directive are ignored because they are not part of the Node tree
           scanner.getToken();
         }
         if (!scanner.checkToken(Token.ID.StreamEnd)) {
