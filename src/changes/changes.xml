@@ -6,6 +6,12 @@
     </properties>
     <body>
         <release version="2.3" date="in GIT" description="Maintenance">
+            <action dev="maslovalex" type="add">
+                Add possibility to create JMH benchmark (thank to David Schlosnagle)
+            </action>
+            <action dev="maslovalex" type="fix" issue="1096">
+                Implement the merge tag in the Node graph (thanks to Floris Westerman)
+            </action>
             <action dev="asomov" type="update" issue="1090">
                 Try to keep the anchor name when available (thanks to Gergely Czuczy)
             </action>

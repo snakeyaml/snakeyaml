@@ -38,6 +38,8 @@ public class LoaderOptions {
 
   private int codePointLimit = 3 * 1024 * 1024; // 3 MB
 
+  private boolean mergeOnCompose = false;
+
   /**
    * Secure by default - no custom classes are allowed
    */
@@ -206,6 +208,19 @@ public class LoaderOptions {
     this.codePointLimit = codePointLimit;
   }
 
+  public boolean isMergeOnCompose() {
+    return mergeOnCompose;
+  }
+
+  /**
+   * Process merge tags on Compose stage.
+   *
+   * @param mergeOnCompose - <code>true</code> to process merge tags while composing nodes
+   */
+  public void setMergeOnCompose(boolean mergeOnCompose) {
+    this.mergeOnCompose = mergeOnCompose;
+  }
+
   public TagInspector getTagInspector() {
     return tagInspector;
   }
@@ -213,4 +228,5 @@ public class LoaderOptions {
   public void setTagInspector(TagInspector tagInspector) {
     this.tagInspector = tagInspector;
   }
+
 }

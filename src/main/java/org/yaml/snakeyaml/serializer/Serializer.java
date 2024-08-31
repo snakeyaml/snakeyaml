@@ -47,6 +47,7 @@ import org.yaml.snakeyaml.nodes.ScalarNode;
 import org.yaml.snakeyaml.nodes.SequenceNode;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
+import org.yaml.snakeyaml.util.MergeUtils;
 
 public final class Serializer {
 
@@ -63,6 +64,8 @@ public final class Serializer {
   private final Tag explicitRoot;
   private final boolean dereferenceAliases;
   private final Set<Node> recursive;
+
+  private final MergeUtils mergeUtils;
 
   public Serializer(Emitable emitter, Resolver resolver, DumperOptions opts, Tag rootTag) {
     if (emitter == null) {
@@ -89,6 +92,17 @@ public final class Serializer {
     this.recursive = Collections.newSetFromMap(new IdentityHashMap<Node, Boolean>());
     this.closed = null;
     this.explicitRoot = rootTag;
+
+    mergeUtils = new MergeUtils() {
+      public MappingNode asMappingNode(Node node) {
+        if (node instanceof MappingNode) {
+          return (MappingNode) node;
+        }
+        // TODO: This need to be explored more to understand if only MappingNode possible.
+        // Or at least the error message needs to be improved.
+        throw new SerializerException("expecting MappingNode while processing merge.");
+      }
+    };
   }
 
   public void open() throws IOException {
@@ -214,11 +228,16 @@ public final class Serializer {
           break;
         default:// instance of MappingNode
           serializeComments(node.getBlockComments());
-          Tag implicitTag = this.resolver.resolve(NodeId.mapping, null, true);
-          boolean implicitM = node.getTag().equals(implicitTag);
-          MappingNode mnode = (MappingNode) node;
-          List<NodeTuple> map = mnode.getValue();
-          if (mnode.getTag() != Tag.COMMENT) {
+          if (node.getTag() != Tag.COMMENT) {
+            Tag implicitTag = this.resolver.resolve(NodeId.mapping, null, true);
+            boolean implicitM = node.getTag().equals(implicitTag);
+            MappingNode mnode = (MappingNode) node;
+            List<NodeTuple> map = mnode.getValue();
+
+            if (this.dereferenceAliases && mnode.isMerged()) {
+              map = mergeUtils.flatten(mnode);
+            }
+
             this.emitter.emit(new MappingStartEvent(tAlias, mnode.getTag().getValue(), implicitM,
                 null, null, mnode.getFlowStyle()));
             for (NodeTuple row : map) {

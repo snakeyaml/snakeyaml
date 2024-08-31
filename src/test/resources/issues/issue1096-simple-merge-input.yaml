@@ -1,0 +1,13 @@
+.input: &anchor
+  foo: first
+simple:
+  <<: *anchor
+  bar: 123
+complex:
+  <<: *anchor
+  foo: override
+  bar: 234
+complex-2:
+  foo: none
+  <<: *anchor
+  bar: 123

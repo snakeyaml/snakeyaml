@@ -272,6 +272,15 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>pw.krejci</groupId>
+                <artifactId>jmh-maven-plugin</artifactId>
+                <version>0.2.2</version>
+                <configuration>
+                    <resultFormat>json</resultFormat>
+                    <resultsFile>${project.build.directory}/jmh-result.json</resultsFile>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
                 <version>1.10.b1</version>
