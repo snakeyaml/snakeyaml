@@ -14,10 +14,10 @@
 package org.yaml.snakeyaml.representer;
 
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 
+import java.util.Base64;
 import java.util.Date;
 
 /**
@@ -52,8 +52,8 @@ public class JsonRepresenter extends Representer {
    */
   protected class RepresentByteArray implements Represent {
     public Node representData(Object data) {
-      char[] binary = Base64Coder.encode((byte[]) data);
-      return representScalar(Tag.STR, String.valueOf(binary));
+      String binary = Base64.getEncoder().encodeToString((byte[]) data);
+      return representScalar(Tag.STR, binary);
     }
   }
 }
