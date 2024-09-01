@@ -241,7 +241,7 @@ public class SafeConstructor extends BaseConstructor {
 
     @Override
     public Object construct(Node node) {
-      String value = constructScalar((ScalarNode) node).replaceAll("_", "");
+      String value = constructScalar((ScalarNode) node).replace("_", "");
       if (value.isEmpty()) {
         throw new ConstructorException("while constructing an int", node.getStartMark(),
             "found empty value", node.getStartMark());
