@@ -22,6 +22,19 @@ import java.util.Set;
 
 public class Util {
 
+  public static InputStream getInputstream(String theName) {
+    try {
+      InputStream input;
+      input = YamlDocument.class.getClassLoader().getResourceAsStream(theName);
+      if (input == null) {
+        throw new RuntimeException("Can not find " + theName);
+      }
+      return new BufferedInputStream(input);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public static String getLocalResource(String theName) {
     try {
       InputStream input;

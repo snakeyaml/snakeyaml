@@ -203,7 +203,7 @@ public class StreamReader {
         dataLength = cpIndex;
         pointer = 0;
         if (nonPrintable != ' ') {
-          throw new ReaderException(name, cpIndex - 1, nonPrintable,
+          throw new ReaderException(name, index + cpIndex - 1, nonPrintable,
               "special characters are not allowed");
         }
       } else {

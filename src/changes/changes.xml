@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.4" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="add"  issue="1098">
+                Add a test for parsing emoji from string (thanks to Madalin Ilie)
+            </action>
             <action dev="asomov" type="add"  issue="1097">
                 Refactor Scanner to improve performance (thanks to David Schlosnagle)
             </action>
