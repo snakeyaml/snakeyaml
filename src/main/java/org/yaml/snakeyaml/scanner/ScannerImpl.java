@@ -1886,18 +1886,17 @@ public final class ScannerImpl implements Scanner {
    *      </pre>
    */
   private Token scanFlowScalar(char style) {
-    boolean _double;
     // The style will be either single- or double-quoted; we determine this
     // by the first character in the entry (supplied)
-    _double = style == '"';
+    final boolean doubleValue = style == '"';
     StringBuilder chunks = new StringBuilder();
     Mark startMark = reader.getMark();
     int quote = reader.peek();
     reader.forward();
-    scanFlowScalarNonSpaces(_double, startMark, chunks);
+    scanFlowScalarNonSpaces(doubleValue, startMark, chunks);
     while (reader.peek() != quote) {
       scanFlowScalarSpaces(startMark, chunks);
-      scanFlowScalarNonSpaces(_double, startMark, chunks);
+      scanFlowScalarNonSpaces(doubleValue, startMark, chunks);
     }
     reader.forward();
     Mark endMark = reader.getMark();
@@ -1909,6 +1908,7 @@ public final class ScannerImpl implements Scanner {
    * Scan some number of flow-scalar non-space characters.
    */
   private void scanFlowScalarNonSpaces(boolean doubleQuoted, Mark startMark, StringBuilder chunks) {
+    // See the specification for details.
     while (true) {
       // Scan through any number of characters which are not: NUL, blank,
       // tabs, line breaks, single-quotes, double-quotes, or backslashes.
