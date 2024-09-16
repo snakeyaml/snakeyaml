@@ -21,7 +21,7 @@
         </release>
         <release version="2.3" date="2024-08-31" description="Maintenance">
             <action dev="maslovalex" type="add">
-                Add possibility to create JMH benchmark (thank to David Schlosnagle)
+                Add possibility to create JMH benchmark (thanks to David Schlosnagle)
             </action>
             <action dev="maslovalex" type="fix" issue="1096">
                 Implement the merge tag in the Node graph (thanks to Floris Westerman)
