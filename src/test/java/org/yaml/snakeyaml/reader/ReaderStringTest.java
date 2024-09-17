@@ -13,8 +13,9 @@
  */
 package org.yaml.snakeyaml.reader;
 
-import java.io.StringReader;
 import junit.framework.TestCase;
+
+import java.io.StringReader;
 
 public class ReaderStringTest extends TestCase {
 
@@ -40,25 +41,45 @@ public class ReaderStringTest extends TestCase {
   }
 
   /**
-   * test that Reading date and checking String work the same
+   * test reading all the chars
    */
   public void testCheckAll() {
+    int counterSurrogates = 0;
     for (char i = 0; i < 256 * 256 - 1; i++) {
-      char[] chars = new char[1];
-      chars[0] = i;
-      String str = new String(chars);
-      boolean regularExpressionResult = StreamReader.isPrintable(str);
+      if (Character.isHighSurrogate(i)) {
+        counterSurrogates++;
+      } else {
+        char[] chars = new char[1];
+        chars[0] = i;
+        String str = new String(chars);
+        boolean regularExpressionResult = StreamReader.isPrintable(str);
 
-      boolean charsArrayResult = true;
-      try {
-        new StreamReader(new StringReader(str)).peek();
-      } catch (Exception e) {
-        String error = e.getMessage();
-        assertTrue(error, error.startsWith("unacceptable character")
-            || error.equals("special characters are not allowed"));
-        charsArrayResult = false;
+        boolean charsArrayResult = true;
+        try {
+          new StreamReader(new StringReader(str)).peek();
+        } catch (Exception e) {
+          String error = e.getMessage();
+          assertTrue(error, error.startsWith("unacceptable character")
+              || error.equals("special characters are not allowed"));
+          charsArrayResult = false;
+        }
+        assertEquals("Failed for #" + i, regularExpressionResult, charsArrayResult);
       }
-      assertEquals("Failed for #" + i, regularExpressionResult, charsArrayResult);
+    }
+    // https://en.wikipedia.org/wiki/Universal_Character_Set_characters
+    assertEquals("There are 1024 high surrogates (D800–DBFF)", 1024, counterSurrogates);
+  }
+
+  public void testHighSurrogateAlone() {
+    StreamReader reader = new StreamReader("test\uD800");
+    try {
+      while (reader.peek() > 0) {
+        reader.forward(1);
+      }
+    } catch (ReaderException e) {
+      assertTrue(e.toString()
+          .contains("(0xD800) The last char is HighSurrogate (no LowSurrogate detected)"));
+      assertEquals(5, e.getPosition());
     }
   }
 
@@ -90,5 +111,4 @@ public class ReaderStringTest extends TestCase {
     assertEquals('s', reader.peek(1));
     assertEquals('t', reader.peek(2));
   }
-
 }

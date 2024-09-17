@@ -175,19 +175,19 @@ public class StreamReader {
 
   private void update() {
     try {
-      int read = stream.read(buffer, 0, buffer.length - 1); // FIXME why -1 ???
+      // read one less because the last char may be HighSurrogate
+      int read = stream.read(buffer, 0, buffer.length - 1);
       if (read > 0) {
         int cpIndex = (dataLength - pointer);
         dataWindow = Arrays.copyOfRange(dataWindow, pointer, dataLength + read);
-
         if (Character.isHighSurrogate(buffer[read - 1])) {
           if (stream.read(buffer, read, 1) == -1) {
-            eof = true;
+            throw new ReaderException(name, index + read, buffer[read - 1],
+                "The last char is HighSurrogate (no LowSurrogate detected).");
           } else {
             read++;
           }
         }
-
         int nonPrintable = ' ';
         for (int i = 0; i < read; cpIndex++) {
           int codePoint = Character.codePointAt(buffer, i);
