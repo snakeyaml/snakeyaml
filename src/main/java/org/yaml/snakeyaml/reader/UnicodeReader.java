@@ -14,10 +14,10 @@
 package org.yaml.snakeyaml.reader;
 
 /**
- * version: 1.1 / 2007-01-25 - changed BOM recognition ordering (longer boms first)
+ * version: 1.1 / 2007-01-25 - changed BOM recognition ordering (longer BOMs first)
  *
  * Original pseudocode : Thomas Weidenfeller Implementation tweaked: Aki Nieminen Implementation
- * changed: Andrey Somov UTF-32 removed because it is not supported by YAML no default encoding
+ * changed: Andrey Somov UTF-32 removed because it is not supported by YAML
  *
  * http://www.unicode.org/unicode/faq/utf_bom.html BOMs: 00 00 FE FF = UTF-32, big-endian FF FE 00
  * 00 = UTF-32, little-endian EF BB BF = UTF-8, FE FF = UTF-16, big-endian FF FE = UTF-16,
@@ -37,8 +37,8 @@ import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Generic unicode textreader, which will use BOM mark to identify the encoding to be used. If BOM
- * is not found then use a given default or system encoding.
+ * Generic Unicode text reader, which will use BOM mark to identify the encoding to be used. If BOM
+ * is not found then use UTF_8.
  */
 public class UnicodeReader extends Reader {
 

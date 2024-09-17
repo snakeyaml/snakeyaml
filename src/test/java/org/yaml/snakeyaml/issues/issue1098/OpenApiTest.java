@@ -24,6 +24,9 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+/**
+ * https://bitbucket.org/snakeyaml/snakeyaml/issues/1098
+ */
 public class OpenApiTest {
 
   @Test
