@@ -45,19 +45,27 @@ public class OpenApiTest {
       yaml.load(str);
       fail("Use stream to parse emoji");
     } catch (ReaderException e) {
-      assertEquals(e.getPosition(), 3701);
+      assertEquals(3701, e.getPosition());
     }
   }
 
   @Test
-  public void loadAsStrings() {
+  public void loadSmallAsString() {
     String str = Util.getLocalResource("issues/issue1098-small-openapi.yaml");
     Yaml yaml = new Yaml();
     try {
       yaml.load(str);
       fail("Use stream to parse emoji");
     } catch (ReaderException e) {
-      assertEquals(e.getPosition(), 8);
+      assertEquals(4, e.getPosition());
     }
+  }
+
+  @Test
+  public void loadSmallAsStream() {
+    InputStream str = Util.getInputstream("issues/issue1098-small-openapi.yaml");
+    Yaml yaml = new Yaml();
+    Map<String, Object> sourceTree = yaml.load(str);
+    assertEquals(1, sourceTree.size());
   }
 }

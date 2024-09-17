@@ -175,7 +175,7 @@ public class StreamReader {
 
   private void update() {
     try {
-      int read = stream.read(buffer);
+      int read = stream.read(buffer); //FIXME issue 1098
       if (read > 0) {
         int cpIndex = (dataLength - pointer);
         dataWindow = Arrays.copyOfRange(dataWindow, pointer, dataLength + read);
@@ -193,7 +193,8 @@ public class StreamReader {
           int codePoint = Character.codePointAt(buffer, i);
           dataWindow[cpIndex] = codePoint;
           if (isPrintable(codePoint)) {
-            i += Character.charCount(codePoint);
+            int charCount = Character.charCount(codePoint); // 2 for surrogates
+            i += charCount;
           } else {
             nonPrintable = codePoint;
             i = read;
