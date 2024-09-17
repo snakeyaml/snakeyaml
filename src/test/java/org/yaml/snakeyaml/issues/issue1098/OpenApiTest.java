@@ -40,12 +40,8 @@ public class OpenApiTest {
   public void loadAsString() {
     String str = Util.getLocalResource("issues/issue1098-openapi.yaml");
     Yaml yaml = new Yaml();
-    try {
-      yaml.load(str);
-      fail("Use stream to parse emoji");
-    } catch (IndexOutOfBoundsException e) {
-      // FIXME
-    }
+    Map<String, Object> sourceTree = yaml.load(str);
+    assertEquals(5, sourceTree.size());
   }
 
   @Test

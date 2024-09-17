@@ -175,7 +175,7 @@ public class StreamReader {
 
   private void update() {
     try {
-      int read = stream.read(buffer);
+      int read = stream.read(buffer, 0, buffer.length - 1); // FIXME why -1 ???
       if (read > 0) {
         int cpIndex = (dataLength - pointer);
         dataWindow = Arrays.copyOfRange(dataWindow, pointer, dataLength + read);
