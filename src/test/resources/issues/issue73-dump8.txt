@@ -12,4 +12,3 @@ posts:
   title: Title1
 - text: text text 2
   title: Title2
-

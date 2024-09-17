@@ -13,9 +13,8 @@
  */
 package org.yaml.snakeyaml;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,30 +35,20 @@ public class Util {
   }
 
   public static String getLocalResource(String theName) {
-    try {
-      InputStream input;
-      input = YamlDocument.class.getClassLoader().getResourceAsStream(theName);
+    try (InputStream input = YamlDocument.class.getClassLoader().getResourceAsStream(theName)) {
       if (input == null) {
-        throw new RuntimeException("Can not find " + theName);
+        throw new RuntimeException("Cannot find " + theName);
       }
-      BufferedInputStream is = new BufferedInputStream(input);
-      StringBuilder buf = new StringBuilder(3000);
-      int i;
-      try {
-        while ((i = is.read()) != -1) {
-          buf.append((char) i);
-        }
-      } finally {
-        is.close();
-      }
-      String resource = buf.toString();
-      // convert EOLs
-      String[] lines = resource.split("\\r?\\n");
+
+      InputStreamReader reader = new InputStreamReader(input, StandardCharsets.UTF_8);
+      BufferedReader bufferedReader = new BufferedReader(reader);
+
       StringBuilder buffer = new StringBuilder();
-      for (int j = 0; j < lines.length; j++) {
-        buffer.append(lines[j]);
-        buffer.append("\n");
+      String line;
+      while ((line = bufferedReader.readLine()) != null) {
+        buffer.append(line).append("\n");
       }
+
       return buffer.toString();
     } catch (IOException e) {
       throw new RuntimeException(e);

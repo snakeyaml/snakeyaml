@@ -17,4 +17,3 @@ openMembers:
   name: OpenFoo
 - age: 2000
   name: OpenBar
-

@@ -7,4 +7,3 @@ posts: !!set
   : null
   ? {text: text text 2, title: Title2}
   : null
-
