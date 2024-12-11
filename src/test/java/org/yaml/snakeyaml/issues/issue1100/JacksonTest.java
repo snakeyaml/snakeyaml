@@ -22,6 +22,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * https://bitbucket.org/snakeyaml/snakeyaml/issues/1100
  */
@@ -63,6 +65,8 @@ public class JacksonTest {
   public void loadAsYamlMapper() throws JsonProcessingException {
     ObjectMapper yamlObjectMapper = createYamlMapper();
     YamlRoot yamlRoot = yamlObjectMapper.readValue(yamlData(), YamlRoot.class);
-    System.out.println(yamlObjectMapper.writeValueAsString(yamlRoot));
+    String output = yamlObjectMapper.writeValueAsString(yamlRoot);
+    assertTrue(output.contains(
+        "\uD83E\uDD84\uD83E\uDD96\uD83D\uDC10\uD83E\uDD84\uD83E\uDD96\uD83D\uDC10\uD83E\uDD84\uD83E\uDD96\uD83D\uDC10"));
   }
 }
