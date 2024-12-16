@@ -216,6 +216,7 @@ public class Yaml {
     }
     this.constructor = constructor;
     this.constructor.setAllowDuplicateKeys(loadingConfig.isAllowDuplicateKeys());
+    this.constructor.setWarnOnDuplicateKeys(loadingConfig.isWarnOnDuplicateKeys());
     this.constructor.setWrappedToRootException(loadingConfig.isWrappedToRootException());
     if (!dumperOptions.getIndentWithIndicator()
         && dumperOptions.getIndent() <= dumperOptions.getIndicatorIndent()) {
