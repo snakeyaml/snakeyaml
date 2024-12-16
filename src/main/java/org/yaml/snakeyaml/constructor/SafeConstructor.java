@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.error.YAMLException;
+import org.yaml.snakeyaml.internal.Logger;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeId;
@@ -33,6 +34,8 @@ import org.yaml.snakeyaml.nodes.Tag;
 public class SafeConstructor extends BaseConstructor {
 
   public static final ConstructUndefined undefinedConstructor = new ConstructUndefined();
+
+  private Logger log = Logger.getLogger(this.getClass().getName());
 
   /**
    * Create an instance
@@ -114,6 +117,8 @@ public class SafeConstructor extends BaseConstructor {
           if (!isAllowDuplicateKeys()) {
             throw new DuplicateKeyException(node.getStartMark(), key,
                 tuple.getKeyNode().getStartMark());
+          } else if (isWarnOnDuplicateKeys() && log.isLoggable(Logger.Level.WARNING)) {
+            log.warn(String.format("duplicate keys found : %s", key));
           }
           toRemove.add(prevIndex);
         }

@@ -91,6 +91,7 @@ public abstract class BaseConstructor {
   private PropertyUtils propertyUtils;
   private boolean explicitPropertyUtils;
   private boolean allowDuplicateKeys = true;
+  private boolean warnOnDuplicateKeys = false;
   private boolean wrappedToRootException = false;
 
   private boolean enumCaseSensitive = false;
@@ -670,6 +671,14 @@ public abstract class BaseConstructor {
 
   public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
     this.allowDuplicateKeys = allowDuplicateKeys;
+  }
+
+  public boolean isWarnOnDuplicateKeys() {
+    return warnOnDuplicateKeys;
+  }
+
+  public void setWarnOnDuplicateKeys(boolean warnOnDuplicateKeys) {
+    this.warnOnDuplicateKeys = warnOnDuplicateKeys;
   }
 
   public boolean isWrappedToRootException() {
