@@ -23,6 +23,8 @@ public class LoaderOptions {
 
   private boolean allowDuplicateKeys = true;
 
+  private boolean warnOnDuplicateKeys = true;
+
   private boolean wrappedToRootException = false;
 
   private int maxAliasesForCollections = 50; // to prevent YAML at
@@ -70,6 +72,35 @@ public class LoaderOptions {
    */
   public void setAllowDuplicateKeys(boolean allowDuplicateKeys) {
     this.allowDuplicateKeys = allowDuplicateKeys;
+  }
+
+  /**
+   * getter
+   *
+   * @return true when duplicate keys are logged as warning (the latter overrides the former)
+   */
+  public final boolean isWarnOnDuplicateKeys() {
+    return warnOnDuplicateKeys;
+  }
+
+  /**
+   * Log a warning for duplicate map keys in the YAML file.
+   *
+   * NOTE: this property will be processed only if allowDuplicateKeys is true.
+   *
+   * Default is false (no logging).
+   *
+   * YAML 1.1 is slightly vague around duplicate entries in the YAML file. The best reference is
+   * <a href="http://www.yaml.org/spec/1.1/#id862121"> 3.2.1.3. Nodes Comparison</a> where it hints
+   * that a duplicate map key is an error.
+   *
+   * For future reference, YAML spec 1.2 is clear. The keys MUST be unique.
+   * <a href="http://www.yaml.org/spec/1.2/spec.html#id2759572">1.3. Relation to JSON</a>
+   *
+   * @param warnOnDuplicateKeys true to log a warning on duplicate keys
+   */
+  public void setWarnOnDuplicateKeys(boolean warnOnDuplicateKeys) {
+    this.warnOnDuplicateKeys = warnOnDuplicateKeys;
   }
 
   /**
