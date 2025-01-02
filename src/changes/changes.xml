@@ -5,16 +5,17 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="2.5" date="in GIT" description="Maintenance">
+        <release version="2.4" date="in GIT" description="Maintenance">
+            <action dev="maslovalex" type="fix" issue="1101">
+                Add option to log duplicate keys (thanks to Matteo Franci)
+            </action>
             <action dev="asomov" type="add">
-                Add a test for issue 1100
+                Add a test for issue 1100 to prove it is a duplicate of 1098
             </action>
             <action dev="asomov" type="update">
                 Add a test to prove that no space is needed after an alias.
                 It is different with SnakeYAML Engine where it is required.
             </action>
-        </release>
-        <release version="2.4" date="2024-08-31" description="Maintenance">
             <action dev="asomov" type="fix"  issue="1098">
                 Fix issue with a big YAML with emoji (thanks to Madalin Ilie)
             </action>
