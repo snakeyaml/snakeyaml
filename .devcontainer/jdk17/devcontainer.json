@@ -1,0 +1,36 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/java
+{
+	"name": "jdk17",
+	// Explicitly declaring which source-code folder to mount and where to mount it in the container
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+	"workspaceFolder": "/workspace",
+	"build": {
+		// https://containers.dev/guide/dockerfile
+		"dockerfile": "../Dockerfile"
+	},
+	"features": {
+	},
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind", // Binding the host docker socket to the container
+		"source=m2volume,target=/home/vscode/.m2/repository,type=volume" // Establishing a persistent volume for maven local repository downloads
+	],
+	// Docker-from-Docker recommendations
+	// Per https://github.com/microsoft/vscode-dev-containers/tree/main/containers/docker-from-docker
+	"overrideCommand": false,
+	"remoteUser": "vscode",
+	"runArgs": ["--init"],
+	// End of Docker-from-Docker recommendations
+	"containerEnv": {
+		// You can specify environment variables here, which will be available to the application via System.getenv()
+		"CUSTOM_PROP": "Team"
+	},
+	"postStartCommand": "./mvnw clean package",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"vscjava.vscode-java-pack"
+			]
+		}
+	}
+}
