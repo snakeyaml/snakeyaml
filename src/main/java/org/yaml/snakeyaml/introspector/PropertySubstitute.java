@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.internal.Logger;
 import org.yaml.snakeyaml.internal.Logger.Level;
@@ -169,8 +168,9 @@ public class PropertySubstitute extends Property {
           }
         }
       }
-      if (field == null && log.isLoggable(Level.WARNING)) {
-        log.warn(String.format("Failed to find field for %s.%s", targetType.getName(), getName()));
+
+      if (field == null && log.isLoggable(Level.DEBUG)) {
+        log.debug(String.format("Failed to find field for %s.%s", targetType.getName(), getName()));
       }
 
       // Retrieve needed info

@@ -15,7 +15,7 @@ package org.yaml.snakeyaml.internal;
 
 public class Logger {
   public enum Level {
-    WARNING(System.Logger.Level.WARNING);
+    WARNING(System.Logger.Level.WARNING), DEBUG(System.Logger.Level.DEBUG);
 
     private final System.Logger.Level level;
     Level(System.Logger.Level level) {
@@ -37,4 +37,9 @@ public class Logger {
   public void warn(String msg) {
     logger.log(Level.WARNING.level, msg);
   }
+
+  public void debug(String msg) {
+    logger.log(Level.DEBUG.level, msg);
+  }
+
 }
