@@ -13,83 +13,50 @@
  */
 package org.yaml.snakeyaml.issues.issue1101;
 
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Util;
 import org.yaml.snakeyaml.Yaml;
-
-import java.io.InputStream;
-import java.util.*;
-import java.util.logging.*;
-
-import static org.junit.Assert.assertEquals;
+import org.yaml.snakeyaml.util.LogCollector;
 
 /**
  * https://bitbucket.org/snakeyaml/snakeyaml/issues/1101
  */
 public class OptionToLogDuplicateKeysTest {
 
-  private static final LogMessageInterceptorHandler LOG_MESSAGE_INTERCEPTOR_HANDLER =
-      new LogMessageInterceptorHandler();
+  private final static LogCollector logs = new LogCollector();
 
   /*
    * Store the log level to restore at the end
    */
-  private static Level PREVIOUS_LEVEL;
+  private static Level previousLevel;
 
   /*
    * The logger to configure in order to intercept the log message
    */
-  private static Logger logger = Logger.getLogger("org.yaml.snakeyaml.constructor");
-
-  /*
-   * Logging handler used to test if a message has been really logged.
-   */
-  public static class LogMessageInterceptorHandler extends Handler {
-
-    private Set<String> messages = new HashSet<>();
-
-    @Override
-    public void publish(LogRecord record) {
-      // add log messages to a set
-      this.messages.add(record.getMessage());
-    }
-
-    @Override
-    public void flush() {
-
-    }
-
-    @Override
-    public void close() throws SecurityException {
-
-    }
-
-    @Override
-    public boolean isLoggable(LogRecord record) {
-      return super.isLoggable(record);
-    }
-
-    public boolean containsLogMessage(String message) {
-      // check if a message has been logged
-      return this.messages.contains(message);
-    }
-
-  }
+  private static Logger logger = Logger.getLogger("org.yaml.snakeyaml");
 
   @BeforeClass
   public static void start() {
     // add log message intercepting handler
-    logger.addHandler(LOG_MESSAGE_INTERCEPTOR_HANDLER);
-    PREVIOUS_LEVEL = logger.getLevel();
-    logger.setLevel(Level.FINEST);
+    logger.addHandler(logs);
+    previousLevel = logger.getLevel();
+    logger.setLevel(Level.ALL);
   }
 
   @AfterClass
   public static void end() {
     // restore the logger status
-    logger.removeHandler(LOG_MESSAGE_INTERCEPTOR_HANDLER);
-    logger.setLevel(PREVIOUS_LEVEL);
+    logger.removeHandler(logs);
+    logger.setLevel(previousLevel);
   }
 
   @Test
@@ -101,8 +68,7 @@ public class OptionToLogDuplicateKeysTest {
     Map<String, Object> sourceTree = yaml.load(str);
     assertEquals(1, sourceTree.size());
     // actual log message checking
-    Assert.assertTrue(
-        LOG_MESSAGE_INTERCEPTOR_HANDLER.containsLogMessage("duplicate keys found : banner"));
+    Assert.assertTrue(logs.containsLogMessage(Level.WARNING, "duplicate keys found : banner"));
   }
 
 }
