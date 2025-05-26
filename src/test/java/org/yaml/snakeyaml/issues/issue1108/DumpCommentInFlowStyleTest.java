@@ -29,12 +29,8 @@ import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.representer.Representer;
-import org.yaml.snakeyaml.util.LogCollector;
 
 public class DumpCommentInFlowStyleTest {
-
-  private final static LogCollector logs = new LogCollector();
-
 
   private static DumperOptions getDumperOptions() {
     DumperOptions dumperOptions = new DumperOptions();
