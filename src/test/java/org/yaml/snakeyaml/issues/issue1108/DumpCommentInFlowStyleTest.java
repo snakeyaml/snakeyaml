@@ -25,6 +25,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.events.Event;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -61,8 +62,8 @@ public class DumpCommentInFlowStyleTest {
 
   private String extractInlineComment(Node node) {
     MappingNode mapping = (MappingNode) node;
-    List<NodeTuple> v = mapping.getValue();
-    NodeTuple first = v.get(0);
+    List<NodeTuple> value = mapping.getValue();
+    NodeTuple first = value.get(0);
     Node textNode = first.getValueNode();
     return textNode.getInLineComments().get(0).getValue();
   }
@@ -71,12 +72,16 @@ public class DumpCommentInFlowStyleTest {
   public void readAndWriteCommentsInFlowStyle() {
     Yaml yaml = getYaml();
     String content = "{ url: text # comment breaks it\n}";
+    for (Event event : yaml.parse(new StringReader(content))) {
+      // System.out.println(event);
+    }
+
     Node node = yaml.compose(new StringReader(content));
     assertEquals(" comment breaks it", extractInlineComment(node));
     StringWriter output = new StringWriter();
     try {
       yaml.serialize(node, output);
-      fail(); // TODO issue 1108
+      fail("Issue 1108"); // TODO issue 1108
     } catch (Exception e) {
       assertTrue(e.getMessage(), e.getMessage().contains("expected NodeEvent"));
     }
