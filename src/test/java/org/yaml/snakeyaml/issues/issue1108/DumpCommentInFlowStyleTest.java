@@ -13,13 +13,6 @@
  */
 package org.yaml.snakeyaml.issues.issue1108;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.List;
 import org.junit.Test;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -30,6 +23,12 @@ import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.representer.Representer;
+
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class DumpCommentInFlowStyleTest {
 
@@ -71,7 +70,7 @@ public class DumpCommentInFlowStyleTest {
   @Test
   public void readAndWriteCommentsInFlowStyle() {
     Yaml yaml = getYaml();
-    String content = "{ url: text # comment breaks it\n}";
+    String content = "{url: text # comment breaks it\n}";
     for (Event event : yaml.parse(new StringReader(content))) {
       // System.out.println(event);
     }
@@ -79,12 +78,8 @@ public class DumpCommentInFlowStyleTest {
     Node node = yaml.compose(new StringReader(content));
     assertEquals(" comment breaks it", extractInlineComment(node));
     StringWriter output = new StringWriter();
-    try {
-      yaml.serialize(node, output);
-      fail("Issue 1108"); // TODO issue 1108
-    } catch (Exception e) {
-      assertTrue(e.getMessage(), e.getMessage().contains("expected NodeEvent"));
-    }
+    yaml.serialize(node, output);
+    assertEquals(content, output.toString().trim());
   }
 
   @Test

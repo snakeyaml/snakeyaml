@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.5" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix" issue="1108">
+                Fix Inline comments in flow mapping context (thanks to Vladimir Maslov)
+            </action>
             <action dev="asomov" type="update" issue="1105">
                 Introduce devcontainer
             </action>

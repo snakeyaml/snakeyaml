@@ -669,7 +669,7 @@ public final class Emitter implements Emitable {
       writeInlineComments();
       states.push(new ExpectFlowMappingKey());
       expectNode(false, true, false);
-      inlineCommentsCollector.collectEvents(event);
+      inlineCommentsCollector.collectEvents();
       writeInlineComments();
     }
   }
