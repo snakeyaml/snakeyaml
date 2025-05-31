@@ -20,13 +20,13 @@ public enum CommentType {
   /**
    * empty line
    */
-  BLANK_LINE, //
+  BLANK_LINE,
   /**
-   * comment which start with #
+   * complete line comment which starts with #
    */
-  BLOCK, //
+  BLOCK,
   /**
    * ending the line
    */
-  IN_LINE //
+  IN_LINE
 }
