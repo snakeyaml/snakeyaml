@@ -68,7 +68,7 @@ public class DumpCommentInFlowStyleTest {
   }
 
   @Test
-  public void readAndWriteCommentsInFlowStyle() {
+  public void readAndWriteCommentsInFlowStyleInMapping() {
     Yaml yaml = getYaml();
     String content = "{url: text # comment breaks it\n}";
     for (Event event : yaml.parse(new StringReader(content))) {
@@ -83,7 +83,7 @@ public class DumpCommentInFlowStyleTest {
   }
 
   @Test
-  public void readAndWriteCommentsBlockStyle() {
+  public void readAndWriteCommentsBlockStyleInMapping() {
     Yaml yaml = getYaml();
     String content = "url: text # comment breaks it";
     Node node = yaml.compose(new StringReader(content));
@@ -91,5 +91,21 @@ public class DumpCommentInFlowStyleTest {
     StringWriter output = new StringWriter();
     yaml.serialize(node, output);
     assertEquals(content, output.toString().trim());
+  }
+
+  @Test
+  public void readAndWriteCommentsInFlowStyleInSequence() {
+    Yaml yaml = getYaml();
+    String content = "[\n" + "  # red\n" + "  one, # comment\n" + "  # blue\n" + "  two\n" + "]";
+    for (Event event : yaml.parse(new StringReader(content))) {
+      System.out.println(event);
+    }
+
+    Node node = yaml.compose(new StringReader(content));
+    StringWriter output = new StringWriter();
+    yaml.serialize(node, output);
+    // TODO expected should get the inline comment and the indent is lost
+    String expected = "[\n" + "  # red\n" + "one,\n" + "  # blue\n" + "two]";
+    assertEquals(expected, output.toString().trim());
   }
 }
