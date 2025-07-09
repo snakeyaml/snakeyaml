@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.5" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="fix">
+                Emitting an empty string, as a list element, with block comment, creates invalid YAML (thanks to Anand Beh)
+            </action>
             <action dev="asomov" type="fix" issue="1108">
                 Fix Inline comments in flow mapping context (thanks to Vladimir Maslov)
             </action>

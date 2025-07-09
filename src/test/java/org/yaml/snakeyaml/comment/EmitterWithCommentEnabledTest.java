@@ -169,6 +169,24 @@ public class EmitterWithCommentEnabledTest {
   }
 
   @Test
+  /*
+   * Issue 64
+   * https://bitbucket.org/snakeyaml/snakeyaml-engine/issues/64/emitting-an-empty-string-as-a-list-
+   * element
+   */
+  public void testSequenceEmptyString() throws Exception {
+    String data = "" + //
+        "# Comment\n" + //
+        "list: # InlineComment1\n" + //
+        "  - # Block Comment\n" + //
+        "    '' # InlineComment2\n" + //
+        "# Comment\n";
+
+    String result = runEmitterWithCommentsEnabled(data);
+    assertEquals(data, result);
+  }
+
+  @Test
   public void testAllComments1() throws Exception {
     String data = "" + //
         "# Block Comment1\n" + //
