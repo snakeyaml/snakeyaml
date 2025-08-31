@@ -22,20 +22,20 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.scanner.Constant;
 
 /**
- * Reader: checks if code points are in allowed range. Returns '\0' when end of data has been
- * reached.
+ * Reader: checks if code points are in the allowed range. Returns '\0' when the end of data has
+ * been reached.
  */
 public class StreamReader {
 
   private String name;
   private final Reader stream;
   /**
-   * Read data (as a moving window for input stream)
+   * Read data (as a moving window for the input stream)
    */
   private int[] dataWindow;
 
   /**
-   * Real length of the data in dataWindow
+   * Real length of the data in the dataWindow
    */
   private int dataLength;
 
@@ -98,10 +98,10 @@ public class StreamReader {
   }
 
   /**
-   * read the next length characters and move the pointer. if the last character is high surrogate
+   * read the next length characters and move the pointer. if the last character is high surrogate,
    * one more character will be read
    *
-   * @param length amount of characters to move forward
+   * @param length number of characters to move forward
    */
   public void forward(int length) {
     for (int i = 0; i < length && ensureEnoughData(); i++) {
@@ -134,7 +134,7 @@ public class StreamReader {
   /**
    * peek the next length code points
    *
-   * @param length amount of the characters to peek
+   * @param length number of the characters to peek
    * @return the next length code points
    */
   public String prefix(int length) {
@@ -150,7 +150,7 @@ public class StreamReader {
   /**
    * prefix(length) immediately followed by forward(length)
    *
-   * @param length amount of characters to get
+   * @param length number of characters to get
    * @return the next length code points
    */
   public String prefixForward(int length) {
@@ -242,7 +242,7 @@ public class StreamReader {
   }
 
   /**
-   * @return current position as number (in characters) from the beginning of the stream
+   * @return current position as a number (in characters) from the beginning of the stream
    */
   public int getIndex() {
     return index;
