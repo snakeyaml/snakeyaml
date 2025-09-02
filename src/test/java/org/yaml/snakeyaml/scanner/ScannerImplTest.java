@@ -13,7 +13,6 @@
  */
 package org.yaml.snakeyaml.scanner;
 
-import java.util.LinkedList;
 import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -28,6 +27,8 @@ import org.yaml.snakeyaml.tokens.StreamEndToken;
 import org.yaml.snakeyaml.tokens.StreamStartToken;
 import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.ValueToken;
+
+import java.util.LinkedList;
 
 public class ScannerImplTest extends TestCase {
 
@@ -61,6 +62,19 @@ public class ScannerImplTest extends TestCase {
       assertEquals("while scanning for the next token\n"
           + "found character '\\t(TAB)' that cannot start any token. (Do not use \\t(TAB) for indentation)\n"
           + " in 'string', line 1, column 1:\n" + "    \t  data: 1\n" + "    ^\n", e.getMessage());
+    }
+  }
+
+  /**
+   * Y79Y-003 in the test suite
+   */
+  public void testWrongTabForStrangeIndent() {
+    Yaml yaml = new Yaml();
+    try {
+      yaml.load("- [\n" + "\tfoo,\n" + " foo\n" + " ]");
+      fail("TAB cannot start a token: Y79Y-003");
+    } catch (Exception e) {
+      assertTrue(e.getMessage().contains("Do not use \\t(TAB) for indentation"));
     }
   }
 }
