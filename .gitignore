@@ -78,3 +78,5 @@ nb-configuration.xml
 
 # ignore docker build files
 ?/
+
+CLAUDE.md
