@@ -1231,6 +1231,9 @@ public final class ScannerImpl implements Scanner {
       while (reader.peek(ff) == ' ') {
         ff++;
       }
+      while (reader.peek(ff) == '\t' && this.flowLevel > 0) {
+        ff++;
+      }
       if (ff > 0) {
         reader.forward(ff);
       }

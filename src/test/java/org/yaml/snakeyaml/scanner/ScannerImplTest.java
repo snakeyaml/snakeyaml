@@ -64,17 +64,4 @@ public class ScannerImplTest extends TestCase {
           + " in 'string', line 1, column 1:\n" + "    \t  data: 1\n" + "    ^\n", e.getMessage());
     }
   }
-
-  /**
-   * Y79Y-003 in the test suite
-   */
-  public void testWrongTabForStrangeIndent() {
-    Yaml yaml = new Yaml();
-    try {
-      yaml.load("- [\n" + "\tfoo,\n" + " foo\n" + " ]");
-      fail("TAB cannot start a token: Y79Y-003");
-    } catch (Exception e) {
-      assertTrue(e.getMessage().contains("Do not use \\t(TAB) for indentation"));
-    }
-  }
 }

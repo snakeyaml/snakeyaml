@@ -1,0 +1,32 @@
+{
+	"ID": "a.cf.app",
+	"_schema-version": "3.3.0",
+	"modules": [
+		{
+			"name": "my-mta-managed-app-module",
+			"parameters": {
+				"app-features": {
+					"ssh": true
+				},
+				"app-name": "my-cf-app",
+				"buildpack": "staticfile_buildpack",
+				"disk-quota": "1G",
+				"health-check-http-endpoint": "/index",
+				"health-check-timeout": 180,
+				"health-check-type": "http",
+				"instances": 1,
+				"memory": "1G",
+				"no-route": false,
+				"no-start": false,
+				"upload-timeout": 180
+			},
+			"path": "appBits.zip",
+			"properties": {
+				"A_MORE_COMPLEX_VAR": "{ \"can be an entire\":\"json object\", \"with\": [ \"nested\": { \"elements\": \"${default-url}\" } ]",
+				"MY_CF_APP_ENV_VARIABLE": "HELLO MTA"
+			},
+			"type": "application"
+		}
+	],
+	"version": "0.0.0"
+}

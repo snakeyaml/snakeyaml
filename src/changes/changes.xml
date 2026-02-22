@@ -6,6 +6,9 @@
     </properties>
     <body>
         <release version="2.6" date="in GIT" description="Maintenance">
+            <action dev="asomov" type="update" issue="1110">
+                Parse JSON with any leading TABs (thanks to Kristian Atanasov)
+            </action>
             <action dev="asomov" type="update" issue="1109">
                 Add example to migrate to SnakeYAML Engine and provide a custom resolver (thanks to Joacim Breiler)
             </action>
