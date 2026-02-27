@@ -5,7 +5,9 @@
         <title>YAML 1.1 parser and emitter</title>
     </properties>
     <body>
-        <release version="2.6" date="in GIT" description="Maintenance">
+        <release version="2.7" date="in GIT" description="Maintenance">
+        </release>
+        <release version="2.6" date="2026-02-27" description="Maintenance">
             <action dev="asomov" type="update" issue="1110">
                 Parse JSON with any leading TABs (thanks to Kristian Atanasov)
             </action>
